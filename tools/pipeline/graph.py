@@ -150,8 +150,8 @@ class Pipeline:
                         content=("Extract a research outline that answers the "
                                  "question, as JSON {\"thesis\":str,\"sections\":"
                                  "[{\"heading\":str,\"key_points\":[str]}]}. "
-                                 "2-4 sections; every key_point is one "
-                                 "evidence-backed finding from the excerpt.")),
+                                 "4-6 sections (survey depth); every key_point is "
+                                 "one evidence-backed finding from the excerpt.")),
                 Message(role="user",
                         content=f"Question: {q}\n\nExcerpt:\n{context}"),
             ],
@@ -213,36 +213,71 @@ class Pipeline:
             claims.extend(kept)
             dropped.extend(dr)
 
-        # --- draft paragraph (STORM co-writer style: outline-driven) ---
+        # --- per-section survey drafting (Session 13: survey-depth S_write) ---
+        # Intro + one independent grounded paragraph per outline section +
+        # conclusion = multi-paragraph, cross-paper, survey-grade artifact
+        # (attacks the DAS-16 TSQ / MAR / Citation-Balance drag).
         outline = state.get("outline", {})
         sections = outline.get("sections") if isinstance(outline, dict) else []
-        headings = " | ".join(
-            s.get("heading", "") for s in sections if isinstance(s, dict)
-        ) or "general"
+        sections = [s for s in sections if isinstance(s, dict) and s.get("heading")][:6]
+        headings = " | ".join(s.get("heading", "") for s in sections) or "general"
         topics = state.get("taxonomy", {}).get("topics", ["general"])
         sources_line = "; ".join(
             f"arXiv:{p.get('arxiv_id','')} ({p.get('label','')})"
             for p in papers
         ) or paper_id
-        claims_snippet = json.dumps(claims[:6], ensure_ascii=False)
-        r2 = self.client.chat(
-            [
-                Message(role="system",
-                        content=("Write an outline-driven bilingual (EN + 中文) "
-                                 "research summary: one short paragraph per "
-                                 "outline section. Synthesize across the given "
-                                 "source papers; attribute each factual claim "
-                                 "inline to its arXiv ID (e.g. (arXiv:2304.02819)) "
-                                 "matching the claims. Be precise; do not invent "
-                                 "facts.")),
-                Message(role="user",
-                        content=f"Outline sections: {headings}\nTopics: {', '.join(topics)}\nSources: {sources_line}\nClaims: {claims_snippet}"),
-            ],
-            max_tokens=700,
-        )
+        claims_snippet = json.dumps(claims, ensure_ascii=False)
+        thesis = (outline.get("thesis") if isinstance(outline, dict) else "") or (state.get("question") or paper_id)
+
+        helpers = {
+            "intro": (
+                "Write the INTRO of a bilingual (EN + 中文) research survey "
+                "grounded in the sources: 2-3 sentences framing the question and "
+                "thesis; then the roadmap sentence listing the sections. "
+                "Cite inline (arXiv:id) where the framing leans on a source."
+            ),
+            "body": (
+                "Write ONE section of a bilingual (EN + 中文) research survey. "
+                "Use ONLY the claims below that match this section; write 150-300 "
+                "words as 2-3 solid paragraphs (not bullets). Attribute EVERY "
+                "factual sentence inline to its arXiv ID (e.g. (arXiv:2304.02819)) "
+                "matching each claim's cite. Synthesize across the sources: where "
+                "they agree cite both; where they conflict, name the disagreement "
+                "explicitly; close with the open gap this leaves. Keep EN + 中文 "
+                "faithful; do not invent facts or cites."
+            ),
+            "conclusion": (
+                "Write the CONCLUSION of a bilingual (EN + 中文) research survey: "
+                "synthesize the key takeaways across the sections, state the "
+                "remaining gaps, cite inline (arXiv:id) where it leans on a source."
+            ),
+        }
+
+        def _render(kind: str, heading: str = "", keys: str = "") -> str:
+            return self.client.chat(
+                [
+                    Message(role="system",
+                            content=helpers[kind] + (
+                                " Output ONLY the section text; prefix it with "
+                                "the heading line '## <heading>'." if kind == "body" else "")),
+                    Message(role="user",
+                            content=(f"Section: {heading}\nKey points: {keys}\n"
+                                     if kind == "body" else "")
+                                    + f"Sources: {sources_line}\n"
+                                    + f"Thesis: {thesis}\n"
+                                    + f"Claims: {claims_snippet}"),
+                ],
+                max_tokens=520 if kind == "body" else 320,
+            ).text.strip()
+
+        parts = [_render("intro")]
+        parts += [_render("body", s.get("heading", ""),
+                          "; ".join(s.get("key_points", []))) for s in sections]
+        parts.append(_render("conclusion"))
+        draft = "\n\n".join(p for p in parts if p)
         return {
             "claims": claims,
-            "draft": r2.text,
+            "draft": draft,
             "dropped_claims": dropped,
             "iteration": 1,  # accumulator channel: +1 per write visit
         }

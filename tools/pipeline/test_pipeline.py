@@ -97,7 +97,9 @@ def _run_test(client: LLMClient, mode: str) -> int:
             "claims carry per-source paper_id attribution", failures)
 
     draft = result.get("draft", "")
-    _assert(len(draft) > 20, f"draft length={len(draft)} > 20", failures)
+    _assert(len(draft) > 500, f"survey-draft length={len(draft)} > 500", failures)
+    _assert("\n## " in result.get("output", ""),
+            "output carries per-section heading markers", failures)
 
     iteration = result.get("iteration", 0)
     _assert(1 <= iteration <= 3, f"iteration={iteration} in [1,3]", failures)

@@ -48,8 +48,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 **Run the integration test** (mock = deterministic regression in seconds; real = full opencode-LLM loop):
 
 ```powershell
-& $PY -m tools.pipeline.test_pipeline mock      # 23/23 PASS
-& $PY -m tools.pipeline.test_pipeline real      # default model opencode/big-pickle (~2 min)
+& $PY -m tools.pipeline.test_pipeline mock      # 25/25 PASS
+& $PY -m tools.pipeline.test_pipeline real      # default model opencode/big-pickle (~8 min, 10 LLM calls)
 ```
 
 **Demo questions:** *"GPT detectors bias against non-native English writers"* (Liang et al. 2023) and *"How reliable are automatic detection tools for AI-generated text?"* (multi-paper pool: Liang + Weber-Wulff + GLTR).
@@ -73,9 +73,9 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 ## Status
 
 - **Phase 0/1 (docs)**: complete. **P1 tooling**: MinerU PDF→Markdown PASS; PaddleOCR Chinese OCR PASS (K7 closed).
-- **P2 minimal vertical + framework integration (GREEN)**: LangGraph pipeline with pluggable S_lit rails (seed / arXiv API — verified reachable 2026-09-16 / orx CLI), multi-paper evidence pool (`resolved_evidence`, 3 local parses), per-paper grounded claims (`paper_id` attribution), STORM-style outline, L6 deterministic gate (+ informational `multi_paper` metric), DAS-Bench-style AI judge.
-- **Tests**: mock **23/23** · real `opencode/big-pickle` **23/23** (110.8 s, 4 grounded claims, L6 score 1.0).
-- **Evaluation pilot** (`tools/eval/bench_eval.py`, Session 11/12): proxy topic P-A **Total 3.06** with **papers=3 / cited=3** (multi-paper pool uplifted from 2.62 single-paper); DAS topic 001 correctly no-evidence after the seed-precision fix. Report: `_eval_out/bench_pilot_das.md`.
+- **P2 minimal vertical + framework integration (GREEN)**: LangGraph pipeline with pluggable S_lit rails (seed / arXiv API — verified reachable 2026-09-16 / orx CLI), multi-paper evidence pool (`resolved_evidence`, 3 local parses), per-paper grounded claims (`paper_id` attribution), STORM-style outline (4-6 sections), **survey-depth per-section drafting** (intro + `## <heading>` section paragraphs + conclusion, inline arXiv attribution, disagreement/gap handling), L6 deterministic gate (+ informational `multi_paper` metric), DAS-Bench-style AI judge.
+- **Tests**: mock **25/25** · real `opencode/big-pickle` **25/25** (498.6 s, draft 16,281 chars / 5 sections, L6 score 1.0, judge=pass).
+- **Evaluation pilot** (`tools/eval/bench_eval.py`, Session 11-13): DAS-16 family means **BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17** — **TSQ lifted 2.42→3.17** by per-section drafting; artifacts 23-26K chars; proxies 2.94–3.38; DAS topic 001 correctly no-evidence after the seed-precision fix. Report: `_eval_out/bench_pilot_das.md`.
 - **Defaults**: `opencode` backend throughout (Ollama backend removed 2026-09-16); seed manifest stays the deterministic offline discovery default.
 
 ## Repository map
@@ -101,8 +101,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 ## Roadmap (next)
 
-1. Draft-depth upgrade toward survey-grade TSQ/MAR (multi-paragraph sections, per-section evidence).
-2. P3 judge threshold calibration against the DAS-16 preview scores.
+1. P3 judge threshold calibration against the DAS-16 preview scores (gate is still lenient vs the 16-axis totals).
+2. MAR render axes — page-rendered artifact / figure-table extraction (plain-markdown cannot score Figure/Table quality; the residual low axis).
 3. DAS-Bench full compliance — DAS-2M topic pools + a ≥300B frozen judge (needs API keys / GPU / network).
 4. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
 

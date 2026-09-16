@@ -83,6 +83,21 @@ def _route(content: str) -> str:
         ]
         return json.dumps(claims, ensure_ascii=False)
 
+    if "Write the INTRO of a bilingual" in lower:
+        return "Intro (EN): This survey synthesizes evidence on automatic text detection. 中文导言：本节综述自动文本检测的证据。Sections: Background, Mitigation, Limits, Open questions."
+
+    if "Write ONE section of a bilingual" in lower:
+        return ("## Cross-Paper Synthesis\n"
+                "Section (EN): GPT detectors misclassify non-native prose "
+                "(arXiv:2304.02819), while tool benchmarks stress dependence on "
+                "prompting (arXiv:2306.15666). 中文：检测器误判非母语写作者（arXiv:2304.02819），"
+                "基准评测强调对提示词的依赖（arXiv:2306.15666）。Open gap: no common eval protocol.")
+
+    if "Write the CONCLUSION of a bilingual" in lower:
+        return ("Conclusion (EN): Evidence spans dataset, method and policy "
+                "(arXiv:2304.02819; arXiv:1906.04043). 中文结论：证据覆盖数据集、方法与政策。"
+                "Remaining gaps: cross-tool calibration.")
+
     if "extract 2-5 topics" in lower:
         return json.dumps({"topics": ["NLP", "LLM"]}, ensure_ascii=False)
 

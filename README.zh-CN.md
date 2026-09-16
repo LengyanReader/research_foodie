@@ -48,8 +48,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 **运行集成测试**（mock = 秒级确定性回归；real = 完整 opencode LLM 链路）：
 
 ```powershell
-& $PY -m tools.pipeline.test_pipeline mock      # 23/23 PASS
-& $PY -m tools.pipeline.test_pipeline real      # 默认模型 opencode/big-pickle（约 2 分钟）
+& $PY -m tools.pipeline.test_pipeline mock      # 25/25 PASS
+& $PY -m tools.pipeline.test_pipeline real      # 默认模型 opencode/big-pickle（约 8 分钟，10 次 LLM 调用）
 ```
 
 **示例问题：** *"GPT detectors bias against non-native English writers"*（Liang et al. 2023）与 *"How reliable are automatic detection tools for AI-generated text?"*（多论文池：Liang + Weber-Wulff + GLTR）。
@@ -73,9 +73,9 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 ## 当前状态
 
 - **Phase 0/1（文档）**：完成。**P1 工具链**：MinerU PDF→Markdown PASS；PaddleOCR 中文 OCR PASS（K7 关闭）。
-- **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲、L6 确定性门控（+ 新增 `multi_paper` 指标）、DAS-Bench 式 AI 评审。
-- **测试**：mock **23/23** · real `opencode/big-pickle` **23/23**（110.8 s，4 条接地 claims，L6 得分 1.0）。
-- **评估试点**（`tools/eval/bench_eval.py`，Session 11/12）：代理话题 P-A **总分 3.06**，**papers=3 / cited=3**（多论文池较单论文 2.62 提升）；种子精度修复后 DAS 话题 001 正确判定 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
+- **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲（4-6 节）、**综述级分节写作**（intro + 每节 `## <heading>` 段落 + conclusion，内联 arXiv 归属、分歧/缺口处理）、L6 确定性门控（+ 新增 `multi_paper` 指标）、DAS-Bench 式 AI 评审。
+- **测试**：mock **25/25** · real `opencode/big-pickle` **25/25**（498.6 s，草稿 16,281 字符 / 5 节，L6 得分 1.0，judge=pass）。
+- **评估试点**（`tools/eval/bench_eval.py`，Session 11-13）：DAS-16 家族均值 **BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17**——**TSQ 由 2.42 升至 3.17**（分节写作驱动）；产物 23-26K 字符；代理话题 2.94–3.38；DAS 话题 001 种子精度修复后正确判定 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
 - **默认配置**：全链路 `opencode` 后端（Ollama 后端已于 2026-09-16 移除）；种子清单保持确定性离线发现默认。
 
 ## 仓库地图
@@ -101,8 +101,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 ## 路线图（下一步）
 
-1. 草稿深度升级至综述级 TSQ/MAR（多段落分节、逐节证据）。
-2. P3 评审门槛对照 DAS-16 预览分校准。
+1. P3 评审门槛对照 DAS-16 预览分校准（当前内部评审相对 16 轴总分仍偏宽松）。
+2. MAR 渲染轴——页面渲染产物 / 图表抽取（纯 markdown 无法给 Figure/Table Quality 打分；残余短板轴）。
 3. DAS-Bench 全量合规——DAS-2M 话题池 + ≥300B 冻结评审（需要 API key / GPU / 网络）。
 4. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
 

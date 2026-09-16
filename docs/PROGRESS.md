@@ -3,7 +3,21 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-16
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17**)
+
+---
+
+## 2026-09-16 — Session 13: survey-depth S_write — per-section drafting lifts TSQ (分节写作升级：TSQ 修复、总分提升)
+
+**User instruction:** "好的，继续下一步" — proceed with the roadmap's #1 lever (draft-depth → survey-grade TSQ/MAR).
+
+1. **Per-section S_write (graph.py)** — the single-draft paragraph became a **survey pass**: one intro call + one independent grounded paragraph `## <heading>` per outline section (≤6) + one conclusion call. Each section prompt: "use only matching claims; 150-300 words as 2-3 paragraphs; attribute EVERY factual sentence inline (arXiv:id); cite both where sources agree, name the disagreement where they conflict, close with the open gap." Claims (tagged `paper_id`) share the section context → **citation balance** + **synthesis/disagreement** behavior in the text, not just in scoring. Draft artifact grew **~5-7×** (mock 518 chars, real 16,281 chars, bench P-A/P-C 23-26K chars).
+2. **S_org outline depth** — sections requested **4-6** (was 2-4); real run produced a 5-section outline.
+3. **Mock determinism** — three new mock routes (INTRO / SECTION / CONCLUSION) so mock mode also exercises the per-section path with `## ` section markers; test_pipeline added asserts: survey-draft length > 500 and per-section heading markers in output. **mock 25/25 PASS**, **real 25/25 PASS** (498.6 s for 10 opencode calls; draft 16,281 chars, 5 sections, L6 1.0, judge=pass).
+4. **DAS-16 pilot refreshed (one full 5-scenario run, real `opencode/big-pickle`):** proxies P-A 2.94 / **P-B 3.19 / P-C 3.38**, 001/019 no-evidence. **Family means (n=3): BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17** — up from Session 11's 2.75 family total and 2.42 TSQ; **TSQ jump 2.42→3.17** (Research-Space + Taxonomy + Organization + Synthesis all 2→3+) confirms the draft-depth lever; residual low axis = MAR 2.50, dominated by Figure/Table Quality + Layout (rendering axes a plain-markdown artifact cannot score — honest, out of scope until page-render output exists). Judge run-to-run variance ±0.5 documented (P-A 2.94-3.06, P-C 2.94-3.38 across runs).
+5. Report `_eval_out/bench_pilot_das.md` refreshed with `papers`/`cited`/`out chars` columns (L6 all pass).
+
+Next (roadmap §7): the TSQ/MAR floor now being structural (per-section writing done), the next levers are (a) P1 judge threshold calibration, (b) MAR render axes (page-rendered artifact / figure-table extraction — P3-compliant scoring path), (c) Track B, (d) DAS-2M + ≥300B judge for a compliant run.
 
 ---
 
