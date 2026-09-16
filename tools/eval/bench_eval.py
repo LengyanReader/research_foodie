@@ -91,8 +91,8 @@ SCENARIOS: List[Dict[str, Any]] = [
     {
         "kind": "proxy",
         "topic_id": "P-C",
-        "topic": "Proxy · Multi-paper evidence (GOFAIR): detection tools AIGC (3-source pool)",
-        "question": "How reliable are automatic detection tools for AI-generated text?",
+        "topic": "Proxy · Methods taxonomy: detect AIGC (statistical, watermark, human)",
+        "question": "Which methods for detecting AI-generated text — statistical detection, watermarking, classifiers, human judgment — are documented, and what are their relative limitations?",
     },
     {
         "kind": "das",
@@ -275,7 +275,7 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
         add(f"## {s['topic_id']} · {s['topic']}")
         add("")
         add(f"- paper_id: {r.get('paper_id')} · evidence chars: {r.get('artifact_chars')} · "
-            f"elapsed: {r.get('elapsed', 0):.1f}s")
+            f"elapsed: {r.get('elapsed', 0):.1f}s" + (" · **cached (vintage run)**" if r.get("cached") else ""))
         pdfi = r.get("pdf") or {}
         if pdfi.get("pdf"):
             add(f"- rendered manuscript (MAR): `{pdfi['pdf']}` · **{pdfi.get('pages', 0)} pages**")
@@ -356,6 +356,39 @@ def _fmt(x: Optional[float], nd: int = 2) -> str:
     return "-" if x is None else f"{x:.{nd}f}"
 
 
+def _serialize_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    """JSON-safe copy of a scenario row (for the sidecar cache)."""
+    safe = dict(row)
+    safe["scenario"] = dict(row["scenario"])
+    safe["papers"] = [dict(p) for p in row.get("papers") or []]
+    safe["candidates"] = [dict(c) for c in row.get("candidates") or []]
+    safe["l6"] = dict(row.get("l6") or {})
+    return safe
+
+
+def _save_cache(rows: List[Dict[str, Any]], cache_dir: Path) -> None:
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    for r in rows:
+        (cache_dir / f"{r['scenario']['topic_id']}.json").write_text(
+            json.dumps(_serialize_row(r), ensure_ascii=False), encoding="utf-8")
+
+
+def _load_cache(ids: List[str], cache_dir: Path) -> Dict[str, Dict[str, Any]]:
+    """Load cached rows for `ids`; mark them so the report can flag vintage."""
+    out: Dict[str, Dict[str, Any]] = {}
+    for tid in ids:
+        p = cache_dir / f"{tid}.json"
+        if not p.is_file():
+            continue
+        try:
+            row = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        row["cached"] = True
+        out[tid] = row
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="DAS-Bench-style benchmark pilot")
     ap.add_argument("--backend", default="opencode")
@@ -368,12 +401,32 @@ def main() -> int:
 
     client = LLMClient(backend=args.backend, base_url=args.base_url, model=args.model)
     scenarios = SCENARIOS
+    run_ids: List[str] = [s["topic_id"] for s in SCENARIOS]
     if args.scenarios:
-        keep = {x.strip() for x in args.scenarios.split(",")}
-        scenarios = [s for s in SCENARIOS if s["topic_id"] in keep]
+        run_ids = [x.strip() for x in args.scenarios.split(",")]
+        scenarios = [s for s in SCENARIOS if s["topic_id"] in run_ids]
 
-    print(f"[bench] backend={args.backend} scenarios={[s['topic_id'] for s in scenarios]}")
+    print(f"[bench] backend={args.backend} running={run_ids}")
+
+    cache_dir = Path(DEFAULT_OUT).parent / "bench_cache"
     rows = run_scenarios(client, scenarios)
+    _save_cache(rows, cache_dir)
+
+    # Merge cached rows for scenarios NOT re-run (keeps the report canonical
+    # without re-paying the LLM cost; cached rows are flagged vintage).
+    if len(run_ids) < len(SCENARIOS):
+        cached = _load_cache([s["topic_id"] for s in SCENARIOS if s["topic_id"] not in run_ids], cache_dir)
+        if cached:
+            print(f"[bench] merged cached rows for {sorted(cached)} (vintage, read-only)")
+        merged: List[Dict[str, Any]] = []
+        by_id = {r["scenario"]["topic_id"]: r for r in rows}
+        for s in SCENARIOS:
+            if s["topic_id"] in by_id:
+                merged.append(by_id[s["topic_id"]])
+            elif s["topic_id"] in cached:
+                merged.append(cached[s["topic_id"]])
+        rows = merged
+
     ref = reference_means()
     report = format_report(rows, ref)
 

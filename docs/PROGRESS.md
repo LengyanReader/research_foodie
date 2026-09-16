@@ -3,7 +3,20 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-16
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)**)
+
+---
+
+## 2026-09-16 — Session 16: data hygiene — bench sidecar cache + P-A/P-C dedup (评测缓存 + 代理问题去重)
+
+**Why:** (a) bench `--out` overwrites the whole report per invocation — we hit the trap twice; (b) P-A and P-C were near-duplicates of the same question, double-counting the same bias/bench angle.
+
+1. **Sidecar cache (`tools/eval/bench_eval.py`)** — per-scenario JSON cache under `_eval_out/bench_cache/`; when `--scenarios` is a subset, non-run scenarios load from cache (flagged `cached (vintage run)` in the report). Canonical report is now rebuildable at low cost; `--save`/merge logic unit-probed.
+2. **P-A/P-C dedup** — P-C is now a *distinct* multi-paper synthesis question (methods taxonomy: statistical detection / watermarking / classifiers / human judgment — where the 3-source pool actually disagrees and the gaps are), not a re-run of P-A.
+3. **Canonical numbers (this round)**: P-A **3.62** · P-B **3.06** · **P-C 4.00** (vintage cached run) — **family means BSC 3.42 / MAR 3.42 / TSQ 3.42 / HDQ 4.00 / Total 3.56** (best so far; MAR tied at 3.42 thanks to the manuscript fix). 001/019 no-evidence hold. Judge run-to-run variance ±0.4 still documented.
+4. **Open choice (surfaced to user)**: next unblocked workstream — Track B (PaddleOCR Chinese evidence layer, needs a Chinese corpus choice) vs Track C (external benchmarks: GAIA verified reachable at HF · 466 Qs · 3 levels · level-1 sampleable; Qasper = QA-over-papers for evidence-grounded QA; PubMedQA/SciQ MCQ quick smokes). User approved plan → **Track C Qasper-style, starting with corpus-anchored QA pilot (5 Qs, zero new downloads), expanding to Qasper if HF reachable.**
+
+Next: Track C pilot (Session 17+).
 
 ---
 

@@ -8,50 +8,50 @@
 
 | id | kind | paper | candidates | papers | cited | out chars | pdf pg | L6 | internal judge | DAS-16 cov. |
 |---|---|---|---|---|---|---|---|---|---|---|
-| P-A | proxy | 2306.15666 | 2306.15666,1906.04043,2304.02819 | 3 | 3 | 22693 | 8 | 1.00 | pass@4.00 | 16/16 |
-| P-B | proxy | 2304.02819 | 2304.02819 | 1 | 1 | 15101 | 5 | 1.00 | pass@4.00 | 16/16 |
-| P-C | proxy | 2306.15666 | 2306.15666,1906.04043,2304.02819 | 3 | 3 | 18541 | 7 | 1.00 | revise@3.00 | 16/16 |
+| P-A | proxy | 2306.15666 | 2306.15666,1906.04043,2304.02819 | 3 | 3 | 20822 | 7 | 1.00 | revise@3.00 | 16/16 |
+| P-B | proxy | 2304.02819 | 2304.02819 | 1 | 1 | 14759 | 6 | 1.00 | pass@4.00 | 16/16 |
+| P-C | proxy | 1906.04043 | 1906.04043,2306.15666,2304.02819 | 3 | 3 | 11049 | 4 | 1.00 | pass@4.00 | 16/16 |
 | 001 | das | - | 2409.13740 | 0 | 0 | 0 | - | 0.00 | - | - |
 | 019 | das | - | - | 0 | 0 | 0 | - | 0.00 | - | - |
 
 ## P-A · Proxy · AI-generated text detection (paper-anchored)
 
-- paper_id: 2306.15666 · evidence chars: 22693 · elapsed: 333.3s
-- rendered manuscript (MAR): `_eval_out\manuscripts\P-A_manuscript.pdf` · **8 pages**
-- L6 gate: score 1.00 passed=True · internal P3 judge: pass@4.00
-- **BSC** — Claim-Level Citation Support: 5 · Reference Faithfulness and Attribution Accuracy: 4 · Multi-Reference Synthesis Coverage and Quality: 2 · Citation Distribution Balance and Non-Redundancy: 3  (avg 3.50)
-- **MAR** — Citation and Reference Presentation Integrity: 3 · Figure/Table Quality and Textual Integration: 2 · Layout and Formatting Professionalism: 3 · Manuscript Component Completeness: 2  (avg 2.50)
-- **TSQ** — Research-Space Coverage: 2 · Taxonomy Clarity and Boundary Control: 3 · Survey Organization and Functional Coherence: 3 · Synthesis Insight and Gap Analysis: 4  (avg 3.00)
-- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 4 · Atomic Claim Specificity and Technical Concreteness: 5 · Local Synthesis and Non-Enumerative Writing: 3  (avg 4.00)
-- **Total Avg**: 3.25  (coverage 16/16, judge=opencode/big-pickle)
+- paper_id: 2306.15666 · evidence chars: 20822 · elapsed: 501.9s
+- rendered manuscript (MAR): `_eval_out\manuscripts\P-A_manuscript.pdf` · **7 pages**
+- L6 gate: score 1.00 passed=True · internal P3 judge: revise@3.00
+- **BSC** — Claim-Level Citation Support: 4 · Reference Faithfulness and Attribution Accuracy: 4 · Multi-Reference Synthesis Coverage and Quality: 3 · Citation Distribution Balance and Non-Redundancy: 3  (avg 3.50)
+- **MAR** — Citation and Reference Presentation Integrity: 3 · Figure/Table Quality and Textual Integration: 3 · Layout and Formatting Professionalism: 4 · Manuscript Component Completeness: 3  (avg 3.25)
+- **TSQ** — Research-Space Coverage: 3 · Taxonomy Clarity and Boundary Control: 4 · Survey Organization and Functional Coherence: 4 · Synthesis Insight and Gap Analysis: 4  (avg 3.75)
+- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 4 · Atomic Claim Specificity and Technical Concreteness: 4 · Local Synthesis and Non-Enumerative Writing: 4  (avg 4.00)
+- **Total Avg**: 3.62  (coverage 16/16, judge=opencode/big-pickle)
 
 ## P-B · Proxy · Detection-tool bias against non-native writers (paper-anchored)
 
-- paper_id: 2304.02819 · evidence chars: 15101 · elapsed: 301.6s
-- rendered manuscript (MAR): `_eval_out\manuscripts\P-B_manuscript.pdf` · **5 pages**
+- paper_id: 2304.02819 · evidence chars: 14759 · elapsed: 322.2s
+- rendered manuscript (MAR): `_eval_out\manuscripts\P-B_manuscript.pdf` · **6 pages**
 - L6 gate: score 1.00 passed=True · internal P3 judge: pass@4.00
-- **BSC** — Claim-Level Citation Support: 4 · Reference Faithfulness and Attribution Accuracy: 4 · Multi-Reference Synthesis Coverage and Quality: 1 · Citation Distribution Balance and Non-Redundancy: 1  (avg 2.50)
-- **MAR** — Citation and Reference Presentation Integrity: 2 · Figure/Table Quality and Textual Integration: 2 · Layout and Formatting Professionalism: 2 · Manuscript Component Completeness: 3  (avg 2.25)
-- **TSQ** — Research-Space Coverage: 2 · Taxonomy Clarity and Boundary Control: 2 · Survey Organization and Functional Coherence: 3 · Synthesis Insight and Gap Analysis: 4  (avg 2.75)
-- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 3 · Atomic Claim Specificity and Technical Concreteness: 4 · Local Synthesis and Non-Enumerative Writing: 3  (avg 3.50)
-- **Total Avg**: 2.75  (coverage 16/16, judge=opencode/big-pickle)
-
-## P-C · Proxy · Multi-paper evidence (GOFAIR): detection tools AIGC (3-source pool)
-
-- paper_id: 2306.15666 · evidence chars: 18541 · elapsed: 548.6s
-- rendered manuscript (MAR): `_eval_out\manuscripts\P-C_manuscript.pdf` · **7 pages**
-- L6 gate: score 1.00 passed=True · internal P3 judge: revise@3.00
 - **BSC** — Claim-Level Citation Support: 3 · Reference Faithfulness and Attribution Accuracy: 4 · Multi-Reference Synthesis Coverage and Quality: 2 · Citation Distribution Balance and Non-Redundancy: 2  (avg 2.75)
-- **MAR** — Citation and Reference Presentation Integrity: 4 · Figure/Table Quality and Textual Integration: 2 · Layout and Formatting Professionalism: 4 · Manuscript Component Completeness: 3  (avg 3.25)
+- **MAR** — Citation and Reference Presentation Integrity: 3 · Figure/Table Quality and Textual Integration: 2 · Layout and Formatting Professionalism: 4 · Manuscript Component Completeness: 3  (avg 3.00)
 - **TSQ** — Research-Space Coverage: 2 · Taxonomy Clarity and Boundary Control: 2 · Survey Organization and Functional Coherence: 4 · Synthesis Insight and Gap Analysis: 3  (avg 2.75)
-- **HDQ** — Multi-Level Goal Alignment: 3 · Paragraph Argument Progression: 4 · Atomic Claim Specificity and Technical Concreteness: 4 · Local Synthesis and Non-Enumerative Writing: 4  (avg 3.75)
-- **Total Avg**: 3.12  (coverage 16/16, judge=opencode/big-pickle)
+- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 4 · Atomic Claim Specificity and Technical Concreteness: 4 · Local Synthesis and Non-Enumerative Writing: 3  (avg 3.75)
+- **Total Avg**: 3.06  (coverage 16/16, judge=opencode/big-pickle)
+
+## P-C · Proxy · Methods taxonomy: detect AIGC (statistical, watermark, human)
+
+- paper_id: 1906.04043 · evidence chars: 11049 · elapsed: 434.6s · **cached (vintage run)**
+- rendered manuscript (MAR): `_eval_out\manuscripts\P-C_manuscript.pdf` · **4 pages**
+- L6 gate: score 1.00 passed=True · internal P3 judge: pass@4.00
+- **BSC** — Claim-Level Citation Support: 4 · Reference Faithfulness and Attribution Accuracy: 5 · Multi-Reference Synthesis Coverage and Quality: 3 · Citation Distribution Balance and Non-Redundancy: 4  (avg 4.00)
+- **MAR** — Citation and Reference Presentation Integrity: 5 · Figure/Table Quality and Textual Integration: 4 · Layout and Formatting Professionalism: 4 · Manuscript Component Completeness: 3  (avg 4.00)
+- **TSQ** — Research-Space Coverage: 3 · Taxonomy Clarity and Boundary Control: 4 · Survey Organization and Functional Coherence: 4 · Synthesis Insight and Gap Analysis: 4  (avg 3.75)
+- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 4 · Atomic Claim Specificity and Technical Concreteness: 5 · Local Synthesis and Non-Enumerative Writing: 4  (avg 4.25)
+- **Total Avg**: 4.00  (coverage 16/16, judge=opencode/big-pickle)
 
 ## Family means across scored scenarios (preview)
 
 | method | BSC | MAR | TSQ | HDQ | Total |
 |---|---|---|---|---|---|
-| research_foodie (preview, n=3) | 2.92 | 2.67 | 2.83 | 3.75 | 3.04 |
+| research_foodie (preview, n=3) | 3.42 | 3.42 | 3.42 | 4.00 | 3.56 |
 | Human (published) | 3.84 | 5.00 | 4.29 | 4.24 | 4.34 |
 | Codex (published) | 2.80 | 4.19 | 2.99 | 2.75 | 3.18 |
 | GPT Deep Research (published) | 3.32 | 4.14 | 3.48 | 3.76 | 3.68 |
