@@ -21,6 +21,7 @@
    - QA-3 (taxonomy, re-routed to extractive) → **c 1→3, g 2→3, gold 1/2** — better but still not perfect: *taxonomy/relation synthesis* genuinely needs multi-paper synthesis, not extraction — a documented boundary, not a bug.
    - **QA pilot totals (n=7): correctness mean 4.43 · groundedness mean 4.57 · 6/7 correct-and-grounded**; extractive path 3/3 gold-hits perfect.
 6. **Env nugg**: `UnicodeDecodeError: 'charmap' codec` in the opencode subprocess reader thread (0x81 byte, cp1252) — non-fatal (recovered, run completed), but note: console/redirect defaults are cp1252 on this box; use `python -X utf8` for UTF-8 pipelines. Panel B localization note.
+7. **Real-suite variance witness (P1 strict matrix)**: `test_pipeline real` hit **33/34** on one run — P3 judge returned `verdict=fail` on the rubric checks for the *same* demo input; immediate re-run **34/34**. Confirms the strict deterministic thresholds are sensitive to local-model nondeterminism on check boundaries (expected; documented; thresholds deliberately NOT loosened — the fail-side is the safe side).
 
 Next (all local-first): widen the QA panel (e.g. PubMedQA/SciQ MCQs via the same `seed_id` + scorer), 30-DAS-topic evidence pools (CPU time), run-to-run variance re-runs.
 
