@@ -47,10 +47,19 @@ def _wellformed_cite(cite: str) -> bool:
     return bool(ARXIV_RE.search(cite) or DOI_RE.search(cite))
 
 
+def _unfence(text: str) -> str:
+    """Strip a markdown code-fence wrapper around an LLM JSON reply."""
+    t = (text or "").strip()
+    if t.startswith("```"):
+        t = re.sub(r"^```[A-Za-z0-9_\-]*\s*", "", t)
+        t = re.sub(r"```\s*$", "", t).strip()
+    return t
+
+
 def parse_json_list(text: str) -> list:
     """Best-effort parse of a JSON list (or {"claims": [...]}) from an LLM reply."""
     import json
-    t = text.strip()
+    t = _unfence(text)
     try:
         obj = json.loads(t)
         if isinstance(obj, list):
@@ -76,7 +85,7 @@ def parse_json_list(text: str) -> list:
 def parse_json_dict(text: str) -> Dict[str, Any] | None:
     """Best-effort parse of a JSON object from an LLM reply."""
     import json
-    t = text.strip()
+    t = _unfence(text)
     try:
         obj = json.loads(t)
         if isinstance(obj, dict):
@@ -192,6 +201,30 @@ def validate(result: Dict[str, Any], source_md: str, require_bilingual: bool = T
 
     missing_quotes = sum(1 for c in claims if not (c.get("quote") or "").strip())
 
+    # -- multi-paper (informational, Session 12) --------------------------------
+    # How many DISTINCT source papers the final claims actually cite. Quality
+    # metric against a 1-paper summary; not a hard gate.
+    cited_ids: List[str] = []
+    for c in claims:
+        pid = (c.get("paper_id") or "").strip()
+        if pid and pid not in cited_ids:
+            cited_ids.append(pid)
+            continue
+        if not pid:
+            m = ARXIV_RE.search(c.get("cite") or "")
+            if m:
+                ext = m.group(0).lstrip("arXiv:").strip()
+                if ext not in cited_ids:
+                    cited_ids.append(ext)
+    n_avail = len(result.get("papers") or [])
+    checks["multi_paper"] = {
+        "ok": n_avail <= 1 or len(cited_ids) >= 2,
+        "detail": (f"papers_available={n_avail} n_papers_cited={len(cited_ids)} "
+                   f"cited={cited_ids or 'none'}"),
+    }
+    if not checks["multi_paper"]["ok"]:
+        warnings.append("multi_paper")
+
     # -- score (0..1) ----------------------------------------------------------
     n = len(claims)
     if n:
@@ -212,6 +245,7 @@ def validate(result: Dict[str, Any], source_md: str, require_bilingual: bool = T
         "checks": checks,
         "warnings": warnings,
         "missing_quotes": missing_quotes,
+        "n_papers_cited": len(cited_ids),
         "verbatim_quotes": sum(
             1 for c in claims
             if (c.get("quote") or "").strip() and _norm(c["quote"])[:120] in src

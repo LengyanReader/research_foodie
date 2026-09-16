@@ -89,6 +89,12 @@ SCENARIOS: List[Dict[str, Any]] = [
         "question": "Are GPT detectors biased against non-native English writers?",
     },
     {
+        "kind": "proxy",
+        "topic_id": "P-C",
+        "topic": "Proxy · Multi-paper evidence (GOFAIR): detection tools AIGC (3-source pool)",
+        "question": "How reliable are automatic detection tools for AI-generated text?",
+    },
+    {
         "kind": "das",
         "topic_id": "001",
         "topic": "Tool Learning and Function Calling for LLM Agents",
@@ -190,6 +196,8 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
         row["candidates"] = res.get("candidates", [])
         row["elapsed"] = res.get("_elapsed", 0.0)
         row["paper_id"] = res.get("paper_id", "")
+        row["papers"] = res.get("papers", [])
+        row["n_cited"] = (res.get("validation") or {}).get("n_papers_cited", 0)
         row["l6"] = dict(res.get("validation") or {})
         artifact = res.get("output", "") or ""
         row["artifact_chars"] = len(artifact)
@@ -217,17 +225,19 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
     scored = [r for r in rows if r["status"] == "scored"]
     add(f"## Run summary")
     add("")
-    add("| id | kind | paper | candidates | evid. chars | L6 | internal judge | DAS-16 cov. |")
-    add("|---|---|---|---|---|---|---|---|")
+    add("| id | kind | paper | candidates | papers | cited | out chars | L6 | internal judge | DAS-16 cov. |")
+    add("|---|---|---|---|---|---|---|---|---|---|")
     for r in rows:
         paper = r.get("paper_id") or "-"
         cands = ",".join(c.get("arxiv_id", "?") for c in r.get("candidates", [])) or "-"
+        np = len(r.get("papers") or [])
+        nc = r.get("n_cited", 0)
         l6 = (_fmt(r["l6"].get("score")) if r.get("l6") else "-")
         j = (r["l6"].get("judge") or {}) if r.get("l6") else {}
         ji = f"{j.get('label','-')}@{_fmt(j.get('score'))}" if j else "-"
         cov = (f"{r['bench']['coverage']}/16" if r.get("bench") else "-")
         add(f"| {r['scenario']['topic_id']} | {r['scenario']['kind']} | {paper} | "
-            f"{cands} | {r.get('artifact_chars','-')} | {l6} | {ji} | {cov} |")
+            f"{cands} | {np} | {nc} | {r.get('artifact_chars','-')} | {l6} | {ji} | {cov} |")
     if not scored:
         add("\nAll scenarios produced **no evidence** (no parsed corpus match).")
     add("")

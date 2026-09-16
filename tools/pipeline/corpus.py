@@ -61,6 +61,11 @@ SEED_MANIFEST: List[Dict[str, str]] = [
         "keywords": "weber-wulff detection tools ai-generated text test",
     },
     {
+        "arxiv_id": "1906.04043",
+        "label": "GLTR: Statistical Detection and Visualization of Generated Text (Gehrmann et al. 2019)",
+        "keywords": "gltr statistical detection visualization generated text gehrmann gpt-2 fake text",
+    },
+    {
         "arxiv_id": "1706.03762",
         "label": "Attention is all you need (Vaswani et al. 2017)",
         "keywords": "attention transformer self-attention vaswani sequence",
@@ -71,10 +76,6 @@ SEED_MANIFEST: List[Dict[str, str]] = [
         "keywords": "bert pre-training bidirectional transformer devlin nlp",
     },
 ]
-
-
-def _tokenize(question: str) -> List[str]:
-    return [t for t in re.split(r"\W+", question.lower()) if len(t) > 2]
 
 
 def discover(question: str, limit: int = 3, backend: Optional[str] = None) -> List[Dict[str, str]]:
@@ -97,18 +98,45 @@ def discover(question: str, limit: int = 3, backend: Optional[str] = None) -> Li
     return _merge([live, seed_candidates(question)], limit)
 
 
+# Minimum seed-keyword score needed to keep a candidate (precision guard).
+# A single weak token match (e.g. "tool" in "detection tools") must NOT drag a
+# paper into a topic it doesn't cover — surfaced by DAS topic 001 in Session 11.
+# Explicit arXiv IDs in the question always pass (id_present bonus is +5).
+SEED_MIN_SCORE = 2
+
+# Stopwords that inflate naive keyword scores ("for" matched "for AI-generated
+# text"); the seed scorer uses content tokens only.
+_SEED_STOP = {
+    "the", "a", "an", "and", "or", "for", "in", "on", "of", "to", "with",
+    "as", "at", "by", "from", "is", "are", "was", "were", "be", "it", "this",
+    "that", "we", "not", "their", "its", "they", "can", "may",
+}
+
+
+def _tokenize(text: str) -> List[str]:
+    return [
+        t for t in re.findall(r"[A-Za-z0-9_\-]+", text.lower())
+        if t not in _SEED_STOP
+    ]
+
+
 def seed_candidates(question: str, limit: int = 3) -> List[Dict[str, str]]:
-    """Deterministic offline discovery over the seed manifest (keyword scoring)."""
+    """Deterministic offline discovery over the seed manifest (keyword scoring).
+
+    Precision guard (Session 12): candidates scoring below `SEED_MIN_SCORE`
+    are dropped unless the question names the arXiv ID explicitly.
+    """
     tokens = _tokenize(question)
     if not tokens:
         return []
     scored: List[tuple] = []
+    ids_in_q = {m for m in _ID_RE.findall(question)}
     for entry in SEED_MANIFEST:
         hay = f"{entry['label']} {entry['keywords']}".lower()
         score = sum(1 for t in tokens if t in hay)
         if entry["arxiv_id"] in question:
             score += 5
-        if score:
+        if score and (score >= SEED_MIN_SCORE or entry["arxiv_id"] in ids_in_q):
             scored.append((score, entry))
     scored.sort(key=lambda x: (-x[0], x[1]["arxiv_id"]))
     return [dict(e) for _, e in scored[:limit]]
@@ -191,6 +219,10 @@ _LOCAL_MD: Dict[str, str] = {
     # text" — merged from 8 MinerU `-m txt` page-windows (46pp; see PROGRESS
     # Session 10 for the OCR-rec stage 502 flakiness workaround).
     "2306.15666": "weber_wulff_2306_15666/auto/weber_wulff_2306_15666.md",
+    # Gehrmann et al. 2019, GLTR — 6pp, parsed `-m txt` in two 3-page windows.
+    # Session 12: page-window runs MUST use distinct `-o` output dirs, else the
+    # later window overwrites the earlier one (same <stem>/txt/<stem>.md path).
+    "1906.04043": "gltr_1906_04043/auto/gltr_1906_04043.md",
 }
 
 
@@ -201,3 +233,44 @@ def md_path_for(arxiv_id: str) -> Optional[Path]:
         return None
     p = CORPUS_MD_DIR / rel
     return p if p.is_file() else None
+
+
+def resolved_evidence(
+    question: str,
+    limit: int = 3,
+    backend: Optional[str] = None,
+) -> List[Dict[str, str]]:
+    """Multi-paper S_lit: candidates → those with parsable local markdown.
+
+    Returns `[{arxiv_id, label, path, md}]` in candidate order; entries without
+    a local MinerU parse are skipped. This is the evidence pool the graph
+    synthesizes across (Session 12). `question` may be an arXiv ID → resolved
+    directly via the manifest if present.
+    """
+    if " " not in question.strip():
+        ids = _ID_RE.findall(question)
+        if ids:
+            return _evidence_for([{"arxiv_id": ids[0], "label": question}])
+    return _evidence_for(discover(question, limit=limit, backend=backend))
+
+
+def _evidence_for(
+    candidates: List[Dict[str, str]],
+    max_chars: int = 300_000,
+) -> List[Dict[str, str]]:
+    out: List[Dict[str, str]] = []
+    for c in candidates:
+        p = md_path_for(c.get("arxiv_id", ""))
+        if not p:
+            continue
+        try:
+            md = p.read_text(encoding="utf-8")[:max_chars]
+        except OSError:
+            continue
+        out.append({
+            "arxiv_id": c["arxiv_id"],
+            "label": c.get("label", c["arxiv_id"]),
+            "path": str(p),
+            "md": md,
+        })
+    return out

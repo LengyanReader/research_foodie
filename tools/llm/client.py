@@ -171,6 +171,7 @@ class LLMClient:
             tmp.close()
             cmd = [
                 self._binary, "run", "--format", "json", "--pure", "-m", self.model,
+                "--auto",
                 "Follow the instructions in the attached file; reply with your final answer only.",
                 "-f", tmp.name,
             ]

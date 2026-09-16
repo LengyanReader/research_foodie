@@ -23,7 +23,8 @@ docs/
   PLAN.md                  执行计划 (bilingual)
   PROGRESS.md              进度日志 (bilingual)
 AGENTS.md                  本文件
-README.md                  项目入口
+README.md                  项目入口 (English)
+README.zh-CN.md            项目入口 (中文)
 LICENSE                    MIT License
 ```
 

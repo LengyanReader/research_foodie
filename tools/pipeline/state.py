@@ -7,6 +7,7 @@ class PipelineState(TypedDict, total=False):
     parsed_md: str
     evidence_chunks: List[str]
     candidates: List[Dict[str, object]]
+    papers: List[Dict[str, object]]   # resolved multi-paper evidence pool (S_lit)
     taxonomy: Dict[str, object]
     outline: Dict[str, object]
     claims: List[Dict]

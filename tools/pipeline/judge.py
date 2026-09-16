@@ -58,15 +58,16 @@ def judge_draft(state: Dict[str, Any], client: LLMClient) -> Dict[str, Any]:
     claims_txt = json.dumps(claims[:4], ensure_ascii=False)
 
     r = client.chat(
-        [
-            Message(role="system", content=JUDGE_RUBRIC),
-            Message(role="user",
-                    content=f"Paper: {paper_id}\n\nOutline: {outline_txt}\n"
-                            f"Claims: {claims_txt}\n\nDraft:\n{draft}"),
-        ],
-        json_mode=True,
-        max_tokens=400,
-    )
+            [
+                Message(role="system", content=JUDGE_RUBRIC),
+                Message(role="user",
+                        content=f"Paper: {paper_id}\nSources: {len(state.get('papers') or [])} papers\n"
+                                f"Outline: {outline_txt}\n"
+                                f"Claims: {claims_txt}\n\nDraft:\n{draft}"),
+            ],
+            json_mode=True,
+            max_tokens=400,
+        )
     obj = parse_json_dict(r.text)
     if not isinstance(obj, dict):
         return {

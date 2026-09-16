@@ -44,7 +44,7 @@ from typing import Dict, Any, Optional, List
 
 from tools.llm.client import LLMClient, Message
 from tools.pipeline.state import PipelineState
-from tools.pipeline.corpus import discover, md_path_for
+from tools.pipeline.corpus import discover, resolved_evidence
 from tools.pipeline.validate import (
     validate,
     grounded_claims,
@@ -111,9 +111,20 @@ class Pipeline:
         return {"evidence_chunks": chunks}
 
     def _org(self, state: Dict[str, Any]) -> Dict:
-        """Taxonomy + STORM-style outline (question-driven sections/key_points)."""
-        chunks = state.get("evidence_chunks", [])[:10]
-        context = "\n---\n".join(chunks[:5])[:2000]
+        """Taxonomy + STORM-style outline (question-driven sections/key_points).
+
+        S_org now reads a cross-paper evidence window: primary paper chunk
+        block + one block from the second source, so taxonomy/outline reflect
+        the whole evidence pool, not just the top paper.
+        """
+        papers = state.get("papers") or []
+        chunks: List[str] = []
+        for idx, p in enumerate(papers[:2]):
+            md = p.get("md", "")
+            block = [c.strip() for c in md.split("\n\n") if c.strip()]
+            want = 5 if idx == 0 else 2      # primary dominates, secondary adds breadth
+            chunks.extend(block[:want])
+        context = "\n---\n".join(chunks)[:2000]
         question = state.get("question", "")
         resp = self.client.chat(
             [
@@ -155,40 +166,52 @@ class Pipeline:
         return {"taxonomy": {"topics": topics}, "outline": outline}
 
     def _write(self, state: Dict[str, Any]) -> Dict:
-        """Claim plan + draft generation (full-text extraction)."""
-        md = state.get("parsed_md", "")
+        """Per-paper claim plans → merged evidence-backed claims → draft.
+
+        Multi-paper S_write (Session 12): one claim-plan extraction per source
+        paper (≤3), each grounded against ITS OWN markdown before merge — this
+        is what makes each arXiv ID in the output traceable to a real local
+        parse instead of a single-paper summary.
+        """
+        papers = state.get("papers") or []
         paper_id = state.get("paper_id", "")
 
-        # --- claim plan (json_mode): the model reads the FULL paper text ---
-        source = md[:MAX_SOURCE_CHARS]
-        r = self.client.chat(
-            [
-                Message(role="system",
-                        content=("Extract up to 4 evidence-backed claims as a JSON "
-                                 "list [{\"id\":str,\"claim\":str,\"quote\":str,"
-                                 "\"section\":str,\"cite\":str,"
-                                 "\"confidence\":str(high|medium|low)}]. "
-                                 "Only output claims you can copy an EXACT "
-                                 "verbatim `quote` for from the paper text (≤25 "
-                                 "words); if in doubt include fewer claims. "
-                                 "quote MUST be copied verbatim; section = the "
-                                 "heading that the quote appears under; "
-                                 "cite = the arXiv ID, e.g. 'arXiv:2304.02819'.")),
-                Message(role="user",
-                        content=f"Paper ID: {paper_id}\n\n{source}"),
-            ],
-            json_mode=True,
-            max_tokens=600,
-        )
-        claims = parse_json_list(r.text)
-
-        # Mechanical sanitization: keep only quote-grounded claims; tidy cites.
-        claims, dropped = grounded_claims(claims, md)
-        for c in claims:
-            cite = (c.get("cite") or "").strip()
-            m = ARXIV_RE.search(cite) if cite else None
-            if m:
-                c["cite"] = "arXiv:" + m.group(0).lstrip("arXiv:").strip()
+        claims: List[Dict] = []
+        dropped: List[Dict] = []
+        for p in papers[:3]:
+            md = p.get("md", "")
+            pid = p.get("arxiv_id", paper_id)
+            source = md[:MAX_SOURCE_CHARS]
+            r = self.client.chat(
+                [
+                    Message(role="system",
+                            content=("Extract up to 4 evidence-backed claims as a JSON "
+                                     "list [{\"id\":str,\"claim\":str,\"quote\":str,"
+                                     "\"section\":str,\"cite\":str,"
+                                     "\"confidence\":str(high|medium|low)}]. "
+                                     "Only output claims you can copy an EXACT "
+                                     "verbatim `quote` for from the paper text (≤25 "
+                                     "words); if in doubt include fewer claims. "
+                                     "quote MUST be copied verbatim; section = the "
+                                     "heading that the quote appears under; "
+                                     "cite = the arXiv ID, e.g. 'arXiv:2304.02819'.")),
+                    Message(role="user",
+                            content=f"Paper ID: {pid}\n\n{source}"),
+                ],
+                json_mode=True,
+                max_tokens=600,
+            )
+            cs = parse_json_list(r.text)
+            kept, dr = grounded_claims(cs, md)
+            for c in kept:
+                cite = (c.get("cite") or "").strip()
+                m = ARXIV_RE.search(cite) if cite else None
+                if m:
+                    c["cite"] = "arXiv:" + m.group(0).lstrip("arXiv:").strip()
+                c["paper_id"] = pid
+                c["source"] = p.get("label", pid)
+            claims.extend(kept)
+            dropped.extend(dr)
 
         # --- draft paragraph (STORM co-writer style: outline-driven) ---
         outline = state.get("outline", {})
@@ -197,16 +220,23 @@ class Pipeline:
             s.get("heading", "") for s in sections if isinstance(s, dict)
         ) or "general"
         topics = state.get("taxonomy", {}).get("topics", ["general"])
-        claims_snippet = json.dumps(claims[:3], ensure_ascii=False)
+        sources_line = "; ".join(
+            f"arXiv:{p.get('arxiv_id','')} ({p.get('label','')})"
+            for p in papers
+        ) or paper_id
+        claims_snippet = json.dumps(claims[:6], ensure_ascii=False)
         r2 = self.client.chat(
             [
                 Message(role="system",
                         content=("Write an outline-driven bilingual (EN + 中文) "
                                  "research summary: one short paragraph per "
-                                 "outline section, grounded in the claims. "
-                                 "Be precise; do not invent facts.")),
+                                 "outline section. Synthesize across the given "
+                                 "source papers; attribute each factual claim "
+                                 "inline to its arXiv ID (e.g. (arXiv:2304.02819)) "
+                                 "matching the claims. Be precise; do not invent "
+                                 "facts.")),
                 Message(role="user",
-                        content=f"Outline sections: {headings}\nTopics: {', '.join(topics)}\nClaims: {claims_snippet}"),
+                        content=f"Outline sections: {headings}\nTopics: {', '.join(topics)}\nSources: {sources_line}\nClaims: {claims_snippet}"),
             ],
             max_tokens=700,
         )
@@ -234,8 +264,9 @@ class Pipeline:
         return {"draft": r.text}
 
     def _finalize(self, state: Dict[str, Any]) -> Dict:
-        """Assemble the final structured output."""
+        """Assemble the final structured output (Sources + claim attribution)."""
         paper_id = state.get("paper_id", "")
+        papers = state.get("papers") or []
         topics = state.get("taxonomy", {}).get("topics", [])
         claims = state.get("claims", [])
         draft = state.get("draft", "")
@@ -245,18 +276,25 @@ class Pipeline:
             f"- {s.get('heading','')}: {'; '.join(s.get('key_points', []))}"
             for s in sections if isinstance(s, dict)
         )
+        multi = len(papers) > 1
+        source_lines = "\n".join(
+            f"- arXiv:{p.get('arxiv_id','')} — {p.get('label','')}"
+            for p in papers
+        ) or f"- {paper_id} (pre-parsed input)"
         lines = [
             f"# {paper_id}",
             f"\n## Topics\n{', '.join(topics)}",
+            f"\n## Sources ({len(papers)})\n{source_lines}" if source_lines else "",
             f"\n## Outline\n{outline_lines}" if outline_lines else "",
             f"\n## Draft\n{draft}",
             f"\n## Claims ({len(claims)})",
         ]
-        for c in claims[:4]:
+        for c in claims[:6]:
             conf = c.get("confidence", "?")
             txt = c.get("claim", c.get("text", ""))
             cite = c.get("cite", "")
-            lines.append(f"- [{conf}] {txt}  ({cite})")
+            tag = f" [{c.get('paper_id', '')}]" if multi else ""
+            lines.append(f"- [{conf}]{tag} {txt}  ({cite})")
         return {"output": "\n".join(lines)}
 
     # ------------------------------------------------------------------
@@ -276,7 +314,11 @@ class Pipeline:
     # ------------------------------------------------------------------
 
     def _gate(self, state: Dict[str, Any]) -> Dict:
-        report = validate(state, state.get("parsed_md", ""), require_bilingual=True)
+        papers = state.get("papers") or []
+        md_all = "\n\n".join(p.get("md", "") for p in papers) or state.get("parsed_md", "")
+        report = validate(state, md_all, require_bilingual=True)
+        report["n_papers_cited"] = report.get("n_papers_cited", 0) or 0
+        report["papers"] = [p.get("arxiv_id", "") for p in papers]
         return {"validation": report}
 
     # ------------------------------------------------------------------
@@ -310,23 +352,25 @@ class Pipeline:
           (a) run("liang2023", parsed_md)  — existing unit-test / pre-parsed mode.
           (b) run(question="GPT detectors bias") — discovery-led: finds a
               candidate via a discovery rail (seed | arxiv | orx, env
-              `S_LIT_BACKEND`; overridable via `discovery_backend`), loads its
-              parsed markdown if available locally, then runs the graph.
+              `S_LIT_BACKEND`; overridable via `discovery_backend`), resolves the
+              evidence pool (papers with local MinerU parses), then runs the
+              graph.
         """
         candidates: List[Dict[str, str]] = []
+        papers: List[Dict[str, str]] = []
         if question:
             candidates = discover(question, backend=discovery_backend)
-            if not paper_id and candidates:
-                # try the best candidate's local md
-                top = candidates[0]
-                p = md_path_for(top["arxiv_id"])
-                if p:
-                    paper_id = top["arxiv_id"]
-                    parsed_md = p.read_text(encoding="utf-8")
-            if not parsed_md:
+            papers = resolved_evidence(question, limit=3, backend=discovery_backend)
+            if not paper_id and papers:
+                # primary paper = top resolved evidence
+                top = papers[0]
+                paper_id = top["arxiv_id"]
+                parsed_md = top["md"]
+            if not papers:
                 # nothing locally available — honest failure
                 return {
                     "candidates": candidates,
+                    "papers": [],
                     "output": "",
                     "draft": "",
                     "claims": [],
@@ -336,12 +380,21 @@ class Pipeline:
                                    "error": "no parsed corpus for candidate"},
                     "_elapsed": 0.0,
                 }
+        if not papers and parsed_md:
+            # (a) pre-parsed single-paper mode — treated as a 1-paper evidence pool
+            papers = [{
+                "arxiv_id": paper_id or "unknown",
+                "label": paper_id or "pre-parsed input",
+                "path": "",
+                "md": parsed_md,
+            }]
         if not paper_id:
             paper_id = "unknown"
         t0 = time.time()
         state = {
             "paper_id": paper_id,
             "parsed_md": parsed_md or "",
+            "papers": papers,
             "question": question or "",
             "candidates": candidates,
             "iteration": 0,

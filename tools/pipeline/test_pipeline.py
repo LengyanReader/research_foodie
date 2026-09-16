@@ -88,8 +88,13 @@ def _run_test(client: LLMClient, mode: str) -> int:
     _assert(any(c.get("arxiv_id") == PAPER_ID for c in candidates),
             f"top candidates include {PAPER_ID}", failures)
 
+    papers = result.get("papers", [])
+    _assert(len(papers) >= 1, f"evidence pool papers={len(papers)} >= 1", failures)
+
     claims = result.get("claims", [])
     _assert(len(claims) >= 1, f"claims count={len(claims)} >= 1", failures)
+    _assert(any(isinstance(c, dict) and c.get("paper_id") for c in claims),
+            "claims carry per-source paper_id attribution", failures)
 
     draft = result.get("draft", "")
     _assert(len(draft) > 20, f"draft length={len(draft)} > 20", failures)
@@ -117,6 +122,8 @@ def _run_test(client: LLMClient, mode: str) -> int:
             "validation: quotes grounded (5-gram)", failures)
     _assert(validation.get("score", 0) > 0.5,
             f"validation score={validation.get('score')} > 0.5", failures)
+    _assert(validation.get("n_papers_cited", 0) >= 1,
+            f"multi-paper n_papers_cited={validation.get('n_papers_cited')} >= 1", failures)
 
     judge = validation.get("judge", {})
     _assert(isinstance(judge, dict) and judge.get("label") in ("pass", "revise", "fail"),

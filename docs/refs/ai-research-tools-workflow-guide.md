@@ -2,7 +2,6 @@
 
 opencode -s ses_f5bf15129ffebl218MiLnofD3w
 
-
 > **Verified as of 2026-09-15.** All claims spot-checked against primary sources; updated figures and a Verification Ledger are appended at the end of this document.
 
 *Compiled from live research as of August 30, 2026. Read the "How to use this guide" note below before you start — pricing in this space moves fast and disagrees across sources even within the same month.*

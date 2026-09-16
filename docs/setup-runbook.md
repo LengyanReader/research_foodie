@@ -56,7 +56,8 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   & $MINE -p input.pdf -o output_dir -b pipeline -s 0 -e 5 -l ch
   ```
   Outputs in `output_dir/<name>/`: `<name>.md`, `*_content_list.json`, `*_middle.json`, `*_model.json`.
-  - **K12 workaround (long PDFs):** the doc-analysis worker 502s intermittently on this CPU box. For text-layer PDFs run `-m txt` in **page windows ≤6 pp** (`-s/-e`) and merge the `txt/<name>.md` outputs (done for Weber-Wulff, see PROGRESS Session 10).
+  - **K12 workaround (long PDFs):** the doc-analysis worker 502s intermittently on this CPU box. For text-layer PDFs run `-m txt` in **page windows ≤6 pp** (`-s/-e`) and merge the `txt/<name>.md` outputs (done for Weber-Wulff, see PROGRESS Session 10). **Each window MUST use a distinct `-o` dir** — MinerU writes to `<out>/<stem>/txt/<stem>.md`, so a second window with the same `-o` silently overwrites the first (Session 12, GLTR). Merge windows into `<stem>/auto/<stem>.md` and register in `corpus._LOCAL_MD`.
+  - Accessing MinerU-merged corpus: `corpus.md_path_for(arxiv_id)` / `corpus.resolved_evidence(question)` (multi-paper evidence pool resolver, Session 12).
 - **OCR (PaddleOCR 3.x, CPU):** (English OK / Chinese currently broken — see §5)
   ```python
   from paddleocr import PaddleOCR
@@ -72,7 +73,7 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   r = c.chat([Message(role="user", content="hello")], json_mode=True, max_tokens=512)
   # c = LLMClient(backend="openai", model="deepseek-chat")   # needs OPENAI_BASE_URL/OPENAI_API_KEY
   ```
-  - The opencode backend spawns `opencode run --format json` (prompt passed via `-f` temp file to dodge Windows argv-quoting on `"…"` prompts; message text must precede `-f`, which is a greedy array flag).
+  - The opencode backend spawns `opencode run --format json` (prompt passed via `-f` temp file to dodge Windows argv-quoting on `"…"` prompts; message text must precede `-f`, which is a greedy array flag). The call also passes `--auto` (Session 12): headless runs previously auto-rejected a `Temp\*` permission request from the model's tool use and returned no text. `--pure` keeps plugins out.
   - `max_tokens` → OpenAI-compatible `max_tokens`; always set it to bound runaway generation.
   - Smoke (no keys): `python -m tools.llm.smoke_test mock` (spins an ephemeral mock API server, PASS expected 3/3).
   - Smoke (default model): `python -m tools.llm.smoke_test opencode` (3/3 PASS verified 2026-09-16, `opencode/big-pickle`).
@@ -120,12 +121,12 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
 | K4 | `mineru[cli]` alone is NOT enough for local pipeline → `ModuleNotFoundError: transformers` then `shapely` (pipeline backend = separate extra) | Solved | Install `mineru[pipeline]` (pulls shapely/transformers/onnxruntime/PyYAML/…) |
 | K5 | PaddleOCR 3.x CPU oneDNN executor bug: `NotImplementedError: ConvertPirAttribute2RuntimeAttribute … onednn_instruction.cc` | Solved | `PaddleOCR(lang='ch', enable_mkldnn=False)` |
 | K6 | PaddleOCR 3.x: `ValueError: Unknown argument: use_gpu` | Solved | Argument removed in 3.x; use default device or `enable_mkldnn` to control CPU path |
-| K7 | **Chinese recognition returns `?` placeholders** (English OK) | **Open** | Candidates for next session: try `PP-OCRv5`/`v4` models (`PaddleOCR(lang='ch', text_detection_model_name=…)`), check rec charset init on this bin, try GPU path, or fall back to PaddleOCR 2.x API; log findings in PROGRESS.md |
+| K7 | **Chinese recognition returns `?` placeholders** (English OK) | **Resolved** (2026-09-16) | Re-run after rec-model files fully downloaded: `PaddleOCR(lang='ch', enable_mkldnn=False)` recognizes `中文学术文献扫描测试页 2026` at score 0.999 — earlier `?`s were a partially-initialized model, not a config bug (PROGRESS Session 9/10) |
 | K8 | opencv cross-conflict: paddleocr pinned `opencv-contrib-python==4.10.0.84`; `cv2` reports 4.10.0 (mineru wanted ≥4.11). MinerU still parsed fine | Monitored | If MinerU breaks later, isolate MinerU (dedicated env) from Paddle env |
 | K9 | Windows console cp1252 can't print CJK → `UnicodeEncodeError` | Solved | `$env:PYTHONIOENCODING='utf-8'` (or write results to UTF-8 file) |
 | K10 | LFS stub files (DAS `examples/*.pdf` = 0.10 KB pointers) unusable as samples | Info | Download real PDFs from arXiv instead; or `git lfs pull` in a real clone |
 | K11 | **Ollama server cannot bind any socket** — `listen tcp 127.0.0.1:11434: bind: An attempt was made to access a socket in a way forbidden by its access permissions` (WinError 10013/WSAEACCES); reproduced on `127.0.0.1:11440`, `0.0.0.0:11440`, `[::1]:11441`. Ollama client 0.32.14 installed, server cannot start | **Closed 2026-09-15** (user "方案 B") | Upstream: GitHub ollama#2627, #9444 (Windows port ACL / Hyper-V & Windows Hypervisor Platform reservations), #16270 (Windows Firewall Control blocks the hidden `ollama.exe` server spawned by `ollama app.exe`). Fix applied: elevated `Disable-WindowsOptionalFeature -Online -FeatureName HypervisorPlatform` + reboot → server now listens on `127.0.0.1:11434` (kept alive by the Ollama tray app). Alt. fixes that still apply: global firewall rule for the Ollama binaries, or elevated `ollama serve`. During the block: `python -m tools.llm.smoke_test mock` + opencode free models for LLM steps |
-| K12 | **MinerU CPU parse 502 Bad Gateway** — the local doc-analysis worker intermittently crashes (observed at Layout 14/46, OCR-det 424/514, OCR-rec 384/733; `-m txt` also reaches OCR-rec). Same Windows-CPU OCR instability family as K7 | Workaround ✓ (2026-09-16) | `-m txt` (use PDF text layer) **+ page-window slices** `-s X -e Y` (≤6 pp) with retry; merge the per-window `txt/*.md`. Worked for the 46 pp Weber-Wulff PDF (8 windows) |
+| K12 | **MinerU CPU parse 502 Bad Gateway** — the local doc-analysis worker intermittently crashes (observed at Layout 14/46, OCR-det 424/514, OCR-rec 384/733; `-m txt` also reaches OCR-rec). Same Windows-CPU OCR instability family as K7 | Workaround ✓ (2026-09-16) | `-m txt` (use PDF text layer) **+ page-window slices** `-s X -e Y` (≤6 pp) with retry; merge the per-window `txt/*.md`. **Each window needs a distinct `-o`** (later window overwrites same-path output — GLTR Session 12). Worked for Weber-Wulff 46 pp (8 windows) and GLTR 6 pp (2 windows) |
 
 ## 6. Deferred by user decision / 已延后事项
 
