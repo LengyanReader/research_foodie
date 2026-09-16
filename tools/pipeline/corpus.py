@@ -223,6 +223,12 @@ _LOCAL_MD: Dict[str, str] = {
     # Session 12: page-window runs MUST use distinct `-o` output dirs, else the
     # later window overwrites the earlier one (same <stem>/txt/<stem>.md path).
     "1906.04043": "gltr_1906_04043/auto/gltr_1906_04043.md",
+    # Reimers & Gurevych 2019, Sentence-BERT (Qasper dev paper 1908.10084).
+    # Session 18: 11pp parsed `-m txt` in two 6-page windows, merged.
+    "1908.10084": "1908.10084/1908.10084.md",
+    # Xu et al. 2016, UTCNN stance classification (Qasper dev paper 1611.03599).
+    # Session 18: 11pp parsed `-m txt` in two 6-page windows, merged.
+    "1611.03599": "1611.03599/1611.03599.md",
 }
 
 
@@ -244,13 +250,13 @@ def resolved_evidence(
 
     Returns `[{arxiv_id, label, path, md}]` in candidate order; entries without
     a local MinerU parse are skipped. This is the evidence pool the graph
-    synthesizes across (Session 12). `question` may be an arXiv ID → resolved
-    directly via the manifest if present.
+    synthesizes across (Session 12). If `question` mentions an arXiv ID
+    (e.g. "In arXiv:2304.02819, …"), the paper resolves directly through the
+    manifest — the Qasper/BenchQA contract (question + its source paper).
     """
-    if " " not in question.strip():
-        ids = _ID_RE.findall(question)
-        if ids:
-            return _evidence_for([{"arxiv_id": ids[0], "label": question}])
+    ids = _ID_RE.findall(question)
+    if ids:
+        return _evidence_for([{"arxiv_id": ids[0], "label": question}])
     return _evidence_for(discover(question, limit=limit, backend=backend))
 
 

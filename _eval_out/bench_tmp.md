@@ -15,11 +15,11 @@
 | 019 | das | - | - | 0 | 0 | 0 | - | 0.00 | - | - |
 | QA-1 | qa | 1906.04043 | 1906.04043 | 1 | 1 | 12757 | 5 | 1.00 | QA 4/4 | gold 2/3 |
 | QA-2 | qa | 2304.02819 | 2304.02819 | 1 | 1 | 9829 | 4 | 1.00 | QA 5/5 | gold 2/2 |
-| QA-3 | qa | 2306.15666 | - | 1 | 1 | 1638 | 1 | 1.00 | QA 3/3 | gold 1/2 |
+| QA-3 | qa | 2306.15666 | 2306.15666 | 1 | 1 | 15274 | 5 | 1.00 | QA 1/2 | gold 0/2 |
 | QA-4 | qa | 2304.02819 | 2304.02819,1906.04043,2306.15666 | 3 | 3 | 20740 | 7 | 1.00 | QA 5/5 | gold 1/2 |
 | QA-5 | qa | 1906.04043 | 1906.04043 | 1 | 1 | 18477 | 7 | 1.00 | QA 4/5 | gold 2/3 |
-| QA-6 | qa | 1908.10084 | - | 1 | 1 | 1422 | 1 | 1.00 | QA 5/5 | gold 2/2 |
-| QA-7 | qa | 1611.03599 | - | 1 | 1 | 1407 | 1 | 1.00 | QA 5/5 | gold 2/2 |
+| QA-6 | qa | 1908.10084 | - | 1 | 0 | 128 | 1 | 0.00 | QA 4/4 | gold 0/2 |
+| QA-7 | qa | 1611.03599 | - | 1 | 1 | 17099 | 6 | 1.00 | QA 1/5 | gold 0/2 |
 
 ## QA-1 · QA · GLTR — how the detector visualizes token likelihood
 
@@ -38,9 +38,9 @@
 ## QA-3 · QA · Weber-Wulff — families of AI-text detection
 
 - question: What families of AI-generated-text detection methods does the Weber-Wulff survey cover?
-- paper_id: 2306.15666 · evidence chars: 1638 · elapsed: 16.7s
-- QA judge: correctness **3/5** · groundedness **3/5** · gold-token hit **1/2**
-   - judge feedback: The answer is specific and correctly identifies that the survey's core is tool-by-tool testing (14 tools, 6 test-case categories). However, it is only partially correct: the Weber-Wulff survey's background/related-work sections do discuss detection-method approaches (e.g., zero-shot/perplexity-based
+- paper_id: 2306.15666 · evidence chars: 15274 · elapsed: 247.5s · **cached (vintage run)**
+- QA judge: correctness **1/5** · groundedness **2/5** · gold-token hit **0/2**
+   - judge feedback: The artifact never answers the question. Asked what families of AI-generated-text detection methods the Weber-Wulff survey covers, it instead delivers bibliographic-identity, authorship, and evidence-boundary commentary about arXiv:2306.15666. It also misidentifies the paper's nature: 2306.15666 is 
 
 ## QA-4 · QA · Liang — the human Turing-test protocol
 
@@ -59,16 +59,16 @@
 ## QA-6 · Qasper · Sentence-BERT — STS evaluation metrics
 
 - question: What metrics are used for the STS tasks?
-- paper_id: 1908.10084 · evidence chars: 1422 · elapsed: 15.6s · **cached (vintage run)**
-- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **2/2**
-   - judge feedback: Correctly states Spearman's rank correlation (ρ) between cosine-similarity of sentence embeddings and gold labels as the primary STS metric, noting the ρ×100 convention (Table 1, STS12–16, STSb, SICK-R). Accurately explains Pearson's rejection for standard STS and its limited use for AFS comparabili
+- paper_id: 1908.10084 · evidence chars: 128 · elapsed: 0.1s
+- QA judge: correctness **4/5** · groundedness **4/5** · gold-token hit **0/2**
+   - judge feedback: Mock QA grader: correct answer with inline cites.
 
 ## QA-7 · Qasper · UTCNN — Chinese data size
 
 - question: What is the size of the Chinese data?
-- paper_id: 1611.03599 · evidence chars: 1407 · elapsed: 15.8s · **cached (vintage run)**
-- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **2/2**
-   - judge feedback: The artifact correctly identifies the Chinese data as the FBFans dataset from arXiv:1611.03599 (Chen & Ku, UTCNN) and gives a complete, precise answer on its size. Verified against the source: 32,595 posts (confirmed directly in the paper text 'from these 32,595 posts'), 505,412 unique users ({2,496
+- paper_id: 1611.03599 · evidence chars: 17099 · elapsed: 292.5s · **cached (vintage run)**
+- QA judge: correctness **1/5** · groundedness **5/5** · gold-token hit **0/2**
+   - judge feedback: The artifact never states the size of the Chinese data (e.g., number of posts or users). It only repeats that the corpus is highly skewed with roughly 20% of posts carrying a stance label, and it explicitly leaves the exact scale as an open gap ('leaving open the motivating question of the exact sca
 
 ## P-A · Proxy · AI-generated text detection (paper-anchored)
 
@@ -109,12 +109,12 @@
 |---|---|---|---|---|
 | QA-1 | 4 | 4 | 2/3 | 5 |
 | QA-2 | 5 | 5 | 2/2 | 4 |
-| QA-3 | 3 | 3 | 1/2 | 1 |
+| QA-3 | 1 | 2 | 0/2 | 5 |
 | QA-4 | 5 | 5 | 1/2 | 7 |
 | QA-5 | 4 | 5 | 2/3 | 7 |
-| QA-6 | 5 | 5 | 2/2 | 1 |
-| QA-7 | 5 | 5 | 2/2 | 1 |
-| **mean (n=7)** | **4.43** | **4.57** | - | - |
+| QA-6 | 4 | 4 | 0/2 | 1 |
+| QA-7 | 1 | 5 | 0/2 | 6 |
+| **mean (n=7)** | **3.43** | **4.29** | - | - |
 
 ## Family means across scored scenarios (preview)
 

@@ -91,7 +91,8 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   # mock (deterministic regression): start tools.llm.mock_openai_server on :8201, then
   & $PY -m tools.eval.bench_eval --backend openai --base-url http://127.0.0.1:8201/v1 --model mock-api
   ```
-  Re-implements the 16 criteria (BSC·MAR·TSQ·HDQ) verbatim from `external/DAS/DAS-Bench/benchmark/evaluation_protocol.md`; artifacts scored by our LLM judge (recorded via `judge_model`). Report: `_eval_out/bench_pilot_das.md`. **⚠ `--out` OVERWRITES the whole report per invocation — always run the complete scenario set in one call to keep a canonical report.**
+  Re-implements the 16 criteria (BSC·MAR·TSQ·HDQ) verbatim from `external/DAS/DAS-Bench/benchmark/evaluation_protocol.md`; artifacts scored by our LLM judge (recorded via `judge_model`). Report: `_eval_out/bench_pilot_das.md`. **⚠ `--out` OVERWRITES the whole report per invocation — always run the complete scenario set in one call to keep a canonical report.** Sidecar cache `_eval_out/bench_cache/<id>.json` merges non-run scenarios as `cached (vintage run)` (Session 16).
+- **Evidence-grounded QA (`qa` scenarios, Sessions 17–18):** `--scenarios QA-1,…` — corpus-anchored or Qasper-style questions. A `seed_id` routes the question to the **grounded extractive-answer node** (`tools/pipeline/answer.py`, skips the survey graph) — "answer the question, not the paper". Gold-token fact hits + `score_qa` correctness/groundedness judge; `QA pilot` table in the report (excluded from the DAS family means). Qasper dev v0.3: `qasper-dataset.s3.us-west-2.amazonaws.com/qasper-train-dev-v0.3.tgz` (paper keys are arXiv IDs). Use `$PY -X utf8 …` to avoid cp1252 decode noise in the opencode subprocess.
 - **Render a manuscript to PDF (`tools/eval/render_manuscript.py`, Session 15 — MAR substrate):**
   ```powershell
   & $PY -m tools.eval.render_manuscript <artifact.md> <out.pdf>   # prints "OUT <pdf> PAGES <n>"

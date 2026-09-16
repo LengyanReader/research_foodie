@@ -131,6 +131,7 @@ QA_SCENARIOS: List[Dict[str, Any]] = [
         "topic_id": "QA-3",
         "topic": "QA · Weber-Wulff — families of AI-text detection",
         "question": "What families of AI-generated-text detection methods does the Weber-Wulff survey cover?",
+        "seed_id": "2306.15666",
         "gold_tokens": ["watermark", "classifier"],
     },
     {
@@ -146,6 +147,27 @@ QA_SCENARIOS: List[Dict[str, Any]] = [
         "topic": "QA · GLTR — statistical cues behind detection",
         "question": "Which token statistics make machine text detectable according to GLTR?",
         "gold_tokens": ["probability", "uncertainty", "entropy"],
+    },
+]
+
+# Qasper (external-author) QA pilot — questions & evidence taken from the Qasper
+# dev set (v0.3, allenai/qasper); papers parsed locally from arXiv (Session 18).
+QASPER_SCENARIOS: List[Dict[str, Any]] = [
+    {
+        "kind": "qa",
+        "topic_id": "QA-6",
+        "topic": "Qasper · Sentence-BERT — STS evaluation metrics",
+        "question": "What metrics are used for the STS tasks?",
+        "seed_id": "1908.10084",
+        "gold_tokens": ["pearson", "spearman"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-7",
+        "topic": "Qasper · UTCNN — Chinese data size",
+        "question": "What is the size of the Chinese data?",
+        "seed_id": "1611.03599",
+        "gold_tokens": ["2,496", "505,137"],
     },
 ]
 
@@ -272,13 +294,35 @@ def _family_avgs(scores: Dict[str, int]) -> Dict[str, Optional[float]]:
 
 
 def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    import time as _t
+    from tools.pipeline.corpus import md_path_for
+    from tools.pipeline.answer import answer_question, check_answer
+
     out: List[Dict[str, Any]] = []
     for s in scenarios:
         row: Dict[str, Any] = {"scenario": s}
-        p = Pipeline(client)
-        res = p.run(question=s["question"])
-        row["candidates"] = res.get("candidates", [])
-        row["elapsed"] = res.get("_elapsed", 0.0)
+        t0 = _t.perf_counter()
+        seed = s.get("seed_id")
+        if seed:
+            # Qasper/BenchQA contract: question + its source paper → grounded
+            # extractive answer (not a survey about the paper).
+            md_path = md_path_for(seed)
+            if not md_path:
+                res = {"candidates": [], "papers": [], "paper_id": "",
+                       "output": "", "draft": "", "claims": [],
+                       "validation": {"passed": False, "score": 0.0,
+                                      "error": "no parsed corpus for seed"}}
+            else:
+                md = md_path.read_text(encoding="utf-8")
+                out_txt = answer_question(client, s["question"], seed, md)
+                res = {"candidates": [], "papers": [{"arxiv_id": seed, "path": str(md_path)}],
+                       "paper_id": seed, "output": out_txt, "draft": out_txt,
+                       "claims": [], "validation": check_answer(out_txt, seed)}
+        else:
+            p = Pipeline(client)
+            question = s["question"]
+            res = p.run(question=question)
+        row["elapsed"] = res.get("_elapsed", _t.perf_counter() - t0)
         row["paper_id"] = res.get("paper_id", "")
         row["papers"] = res.get("papers", [])
         row["n_cited"] = (res.get("validation") or {}).get("n_papers_cited", 0)
@@ -529,7 +573,7 @@ def main() -> int:
     args = ap.parse_args()
 
     client = LLMClient(backend=args.backend, base_url=args.base_url, model=args.model)
-    all_scenarios = SCENARIOS + QA_SCENARIOS
+    all_scenarios = SCENARIOS + QA_SCENARIOS + QASPER_SCENARIOS
     scenarios = all_scenarios
     run_ids: List[str] = [s["topic_id"] for s in all_scenarios]
     if args.scenarios:

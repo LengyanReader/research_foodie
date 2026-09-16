@@ -2,8 +2,27 @@
 
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
-- `Updated`: 2026-09-16
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)** · **Track C evidence-grounded QA pilot GREEN — `qa` scenario family + QA scorer, 5 corpus-anchored questions 4/5 correct (Session 17)**)
+- `Updated`: 2026-09-17
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)** · **Track C evidence-grounded QA GREEN — `qa` scenario family + QA scorer + corpus-anchored pilot 4/5 (Session 17)** · **Qasper external-author QA GREEN — seed_id manifest routing + grounded extractive-answer node, 2/2 perfect (Session 18)**)
+
+---
+
+## 2026-09-17 — Session 18: Qasper end-to-end on external-author gold questions (answer-not-survey node)
+
+**Why:** Session 17 left QA-3 as a survey-path failure; the plan called for proving the pipeline against *external-author* gold QA (Qasper) — question + source paper, answers written by the benchmark's annotators.
+
+1. **Qasper data obtained locally**: repo `allenai/qasper` is script-only (new `datasets` rejects scripts), so pulled `qasper-train-dev-v0.3.tgz` (10.8 MB) straight from `qasper-dataset.s3.us-west-2.amazonaws.com`; dev v0.3 = 281 papers; **paper keys ARE arXiv ids** (`1908.10084`, `1611.03599`, …). Selected two clean extractive QAs: SBERT "What metrics are used for the STS tasks?" (gold: Pearson/Spearman) and UTCNN "What is the size of the Chinese data?" (gold: 2,496 authors / 505,137 likers on the FBFans dataset).
+2. **Two new corpus papers parsed locally** (`-m txt`, 11 pp each in two 6-page windows, all four MinerU windows first-try — no 502 tonight): `1908.10084` (SBERT) + `1611.03599` (UTCNN) registered in `_LOCAL_MD`.
+3. **Bug #1 — seed routing**: `resolved_evidence` only honored an arXiv id when the whole question was a bare id; embedding ids in QA text fell through to discovery → `candidates=[]`, NO-EVIDENCE. Fix: **any arXiv id in the question resolves directly through the manifest** (Qasper/BenchQA contract). Mock + real verified (`paper_id` resolves).
+4. **Bug #2 — survey ≠ answer**: with evidence routed, both Qasper QAs were judged **c=2 and c=1, gold 0/2** — the survey manuscript recites the paper ("…answers *about* the paper") even though gold facts (pearson×4, 2,496×1) are verbatim in the parsed corpus. Decisive learnable-loop fix: **new `tools/pipeline/answer.py` — grounded extractive-answer node**: question + target-paper md (40K) → one tight LLM call → terse answer with inline `(arXiv:…)` cites + verbatim evidence line; deterministic `check_answer` L6 gate (non-empty + cite present). `run_scenarios` routes `qa` scenarios that carry a `seed_id` to this node (survey graph stays for corpus-anchored synthesis QAs).
+5. **Results after the fix** (each ~16 s, single LLM call):
+   - QA-6 SBERT metrics → **c 5 · g 5 · gold 2/2** (was c=2/0/2)
+   - QA-7 UTCNN data size → **c 5 · g 5 · gold 2/2** (was c=1/0/2)
+   - QA-3 (taxonomy, re-routed to extractive) → **c 1→3, g 2→3, gold 1/2** — better but still not perfect: *taxonomy/relation synthesis* genuinely needs multi-paper synthesis, not extraction — a documented boundary, not a bug.
+   - **QA pilot totals (n=7): correctness mean 4.43 · groundedness mean 4.57 · 6/7 correct-and-grounded**; extractive path 3/3 gold-hits perfect.
+6. **Env nugg**: `UnicodeDecodeError: 'charmap' codec` in the opencode subprocess reader thread (0x81 byte, cp1252) — non-fatal (recovered, run completed), but note: console/redirect defaults are cp1252 on this box; use `python -X utf8` for UTF-8 pipelines. Panel B localization note.
+
+Next (all local-first): widen the QA panel (e.g. PubMedQA/SciQ MCQs via the same `seed_id` + scorer), 30-DAS-topic evidence pools (CPU time), run-to-run variance re-runs.
 
 ---
 
@@ -22,7 +41,7 @@
 3. **Canonical DAS numbers updated**: P-A fresh re-run **3.94** (vs 3.62 last session — judge run-to-run variance ±0.3 again, documented) → family means **BSC 3.67 / MAR 3.33 / TSQ 3.42 / HDQ 4.25 / Total 3.67** (n=3).
 4. **Batting average verdict**: the QA harness works end-to-end locally (~8 min/answer, gold-token fact check is cheap and meaningful: 4/5 aligned with the judge); QA-3 is a learnable case — taxonomy/relations questions need the multi-paper synthesis + an explicit "answer the question, not the paper" instruction, or fine-grained grounded extraction over the full text rather than the survey summary.
 
-Next (local-first, no API keys): Qasper end-to-end proof — download a Qasper slice (HF reachable), pick QAs with arXiv ids, fetch + MinerU-parse the paper, run the qa harness on the real (external-author) gold question.
+Next (local-first, no API keys): widen the QA panel (PubMedQA/SciQ MCQs via the same `seed_id` + scorer), 30-DAS-topic evidence pools (CPU time), run-to-run variance re-runs.
 
 ---
 
