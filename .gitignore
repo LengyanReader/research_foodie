@@ -1,0 +1,9 @@
+# External harness references (gitignored — not part of the doc repo)
+external/
+tools/.venv/
+tools/.venv-ocr/
+*_demo_downloads/
+
+# Python bytecode
+__pycache__/
+*.pyc
