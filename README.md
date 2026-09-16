@@ -74,7 +74,7 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 - **Phase 0/1 (docs)**: complete. **P1 tooling**: MinerU PDF→Markdown PASS; PaddleOCR Chinese OCR PASS (K7 closed).
 - **P2 minimal vertical + framework integration (GREEN)**: LangGraph pipeline with pluggable S_lit rails (seed / arXiv API — verified reachable 2026-09-16 / orx CLI), multi-paper evidence pool (`resolved_evidence`, 3 local parses), per-paper grounded claims (`paper_id` attribution), STORM-style outline (4-6 sections), **survey-depth per-section drafting** (intro + `## <heading>` section paragraphs + conclusion, inline arXiv attribution, disagreement/gap handling), L6 deterministic gate (+ informational `multi_paper` metric), DAS-Bench-style AI judge.
-- **Tests**: mock **25/25** · real `opencode/big-pickle` **25/25** (498.6 s, draft 16,281 chars / 5 sections, L6 score 1.0, judge=pass).
+- **Tests**: mock **33/33** · real `opencode/big-pickle` **33/33** (real ~4–8 min draft + strict judge verdict=pass; judge gate = deterministic threshold matrix v1 — pass requires score≥4 and all four rubric checks, groundedness failure or score<2 is a hard fail).
 - **Evaluation pilot** (`tools/eval/bench_eval.py`, Session 11-13): DAS-16 family means **BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17** — **TSQ lifted 2.42→3.17** by per-section drafting; artifacts 23-26K chars; proxies 2.94–3.38; DAS topic 001 correctly no-evidence after the seed-precision fix. Report: `_eval_out/bench_pilot_das.md`.
 - **Defaults**: `opencode` backend throughout (Ollama backend removed 2026-09-16); seed manifest stays the deterministic offline discovery default.
 
@@ -101,9 +101,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 ## Roadmap (next)
 
-1. P3 judge threshold calibration against the DAS-16 preview scores (gate is still lenient vs the 16-axis totals).
-2. MAR render axes — page-rendered artifact / figure-table extraction (plain-markdown cannot score Figure/Table quality; the residual low axis).
-3. DAS-Bench full compliance — DAS-2M topic pools + a ≥300B frozen judge (needs API keys / GPU / network).
-4. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
+1. MAR render axes — page-rendered artifact / figure-table extraction (plain-markdown cannot score Figure/Table quality; the residual low axis).
+2. DAS-Bench full compliance — DAS-2M topic pools + a ≥300B frozen judge (needs API keys / GPU / network).
+3. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
 
 See `docs/PLAN.md §7` for measurable acceptance checks.

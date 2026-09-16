@@ -3,7 +3,20 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-16
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33**)
+
+---
+
+## 2026-09-16 — Session 14: P1 judge threshold calibration — strict matrix v1 (评审门槛收紧)
+
+**Roadmap §7 P1 acceptance met:** documented pass/revise threshold matrix + regression.
+
+1. **Rubric 1-5 anchors** — `judge.py` now defines what each score means (5 = publishable without reservation, 4 = strong/major-edits-free, 3 = usable-needs-revision, 2 = weak, 1 = unusable) and explicitly: "a typical strong survey is 4, not 5 — reserve 5 for the rare exceptionally tight draft." Direct answer to the leniency seen at pass@4–5.
+2. **Strict deterministic threshold matrix v1** — `_pick_label` is now the *only* authority on the label (model's own label is ignored unless it's one of pass/revise/fail): **pass** = score≥4 ∧ **all four** checks true (clarity now mandatory); **fail** = groundedness False (factual integrity — DAS "Reference Faithfulness" family) OR score<2; else **revise**. Documented parity map: internal score 5 ≈ DAS-16 family Total ~3.2 (n=1 real run), score 3 ≈ ~2.4 (Session 11 preview range) — calibrated directionally, re-baseline flagged for a ≥300B frozen judge.
+3. **Regression** — `test_pipeline._assert_label_matrix` unit-tests all 7 matrix cells deterministically (zero LLM) in both modes; mock judge (score 5, all checks) still passes.
+4. **Verification** — **mock 33/33 PASS**, **real 33/33 PASS (276.3 s)**; the real-run judge verdict is still `pass` under the strict matrix — the tightened gate rejects only genuinely weak artifacts, and the current survey-draft clears the bar.
+
+Next (roadmap §7): MAR render axes (page-rendered artifact / figure-table extraction — plain markdown cannot score Figure/Table quality), then DAS-Bench full compliance (DAS-2M + ≥300B judge), then Track B.
 
 ---
 

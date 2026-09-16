@@ -74,7 +74,7 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 - **Phase 0/1（文档）**：完成。**P1 工具链**：MinerU PDF→Markdown PASS；PaddleOCR 中文 OCR PASS（K7 关闭）。
 - **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲（4-6 节）、**综述级分节写作**（intro + 每节 `## <heading>` 段落 + conclusion，内联 arXiv 归属、分歧/缺口处理）、L6 确定性门控（+ 新增 `multi_paper` 指标）、DAS-Bench 式 AI 评审。
-- **测试**：mock **25/25** · real `opencode/big-pickle` **25/25**（498.6 s，草稿 16,281 字符 / 5 节，L6 得分 1.0，judge=pass）。
+- **测试**：mock **33/33** · real `opencode/big-pickle` **33/33**（real 约 4–8 分钟成稿 + 严格评审，verdict=pass）。
 - **评估试点**（`tools/eval/bench_eval.py`，Session 11-13）：DAS-16 家族均值 **BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17**——**TSQ 由 2.42 升至 3.17**（分节写作驱动）；产物 23-26K 字符；代理话题 2.94–3.38；DAS 话题 001 种子精度修复后正确判定 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
 - **默认配置**：全链路 `opencode` 后端（Ollama 后端已于 2026-09-16 移除）；种子清单保持确定性离线发现默认。
 
@@ -101,9 +101,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 ## 路线图（下一步）
 
-1. P3 评审门槛对照 DAS-16 预览分校准（当前内部评审相对 16 轴总分仍偏宽松）。
-2. MAR 渲染轴——页面渲染产物 / 图表抽取（纯 markdown 无法给 Figure/Table Quality 打分；残余短板轴）。
-3. DAS-Bench 全量合规——DAS-2M 话题池 + ≥300B 冻结评审（需要 API key / GPU / 网络）。
-4. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
+1. MAR 渲染轴——页面渲染产物 / 图表抽取（纯 markdown 无法给 Figure/Table Quality 打分；残余短板轴）。
+2. DAS-Bench 全量合规——DAS-2M 话题池 + ≥300B 冻结评审（需要 API key / GPU / 网络）。
+3. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
 
 可度量验收见 `docs/PLAN.md §7`。

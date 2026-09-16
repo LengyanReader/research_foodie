@@ -26,6 +26,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 from tools.llm.client import LLMClient, Message  # noqa: E402
 from tools.pipeline.graph import Pipeline         # noqa: E402
+from tools.pipeline.judge import _pick_label      # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Demo input (MinerU-parsed Liang 2023)
@@ -68,6 +69,25 @@ def _assert(cond: bool, msg: str, failures: list) -> None:
         print(f"  PASS: {msg}", flush=True)
 
 
+def _assert_label_matrix(failures: list) -> None:
+    """Deterministic P3 judge threshold-matrix regression (zero LLM cost)."""
+    yes = {"groundedness": True, "structure": True, "bilingual": True, "clarity": True}
+    no_g = dict(yes, groundedness=False)
+    no_c = dict(yes, clarity=False)
+
+    def check(score, checks, want, case):
+        got = _pick_label(score, checks)
+        _assert(got == want, f"label matrix {case} -> {want!r} (got {got!r})", failures)
+
+    check(5, yes, "pass", "5/all-checks")
+    check(4, yes, "pass", "4/all-checks")
+    check(5, no_c, "revise", "5/clarity=False now revise")
+    check(4, no_g, "fail", "4/groundedness=False hard fail")
+    check(3, yes, "revise", "3/all-checks revise")
+    check(2, yes, "revise", "2/all-checks revise")
+    check(1, dict(yes, structure=False), "fail", "1/score<2 fail")
+
+
 def _run_test(client: LLMClient, mode: str) -> int:
     pipeline = Pipeline(client, max_revisions=2)
     t0 = time.time()
@@ -77,6 +97,8 @@ def _run_test(client: LLMClient, mode: str) -> int:
     failures: list[str] = []
 
     print(f"\n== {mode} mode | elapsed={elapsed:.1f}s ==", flush=True)
+
+    _assert_label_matrix(failures)
 
     _assert("output" in result, "final state has 'output' key", failures)
     output = result.get("output", "")

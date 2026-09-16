@@ -22,7 +22,7 @@ from tools.llm.client import LLMClient, Message
 from tools.pipeline.validate import parse_json_dict
 
 JUDGE_RUBRIC = (
-    "You are a rigorous research-paper reviewer. Score the final draft 0-5 on "
+    "You are a rigorous research-paper reviewer. Score the final draft 1-5 on "
     "four axes:\n"
     "- groundedness: every factual sentence is backed by a claim whose cite is "
     "an arXiv ID or DOI; no uncited assertions\n"
@@ -30,6 +30,10 @@ JUDGE_RUBRIC = (
     "- bilingual: both English and 中文 are present and the Chinese is faithful "
     "to the English meaning\n"
     "- clarity: precise, dense, no hedging filler\n"
+    "Score anchors: 5 = publishable without reservation; 4 = strong, only minor "
+    "edits needed; 3 = usable but needs revision; 2 = weak, major gaps; "
+    "1 = unusable. A typical strong survey is 4, not 5 — reserve 5 for the rare "
+    "exceptionally tight draft.\n"
     "Respond ONLY as JSON {\"label\": \"pass\"|\"revise\"|\"fail\", "
     "\"score\": int(1-5), \"checks\": {\"groundedness\": bool, "
     "\"structure\": bool, \"bilingual\": bool, \"clarity\": bool}, "
@@ -38,14 +42,30 @@ JUDGE_RUBRIC = (
 
 _LABELS = ("pass", "revise", "fail")
 
+# P3 judge threshold matrix v1 (calibrated against the DAS-16 preview, 2026-09-16).
+#
+# Internal 4-axis judge  ->  predicted DAS-16 family Total  (directional, n=1 real run)
+#   score 5 (all checks)     ~3.2   (observed: family Total 3.17 on the 498.6 s real run)
+#   score 4                  ~2.8
+#   score 3                  ~2.4   (observed preview range 2.44-2.62, Session 11)
+#   score 1-2                <2.2   (below the survey floor — hard fail)
+#
+# Matrix (deterministic, applied even when the model supplies its own label):
+#   fail   — groundedness is False (factual integrity, DAS "Reference Faithfulness"
+#             family) OR score < 2
+#   pass   — score >= 4 AND all four checks True (clarity now mandatory)
+#   revise — otherwise
+# Re-baseline when a >=300B frozen judge (or a config OpenAI endpoint) is available.
+_GROUNDEDNESS = "groundedness"
+
 
 def _pick_label(score: int, checks: Dict[str, bool]) -> str:
-    if (score >= 4 and checks.get("groundedness") and checks.get("structure")
-            and checks.get("bilingual")):
+    if not checks.get(_GROUNDEDNESS) or score < 2:
+        return "fail"
+    if score >= 4 and all(checks.get(k) for k in
+                          ("groundedness", "structure", "bilingual", "clarity")):
         return "pass"
-    if score >= 3:
-        return "revise"
-    return "fail"
+    return "revise"
 
 
 def judge_draft(state: Dict[str, Any], client: LLMClient) -> Dict[str, Any]:
