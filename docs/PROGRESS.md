@@ -3,7 +3,26 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-16
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)** · **Track C evidence-grounded QA pilot GREEN — `qa` scenario family + QA scorer, 5 corpus-anchored questions 4/5 correct (Session 17)**)
+
+---
+
+## 2026-09-17 — Session 17: Track C part 1 — evidence-grounded QA pilot (`qa` scenario family + QA scorer)
+
+**Why:** the user asked whether we can absorb more external datasets/benchmarks (auto-research troves); we verified GAIA (ICLR 2024 · HF · 466 Qs · 3 levels) and Qasper (ACL 2022 · ~5k QAs over ACL full texts) are HF-reachable, then chose the cheapest local-first entry: **corpus-anchored QA** (questions answerable from our 3 already-parsed papers — zero downloads).
+
+1. `tools/eval/bench_eval.py`: new `QA_SCENARIOS` (5 questions, each with `gold_tokens` for a deterministic fact-hit flag), `score_qa()` (correctness 1-5 + groundedness 1-5, JSON rubric prompt), qa routing in `run_scenarios` (row gets `row["qa"]` instead of DAS `bench`), console/report blocks (QA detail sections + `QA pilot` mean table); family-means table now only aggregates `das`/`proxy` rows (qa excluded). Mock route added to `mock_openai_server.py`. Mock sanity: 2 qa + 1 proxy + cache merge ✓ (34/34 test suite unaffected — qa is opt-in via `--scenarios QA-x`).
+2. **Real pilot (5 Qs ≈ 25.5 min total; P-A re-run in same invocation restored its cache from the earlier mock pollution)**:
+   - QA-1 GLTR visualization → c 4 · g 4 · gold 2/3 · **correct**
+   - QA-2 Liang non-native bias → c 5 · g 5 · gold 2/2 · **correct** (61.22% FPR / 91 TOEFL essays reproduced)
+   - QA-3 Weber-Wulff method families → c 1 · g 2 · gold 0/2 · **miss** — judge: "never answers the question; recites bibliographic-identity/evidence-boundary commentary; also misidentifies the paper's nature". Genuine failure mode: **question asks for a taxonomy mapping; the single-paper survey artifact answers 'about the paper' instead**.
+   - QA-4 Liang Turing-test protocol → c 5 · g 5 · gold 1/2 · **correct**
+   - QA-5 GLTR token statistics → c 4 · g 5 · gold 2/3 · **correct**
+   - **QA pilot mean: correctness 3.80 · groundedness 4.20 (4/5 questions answered correctly and grounded).**
+3. **Canonical DAS numbers updated**: P-A fresh re-run **3.94** (vs 3.62 last session — judge run-to-run variance ±0.3 again, documented) → family means **BSC 3.67 / MAR 3.33 / TSQ 3.42 / HDQ 4.25 / Total 3.67** (n=3).
+4. **Batting average verdict**: the QA harness works end-to-end locally (~8 min/answer, gold-token fact check is cheap and meaningful: 4/5 aligned with the judge); QA-3 is a learnable case — taxonomy/relations questions need the multi-paper synthesis + an explicit "answer the question, not the paper" instruction, or fine-grained grounded extraction over the full text rather than the survey summary.
+
+Next (local-first, no API keys): Qasper end-to-end proof — download a Qasper slice (HF reachable), pick QAs with arXiv ids, fetch + MinerU-parse the paper, run the qa harness on the real (external-author) gold question.
 
 ---
 

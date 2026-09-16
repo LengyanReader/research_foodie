@@ -75,7 +75,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 - **Phase 0/1 (docs)**: complete. **P1 tooling**: MinerU PDF→Markdown PASS; PaddleOCR Chinese OCR PASS (K7 closed).
 - **P2 minimal vertical + framework integration (GREEN)**: LangGraph pipeline with pluggable S_lit rails (seed / arXiv API — verified reachable 2026-09-16 / orx CLI), multi-paper evidence pool (`resolved_evidence`, 3 local parses), per-paper grounded claims (`paper_id` attribution), STORM-style outline (4-6 sections), **survey-depth per-section drafting** (intro + `## <heading>` section paragraphs + conclusion, inline arXiv attribution, disagreement/gap handling), **manuscript output** (Abstract / Evidence Table / References) + **local PDF rendering** (`tools/eval/render_manuscript.py`, pandoc+xelatex CJK), L6 deterministic gate (+ informational `multi_paper` metric), DAS-Bench-style AI judge (strict matrix v1).
 - **Tests**: mock **34/34** · real `opencode/big-pickle` **34/34** (real ~4–8 min; strict judge verdict=pass).
-- **Evaluation pilot** (`tools/eval/bench_eval.py`, Sessions 11–16): canonical (sidecar-cached, `--out` no longer overwrite-trap) — **P-A 3.62 / P-B 3.06 / P-C 4.00**, family means **BSC 3.42 / MAR 3.42 / TSQ 3.42 / HDQ 4.00 / Total 3.56** (n=3, best so far). MAR lifted by the manuscript fix (Evidence Table now within the judge's 40K view; Figure/Table 1→3 shown on P-A); rendered PDFs 5–8 pp under `_eval_out/manuscripts/`; Layout axis remains a text-judge limitation (needs a ≥300B page-aware judge, blocked). P-A/P-C questions dedup'd (P-C = methods taxonomy). 001/019 correctly no-evidence. Report: `_eval_out/bench_pilot_das.md`.
+- **Evaluation pilot** (`tools/eval/bench_eval.py`, Sessions 11–16): canonical (sidecar-cached, `--out` no longer overwrite-trap) — **P-A 3.94 / P-B 3.06 / P-C 4.00**, family means **BSC 3.67 / MAR 3.33 / TSQ 3.42 / HDQ 4.25 / Total 3.67** (n=3; run-to-run variance ±0.3 documented). MAR lifted by the manuscript fix (Evidence Table now within the judge's 40K view); rendered PDFs under `_eval_out/manuscripts/`; Layout axis remains a text-judge limitation (needs a ≥300B page-aware judge, blocked). P-A/P-C questions dedup'd. 001/019 correctly no-evidence. Report: `_eval_out/bench_pilot_das.md`.
+- **Track C · evidence-grounded QA** (`qa` scenario family in bench_eval, Session 17): local-first corpus-anchored pilot — **5 questions, QA mean correctness 3.80 / groundedness 4.20, 4/5 answered correctly and grounded** (gold-token fact hits align with the judge 4/5); ≈8 min/answer, zero downloads; learnable QA-3 miss (taxonomy question → "answers the paper, not the question"). Qasper end-to-end proof (download → MinerU-parse → qa) next.
 - **Defaults**: `opencode` backend throughout (Ollama backend removed 2026-09-16); seed manifest stays the deterministic offline discovery default.
 
 ## Repository map
@@ -103,6 +104,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 1. ≥300B frozen, page-aware judge on the rendered PDFs (MAR Layout axis + full DAS-Bench compliance; needs API keys / GPU / network).
 2. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
-3. Track C (external benchmarks): evidence-grounded QA pilot against the local corpus, then Qasper/PubMedQA; GAIA level-1 sampled if HF gating allows.
+3. Track C (external benchmarks): QA pilot done (4/5); Qasper end-to-end proof, then PubMedQA/SciQ; GAIA level-1 sampled if HF gating allows.
 
 See `docs/PLAN.md §7` for measurable acceptance checks.

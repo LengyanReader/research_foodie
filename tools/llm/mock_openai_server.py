@@ -39,6 +39,13 @@ def _route(content: str) -> str:
     """Pick a canned response based on prompt keywords."""
     lower = content.lower()
 
+    if "grade whether a generated research artifact answers a factual question" in lower:
+        return json.dumps(
+            {"correctness": 4, "groundedness": 4,
+             "feedback": "Mock QA grader: correct answer with inline cites."},
+            ensure_ascii=False,
+        )
+
     if "das-bench rubric" in lower:
         return json.dumps({"scores": {c: 4 for c in _BENCH_16}}, ensure_ascii=False)
 

@@ -75,7 +75,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 - **Phase 0/1（文档）**：完成。**P1 工具链**：MinerU PDF→Markdown PASS；PaddleOCR 中文 OCR PASS（K7 关闭）。
 - **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲（4-6 节）、**综述级分节写作**（intro + 每节 `## <heading>` 段落 + conclusion，内联 arXiv 归属、分歧/缺口处理）、**手稿化产物**（Abstract / 证据表 / References）+ **本地 PDF 渲染**（`tools/eval/render_manuscript.py`，pandoc+xelatex CJK）、L6 确定性门控（+ `multi_paper` 指标）、DAS-Bench 式 AI 评审（严格矩阵 v1）。
 - **测试**：mock **34/34** · real `opencode/big-pickle` **34/34**（real 约 4–8 分钟；严格评审 verdict=pass）。
-- **评估试点**（`tools/eval/bench_eval.py`，Session 11-16）：canonical（sidecar 缓存，`--out` 不再覆盖式）——**P-A 3.62 / P-B 3.06 / P-C 4.00**，家族均值 **BSC 3.42 / MAR 3.42 / TSQ 3.42 / HDQ 4.00 / Total 3.56**（n=3，历史最优）。MAR 修复生效：证据表进入 40K 视野（P-A Figure/Table 1→3）；PDF 渲染 5-8 页存于 `_eval_out/manuscripts/`；Layout 轴仍受限于文本评审（需 ≥300B 页面感知评审，阻塞中）。P-A/P-C 问题已去重（P-C=方法分类学）。001/019 正确 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
+- **评估试点**（`tools/eval/bench_eval.py`，Session 11-16）：canonical（sidecar 缓存，`--out` 不再覆盖式）——**P-A 3.94 / P-B 3.06 / P-C 4.00**，家族均值 **BSC 3.67 / MAR 3.33 / TSQ 3.42 / HDQ 4.25 / Total 3.67**（n=3；运行间方差 ±0.3 已记录）。MAR 修复生效：证据表进入 40K 视野；PDF 渲染存于 `_eval_out/manuscripts/`；Layout 轴仍受限于文本评审（需 ≥300B 页面感知评审，阻塞中）。P-A/P-C 已去重。001/019 正确 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
+- **Track C · 证据接地 QA**（`qa` 场景族，Session 17）：本地语料锚定试点——**5 问，QA 均值 correctness 3.80 / groundedness 4.20，4/5 答对且接地**（gold-token 事实命中与 judge 4/5 一致）；约 8 分钟/问、零下载；QA-3 可学习失败（分类学问题→"答论文而非答问题"）。下一步 Qasper 端到端验证。
 - **默认配置**：全链路 `opencode` 后端（Ollama 后端已于 2026-09-16 移除）；种子清单保持确定性离线发现默认。
 
 ## 仓库地图
@@ -103,6 +104,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 1. ≥300B 冻结、页面感知评审对渲染 PDF 打分（MAR Layout 轴 + 全量 DAS-Bench 合规；需要 API key / GPU / 网络）。
 2. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
-3. Track C（外部基准）：先做本地语料锚定 QA 试点，再扩 Qasper/PubMedQA；HF gating 允许则抽样 GAIA level-1。
+3. Track C（外部基准）：QA 试点已完成（4/5）；Qasper 端到端验证，再 PubMedQA/SciQ；HF gating 允许则抽样 GAIA level-1。
 
 可度量验收见 `docs/PLAN.md §7`。

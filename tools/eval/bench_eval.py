@@ -108,6 +108,87 @@ SCENARIOS: List[Dict[str, Any]] = [
     },
 ]
 
+# Track C — evidence-grounded QA pilot. Answerable from the 3-paper local corpus
+# (zero downloads); `gold_tokens` drive a deterministic fact hit (soft signal —
+# the LLM `correctness`/`groundedness` judge is primary). Directional by design.
+QA_SCENARIOS: List[Dict[str, Any]] = [
+    {
+        "kind": "qa",
+        "topic_id": "QA-1",
+        "topic": "QA · GLTR — how the detector visualizes token likelihood",
+        "question": "What visualizations and statistics does GLTR use to expose machine-generated text?",
+        "gold_tokens": ["histogram", "top-", "rank"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-2",
+        "topic": "QA · Liang — detector bias against non-native writers",
+        "question": "How does bias against non-native English writers manifest in GPT detectors?",
+        "gold_tokens": ["non-native", "TOEFL"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-3",
+        "topic": "QA · Weber-Wulff — families of AI-text detection",
+        "question": "What families of AI-generated-text detection methods does the Weber-Wulff survey cover?",
+        "gold_tokens": ["watermark", "classifier"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-4",
+        "topic": "QA · Liang — the human Turing-test protocol",
+        "question": "What human experiment protocol did Liang et al. use to test whether GPT detectors misjudge non-native writing?",
+        "gold_tokens": ["Turing test", "91"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-5",
+        "topic": "QA · GLTR — statistical cues behind detection",
+        "question": "Which token statistics make machine text detectable according to GLTR?",
+        "gold_tokens": ["probability", "uncertainty", "entropy"],
+    },
+]
+
+_QA_RUBRIC_PROMPT = (
+    "You grade whether a generated research artifact answers a factual question "
+    "correctly and with grounded citations. The artifact was produced from "
+    "sourced papers (inline arXiv cites). Score:\n"
+    "- correctness (1-5): does the artifact state the correct, specific answer? "
+    "5 = complete and precise; 3 = partially correct; 1 = wrong or evasive\n"
+    "- groundedness (1-5): is every answer claim backed by an inline arXiv cite "
+    "that supports it (no invented numbers/facts)?\n"
+    "Respond ONLY as JSON {\"correctness\": int, \"groundedness\": int, "
+    "\"feedback\": str}."
+)
+
+
+def score_qa(client: LLMClient, question: str, artifact: str) -> Dict[str, Any]:
+    """Judge correctness + groundedness of the artifact as an answer to `question`."""
+    r = client.chat(
+        [
+            Message(role="system", content=_QA_RUBRIC_PROMPT),
+            Message(role="user",
+                    content=f"Question: {question}\n\nArtifact:\n{artifact[:20000]}"),
+        ],
+        json_mode=True,
+        max_tokens=400,
+    )
+    obj = parse_json_dict(r.text)
+    if not isinstance(obj, dict):
+        return {"correctness": 0, "groundedness": 0, "coverage": 0,
+                "error": f"unparseable: {r.text[:120]!r}"}
+    try:
+        correctness = int(obj.get("correctness", 0))
+        groundedness = int(obj.get("groundedness", 0))
+    except (TypeError, ValueError):
+        correctness = groundedness = 0
+    return {
+        "correctness": max(0, min(5, correctness)),
+        "groundedness": max(0, min(5, groundedness)),
+        "feedback": str(obj.get("feedback", ""))[:300],
+        "coverage": 2,
+    }
+
 
 def load_topics() -> List[Dict[str, str]]:
     """Return the 30 DAS-Bench topics from the local topics.json (for reference)."""
@@ -208,6 +289,15 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
         row["artifact_chars"] = len(artifact)
         if not artifact:
             row["status"] = "no-evidence"
+        elif s["kind"] == "qa":
+            row["status"] = "scored"
+            low = artifact.lower()
+            gold = s.get("gold_tokens", [])
+            hits = [t for t in gold if t.lower() in low]
+            row["pdf"] = _render_manuscript(s, artifact)
+            qa = score_qa(client, s["question"], artifact)
+            qa["gold_hits"] = f"{len(hits)}/{len(gold)}"
+            row["qa"] = qa
         else:
             row["status"] = "scored"
             row["pdf"] = _render_manuscript(s, artifact)
@@ -250,6 +340,8 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
     add("")
 
     scored = [r for r in rows if r["status"] == "scored"]
+    das = [r for r in scored if "bench" in r]
+    qa = [r for r in scored if "qa" in r]
     add(f"## Run summary")
     add("")
     add("| id | kind | paper | candidates | papers | cited | out chars | pdf pg | L6 | internal judge | DAS-16 cov. |")
@@ -263,14 +355,35 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
         l6 = (_fmt(r["l6"].get("score")) if r.get("l6") else "-")
         j = (r["l6"].get("judge") or {}) if r.get("l6") else {}
         ji = f"{j.get('label','-')}@{_fmt(j.get('score'))}" if j else "-"
-        cov = (f"{r['bench']['coverage']}/16" if r.get("bench") else "-")
+        cov = "-"
+        if r.get("bench"):
+            cov = f"{r['bench']['coverage']}/16"
+        elif r.get("qa"):
+            qa_ = r["qa"]
+            cov = f"gold {qa_.get('gold_hits','-')}"
+            ji = f"QA {qa_.get('correctness','-')}/{qa_.get('groundedness','-')}"
         add(f"| {r['scenario']['topic_id']} | {r['scenario']['kind']} | {paper} | "
             f"{cands} | {np} | {nc} | {r.get('artifact_chars','-')} | {pages} | {l6} | {ji} | {cov} |")
     if not scored:
         add("\nAll scenarios produced **no evidence** (no parsed corpus match).")
     add("")
 
-    for r in scored:
+    for r in qa:
+        s = r["scenario"]
+        add(f"## {s['topic_id']} · {s['topic']}")
+        add("")
+        add(f"- question: {s['question']}")
+        add(f"- paper_id: {r.get('paper_id')} · evidence chars: {r.get('artifact_chars')} · "
+            f"elapsed: {r.get('elapsed', 0):.1f}s" + (" · **cached (vintage run)**" if r.get("cached") else ""))
+        qa_ = r["qa"]
+        add(f"- QA judge: correctness **{qa_.get('correctness','-')}/5** · "
+            f"groundedness **{qa_.get('groundedness','-')}/5** · gold-token hit "
+            f"**{qa_.get('gold_hits','-')}**")
+        if qa_.get("feedback"):
+            add(f"   - judge feedback: {qa_['feedback']}")
+        add("")
+
+    for r in das:
         s = r["scenario"]
         add(f"## {s['topic_id']} · {s['topic']}")
         add("")
@@ -295,7 +408,23 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
             add(f"- ⚠ judge error: {b['error']}")
         add("")
 
-    if scored:
+    if qa:
+        add("## QA pilot — evidence-grounded answers (preview)")
+        add("")
+        add("| id | correctness (5) | groundedness (5) | gold-token hit | pdf pg |")
+        add("|---|---|---|---|---|")
+        for r in qa:
+            qa_ = r["qa"]
+            pages = (r.get("pdf") or {}).get("pages", "-") if r.get("pdf") else "-"
+            add(f"| {r['scenario']['topic_id']} | {qa_.get('correctness','-')} | "
+                f"{qa_.get('groundedness','-')} | {qa_.get('gold_hits','-')} | {pages} |")
+        if len(qa) >= 3:
+            m_c = statistics.mean([r["qa"]["correctness"] for r in qa if r["qa"].get("correctness")])
+            m_g = statistics.mean([r["qa"]["groundedness"] for r in qa if r["qa"].get("groundedness")])
+            add(f"| **mean (n={len(qa)})** | **{_fmt(m_c)}** | **{_fmt(m_g)}** | - | - |")
+        add("")
+
+    if das:
         add("## Family means across scored scenarios (preview)")
         add("")
         add("| method | BSC | MAR | TSQ | HDQ | Total |")
@@ -303,7 +432,7 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
         # our pilot row
         fams: Dict[str, List[float]] = {f: [] for f in ("BSC", "MAR", "TSQ", "HDQ")}
         totals: List[float] = []
-        for r in scored:
+        for r in das:
             fa = _family_avgs(r["bench"]["scores"])
             for f in fams:
                 if fa.get(f) is not None:
@@ -312,7 +441,7 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
             if tot:
                 totals.append(statistics.mean(tot))
         m = lambda xs: statistics.mean(xs) if xs else None  # noqa: E731
-        add(f"| research_foodie (preview, n={len(scored)}) | {_fmt(m(fams['BSC']))} | "
+        add(f"| research_foodie (preview, n={len(das)}) | {_fmt(m(fams['BSC']))} | "
             f"{_fmt(m(fams['MAR']))} | {_fmt(m(fams['TSQ']))} | {_fmt(m(fams['HDQ']))} | "
             f"{_fmt(m(totals))} |")
         for name, v in ref.items():
@@ -400,11 +529,12 @@ def main() -> int:
     args = ap.parse_args()
 
     client = LLMClient(backend=args.backend, base_url=args.base_url, model=args.model)
-    scenarios = SCENARIOS
-    run_ids: List[str] = [s["topic_id"] for s in SCENARIOS]
+    all_scenarios = SCENARIOS + QA_SCENARIOS
+    scenarios = all_scenarios
+    run_ids: List[str] = [s["topic_id"] for s in all_scenarios]
     if args.scenarios:
         run_ids = [x.strip() for x in args.scenarios.split(",")]
-        scenarios = [s for s in SCENARIOS if s["topic_id"] in run_ids]
+        scenarios = [s for s in all_scenarios if s["topic_id"] in run_ids]
 
     print(f"[bench] backend={args.backend} running={run_ids}")
 
@@ -414,13 +544,13 @@ def main() -> int:
 
     # Merge cached rows for scenarios NOT re-run (keeps the report canonical
     # without re-paying the LLM cost; cached rows are flagged vintage).
-    if len(run_ids) < len(SCENARIOS):
-        cached = _load_cache([s["topic_id"] for s in SCENARIOS if s["topic_id"] not in run_ids], cache_dir)
+    if len(run_ids) < len(all_scenarios):
+        cached = _load_cache([s["topic_id"] for s in all_scenarios if s["topic_id"] not in run_ids], cache_dir)
         if cached:
             print(f"[bench] merged cached rows for {sorted(cached)} (vintage, read-only)")
         merged: List[Dict[str, Any]] = []
         by_id = {r["scenario"]["topic_id"]: r for r in rows}
-        for s in SCENARIOS:
+        for s in all_scenarios:
             if s["topic_id"] in by_id:
                 merged.append(by_id[s["topic_id"]])
             elif s["topic_id"] in cached:
@@ -439,12 +569,18 @@ def main() -> int:
     for r in rows:
         s = r["scenario"]
         if r["status"] == "no-evidence":
-            print(f"  {s['topic_id']:>4} {s['kind']:>5}  NO-EVIDENCE "
+            print(f"  {s['topic_id']:>6} {s['kind']:>5}  NO-EVIDENCE "
                   f"cands={[c.get('arxiv_id') for c in r.get('candidates', [])]}")
+        elif r.get("qa"):
+            qa_ = r["qa"]
+            print(f"  {s['topic_id']:>6} {s['kind']:>5}  paper={r.get('paper_id')} "
+                  f"QA c={qa_.get('correctness','-')} g={qa_.get('groundedness','-')} "
+                  f"gold={qa_.get('gold_hits','-')} L6={_fmt(r['l6'].get('score'))} "
+                  f"L6pass={r['l6'].get('passed')}")
         else:
             b = r["bench"]
             tot = statistics.mean(b["scores"].values()) if b["scores"] else None
-            print(f"  {s['topic_id']:>4} {s['kind']:>5}  paper={r.get('paper_id')} "
+            print(f"  {s['topic_id']:>6} {s['kind']:>5}  paper={r.get('paper_id')} "
                   f"total={_fmt(tot)} cov={b['coverage']}/16 "
                   f"judge={b.get('judge_model')} L6={_fmt(r['l6'].get('score'))} "
                   f"L6pass={r['l6'].get('passed')}")
