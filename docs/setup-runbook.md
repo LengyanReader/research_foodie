@@ -86,12 +86,17 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   - `result["validation"]["judge"]` = P3 DAS-Bench-style rubric verdict `{label, score, checks, feedback, judge_model}`; the judge uses the same LLMClient (default `opencode/big-pickle`; DAS convention prefers a cloud ≥300B-class judge — `judge_model` records which model actually reviewed).
 - **Benchmark-style evaluation (DAS-Bench 16-criterion preview, Session 11):**
   ```powershell
-  & $PY -m tools.eval.bench_eval                 # real: 2 proxy topics + DAS topics 001/019, ~5 min
-  & $PY -m tools.eval.bench_eval --scenarios 019 # subset (comma-separated ids)
+  & $PY -m tools.eval.bench_eval                 # real: ALL 5 scenarios in ONE call (see note)
+  & $PY -m tools.eval.bench_eval --scenarios P-A,P-B,P-C,001,019  # explicit list
   # mock (deterministic regression): start tools.llm.mock_openai_server on :8201, then
   & $PY -m tools.eval.bench_eval --backend openai --base-url http://127.0.0.1:8201/v1 --model mock-api
   ```
-  Re-implements the 16 criteria (BSC·MAR·TSQ·HDQ) verbatim from `external/DAS/DAS-Bench/benchmark/evaluation_protocol.md`; artifacts scored by our LLM judge (recorded via `judge_model`). Report: `_eval_out/bench_pilot_das.md`. Full compliance needs DAS-2M pools + rendered pages (MAR) + a ≥300B judge — see the report's feasibility matrix.
+  Re-implements the 16 criteria (BSC·MAR·TSQ·HDQ) verbatim from `external/DAS/DAS-Bench/benchmark/evaluation_protocol.md`; artifacts scored by our LLM judge (recorded via `judge_model`). Report: `_eval_out/bench_pilot_das.md`. **⚠ `--out` OVERWRITES the whole report per invocation — always run the complete scenario set in one call to keep a canonical report.**
+- **Render a manuscript to PDF (`tools/eval/render_manuscript.py`, Session 15 — MAR substrate):**
+  ```powershell
+  & $PY -m tools.eval.render_manuscript <artifact.md> <out.pdf>   # prints "OUT <pdf> PAGES <n>"
+  ```
+  pandoc + MiKTeX xelatex + Microsoft YaHei (CJK) — both already installed (no new deps); page count via pypdf. The bench pipeline renders each scored artifact automatically to `_eval_out/manuscripts/<id>_manuscript.pdf` with a `pdf pg` report column. A text-only LLM judge still cannot score the MAR *Layout* axis — that needs a ≥300B page-aware judge (blocked).
 - **Download a test paper** (arXiv reachable from this host): `Invoke-WebRequest -Uri https://arxiv.org/pdf/<ID> -OutFile x.pdf`
 
 ## 4. P1 smoke-test results / 冒烟实测结果

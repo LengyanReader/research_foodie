@@ -73,9 +73,9 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 ## 当前状态
 
 - **Phase 0/1（文档）**：完成。**P1 工具链**：MinerU PDF→Markdown PASS；PaddleOCR 中文 OCR PASS（K7 关闭）。
-- **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲（4-6 节）、**综述级分节写作**（intro + 每节 `## <heading>` 段落 + conclusion，内联 arXiv 归属、分歧/缺口处理）、L6 确定性门控（+ 新增 `multi_paper` 指标）、DAS-Bench 式 AI 评审。
-- **测试**：mock **33/33** · real `opencode/big-pickle` **33/33**（real 约 4–8 分钟成稿 + 严格评审，verdict=pass）。
-- **评估试点**（`tools/eval/bench_eval.py`，Session 11-13）：DAS-16 家族均值 **BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17**——**TSQ 由 2.42 升至 3.17**（分节写作驱动）；产物 23-26K 字符；代理话题 2.94–3.38；DAS 话题 001 种子精度修复后正确判定 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
+- **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲（4-6 节）、**综述级分节写作**（intro + 每节 `## <heading>` 段落 + conclusion，内联 arXiv 归属、分歧/缺口处理）、**手稿化产物**（Abstract / 证据表 / References）+ **本地 PDF 渲染**（`tools/eval/render_manuscript.py`，pandoc+xelatex CJK）、L6 确定性门控（+ `multi_paper` 指标）、DAS-Bench 式 AI 评审（严格矩阵 v1）。
+- **测试**：mock **34/34** · real `opencode/big-pickle` **34/34**（real 约 4–8 分钟；严格评审 verdict=pass）。
+- **评估试点**（`tools/eval/bench_eval.py`，Session 11-15）：canonical 合并跑（单次 5 场景调用；`--out` 覆盖式）——**P-A 3.25 / P-B 2.75 / P-C 3.12**，家族均值 **BSC 2.92 / MAR 2.67 / TSQ 2.83 / HDQ 3.75 / Total 3.04**（n=3）。MAR 修复生效：证据表进入 40K 视野（P-A Figure/Table 1→3）；PDF 渲染 5-8 页存于 `_eval_out/manuscripts/`；Layout 轴仍受限于文本评审（需 ≥300B 页面感知评审，阻塞中）。001/019 正确 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
 - **默认配置**：全链路 `opencode` 后端（Ollama 后端已于 2026-09-16 移除）；种子清单保持确定性离线发现默认。
 
 ## 仓库地图
@@ -101,8 +101,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 ## 路线图（下一步）
 
-1. MAR 渲染轴——页面渲染产物 / 图表抽取（纯 markdown 无法给 Figure/Table Quality 打分；残余短板轴）。
-2. DAS-Bench 全量合规——DAS-2M 话题池 + ≥300B 冻结评审（需要 API key / GPU / 网络）。
-3. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
+1. ≥300B 冻结、页面感知评审对渲染 PDF 打分（MAR Layout 轴 + 全量 DAS-Bench 合规；需要 API key / GPU / 网络）。
+2. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
+3. 数据卫生：P-A/P-C 近重复问题去重、judge 运行间方差测量。
 
 可度量验收见 `docs/PLAN.md §7`。

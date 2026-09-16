@@ -39,6 +39,7 @@ No external deps beyond langgraph + stdlib.
 from __future__ import annotations
 
 import json
+import re
 import time
 from typing import Dict, Any, Optional, List
 
@@ -299,7 +300,14 @@ class Pipeline:
         return {"draft": r.text}
 
     def _finalize(self, state: Dict[str, Any]) -> Dict:
-        """Assemble the final structured output (Sources + claim attribution)."""
+        """Assemble the final structured *manuscript* output.
+
+        The artifact is a complete manuscript in Markdown: Title → Abstract →
+        body sections (the survey draft) → evidence table → references, plus an
+        audit annex (sources / outline / claims). MAR-relevant components
+        (abstract, table, references) give the benchmark judge something to
+        score; the same Markdown is what `render_manuscript` turns into PDF.
+        """
         paper_id = state.get("paper_id", "")
         papers = state.get("papers") or []
         topics = state.get("taxonomy", {}).get("topics", [])
@@ -316,12 +324,61 @@ class Pipeline:
             f"- arXiv:{p.get('arxiv_id','')} — {p.get('label','')}"
             for p in papers
         ) or f"- {paper_id} (pre-parsed input)"
+
+        question = state.get("question") or paper_id
+        title = question.strip()[:90] or paper_id
+
+        intro = draft.split("\n\n", 1)[0] if draft else ""
+        abstract = (intro[:800] or "No abstract available.").rstrip()
+
+        def _claim_arxiv(c: Dict[str, Any]) -> Optional[str]:
+            pid = c.get("paper_id")
+            if isinstance(pid, str) and pid:
+                m = re.search(r"[\d]{4}\.[\d]{4,5}", pid)
+                if m:
+                    return m.group(0)
+            m = re.search(r"arXiv:(\d{4}\.\d{4,5})", str(c.get("cite", "")))
+            return m.group(1) if m else None
+
+        table_rows = []
+        for i, c in enumerate(claims[:12], 1):
+            txt = (c.get("claim") or c.get("text") or "").replace("|", "/").strip()
+            txt = (txt[:120] + "…") if len(txt) > 120 else txt
+            cid = _claim_arxiv(c)
+            source = f"arXiv:{cid}" if cid else (c.get("paper_id") or "?")
+            conf = c.get("confidence", "?")
+            table_rows.append(f"| {i} | {txt} | {source} | {conf} |")
+        if table_rows:
+            table = (
+                "| # | Claim (abridged) | Source | Confidence |\n"
+                "|---|--------------------|--------|------------|\n"
+                + "\n".join(table_rows)
+            )
+        else:
+            table = "_No claims extracted._"
+
+        ref_ids: List[str] = []
+        for c in claims:
+            cid = _claim_arxiv(c)
+            if cid and cid not in ref_ids:
+                ref_ids.append(cid)
+        for p in papers:
+            pid2 = p.get("arxiv_id", "")
+            if pid2 and pid2 not in ref_ids:
+                ref_ids.append(pid2)
+        refs = "\n".join(
+            f"- [[{i}]](https://arxiv.org/abs/{rid}) arXiv:{rid}"
+            for i, rid in enumerate(ref_ids, 1)
+        ) or f"- arXiv:{paper_id}"
+
         lines = [
-            f"# {paper_id}",
-            f"\n## Topics\n{', '.join(topics)}",
+            f"# {title}",
+            f"\n## Abstract\n{abstract}",
+            f"\n## Intro\n{draft}",
+            f"\n## Evidence Table\n{table}",
+            f"\n## References\n{refs}",
             f"\n## Sources ({len(papers)})\n{source_lines}" if source_lines else "",
             f"\n## Outline\n{outline_lines}" if outline_lines else "",
-            f"\n## Draft\n{draft}",
             f"\n## Claims ({len(claims)})",
         ]
         for c in claims[:6]:
@@ -330,7 +387,9 @@ class Pipeline:
             cite = c.get("cite", "")
             tag = f" [{c.get('paper_id', '')}]" if multi else ""
             lines.append(f"- [{conf}]{tag} {txt}  ({cite})")
-        return {"output": "\n".join(lines)}
+
+        manuscript = "\n".join(lines)
+        return {"output": manuscript, "manuscript": manuscript}
 
     # ------------------------------------------------------------------
     # P3 AI judge gate (DAS-Bench-style rubric review)

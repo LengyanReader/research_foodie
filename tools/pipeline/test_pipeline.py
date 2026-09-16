@@ -122,6 +122,10 @@ def _run_test(client: LLMClient, mode: str) -> int:
     _assert(len(draft) > 500, f"survey-draft length={len(draft)} > 500", failures)
     _assert("\n## " in result.get("output", ""),
             "output carries per-section heading markers", failures)
+    _assert("## Abstract" in result.get("output", "") and
+            "## References" in result.get("output", "") and
+            "## Evidence Table" in result.get("output", ""),
+            "manuscript completeness (Abstract/Evidence Table/References)", failures)
 
     iteration = result.get("iteration", 0)
     _assert(1 <= iteration <= 3, f"iteration={iteration} in [1,3]", failures)

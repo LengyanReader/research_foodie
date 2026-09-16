@@ -3,7 +3,22 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-16
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04**)
+
+---
+
+## 2026-09-16 — Session 15: MAR render axes (part 1) — manuscript output + PDF rendering (手稿化产物 + 本地 PDF 渲染)
+
+**Why:** DAS-16 MAR family (Citation/Reference presentation, Figure/Table quality, Layout, Component completeness) was the residual low axis — the plain draft had no abstract/table/references, and figures were impossible, so MAR sat ~1–2. Delivery: complete-manuscript artifact + a real rendered PDF.
+
+1. **Manuscript `_finalize` (graph.py)** — final output is now `# <question>` → `## Abstract` (intro's first ¶) → `## Intro` (the per-section draft body) → `## Evidence Table` (claims[:12], `| # | Claim | arXiv source | confidence |`) → `## References` (unique arXiv ids, abs links) → audit annex (`## Sources/Outline/Claims`, stripped by the bench so the annotator judges the manuscript proper).
+2. **`tools/eval/render_manuscript.py` (new)** — pandoc + MiKTeX xelatex + Microsoft YaHei (CJK) markdown→PDF, pypdf page count; best-effort (pages=0 → skipped). Hitch-free, CJK smoke verified.
+3. **bench_eval upgrades** — artifact = manuscript (annex stripped) + **judge context raised 12K→40K chars** (`_MAX_ARTIFACT_CHARS`) — **the bug fix: the Evidence Table and References sat past the old truncation so the judge never saw them** (this also explains the transient score dip in the intermediate run); per-scenario PDF render with `pdf pg` report column + `rendered manuscript (MAR)` note.
+4. **Verification** — mock 34/34 · real 34/34 (243.6 s); PDFs render (P-A 8 pp / P-B 5 pp / P-C 7 pp). **MAR fix validated on P-A solo: Figure/Table 1→3, MAR 1.75→2.50.**
+5. **Canonical combined run (single 5-scenario invocation; NOTE: `--out` overwrites, so always run all scenarios in one call)**: P-A 3.25 · P-B 2.75 · P-C 3.12 (all L6 1.0 · cov 16/16 · pdf 8/5/7 pp); 001/019 no-evidence hold. **Family means (n=3): BSC 2.92 / MAR 2.67 / TSQ 2.83 / HDQ 3.75 / Total 3.04.** Run-to-run judge variance ±0.4 documented (P-A 2.12–3.25 today).
+6. **Honest residual — MAR "Layout and Formatting" axis**: a text-only LLM judge cannot score page layout; the rendered PDFs are now the substrate, so a ≥300B frozen page-aware judge (P3) is the remaining gap, not the pipeline.
+
+Next (roadmap §7): P3 the judge + rendered-page MAR (needs keys/GPU/network); Track B (PaddleOCR Chinese evidence) wiring; P-A/P-C near-duplicate question dedup.
 
 ---
 

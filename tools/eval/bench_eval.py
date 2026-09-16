@@ -142,6 +142,9 @@ def reference_means() -> Dict[str, Dict[str, float]]:
     return out
 
 
+_MAX_ARTIFACT_CHARS = 40_000  # full manuscript (abstract+sections+table+refs) must be viewable
+
+
 def score_survey(client: LLMClient, topic: str, artifact: str) -> Dict[str, Any]:
     """Ask an LLM judge to score `artifact` on the 16 DAS-Bench criteria.
 
@@ -152,7 +155,7 @@ def score_survey(client: LLMClient, topic: str, artifact: str) -> Dict[str, Any]
         [
             Message(role="system", content=_BENCH_RUBRIC_PROMPT),
             Message(role="user",
-                    content=f"Topic: {topic}\n\nArtifact:\n{artifact[:12000]}"),
+                    content=f"Topic: {topic}\n\nArtifact:\n{artifact[:_MAX_ARTIFACT_CHARS]}"),
         ],
         json_mode=True,
         max_tokens=700,
@@ -200,14 +203,38 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
         row["n_cited"] = (res.get("validation") or {}).get("n_papers_cited", 0)
         row["l6"] = dict(res.get("validation") or {})
         artifact = res.get("output", "") or ""
+        if artifact and "\n## Sources (" in artifact:
+            artifact = artifact.split("\n## Sources (", 1)[0].rstrip()
         row["artifact_chars"] = len(artifact)
         if not artifact:
             row["status"] = "no-evidence"
         else:
             row["status"] = "scored"
+            row["pdf"] = _render_manuscript(s, artifact)
             row["bench"] = score_survey(client, s["topic"], artifact)
         out.append(row)
     return out
+
+
+def _render_manuscript(scenario: Dict[str, Any], artifact: str) -> Dict[str, Any]:
+    """Best-effort render of the Markdown manuscript to PDF for MAR scoring.
+
+    Returns {"pdf": str, "pages": int} (pages = 0 when rendering unavailable).
+    """
+    from pathlib import Path
+    from tools.eval.render_manuscript import render_to_pdf
+
+    md_dir = Path(DEFAULT_OUT).parent / "manuscripts"
+    md_dir.mkdir(parents=True, exist_ok=True)
+    stem = f"{scenario.get('topic_id', 'manu')}_manuscript"
+    md_path = md_dir / f"{stem}.md"
+    pdf_path = md_dir / f"{stem}.pdf"
+    try:
+        md_path.write_text(artifact, encoding="utf-8")
+    except OSError:
+        return {"pdf": "", "pages": 0}
+    pages = render_to_pdf(md_path, pdf_path, title=str(scenario.get("question", ""))[:80])
+    return {"pdf": str(pdf_path), "pages": pages}
 
 
 def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) -> str:
@@ -225,19 +252,20 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
     scored = [r for r in rows if r["status"] == "scored"]
     add(f"## Run summary")
     add("")
-    add("| id | kind | paper | candidates | papers | cited | out chars | L6 | internal judge | DAS-16 cov. |")
-    add("|---|---|---|---|---|---|---|---|---|---|")
+    add("| id | kind | paper | candidates | papers | cited | out chars | pdf pg | L6 | internal judge | DAS-16 cov. |")
+    add("|---|---|---|---|---|---|---|---|---|---|---|")
     for r in rows:
         paper = r.get("paper_id") or "-"
         cands = ",".join(c.get("arxiv_id", "?") for c in r.get("candidates", [])) or "-"
         np = len(r.get("papers") or [])
         nc = r.get("n_cited", 0)
+        pages = (r.get("pdf") or {}).get("pages", "-") if r.get("pdf") else "-"
         l6 = (_fmt(r["l6"].get("score")) if r.get("l6") else "-")
         j = (r["l6"].get("judge") or {}) if r.get("l6") else {}
         ji = f"{j.get('label','-')}@{_fmt(j.get('score'))}" if j else "-"
         cov = (f"{r['bench']['coverage']}/16" if r.get("bench") else "-")
         add(f"| {r['scenario']['topic_id']} | {r['scenario']['kind']} | {paper} | "
-            f"{cands} | {np} | {nc} | {r.get('artifact_chars','-')} | {l6} | {ji} | {cov} |")
+            f"{cands} | {np} | {nc} | {r.get('artifact_chars','-')} | {pages} | {l6} | {ji} | {cov} |")
     if not scored:
         add("\nAll scenarios produced **no evidence** (no parsed corpus match).")
     add("")
@@ -248,6 +276,9 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
         add("")
         add(f"- paper_id: {r.get('paper_id')} · evidence chars: {r.get('artifact_chars')} · "
             f"elapsed: {r.get('elapsed', 0):.1f}s")
+        pdfi = r.get("pdf") or {}
+        if pdfi.get("pdf"):
+            add(f"- rendered manuscript (MAR): `{pdfi['pdf']}` · **{pdfi.get('pages', 0)} pages**")
         add(f"- L6 gate: score {_fmt(r['l6'].get('score'))} passed={r['l6'].get('passed')} · "
             f"internal P3 judge: {r['l6'].get('judge', {}).get('label')}@{_fmt(r['l6'].get('judge', {}).get('score'))}")
         b = r["bench"]

@@ -73,9 +73,9 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 ## Status
 
 - **Phase 0/1 (docs)**: complete. **P1 tooling**: MinerU PDF→Markdown PASS; PaddleOCR Chinese OCR PASS (K7 closed).
-- **P2 minimal vertical + framework integration (GREEN)**: LangGraph pipeline with pluggable S_lit rails (seed / arXiv API — verified reachable 2026-09-16 / orx CLI), multi-paper evidence pool (`resolved_evidence`, 3 local parses), per-paper grounded claims (`paper_id` attribution), STORM-style outline (4-6 sections), **survey-depth per-section drafting** (intro + `## <heading>` section paragraphs + conclusion, inline arXiv attribution, disagreement/gap handling), L6 deterministic gate (+ informational `multi_paper` metric), DAS-Bench-style AI judge.
-- **Tests**: mock **33/33** · real `opencode/big-pickle` **33/33** (real ~4–8 min draft + strict judge verdict=pass; judge gate = deterministic threshold matrix v1 — pass requires score≥4 and all four rubric checks, groundedness failure or score<2 is a hard fail).
-- **Evaluation pilot** (`tools/eval/bench_eval.py`, Session 11-13): DAS-16 family means **BSC 3.25 / MAR 2.50 / TSQ 3.17 / HDQ 3.75 / Total 3.17** — **TSQ lifted 2.42→3.17** by per-section drafting; artifacts 23-26K chars; proxies 2.94–3.38; DAS topic 001 correctly no-evidence after the seed-precision fix. Report: `_eval_out/bench_pilot_das.md`.
+- **P2 minimal vertical + framework integration (GREEN)**: LangGraph pipeline with pluggable S_lit rails (seed / arXiv API — verified reachable 2026-09-16 / orx CLI), multi-paper evidence pool (`resolved_evidence`, 3 local parses), per-paper grounded claims (`paper_id` attribution), STORM-style outline (4-6 sections), **survey-depth per-section drafting** (intro + `## <heading>` section paragraphs + conclusion, inline arXiv attribution, disagreement/gap handling), **manuscript output** (Abstract / Evidence Table / References) + **local PDF rendering** (`tools/eval/render_manuscript.py`, pandoc+xelatex CJK), L6 deterministic gate (+ informational `multi_paper` metric), DAS-Bench-style AI judge (strict matrix v1).
+- **Tests**: mock **34/34** · real `opencode/big-pickle` **34/34** (real ~4–8 min; strict judge verdict=pass).
+- **Evaluation pilot** (`tools/eval/bench_eval.py`, Sessions 11–15): canonical combined run (single 5-scenario invocation; `--out` overwrites per run) — **P-A 3.25 / P-B 2.75 / P-C 3.12**, family means **BSC 2.92 / MAR 2.67 / TSQ 2.83 / HDQ 3.75 / Total 3.04** (n=3). MAR axis lifted by the manuscript fix: Evidence Table now within the judge's 40K view (Figure/Table 1→3 on P-A); rendered PDFs 5–8 pp under `_eval_out/manuscripts/`; Layout axis remains a text-judge limitation (needs a ≥300B page-aware judge, blocked). 001/019 correctly no-evidence. Report: `_eval_out/bench_pilot_das.md`.
 - **Defaults**: `opencode` backend throughout (Ollama backend removed 2026-09-16); seed manifest stays the deterministic offline discovery default.
 
 ## Repository map
@@ -101,8 +101,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 ## Roadmap (next)
 
-1. MAR render axes — page-rendered artifact / figure-table extraction (plain-markdown cannot score Figure/Table quality; the residual low axis).
-2. DAS-Bench full compliance — DAS-2M topic pools + a ≥300B frozen judge (needs API keys / GPU / network).
-3. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
+1. ≥300B frozen, page-aware judge on the rendered PDFs (MAR Layout axis + full DAS-Bench compliance; needs API keys / GPU / network).
+2. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
+3. Pipeline-data hygiene: P-A/P-C near-duplicate question dedup, run-to-run judge variance measurement.
 
 See `docs/PLAN.md §7` for measurable acceptance checks.
