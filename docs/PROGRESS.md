@@ -3,7 +3,23 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-17
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)** · **Track C evidence-grounded QA GREEN — `qa` scenario family + QA scorer + corpus-anchored pilot 4/5 (Session 17)** · **Qasper external-author QA GREEN — seed_id manifest routing + grounded extractive-answer node, 2/2 perfect (Session 18)**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)** · **Track C evidence-grounded QA GREEN — `qa` scenario family + QA scorer + corpus-anchored pilot 4/5 (Session 17)** · **Qasper external-author QA GREEN — seed_id manifest routing + grounded extractive-answer node, 2/2 perfect (Session 18)** · **QA panel expansion GREEN — Qasper QA-8/9/10 + SciQ provided-context SQ-1..5; panel n=15 correctness 4.73, extract+context paths 10/10 (Session 19)**)
+
+---
+
+## 2026-09-17 — Session 19: QA panel expansion — Qasper +3 papers, SciQ provided-context MCQs
+
+**Why:** Session 18 proved the extractive-answer node on 2 Qasper QAs; widen the QA benchmark to a statistically meaningful panel and add a provided-context (MCQ) source — all local, no API keys.
+
+1. **Qasper +3 external papers** (each 9–11 pp, MinerU `-m txt` windowed, all merged + registered in `_LOCAL_MD`): `1910.09982` (NLP4IF-2019 propaganda techniques), `1910.06036` (to-the-point QG metrics), `1908.06267` (MPAD document embeddings datasets). Parse flake hit once again on `1910.06036` pages 0-5 (3 failed tries) → **sub-windowed 0-3 + 4-5** (4-5 took 4 tries) — the known probabilistic worker instability; the window-splitting workaround holds.
+2. **SciQ (AllenAI) provided-context mode — new `ctx` routing**: question + the dataset's `support` sentence = the whole source (no download, no paper). `check_answer(..., require_cite=False)` skips the arXiv-cite gate for context sources; answer node unchanged. 5 validation-set MCQs (frameshift/nucleotide, wetland, blood vessels, volcanic-ash clays, density).
+3. **Real results** (all extract/context paths ~15–20 s/answer):
+   - **QA-8 propaganda → c 5 · g 5 · gold 3/3** · **QA-9 QG metrics → c 5 · g 5 · gold 3/3** · **QA-10 MPAD datasets → c 5 · g 5 · gold 3/3**
+   - **SQ-1..5 → all c 5 · gold 1/1** (groundedness 3–5 — short context limits the judge's citation check, correct answers still exact)
+   - **QA pilot panel n=15: correctness mean 4.73 · groundedness 4.40** · 14/15 correct-and-grounded (only QA-3 taxonomy at c 3); **extractive/context paths 10/10 perfect**.
+4. **Reading**: (a) the answer node is now reliable for extractive + provided-context factoids across three benchmark sources (Qasper, SciQ; plus corpus-anchored survey QAs); (b) the remaining imperfect cell is *synthesis/taxonomy* (multi-paper S_write), matching the documented boundary; (c) judge `groundedness` on one-sentence contexts is conservative (3-4) — fine as a conservative floor.
+
+Next (local-first): PubMedQA (context FAQs are provided per question — same `ctx` route possible), 30-DAS-topic evidence pools (CPU), variance re-runs.
 
 ---
 

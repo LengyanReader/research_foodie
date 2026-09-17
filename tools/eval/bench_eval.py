@@ -169,6 +169,76 @@ QASPER_SCENARIOS: List[Dict[str, Any]] = [
         "seed_id": "1611.03599",
         "gold_tokens": ["2,496", "505,137"],
     },
+    {
+        "kind": "qa",
+        "topic_id": "QA-8",
+        "topic": "Qasper · NLP4IF-2019 — propaganda techniques",
+        "question": "What are the 18 propaganda techniques?",
+        "seed_id": "1910.09982",
+        "gold_tokens": ["loaded language", "name calling", "repetition"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-9",
+        "topic": "Qasper · QG — evaluation metrics",
+        "question": "What metrics do they use?",
+        "seed_id": "1910.06036",
+        "gold_tokens": ["bleu", "meteor", "rouge"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-10",
+        "topic": "Qasper · MPAD — datasets",
+        "question": "Which datasets are used?",
+        "seed_id": "1908.06267",
+        "gold_tokens": ["reuters", "imdb", "trec"],
+    },
+]
+
+# SciQ (AllenAI) — provided-context MCQs: the `support` sentence is the source
+# context (no paper download/parse). Zero external resources; tests the answer
+# node against short-passage, school-science factoids (Session 19).
+SCIQ_SCENARIOS: List[Dict[str, Any]] = [
+    {
+        "kind": "qa",
+        "topic_id": "SQ-1",
+        "topic": "SciQ · frameshift mutation",
+        "question": "A frameshift mutation is a deletion or insertion of one or more of what that changes the reading frame of the base sequence?",
+        "context": "A frameshift mutation is a deletion or insertion of one or more nucleotides that changes the reading frame of the base sequence. Deletions remove nucleotides, and insertions add nucleotides.",
+        "gold_tokens": ["nucleotide"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "SQ-2",
+        "topic": "SciQ · wetland definition",
+        "question": "What is an area of land called that is wet for all or part of the year?",
+        "context": "A wetland is an area that is wet for all or part of the year. Wetlands are home to certain types of plants.",
+        "gold_tokens": ["wetland"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "SQ-3",
+        "topic": "SciQ · blood vessels",
+        "question": "What are arteries, veins, and capillaries examples of?",
+        "context": "Blood vessels include arteries, veins, and capillaries.",
+        "gold_tokens": ["blood vessels"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "SQ-4",
+        "topic": "SciQ · volcanic ash clays",
+        "question": "Compounds with aluminum and silicon are commonly found in the clay fractions of soils derived from what?",
+        "context": "Compounds with aluminum and silicon are commonly found in the clay fractions of soils derived from volcanic ash. One of these compounds is vermiculite, which is formed in reactions caused by exposure to weather.",
+        "gold_tokens": ["volcanic ash"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "SQ-5",
+        "topic": "SciQ · density definition",
+        "question": "What is the ratio of the mass of an object to its volume?",
+        "context": "Density is the ratio of the mass of an object to its volume.",
+        "gold_tokens": ["density"],
+    },
 ]
 
 _QA_RUBRIC_PROMPT = (
@@ -318,6 +388,12 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
                 res = {"candidates": [], "papers": [{"arxiv_id": seed, "path": str(md_path)}],
                        "paper_id": seed, "output": out_txt, "draft": out_txt,
                        "claims": [], "validation": check_answer(out_txt, seed)}
+        elif s.get("context"):
+            # SciQ-style provided-context MCQ: the support sentence is the source.
+            out_txt = answer_question(client, s["question"], "SciQ:ctx", s["context"])
+            res = {"candidates": [], "papers": [], "paper_id": "ctx",
+                   "output": out_txt, "draft": out_txt, "claims": [],
+                   "validation": check_answer(out_txt, "SciQ:ctx", require_cite=False)}
         else:
             p = Pipeline(client)
             question = s["question"]
@@ -573,7 +649,7 @@ def main() -> int:
     args = ap.parse_args()
 
     client = LLMClient(backend=args.backend, base_url=args.base_url, model=args.model)
-    all_scenarios = SCENARIOS + QA_SCENARIOS + QASPER_SCENARIOS
+    all_scenarios = SCENARIOS + QA_SCENARIOS + QASPER_SCENARIOS + SCIQ_SCENARIOS
     scenarios = all_scenarios
     run_ids: List[str] = [s["topic_id"] for s in all_scenarios]
     if args.scenarios:

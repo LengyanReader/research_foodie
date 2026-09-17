@@ -47,12 +47,12 @@ def answer_question(
     return out.text.strip()
 
 
-def check_answer(answer: str, paper_id: str) -> dict:
+def check_answer(answer: str, paper_id: str, require_cite: bool = True) -> dict:
     """Deterministic L6-style gate for the qa answer artifact."""
     errs: List[str] = []
     if not answer or len(answer) < 40:
         errs.append("output too short")
-    if paper_id and not answer.lower().count(f"arxiv:{paper_id}".lower()):
+    if require_cite and paper_id and not answer.lower().count(f"arxiv:{paper_id}".lower()):
         errs.append("missing inline arXiv cite")
     ok = not errs
     return {

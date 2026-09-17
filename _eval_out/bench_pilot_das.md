@@ -20,6 +20,14 @@
 | QA-5 | qa | 1906.04043 | 1906.04043 | 1 | 1 | 18477 | 7 | 1.00 | QA 4/5 | gold 2/3 |
 | QA-6 | qa | 1908.10084 | - | 1 | 1 | 1422 | 1 | 1.00 | QA 5/5 | gold 2/2 |
 | QA-7 | qa | 1611.03599 | - | 1 | 1 | 1407 | 1 | 1.00 | QA 5/5 | gold 2/2 |
+| QA-8 | qa | 1910.09982 | - | 1 | 1 | 2449 | 1 | 1.00 | QA 5/5 | gold 3/3 |
+| QA-9 | qa | 1910.06036 | - | 1 | 1 | 1073 | 1 | 1.00 | QA 5/5 | gold 3/3 |
+| QA-10 | qa | 1908.06267 | - | 1 | 1 | 1642 | 1 | 1.00 | QA 5/5 | gold 3/3 |
+| SQ-1 | qa | ctx | - | 0 | 1 | 443 | 1 | 1.00 | QA 5/5 | gold 1/1 |
+| SQ-2 | qa | ctx | - | 0 | 1 | 428 | 1 | 1.00 | QA 5/3 | gold 1/1 |
+| SQ-3 | qa | ctx | - | 0 | 1 | 327 | 1 | 1.00 | QA 5/4 | gold 1/1 |
+| SQ-4 | qa | ctx | - | 0 | 1 | 350 | 1 | 1.00 | QA 5/3 | gold 1/1 |
+| SQ-5 | qa | ctx | - | 0 | 1 | 215 | 1 | 1.00 | QA 5/4 | gold 1/1 |
 
 ## QA-1 · QA · GLTR — how the detector visualizes token likelihood
 
@@ -38,7 +46,7 @@
 ## QA-3 · QA · Weber-Wulff — families of AI-text detection
 
 - question: What families of AI-generated-text detection methods does the Weber-Wulff survey cover?
-- paper_id: 2306.15666 · evidence chars: 1638 · elapsed: 16.7s
+- paper_id: 2306.15666 · evidence chars: 1638 · elapsed: 16.7s · **cached (vintage run)**
 - QA judge: correctness **3/5** · groundedness **3/5** · gold-token hit **1/2**
    - judge feedback: The answer is specific and correctly identifies that the survey's core is tool-by-tool testing (14 tools, 6 test-case categories). However, it is only partially correct: the Weber-Wulff survey's background/related-work sections do discuss detection-method approaches (e.g., zero-shot/perplexity-based
 
@@ -69,6 +77,62 @@
 - paper_id: 1611.03599 · evidence chars: 1407 · elapsed: 15.8s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **2/2**
    - judge feedback: The artifact correctly identifies the Chinese data as the FBFans dataset from arXiv:1611.03599 (Chen & Ku, UTCNN) and gives a complete, precise answer on its size. Verified against the source: 32,595 posts (confirmed directly in the paper text 'from these 32,595 posts'), 505,412 unique users ({2,496
+
+## QA-8 · Qasper · NLP4IF-2019 — propaganda techniques
+
+- question: What are the 18 propaganda techniques?
+- paper_id: 1910.09982 · evidence chars: 2449 · elapsed: 21.3s · **cached (vintage run)**
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **3/3**
+   - judge feedback: The artifact correctly lists all 18 propaganda techniques from the SemEval-2020 Task 11 paper (arXiv:1910.09982), in the paper's canonical order, with accurate descriptions matching the dataset's official definitions (e.g., loaded language, whataboutism, reductio ad Hitlerum, thought-terminating cli
+
+## QA-9 · Qasper · QG — evaluation metrics
+
+- question: What metrics do they use?
+- paper_id: 1910.06036 · evidence chars: 1073 · elapsed: 15.8s · **cached (vintage run)**
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **3/3**
+   - judge feedback: The artifact answers precisely and completely: it enumerates all six metrics (BLEU-1/2/3/4, METEOR, ROUGE-L) with their primary citations, names the datasets/splits (SQuAD, Zhou Split, Du Split) and the downstream evaluation script (Chen et al. 2015). Every factual claim is tied to an inline arXiv c
+
+## QA-10 · Qasper · MPAD — datasets
+
+- question: Which datasets are used?
+- paper_id: 1908.06267 · evidence chars: 1642 · elapsed: 19.5s · **cached (vintage run)**
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **3/3**
+   - judge feedback: The artifact fully and precisely answers 'Which datasets are used?', listing all 11 datasets in the paper's Table 1 (Reuters, Snippets, BBCSport, Polarity, Subjectivity, MPQA, IMDB, TREC, SST-1, SST-2, Yelp2013) with correct per-dataset details (ModApte split/8 classes, BBCSport cross-validation, SS
+
+## SQ-1 · SciQ · frameshift mutation
+
+- question: A frameshift mutation is a deletion or insertion of one or more of what that changes the reading frame of the base sequence?
+- paper_id: ctx · evidence chars: 443 · elapsed: 15.4s
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: The artifact gives the correct, precise answer (nucleotides) and supports it with an exact quoted source line that directly matches the claim. Both the English answer and the Chinese 速览 are accurate, and the inline arXiv cite is grounded in the quoted evidence.
+
+## SQ-2 · SciQ · wetland definition
+
+- question: What is an area of land called that is wet for all or part of the year?
+- paper_id: ctx · evidence chars: 428 · elapsed: 17.0s
+- QA judge: correctness **5/5** · groundedness **3/5** · gold-token hit **1/1**
+   - judge feedback: The answer 'wetland' is complete and precise, matching the source definition quoted verbatim. However, the artifact cites a source sentence but provides no verifiable arXiv identifier (e.g., arXiv:XXXX.XXXXX), so the claimed quote cannot be independently traced to a paper.
+
+## SQ-3 · SciQ · blood vessels
+
+- question: What are arteries, veins, and capillaries examples of?
+- paper_id: ctx · evidence chars: 327 · elapsed: 15.4s
+- QA judge: correctness **5/5** · groundedness **4/5** · gold-token hit **1/1**
+   - judge feedback: Correct, precise answer: blood vessels. Inline cite and source-evidence quote support the claim. Minor deduction: the identifier 'arXiv:SciQ:ctx' is vague and not a verifiable specific arXiv ID or paper, weakening traceability; a precise ID or DOI would make grounding fully checkable.
+
+## SQ-4 · SciQ · volcanic ash clays
+
+- question: Compounds with aluminum and silicon are commonly found in the clay fractions of soils derived from what?
+- paper_id: ctx · evidence chars: 350 · elapsed: 14.3s
+- QA judge: correctness **5/5** · groundedness **3/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly and precisely answers that the compounds are found in soils derived from volcanic ash, matching the standard SciQ answer. However, the cited source 'arXiv:SciQ:ctx' is the dataset context itself rather than an independent primary-source paper, so the grounding is only partial:
+
+## SQ-5 · SciQ · density definition
+
+- question: What is the ratio of the mass of an object to its volume?
+- paper_id: ctx · evidence chars: 215 · elapsed: 11.0s
+- QA judge: correctness **5/5** · groundedness **4/5** · gold-token hit **1/1**
+   - judge feedback: Correctly identifies density as the mass-to-volume ratio. Answer claim is backed by an inline cite and quoted source evidence supports it; cite is a generic context reference (arXiv:SciQ:ctx) rather than a specific paper ID, slightly limiting verifiability.
 
 ## P-A · Proxy · AI-generated text detection (paper-anchored)
 
@@ -114,7 +178,15 @@
 | QA-5 | 4 | 5 | 2/3 | 7 |
 | QA-6 | 5 | 5 | 2/2 | 1 |
 | QA-7 | 5 | 5 | 2/2 | 1 |
-| **mean (n=7)** | **4.43** | **4.57** | - | - |
+| QA-8 | 5 | 5 | 3/3 | 1 |
+| QA-9 | 5 | 5 | 3/3 | 1 |
+| QA-10 | 5 | 5 | 3/3 | 1 |
+| SQ-1 | 5 | 5 | 1/1 | 1 |
+| SQ-2 | 5 | 3 | 1/1 | 1 |
+| SQ-3 | 5 | 4 | 1/1 | 1 |
+| SQ-4 | 5 | 3 | 1/1 | 1 |
+| SQ-5 | 5 | 4 | 1/1 | 1 |
+| **mean (n=15)** | **4.73** | **4.40** | - | - |
 
 ## Family means across scored scenarios (preview)
 

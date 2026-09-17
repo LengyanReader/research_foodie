@@ -229,6 +229,17 @@ _LOCAL_MD: Dict[str, str] = {
     # Xu et al. 2016, UTCNN stance classification (Qasper dev paper 1611.03599).
     # Session 18: 11pp parsed `-m txt` in two 6-page windows, merged.
     "1611.03599": "1611.03599/1611.03599.md",
+    # NLP4IF-2019 shared task findings (Qasper dev paper 1910.09982).
+    # Session 19: 9pp parsed `-m txt`, windows 0-5/6-8 (window 0-3 split for the
+    # QG paper below due to one flaky page) — merged.
+    "1910.09982": "1910.09982/1910.09982.md",
+    # "Improving Question Generation with To-The-Point Reference" (Qasper dev
+    # paper 1910.06036). Session 19: 11pp; pages 0-3 & 4-5 (flaky page → 4 tries)
+    # & 6-10 windows merged.
+    "1910.06036": "1910.06036/1910.06036.md",
+    # MPAD, "Message Passing Attention Networks for Document Understanding"
+    # (Qasper dev paper 1908.06267). Session 19: 9pp, windows 0-5/6-8, merged.
+    "1908.06267": "1908.06267/1908.06267.md",
 }
 
 
