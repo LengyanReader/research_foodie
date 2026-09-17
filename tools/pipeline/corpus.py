@@ -240,6 +240,10 @@ _LOCAL_MD: Dict[str, str] = {
     # MPAD, "Message Passing Attention Networks for Document Understanding"
     # (Qasper dev paper 1908.06267). Session 19: 9pp, windows 0-5/6-8, merged.
     "1908.06267": "1908.06267/1908.06267.md",
+    # Automated News Suggestions for Populating Wikipedia Entity Pages
+    # (Besancon et al. 2017). Session 19: 12pp, two windows, parsed via
+    # tools/eval/add_paper.py (one-command corpus adder).
+    "1703.10344": "1703.10344/1703.10344.md",
 }
 
 

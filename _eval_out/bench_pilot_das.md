@@ -28,6 +28,13 @@
 | SQ-3 | qa | ctx | - | 0 | 1 | 327 | 1 | 1.00 | QA 5/4 | gold 1/1 |
 | SQ-4 | qa | ctx | - | 0 | 1 | 350 | 1 | 1.00 | QA 5/3 | gold 1/1 |
 | SQ-5 | qa | ctx | - | 0 | 1 | 215 | 1 | 1.00 | QA 5/4 | gold 1/1 |
+| PQ-1 | qa | ctx | - | 0 | 1 | 811 | 1 | 1.00 | QA 2/1 | gold 0/1 |
+| PQ-2 | qa | ctx | - | 0 | 1 | 977 | 1 | 1.00 | QA 4/5 | gold 1/1 |
+| PQ-3 | qa | ctx | - | 0 | 1 | 1104 | 1 | 1.00 | QA 4/5 | gold 1/1 |
+| PQ-4 | qa | ctx | - | 0 | 1 | 1146 | 1 | 1.00 | QA 4/5 | gold 1/2 |
+| PQ-5 | qa | ctx | - | 0 | 1 | 1227 | 1 | 1.00 | QA 2/5 | gold 1/2 |
+| QA-11 | qa | 1703.10344 | - | 1 | 1 | 502 | 1 | 1.00 | QA 5/5 | gold 1/1 |
+| QA-12 | qa | 1703.10344 | - | 1 | 1 | 355 | 1 | 1.00 | QA 5/5 | gold 1/1 |
 
 ## QA-1 · QA · GLTR — how the detector visualizes token likelihood
 
@@ -102,37 +109,86 @@
 ## SQ-1 · SciQ · frameshift mutation
 
 - question: A frameshift mutation is a deletion or insertion of one or more of what that changes the reading frame of the base sequence?
-- paper_id: ctx · evidence chars: 443 · elapsed: 15.4s
+- paper_id: ctx · evidence chars: 443 · elapsed: 15.4s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **1/1**
    - judge feedback: The artifact gives the correct, precise answer (nucleotides) and supports it with an exact quoted source line that directly matches the claim. Both the English answer and the Chinese 速览 are accurate, and the inline arXiv cite is grounded in the quoted evidence.
 
 ## SQ-2 · SciQ · wetland definition
 
 - question: What is an area of land called that is wet for all or part of the year?
-- paper_id: ctx · evidence chars: 428 · elapsed: 17.0s
+- paper_id: ctx · evidence chars: 428 · elapsed: 17.0s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **3/5** · gold-token hit **1/1**
    - judge feedback: The answer 'wetland' is complete and precise, matching the source definition quoted verbatim. However, the artifact cites a source sentence but provides no verifiable arXiv identifier (e.g., arXiv:XXXX.XXXXX), so the claimed quote cannot be independently traced to a paper.
 
 ## SQ-3 · SciQ · blood vessels
 
 - question: What are arteries, veins, and capillaries examples of?
-- paper_id: ctx · evidence chars: 327 · elapsed: 15.4s
+- paper_id: ctx · evidence chars: 327 · elapsed: 15.4s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **4/5** · gold-token hit **1/1**
    - judge feedback: Correct, precise answer: blood vessels. Inline cite and source-evidence quote support the claim. Minor deduction: the identifier 'arXiv:SciQ:ctx' is vague and not a verifiable specific arXiv ID or paper, weakening traceability; a precise ID or DOI would make grounding fully checkable.
 
 ## SQ-4 · SciQ · volcanic ash clays
 
 - question: Compounds with aluminum and silicon are commonly found in the clay fractions of soils derived from what?
-- paper_id: ctx · evidence chars: 350 · elapsed: 14.3s
+- paper_id: ctx · evidence chars: 350 · elapsed: 14.3s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **3/5** · gold-token hit **1/1**
    - judge feedback: The artifact correctly and precisely answers that the compounds are found in soils derived from volcanic ash, matching the standard SciQ answer. However, the cited source 'arXiv:SciQ:ctx' is the dataset context itself rather than an independent primary-source paper, so the grounding is only partial:
 
 ## SQ-5 · SciQ · density definition
 
 - question: What is the ratio of the mass of an object to its volume?
-- paper_id: ctx · evidence chars: 215 · elapsed: 11.0s
+- paper_id: ctx · evidence chars: 215 · elapsed: 11.0s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **4/5** · gold-token hit **1/1**
    - judge feedback: Correctly identifies density as the mass-to-volume ratio. Answer claim is backed by an inline cite and quoted source evidence supports it; cite is a generic context reference (arXiv:SciQ:ctx) rather than a specific paper ID, slightly limiting verifiability.
+
+## PQ-1 · PubMedQA · mitochondria / lace plant PCD (yes)
+
+- question: Do mitochondria play a role in remodelling lace plant leaves during programmed cell death?
+- paper_id: ctx · evidence chars: 811 · elapsed: 12.2s · **cached (vintage run)**
+- QA judge: correctness **2/5** · groundedness **1/5** · gold-token hit **0/1**
+   - judge feedback: The artifact is evasive rather than a definitive answer: it answers 'No' but immediately retreats to 'the paper does not state / makes no claim,' which avoids committing to the actual factual answer. The question asks whether mitochondria play a role in lace plant leaf remodelling during PCD, and a 
+
+## PQ-2 · PubMedQA · Landolt C vs Snellen E acuity (no)
+
+- question: Landolt C and snellen e acuity: differences in strabismus amblyopia?
+- paper_id: ctx · evidence chars: 977 · elapsed: 10.8s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly identifies that the provided excerpt contains only study-design information (100 patients, median age 60.5, 39 strabismus amblyopia) and explicitly, honestly states that no Landolt C vs. Snellen E result for the strabismus amblyopia subgroup is present, refusing to invent data
+
+## PQ-3 · PubMedQA · transanal vs transabdominal pull-through (no)
+
+- question: Are the long-term results of the transanal pull-through equal to those of the transabdominal pull-through?
+- paper_id: ctx · evidence chars: 1104 · elapsed: 15.9s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly identifies that the provided excerpt contains only the study design and aim (41 patients, TERPT n=20 vs ABD n=21) and reports no comparative long-term outcomes, so it does not fabricate an equivalence claim. Scoring 4 rather than 5 because the question itself went unanswered (
+
+## PQ-4 · PubMedQA · HER2 immunoreactivity prognosis (maybe)
+
+- question: Does HER2 immunoreactivity provide prognostic information in locally advanced urothelial carcinoma patients receiving adjuvant M-VEC chemotherapy?
+- paper_id: ctx · evidence chars: 1146 · elapsed: 12.9s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **1/2**
+   - judge feedback: The artifact is fully grounded: every claim (study design, 114 specimens, M-VEC = methotrexate/vinblastine/epirubicin/cisplatin, evaluation of HER2 by IHC and its effect on PFS) is traceable to the quoted excerpt, and it invents no HR, p-value, or conclusion. It honestly and specifically identifies 
+
+## PQ-5 · PubMedQA · emergency laparotomy mortality (maybe)
+
+- question: 30-Day and 1-year mortality in emergency general surgery laparotomies: an area of concern and need for improvement?
+- paper_id: ctx · evidence chars: 1227 · elapsed: 18.0s · **cached (vintage run)**
+- QA judge: correctness **2/5** · groundedness **5/5** · gold-token hit **1/2**
+   - judge feedback: The artifact honestly reports that the paper's own 30-day and 1-year mortality figures are absent from the provided excerpt, so it cannot state the specific numeric answers the question asks for. It provides relevant context (background 30-day mortality 14-15%, study aim, and design), which is parti
+
+## QA-11 · News-suggestion precision (article-entity)
+
+- question: What is the highest precision reported for the article-entity suggestion stage?
+- paper_id: 1703.10344 · evidence chars: 502 · elapsed: 15.4s · **cached (vintage run)**
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: Correct and precise. arXiv:1703.10344 (Fetahu et al., 2017) abstract states: 'We achieve a high precision value of up to 93% in the article-entity suggestion stage and upto 84% for the article-section placement.' The artifact's answer (93%) and its verbatim source quote both match the paper exactly,
+
+## QA-12 · News-suggestion precision (article-section)
+
+- question: What is the precision reported for the article-section placement stage?
+- paper_id: 1703.10344 · evidence chars: 355 · elapsed: 15.7s
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly and precisely identifies the article-section placement (ASP) stage precision as up to 84%, directly supported by an inline arXiv cite (arXiv:1703.10344) and an exact source quotation confirming the claim.
 
 ## P-A · Proxy · AI-generated text detection (paper-anchored)
 
@@ -186,7 +242,14 @@
 | SQ-3 | 5 | 4 | 1/1 | 1 |
 | SQ-4 | 5 | 3 | 1/1 | 1 |
 | SQ-5 | 5 | 4 | 1/1 | 1 |
-| **mean (n=15)** | **4.73** | **4.40** | - | - |
+| PQ-1 | 2 | 1 | 0/1 | 1 |
+| PQ-2 | 4 | 5 | 1/1 | 1 |
+| PQ-3 | 4 | 5 | 1/1 | 1 |
+| PQ-4 | 4 | 5 | 1/2 | 1 |
+| PQ-5 | 2 | 5 | 1/2 | 1 |
+| QA-11 | 5 | 5 | 1/1 | 1 |
+| QA-12 | 5 | 5 | 1/1 | 1 |
+| **mean (n=22)** | **4.41** | **4.41** | - | - |
 
 ## Family means across scored scenarios (preview)
 

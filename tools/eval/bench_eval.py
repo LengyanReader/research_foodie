@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import statistics
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -241,6 +242,74 @@ SCIQ_SCENARIOS: List[Dict[str, Any]] = [
     },
 ]
 
+# PubMedQA (qiaojin/PubMedQA, pqa_labeled train) — yes/no/maybe research QAs
+# with the abstract supplied as context (same zero-parse `ctx` route). Gold =
+# the dataset's final_decision; gold tokens are directional soft signals only
+# (the judge's correctness is primary) — Session 19.
+PubMedQA_SCENARIOS: List[Dict[str, Any]] = [
+    {
+        "kind": "qa",
+        "topic_id": "PQ-1",
+        "topic": "PubMedQA · mitochondria / lace plant PCD (yes)",
+        "question": "Do mitochondria play a role in remodelling lace plant leaves during programmed cell death?",
+        "context": "Programmed cell death (PCD) is the regulated death of cells within an organism. The lace plant (Aponogeton madagascariensis) produces perforations in its leaves through PCD. The leaves of the plant consist of a latticework of longitudinal and transverse veins enclosing areoles. PCD occurs in the cells at the center of these areoles and progresses outwards, stopping approximately five cells from the vasculature. The role of mitochondria during PCD has been recognized in animals; however, it has been less studied during PCD in plants.",
+        "gold_tokens": ["yes"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-2",
+        "topic": "PubMedQA · Landolt C vs Snellen E acuity (no)",
+        "question": "Landolt C and snellen e acuity: differences in strabismus amblyopia?",
+        "context": "Assessment of visual acuity depends on the optotypes used for measurement. The ability to recognize different optotypes differs even if their critical details appear under the same visual angle. Since optotypes are evaluated on individuals with good visual acuity and without eye disorders, differences in the lower visual acuity range cannot be excluded. In this study, visual acuity measured with the Snellen E was compared to the Landolt C acuity. 100 patients (age 8 - 90 years, median 60.5 years) with various eye disorders, among them 39 with amblyopia due to strabismus.",
+        "gold_tokens": ["no"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-3",
+        "topic": "PubMedQA · transanal vs transabdominal pull-through (no)",
+        "question": "Are the long-term results of the transanal pull-through equal to those of the transabdominal pull-through?",
+        "context": "The transanal endorectal pull-through (TERPT) is becoming the most popular procedure in the treatment of Hirschsprung disease (HD), but overstretching of the anal sphincters remains a critical issue that may impact the continence. This study examined the long-term outcome of TERPT versus conventional transabdominal (ABD) pull-through for HD. Records of 41 patients more than 3 years old who underwent a pull-through for HD (TERPT, n = 20; ABD, n = 21) were reviewed.",
+        "gold_tokens": ["no"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-4",
+        "topic": "PubMedQA · HER2 immunoreactivity prognosis (maybe)",
+        "question": "Does HER2 immunoreactivity provide prognostic information in locally advanced urothelial carcinoma patients receiving adjuvant M-VEC chemotherapy?",
+        "context": "To evaluate the impact of HER2 immunoreactivity on clinical outcome in locally advanced urothelial carcinoma patients who received surgery alone, or methotrexate, vinblastine, epirubicin, and cisplatin (M-VEC) as adjuvant chemotherapy. We studied 114 formalin-fixed paraffin-embedded specimens obtained from locally advanced urothelial carcinoma patients receiving surgery alone or adjuvant M-VEC. The authors evaluated HER2 immunoreactivity using immunohistochemical staining and explored the influence of pathological parameters and HER2 immunoreactivity on progression-free survival (PFS).",
+        "gold_tokens": ["limited", "prognostic value"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-5",
+        "topic": "PubMedQA · emergency laparotomy mortality (maybe)",
+        "question": "30-Day and 1-year mortality in emergency general surgery laparotomies: an area of concern and need for improvement?",
+        "context": "Emergency surgery is associated with poorer outcomes and higher mortality with recent studies suggesting the 30-day mortality to be 14-15%. The aim of this study was to analyse the 30-day mortality, age-related 30-day mortality and 1-year mortality following emergency laparotomy. We hope this will encourage prospective data collection, improvement of care and initiate strategies to establish best practice in this area. This was a retrospective study of patients who underwent emergency laparotomy from June 2010 to May 2012.",
+        "gold_tokens": ["mortality", "concern"],
+    },
+]
+
+# 1703.10344 "Automated News Suggestions for Populating Wikipedia Entity Pages"
+# (Besancon et al. 2017). Numbers anchored in the abstract — Session 19.
+NEWS_WIKIPEDIA_SCENARIOS: List[Dict[str, Any]] = [
+    {
+        "kind": "qa",
+        "topic_id": "QA-11",
+        "topic": "News-suggestion precision (article-entity)",
+        "seed_id": "1703.10344",
+        "question": "What is the highest precision reported for the article-entity suggestion stage?",
+        "gold_tokens": ["93%"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "QA-12",
+        "topic": "News-suggestion precision (article-section)",
+        "seed_id": "1703.10344",
+        "question": "What is the precision reported for the article-section placement stage?",
+        "gold_tokens": ["84%"],
+    },
+]
+
 _QA_RUBRIC_PROMPT = (
     "You grade whether a generated research artifact answers a factual question "
     "correctly and with grounded citations. The artifact was produced from "
@@ -263,12 +332,20 @@ def score_qa(client: LLMClient, question: str, artifact: str) -> Dict[str, Any]:
                     content=f"Question: {question}\n\nArtifact:\n{artifact[:20000]}"),
         ],
         json_mode=True,
-        max_tokens=400,
+        max_tokens=1000,
     )
     obj = parse_json_dict(r.text)
     if not isinstance(obj, dict):
-        return {"correctness": 0, "groundedness": 0, "coverage": 0,
-                "error": f"unparseable: {r.text[:120]!r}"}
+        # Last-resort recovery for a judge reply truncated by max_tokens /
+        # service hiccups: pull the integer fields directly off the raw text.
+        corr = re.search(r'"correctness"\s*:\s*(\d+)', r.text)
+        grou = re.search(r'"groundedness"\s*:\s*(\d+)', r.text)
+        if corr and grou:
+            obj = {"correctness": int(corr.group(1)), "groundedness": int(grou.group(1)),
+                   "feedback": r.text[:300]}
+        else:
+            return {"correctness": 0, "groundedness": 0, "coverage": 0,
+                    "error": f"unparseable: {r.text[:120]!r}"}
     try:
         correctness = int(obj.get("correctness", 0))
         groundedness = int(obj.get("groundedness", 0))
@@ -649,7 +726,7 @@ def main() -> int:
     args = ap.parse_args()
 
     client = LLMClient(backend=args.backend, base_url=args.base_url, model=args.model)
-    all_scenarios = SCENARIOS + QA_SCENARIOS + QASPER_SCENARIOS + SCIQ_SCENARIOS
+    all_scenarios = SCENARIOS + QA_SCENARIOS + QASPER_SCENARIOS + SCIQ_SCENARIOS + PubMedQA_SCENARIOS + NEWS_WIKIPEDIA_SCENARIOS
     scenarios = all_scenarios
     run_ids: List[str] = [s["topic_id"] for s in all_scenarios]
     if args.scenarios:

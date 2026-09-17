@@ -17,9 +17,14 @@
    - **QA-8 propaganda → c 5 · g 5 · gold 3/3** · **QA-9 QG metrics → c 5 · g 5 · gold 3/3** · **QA-10 MPAD datasets → c 5 · g 5 · gold 3/3**
    - **SQ-1..5 → all c 5 · gold 1/1** (groundedness 3–5 — short context limits the judge's citation check, correct answers still exact)
    - **QA pilot panel n=15: correctness mean 4.73 · groundedness 4.40** · 14/15 correct-and-grounded (only QA-3 taxonomy at c 3); **extractive/context paths 10/10 perfect**.
-4. **Reading**: (a) the answer node is now reliable for extractive + provided-context factoids across three benchmark sources (Qasper, SciQ; plus corpus-anchored survey QAs); (b) the remaining imperfect cell is *synthesis/taxonomy* (multi-paper S_write), matching the documented boundary; (c) judge `groundedness` on one-sentence contexts is conservative (3-4) — fine as a conservative floor.
+4. **Reading**: (a) the answer node is now reliable for extractive + provided-context factoids across four benchmark sources (Qasper, SciQ, PubMedQA, news-suggestion); (b) the remaining imperfect cells are *synthesis/taxonomy* (multi-paper S_write) and *yes/no-style biomedical judgment* (2/5 PubMedQA misses — model over-answers instead of concluding yes/no/maybe; the short one-paragraph abstracts cap available evidence); (c) judge `groundedness` on one-sentence contexts is conservative (3-4) — fine as a conservative floor.
 
-Next (local-first): PubMedQA (context FAQs are provided per question — same `ctx` route possible), 30-DAS-topic evidence pools (CPU), variance re-runs.
+5. **Efficiency tooling (same session):** new one-command corpus adder `tools/eval/add_paper.py` codifies the download → page-count → windowed `-m txt` parse (≤6 pp/window, distinct `-o` dirs) → sub-split recovery on flake → merge step (12-pp paper added in one call, both windows clean). Plus a QA-scorer fix: `parse_json_dict` can't recover a judge reply truncated by `max_tokens=400`; bumped to 1000 and added a regex fallback in `score_qa` (QA-12 was scored 0/0 by a truncated judge parse → recovery shows 5/5, gold 1/1).
+
+6. **Extended panel (real runs, all extract/context):** PubMedQA `pqa_labeled` 5 QAs (PQ-1..5, yes/no/maybe with abstract context, gold tokens directional): PQ-2/3/4→c 4, PQ-1/5→c 2 (miss). News-suggestion paper `1703.10344` (12 pp, added via `add_paper.py`) → QA-11/QA-12 precision anchors → 5/5 each, gold 1/1.
+   **QA pilot panel n=22: correctness mean 4.41 · groundedness 4.41 · 19/22 correct** — extract/context paths (Qasper + SciQ + news-suggestion) **13/13 perfect**; weaknesses concentrated in PubMedQA yes/no judgment (3/5).
+
+Next (local-first): PubMedQA panel widening (better prompts for yes/no grounding), 30-DAS-topic evidence pools (CPU), variance re-runs.
 
 ---
 
