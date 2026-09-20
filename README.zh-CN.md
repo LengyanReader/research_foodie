@@ -1,120 +1,155 @@
 # research_foodie
 
-**本地优先、成本敏感（核心成本≈$0）的主动式学术研究流水线**：输入一个研究问题（或一个受监控领域），输出一份**逐句可溯源到已解析论文**的草稿——每个事实claim都锚定原文逐字引文，先机械校验、后人工把关。
+**本地优先、成本敏感（核心成本≈$0）的主动式学术研究流水线**：输入一个研究问题（或一个受监控领域），输出一份**逐句可溯源到已解析论文**、中英双语的综述手稿——每个事实 claim 锚定原文逐字引文；先机械校验、后人工把关。
 
-> English version: [`README.md`](README.md). 完整总览（目标 · 组件 · 工作流 · 实测能力）：[`docs/PROJECT.md`](docs/PROJECT.md)。
+> English version: [`README.md`](README.md) · 总览主入口（目标/组件/工作流/实测能力）：[`docs/PROJECT.md`](docs/PROJECT.md) · 架构蓝图：[`docs/design/research-foodie-blueprint.md`](docs/design/research-foodie-blueprint.md)
 
-Updated: 2026-09-16 · 许可证：MIT
+`Updated: 2026-09-20` · `许可证：MIT`
 
-## 项目做什么
+---
 
-- 输入问题 → 输出**双语（英文 + 中文）**大纲驱动草稿，每个章节由证据驱动。
-- 每个事实 claim 锚定本地已解析论文（arXiv）的**逐字引文**；确定性 5-gram 接地门在任何人审之前机械屏蔽幻觉引用。
-- 以 LangGraph 状态机运行：`S_lit → S_org → S_write → S_final → L6 校验门 → P3 评审 → 人工`。
-- **成本敏感**：核心链路用开源工具 + 免费/开放 LLM（核心成本≈$0）。
+## 为什么做这个 / Why this exists
 
-**不是什么**：不是黑盒"深度研究"产品——永不在无人闸门时自动交付稿件。机械校验先于 AI 评审；AI 修订、人工批准（蓝图 §0）。
+通用"深度研究"工具产出的综述读起来漂亮，却**会编造引用**——实测 GPT-4o 编造率约 78–90%（*OpenScholar*, Nature 650:857, 2025）。它们还是黑盒、花真钱、把失败单元平均掉。
 
-## 流水线总览
+research_foodie 反向设计：
 
-```
+- **引用即生命线**：每个声明必须锚定本地已解析论文（arXiv）的**逐字引文**；确定性 5-gram 接地门在任何人审之前机械屏蔽幻觉。
+- **≈$0 核心链路**：MinerU（本地解析）+ 免费托管模型 `opencode/big-pickle` + 免费 arXiv API，核心环节零 API key。
+- **诚实自评**：判题噪音、证据池覆盖率、模型边界全部显式报告，不平均掉。
+
+## 做什么 / What it does
+
+- **模式 1 — 研究综述**：问题 → 实时发现 → MinerU 解析 → 分类 + STORM 式大纲 → 逐论文接地 claims → **综述级双语（EN + 中文）草稿**，内联 `(arXiv:…)` 归属、分歧/缺口处理 → 手稿（Abstract / 证据表 / References）→ 本地 **PDF**（pandoc + xelatex + CJK）。
+- **模式 2 — 证据接地 QA（Track C）**：直接基于单篇论文/上下文回答基准问题（Qasper / SciQ / PubMedQA / 语料锚定）。
+- **模式 3 — 判题电池**：任意跑 30 个 DAS-Bench 话题端到端（发现 → 证据池 → 判题）。
+- **评估**：DAS-Bench 16 项标准逐字重实现；判题方差测试台；30 话题证据池；引用核验（CrossRef / arXiv / Semantic Scholar）。
+
+## 架构 / Architecture
+
+```text
 [L0] 问题 / 领域监控
   ▼
-[L1] S_lit  发现 rails（种子清单 · arXiv API · orx CLI）→ 候选
+[L1] S_lit   发现 rails：种子清单 · 实时 arXiv API · orx CLI
   ▼
 [L2] 证据   MinerU PDF→Markdown → 多论文证据池（逐论文接地）
   ▼
-[L3] S_org  分类学 + STORM 式大纲（节 + 要点）
+[L3] S_org  分类 + STORM 式大纲（节 + 要点）
   ▼
 [L4] S_write 逐论文证据化 claims（逐字引文）→ 跨论文写作
   ▼
-[L5] S_final 组装输出（来源清单 + 逐 claim 归属）
+[L5] S_final 组装手稿（来源 + 逐 claim 归属）→ 本地 PDF
   ▼
-[L6] 门控  确定性校验 → DAS-Bench 式 AI 评审 → 人工核签
-  ▼
-稿件  （Zotero + Pandoc + LaTeX）· Track B：OCR + 翻译 + 专家闸门
+[L6] 门控  确定性零-LLM 校验 → DAS-Bench 式 AI 判题 → 人工
 ```
 
-当前交付 **P2 最小纵切**（问题 → 接地草稿 → 校验产物）已端到端闭环；主动式 *stale → 重新发现* 循环与 DAS-2M/实时大规模扫描为路线图项目。
+以 LangGraph 状态机实现（`tools/pipeline/graph.py`）：`lit → org → write → revise_para → finalize → gate → judge`。定点重写只重进违规段落；机械门失败按范围回环。`seed_id`/`ctx` 问题改走接地抽取式回答节点。发现 rails 可插拔（`S_LIT_BACKEND=seed|arxiv|orx`；arXiv API 实测可达 ~1.1 s，2026-09-16）。
 
-## 快速上手
+## 快速上手 / Quickstart
 
-环境为 conda env `ds0509`（Python 3.12，Windows）。请显式使用该解释器：
+环境为 conda env `ds0509`（Python 3.12，Windows），请显式使用该解释器：
 
 ```powershell
-$PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
+$PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
+$UTF8 = '-X','utf8'                 # 避免 opencode 子进程 cp1252 解码噪声
 ```
 
-**运行集成测试**（mock = 秒级确定性回归；real = 完整 opencode LLM 链路）：
+**集成测试**（mock = 秒级确定性；real = 完整免费模型链路，2–4 分钟）：
 
 ```powershell
-& $PY -m tools.pipeline.test_pipeline mock      # 25/25 PASS
-& $PY -m tools.pipeline.test_pipeline real      # 默认模型 opencode/big-pickle（约 8 分钟，10 次 LLM 调用）
+& $PY -m tools.pipeline.test_pipeline mock      # 34/34 PASS
+& $PY $UTF8 -m tools.pipeline.test_pipeline real  # opencode/big-pickle，verdict PASS
 ```
 
-**示例问题：** *"GPT detectors bias against non-native English writers"*（Liang et al. 2023）与 *"How reliable are automatic detection tools for AI-generated text?"*（多论文池：Liang + Weber-Wulff + GLTR）。
+**示例问题：** *"GPT detectors bias against non-native English writers"*（Liang `2304.02819`）· *"How reliable are automatic detection tools for AI-generated text?"*（多论文池：Liang + Weber-Wulff `2306.15666` + GLTR `1906.04043`）。
 
-**LLM 后端**（`tools/llm/client.py`）：默认 `opencode`（免费托管模型，经 `opencode run --format json`）；`openai` 适配任意 OpenAI 兼容端点（DeepSeek / DashScope / OpenRouter / Moonshot / OpenAI）。通过 `LLM_BACKEND` / `OPENCODE_MODEL` / `OPENAI_BASE_URL` / `OPENAI_MODEL` / `OPENAI_API_KEY` 配置。
-
-**发现 rail**（默认种子清单）：`$env:S_LIT_BACKEND='seed'|'arxiv'|'orx'`。
-
-**解析论文**（MinerU；长/OCR 重 PDF 用 ≤6 页窗口，见 runbook K12）：
+**DAS-Bench 16 轴基准**（报告 → `_eval_out/bench_pilot_das.md`；`--out` 会整份覆盖，务必一次跑全场景集）：
 
 ```powershell
-& 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe' -p paper.pdf -o mineru_out_ds0509 -b pipeline -m txt -s 0 -e 5
+& $PY $UTF8 -m tools.eval.bench_eval --scenarios P-A,P-B,P-C,001,019
 ```
 
-**基准试点评测**（按原文逐字重实现 DAS-Bench 16 项标准）：
+**证据接地 QA 面板子集：**
 
 ```powershell
-& $PY -m tools.eval.bench_eval --backend opencode --scenarios P-A,P-B,P-C,001,019 --out _eval_out/bench_pilot_das.md
+& $PY $UTF8 -m tools.eval.bench_eval --scenarios QA-6,QA-7,SQ-1,PQ-1
 ```
 
-## 当前状态
+**30 话题电池 + 判题方差：**
 
-- **Phase 0/1（文档）**：完成。**P1 工具链**：MinerU PDF→Markdown PASS；PaddleOCR 中文 OCR PASS（K7 关闭）。
-- **P2 最小纵切 + 框架整合（GREEN）**：LangGraph 流水线 + 可插拔 S_lit rails（seed / arXiv API——2026-09-16 已验证可达 / orx CLI）、多论文证据池（`resolved_evidence`，3 份本地解析）、逐论文接地 claims（`paper_id` 归属）、STORM 式大纲（4-6 节）、**综述级分节写作**（intro + 每节 `## <heading>` 段落 + conclusion，内联 arXiv 归属、分歧/缺口处理）、**手稿化产物**（Abstract / 证据表 / References）+ **本地 PDF 渲染**（`tools/eval/render_manuscript.py`，pandoc+xelatex CJK）、L6 确定性门控（+ `multi_paper` 指标）、DAS-Bench 式 AI 评审（严格矩阵 v1）。
-- **测试**：mock **34/34** · real `opencode/big-pickle` **34/34**（real 约 4–8 分钟；严格评审 verdict=pass）。
-- **评估试点**（`tools/eval/bench_eval.py`，Session 11-16）：canonical（sidecar 缓存，`--out` 不再覆盖式）——**P-A 3.94 / P-B 3.06 / P-C 4.00**，家族均值 **BSC 3.67 / MAR 3.33 / TSQ 3.42 / HDQ 4.25 / Total 3.67**（n=3；运行间方差 ±0.3 已记录）。MAR 修复生效：证据表进入 40K 视野；PDF 渲染存于 `_eval_out/manuscripts/`；Layout 轴仍受限于文本评审（需 ≥300B 页面感知评审，阻塞中）。P-A/P-C 已去重。001/019 正确 no-evidence。报告：`_eval_out/bench_pilot_das.md`。
-- **Track C · 证据接地 QA**（`qa` 场景族，Session 17-19）：语料锚定 + **Qasper 外部作者 gold 题** + **SciQ 提供上下文型 MCQ** + **PubMedQA 是/否摘要** + **新闻推荐锚点题**（`ctx`/`seed_id` 路由，零手工解析）。可学习闭环：综述图答"论文"而非"问题"→ `seed_id`/`ctx` 场景改走**接地抽取式回答节点**（`tools/pipeline/answer.py`；约 15-20 s/问）。**QA 面板 n=31：correctness 4.23 · groundedness 4.45 · 24/31 正确**——抽取+上下文路径 **12/13**（唯一未命中的是综合/分类学题）；残余短板为 PubMedQA 是/否结论收敛（8/14，`yesno` 模式已启用——测得的能力边界）；新增 6 篇语料论文并含 `add_paper.py`（一条命令加文献）。
-- **案例接地电池（Session 19b）**——`tools/eval/pools_30.py`：全部 30 个 DAS-Bench 话题走发现→分窗解析→增量清单（`_eval_out/pools_30.json`；**22/30 话题有已解析证据，12 个满池**）。**10 话题端到端判题 → Total 3.13**（BSC 3.08 · MAR 2.67 · TSQ 3.05 · HDQ 3.73）。判题方差经 `tools/eval/variance_run.py` 实测：代理三元组 **P-A 3.88±0.53 · P-B 3.31±0.00 · P-C 3.53±0.13**。完整能力盘点见 `docs/CAPABILITY-STATUS.md`。
-- **默认配置**：全链路 `opencode` 后端（Ollama 后端已于 2026-09-16 移除）；种子清单保持确定性离线发现默认。
+```powershell
+& $PY $UTF8 -m tools.eval.pools_30          # → _eval_out/pools_30.json + pools_30_report.md
+& $PY $UTF8 -m tools.eval.variance_run      # → _eval_out/variance_runs.json
+```
 
-## 仓库地图
+**本地 Web 观测台（WS-B）：** 一键触发、SSE 实时进度、可取消、手稿 PDF、feedback——全在浏览器：
+
+```powershell
+& $PY -X utf8 -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8787
+# → http://127.0.0.1:8787/
+```
+
+仅绑定 **127.0.0.1**，定位是*本地观测面*：**GitHub Pages 是纯静态托管，不执行任何服务端代码**（Python/Node/PHP 运行时均不受支持），故活版前端留本地、静态只读导出（F-3）才是可部署到 Pages 的形态。
+
+**LLM 后端**（`tools/llm/client.py`）：默认 `opencode`（免费托管模型，零 key）· `openai` 适配任意 OpenAI 兼容端点（DeepSeek / DashScope·Qwen / Moonshot·Kimi / OpenRouter / OpenAI），经 `OPENAI_BASE_URL` / `OPENAI_MODEL` / `OPENAI_API_KEY` 配置。Phase D 将加角色级 profiles（廉价草稿 lane / 强判题 lane）。**解析论文**用 MinerU（`-m txt`；长 PDF 用 ≤6 页窗口，见 runbook K12）。
+
+> 逐工具速查表 + 四条端到端 demo：[`docs/setup-runbook.md §3.1`](docs/setup-runbook.md) · 端到端使用流程（从问题出发 → 干货设置 → 规范/格式约束）：[`§3.0`](docs/setup-runbook.md)。
+
+## 实测能力 / Measured status (as of 2026-09-19)
+
+> 方向性数据，不与官方 DAS 榜单 head-to-head（那需要 ≥300B 冻结判题）；每个 verdict 记录实际判题模型。完整盘点：[`docs/CAPABILITY-STATUS.md`](docs/CAPABILITY-STATUS.md)。
+
+| 项 | 数字 | 含义 |
+|---|---|---|
+| 流水线测试 | **mock 34/34 · real 34/34** | 确定性 + 完整 LLM 链路全绿（2 篇真论文：Liang、Weber-Wulff） |
+| QA 面板 n=31 | correctness **4.23** · groundedness **4.45** · 24/31 | Track C，含 Qasper 金标 5/5 · SciQ 上下文 5/5 · PubMedQA 8/14 |
+| 抽取/上下文路径（n=13） | **12/13** | 单篇/上下文事实题≈可解 |
+| PubMedQA 是/否（PQ-1..14） | **8/14** | 是/否*结论* = 实测模型边界 |
+| 代理三元组（方差） | **P-A 3.88±0.53 · P-B 3.31±0.00 · P-C 3.53±0.13** | 判题模型（免费）运行间噪声 |
+| 电池判题（n=10） | **Total 3.13**（BSC 3.08 · MAR 2.67 · TSQ 3.05 · HDQ 3.73） | 含发现噪声的端到端；HDQ 为强项，MAR 受池小拖累 |
+| 证据池覆盖 | **22/30 DAS 话题**有已解析证据（12 个满池） | 8 个空池 = 相关性/网络上限，度量而非静默 |
+
+**诚实契约**：判题噪声显式（P-A σ≈0.53）；001/019 正确判 no-evidence；PubMedQA 8/14 边界直认；隐藏失败单元列出而非平均掉。链路三道闸：确定性 L6（事实完整性，零成本）→ AI 判题（质量）→ **人工**（放行；永不自动发布）。
+
+## 仓库地图 / Repository map
 
 | 路径 | 说明 |
 |---|---|
-| `docs/refs/ai-research-tools-workflow-guide.md` | 已核验工具调研（2026-09-15），含验证台账 |
-| `docs/design/research-foodie-blueprint.md` | 双语架构蓝图：目的/非目标、L0–L6、状态机、成本矩阵、路线图 |
-| `docs/design/self-evolution-mechanism.md` | 双语自演化机制设计：四相循环、证据、失败模式（2026-09-20） |
-| `docs/PROJECT.md` | **项目主总览（主入口）：** 目标、组件（对应代码）、工作流、实测能力、路线图 |
-| `docs/DATAFLOW-AND-REUSE.md` | **实现真相：** 各模式精确输入输出、逐节点阶段进出、框架缝合程度账本（执行/借用/仅参考） |
-| `docs/TOOL-COMPARISON.md` | **逐阶段工具定位对比** + 可复用资产清单（2026-09-20 一手核证） |
-| `docs/CAPABILITY-STATUS.md` | 能力盘点：实测数字、GREEN/BLOCKED 清单、复现命令 |
-| `docs/setup-runbook.md` | 双语操作手册：环境、命令、**用法速查 + 演示（§3.1）**、冒烟测试、已知问题 K1–K12 |
-| `docs/PLAN.md` · `docs/PROGRESS.md` | 执行计划 + 进度日志（计划先行、边做边记） |
-| `tools/llm/` | 统一 LLM 客户端（`opencode` + `openai`）+ mock 服务 |
-| `tools/pipeline/` | LangGraph 流水线：`corpus.py`（发现+证据池）· `graph.py`（S_lit…S_final）· `validate.py`（L6）· `judge.py`（P3）· `test_pipeline.py` |
-| `tools/eval/bench_eval.py` | DAS-Bench 16 项标准评估工具 |
-| `tools/citation-verify/` | 引文核验测试台（CrossRef/arXiv/Semantic Scholar） |
-| `external/` | 下载的框架仓库（已 gitignore）：STORM、DAS(+DAS-Bench)、paper-qa、MinerU、DeepResearch、orx、OpenResearch… |
+| `README.zh-CN.md` | 本项目中文入口 |
+| `docs/PROJECT.md` | **总览主入口：** 目标 / 组件 / 工作流 / 实测能力 / 路线图 |
+| `docs/design/research-foodie-blueprint.md` | 架构蓝图：L0–L6、状态模型、成本矩阵、路线图 |
+| `docs/design/self-evolution-mechanism.md` | 自演化设计（WS-C）：四相循环、证据、失败模式 |
+| `docs/design/tool-paper-outline.md` | 本工具投稿 arXiv 的系统论文大纲（双语） |
+| `docs/DATAFLOW-AND-REUSE.md` | 各模式输入输出、逐节点阶段 I/O、框架缝合程度诚实账本 |
+| `docs/TOOL-COMPARISON.md` | 逐阶段对比 STORM / orx / PaperQA2 / DAS / MinerU 等 |
+| `docs/CAPABILITY-STATUS.md` | 实测数字、GREEN/BLOCKED 清单、复现命令 |
+| `docs/setup-runbook.md` | 操作手册：环境、命令、使用流程 §3.0、演示 §3.1、已知问题 K1–K12 |
+| `docs/PLAN.md` · `docs/PROGRESS.md` | 计划先行 / 边做边记（§8 = 并行工作流 WS-A/B/C/D/R） |
+| `tools/llm/` | 统一 LLM 客户端（`opencode` + `openai`）· mock 服务 · smoke test |
+| `tools/pipeline/` | LangGraph：`corpus.py` · `graph.py` · `validate.py`（L6）· `judge.py` · `answer.py` · `test_pipeline.py` |
+| `tools/eval/` | `bench_eval.py`（DAS-16）· `pools_30.py` · `variance_run.py` · `add_paper.py` · `render_manuscript.py` |
+| `tools/web/` | 本地 FastAPI 观测台（runs / SSE / cancel / manuscripts / feedback）——WS-B |
+| `tools/citation-verify/` | CrossRef / arXiv / Semantic Scholar 批量引用核验 |
+| `_eval_out/` | 真实结果：bench 报告、pools、variance、手稿、web 运行日志（gitignore） |
 
-## 治理原则
+## 质量护栏 / Governance
 
-- **引用即生命线**：每个事实声明都回溯一手资料（已解析论文、arXiv ID）并附访问日期；无法验证的声明标记 *unverified*，绝不冒充事实。
-- **日期显式化**：当前状态类陈述带 `as of <date>`。
-- **成本敏感**：默认开源/免费工具；付费 API 仅用于质量关键环节。
-- **不主动提交**；文档双语原则仅在单语会导致信息损失时启用。
+- **引用即生命线**——每个事实声明回溯一手资料（已解析论文、arXiv ID）并附访问日期；无法验证 → 标 *unverified*，绝不冒充事实。
+- **日期显式化**——当前状态类陈述带 `as of <date>`；价格/榜单数字为方向性并附来源。
+- **成本敏感**——默认开源/免费；付费 API 仅用于质量关键升级 lane。
+- **不主动提交；计划先行、边做边记**（`docs/PLAN.md` → `docs/PROGRESS.md`）。
 
-## 路线图（下一步）
+## 路线图与开放工作流 / Roadmap & open workstreams
 
-1. ≥300B 冻结、页面感知评审对渲染 PDF 打分（MAR Layout 轴 + 全量 DAS-Bench 合规；需要 API key / GPU / 网络）。
-2. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
-3. Track C（外部基准）：Qasper 端到端已完成（2/2 gold 完美）；面板已达 n=31（PubMedQA/SciQ MCQ 已接，`yesno` 模式已上线）；HF gating 允许则抽样 GAIA level-1。完整能力盘点与数字：[`docs/CAPABILITY-STATUS.md`](docs/CAPABILITY-STATUS.md)。
-4. 对比与复用通道：先本地补 L4 检索重排 + 多视角大纲 + 判题中位数（≈$0），待 ≥300B 判题端点后接入官方 DAS-Eval / DAS-2M / knowledge-storm——见 [`docs/TOOL-COMPARISON.md`](docs/TOOL-COMPARISON.md)。
-5. 自演化循环（基线冻结 + 健康检查 + 周更节奏）——`docs/PLAN.md §8 Phase X` 与 [`docs/design/self-evolution-mechanism.md`](docs/design/self-evolution-mechanism.md)。
-6. 本地 Web 前端（FastAPI + HTMX/SSE，仅 `127.0.0.1`）作为跑动/健康/反馈的观测台——`docs/PLAN.md §8 Phase F`；手跑命令全部见 runbook §3.1 演示。
-7. 模型路由（Phase D）：零 key 默认 `opencode`；注册任一 OpenAI 兼容 API key（DeepSeek/Qwen/Kimi/OpenRouter）作**强判题 lane**——目标 P-A sd <0.40。今日无 key 即可运行。
-8. 📄 本工具投稿 arXiv 的论文（大纲已成、完整稿后续）：本地优先 + 强制溯源综述流水线 + 诚实自评——[`docs/design/tool-paper-outline.md`](docs/design/tool-paper-outline.md)。
+进度按**并行工作流**组织（见 `docs/PLAN.md §8`）：
 
-可度量验收见 `docs/PLAN.md §8`。
+- **WS-A** 核心流水线（Phase L）：L-1 检索重排 · L-3 判题 median-of-3（攻 P-A σ 0.53）· L-4 引用核验接线。
+- **WS-B** Web 观测台（Phase F）：✅ F-1/F-2 已交付（runs/SSE/cancel）· F-3 只读静态导出（可部署 GH Pages）· F-4 进入自演化节奏（E-2/E-3/E-4/E-5 同一 URL）。
+- **WS-C** 自演化（Phase X）：基线冻结 → 方差感知健康检查 → 门覆盖变异测试 → 带溯源下限的周更节奏（E-1…E-7）。
+- **WS-D** 模型路由（Phase D）：角色级 profiles；在 OpenAI 兼容 API key 上开**强判题 lane**（今日无 key 亦可跑）——目标 P-A sd < 0.40。
+- **WS-R** 资源门控（Phase R）：官方 DAS-Eval 工具包 · DAS-2M 元数据湖 · knowledge-storm · ≥300B 页面感知判题（需 key / GPU / 网络）。
+
+**阻塞项（需 key · GPU · 输入）：** ≥300B 页面感知判题对渲染 PDF 打分（MAR Layout 轴 + 全量 DAS-Bench 合规）· GAIA 批量 · 中文证据层（Track B）——裁决见 [`docs/CAPABILITY-STATUS.md §3`](docs/CAPABILITY-STATUS.md)。
+
+---
+*MIT 许可证 · 双语文档由 [`AGENTS.md`](AGENTS.md) 约束 · Windows 11 / CPU-only / conda `ds0509` 构建。*
