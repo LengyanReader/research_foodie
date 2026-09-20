@@ -215,9 +215,15 @@ def sprint(quick: bool = False, profile_name: str | None = None,
         cap = str(capability_report.write_report(EVAL_OUT))
     except Exception as e:  # never let the snapshot break the cadence
         cap = f"(capability_report skipped: {type(e).__name__}: {e})"
+    try:
+        from tools.eval import ablations  # deterministic §4.6, model-free
+        abl = str(ablations.run(EVAL_OUT)["path"])
+    except Exception as e:
+        abl = f"(ablations skipped: {type(e).__name__}: {e})"
 
     print(f"\n[sprint] wrote {SPRINT}")
     print(f"[sprint] refreshed {cap}")
+    print(f"[sprint] refreshed {abl}")
     for v in verdicts:
         print(f"  [{v['level']:<4}] {v['check']:<20} {v['detail'][:70]}")
     print(f"\n[sprint] exit_code={exit_code} "

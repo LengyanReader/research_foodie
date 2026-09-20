@@ -79,8 +79,11 @@ The "self-evolution" capability is a **scheduled-measurement + regression-detect
 | D-3 cross-model judge matrix | `tools/eval/judge_matrix.py` | ✅ harness mock-verified (2 vantages); compression measure gated on ≥300B key |
 | D-4 provenance in every report | `bench_eval`/`health_check`/`evolution_sprint`/`judge_matrix` | ✅ model+judge_model+temperature+profile footers |
 | Scheduled capability snapshot | `tools/eval/capability_report.py` | ✅ reads cached artifacts → dated `_eval_out/capability_report.md` (config × benchmark × evolution-state); wired into every cadence step 8 |
-| Multi-option base model | `tools/llm/profiles.py` (`free-opencode`/`openai-compat`/`judge-strong`) | ✅ 3 selectable options + `OPENCODE_MODEL` qwen3.8-flash redirect; loud-fail on missing key/unknown profile; `test_capability.py` 22 guards |
-| Paper draft | `docs/paper/research-foodie-paper.md` | ✅ Draft v1 (living doc — §4 tied to `capability_report`) |
+| Multi-option base model | `tools/llm/profiles.py` (`free-opencode`/`openai-compat`/`judge-strong`) | ✅ 3 selectable options + `OPENCODE_MODEL` qwen3.8-flash redirect; loud-fail on missing key/unknown profile; `test_capability.py` **33 guards** |
+| Paper draft | `docs/paper/research-foodie-paper.md` | ✅ Draft v1 + Mermaid figures (`fig:architecture`, `fig:loop`) + deterministic §4.6 (living doc — §4 tied to `capability_report`/`ablations`) |
+| Deterministic §4.6 ablations (Session 24) | `tools/eval/ablations.py` → `_eval_out/ablations.md` | ✅ **model-free (no LLM/key)**: gate ON/OFF leakage 8→0 · 0 false drops; pool coverage 73% (14/8/8); median-of-N spread ≈0.31 — feeds paper §4.6; auto-refreshed at cadence step 8 |
+| Daily-cadence scheduler (Session 24) | `tools/web/schedule_task.ps1` | ✅ idempotent Windows Task registration of the **offline** `evolution_sprint --quick` (`-At`/`-Unregister`); delivered, not auto-run; live loop intentionally unscheduled (see §3) |
+| Client fail-fast on model errors (Session 24) | `tools/llm/client.py` (`OpencodeError`, `_first_opencode_error`) | ✅ parses opencode `{"type":"error"}` billing/401 events into a clear **non-retryable** error (no ~600 s hang on a credit-blocked account) |
 
 Deterministic guard tests: `tools/eval/test_evolution.py` (31 assertions, temp-isolated, zero-network). **Honest boundary:** the loop writes only ledger JSONs under `_eval_out/`; live re-measures (L-1/L-2 acceptance on real P-A..C/QA, L-3 sd<0.40) still need a real judge cadence, and D-3/R-1 need a registered strong key.
 
@@ -93,6 +96,7 @@ Deterministic guard tests: `tools/eval/test_evolution.py` (31 assertions, temp-i
 | Track B **Chinese evidence layer** | needs a Chinese-corpus PDF from the user |
 | PubMedQA yes/no convergence (4/7 on the hard subset) | mall live model limitation — next prompt/loop candidate |
 | 8/30 empty evidence pools | arXiv relevance + parse caps; candidate quality is a measured property, not silent |
+| **Live model cadence / fresh §4 judge numbers** (Session 24) | free hosted judge is **credit-blocked** — `opencode` CLI → opencode.ai "zen" gateway returns **HTTP 401 "No payment method"** (hence `big-pickle` hangs, `qwen3.8-flash` rc=1). Qoder's in-IDE Qwen is **not** exposed as a callable/key-free endpoint (`qoder` CLI = IDE launcher; `:56510` = private WebSocket, `:9420` = Chromium debug) — model-call work deferred; deterministic/mock paths unaffected |
 
 ## 4. Reproduce (all local, free)
 
@@ -110,7 +114,10 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 # L-6 one-command self-check (unit + mock integration + evolution cadence, ~15s offline)
 & ./self_check.ps1                                     # or: -m tools.eval.self_check ; -Full adds live judge
 # WS-C self-evolution cadence + deterministic guards
-& $PY -X utf8 -m tools.eval.evolution_sprint --quick   # health→deps→tickets→feedback→promotion→report
+& $PY -X utf8 -m tools.eval.evolution_sprint --quick   # health→deps→tickets→feedback→promotion→report (+refresh capability_report & ablations)
+& $PY -X utf8 -m tools.eval.ablations                   # deterministic §4.6 (model-free) → _eval_out\ablations.md
+& $PY -X utf8 -m tools.eval.test_capability             # 33 zero-LLM guards (profiles + report + ablations + client 401-parse)
+pwsh -File tools/web/schedule_task.ps1 -At 09:00        # register the offline daily cadence (no LLM/no key); -Unregister to remove
 & $PY -X utf8 -m tools.eval.test_evolution             # 31 zero-LLM guard tests (temp-isolated)
 # D-3 cross-model judge matrix
 & $PY -X utf8 -m tools.eval.judge_matrix --judges free-opencode --rounds 3

@@ -4,6 +4,10 @@ Zero network, zero LLM, no writes outside a temp dir. Covers:
   * profiles: the three selectable options (free-opencode / openai-compat /
     judge-strong), the OPENCODE_MODEL->qwen redirect, and loud failures.
   * capability_report: offline snapshot assembly + per-topic variance.
+  * ablations: the deterministic model-free gate invariant (0 leakage ON, all
+    grounded retained, 0 false drops) + offline report assembly.
+  * client: opencode `{"type":"error"}` billing/401 events parse to a clear,
+    non-retryable failure (the live blocker seen this session).
 
 Run:  python -m tools.eval.test_capability
 """
@@ -153,10 +157,45 @@ def _test_report_assembly() -> None:
     os.environ.update(saved)
 
 
+def _test_ablations() -> None:
+    print("[ablations] deterministic model-free gate")
+    from tools.eval import ablations as AB
+    g = AB.gate_ablation()
+    _assert(g["gate_on_leakage"] == 0, "gate ON lets zero un-grounded claims through")
+    _assert(g["false_drops"] == 0, "gate ON drops no grounded claim (fuzzy tolerance)")
+    _assert(g["grounded_retained"] == g["grounded_n"], "all grounded controls retained")
+    _assert(g["gate_off_leakage"] == g["ungrounded_n"] > 0, "gate OFF leaks every candidate")
+    with tempfile.TemporaryDirectory() as tmp:
+        out = AB.run(eval_dir=Path(tmp), out=Path(tmp) / "ablations.md")
+        md = (Path(tmp) / "ablations.md").read_text(encoding="utf-8")
+        _assert(out["gate"]["gate_on_leakage"] == 0, "run() surfaces the gate summary")
+        _assert("(a) L6 grounding gate" in md, "report has the gate section")
+        _assert("not measured yet" in md, "empty eval dir -> honest 'not measured yet'")
+    med = AB.median_of_n()
+    _assert(isinstance(med, list), "median_of_n returns a list from real data")
+
+
+def _test_client_error_parse() -> None:
+    print("[client] opencode billing/401 error-event parse")
+    from tools.llm.client import LLMClient
+    real = ('{"type":"step"}\n'
+            '{"type":"error","error":{"name":"APIError","data":{"message":'
+            '"No payment method. Add a payment method here","statusCode":401,'
+            '"isRetryable":false}}}\n')
+    err = LLMClient._first_opencode_error(real)
+    _assert(err is not None and "payment" in err["message"], "401 message extracted")
+    _assert(err["statusCode"] == 401 and err["isRetryable"] is False,
+            "statusCode 401 + non-retryable surfaced")
+    _assert(LLMClient._first_opencode_error('{"type":"text"}\nnot json\n') is None,
+            "clean output -> no false error")
+
+
 def main() -> int:
     _test_profiles()
     _test_variance_recompute()
     _test_report_assembly()
+    _test_ablations()
+    _test_client_error_parse()
     print(f"\n{len(_FAILURES)} failed, {_PASSED} passed")
     if _FAILURES:
         for f in _FAILURES:

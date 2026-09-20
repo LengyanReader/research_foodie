@@ -2,7 +2,7 @@
 
 > **中文速览** — 本文是 research_foodie 的论文**初稿（draft v1, 2026-09-20）**，由 `docs/design/tool-paper-outline.md` 大纲展开成文。所有实验数字均来自本仓库 `_eval_out/` 的本地免费模型实测（判题为非确定性模型，方向性）。本文件是**活文档**：§7 的每个数字都由 `python -m tools.eval.capability_report` 生成/复核（`_eval_out/capability_report.md`），随自演化周期更新。诚实性规则沿用 AGENTS.md：数字带 `as of` 日期、方向性结论标注、未一手复核的引用标 *unverified*。`[TODO]` = 待补实验/配图。
 
-- **Status:** Draft v1 — full spine written from the outline **incl. figures** `fig:architecture` + `fig:loop` (Mermaid); remaining: ablations (§4.6) and one-hand citation re-verification
+- **Status:** Draft v1 — full spine + figures (`fig:architecture`, `fig:loop`, Mermaid) + deterministic §4.6 ablations (a/b/c) written; remaining: the live judge-swap ablation (d) + one-hand citation re-verification (both gated on a reachable model / deferred)
 - **Target:** arXiv (cs.CL / cs.AI), applied-NLP / systems track
 - **Reproducibility:** every quantitative claim maps to a `docs/setup-runbook.md §3` command; regenerate the whole number set with the runbook + `capability_report`
 - **Data & code:** local-first; no API keys required for the ≈$0 core loop (hosted free model + free arXiv API + local MinerU parsing)
@@ -263,11 +263,28 @@ verdicts, gold-quota floor, dep-drift classification, and the config layer — a
 zero-network, temp-isolated. Two consecutive `--quick` cadences render GREEN with a clear
 board; the L-6 `self_check.ps1` runs the whole offline net in ~15 s.
 
-### 4.6 Ablations `[TODO]`
-Planned: (a) grounding gate on/off → judge-score delta; (b) discovery-rail swap → pool
-coverage; (c) judge swap (free vs ≥ 300 B) → score compression (D-3 `judge_matrix` harness is
-implemented and mock-verified; live run gated on a registered key); (d) post-change re-measure
-(mutation/kill rate).
+### 4.6 Ablations
+Three of four ablations are **deterministic and model-free** (`python -m tools.eval.ablations`
+→ `_eval_out/ablations.md`), isolating the system's contribution from the non-deterministic
+judge; the fourth (live judge swap) is gated on a reachable model and deferred (§5).
+
+**(a) Grounding gate ON vs OFF.** On a fixed fixture — 8 un-grounded candidates (contiguity-
+broken gap-1 + fabricated) and 5 grounded controls — the L6 5-gram gate drives draft-leakage
+**8 → 0** while retaining **5/5** grounded claims (**0 false drops**): the filter is exact on
+this corpus and paraphrase-tolerant. The E-2b mutation harness independently holds 100% kill
+across a larger corpus.
+
+**(b) Evidence-pool coverage.** Over the cached 30-topic pools: **14 full (≥3 papers) · 8
+partial · 8 empty → 73% coverage**; the 8 empties are discovery-floor misses (thin recall for
+those topics), reported rather than padded.
+
+**(c) Median-of-N robustness.** Recorded repeat judge runs show small per-topic Total spread
+(P-A 0.75, P-B 0.00, P-C 0.19; mean ≈ 0.31 pts), a single draw landing within ~0.4 of the
+median; reporting the **median of N** damps this, and E-5 promotion further needs Δ ≥ 2σ over
+N ≥ 3 rounds before any change.
+
+**(d) Live judge swap (free vs ≥ 300 B) → score compression** — the D-3 `judge_matrix` harness
+is implemented and mock-verified; the live run is gated on a non-credit-blocked judge, deferred.
 
 ### 4.7 Cost & latency
 Core loop ≈ $0. `[TODO]` a formal token / API-call / wall-clock table.

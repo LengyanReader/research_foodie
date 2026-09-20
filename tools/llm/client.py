@@ -63,6 +63,16 @@ class ChatResponse:
     raw: Dict[str, Any]
 
 
+class OpencodeError(RuntimeError):
+    """A headless `opencode run` failure. `retryable` is False for hard account
+    errors (e.g. opencode.ai 401 'No payment method' / CreditsError) so the
+    caller fails fast with an actionable message instead of hanging on retries."""
+
+    def __init__(self, message: str, *, retryable: bool = True):
+        super().__init__(message)
+        self.retryable = retryable
+
+
 # ---------------------------------------------------------------------------
 # Client
 # ---------------------------------------------------------------------------
@@ -153,6 +163,12 @@ class LLMClient:
             try:
                 text, usage = self._run_opencode(prompt)
                 break
+            except OpencodeError as e:
+                if not e.retryable:
+                    raise  # billing/auth/config error — retrying only wastes time
+                if attempt == 2:
+                    raise
+                time.sleep(2 + 2 * attempt)
             except Exception as e:
                 if attempt == 2:
                     raise
@@ -195,12 +211,54 @@ class LLMClient:
                     pass
 
         if proc.returncode != 0:
+            err = self._first_opencode_error(proc.stdout)
+            if err:
+                code = err.get("statusCode")
+                raise OpencodeError(
+                    f"opencode model call failed"
+                    + (f" [HTTP {code}]" if code else "")
+                    + f": {err.get('message') or 'unknown opencode error'}"
+                    + " — free hosted models need credits on this opencode.ai account;"
+                      " add a payment method, or run the pipeline via an OpenAI-compatible"
+                      " endpoint (LLM_PROFILE=openai-compat) instead.",
+                    retryable=bool(err.get("isRetryable", False)),
+                )
             tail = (proc.stderr or proc.stdout or "")[-800:]
-            raise RuntimeError(f"opencode run failed (rc={proc.returncode}): {tail}")
+            raise OpencodeError(f"opencode run failed (rc={proc.returncode}): {tail}")
         text, usage = self._parse_events(proc.stdout)
         if not text:
+            err = self._first_opencode_error(proc.stdout)
+            if err:
+                raise OpencodeError(
+                    f"opencode model call failed: {err.get('message') or 'error'}",
+                    retryable=bool(err.get("isRetryable", False)),
+                )
             raise RuntimeError(f"opencode returned no text; stderr tail: {(proc.stderr or '')[-400:]}")
         return text, usage
+
+    @staticmethod
+    def _first_opencode_error(stdout: str):
+        """Return the first structured `{"type":"error"}` event from `--format
+        json` output as {message, statusCode, isRetryable}, else None. opencode
+        reports account/billing failures (e.g. HTTP 401 'No payment method') as
+        an error event on stdout even when stderr is empty."""
+        for line in (stdout or "").splitlines():
+            line = line.strip()
+            if not line.startswith("{"):
+                continue
+            try:
+                ev = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if ev.get("type") == "error":
+                e = ev.get("error") or {}
+                data = e.get("data") or {}
+                return {
+                    "message": data.get("message") or e.get("name") or "opencode error",
+                    "statusCode": data.get("statusCode"),
+                    "isRetryable": data.get("isRetryable", False),
+                }
+        return None
 
     @staticmethod
     def _parse_events(stdout: str):

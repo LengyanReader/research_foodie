@@ -131,10 +131,16 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   & $PY -X utf8 -m tools.eval.capability_report            # -> _eval_out/capability_report.md
   & $PY -X utf8 -m tools.eval.capability_report --live     # re-measure (quick) first
   ```
-  To run it **on a schedule / 定时**, register one Windows Task that runs the cadence (which refreshes the snapshot as its step 8) — e.g. daily at 09:00:
+  To run it **on a schedule / 定时** without hand-writing the recipe, use the shipped idempotent registrar (registers the **offline** `evolution_sprint --quick` — no LLM, no key — as a daily Windows task; `-At` sets the time, `-Unregister` removes it):
   ```powershell
-  $a = New-ScheduledTaskAction -Execute 'C:\Program Files\PowerShell\7\pwsh.exe' -Argument '-NoProfile -Command "cd C:\DA_Practice\research_foodie\research_foodie; & ''C:\Users\data\miniconda3\envs\ds0509\python.exe'' -X utf8 -m tools.eval.evolution_sprint --quick"'
-  Register-ScheduledTask -TaskName research_foodie_cadence -Action $a -Trigger (New-ScheduledTaskTrigger -Daily -At 9am)
+  pwsh -File tools/web/schedule_task.ps1 -At 09:00        # register / re-register
+  pwsh -File tools/web/schedule_task.ps1 -Unregister      # remove
+  Get-ScheduledTask -TaskName research_foodie-daily-cadence | Get-ScheduledTaskInfo
+  ```
+  The *live* model-backed cadence is deliberately **not** scheduled — the free hosted judge is currently credit-blocked (opencode.ai returns HTTP 401 "No payment method"), so only the key-free offline loop runs unattended.
+- **Deterministic §4.6 ablations, model-free (`tools/eval/ablations.py`, Session 24)** — offline, no LLM, no key: (a) grounding-gate ON/OFF draft-leakage on a fixed fixture, (b) cached 30-topic pool coverage, (c) median-of-N judge spread from `variance_runs.json`. Writes `_eval_out/ablations.md` (feeds paper §4.6):
+  ```powershell
+  & $PY -X utf8 -m tools.eval.ablations                    # -> _eval_out/ablations.md
   ```
 - **Base-model options (三种选项, env-only — pick with `LLM_PROFILE`; no keys ever committed):**
   | profile | draft / qa | judge | needs |
@@ -390,7 +396,7 @@ Notes:
 | P2 | LangGraph S_lit→S_org→S_write→S_final + L6 validation gate; seed-corpus discovery; write-time grounded-claim filter | **done — minimal vertical GREEN, frameworks integrated, generalizes** (`tools/pipeline/`, `corpus.py`, `validate.py`, `judge.py`); mock 19/19 + real **`opencode/big-pickle` 18/18 (121.7 s, STORM outline 3 sections, full-text claims, draft 3357 chars, score 1.0, judge=pass)**; **2nd real paper (Weber-Wulff `2306.15666`) full loop PASS (149.8 s, 4 claims, score 1.0, judge=pass)**; **live discovery rail (arxiv) verified 2026-09-16** (seed remains offline default; orx CLI wired, binary absent) |
 | P3 | DAS-Bench judge gate + threshold calibration (220 examples ≈4.3x) + `tools/citation-verify` | **preview — DAS-Bench-style judge gate LIVE** on opencode free model (`validation.judge=pass`, mock 19/19 · real 18/18); **DAS-Bench 16-criterion benchmark pilot done (Session 11): `tools/eval/bench_eval.py`, preview totals P-A 2.62 / P-B 3.19 / 001 2.44 / 019 no-evidence → internal judge too lenient vs survey-level scoring (calibration now measurable)**; ≥300B-class judge + calibration deferred (keys / GPU) |
 | P4 | Track B (PaddleOCR pipeline) + proactive loop | partial — OCR engine ✓ (Track B evidence layer now usable) |
-| P5 | Robustness, ablations, cost report | not started |
+| P5 | Robustness, ablations, cost report | **partial (Session 24)** — deterministic model-free ablations (`tools/eval/ablations.py` → `ablations.md`: gate leakage 8→0 · 0 false drops · pool coverage 73% · median-of-N spread ≈0.31); live judge-swap + formal cost report gated on a reachable model |
 
 **Next-session checklist (`ds0509`):**
 1. ✅ P1 + P2 built: `tools/llm/` (client, mock, claim-plan) + `tools/pipeline/` (state, corpus, validate, graph, test). Seed-corpus S_lit + L6 deterministic gate wired. See PROGRESS Session 6–8.
