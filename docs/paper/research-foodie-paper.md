@@ -2,7 +2,7 @@
 
 > **中文速览** — 本文是 research_foodie 的论文**初稿（draft v1, 2026-09-20）**，由 `docs/design/tool-paper-outline.md` 大纲展开成文。所有实验数字均来自本仓库 `_eval_out/` 的本地免费模型实测（判题为非确定性模型，方向性）。本文件是**活文档**：§7 的每个数字都由 `python -m tools.eval.capability_report` 生成/复核（`_eval_out/capability_report.md`），随自演化周期更新。诚实性规则沿用 AGENTS.md：数字带 `as of` 日期、方向性结论标注、未一手复核的引用标 *unverified*。`[TODO]` = 待补实验/配图。
 
-- **Status:** Draft v1 — full spine written from the outline; ablations (§7.6), figures (`fig:architecture`, `fig:loop`), and one-hand citation re-verification pending
+- **Status:** Draft v1 — full spine written from the outline **incl. figures** `fig:architecture` + `fig:loop` (Mermaid); remaining: ablations (§4.6) and one-hand citation re-verification
 - **Target:** arXiv (cs.CL / cs.AI), applied-NLP / systems track
 - **Reproducibility:** every quantitative claim maps to a `docs/setup-runbook.md §3` command; regenerate the whole number set with the runbook + `capability_report`
 - **Data & code:** local-first; no API keys required for the ≈$0 core loop (hosted free model + free arXiv API + local MinerU parsing)
@@ -122,7 +122,24 @@ honestly self-evaluates with variance. That niche is ours.
 
 ## 3. System Design
 
-> `[TODO fig:architecture]` — L0–L6 layering + the `S_lit→S_org→S_write→S_revise→S_final→gate→judge` state machine. `[TODO fig:loop]` — the self-evolution cycle.
+> `fig:architecture` — the L0–L6 layering over the LangGraph state machine, with the deterministic gate feeding back into drafting and the AI judge on top.
+
+```mermaid
+flowchart TD
+  Q[Research question or field watch]
+  Q --> DSC[L1 Discovery — seed / arxiv / orx rails]
+  DSC --> PARSE[L2 Parse + index — MinerU PDF to Markdown]
+  PARSE --> SLIT[S_lit]
+  SLIT --> SORG[S_org — reader perspectives + outline]
+  SORG --> SWRITE[S_write — grounded claims + BM25 source windows]
+  SWRITE --> SREV[S_revise_para]
+  SREV --> SFIN[S_finalize]
+  SFIN --> GATE{L6 deterministic gate, zero LLM — structure, citation form, 5-gram grounding, bilingual}
+  GATE -->|un-grounded claim dropped| SWRITE
+  GATE -->|pass| JUDGE[AI judge — DAS-Bench 16 criteria BSC MAR TSQ HDQ]
+  JUDGE --> MAN[Manuscript + Evidence Table + References + audit annex]
+  PARSE -. evidence pool .-> SWRITE
+```
 
 ### 3.1 Overview
 Six layers (L0 orchestration → L6 deterministic gate) over a LangGraph state machine. Two
@@ -184,7 +201,20 @@ dependency/version ledger (E-4), and a feedback corpus with an anti-model-collap
 real-gold quota plus a promotion rule requiring **N ≥ 3 sustained rounds ∧ Δ ≥ 2σ ∧ no
 regression** (E-5). The loop writes only ledger JSONs under `_eval_out/`; it never edits
 code or prompts and never commits — promotion is an eligibility flag a human acts on.
-`[TODO fig:loop]`
+`fig:loop` — the self-evolution cycle, showing the two enforced design rules (external-measurement-only triggers; variance-aware thresholds before any action) and the human-gated repair seam.
+
+```mermaid
+flowchart LR
+  A[Acquisition — cadence runs health_check verdicts and E-4 dep ledger] --> B{signal from external measurement only?}
+  B -->|no, model self-assessment| X[rejected by design rule 1]
+  B -->|yes| C[Refinement — variance-aware gate]
+  C -->|below three rounds, or under two sigma, or a regression| NOISE[noise — no action]
+  C -->|crosses threshold| D[E-3 ticket board — FAIL and WARN open and feed, PASS auto-closes]
+  D --> E[Updating — human-gated numbered revision bump, revertable]
+  E --> F[Evaluation — re-baseline and capability_report refresh]
+  F --> A
+  G[real-gold quota floor — at least half over ten rows] -. anti-model-collapse .-> C
+```
 
 ---
 
