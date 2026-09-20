@@ -2,8 +2,25 @@
 
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
-- `Updated`: 2026-09-19
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)**)
+- `Updated`: 2026-09-20
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)** · **comparison + next-plan docs (Session 20)**)
+
+---
+
+## 2026-09-20 — Session 20: tool comparison, reusable-asset survey, next-implementation plan
+
+**Why:** the user asked for (1) a positioning/comparison doc of our tools per pipeline stage vs each stage's line-research tools, (2) a written next-implementation plan, (3) a survey of downloadable/referenceable/integratable skills–harnesses–methods–prompts (explicitly "Stanford 的工具"). Web-verified 2026-09-20.
+
+1. **`docs/TOOL-COMPARISON.md` written** — L1→L6 stage-by-stage compare (ours vs STORM / orx-OpenResearch / PaperQA2 / DAS / DAS-Bench / MinerU / arXiv): 我们用 5-gram 接地门 + 本地零成本胜；真实缺口 = L1 无元数据湖（DAS-2M）、L3 无多视角/逆向路由（STORM/DAS）、L4 无检索重排（PaperQA2 RCS）、L6 判题自实现（官方工具包已出）。含**可复用资产清单**（附 2026-09-20 核验来源与 Feas×Val 决策）。
+2. **`docs/PLAN.md` §8 added** — 后续实现规划两阶段：**Phase L（本地 ≈$0）** L-1 S_write 检索重排（BM25-style 复刻 PaperQA2 RCS）→ L-2 S_org 多视角分解（STORM 思想 prompt-only）→ L-3 判题 median-of-3（压 P-A 0.53 的 judge 噪声）→ L-4 引用校验接线（本地 skill）；**Phase R（资源门控）** R-1 官方 DAS-Eval 工具包运行（2026-08-20 发布，现已可套用）· R-2 DAS-2M 元数据湖 rail（2026-08-08 发布）· R-3 knowledge-storm 模块级替换（1.1.1，Co-STORM/VectorRM）· R-4 orx 启用（Windows beta + `install-skills`）· R-5 paper-qa 后端（可选加重）· R-6 220 篇样例综述做判题校准语料（2026-08-14 发布）。每项带可度量验收。
+3. **被调研资产关键确认（2026-09-20 一手核证）**：
+   - Stanford OVAL **knowledge-storm v1.1.1**（MIT, pip）：含 Co-STORM、litellm 集成、**VectorRM 支持用户文档 grounding**——但接入需 OpenAI 兼容端点（我们只有 opencode CLI，非 litellm 兼容）→ Phase R。
+   - OpenResearch 已进化为 **autoresearch 平台**：`orx up` 仪表盘、`orx install-skills` 可把 agent-skills 装进 Claude Code/Codex/OpenCode/Cursor、Windows beta、`orx paper`=alphaXiv 全文检索（无需登录）。
+   - **DAS-Bench + DAS-Eval 评测工具包 2026-08-20 发布**（HF+GitHub，含评测代码）；**DAS-2M 2026-08-08、220 篇 DAS 样例综述 2026-08-14 发布**；**DAS 方法代码仍 ⏳ 未发布** → 状态机/路由按论文复现路径未被推翻。
+   - opencode Agent Skills 机制确认：SKILL.md 放 `.opencode/skills/` / `~/.config/opencode/skills/`，兼读 `.claude/skills/` 与 `.agents/skills/`。
+4. Docs map updated（AGENTS.md / README.md / README.zh-CN.md 加入 TOOL-COMPARISON 条目；README 路线图加第 4 项并指向 `PLAN.md §8`）。
+
+Next: Phase L-1 (relevance re-rank in `_write`) when the user green-lights; parked: P3 original blocked items (≥300B judge/GPU/keys) remain listed in `CAPABILITY-STATUS.md §3`.
 
 ---
 

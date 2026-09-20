@@ -135,3 +135,27 @@ Priorities are ordered by impact-to-cost; each has a measurable acceptance check
 - **P4. Cooldown items** — Track B (PaddleOCR) wiring into the proactive loop; robustness ablations + cost report (P5).
 
 Kept in sync with the "Next:" lines at the top of each PROGRESS session entry.
+
+## 8. Next-implementation plan (recorded 2026-09-20) / 后续实现规划
+
+> 中文速览：基于 2026-09-20 对对标工具的一手核证（见 `docs/TOOL-COMPARISON.md`）。两阶段：**Phase L（本地、≈$0、现在可做）** 按性价比排序 —— (L-1) S_write 检索重排（PaperQA2 RCS 的轻量复刻）→ (L-2) S_org 多视角分解（STORM 思想，纯 prompt）→ (L-3) 判题多评取中位数（压 judge 噪声；当前可信度瓶颈 P-A ±0.53）+ 顺带 (L-4) 引用校验接入自研链路。**Phase R（资源门控）** —— 套用 2026-08 已公开发布的官方 DAS-Eval 评测工具包、DAS-2M 元数据湖、220 篇样例综述；接入 knowledge-storm/oX 等需 OpenAI 兼容端点或 GPU/key 的资产。DAS 方法代码仍 ⏳ 未发布 → 状态机按论文复现路径不受下游变化影响。
+
+Sorted by impact-to-cost; each item carries a measurable acceptance check.
+
+### Phase L — Local, ≈$0, do now (dependency-free)
+- **L-1. S_write relevance re-rank (mirror PaperQA2 RCS)** — before per-paper claim extraction, score sentence/paragraph windows against the question(s) with a cheap lexical (BM25-style / overlap + section-prior) ranker; inject only top-k windows into the extraction LLM call. *Rationale:* our worst retrieval gap — we feed the raw first ≤20 000 chars of each paper instead of the *relevant* passages. *Accept:* on P-A/P-B/P-C + QA-1..5, extract/context QA keeps 12/13; groundedness 4.45 not regressed; claims-wall-sheet verbatim 5-gram gate 34/34; and on a topic where the answer is mid-paper (e.g. QA-3 counterpart), measured pass shifts from cold-miss to hit without taxonomy surgery. *Fallback:* keep raw window + section log, so worst case = no harm.
+- **L-2. S_org perspective decomposition (STORM-inspired, prompt-only)** — `_org` first asks for 3–5 reader perspectives (with the user-provided question as anchor), then answers each per-paper-window, then produces the outline (STORM's max_turn×(max_perspective+1) QA budget, re-implemented at low scale). *Accept:* outline `key_points` coverage judged ≥2 on 2 previously-thin topics, family Total not lowered; no new determinism/lint regressions.
+- **L-3. Judge median-of-3 aggregation** — run each bench judge call 3× (3 flat retries exist in LLMClient) and take the **median** of the 4-axis verdict; keep single-call in pipeline runtime. *Accept:* P-A judge sd < 0.40 across 3 rounds (from 0.53), P-B stays 0.00, reported family means restated with medians.
+- **L-4. (Easy) wire `citation-verification` locally installed skill** into the assembly guidance (agent-side checklist), no code change; and expose the 220-survey rubric anchors as judge few-shot calibrators (skip — needs PDF parse, park in Phase R).
+
+### Phase R — Resource-gated (≥300B judge endpoint / GPU / API key / FB bandwidth)
+- **R-1. Official DAS-Eval run (highest-value, blocked on judge)** — run the vendored `external/DAS` evaluation code (`evaluation/run_eval_all.sh` per `evaluation_protocol.md`) against our rendered manuscripts (substrate ready since Session 15) once an OpenAI-compatible ≥300B / page-aware judge endpoint is available. *Accept:* honest official-vs-self-scored delta table.
+- **R-2. DAS-2M metadata-lake discovery rail** — optional `S_LIT_BACKEND=das2m` reading the HF 2M-paper lake (streamed) to widen Track A discovery beyond arXiv relevance top-K. *Accept:* pools coverage 22/30 → ≥26/30 on Drive A with same evidence truth.
+- **R-3. knowledge-storm module swap for S_org (Co-STORM / VectorRM)** — `pip install knowledge-storm` (MIT) and use its OutlineModule + VectorRM (grounding on user docs) via a litellm OpenAI-compatible endpoint; compare vs L-2 prompt version on the same 2 topics. *Accept:* outline + 3-axis judge at parity or better than L-2, with dependency/lightweight trade-offs documented.
+- **R-4. orx enablement** — install orx (Windows beta; Git for Windows dep), enable dormant `S_LIT_BACKEND=orx`, adopt `orx install-skills` into OpenCode for the *agent* lane (its workspace orchestrates agents, not our LangGraph — keep our loop). *Accept:* `orx discover/paper` returns ≥3 verified candidates on 1 topic that the arXiv rail missed.
+- **R-5. paper-qa backend adoption (optional heavy)** — full agentic RAG (RCS + citation traversal) as an *alternative* `answer.py` backend for Track C; baseline vs our extractive path on QA-1..14. *Accept:* ≥12/14 correct with groundedness ≥4.5 before switching.
+- **R-6. Judge calibration corpus** — parse a subset of the 220 published DAS surveys as few-shot rubric anchors (needs MinerU parse + storage).
+
+**Explicitly not planned:** deeper STORM/PaperQA2/agent-rollups *inside* the core loop (destroys the "zero external framework at runtime" property), whole-draft revise_para rescope (low measured value), and any paid-API dependence before Phase R keys exist.
+
+Kept in sync with the "Next:" lines at the top of each PROGRESS session entry.

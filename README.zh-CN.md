@@ -88,6 +88,7 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 | `docs/design/research-foodie-blueprint.md` | 双语架构蓝图：目的/非目标、L0–L6、状态机、成本矩阵、路线图 |
 | `docs/PROJECT.md` | **项目主总览（主入口）：** 目标、组件（对应代码）、工作流、实测能力、路线图 |
 | `docs/DATAFLOW-AND-REUSE.md` | **实现真相：** 各模式精确输入输出、逐节点阶段进出、框架缝合程度账本（执行/借用/仅参考） |
+| `docs/TOOL-COMPARISON.md` | **逐阶段工具定位对比** + 可复用资产清单（2026-09-20 一手核证） |
 | `docs/CAPABILITY-STATUS.md` | 能力盘点：实测数字、GREEN/BLOCKED 清单、复现命令 |
 | `docs/setup-runbook.md` | 双语操作手册：环境、命令、冒烟测试、已知问题 K1–K12 |
 | `docs/PLAN.md` · `docs/PROGRESS.md` | 执行计划 + 进度日志（计划先行、边做边记） |
@@ -109,5 +110,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 1. ≥300B 冻结、页面感知评审对渲染 PDF 打分（MAR Layout 轴 + 全量 DAS-Bench 合规；需要 API key / GPU / 网络）。
 2. Track B（人文）：PaddleOCR 中文证据层接入主动循环。
 3. Track C（外部基准）：Qasper 端到端已完成（2/2 gold 完美）；面板已达 n=31（PubMedQA/SciQ MCQ 已接，`yesno` 模式已上线）；HF gating 允许则抽样 GAIA level-1。完整能力盘点与数字：[`docs/CAPABILITY-STATUS.md`](docs/CAPABILITY-STATUS.md)。
+4. 对比与复用通道：先本地补 L4 检索重排 + 多视角大纲 + 判题中位数（≈$0），待 ≥300B 判题端点后接入官方 DAS-Eval / DAS-2M / knowledge-storm——见 [`docs/TOOL-COMPARISON.md`](docs/TOOL-COMPARISON.md)。
 
-可度量验收见 `docs/PLAN.md §7`。
+可度量验收见 `docs/PLAN.md §8`。

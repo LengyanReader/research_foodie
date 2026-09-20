@@ -22,6 +22,7 @@ docs/
     research-foodie-blueprint.md
   PROJECT.md               项目主总览 — 目标/组件/工作流/实测能力/路线图 (bilingual)
   DATAFLOW-AND-REUSE.md    输入输出·中间阶段·框架缝合与借用程度细则 (bilingual)
+  TOOL-COMPARISON.md       逐阶段工具定位对比 + 可复用资产清单 (bilingual, 2026-09-20)
   CAPABILITY-STATUS.md     能力盘点 — 实测数字、GREEN/BLOCKED 清单、复现命令 (bilingual)
   PLAN.md                  执行计划 (bilingual)
   PROGRESS.md              进度日志 (bilingual)

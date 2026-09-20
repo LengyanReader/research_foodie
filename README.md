@@ -88,6 +88,7 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 | `docs/design/research-foodie-blueprint.md` | Bilingual architecture blueprint: purpose/non-goals, L0–L6, state machine, cost matrix, roadmap |
 | `docs/PROJECT.md` | **Project overview (master entry):** goals · components (code-mapped) · workflow · measured status · roadmap |
 | `docs/DATAFLOW-AND-REUSE.md` | **Implementation truth:** exact inputs/outputs per mode, per-node stage I/O, honest stitch ledger (executed vs borrowed vs reference) |
+| `docs/TOOL-COMPARISON.md` | **Stage-by-stage comparison vs line-research tools** + reusable-asset inventory (verified 2026-09-20) |
 | `docs/CAPABILITY-STATUS.md` | Measured capability statement: numbers, GREEN/BLOCKED list, reproduce commands |
 | `docs/setup-runbook.md` | Bilingual ops runbook: env, commands, smoke tests, known issues K1–K12 |
 | `docs/PLAN.md` · `docs/PROGRESS.md` | Execution plan + progress log (plan-first, track-as-you-go) |
@@ -109,5 +110,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 1. ≥300B frozen, page-aware judge on the rendered PDFs (MAR Layout axis + full DAS-Bench compliance; needs API keys / GPU / network).
 2. Track B (humanities): PaddleOCR Chinese evidence layer into the proactive loop.
 3. Track C (external benchmarks): Qasper end-to-end done (2/2 gold-perfect); panel at n=31 (PubMedQA/SciQ MCQs wired, `yesno` mode shipped); GAIA level-1 if HF gating allows. Full inventory & numbers: [`docs/CAPABILITY-STATUS.md`](docs/CAPABILITY-STATUS.md).
+4. Stage comparison & reuse lane: L4 relevance re-rank + L2-style perspective outline + judge median (local, ≈$0) then official DAS-Eval/DAS-2M/knowledge-storm when a ≥300B judge endpoint exists — see [`docs/TOOL-COMPARISON.md`](docs/TOOL-COMPARISON.md).
 
-See `docs/PLAN.md §7` for measurable acceptance checks.
+See `docs/PLAN.md §8` for measurable acceptance checks.
