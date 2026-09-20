@@ -220,10 +220,19 @@ def sprint(quick: bool = False, profile_name: str | None = None,
         abl = str(ablations.run(EVAL_OUT)["path"])
     except Exception as e:
         abl = f"(ablations skipped: {type(e).__name__}: {e})"
+    try:
+        from tools.eval import key_hygiene  # D-5 secret audit, model-free
+        kh = key_hygiene.run()
+        kh_line = ("CLEAN" if kh["clean"]
+                   else f"{len(kh['findings'])} FINDING(S)")
+        kh = f"{kh_line} -> {kh['path']}"
+    except Exception as e:
+        kh = f"(key_hygiene skipped: {type(e).__name__}: {e})"
 
     print(f"\n[sprint] wrote {SPRINT}")
     print(f"[sprint] refreshed {cap}")
     print(f"[sprint] refreshed {abl}")
+    print(f"[sprint] key_hygiene {kh}")
     for v in verdicts:
         print(f"  [{v['level']:<4}] {v['check']:<20} {v['detail'][:70]}")
     print(f"\n[sprint] exit_code={exit_code} "

@@ -1,6 +1,6 @@
 # Capability & Benchmark Report — research_foodie
 
-> Generated `2026-09-20T17:51:35` by `tools.eval.capability_report`. Reads cached `_eval_out/` artifacts; every figure keeps its own `as of` date below.
+> Generated `2026-09-20T18:05:06` by `tools.eval.capability_report`. Reads cached `_eval_out/` artifacts; every figure keeps its own `as of` date below.
 
 ## 1. Configuration (what ran)
 
@@ -10,7 +10,7 @@
   - `free-opencode (opencode hosted free; redirect via OPENCODE_MODEL, e.g. opencode/qwen3.8-flash)`
   - `openai-compat (all lanes -> OpenAI-compatible provider via OPENAI_*; e.g. DashScope Qwen, needs key)`
   - `judge-strong (draft|qa free-opencode, judge -> strong OpenAI-compatible, needs key)`
-- **Tool ledger** (`as of 2026-09-20T17:51:35`):
+- **Tool ledger** (`as of 2026-09-20T18:05:06`):
 
   | tool | version | status | severity |
   |---|---|---|---|
@@ -47,7 +47,7 @@ _(raw judge runs in `variance_runs.json`: 6)_
 ## 3. Self-evolution state (WS-C)
 
 - **Open tickets:** 0 (board clear)
-- **Feedback corpus:** 8 rows · gold share 0.0 (quota_ok=True, enforced=False)
+- **Feedback corpus:** 9 rows · gold share 0.0 (quota_ok=True, enforced=False)
 - **Last cadence** `2026-09-20` (quick): exit=0 · PASS=13 · SKIP=3
   - provenance: `judge skipped (--quick)`
 - **Recent cadence exits:** [0, 0, 0, 0, 0]
@@ -59,4 +59,4 @@ _(raw judge runs in `variance_runs.json`: 6)_
 - This report **reads** artifacts only — it changes no code, no prompts, opens no PRs. Promotion stays human-gated.
 
 ---
-*Provenance: generated `2026-09-20T17:51:35` · profile `[profile free-opencode] draft=opencode/big-pickle, qa=opencode/big-pickle, judge=opencode/big-pickle` · reproduce: `python -m tools.eval.capability_report`*
+*Provenance: generated `2026-09-20T18:05:06` · profile `[profile free-opencode] draft=opencode/big-pickle, qa=opencode/big-pickle, judge=opencode/big-pickle` · reproduce: `python -m tools.eval.capability_report`*

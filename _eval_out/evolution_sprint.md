@@ -1,6 +1,6 @@
 # Evolution sprint / 自我演化周期 (WS-C Phase X, E-3)
 
-> Generated: 2026-09-20 17:51 · verdict **GREEN** (exit 0) · mode quick (zero-LLM) · 6s
+> Generated: 2026-09-20 18:05 · verdict **GREEN** (exit 0) · mode quick (zero-LLM) · 7s
 > Trigger discipline: signals come only from external measurement (mock regression · judge sanity · pool coverage · L6 gate mutation · dep drift). The loop writes ledgers only — no code/prompt changes, no commits.
 > Provenance (D-4): judge skipped (--quick)
 
@@ -45,7 +45,7 @@
 
 ## 4 · Feedback corpus & real-gold quota (E-5)
 
-- rows: 7 · gold-anchored: 0 · share: 0%
+- rows: 8 · gold-anchored: 0 · share: 0%
 - anti-model-collapse quota (>=50% real gold over >=10 rows): OK (not yet enforced — corpus < 10 rows)
 
 ## 5 · Promotion eligibility (E-5 rule: N>=3 rounds AND >=2sigma AND no regression)

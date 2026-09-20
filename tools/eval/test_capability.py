@@ -8,6 +8,8 @@ Zero network, zero LLM, no writes outside a temp dir. Covers:
     grounded retained, 0 false drops) + offline report assembly.
   * client: opencode `{"type":"error"}` billing/401 events parse to a clear,
     non-retryable failure (the live blocker seen this session).
+  * key_hygiene: the D-5 audit walks the real tree (0 committed secrets) and
+    still catches a planted, masked secret without flagging env-var names.
 
 Run:  python -m tools.eval.test_capability
 """
@@ -175,6 +177,31 @@ def _test_ablations() -> None:
     _assert(isinstance(med, list), "median_of_n returns a list from real data")
 
 
+def _test_key_hygiene() -> None:
+    print("[key_hygiene] D-5 deterministic secret audit (model-free)")
+    from tools.eval import key_hygiene as KH
+    # 1. invariant: the committed tree carries no hard-coded credential literal
+    repo = KH.scan_repo()
+    _assert(repo["clean"], f"repo has 0 committed secrets ({repo['files_scanned']} files scanned)")
+    _assert(repo["files_scanned"] > 30, "audit actually walks a real source tree (not vacuous)")
+    # 2. it catches a real-shaped secret (built at runtime so THIS file stays clean)
+    body = "sk-" + "K" * 24
+    caught = KH.scan_text(f'api_key = "{body}"')
+    _assert(bool(caught) and caught[0][0] in ("secret_assignment", "openai_key"),
+            "a planted secret literal IS detected")
+    _assert("".join("K" for _ in range(24)) not in caught[0][2], "match is masked, not echoed")
+    # 3. no false positive on a legitimate env-var *name* reference
+    _assert(KH.scan_text('KEY = os.environ["OPENAI_API_KEY"]') == [],
+            "env-var name reference is not flagged")
+    # 4. report assembly + write
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp) / "key_hygiene.md"
+        res = KH.run(out=out, root=Path(__file__).resolve().parents[2])
+        md = out.read_text(encoding="utf-8")
+        _assert("D-5 Key Hygiene Audit" in md and "CLEAN" in md,
+                "report renders a CLEAN verdict for the repo")
+
+
 def _test_client_error_parse() -> None:
     print("[client] opencode billing/401 error-event parse")
     from tools.llm.client import LLMClient
@@ -195,6 +222,7 @@ def main() -> int:
     _test_variance_recompute()
     _test_report_assembly()
     _test_ablations()
+    _test_key_hygiene()
     _test_client_error_parse()
     print(f"\n{len(_FAILURES)} failed, {_PASSED} passed")
     if _FAILURES:

@@ -142,6 +142,10 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   ```powershell
   & $PY -X utf8 -m tools.eval.ablations                    # -> _eval_out/ablations.md
   ```
+- **D-5 key-hygiene audit, model-free (`tools/eval/key_hygiene.py`, Session 25)** — offline, no LLM, no key: walks the tracked source tree (skips `external/`, `_demo_downloads/`, `_eval_out/`, `.venv`, …) and reports hard-coded credential *literals* (sk-/AWS/GCP/Slack/GitHub/HF/PEM/bearer/`*_key=` long values). Scans secret **values**, never variable **names** (so `os.environ["OPENAI_API_KEY"]` is fine), **masks** every match, and exits non-zero on any finding (pre-commit-ready). Writes `_eval_out/key_hygiene.md`; refreshed automatically at cadence step 8:
+  ```powershell
+  & $PY -X utf8 -m tools.eval.key_hygiene                  # -> _eval_out/key_hygiene.md (expect: CLEAN, 0 findings)
+  ```
 - **Base-model options (三种选项, env-only — pick with `LLM_PROFILE`; no keys ever committed):**
   | profile | draft / qa | judge | needs |
   |---|---|---|---|

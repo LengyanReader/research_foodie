@@ -1,6 +1,6 @@
 # Health check / 健康检查 (WS-C E-2)
 
-> Updated: 2026-09-20 · elapsed 4s · frozen subset = mock 34/34 + judge sanity ['P-A', 'P-B', 'P-C'] + pools re-scan + L6 gate coverage
+> Updated: 2026-09-20 · elapsed 5s · frozen subset = mock 34/34 + judge sanity ['P-A', 'P-B', 'P-C'] + pools re-scan + L6 gate coverage
 > Judge: skipped (--quick)  ·  thresholds: 2σ FAIL / 1σ WARN (σ per proxy from baselines.json)
 > Provenance (D-4): judge skipped (--quick)
 
