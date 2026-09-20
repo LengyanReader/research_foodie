@@ -1,0 +1,21 @@
+{
+  "paper": "2304.02819",
+  "kept": [
+    {
+      "claim": "Paradoxically, to evade false detection as AI-generated content, these writers may need to rely on AI tools to refine their vocabulary and linguistic diversity.",
+      "quote": "Paradoxically, to evade false detection as AI-generated content, these writers may need to rely on AI tools to refine their vocabulary and linguistic diversity.",
+      "cite": "arXiv:2304.02819"
+    },
+    {
+      "claim": "These methods have the potential to provide a more accurate and reliable means of distinguishing between human and AI-generated text.",
+      "quote": "These methods have the potential to provide a more accurate and reliable means of distinguishing between human and AI-generated text.",
+      "cite": "arXiv:2304.02819"
+    },
+    {
+      "claim": "Although numerous detection methods have been proposed to differentiate between AI and human-generated content, the fairness and robustness of these detectors remain underexplored.",
+      "quote": "Although numerous detection methods have been proposed to differentiate between AI and human-generated content, the fairness and robustness of these detectors remain underexplored.",
+      "cite": "arXiv:2304.02819"
+    }
+  ],
+  "dropped": []
+}

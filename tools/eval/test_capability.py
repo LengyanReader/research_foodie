@@ -10,6 +10,8 @@ Zero network, zero LLM, no writes outside a temp dir. Covers:
     non-retryable failure (the live blocker seen this session).
   * key_hygiene: the D-5 audit walks the real tree (0 committed secrets) and
     still catches a planted, masked secret without flagging env-var names.
+  * autoresearch: the OpenResearch-style parallel fan-out keeps each direction
+    in an isolated worktree and merges their evidence pools deterministically.
 
 Run:  python -m tools.eval.test_capability
 """
@@ -202,6 +204,37 @@ def _test_key_hygiene() -> None:
                 "report renders a CLEAN verdict for the repo")
 
 
+def _test_autoresearch() -> None:
+    print("[autoresearch] OpenResearch-style parallel isolated fan-out + merge (model-free)")
+    from tools.pipeline import autoresearch as AR
+    q = "how reliable are AI-text detection tools?"
+    d1 = AR.plan_directions(q, k=3)
+    d2 = AR.plan_directions(q, k=3)
+    _assert(len(d1) == 3 and d1 == d2, "plan_directions is deterministic for k=3")
+    _assert(len({d["id"] for d in d1}) == 3, "direction ids are distinct")
+    with tempfile.TemporaryDirectory() as tmp:
+        res = AR.research(q, directions=4, root=Path(tmp))
+        wts = [Path(w) for w in res["worktrees"]]
+        _assert(len({str(w) for w in wts}) == res["n_directions"],
+                "each direction gets its own isolated worktree")
+        _assert(all(w.is_dir() and any(w.rglob("*")) for w in wts),
+                "every worktree is populated independently")
+        per_sources = []
+        for w in wts:
+            dj = w / "direction.json"
+            per_sources.append(json.loads(dj.read_text(encoding="utf-8"))["sources"])
+        _assert(all(set(s) <= set(res["union_sources"]) for s in per_sources),
+                "merge unions every direction's sources")
+        report = Path(res["report"])
+        _assert(report.exists() and "Autoresearch" in report.read_text(encoding="utf-8"),
+                "merged AUTORESEARCH.md written")
+        _assert(res["total_grounded"] >= 0 and res["total_dropped"] >= 0,
+                "grounding tallies are reported")
+        if res["union_sources"]:
+            _assert(res["total_grounded"] > 0,
+                    "a resolvable query yields extractive grounded claims per direction")
+
+
 def _test_client_error_parse() -> None:
     print("[client] opencode billing/401 error-event parse")
     from tools.llm.client import LLMClient
@@ -223,6 +256,7 @@ def main() -> int:
     _test_report_assembly()
     _test_ablations()
     _test_key_hygiene()
+    _test_autoresearch()
     _test_client_error_parse()
     print(f"\n{len(_FAILURES)} failed, {_PASSED} passed")
     if _FAILURES:

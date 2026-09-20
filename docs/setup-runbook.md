@@ -146,6 +146,10 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   ```powershell
   & $PY -X utf8 -m tools.eval.key_hygiene                  # -> _eval_out/key_hygiene.md (expect: CLEAN, 0 findings)
   ```
+- **OpenResearch-style parallel *autoresearch* (`tools/pipeline/autoresearch.py`, Session 26)** — offline, no LLM, no key: the unique `openresearch.sh` primitive (fan one query into K orthogonal research directions, pursue each in an **isolated worktree** in parallel, then **merge** with per-direction source divergence). It reuses `corpus.resolved_evidence` + the L6 grounding gate and does **not** require the `orx` binary:
+  ```powershell
+  & $PY -X utf8 -m tools.pipeline.autoresearch "how reliable are AI-text detection tools?" --directions 4   # -> _eval_out/autoresearch/<slug>/AUTORESEARCH.md (+ one wt-<id>/ per direction)
+  ```
 - **Base-model options (三种选项, env-only — pick with `LLM_PROFILE`; no keys ever committed):**
   | profile | draft / qa | judge | needs |
   |---|---|---|---|

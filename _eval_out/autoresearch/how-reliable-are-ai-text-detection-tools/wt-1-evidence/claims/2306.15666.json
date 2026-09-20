@@ -1,0 +1,21 @@
+{
+  "paper": "2306.15666",
+  "kept": [
+    {
+      "claim": "(2023) applied paraphrasing to the AI-generated texts and revealed that it significantly lowered the detection accuracy of five detection tools for AI-generated text used in the experiments.",
+      "quote": "(2023) applied paraphrasing to the AI-generated texts and revealed that it significantly lowered the detection accuracy of five detection tools for AI-generated text used in the experiments.",
+      "cite": "arXiv:2306.15666"
+    },
+    {
+      "claim": "As the detection tools for AI-generated text are not reliable, a prevention-focused approach needs to be prioritised over a detection one.",
+      "quote": "As the detection tools for AI-generated text are not reliable, a prevention-focused approach needs to be prioritised over a detection one.",
+      "cite": "arXiv:2306.15666"
+    },
+    {
+      "claim": "GoWinston.ai (2023) “Are AI detection tools accurate?” Winston AI | The most powerful AI content detector.",
+      "quote": "GoWinston.ai (2023) “Are AI detection tools accurate?” Winston AI | The most powerful AI content detector.",
+      "cite": "arXiv:2306.15666"
+    }
+  ],
+  "dropped": []
+}

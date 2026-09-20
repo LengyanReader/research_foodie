@@ -1,0 +1,12 @@
+{
+  "direction": {
+    "id": "0-mechanism",
+    "facet": "Method / mechanism",
+    "subquestion": "how reliable are AI-text detection tools? method architecture technique approach model"
+  },
+  "sources": [
+    "2306.15666"
+  ],
+  "grounded": 3,
+  "dropped": 0
+}

@@ -1,0 +1,12 @@
+{
+  "direction": {
+    "id": "3-context",
+    "facet": "Prior work / comparison",
+    "subquestion": "how reliable are AI-text detection tools? compared baseline prior work survey related review"
+  },
+  "sources": [
+    "2306.15666"
+  ],
+  "grounded": 3,
+  "dropped": 0
+}

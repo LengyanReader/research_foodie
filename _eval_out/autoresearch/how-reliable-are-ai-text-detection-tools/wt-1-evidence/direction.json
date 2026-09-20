@@ -1,0 +1,12 @@
+{
+  "direction": {
+    "id": "1-evidence",
+    "facet": "Evidence / results",
+    "subquestion": "how reliable are AI-text detection tools? results accuracy benchmark dataset evaluation performance"
+  },
+  "sources": [
+    "2306.15666"
+  ],
+  "grounded": 3,
+  "dropped": 0
+}

@@ -1,68 +1,68 @@
 {
- "as_of": "2026-09-20T18:05:06",
+ "as_of": "2026-09-20T18:32:34",
  "tools": {
   "python": {
    "version": "3.12.13",
    "status": "ok",
    "severity": "required",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:04"
+   "last_verified": "2026-09-20T18:32:30"
   },
   "langgraph": {
    "version": "1.1.10",
    "status": "ok",
    "severity": "required",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:04"
+   "last_verified": "2026-09-20T18:32:30"
   },
   "mineru": {
    "version": "3.4.5",
    "status": "ok",
    "severity": "required",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:04"
+   "last_verified": "2026-09-20T18:32:30"
   },
   "opencode_cli": {
    "version": "1.18.31",
    "status": "ok",
    "severity": "required",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:05"
+   "last_verified": "2026-09-20T18:32:32"
   },
   "default_model": {
    "version": "opencode/big-pickle",
    "status": "ok",
    "severity": "info",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:05"
+   "last_verified": "2026-09-20T18:32:32"
   },
   "pandoc": {
    "version": "pandoc 3.8.2.1",
    "status": "ok",
    "severity": "optional",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:05"
+   "last_verified": "2026-09-20T18:32:32"
   },
   "xelatex": {
    "version": "MiKTeX-XeTeX 4.11 (MiKTeX 24.4)",
    "status": "ok",
    "severity": "optional",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:05"
+   "last_verified": "2026-09-20T18:32:32"
   },
   "paddleocr": {
    "version": "3.7.0",
    "status": "ok",
    "severity": "optional",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:05"
+   "last_verified": "2026-09-20T18:32:32"
   },
   "arxiv_api": {
    "version": "reachable",
    "status": "ok",
    "severity": "optional",
    "first_seen": "2026-09-20",
-   "last_verified": "2026-09-20T18:05:06"
+   "last_verified": "2026-09-20T18:32:34"
   }
  }
 }

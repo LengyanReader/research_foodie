@@ -2,7 +2,7 @@
 
 _Generated 2026-09-20 by `tools.eval.key_hygiene` (deterministic, model-free)._
 
-- Source files scanned: **60**
+- Source files scanned: **61**
 - Hard-coded credential findings: **0**
 - Verdict: **CLEAN — no committed secrets**
 

@@ -1,0 +1,13 @@
+{
+  "direction": {
+    "id": "2-limits",
+    "facet": "Limitations / failure modes",
+    "subquestion": "how reliable are AI-text detection tools? limitations error bias failure robustness unreliable"
+  },
+  "sources": [
+    "2304.02819",
+    "2306.15666"
+  ],
+  "grounded": 6,
+  "dropped": 0
+}
