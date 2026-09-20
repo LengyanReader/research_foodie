@@ -512,11 +512,14 @@ def _family_avgs(scores: Dict[str, int]) -> Dict[str, Optional[float]]:
     return avgs
 
 
-def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]],
+                  judge_client: Optional[LLMClient] = None,
+                  on_row: Optional[callable] = None) -> List[Dict[str, Any]]:
     import time as _t
     from tools.pipeline.corpus import md_path_for
     from tools.pipeline.answer import answer_question, check_answer
 
+    judge_client = judge_client or client
     out: List[Dict[str, Any]] = []
     for s in scenarios:
         row: Dict[str, Any] = {"scenario": s}
@@ -550,7 +553,7 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
             # with the same state shape `Pipeline.run` builds internally.
             papers = s["papers"]
             q = s["question"]
-            p = Pipeline(client)
+            p = Pipeline(client, judge_client=judge_client)
             state = {
                 "paper_id": papers[0]["arxiv_id"],
                 "parsed_md": papers[0]["md"],
@@ -561,7 +564,7 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
             res = p.graph.invoke(state)
             res["candidates"] = s.get("candidates", [])
         else:
-            p = Pipeline(client)
+            p = Pipeline(client, judge_client=judge_client)
             question = s["question"]
             res = p.run(question=question)
         row["elapsed"] = res.get("_elapsed", _t.perf_counter() - t0)
@@ -581,14 +584,16 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
             gold = s.get("gold_tokens", [])
             hits = [t for t in gold if t.lower() in low]
             row["pdf"] = _render_manuscript(s, artifact)
-            qa = score_qa(client, s["question"], artifact)
+            qa = score_qa(judge_client, s["question"], artifact)
             qa["gold_hits"] = f"{len(hits)}/{len(gold)}"
             row["qa"] = qa
         else:
             row["status"] = "scored"
             row["pdf"] = _render_manuscript(s, artifact)
-            row["bench"] = score_survey(client, s["topic"], artifact)
+            row["bench"] = score_survey(judge_client, s["topic"], artifact)
         out.append(row)
+        if on_row is not None:
+            on_row(_serialize_row(row))  # durable immediately → crash-safe resume
     return out
 
 
@@ -806,43 +811,93 @@ def _load_cache(ids: List[str], cache_dir: Path) -> Dict[str, Dict[str, Any]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="DAS-Bench-style benchmark pilot")
-    ap.add_argument("--backend", default="opencode")
+    ap.add_argument("--backend", default=None)
     ap.add_argument("--base-url", default=None)
     ap.add_argument("--model", default=None)
+    ap.add_argument("--profile", default=None,
+                    help="named profile from tools.llm.profiles (default: env LLM_PROFILE)")
+    ap.add_argument("--no-resume", action="store_true",
+                    help="ignore any interrupted run for the same profile+idset "
+                         "and start every scenario from scratch")
     ap.add_argument("--out", default=str(DEFAULT_OUT))
     ap.add_argument("--scenarios", default=None,
                     help="comma-separated proxy|das topic ids to run (default: all)")
     args = ap.parse_args()
 
-    client = LLMClient(backend=args.backend, base_url=args.base_url, model=args.model)
+    from tools.llm.profiles import load_profile, clients_for, profile_header, ProfileError
+    try:
+        profile = load_profile(args.profile)
+        draft_client, judge_client = clients_for(profile)
+    except ProfileError as e:
+        print(f"[bench] profile error: {e}")
+        return 2
+    print(f"[bench] {profile_header(profile)}")
+
+    # explicit CLI overrides beat the profile (ad hoc judging vantage)
+    if args.backend or args.base_url or args.model:
+        draft_client = LLMClient(backend=args.backend or "opencode",
+                                 base_url=args.base_url, model=args.model)
+        judge_client = draft_client
+
     all_scenarios = SCENARIOS + QA_SCENARIOS + QASPER_SCENARIOS + SCIQ_SCENARIOS + PubMedQA_SCENARIOS + NEWS_WIKIPEDIA_SCENARIOS
-    scenarios = all_scenarios
     run_ids: List[str] = [s["topic_id"] for s in all_scenarios]
     if args.scenarios:
         run_ids = [x.strip() for x in args.scenarios.split(",")]
-        scenarios = [s for s in all_scenarios if s["topic_id"] in run_ids]
+    print(f"[bench] requested={run_ids}")
 
-    print(f"[bench] backend={args.backend} running={run_ids}")
+    # --- resume (run memory): reuse done rows for this exact profile+idset ---
+    from tools.eval.run_ledger import ResumeLedger
+    fingerprint = f"{profile.name}|{','.join(run_ids)}"
+    led = ResumeLedger.open("bench_eval", fingerprint, force=args.no_resume)
+    pending = led.pending(run_ids)
+    skipped = len(run_ids) - len(pending)
+    if skipped:
+        print(f"[bench] RESUME: {skipped}/{len(run_ids)} already done by run "
+              f"{led.data.get('run_id')} — continuing with {len(pending)} remaining")
+    if not pending:
+        done_scenarios = [s for s in all_scenarios if s["topic_id"] in run_ids]
+        rows = [dict(led.done()[t]) for t in run_ids if t in led.done()]
+        rows = _merge_scenarios(rows, done_scenarios)
+        print("[bench] all requested scenarios already complete — regenerating report only")
+        return _write_report(rows, args)
 
+    scenarios = [s for s in all_scenarios if s["topic_id"] in pending]
     cache_dir = Path(DEFAULT_OUT).parent / "bench_cache"
-    rows = run_scenarios(client, scenarios)
-    _save_cache(rows, cache_dir)
+    try:
+        rows = run_scenarios(
+            draft_client, scenarios, judge_client=judge_client,
+            on_row=lambda r: (led.record(r["scenario"]["topic_id"], r),
+                              _save_cache([r], cache_dir)),
+        )
+    except BaseException:
+        led.finish("interrupted")   # crash/Ctrl-C → next run resumes
+        raise
+    for r in rows:
+        led.record(r["scenario"]["topic_id"], _serialize_row(r))
+    led.finish("done")
 
-    # Merge cached rows for scenarios NOT re-run (keeps the report canonical
-    # without re-paying the LLM cost; cached rows are flagged vintage).
-    if len(run_ids) < len(all_scenarios):
-        cached = _load_cache([s["topic_id"] for s in all_scenarios if s["topic_id"] not in run_ids], cache_dir)
-        if cached:
-            print(f"[bench] merged cached rows for {sorted(cached)} (vintage, read-only)")
-        merged: List[Dict[str, Any]] = []
-        by_id = {r["scenario"]["topic_id"]: r for r in rows}
-        for s in all_scenarios:
-            if s["topic_id"] in by_id:
-                merged.append(by_id[s["topic_id"]])
-            elif s["topic_id"] in cached:
-                merged.append(cached[s["topic_id"]])
-        rows = merged
+    # --- merge done rows (this run + prior resume) preserving requested order ---
+    merged = []
+    for tid in run_ids:
+        if tid in led.done():
+            merged.append(dict(led.done()[tid]))
+    merged = _merge_scenarios(merged, [s for s in all_scenarios if s["topic_id"] in run_ids])
+    return _write_report(merged, args)
 
+
+def _merge_scenarios(rows: List[Dict[str, Any]],
+                     scenarios: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Attach the full `scenario` (incl. topic label) to rows that carry only a
+    serialized `topic_id` (resume rows produced by run_scenarios' on_row)."""
+    sc_by_id = {s["topic_id"]: dict(s) for s in scenarios}
+    for r in rows:
+        sid = (r.get("scenario") or {}).get("topic_id") or r.get("topic_id")
+        if sid and (not r.get("scenario") or not r["scenario"].get("topic")):
+            r["scenario"] = sc_by_id.get(sid, r.get("scenario", {}))
+    return rows
+
+
+def _write_report(rows: List[Dict[str, Any]], args) -> int:
     ref = reference_means()
     report = format_report(rows, ref)
 

@@ -1,0 +1,45 @@
+{
+ "as_of": "2026-09-20",
+ "backend": {
+  "llm": "opencode/big-pickle (free, directional)"
+ },
+ "mock": {
+  "assertions": 34,
+  "failures": 0
+ },
+ "qa_panel": {
+  "n": 31,
+  "correctness": 4.23,
+  "groundedness": 4.45,
+  "pass": "24/31"
+ },
+ "judge_variance": {
+  "P-A": {
+   "mean": 3.88,
+   "sd": 0.53,
+   "n": 2
+  },
+  "P-B": {
+   "mean": 3.31,
+   "sd": 0.0,
+   "n": 2
+  },
+  "P-C": {
+   "mean": 3.53,
+   "sd": 0.13,
+   "n": 2
+  }
+ },
+ "pools": {
+  "total": 30,
+  "covered": 22,
+  "full": 14,
+  "partial": 8,
+  "empty": 8
+ },
+ "thresholds": {
+  "fail_sigma": 2.0,
+  "warn_sigma": 1.0,
+  "warn_sigma_units": "on judge Total (proxy manuscripts×1 round)"
+ }
+}

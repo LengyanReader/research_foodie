@@ -64,8 +64,10 @@ class Pipeline:
         self,
         client: LLMClient,
         max_revisions: int = 3,
+        judge_client: Optional[LLMClient] = None,
     ):
         self.client = client
+        self.judge_client = judge_client or client
         self.max_revisions = max_revisions
         self.graph = self._build()
 
@@ -398,7 +400,7 @@ class Pipeline:
     def _judge(self, state: Dict[str, Any]) -> Dict:
         """Run the DAS-Bench-style AI judge over the finalized draft."""
         from tools.pipeline.judge import judge_draft
-        verdict = judge_draft(state, self.client)
+        verdict = judge_draft(state, self.judge_client)
         validation = dict(state.get("validation") or {})
         validation["judge"] = verdict
         return {"validation": validation}

@@ -15,7 +15,6 @@ import statistics
 from pathlib import Path
 
 from tools.eval.bench_eval import SCENARIOS, run_scenarios, _family_avgs
-from tools.llm.client import LLMClient
 
 OUT = Path("_eval_out/variance_runs.json")
 PROXY = [s for s in SCENARIOS if s["kind"] == "proxy"]
@@ -26,27 +25,60 @@ def _total(bench) -> float | None:
     return statistics.mean(scores.values()) if scores else None
 
 
-def run_rounds(rounds: int) -> None:
+def run_rounds(rounds: int, profile_name: str | None = None) -> None:
+    from tools.llm.profiles import load_profile, clients_for, profile_header, ProfileError
+    from tools.eval.run_ledger import ResumeLedger
+    try:
+        profile = load_profile(profile_name)
+        draft_client, judge_client = clients_for(profile)
+    except ProfileError as e:
+        print(f"[var] profile error: {e}")
+        raise
+    print(f"[var] {profile_header(profile)}")
+
     recs = []
     if OUT.exists():
         recs = json.loads(OUT.read_text(encoding="utf-8"))
-    client = LLMClient(backend="opencode")
-    for rd in range(1, rounds + 1):
-        rows = run_scenarios(client, PROXY)
-        for r in rows:
-            tid = r["scenario"]["topic_id"]
-            fa = _family_avgs((r.get("bench") or {}).get("scores") or {})
-            recs.append({
-                "round": len(recs) + 1,
-                "topic_id": tid,
-                "total": _total(r.get("bench")),
-                "BSC": fa.get("BSC"), "MAR": fa.get("MAR"),
-                "TSQ": fa.get("TSQ"), "HDQ": fa.get("HDQ"),
-            })
-            print(f"[var] round#{len(recs)} {tid} total={recs[-1]['total']} "
-                  f"BSC={fa.get('BSC')} MAR={fa.get('MAR')} "
-                  f"TSQ={fa.get('TSQ')} HDQ={fa.get('HDQ')}", flush=True)
-        OUT.write_text(json.dumps(recs, ensure_ascii=False, indent=1), encoding="utf-8")
+    if len(recs) >= rounds * len(PROXY):
+        print(f"[var] all {rounds} requested rounds already recorded "
+              f"(n={len(recs)} recs) — nothing to do (resume memory)")
+        return
+
+    # --- resume: skip rounds already recorded for this exact profile ----------
+    fingerprint = f"variance|{profile.name}"
+    print(f"[var] resume memory: {len(recs)}/{rounds * len(PROXY)} topic-records "
+          f"on file — completing the remainder")
+    led = ResumeLedger.open("variance_run", fingerprint)
+    try:
+        for target_round in range(1, rounds + 1):
+            done_this_round = {r["topic_id"] for r in recs if r.get("round") == target_round}
+            topics = [s for s in PROXY if s["topic_id"] not in done_this_round]
+            if not topics:
+                print(f"[var] round #{target_round} already complete — skip (resume)")
+                continue
+            for s in topics:
+                rows = run_scenarios(draft_client, [s],
+                                     judge_client=judge_client)
+                r = rows[0]
+                fa = _family_avgs((r.get("bench") or {}).get("scores") or {})
+                rec = {
+                    "round": target_round,
+                    "topic_id": s["topic_id"],
+                    "total": _total(r.get("bench")),
+                    "BSC": fa.get("BSC"), "MAR": fa.get("MAR"),
+                    "TSQ": fa.get("TSQ"), "HDQ": fa.get("HDQ"),
+                }
+                recs.append(rec)
+                led.record(f"{target_round}:{s['topic_id']}", rec)
+                print(f"[var] round#{rec['round']} {s['topic_id']} total={rec['total']} "
+                      f"BSC={fa.get('BSC')} MAR={fa.get('MAR')} "
+                      f"TSQ={fa.get('TSQ')} HDQ={fa.get('HDQ')}", flush=True)
+                OUT.write_text(json.dumps(recs, ensure_ascii=False, indent=1),
+                               encoding="utf-8")  # crash-safe: save every topic
+        led.finish("done")
+    except BaseException:
+        led.finish("interrupted")
+        raise
     _report(recs)
 
 
@@ -70,8 +102,10 @@ def _report(recs) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rounds", type=int, default=2)
+    ap.add_argument("--profile", default=None,
+                    help="named profile from tools.llm.profiles (default: env LLM_PROFILE)")
     a = ap.parse_args()
-    run_rounds(a.rounds)
+    run_rounds(a.rounds, a.profile)
     return 0
 
 

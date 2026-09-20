@@ -121,7 +121,43 @@ def _scenario_menu() -> List[dict]:
          "args": ["-m", "tools.pipeline.test_pipeline", "mock"]},
         {"id": "pipe-real", "title": "Pipeline smoke — real opencode (2–4 min)",
          "args": ["-m", "tools.pipeline.test_pipeline", "real"]},
+        {"id": "health", "title": "Health check (E-2, quick — green-light gate)",
+         "args": ["-m", "tools.eval.health_check", "--quick"]},
     ]
+
+
+def _run_card(run) -> str:
+    """HTML card for one run (list page)."""
+    from tools.eval.run_ledger import ResumeLedger
+    status_badge = {
+        "done": 'ok', "running": 'run', "pending": 'run',
+        "failed": 'fail', "cancelled": 'cancel', "interrupted": 'cancel',
+    }.get(run.status, 'muted')
+    logf = f'<a class="muted" href="/runs/{run.id}/log" target="_blank">log</a>'
+    # ledger progress for bench_eval / variance_run (they persist per-row state)
+    progress = ""
+    for mod, argv in (("tools.eval.bench_eval", r"bench_eval"),
+                      ("tools.eval.variance_run", r"variance_run")):
+        search = f"-m {mod}"
+        if any(search in str(c) for c in run.cmd):
+            led = ResumeLedger._load(argv)
+            if led:
+                nd = len(led.get("done", {}))
+                progress = (f'<span class="muted">· ledger </span>'
+                            f'<span class="badge run">{nd} done</span>')
+            break
+    resume = ""
+    if run.status in ("failed", "cancelled", "interrupted"):
+        resume = (f'<button class="btn" onclick="resumeRun(\'{run.id}\')">'
+                  f'Resume</button> ')
+    return (f'<div class="run-card">'
+            f'<strong>{run.title}</strong> '
+            f'<span class="badge {status_badge}">{run.status}</span> '
+            f'<span class="mono muted">{run.id}</span> {logf} {progress}<br>'
+            f'<span class="muted mono">{run.elapsed:.0f}s</span> · '
+            f'rc={run.returncode} · {len(run.lines)} lines<br>'
+            f'{resume}'
+            f'<span class="muted mono">{" ".join(run.cmd)}</span></div>')
 
 
 def _env_profile() -> dict:
@@ -145,8 +181,6 @@ def runs_page(request: Request) -> HTMLResponse:
     rows = manager.list()
     cards = "".join(_run_card(r) for r in rows[:12]) or '<p class="muted">No runs yet this session.</p>'
     menu_html = "".join(
-        f'<button class="btn" hx-none onclick="startRun(\'{m["id"]}\')">{m["title"]}</button><br>'
-        if False else
         f'<button class="btn" onclick="startRun(\'{m["id"]}\')">{m["title"]}</button> '
         for m in menu
     )
@@ -154,6 +188,8 @@ def runs_page(request: Request) -> HTMLResponse:
 <h1>Runs</h1>
 <p class="muted">Each button spawns the same <code>python -m …</code> command you would run from the terminal —
 this page is only a trigger + live tail. Profile (D): judge lane model, if set, routes through the current env.
+Run memory: an interrupted run can be <b>Resume</b>d after a crash/restart — the CLI driver picks up its
+on-disk ledger and continues from the last completed row (no re-pay from scratch).
 </p>
 <div><strong>Model lane (Phase D):</strong> <code>{_env_profile()}</code></div>
 <div style="margin:12px 0">{menu_html}</div>
@@ -161,26 +197,36 @@ this page is only a trigger + live tail. Profile (D): judge lane model, if set, 
 <div id="tail">Run something to see progress here.</div>
 <div style="margin-top:8px"><button class="btn danger" onclick="cancelRun()">Cancel current run</button>
 <span id="active-msg" class="muted"></span></div>
-<h2>Recent runs</h2>
+<h2>Recent runs <span class="muted">(persisted across restarts — resume continues an interrupted run)</span></h2>
 <div id="runs">{cards}</div>
 <script>
 const menus = {json.dumps({m["id"]: m["args"] for m in menu})};
 let currentRun = null, currentStart = 0, es = null;
-async function startRun(id){{
-  const args = menus[id];
-  const resp = await fetch('/runs', {{method:'POST', headers:{{'Content-Type':'application/json'}},
-    body: JSON.stringify({{title:id, args}})}});
-  const data = await resp.json();
-  currentRun = data.id; currentStart = 0;
+function attachSSE(id){{
+  currentRun = id; currentStart = 0;
   es && es.close();
-  es = new EventSource(`/runs/${{data.id}}/events`);
+  es = new EventSource(`/runs/${{id}}/events`);
   es.onmessage = (e) => {{
     const payload = JSON.parse(e.data);
     if (payload.type === 'line'){{ document.getElementById('tail').textContent += payload.data + '\\n';
       document.getElementById('tail').scrollTop = 1e9; }}
     else if (payload.type === 'status'){{
-      document.getElementById('active-msg').textContent = `run ${{currentRun}} → ${{payload.status}} (rc=${{payload.rc}})`; }}
+      document.getElementById('active-msg').textContent = `run ${{currentRun}} → ${{payload.status}} (rc=${{payload.rc}})`;
+      location.reload(); }}
   }};
+}}
+async function startRun(id){{
+  const args = menus[id];
+  const resp = await fetch('/runs', {{method:'POST', headers:{{'Content-Type':'application/json'}},
+    body: JSON.stringify({{title:id, args}})}});
+  const data = await resp.json();
+  attachSSE(data.id);
+}}
+async function resumeRun(id){{
+  const resp = await fetch(`/runs/${{id}}/resume`, {{method:'POST'}});
+  const data = await resp.json();
+  if (data.error){{ alert(data.error); return; }}
+  attachSSE(data.id);
 }}
 async function cancelRun(){{
   if (!currentRun) return; await fetch(`/runs/${{currentRun}}`, {{method:'DELETE'}}); }}
@@ -201,6 +247,36 @@ def start_run(payload: dict):
         return JSONResponse({"error": "need 'args' list"}, status_code=400)
     run = manager.start(title, args, env_profile="env-default")
     return {"id": run.id, "status": run.status}
+
+
+@app.post("/runs/{run_id}/resume", response_class=JSONResponse)
+def resume_run(run_id: str):
+    """Re-issue an interrupted/cancelled run. CLI drivers with a per-row ledger
+    (bench_eval, variance_run) continue from the last completed row."""
+    run = manager.get(run_id)
+    if not run:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    if run.status not in ("failed", "cancelled", "interrupted"):
+        return JSONResponse({"error": f"run is {run.status} — nothing to resume"},
+                            status_code=400)
+    if not run.cmd or len(run.cmd) < 3:
+        return JSONResponse({"error": "run has no CLI command to replay"},
+                            status_code=400)
+    new = manager.resume(run)
+    return {"id": new.id, "status": new.status, "original": run_id}
+
+
+@app.get("/runs/{run_id}/log", response_class=HTMLResponse)
+def run_log(run_id: str):
+    run = manager.get(run_id)
+    if not run:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    text = ""
+    if run.log_path.is_file():
+        text = run.log_path.read_text(encoding="utf-8", errors="replace")[-60000:]
+    return page(f"log {run_id}",
+                f"<h1>log · {run_id} · <span class=badge>{run.status}</span></h1>"
+                f"<pre>{text}</pre>")
 
 
 @app.get("/runs/{run_id}/status", response_class=JSONResponse)
