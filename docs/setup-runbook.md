@@ -4,7 +4,7 @@
 > 本文档是本仓库的**操作性手册**（bilingual）：基于 2026-09-15 P1 阶段的真实实测，记录环境怎么搭、哪些工具已跑通、每条命令、踩过的坑与临时解法、遗留问题，以及下一步怎么走。目标是"任何会话翻到本文档即可无缝继续"。
 > **一句话现状**：MinerU PDF→Markdown 跑通；**PaddleOCR 中文识别已解决（K7 关闭）**；**统一 LLM client 已建**（`tools/llm/`，**默认后端 = opencode CLI 免费模型 `opencode/big-pickle`**，另支持任何 OpenAI 兼容 API）；**Ollama 后端已于 2026-09-16 彻底移除**（用户决定"不要再考虑 Ollama"，K11 历史排障见台账）；**P2 最小纵切已打通**（`tools/pipeline/`：S_lit 可插拔发现 rail + LangGraph 完整链 + L6 确定性校验 + 写时反幻觉过滤 + 全文 claim 抽取）；**三大参考框架已运行时整合（Session 9）**：STORM-style 大纲（S_org outline→S_write 大纲驱动写作）、OpenResearch/orx + arXiv **实时发现 rail**（`S_LIT_BACKEND=seed|arxiv|orx`，2026-09-16 实测 arXiv API 已可达 1.1 s）、DAS-Bench-style **AI 评审门**（P3 preview，`validation.judge`）；测试 mock **19/19** + real `opencode/big-pickle` **18/18** @121.7 s（draft 3357 字、outline 3 节、score 1.0、judge=pass）；**已在第二篇真实论文（Weber-Wulff `2306.15666`）上验证泛化（Session 10）**；**DAS-Bench 16 轴基准评测试点已完成（Session 11）**：`tools/eval/bench_eval.py`，预览总分 P-A 2.62 / P-B 3.19 / 001 2.44 / 019 no-evidence，报告 `_eval_out/bench_pilot_das.md`；远程 GPU / 付费 API 仍按用户决定延后。
 
-- `Updated`: 2026-09-20 (added §3.0 End-to-end usage flow + §3.1 Usage & Demos; WS-B web dashboard in §3.0.5)
+- `Updated`: 2026-09-20 (added §3.0 End-to-end usage flow + §3.1 Usage & Demos; WS-B web dashboard in §3.0.5; WS-C health check / WS-D model profiles / run-memory resume in §3.0.5)
 - `Status`: P1 tooling — done (parsing ✓, OCR ✓ K7 closed, GPU deferred; LLM client ✓ opencode 3/3 + mock 3/3; Ollama removed 2026-09-16); **P2 minimal vertical — done** (LangGraph S_lit→S_org→S_write→S_final → L6 gate → P3 judge live: `tools/pipeline/` mock 19/19 + real `opencode/big-pickle` 18/18 @121.7 s, full-text claims, correct section attribution, STORM outline, orx/arXiv live discovery rail verified, DAS-Bench-style judge=pass; write-time grounded-claim filter catches fabrication; seed rail remains the offline default); **benchmark-style evaluation pilot vs DAS-Bench 16-criterion assets — done (Session 11, see §3 `bench_eval` + `_eval_out/bench_pilot_das.md`)**
 - `Language`: bilingual (English master + 中文速览 notes)
 - `See also`: `docs/design/research-foodie-blueprint.md` (architecture) · `docs/refs/ai-research-tools-workflow-guide.md` (tool survey)
@@ -168,6 +168,32 @@ $env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动�
 & $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
 # 打开 http://127.0.0.1:8000/
 ```
+
+**健康自检（WS-C E-2，已实现）** — 方差感知阈值对照冻结基线，退出码 0 GREEN / 1 WARN / 2 FAIL：
+
+```powershell
+& $PY -X utf8 -m tools.eval.health_check --freeze     # E-1 基线冻结（零 LLM）→ _eval_out/baselines.json
+& $PY -X utf8 -m tools.eval.health_check --quick      # 跳过 <10 min 判题 sanity，其余全跑
+& $PY -X utf8 -m tools.eval.health_check              # 全量：mock + pools + arxiv_probe + gate_coverage + judge sanity
+```
+
+**模型路由（WS-D D-1/D-2，已实现）** — judge lane 可走已注册的强模型（其余 lane 保持免费 opencode）：
+
+```powershell
+$env:LLM_PROFILE='judge-strong'; $env:OPENAI_BASE_URL='https://api.deepseek.com/v1'
+$env:OPENAI_MODEL='deepseek-chat'; $env:OPENAI_API_KEY='sk-…'   # key 只进环境变量，永不入库
+& $PY -X utf8 -m tools.eval.bench_eval --profile judge-strong    # 或 health_check / variance_run
+```
+
+**断线续跑（run memory，已实现）** — 长跑在中间断线/死机后，重开同一命令即可从已完成的 topic 继续，不重付：
+
+```powershell
+& $PY -X utf8 -m tools.eval.bench_eval                # 默认 resume：跳过 ledgers 中已 done 的 id
+& $PY -X utf8 -m tools.eval.bench_eval --no-resume    # 强制全部重跑
+& $PY -X utf8 -m tools.eval.variance_run --rounds 2   # variance/topic 级续跑（逐 topic crash-safe 落盘）
+```
+
+进度记在 `_eval_out/ledgers/<command>.json`（指纹 = profile + id 集合；换模型/换 id 不会误续跑）。Web dashboard 里中断的 run 会标 `interrupted` 并可直接 Resume。
 
 **只读静态导出（F-3，已实现）** — 活版 dashboard 只能本地跑（SSE/cancel 需后端）；
 部署 GitHub Pages 的形态是只读快照：

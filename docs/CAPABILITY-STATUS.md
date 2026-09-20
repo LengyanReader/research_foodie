@@ -84,6 +84,8 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 & $PY -X utf8 -m tools.eval.pools_30 --step judge --judge 10
 # variance re-runs
 & $PY -X utf8 -m tools.eval.variance_run --rounds 2
+# self-checks (E-1/E-2; health_check also has --freeze baseline freeze and --quick fast cycle)
+& $PY -X utf8 -m tools.eval.health_check              # mock + pools + arxiv_probe + gate_coverage + judge sanity
 # tests
 & $PY -X utf8 -m unittest discover -s tools -p "test_*.py"
 ```
@@ -102,5 +104,7 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 |---|---|
 | pipeline (graph / claims / judge) | `tools/pipeline/{graph,answer,corpus,judge,validate}.py` |
 | benchmark + QA + pools + variance | `tools/eval/{bench_eval,add_paper,pools_30,variance_run}.py` |
+| health check / baselines / ledgers | `tools/eval/{health_check,run_ledger}.py` · `_eval_out/{baselines.json, health_check.md, ledgers/}` |
+| profiles / routing | `tools/llm/profiles.py` |
 | real results | `_eval_out/{bench_pilot_das.md, pools_30_report.md, variance_runs.json, pools_cache/}` |
 | design / progress | `docs/{PLAN.md, PROGRESS.md, design/research-foodie-blueprint.md}` |
