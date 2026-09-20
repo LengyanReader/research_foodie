@@ -4,6 +4,7 @@ Bundles the deterministic layers that must stay green before any human trusts
 a change (PLAN §8 Phase L / WS-C E-2). Zero LLM cost by default, ~15 s:
 
     1. tools.eval.test_evolution     self-evolution loop guards (unit, zero-LLM)
+    1b. tools.eval.test_capability    base-model config layer + capability report
     2. tools.pipeline.test_pipeline mock   pipeline integration (in-proc mock)
     3. tools.eval.evolution_sprint --quick  health + dep drift + ticket board
 
@@ -71,6 +72,8 @@ def main(argv=None) -> int:
     worst = 0
 
     worst = max(worst, _run("unit: self-evolution", ["-m", "tools.eval.test_evolution"],
+                            120, hard=True))
+    worst = max(worst, _run("unit: config + capability", ["-m", "tools.eval.test_capability"],
                             120, hard=True))
     worst = max(worst, _run("integration: mock pipeline",
                             ["-m", "tools.pipeline.test_pipeline", "mock"], 180, hard=True))

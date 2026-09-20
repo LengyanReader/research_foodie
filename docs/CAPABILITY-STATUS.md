@@ -1,6 +1,6 @@
 # Capability Status — research_foodie (as of 2026-09-20)
 
-> 中文速览：本工作区已具备一条**本地可跑通的研究管线**（证据发现→大纲→多论文接地综述→手稿→DAS-Bench 风格 16 维 AI 判题），外加**证据接地 QA 面板**（n=31）与**30 话题任意域证据池电池**（建池 22/30、判题 10 篇）。**2026-09-20 新增**：一条**可定时、可度量、人工在环的自我演化机制**（E-3 演化冲刺/E-4 依赖台账/E-5 反馈累积+晋升规则），L-6 单命令自检 `self_check.ps1`，以及 Phase L 检索/判题强化（L-1 BM25 重排、L-2 多视角、L-3 判题中位数）与 D-3 跨模型判题矩阵。所有数字在下方给出，全部来自本地免费模型实测（opencode/big-pickle），无 API key。硬阻塞仅剩：DAS-Bench 全量合规需 ≥300B 冻结 judge + DAS-2M 池 + PDF 渲染判 MAR（需 key/GPU）、GAIA 需 HF gating、中文证据层需人工提供中文语料 PDF。
+> 中文速览：本工作区已具备一条**本地可跑通的研究管线**（证据发现→大纲→多论文接地综述→手稿→DAS-Bench 风格 16 维 AI 判题），外加**证据接地 QA 面板**（n=31）与**30 话题任意域证据池电池**（建池 22/30、判题 10 篇）。**2026-09-20 新增**：一条**可定时、可度量、人工在环的自我演化机制**（E-3 演化冲刺/E-4 依赖台账/E-5 反馈累积+晋升规则），L-6 单命令自检 `self_check.ps1`，以及 Phase L 检索/判题强化（L-1 BM25 重排、L-2 多视角、L-3 判题中位数）与 D-3 跨模型判题矩阵。**2026-09-20 续（Session 23）**：一条**定时能力/基准快照** `capability_report`（把“各工具在 benchmark 上的表现 + 当前配置”汇成一屏带日期的报告，随演化周期刷新），基座模型**三选项可切换**（`free-opencode` / `openai-compat`（可跨到 DashScope Qwen）/ `judge-strong`，qwen3.8-flash 可用 `OPENCODE_MODEL` 直接重定向），以及**论文初稿 v1** `docs/paper/research-foodie-paper.md`。所有数字在下方给出，全部来自本地免费模型实测（opencode/big-pickle），无 API key。硬阻塞仅剩：DAS-Bench 全量合规需 ≥300B 冻结 judge + DAS-2M 池 + PDF 渲染判 MAR（需 key/GPU）、GAIA 需 HF gating、中文证据层需人工提供中文语料 PDF。
 
 ---
 
@@ -78,6 +78,9 @@ The "self-evolution" capability is a **scheduled-measurement + regression-detect
 | L-3 judge median-of-N | `bench_eval.median_bench` / `variance_run` | ✅ unit-tested aggregation; single-call baseline kept separate |
 | D-3 cross-model judge matrix | `tools/eval/judge_matrix.py` | ✅ harness mock-verified (2 vantages); compression measure gated on ≥300B key |
 | D-4 provenance in every report | `bench_eval`/`health_check`/`evolution_sprint`/`judge_matrix` | ✅ model+judge_model+temperature+profile footers |
+| Scheduled capability snapshot | `tools/eval/capability_report.py` | ✅ reads cached artifacts → dated `_eval_out/capability_report.md` (config × benchmark × evolution-state); wired into every cadence step 8 |
+| Multi-option base model | `tools/llm/profiles.py` (`free-opencode`/`openai-compat`/`judge-strong`) | ✅ 3 selectable options + `OPENCODE_MODEL` qwen3.8-flash redirect; loud-fail on missing key/unknown profile; `test_capability.py` 22 guards |
+| Paper draft | `docs/paper/research-foodie-paper.md` | ✅ Draft v1 (living doc — §4 tied to `capability_report`) |
 
 Deterministic guard tests: `tools/eval/test_evolution.py` (31 assertions, temp-isolated, zero-network). **Honest boundary:** the loop writes only ledger JSONs under `_eval_out/`; live re-measures (L-1/L-2 acceptance on real P-A..C/QA, L-3 sd<0.40) still need a real judge cadence, and D-3/R-1 need a registered strong key.
 
@@ -111,9 +114,14 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 & $PY -X utf8 -m tools.eval.test_evolution             # 31 zero-LLM guard tests (temp-isolated)
 # D-3 cross-model judge matrix
 & $PY -X utf8 -m tools.eval.judge_matrix --judges free-opencode --rounds 3
+# Scheduled capability × benchmark snapshot (offline; --live refreshes first)
+& $PY -X utf8 -m tools.eval.capability_report            # -> _eval_out/capability_report.md
+# Base-model options (env only, no keys in repo): free-opencode | openai-compat | judge-strong
+& $PY -X utf8 -m tools.eval.test_capability              # 22 config+report guards (zero-network)
 # tests (script-style runners, not unittest.TestCase — invoke as modules)
 & $PY -X utf8 -m tools.pipeline.test_pipeline mock     # 34/34 integration (in-proc mock)
 & $PY -X utf8 -m tools.eval.test_evolution             # 31 self-evolution guards
+& $PY -X utf8 -m tools.eval.test_capability             # 22 config + capability-report guards
 & $PY -X utf8 -m tools.pipeline.test_pipeline real     # full real-model integration (~2 min)
 ```
 
@@ -135,5 +143,7 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 | self-evolution loop (E-3/E-4/E-5) | `tools/eval/{evolution,evolution_sprint,test_evolution}.py` · `_eval_out/{tickets.json, deps_ledger.json, feedback/, revisions.json, evolution_sprint.md}` |
 | one-command self-check (L-6) · judge matrix (D-3) | `self_check.ps1` · `tools/eval/{self_check,judge_matrix}.py` |
 | profiles / routing | `tools/llm/profiles.py` |
+| scheduled capability snapshot | `tools/eval/capability_report.py` · `_eval_out/capability_report.md` |
+| paper draft / outline | `docs/paper/research-foodie-paper.md` · `docs/design/tool-paper-outline.md` |
 | real results | `_eval_out/{bench_pilot_das.md, pools_30_report.md, variance_runs.json, pools_cache/}` |
 | design / progress | `docs/{PLAN.md, PROGRESS.md, design/research-foodie-blueprint.md}` |

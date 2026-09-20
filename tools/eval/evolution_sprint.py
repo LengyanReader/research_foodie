@@ -207,7 +207,17 @@ def sprint(quick: bool = False, profile_name: str | None = None,
                          "n_verdicts": len(verdicts)},
                         provenance={"note": cyc.get("provenance", "")})
 
+    # 8) refresh the scheduled capability × benchmark snapshot (user 2026-09-20:
+    #    "定时给出各项功能在 benchmark 上的表现" + keep current config in docs).
+    #    Reads the ledgers just written; changes nothing else.
+    try:
+        from tools.eval import capability_report
+        cap = str(capability_report.write_report(EVAL_OUT))
+    except Exception as e:  # never let the snapshot break the cadence
+        cap = f"(capability_report skipped: {type(e).__name__}: {e})"
+
     print(f"\n[sprint] wrote {SPRINT}")
+    print(f"[sprint] refreshed {cap}")
     for v in verdicts:
         print(f"  [{v['level']:<4}] {v['check']:<20} {v['detail'][:70]}")
     print(f"\n[sprint] exit_code={exit_code} "

@@ -15,8 +15,17 @@ Lanes (roles):
     qa      extractive / MCQ / yes-no answering — cheap lane
     judge   P3 judge / score_survey / health-check judge — strong lane
 
-Profiles:
+Profiles (three selectable base-model options — message 2026-09-20 "为 api key 和 opencode 留出接口位置"):
     free-opencode   all three lanes -> opencode hosted free model (default).
+                    Redirect the hosted model with OPENCODE_MODEL, e.g.
+                    `OPENCODE_MODEL=opencode/qwen3.8-flash` to run everything
+                    through Qwen 3.8 Flash (if the opencode CLI account has it
+                    provisioned; verify with `opencode models`).
+    openai-compat   all three lanes -> any OpenAI-compatible provider via
+                    OPENAI_BASE_URL/OPENAI_MODEL/OPENAI_API_KEY — e.g. run the
+                    WHOLE pipeline on Qwen 3.8 Flash through DashScope
+                    (OPENAI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1,
+                    OPENAI_MODEL=qwen3-max / qwen-flash). Needs a key (env only).
     judge-strong    draft|qa -> opencode; judge -> OPENAI_* (user-registered
                     OpenAI-compatible provider). Draft stays free even when a
                     strong judge is configured — DAS convention.
@@ -42,9 +51,15 @@ LANES = ("draft", "qa", "judge")
 
 BACKENDS = ("opencode", "openai")  # ollama removed 2026-09-16 (user decision)
 
-DEFAULT_OPENCODE_MODEL = "opencode/big-pickle"
+DEFAULT_OPENCODE_MODEL = "opencode/big-pickle"   # redirect via OPENCODE_MODEL (e.g. opencode/qwen3.8-flash)
 DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
+# Named, switchable base-model options surfaced in reports / --help (message: 多种选项).
+MODEL_OPTIONS = (
+    "free-opencode (opencode hosted free; redirect via OPENCODE_MODEL, e.g. opencode/qwen3.8-flash)",
+    "openai-compat (all lanes -> OpenAI-compatible provider via OPENAI_*; e.g. DashScope Qwen, needs key)",
+    "judge-strong (draft|qa free-opencode, judge -> strong OpenAI-compatible, needs key)",
+)
 
 
 @dataclass(frozen=True)
@@ -89,7 +104,8 @@ def _openai_lane() -> Lane:
     model = os.getenv("OPENAI_MODEL") or DEFAULT_OPENAI_MODEL
     if not os.getenv("OPENAI_API_KEY"):
         raise ProfileError(
-            "profile 'judge-strong' needs OPENAI_API_KEY (env only) for the judge lane"
+            "profiles 'judge-strong'/'openai-compat' need OPENAI_API_KEY (env only) "
+            "for the OpenAI-compatible lane"
         )
     return Lane(backend="openai", model=model, base_url=base)
 
@@ -101,10 +117,12 @@ def _build(name: str) -> Profile:
     elif name == "judge-strong":
         lanes = {r: _opencode_lane(opencode_model) for r in ("draft", "qa")}
         lanes["judge"] = _openai_lane()
+    elif name == "openai-compat":
+        lanes = {r: _openai_lane() for r in LANES}
     else:
         raise ProfileError(
             f"unknown LLM_PROFILE={name!r} — expected one of "
-            f"{('free-opencode', 'judge-strong')}; no silent fallback"
+            f"{('free-opencode', 'judge-strong', 'openai-compat')}; no silent fallback"
         )
     return Profile(name=name, lanes=lanes)
 

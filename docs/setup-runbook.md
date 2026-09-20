@@ -33,7 +33,7 @@ Question / field watch → Discovery (L1) → Parse+index (L2) → Outline+routi
 | Python (system) | miniconda `base` 3.12.9 · also 3.13/3.11 via `py -0` | ✓ |
 | uv | 0.12.7 | ✓ |
 | git | 2.54.0.windows.1 | ✓ |
-| Ollama client | 0.32.14 installed, **server not running**, no models pulled (user decision: defer) | ✓ |
+| Ollama | **superseded** — backend removed 2026-09-16; client may still be on PATH but is not part of the pipeline (see PROGRESS Session 8) | ✓ |
 | winget | 1.29.290 | ✓ |
 | **Working ML env** | conda `ds0509` (Python 3.12.13) at `C:\Users\data\miniconda3\envs\ds0509` | ✓ |
 | torch / torchvision | in `ds0509` (CUDA unavailable) | ✓ |
@@ -126,6 +126,23 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   2. the cited paper's *title* matches the claim it supports (spot-check via the local MinerU parse or arXiv abstract);
   3. no reference appears in the sheet that no inline `(arXiv:…)` in the body uses, and vice-versa;
   4. a quote backing a claim is verbatim-grounded (already enforced by the L6 5-gram gate; `gate_coverage` mutation check proves the shield fires).
+- **Scheduled capability & benchmark snapshot (`tools/eval/capability_report.py`, Session 23)** — one dated screen of every capability's current benchmark performance **plus the base-model/tool config that produced it** (reads cached `_eval_out/` artifacts; offline, ~0 s; `--live` runs a quick health+deps cycle first). It is refreshed automatically as **step 8 of every `evolution_sprint`**, and on demand:
+  ```powershell
+  & $PY -X utf8 -m tools.eval.capability_report            # -> _eval_out/capability_report.md
+  & $PY -X utf8 -m tools.eval.capability_report --live     # re-measure (quick) first
+  ```
+  To run it **on a schedule / 定时**, register one Windows Task that runs the cadence (which refreshes the snapshot as its step 8) — e.g. daily at 09:00:
+  ```powershell
+  $a = New-ScheduledTaskAction -Execute 'C:\Program Files\PowerShell\7\pwsh.exe' -Argument '-NoProfile -Command "cd C:\DA_Practice\research_foodie\research_foodie; & ''C:\Users\data\miniconda3\envs\ds0509\python.exe'' -X utf8 -m tools.eval.evolution_sprint --quick"'
+  Register-ScheduledTask -TaskName research_foodie_cadence -Action $a -Trigger (New-ScheduledTaskTrigger -Daily -At 9am)
+  ```
+- **Base-model options (三种选项, env-only — pick with `LLM_PROFILE`; no keys ever committed):**
+  | profile | draft / qa | judge | needs |
+  |---|---|---|---|
+  | `free-opencode` (default) | opencode hosted free | opencode hosted free | — |
+  | `openai-compat` | OpenAI-compatible provider | same provider | `OPENAI_API_KEY` |
+  | `judge-strong` | opencode hosted free | OpenAI-compatible (strong) | `OPENAI_API_KEY` |
+  Redirect the hosted free model (e.g. to **Qwen 3.8 Flash**) with `OPENCODE_MODEL=opencode/qwen3.8-flash`; run the *whole* pipeline on a Qwen API via `LLM_PROFILE=openai-compat` + `OPENAI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1` + `OPENAI_MODEL=…`. The active config is stamped into every report (D-4) and into `capability_report.md` §1; guards in `tools/eval/test_capability.py`.
 
 ## 3.0 End-to-end usage flow / 端到端使用流程
 

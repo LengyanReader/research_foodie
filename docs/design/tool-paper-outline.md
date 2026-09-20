@@ -4,7 +4,8 @@
 > 本文是 **research_foodie**（本地优先、成本敏感、证据必可溯源的主动学术研究流水线）拟投 arXiv 的论文大纲。当前是**简明完整版**：标题/摘要占位、Keywords、逐节大纲（引言→相关工作→系统设计→评测→讨论→结论）与已验证的参考文献草稿。每节标注"已实测数据 / 待补实验"，并以 `[PLAN]` 标记未来扩充。诚实性规则沿用 AGENTS.md：数字带 `as of` 日期、方向性结论标注、无法验证的引用标 *unverified*。全部引用来自本仓库已核验来源（PROGRESS U/LEDGER 行）。
 
 - `Updated`: 2026-09-20
-- `Status`: Outline v1 — concise & complete; expansion roadmap at bottom
+- `Status`: Outline v1 expanded into **Draft v1** → `docs/paper/research-foodie-paper.md`; outline kept as the section map / roadmap
+- `Living doc`: §7 numbers in the draft are regenerated/verified by `python -m tools.eval.capability_report` (`_eval_out/capability_report.md`), which the WS-C self-evolution cadence refreshes each run
 - `Language`: English master + 中文速览; later draft bilingual-ready
 - `Target`: arXiv (cs.CL / cs.AI), systems / applied-NLP track
 
