@@ -47,7 +47,7 @@ LICENSE                    MIT License
 - **文件/文档命名**：小写、`-` 分隔（`research-foodie-blueprint.md`）。
 - **Markdown 规范**：ATX 标题、代码围栏带语言、表格用于结构化对比；每文档顶部给 `Updated: <date>`。
 - **提交信息**：Follow [Conventional Commits](https://www.conventionalcommits.org/)，如 `docs(guide): add references section`。
-- **不主动提交（No unsolicited commits）**：只有用户显式要求才 `git commit`。
+- **不主动提交（No unsolicited commits）**：只有用户显式要求才 `git commit`。**已更新（2026-09-20，用户指示）**：日常文档/代码交付可**自动 commit**，但**绝不自动 push**；push 仅在被显式要求时进行。
 - **不新增无必要的文件**：优先编辑既有文件；新文档须服务于计划、追踪或交付物。
 - **避免冗余输出**：生成内容保持精炼、信息密度高。
 

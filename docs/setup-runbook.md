@@ -164,10 +164,22 @@ $env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动�
 ```powershell
 # CLI：一条命令跑完 + 看报告
 & $PY -m tools.eval.bench_eval                        # 报告 _eval_out/bench_pilot_das.md
-# Web dashboard（WS-B，已实现）：触发/取消/SSe tail/dashboard/manuscripts/feedback
+# Web dashboard（WS-B，已实现）：触发/取消/SSE tail/dashboard/manuscripts/feedback
 & $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
 # 打开 http://127.0.0.1:8000/
 ```
+
+**只读静态导出（F-3，已实现）** — 活版 dashboard 只能本地跑（SSE/cancel 需后端）；
+部署 GitHub Pages 的形态是只读快照：
+
+```powershell
+# 生成 gh-pages/（3 页 + manuscripts/*.pdf 副本，纯 stdlib，无需 uvicorn/fastapi）
+& $PY -X utf8 -m tools.web.export_static --out gh-pages
+```
+
+GitHub Pages **只托管静态文件**（不支持任何服务端代码），发布源设
+`branch: main / folder: /gh-pages` 即可随 commit 自动重发布；每次重新导出后 commit 该目录。
+`.nojekyll` 已包含，避免 Jekyll 处理。
 
 ### 3.0.6 Step 5 — 反馈 & 迭代（自演化入口）
 
