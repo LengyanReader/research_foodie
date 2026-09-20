@@ -2,7 +2,7 @@
 
 A **local-first, cost-sensitive proactive academic research pipeline** that turns a research question into a *citation-grounded* draft — every sentence traceable to a parsed paper, every gate mechanical before it is human.
 
-> 中文版见 [`README.zh-CN.md`](README.zh-CN.md).
+> 中文版见 [`README.zh-CN.md`](README.zh-CN.md). Complete overview (goals · components · workflow · measured status): [`docs/PROJECT.md`](docs/PROJECT.md).
 
 Updated: 2026-09-16 · License: MIT
 
@@ -86,6 +86,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 |---|---|
 | `docs/refs/ai-research-tools-workflow-guide.md` | Verified tool survey (2026-09-15) with Verification Ledger |
 | `docs/design/research-foodie-blueprint.md` | Bilingual architecture blueprint: purpose/non-goals, L0–L6, state machine, cost matrix, roadmap |
+| `docs/PROJECT.md` | **Project overview (master entry):** goals · components (code-mapped) · workflow · measured status · roadmap |
+| `docs/CAPABILITY-STATUS.md` | Measured capability statement: numbers, GREEN/BLOCKED list, reproduce commands |
 | `docs/setup-runbook.md` | Bilingual ops runbook: env, commands, smoke tests, known issues K1–K12 |
 | `docs/PLAN.md` · `docs/PROGRESS.md` | Execution plan + progress log (plan-first, track-as-you-go) |
 | `tools/llm/` | Unified LLM client (`opencode` + `openai`) + mock server |

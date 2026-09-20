@@ -2,7 +2,7 @@
 
 **本地优先、成本敏感（核心成本≈$0）的主动式学术研究流水线**：输入一个研究问题（或一个受监控领域），输出一份**逐句可溯源到已解析论文**的草稿——每个事实claim都锚定原文逐字引文，先机械校验、后人工把关。
 
-> English version: [`README.md`](README.md).
+> English version: [`README.md`](README.md). 完整总览（目标 · 组件 · 工作流 · 实测能力）：[`docs/PROJECT.md`](docs/PROJECT.md)。
 
 Updated: 2026-09-16 · 许可证：MIT
 
@@ -86,6 +86,8 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 |---|---|
 | `docs/refs/ai-research-tools-workflow-guide.md` | 已核验工具调研（2026-09-15），含验证台账 |
 | `docs/design/research-foodie-blueprint.md` | 双语架构蓝图：目的/非目标、L0–L6、状态机、成本矩阵、路线图 |
+| `docs/PROJECT.md` | **项目主总览（主入口）：** 目标、组件（对应代码）、工作流、实测能力、路线图 |
+| `docs/CAPABILITY-STATUS.md` | 能力盘点：实测数字、GREEN/BLOCKED 清单、复现命令 |
 | `docs/setup-runbook.md` | 双语操作手册：环境、命令、冒烟测试、已知问题 K1–K12 |
 | `docs/PLAN.md` · `docs/PROGRESS.md` | 执行计划 + 进度日志（计划先行、边做边记） |
 | `tools/llm/` | 统一 LLM 客户端（`opencode` + `openai`）+ mock 服务 |
