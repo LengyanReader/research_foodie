@@ -87,6 +87,7 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 | `docs/refs/ai-research-tools-workflow-guide.md` | Verified tool survey (2026-09-15) with Verification Ledger |
 | `docs/design/research-foodie-blueprint.md` | Bilingual architecture blueprint: purpose/non-goals, L0–L6, state machine, cost matrix, roadmap |
 | `docs/PROJECT.md` | **Project overview (master entry):** goals · components (code-mapped) · workflow · measured status · roadmap |
+| `docs/DATAFLOW-AND-REUSE.md` | **Implementation truth:** exact inputs/outputs per mode, per-node stage I/O, honest stitch ledger (executed vs borrowed vs reference) |
 | `docs/CAPABILITY-STATUS.md` | Measured capability statement: numbers, GREEN/BLOCKED list, reproduce commands |
 | `docs/setup-runbook.md` | Bilingual ops runbook: env, commands, smoke tests, known issues K1–K12 |
 | `docs/PLAN.md` · `docs/PROGRESS.md` | Execution plan + progress log (plan-first, track-as-you-go) |

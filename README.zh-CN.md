@@ -87,6 +87,7 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 | `docs/refs/ai-research-tools-workflow-guide.md` | 已核验工具调研（2026-09-15），含验证台账 |
 | `docs/design/research-foodie-blueprint.md` | 双语架构蓝图：目的/非目标、L0–L6、状态机、成本矩阵、路线图 |
 | `docs/PROJECT.md` | **项目主总览（主入口）：** 目标、组件（对应代码）、工作流、实测能力、路线图 |
+| `docs/DATAFLOW-AND-REUSE.md` | **实现真相：** 各模式精确输入输出、逐节点阶段进出、框架缝合程度账本（执行/借用/仅参考） |
 | `docs/CAPABILITY-STATUS.md` | 能力盘点：实测数字、GREEN/BLOCKED 清单、复现命令 |
 | `docs/setup-runbook.md` | 双语操作手册：环境、命令、冒烟测试、已知问题 K1–K12 |
 | `docs/PLAN.md` · `docs/PROGRESS.md` | 执行计划 + 进度日志（计划先行、边做边记） |

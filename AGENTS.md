@@ -21,6 +21,7 @@ docs/
   design/                  架构与设计文档 (architecture/design docs)
     research-foodie-blueprint.md
   PROJECT.md               项目主总览 — 目标/组件/工作流/实测能力/路线图 (bilingual)
+  DATAFLOW-AND-REUSE.md    输入输出·中间阶段·框架缝合与借用程度细则 (bilingual)
   CAPABILITY-STATUS.md     能力盘点 — 实测数字、GREEN/BLOCKED 清单、复现命令 (bilingual)
   PLAN.md                  执行计划 (bilingual)
   PROGRESS.md              进度日志 (bilingual)
