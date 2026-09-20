@@ -4,7 +4,7 @@
 > 本文档是本仓库的**操作性手册**（bilingual）：基于 2026-09-15 P1 阶段的真实实测，记录环境怎么搭、哪些工具已跑通、每条命令、踩过的坑与临时解法、遗留问题，以及下一步怎么走。目标是"任何会话翻到本文档即可无缝继续"。
 > **一句话现状**：MinerU PDF→Markdown 跑通；**PaddleOCR 中文识别已解决（K7 关闭）**；**统一 LLM client 已建**（`tools/llm/`，**默认后端 = opencode CLI 免费模型 `opencode/big-pickle`**，另支持任何 OpenAI 兼容 API）；**Ollama 后端已于 2026-09-16 彻底移除**（用户决定"不要再考虑 Ollama"，K11 历史排障见台账）；**P2 最小纵切已打通**（`tools/pipeline/`：S_lit 可插拔发现 rail + LangGraph 完整链 + L6 确定性校验 + 写时反幻觉过滤 + 全文 claim 抽取）；**三大参考框架已运行时整合（Session 9）**：STORM-style 大纲（S_org outline→S_write 大纲驱动写作）、OpenResearch/orx + arXiv **实时发现 rail**（`S_LIT_BACKEND=seed|arxiv|orx`，2026-09-16 实测 arXiv API 已可达 1.1 s）、DAS-Bench-style **AI 评审门**（P3 preview，`validation.judge`）；测试 mock **19/19** + real `opencode/big-pickle` **18/18** @121.7 s（draft 3357 字、outline 3 节、score 1.0、judge=pass）；**已在第二篇真实论文（Weber-Wulff `2306.15666`）上验证泛化（Session 10）**；**DAS-Bench 16 轴基准评测试点已完成（Session 11）**：`tools/eval/bench_eval.py`，预览总分 P-A 2.62 / P-B 3.19 / 001 2.44 / 019 no-evidence，报告 `_eval_out/bench_pilot_das.md`；远程 GPU / 付费 API 仍按用户决定延后。
 
-- `Updated`: 2026-09-16
+- `Updated`: 2026-09-20 (added §3.1 Usage & Demos)
 - `Status`: P1 tooling — done (parsing ✓, OCR ✓ K7 closed, GPU deferred; LLM client ✓ opencode 3/3 + mock 3/3; Ollama removed 2026-09-16); **P2 minimal vertical — done** (LangGraph S_lit→S_org→S_write→S_final → L6 gate → P3 judge live: `tools/pipeline/` mock 19/19 + real `opencode/big-pickle` 18/18 @121.7 s, full-text claims, correct section attribution, STORM outline, orx/arXiv live discovery rail verified, DAS-Bench-style judge=pass; write-time grounded-claim filter catches fabrication; seed rail remains the offline default); **benchmark-style evaluation pilot vs DAS-Bench 16-criterion assets — done (Session 11, see §3 `bench_eval` + `_eval_out/bench_pilot_das.md`)**
 - `Language`: bilingual (English master + 中文速览 notes)
 - `See also`: `docs/design/research-foodie-blueprint.md` (architecture) · `docs/refs/ai-research-tools-workflow-guide.md` (tool survey)
@@ -99,6 +99,68 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   ```
   pandoc + MiKTeX xelatex + Microsoft YaHei (CJK) — both already installed (no new deps); page count via pypdf. The bench pipeline renders each scored artifact automatically to `_eval_out/manuscripts/<id>_manuscript.pdf` with a `pdf pg` report column. A text-only LLM judge still cannot score the MAR *Layout* axis — that needs a ≥300B page-aware judge (blocked).
 - **Download a test paper** (arXiv reachable from this host): `Invoke-WebRequest -Uri https://arxiv.org/pdf/<ID> -OutFile x.pdf`
+
+## 3.1 Usage & demo walkthroughs / 用法与演示
+
+> 中文速览：本小节把"怎么用"钉死成两份东西——(1) **工具速查表**（每条工具：用途 / 验证过的命令 / 版本引脚 / 对应已知问题）；(2) **三条端到端 demo**（PDF→接地综述→渲染、接地 QA、30 话题判题库电池），每条给出可复制的命令与预期产物。目标：任何会话照抄 §3.1 即可复现这篇管道的全部能力。规划对应 `docs/PLAN.md` §8 L-5（工具使用入档）与 Phase F（web 前端，见下节分析）。
+> **All commands below already ran green in Sessions 9–20** (with the recorded caveats). `$PY`, `$MINE`, `$UTF8` as in §3.
+
+### 3.1.1 Per-tool usage cheat-sheet / 逐工具速查
+
+| Tool | Purpose / 用途 | Verified command (copy-paste) | Ver. pin (E-4 ledger) | Known issue |
+|---|---|---|---|---|
+| `mineru.exe` | PDF → Markdown (CPU) | `& $MINE -p in.pdf -o out -b pipeline --formula False --table False` | `mineru[pipeline]` in `ds0509` | K12 → use `-m txt` + page windows ≤6pp, **distinct `-o` per window** |
+| MinerU window **merge** | long PDFs, text layer | merge `txt/*.md` → `<stem>/auto/<stem>.md`; register via `corpus.md_path_for(arxiv_id)` | — | K12 (silent overwrite if same `-o`) |
+| arXiv API **live rail** | realtime topic discovery | `S_LIT_BACKEND=arxiv` on `Pipeline.run` | backends `seed\|arxiv\|orx` | reachable ~1.1 s (verified 2026-09-16); free; no key |
+| `orx` CLI | auto-research shell (uninstalled here) | `S_LIT_BACKEND=orx` — falls back arxiv→seed when binary absent | not installed | Phase R item |
+| `tools.pipeline.test_pipeline` | full S_lit→…→judge smoke | `& $PY -m tools.pipeline.test_pipeline mock` (~0.1 s) / `real` (~2–4 min) | — | real run is live-LLM; rate OK |
+| `tools.eval.bench_eval` | DAS-16 crit. benchmark | `& $PY $UTF8 -m tools.eval.bench_eval --scenarios P-A,P-B,P-C,001,019` | — | **`--out` overwrites whole report → always run complete set in ONE call** (cache merges vintages) |
+| `tools.eval.pools_30` | 30-topic judge battery | `& $PY $UTF8 -m tools.eval.pools_30` | — | seed rail only; external pools Phase R |
+| `tools.eval.variance_run` | judge-noise measurement | `& $PY $UTF8 -m tools.eval.variance_run` | — | judge P-A σ≈0.53 → median-of-3 (L-3) |
+| `tools.eval.add_paper` | one-command corpus adder | `& $PY $UTF8 -m tools.eval.add_paper <arxiv_id>` | — | verified on `1703.10344` (12 pp) |
+| `tools.eval.render_manuscript` | draft → PDF | `& $PY -m tools.eval.render_manuscript x.md out.pdf` | pandoc + MiKTeX xelatex + YaHei | MAR Layout axis needs page-aware judge |
+| `tools.llm.client` | unified LLM gateway | `LLMClient(backend="opencode")` default | opencode CLI, `opencode/big-pickle` | prompt-must-precede `-f`; `--auto` `--pure`; `-X utf8` on Win |
+| `tools.llm.smoke_test` | client sanity | `python -m tools.llm.smoke_test mock` / `opencode` | 3/3 PASS | no keys needed |
+
+### 3.1.2 Demo A — PDF → grounded draft → manuscript (端到端拉通)
+
+```powershell
+$PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
+$UTF8 = '-X', 'utf8'
+& $PY -m tools.pipeline.test_pipeline mock      # ① deterministic gate: expect 19/19
+& $PY $UTF8 -m tools.pipeline.test_pipeline real  # ② real LLM: expect verdict PASS, judge=pass (~2–4 min)
+& $PY -m tools.eval.render_manuscript docs/design/resources/_demo_draft.md _eval_out/manuscripts/demo.pdf  # ③ PDF
+```
+- ② produces a LangGraph `result` with `outline` (3 sections, STORM-style) + `validation.judge {label, score, checks, feedback}`; a grounded-claim filter runs at write time (fabrications rejected, then JSON-normalized).
+- ③ prints `OUT … PAGES n`. Bench scoring auto-renders every artifact to `_eval_out/manuscripts/<id>_manuscript.pdf`.
+- **Demo topic**: "How reliable are automatic detection tools for AI-generated text?" (Liang `2304.02819` + Weber-Wulff `2306.15666` + GLTR corpped, Sessions 10/12).
+
+### 3.1.3 Demo B — Evidence-grounded QA (`qa` scenarios)
+
+```powershell
+& $PY $UTF8 -m tools.eval.bench_eval --scenarios QA-6,QA-7,SQ-1,PQ-1,Qasper-1 2>&1 | Select-Object -Last 40
+```
+- `seed_id` routes to the **grounded extractive-answer node** (`tools/pipeline/answer.py`) — answers the question, not the survey. Gold-token fact hits + `score_qa` judge columns; QA rows are **excluded** from the DAS-family mean (separate `QA pilot` table).
+- Requires Qasper dev v0.3 (`qasper-train-dev-v0.3.tgz`, S3) for QA/Qasper rows; corpus-anchored rows (QA-6/7) need only the local `_LOCAL_MD`.
+
+### 3.1.4 Demo C — 30-topic judge battery + variance (measurement & baselines)
+
+```powershell
+& $PY $UTF8 -m tools.eval.pools_30        # → _eval_out/pools_30.json + pools_30_report.md (22/30 topic pools; 10 judged → Total 3.13)
+& $PY $UTF8 -m tools.eval.variance_run    # → _eval_out/variance_runs.json (P-A 3.88±0.53, P-B 3.31±0.00, P-C 3.53±0.13)
+```
+- Feeds E-1 `_eval_out/baselines.json` (PLAN §8 Phase X) — the自演化 baseline freeze. Re-run after any prompt/judge change; a ±0.5-scale delta on P-A is *within its own judge noise* until L-3 median-of-3 lands.
+
+### 3.1.5 Demo D — manual L6 gate inspection (human-in-the-loop)
+
+```powershell
+# trigger + inspect the DAS-Bench-style rubric verdict on one topic:
+& $PY $UTF8 -m tools.eval.bench_eval --scenarios P-A --out _eval_out/bench_demo.md
+Get-Content _eval_out/bench_demo.md | Select-String -Pattern "checks|feedback" -Context 0,6
+```
+- The rubric (`validation.judge.checks`) is keyed to the 16 DAS-Bench criteria (BSC·MAR·TSQ·HDQ) re-implemented verbatim from `external/DAS/DAS-Bench/benchmark/evaluation_protocol.md`.
+
+---
 
 ## 4. P1 smoke-test results / 冒烟实测结果
 

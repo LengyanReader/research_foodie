@@ -20,6 +20,7 @@ docs/
     ai-research-tools-workflow-guide.md
   design/                  架构与设计文档 (architecture/design docs)
     research-foodie-blueprint.md
+    self-evolution-mechanism.md  自演化机制设计 — 四相循环·证据·失败模式 (bilingual, 2026-09-20)
   PROJECT.md               项目主总览 — 目标/组件/工作流/实测能力/路线图 (bilingual)
   DATAFLOW-AND-REUSE.md    输入输出·中间阶段·框架缝合与借用程度细则 (bilingual)
   TOOL-COMPARISON.md       逐阶段工具定位对比 + 可复用资产清单 (bilingual, 2026-09-20)

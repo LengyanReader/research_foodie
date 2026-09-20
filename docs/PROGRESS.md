@@ -3,7 +3,33 @@
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
 - `Updated`: 2026-09-20
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)** · **comparison + next-plan docs (Session 20)**)
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)** · **comparison + next-plan docs (Session 20)** · **self-evolution design + usage/demo runbook + web-frontend analysis (Session 21)**)
+
+---
+
+## 2026-09-20 — Session 21: self-evolution mechanism design, tool-usage & demo docs, web-frontend analysis
+
+**Why:** the user (after Session 20) asked to fold two more things into the plan — (1) put tool usage/demo content into the docs, (2) design a self-evolution mechanism (periodic evolution/update/debug) — then asked to research, argue and evaluate the self-evolution approach thoroughly. Web-verified 2026-09-20, blended with the measured numbers from Sessions 11–19.
+
+1. **`docs/design/self-evolution-mechanism.md` written (bilingual, 10 sections)** — one source for the design rules + evidence + failure modes behind PLAN §8 Phase X. Core findings:
+   - **Intrinsic self-correction is unreliable/harmful for reasoning**: LLMs keep their first GSM8K answer 74.7% and mostly change correct→wrong (Huang et al. 2310.01798); GPT-4 locates logical errors only 52.87% (Tyen et al. 2311.08516) → **evolution triggers must come from external measurement**, never "the model noticing it's wrong".
+   - **Canonical 4-phase cycle** to adopt (experience acquisition → refinement → updating → evaluation, Tao et al. 2404.14387): our Phase X maps E-1/frozen subset → E-5/feedback corpus → E-3/tickets → E-2/health check.
+   - **Prompt-level, metric-gated evolution is the right mechanism class** (DSPy 2310.03714 · MIPRO 2406.11695 · **GEPA 2507.19457: beats GRPO up to ~20pp using 35× fewer rollouts** · TextGrad 2406.07496) — but E-5 starts **manual** (mini-GEPA), automated only in Phase R with a strong reflection LM.
+   - **Anti-collapse guardrail**: feedback must stay anchored to real primary gold (Seddik 2404.05090: mixing real data within a bound avoids collapse) → provenance tag + real-ground-truth floor per cadence.
+   - **Mutation testing hardens the deterministic gate** (E-2b `gate_coverage`, zero-LLM) — the highest-value/lowest-cost "evolutionary" act.
+   - Feasibility×value matrix + honest boundary (scheduled measurement + human-gated repair; **no** auto-commit / weight updates / unattended prompt evolution).
+2. **PLAN §8 Phase X refined** per the research — added: `E-2b` gate-coverage mutation check (≥20 mutants, 100% kill-rate, σ-aware thresholds), E-5 provenance floor + promotion rule (N≥3, Δ≥2σ, no mock/gold regression, adjudicator-swap survival in R), E-7 GEPA/DSPy automated option (R-phase); hard design rules (a) external triggers only, (b) variance-aware thresholds (P-A σ 0.53 → its own 2σ).
+3. **PLAN §8 L-5 delivered: `docs/setup-runbook.md` §3.1 "Usage & demo walkthroughs / 用法与演示"** — per-tool cheat-sheet (purpose · verified command · version pin · known issue K#) + Demo A (PDF → grounded draft → manuscript PDF), Demo B (evidence-grounded QA), Demo C (30-topic battery + variance → E-1 baselines), Demo D (manual L6 judge inspection). Requirement: fresh agent reproduces every stage from the runbook alone; `rg` stale-command sweep zero-hit.
+4. **PLAN §8 Phase F added: local web frontend (FastAPI, ≈$0)** — **decision: FastAPI, not Flask, not static-only**:
+   - *Static no-backend*: renders `_eval_out/` read-only only → can't trigger runs / stream progress / cancel → insufficient (kept as F-3 fallback).
+   - *Flask (WSGI/sync)*: real bench runs take 2–8 min; sync worker blocks other requests; live progress+cancel needs hand-rolled threads/queues ≥ FastAPI's native async complexity, without Pydantic/OpenAPI → **not chosen**.
+   - *FastAPI (ASGI/uvicorn)*: native async → SSE progress + concurrent triggers + cooperative cancel; Pydantic v2 models map `_eval_out` + pipeline state; auto OpenAPI/Swagger. Local single-user has no perf pressure, but async+types+docs come at zero extra cost → **chosen**. Frontend = Jinja2 + htmx (vendor-local CDN copy, K1/K2 network flakiness), **zero Node toolchain**.
+   - *Gradio/Streamlit*: fast demo start but weak typing + boilerplate control → one-off comparison only, not the landing choice.
+   - Directions (RPS 3–7×, star counts ~78-82k vs ~68k) are directional/secondary (tech-insider 2026-04-02 · ByteIota 2025-12 · dev.to 2025-02-05); decision rests on sync-vs-async + type/validation facts.
+   - F-1 scaffold (`tools/web/app.py`, bind `127.0.0.1`, routes for dashboard/runs/SSE/cancel/manuscripts/feedback) · F-2 live SSE stage map + cancel · F-3 read-only fallback · F-4 wiring into Phase X cadence (E-2/E-3/E-4/E-5 visible on one local URL). Acceptance = uvicorn serves dashboard, real run cancellable, no orphaned processes.
+5. Docs map/README cross-links pending in AGENTS/README (self-evolution-mechanism entry) — included in the Session 21 commit.
+
+Next: commit+push Session 21 docs; then Phase L-1 (relevance re-rank) and/or F-1 scaffold when the user green-lights; parked P3/R-phase blocked items (≥300B judge / GPU / keys) remain in `CAPABILITY-STATUS.md §3`.
 
 ---
 
