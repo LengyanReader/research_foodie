@@ -99,6 +99,33 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   ```
   pandoc + MiKTeX xelatex + Microsoft YaHei (CJK) — both already installed (no new deps); page count via pypdf. The bench pipeline renders each scored artifact automatically to `_eval_out/manuscripts/<id>_manuscript.pdf` with a `pdf pg` report column. A text-only LLM judge still cannot score the MAR *Layout* axis — that needs a ≥300B page-aware judge (blocked).
 - **Download a test paper** (arXiv reachable from this host): `Invoke-WebRequest -Uri https://arxiv.org/pdf/<ID> -OutFile x.pdf`
+- **L-6 one-command self-check / 一键自检 (Session 22)** — the offline safety net in a single call (unit + integration + evolution cadence, ~15 s, zero LLM):
+  ```powershell
+  ./self_check.ps1              # or: & $PY -X utf8 -m tools.eval.self_check
+  ./self_check.ps1 -Full        # + live LLM judge cadence (~1.5 min)
+  ./self_check.ps1 -WithReal    # also `test_pipeline real` (needs opencode CLI)
+  ```
+  Runs `tools.eval.test_evolution` (31 deterministic guard tests) → `test_pipeline mock` (34/34) → `evolution_sprint --quick`; exit code is the max (GREEN 0 / WARN 1 / FAIL 2) so it gates directly.
+- **WS-C self-evolution loop (E-3/E-4/E-5, `tools/eval/evolution*.py`, Session 22)** — scheduled measurement + regression detection + human-gated repair (never auto code/prompt change, never a commit):
+  ```powershell
+  & $PY -X utf8 -m tools.eval.evolution_sprint --quick   # zero-LLM cadence
+  & $PY -X utf8 -m tools.eval.evolution_sprint           # + live judge sanity
+  & $PY -X utf8 -m tools.eval.evolution_sprint --report-only
+  & $PY -X utf8 -m tools.eval.test_evolution             # deterministic guards (temp-isolated)
+  ```
+  Writes ONLY ledgers under `_eval_out/`: `tickets.json` (E-3 debug board, one-open-per-component, auto-closed on PASS), `deps_ledger.json` (E-4 version pins + drift detection), `feedback/feedback.jsonl` (E-5 provenance + real-gold quota), `revisions.json` (numbered human-gated bumps), `evolution_sprint.md` (the one-screen review). Evolution triggers come only from external measurement; a repair is *eligible* only after N≥3 sustained cadences AND Δ≥2σ AND no mock/gold regression. Design + evidence: `docs/design/self-evolution-mechanism.md`.
+- **D-3 cross-model judge matrix (`tools/eval/judge_matrix.py`, Session 22)** — score the frozen proxies through several judge vantages; a promotion delta must survive a *different* judge:
+  ```powershell
+  & $PY -X utf8 -m tools.eval.judge_matrix --judges free-opencode,judge-strong --rounds 3
+  # deterministic offline: start mock_openai_server on :8201, then
+  & $PY -X utf8 -m tools.eval.judge_matrix --judges mock-api,mock2 --backend openai --base-url http://127.0.0.1:8201/v1
+  ```
+  Report `_eval_out/judge_matrix.md` = topic×judge Totals + cross-judge spread + D-4 provenance. One free model → single-column matrix (states it cannot corroborate); add `judge-strong` (needs `OPENAI_API_KEY`) for a real second vantage.
+- **L-4 citation-verification checklist (agent-side, no code path)** — before any manuscript is treated as final, run this checklist against the References (the `citation-verification` skill guidance; scripts in `tools/citation-verify/` stay reference-only):
+  1. every `arXiv:<id>` resolves at `https://arxiv.org/abs/<id>` (the L6 gate already rejects malformed IDs);
+  2. the cited paper's *title* matches the claim it supports (spot-check via the local MinerU parse or arXiv abstract);
+  3. no reference appears in the sheet that no inline `(arXiv:…)` in the body uses, and vice-versa;
+  4. a quote backing a claim is verbatim-grounded (already enforced by the L6 5-gram gate; `gate_coverage` mutation check proves the shield fires).
 
 ## 3.0 End-to-end usage flow / 端到端使用流程
 

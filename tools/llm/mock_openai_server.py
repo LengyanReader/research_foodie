@@ -58,6 +58,16 @@ def _route(content: str) -> str:
             ensure_ascii=False,
         )
 
+    if "reader perspectives" in lower:
+        return json.dumps(
+            {"perspectives": [
+                "practitioner: deployability and cost of detection tooling",
+                "methodologist: benchmark validity and metric choices",
+                "policy analyst: fairness impact on non-native writers",
+            ]},
+            ensure_ascii=False,
+        )
+
     if "extract a research outline" in lower:
         return json.dumps(
             {"thesis": "GPT detectors are biased against non-native writers",

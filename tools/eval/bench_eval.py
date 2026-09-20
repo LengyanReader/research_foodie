@@ -29,6 +29,7 @@ import csv
 import json
 import re
 import statistics
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -467,7 +468,8 @@ def reference_means() -> Dict[str, Dict[str, float]]:
 _MAX_ARTIFACT_CHARS = 40_000  # full manuscript (abstract+sections+table+refs) must be viewable
 
 
-def score_survey(client: LLMClient, topic: str, artifact: str) -> Dict[str, Any]:
+def score_survey(client: LLMClient, topic: str, artifact: str,
+                 temperature: Optional[float] = None) -> Dict[str, Any]:
     """Ask an LLM judge to score `artifact` on the 16 DAS-Bench criteria.
 
     Returns {"scores": {criterion: int}, "coverage": n/16, "error": str?}.
@@ -481,6 +483,7 @@ def score_survey(client: LLMClient, topic: str, artifact: str) -> Dict[str, Any]
         ],
         json_mode=True,
         max_tokens=700,
+        temperature=temperature,
     )
     obj = parse_json_dict(r.text)
     raw = obj.get("scores") if isinstance(obj, dict) else None
@@ -512,9 +515,35 @@ def _family_avgs(scores: Dict[str, int]) -> Dict[str, Optional[float]]:
     return avgs
 
 
+def median_bench(runs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """L-3: aggregate repeated `score_survey` verdicts by per-criterion MEDIAN.
+
+    The free judge is non-deterministic (measured P-A run-to-run sd 0.53);
+    the median of 3 calls compresses that noise without changing the rubric.
+    Deterministic + defensive: unparseable rounds are skipped; empty input
+    degrades to a zero-coverage dict, never raises. Integer medians round the
+    `.5` of even counts to the nearest even int (banker's rounding).
+    """
+    good = [r for r in runs if isinstance(r, dict) and r.get("scores")]
+    if not good:
+        return {"scores": {}, "coverage": 0, "median_rounds": len(runs),
+                "error": "no judge round produced scores"}
+    scores: Dict[str, int] = {}
+    for _family, criterion in DAS_16:
+        vals = [r["scores"][criterion] for r in good if criterion in r["scores"]]
+        if vals:
+            scores[criterion] = int(round(statistics.median(vals)))
+    base = dict(good[0])
+    base.update(scores=scores, coverage=len(scores),
+                median_rounds=len(good), rounds_offered=len(runs))
+    base.pop("error", None)
+    return base
+
+
 def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]],
                   judge_client: Optional[LLMClient] = None,
-                  on_row: Optional[callable] = None) -> List[Dict[str, Any]]:
+                  on_row: Optional[callable] = None,
+                  median_rounds: int = 1) -> List[Dict[str, Any]]:
     import time as _t
     from tools.pipeline.corpus import md_path_for
     from tools.pipeline.answer import answer_question, check_answer
@@ -590,7 +619,15 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]],
         else:
             row["status"] = "scored"
             row["pdf"] = _render_manuscript(s, artifact)
-            row["bench"] = score_survey(judge_client, s["topic"], artifact)
+            if median_rounds > 1:
+                # L-3: judge each survey 3× (decorrelated temperatures) and keep
+                # the per-criterion median — pipeline runtime stays single-call.
+                runs = [score_survey(judge_client, s["topic"], artifact,
+                                     temperature=0.2 + 0.15 * i)
+                        for i in range(median_rounds)]
+                row["bench"] = median_bench(runs)
+            else:
+                row["bench"] = score_survey(judge_client, s["topic"], artifact)
         out.append(row)
         if on_row is not None:
             on_row(_serialize_row(row))  # durable immediately → crash-safe resume
@@ -618,7 +655,8 @@ def _render_manuscript(scenario: Dict[str, Any], artifact: str) -> Dict[str, Any
     return {"pdf": str(pdf_path), "pages": pages}
 
 
-def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) -> str:
+def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]],
+                  meta: Optional[Dict[str, Any]] = None) -> str:
     L: List[str] = []
     add = L.append
     add("# DAS-Bench-style evaluation pilot — research_foodie preview")
@@ -628,6 +666,12 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
     add(">")
     add("> Status: **preview / directional only**. Full DAS-Bench compliance is "
         "out of reach in this env (see feasibility matrix at the end).")
+    if meta:
+        # D-4 provenance: every score claim attributable to the exact models
+        # (and aggregation) behind it — profile · lane models · temperature.
+        add(">")
+        add("> **Scoring provenance (D-4)** — "
+            + " · ".join(f"{k}: {v}" for k, v in meta.items() if v not in (None, "")))
     add("")
 
     scored = [r for r in rows if r["status"] == "scored"]
@@ -693,8 +737,10 @@ def format_report(rows: List[Dict[str, Any]], ref: Dict[str, Dict[str, float]]) 
             add(f"- **{family}** — {line}  (avg {_fmt(_family_avgs(b['scores']).get(family))})")
         tot = [v for v in b["scores"].values()]
         total = statistics.mean(tot) if tot else None
+        med = b.get("median_rounds")
         add(f"- **Total Avg**: {_fmt(total)}  (coverage {b['coverage']}/16, "
-            f"judge={b.get('judge_model')})")
+            f"judge={b.get('judge_model')}"
+            + (f", median of {med} rounds" if med and med > 1 else "") + ")")
         if b.get("error"):
             add(f"- ⚠ judge error: {b['error']}")
         add("")
@@ -819,6 +865,9 @@ def main() -> int:
     ap.add_argument("--no-resume", action="store_true",
                     help="ignore any interrupted run for the same profile+idset "
                          "and start every scenario from scratch")
+    ap.add_argument("--median-rounds", type=int, default=1,
+                    help="L-3: judge survey scenarios N× and keep the per-criterion "
+                         "median (recommended 3 for reported family means; QA stays 1×)")
     ap.add_argument("--out", default=str(DEFAULT_OUT))
     ap.add_argument("--scenarios", default=None,
                     help="comma-separated proxy|das topic ids to run (default: all)")
@@ -846,8 +895,10 @@ def main() -> int:
     print(f"[bench] requested={run_ids}")
 
     # --- resume (run memory): reuse done rows for this exact profile+idset ---
+    # median rounds change the scoring protocol → part of the fingerprint, so a
+    # `--median-rounds 3` rerun never silently resumes single-call rows.
     from tools.eval.run_ledger import ResumeLedger
-    fingerprint = f"{profile.name}|{','.join(run_ids)}"
+    fingerprint = f"{profile.name}|med{max(1, args.median_rounds)}|{','.join(run_ids)}"
     led = ResumeLedger.open("bench_eval", fingerprint, force=args.no_resume)
     pending = led.pending(run_ids)
     skipped = len(run_ids) - len(pending)
@@ -859,13 +910,15 @@ def main() -> int:
         rows = [dict(led.done()[t]) for t in run_ids if t in led.done()]
         rows = _merge_scenarios(rows, done_scenarios)
         print("[bench] all requested scenarios already complete — regenerating report only")
-        return _write_report(rows, args)
+        return _write_report(rows, args, _provenance(profile, draft_client,
+                                                     judge_client, args))
 
     scenarios = [s for s in all_scenarios if s["topic_id"] in pending]
     cache_dir = Path(DEFAULT_OUT).parent / "bench_cache"
     try:
         rows = run_scenarios(
             draft_client, scenarios, judge_client=judge_client,
+            median_rounds=max(1, args.median_rounds),
             on_row=lambda r: (led.record(r["scenario"]["topic_id"], r),
                               _save_cache([r], cache_dir)),
         )
@@ -882,7 +935,22 @@ def main() -> int:
         if tid in led.done():
             merged.append(dict(led.done()[tid]))
     merged = _merge_scenarios(merged, [s for s in all_scenarios if s["topic_id"] in run_ids])
-    return _write_report(merged, args)
+    return _write_report(merged, args, _provenance(profile, draft_client,
+                                                   judge_client, args))
+
+
+def _provenance(profile, draft_client: LLMClient, judge_client: LLMClient,
+                args) -> Dict[str, Any]:
+    """D-4: the model-attribution block written into every report footer."""
+    from tools.llm.profiles import profile_header
+    return {
+        "as_of": time.strftime("%Y-%m-%d"),
+        "profile": profile_header(profile),
+        "draft_model": getattr(draft_client, "model", "?"),
+        "judge_model": getattr(judge_client, "model", "?"),
+        "judge_temperature": judge_client.default_temperature,
+        "median_rounds": max(1, args.median_rounds),
+    }
 
 
 def _merge_scenarios(rows: List[Dict[str, Any]],
@@ -897,9 +965,10 @@ def _merge_scenarios(rows: List[Dict[str, Any]],
     return rows
 
 
-def _write_report(rows: List[Dict[str, Any]], args) -> int:
+def _write_report(rows: List[Dict[str, Any]], args,
+                  meta: Optional[Dict[str, Any]] = None) -> int:
     ref = reference_means()
-    report = format_report(rows, ref)
+    report = format_report(rows, ref, meta=meta)
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

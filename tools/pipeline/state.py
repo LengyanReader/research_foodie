@@ -10,6 +10,8 @@ class PipelineState(TypedDict, total=False):
     papers: List[Dict[str, object]]   # resolved multi-paper evidence pool (S_lit)
     taxonomy: Dict[str, object]
     outline: Dict[str, object]
+    perspectives: List[str]          # L-2 STORM-style reader perspectives (S_org)
+    source_windows: List[Dict]       # L-1 re-rank provenance (per-paper windows the extractor saw)
     claims: List[Dict]
     dropped_claims: List[Dict]
     draft: str

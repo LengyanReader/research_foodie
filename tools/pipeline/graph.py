@@ -46,6 +46,7 @@ from typing import Dict, Any, Optional, List
 from tools.llm.client import LLMClient, Message
 from tools.pipeline.state import PipelineState
 from tools.pipeline.corpus import discover, resolved_evidence
+from tools.pipeline.rerank import select_windows
 from tools.pipeline.validate import (
     validate,
     grounded_claims,
@@ -144,9 +145,34 @@ class Pipeline:
         if not isinstance(topics, list) or not topics:
             topics = ["general"]
 
-        # STORM-style outline rail: thesis + sections + key_points, grounded
-        # in the evidence window and the research question.
+        # L-2 perspective rail (STORM-inspired, prompt-only): enumerate the
+        # reader perspectives the survey must serve, then let the outline
+        # cover them. Parse failure → [] (outline proceeds, no harm).
         q = question or f"What does {state.get('paper_id','')} establish?"
+        rp = self.client.chat(
+            [
+                Message(role="system",
+                        content=("Propose 3-5 distinct reader perspectives whose "
+                                 "information needs a survey on this question "
+                                 "must cover, as JSON {\"perspectives\":[str]}. "
+                                 "Each entry names a reader role plus its "
+                                 "concern (e.g. 'practitioner: deployability'). "
+                                 "Anchor on the question; be terse.")),
+                Message(role="user",
+                        content=f"Question: {q}\n\nExcerpt:\n{context}"),
+            ],
+            json_mode=True,
+            max_tokens=220,
+        )
+        op = parse_json_dict(rp.text) or {}
+        raw_persp = op.get("perspectives")
+        perspectives = [str(p).strip() for p in raw_persp
+                        if isinstance(p, (str, int)) and str(p).strip()][:5] \
+            if isinstance(raw_persp, list) else []
+
+        # STORM-style outline rail: thesis + sections + key_points, grounded
+        # in the evidence window and the research question; L-2 makes the
+        # outline answer every reader perspective enumerated above.
         r2 = self.client.chat(
             [
                 Message(role="system",
@@ -156,7 +182,10 @@ class Pipeline:
                                  "4-6 sections (survey depth); every key_point is "
                                  "one evidence-backed finding from the excerpt.")),
                 Message(role="user",
-                        content=f"Question: {q}\n\nExcerpt:\n{context}"),
+                        content=(f"Question: {q}\n"
+                                 + (f"Perspectives to cover: {'; '.join(perspectives)}\n"
+                                    if perspectives else "")
+                                 + f"\nExcerpt:\n{context}")),
             ],
             json_mode=True,
             max_tokens=500,
@@ -166,7 +195,8 @@ class Pipeline:
         if not isinstance(sections, list) or not sections:
             outline = {"thesis": q, "sections": [{"heading": "Overview",
                                                     "key_points": [q]}]}
-        return {"taxonomy": {"topics": topics}, "outline": outline}
+        return {"taxonomy": {"topics": topics}, "outline": outline,
+                "perspectives": perspectives}
 
     def _write(self, state: Dict[str, Any]) -> Dict:
         """Per-paper claim plans → merged evidence-backed claims → draft.
@@ -179,12 +209,31 @@ class Pipeline:
         papers = state.get("papers") or []
         paper_id = state.get("paper_id", "")
 
+        # L-1 relevance re-rank query: the question + every outline key point,
+        # so claim extraction sees the *relevant* passages of a long paper
+        # instead of its raw first 20 000 chars. Grounding checks below still
+        # verify quotes against the FULL paper md (no gate weakening).
+        o_outline = state.get("outline", {}) or {}
+        o_secs = o_outline.get("sections") if isinstance(o_outline, dict) else []
+        key_points = " ".join(
+            kp for s in (o_secs or []) if isinstance(s, dict)
+            for kp in (s.get("key_points") or []) if isinstance(kp, str)
+        )
+        rk_query = f"{state.get('question', '')} {key_points}".strip()
+        winlog: List[Dict] = []
+
         claims: List[Dict] = []
         dropped: List[Dict] = []
         for p in papers[:3]:
             md = p.get("md", "")
             pid = p.get("arxiv_id", paper_id)
-            source = md[:MAX_SOURCE_CHARS]
+            try:
+                source, wmeta = select_windows(md, rk_query, MAX_SOURCE_CHARS)
+            except Exception as e:  # noqa: BLE001 — fallback = pre-L-1 slice
+                source = md[:MAX_SOURCE_CHARS]
+                wmeta = {"mode": "raw", "error": type(e).__name__}
+            wmeta = dict(wmeta, paper_id=pid)
+            winlog.append(wmeta)
             r = self.client.chat(
                 [
                     Message(role="system",
@@ -282,6 +331,7 @@ class Pipeline:
             "claims": claims,
             "draft": draft,
             "dropped_claims": dropped,
+            "source_windows": winlog,  # L-1 provenance: what the extractor saw
             "iteration": 1,  # accumulator channel: +1 per write visit
         }
 

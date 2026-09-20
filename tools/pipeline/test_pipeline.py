@@ -140,6 +140,24 @@ def _run_test(client: LLMClient, mode: str) -> int:
     _assert(any(s.get("heading") for s in sections if isinstance(s, dict)),
             "outline sections carry headings", failures)
 
+    # L-2 perspective rail (STORM-inspired): mock returns a deterministic
+    # 3-perspective set; the outline step is asked to cover them.
+    perspectives = result.get("perspectives", [])
+    _assert(isinstance(perspectives, list) and len(perspectives) >= 1,
+            f"L-2 reader perspectives={len(perspectives) if isinstance(perspectives, list) else 0} >= 1",
+            failures)
+
+    # L-1 relevance re-rank provenance: one window-log entry per source paper,
+    # each tagged with the BM25/full/raw mode and the paper it selected from.
+    winlog = result.get("source_windows", [])
+    _assert(isinstance(winlog, list) and len(winlog) >= 1,
+            f"L-1 source_windows logged for {len(winlog) if isinstance(winlog, list) else 0} paper(s) >= 1",
+            failures)
+    _assert(all(isinstance(w, dict) and w.get("mode") and w.get("paper_id")
+                for w in (winlog or [])) and bool(winlog),
+            "L-1 every source_window carries a mode + paper_id (provenance)",
+            failures)
+
     validation = result.get("validation", {})
     _assert(validation.get("passed") is True, "validation gate passed", failures)
     _assert(validation.get("checks", {}).get("structure", {}).get("ok") is True,

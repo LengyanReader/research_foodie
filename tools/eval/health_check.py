@@ -70,10 +70,17 @@ def _load(name: str):
 
 
 def _proxy_variances() -> dict:
-    """Per-proxy mean/sd/n from variance_runs.json (the only LLM-measured noise)."""
+    """Per-proxy mean/sd/n from variance_runs.json (the only LLM-measured noise).
+
+    Only the SINGLE-CALL population (median=1) is the baseline: L-3 median-of-3
+    rounds (median=3) are a different measurement protocol and must not shift
+    the σ the cadence compares against.
+    """
     recs = _load("variance_runs.json") or []
     by: dict = {}
     for r in recs:
+        if r.get("median", 1) != 1:
+            continue
         by.setdefault(r["topic_id"], []).append(r.get("total"))
     out = {}
     for tid in FROZEN_PROXY:
@@ -380,7 +387,8 @@ def _freeze() -> dict:
     return base
 
 
-def _fmt_report(rep: dict, judge: dict, base: dict, elapsed: float) -> str:
+def _fmt_report(rep: dict, judge: dict, base: dict, elapsed: float,
+                provenance: str = "") -> str:
     jm = next(iter((
         v.get("judge_model") for v in judge.values()
         if isinstance(v, dict) and v.get("judge_model"))), "skipped (--quick)")
@@ -388,7 +396,10 @@ def _fmt_report(rep: dict, judge: dict, base: dict, elapsed: float) -> str:
          f"> Updated: 2026-09-20 · elapsed {elapsed:.0f}s · frozen subset = mock "
          f"34/34 + judge sanity {FROZEN_PROXY} + pools re-scan + L6 gate coverage",
          f"> Judge: {jm}  ·  thresholds: 2σ FAIL / 1σ WARN "
-         f"(σ per proxy from baselines.json)", ""]
+         f"(σ per proxy from baselines.json)"]
+    if provenance:
+        L.append(f"> Provenance (D-4): {provenance}")
+    L.append("")
     for v in rep["verdicts"]:
         L.append(f"- **[{v['level']}]** `{v['check']}` — {v['detail']}")
     L += ["", "## Baselines (frozen at freeze time)", ""]
@@ -406,6 +417,64 @@ def _fmt_report(rep: dict, judge: dict, base: dict, elapsed: float) -> str:
     return "\n".join(L)
 
 
+def run_cycle(quick: bool = False, profile_name: str | None = None,
+              backend: str | None = None, model: str | None = None) -> dict:
+    """One full frozen-subset cycle (importable — E-3 evolution_sprint wraps
+    this; `main()` is the argv front end). Returns verdicts + exit code."""
+    EVAL_OUT.mkdir(parents=True, exist_ok=True)
+    t0 = time.time()
+
+    base = _load("baselines.json")
+    if not base or not base.get("judge_variance"):
+        print("[health] no baselines.json — freezing now (E-1 implements first)")
+        base = _freeze()
+        BASELINES.write_text(json.dumps(base, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    mock = _mock_regression()
+    gc = _gate_coverage()
+    pools = _pool_coverage()
+    probe = _arxiv_reachable()
+
+    judge = {}
+    provenance = "judge skipped (--quick)"
+    if not quick:
+        from tools.llm.profiles import load_profile, clients_for, profile_header, ProfileError
+        try:
+            profile = load_profile(profile_name)
+        except ProfileError as e:
+            print(f"[health] profile error: {e}")
+            return {"exit_code": 2, "verdicts": [{"level": "FAIL", "check": "profile",
+                                                  "detail": str(e)}],
+                    "rep": {}, "current": {}, "base": base, "judge": {},
+                    "elapsed": time.time() - t0, "provenance": f"profile error: {e}"}
+        print(f"[health] {profile_header(profile)}")
+        _, judge_client = clients_for(profile)
+        provenance = profile_header(profile)
+        # explicit CLI overrides beat the profile (ad hoc judging vantage)
+        if backend or model:
+            judge_client = LLMClient(backend=backend or "opencode", model=model)
+        judge = _judge_sanity(judge_client)
+    else:
+        for tid in FROZEN_PROXY:
+            judge[tid] = {"ok": False, "reason": "skipped (--quick)"}
+
+    current = {"mock": mock, "pools": pools, "arxiv_reachable": probe,
+               "gate_coverage": gc, "judge": judge, "_baseline": base}
+    rep = _diff(current)
+    rep["gc"] = gc
+    elapsed = time.time() - t0
+    report_txt = _fmt_report(rep, judge, base, elapsed, provenance)
+    REPORT.write_text(report_txt, encoding="utf-8")
+    print(f"\n[health] wrote {REPORT}")
+    for v in rep["verdicts"]:
+        print(f"  [{v['level']:<4}] {v['check']:<14} {v['detail']}")
+    print(f"\n[health] exit_code={rep['exit_code']} "
+          f"({('GREEN','WARN','FAIL')[rep['exit_code']] if rep['exit_code'] < 3 else '?'})")
+    return {"exit_code": rep["exit_code"], "verdicts": rep["verdicts"],
+            "rep": rep, "current": current, "base": base, "judge": judge,
+            "elapsed": elapsed, "provenance": provenance}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="E-2 health check + E-1 baseline freeze")
     ap.add_argument("--freeze", action="store_true",
@@ -421,54 +490,13 @@ def main() -> int:
 
     EVAL_OUT.mkdir(parents=True, exist_ok=True)
 
-    base = _load("baselines.json")
     if a.freeze:
         base = _freeze()
         BASELINES.write_text(json.dumps(base, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"[health] baselines frozen → {BASELINES} (judge_variance={base['judge_variance']})")
         return 0
-    if not base or not base.get("judge_variance"):
-        print("[health] no baselines.json — freezing now (E-1 implements first)")
-        base = _freeze()
-        BASELINES.write_text(json.dumps(base, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    t0 = time.time()
-    mock = _mock_regression()
-    gc = _gate_coverage()
-    pools = _pool_coverage()
-    probe = _arxiv_reachable()
-
-    judge = {}
-    if not a.quick:
-        from tools.llm.profiles import load_profile, clients_for, profile_header, ProfileError
-        try:
-            profile = load_profile(a.profile)
-        except ProfileError as e:
-            print(f"[health] profile error: {e}")
-            return 2
-        print(f"[health] {profile_header(profile)}")
-        _, judge_client = clients_for(profile)
-        # explicit CLI overrides beat the profile (ad hoc judging vantage)
-        if a.backend or a.model:
-            judge_client = LLMClient(backend=a.backend or "opencode", model=a.model)
-        judge = _judge_sanity(judge_client)
-    else:
-        for tid in FROZEN_PROXY:
-            judge[tid] = {"ok": False, "reason": "skipped (--quick)"}
-
-    current = {"mock": mock, "pools": pools, "arxiv_reachable": probe,
-               "gate_coverage": gc, "judge": judge, "_baseline": base}
-    rep = _diff(current)
-    rep["gc"] = gc
-
-    report_txt = _fmt_report(rep, judge, base, time.time() - t0)
-    REPORT.write_text(report_txt, encoding="utf-8")
-    print(f"\n[health] wrote {REPORT}")
-    for v in rep["verdicts"]:
-        print(f"  [{v['level']:<4}] {v['check']:<14} {v['detail']}")
-    print(f"\n[health] exit_code={rep['exit_code']} "
-          f"({('GREEN','WARN','FAIL')[rep['exit_code']] if rep['exit_code'] < 3 else '?'})")
-    return rep["exit_code"]
+    return run_cycle(a.quick, a.profile, a.backend, a.model)["exit_code"]
 
 
 if __name__ == "__main__":

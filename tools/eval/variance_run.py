@@ -5,8 +5,14 @@ run-to-run noise (observed ±0.3-0.4). This driver runs the trio N extra times
 and records per-topic Total + family means to _eval_out/variance_runs.json,
 then aggregates mean/sd across all rounds for a grounded stability figure.
 
+L-3 (median-of-3): `--median-rounds 3` judges each artifact 3× per round and
+records the MEDIAN verdict's total; records carry a `median` tag so the
+single-call baseline rows (median=1) stay a separate population — health_check
+only ever compares against median=1 variance.
+
 Usage:
   $PY -X utf8 -m tools.eval.variance_run --rounds 2
+  $PY -X utf8 -m tools.eval.variance_run --rounds 3 --median-rounds 3   # L-3 check
 """
 
 import argparse
@@ -25,7 +31,8 @@ def _total(bench) -> float | None:
     return statistics.mean(scores.values()) if scores else None
 
 
-def run_rounds(rounds: int, profile_name: str | None = None) -> None:
+def run_rounds(rounds: int, profile_name: str | None = None,
+               median_rounds: int = 1) -> None:
     from tools.llm.profiles import load_profile, clients_for, profile_header, ProfileError
     from tools.eval.run_ledger import ResumeLedger
     try:
@@ -39,26 +46,29 @@ def run_rounds(rounds: int, profile_name: str | None = None) -> None:
     recs = []
     if OUT.exists():
         recs = json.loads(OUT.read_text(encoding="utf-8"))
-    if len(recs) >= rounds * len(PROXY):
+    mine = [r for r in recs if r.get("median", 1) == median_rounds]
+    if len(mine) >= rounds * len(PROXY):
         print(f"[var] all {rounds} requested rounds already recorded "
-              f"(n={len(recs)} recs) — nothing to do (resume memory)")
+              f"(n={len(mine)} recs, median={median_rounds}) — nothing to do (resume memory)")
         return
 
     # --- resume: skip rounds already recorded for this exact profile ----------
-    fingerprint = f"variance|{profile.name}"
-    print(f"[var] resume memory: {len(recs)}/{rounds * len(PROXY)} topic-records "
-          f"on file — completing the remainder")
+    fingerprint = f"variance|{profile.name}|med{median_rounds}"
+    print(f"[var] resume memory: {len(mine)}/{rounds * len(PROXY)} topic-records "
+          f"on file (median={median_rounds}) — completing the remainder")
     led = ResumeLedger.open("variance_run", fingerprint)
     try:
         for target_round in range(1, rounds + 1):
-            done_this_round = {r["topic_id"] for r in recs if r.get("round") == target_round}
+            done_this_round = {r["topic_id"] for r in mine
+                               if r.get("round") == target_round}
             topics = [s for s in PROXY if s["topic_id"] not in done_this_round]
             if not topics:
                 print(f"[var] round #{target_round} already complete — skip (resume)")
                 continue
             for s in topics:
                 rows = run_scenarios(draft_client, [s],
-                                     judge_client=judge_client)
+                                     judge_client=judge_client,
+                                     median_rounds=median_rounds)
                 r = rows[0]
                 fa = _family_avgs((r.get("bench") or {}).get("scores") or {})
                 rec = {
@@ -67,6 +77,8 @@ def run_rounds(rounds: int, profile_name: str | None = None) -> None:
                     "total": _total(r.get("bench")),
                     "BSC": fa.get("BSC"), "MAR": fa.get("MAR"),
                     "TSQ": fa.get("TSQ"), "HDQ": fa.get("HDQ"),
+                    "median": median_rounds,
+                    "judge_model": (r.get("bench") or {}).get("judge_model", "?"),
                 }
                 recs.append(rec)
                 led.record(f"{target_round}:{s['topic_id']}", rec)
@@ -85,14 +97,15 @@ def run_rounds(rounds: int, profile_name: str | None = None) -> None:
 def _report(recs) -> None:
     by: dict = {}
     for r in recs:
-        by.setdefault(r["topic_id"], []).append(r)
-    print("\n[var] aggregate (n = runs per topic):")
-    for tid, rs in sorted(by.items()):
+        by.setdefault((r["topic_id"], r.get("median", 1)), []).append(r)
+    print("\n[var] aggregate (n = runs per topic; grouped by judge aggregation):")
+    for (tid, med), rs in sorted(by.items()):
         tots = [r["total"] for r in rs if r["total"] is not None]
         if not tots:
             continue
         m, sd = statistics.mean(tots), statistics.stdev(tots) if len(tots) > 1 else 0.0
-        print(f"[var] {tid}: total {m:.2f} ± {sd:.2f} (n={len(tots)})  "
+        tag = "" if med == 1 else f" [median-of-{med}]"
+        print(f"[var] {tid}{tag}: total {m:.2f} ± {sd:.2f} (n={len(tots)})  "
               f"BSC {statistics.mean([r['BSC'] for r in rs if r['BSC']]) if any(r['BSC'] for r in rs) else 0:.2f}  "
               f"MAR {statistics.mean([r['MAR'] for r in rs if r['MAR']]) if any(r['MAR'] for r in rs) else 0:.2f}  "
               f"TSQ {statistics.mean([r['TSQ'] for r in rs if r['TSQ']]) if any(r['TSQ'] for r in rs) else 0:.2f}  "
@@ -102,10 +115,13 @@ def _report(recs) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rounds", type=int, default=2)
+    ap.add_argument("--median-rounds", type=int, default=1,
+                    help="L-3: per round, judge 3× and keep the median verdict "
+                         "(records tagged median=3, baseline population untouched)")
     ap.add_argument("--profile", default=None,
                     help="named profile from tools.llm.profiles (default: env LLM_PROFILE)")
     a = ap.parse_args()
-    run_rounds(a.rounds, a.profile)
+    run_rounds(a.rounds, a.profile, a.median_rounds)
     return 0
 
 

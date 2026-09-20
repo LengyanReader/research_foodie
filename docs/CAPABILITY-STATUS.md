@@ -1,6 +1,6 @@
-# Capability Status — research_foodie (as of 2026-09-19)
+# Capability Status — research_foodie (as of 2026-09-20)
 
-> 中文速览：本工作区已具备一条**本地可跑通的研究管线**（证据发现→大纲→多论文接地综述→手稿→DAS-Bench 风格 16 维 AI 判题），外加**证据接地 QA 面板**（n=31）与**30 话题任意域证据池电池**（建池 22/30、判题 10 篇）。所有数字在下方给出，全部来自本地免费模型实测（opencode/big-pickle），无 API key。硬阻塞仅剩：DAS-Bench 全量合规需 ≥300B 冻结 judge + DAS-2M 池 + PDF 渲染判 MAR（需 key/GPU）、GAIA 需 HF gating、中文证据层需人工提供中文语料 PDF。
+> 中文速览：本工作区已具备一条**本地可跑通的研究管线**（证据发现→大纲→多论文接地综述→手稿→DAS-Bench 风格 16 维 AI 判题），外加**证据接地 QA 面板**（n=31）与**30 话题任意域证据池电池**（建池 22/30、判题 10 篇）。**2026-09-20 新增**：一条**可定时、可度量、人工在环的自我演化机制**（E-3 演化冲刺/E-4 依赖台账/E-5 反馈累积+晋升规则），L-6 单命令自检 `self_check.ps1`，以及 Phase L 检索/判题强化（L-1 BM25 重排、L-2 多视角、L-3 判题中位数）与 D-3 跨模型判题矩阵。所有数字在下方给出，全部来自本地免费模型实测（opencode/big-pickle），无 API key。硬阻塞仅剩：DAS-Bench 全量合规需 ≥300B 冻结 judge + DAS-2M 池 + PDF 渲染判 MAR（需 key/GPU）、GAIA 需 HF gating、中文证据层需人工提供中文语料 PDF。
 
 ---
 
@@ -63,6 +63,24 @@ Each judged topic produces a full Markdown manuscript (Title/Abstract/body/Evide
 - `tools/eval/pools_30.py` — 30-topic pool builder + crash-resilient (per-topic cache) judge.
 - `tools/eval/variance_run.py` — judge variance harness.
 
+### 2.7 Self-evolution loop (WS-C Phase X) + Phase L/D strengthening — GREEN (Session 22, 2026-09-20)
+
+The "self-evolution" capability is a **scheduled-measurement + regression-detection + human-gated-repair** loop (never autonomous code/weight change), per `docs/design/self-evolution-mechanism.md`. All zero-LLM paths verified:
+
+| item | tool | status (this session) |
+|---|---|---|
+| E-3 evolution cadence | `tools/eval/evolution_sprint.py` + `evolution.py` (tickets) | ✅ 2 consecutive `--quick` sprints GREEN; ticket open/feed/close + streak logic unit-tested |
+| E-4 dependency/version ledger | `evolution.verify_deps` → `deps_ledger.json` | ✅ 9 pins live-verified; drift/missing classification feeds the board |
+| E-5 feedback corpus + promotion rule | `evolution.py` (gold quota, `promotion_check`, `bump_revision`) | ✅ real-gold quota (≥50%/≥10 rows), N≥3∧Δ≥2σ∧no-regression gate — unit-tested |
+| L-6 one-command self-check | `tools/eval/self_check.py` + `self_check.ps1` | ✅ offline GREEN in ~13 s (unit → mock integration → cadence) |
+| L-1 BM25 relevance re-rank | `tools/pipeline/rerank.py` (wired into `graph._write`) | ✅ unit + mock 34/34 with `source_windows` provenance; gate never weakened |
+| L-2 reader-perspective decomposition | `graph._org` perspective rail | ✅ mock deterministic (perspectives=3) |
+| L-3 judge median-of-N | `bench_eval.median_bench` / `variance_run` | ✅ unit-tested aggregation; single-call baseline kept separate |
+| D-3 cross-model judge matrix | `tools/eval/judge_matrix.py` | ✅ harness mock-verified (2 vantages); compression measure gated on ≥300B key |
+| D-4 provenance in every report | `bench_eval`/`health_check`/`evolution_sprint`/`judge_matrix` | ✅ model+judge_model+temperature+profile footers |
+
+Deterministic guard tests: `tools/eval/test_evolution.py` (31 assertions, temp-isolated, zero-network). **Honest boundary:** the loop writes only ledger JSONs under `_eval_out/`; live re-measures (L-1/L-2 acceptance on real P-A..C/QA, L-3 sd<0.40) still need a real judge cadence, and D-3/R-1 need a registered strong key.
+
 ## 3. Not working / blocked (honest)
 
 | item | blocker |
@@ -86,8 +104,17 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 & $PY -X utf8 -m tools.eval.variance_run --rounds 2
 # self-checks (E-1/E-2; health_check also has --freeze baseline freeze and --quick fast cycle)
 & $PY -X utf8 -m tools.eval.health_check              # mock + pools + arxiv_probe + gate_coverage + judge sanity
-# tests
-& $PY -X utf8 -m unittest discover -s tools -p "test_*.py"
+# L-6 one-command self-check (unit + mock integration + evolution cadence, ~15s offline)
+& ./self_check.ps1                                     # or: -m tools.eval.self_check ; -Full adds live judge
+# WS-C self-evolution cadence + deterministic guards
+& $PY -X utf8 -m tools.eval.evolution_sprint --quick   # health→deps→tickets→feedback→promotion→report
+& $PY -X utf8 -m tools.eval.test_evolution             # 31 zero-LLM guard tests (temp-isolated)
+# D-3 cross-model judge matrix
+& $PY -X utf8 -m tools.eval.judge_matrix --judges free-opencode --rounds 3
+# tests (script-style runners, not unittest.TestCase — invoke as modules)
+& $PY -X utf8 -m tools.pipeline.test_pipeline mock     # 34/34 integration (in-proc mock)
+& $PY -X utf8 -m tools.eval.test_evolution             # 31 self-evolution guards
+& $PY -X utf8 -m tools.pipeline.test_pipeline real     # full real-model integration (~2 min)
 ```
 
 ## 5. Limitations & directionality
@@ -102,9 +129,11 @@ $PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
 
 | what | path |
 |---|---|
-| pipeline (graph / claims / judge) | `tools/pipeline/{graph,answer,corpus,judge,validate}.py` |
+| pipeline (graph / claims / judge) | `tools/pipeline/{graph,answer,corpus,judge,validate,rerank}.py` |
 | benchmark + QA + pools + variance | `tools/eval/{bench_eval,add_paper,pools_30,variance_run}.py` |
 | health check / baselines / ledgers | `tools/eval/{health_check,run_ledger}.py` · `_eval_out/{baselines.json, health_check.md, ledgers/}` |
+| self-evolution loop (E-3/E-4/E-5) | `tools/eval/{evolution,evolution_sprint,test_evolution}.py` · `_eval_out/{tickets.json, deps_ledger.json, feedback/, revisions.json, evolution_sprint.md}` |
+| one-command self-check (L-6) · judge matrix (D-3) | `self_check.ps1` · `tools/eval/{self_check,judge_matrix}.py` |
 | profiles / routing | `tools/llm/profiles.py` |
 | real results | `_eval_out/{bench_pilot_das.md, pools_30_report.md, variance_runs.json, pools_cache/}` |
 | design / progress | `docs/{PLAN.md, PROGRESS.md, design/research-foodie-blueprint.md}` |
