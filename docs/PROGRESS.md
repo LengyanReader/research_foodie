@@ -2,8 +2,29 @@
 
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
-- `Updated`: 2026-09-17
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN — 3-source evidence pool, per-paper grounding, cited=3** · **survey-depth S_write GREEN — per-section grounded drafting, preview Total 2.75→3.17** · **P1 judge threshold calibration GREEN — strict deterministic matrix v1, regression 33/33** · **MAR render axes Part 1 GREEN — manuscript output + local PDF rendering, canonical Total 3.04→3.56** · **data hygiene — bench sidecar cache + P-A/P-C dedup (Session 16)** · **Track C evidence-grounded QA GREEN — `qa` scenario family + QA scorer + corpus-anchored pilot 4/5 (Session 17)** · **Qasper external-author QA GREEN — seed_id manifest routing + grounded extractive-answer node, 2/2 perfect (Session 18)** · **QA panel expansion GREEN — Qasper QA-8/9/10 + SciQ provided-context SQ-1..5; panel n=15 correctness 4.73, extract+context paths 10/10 (Session 19)**)
+- `Updated`: 2026-09-19
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)**)
+
+---
+
+## 2026-09-19 — Session 19b: 30-topic evidence-pool battery + judge variance (local, no keys)
+
+**Why:** the user asked to push through the remaining local work and get a measured capability statement. Two gaps: (1) the pipeline had only ever been judged on 3 proxy topics + 2 no-evidence DAS rows — is it *generic*? (2) The local judge is a non-deterministic free model — how noisy is a Total?
+
+1. **30-topic evidence-pool battery (`tools/eval/pools_30.py`)**: for each DAS-Bench topic → live arXiv discovery → download + windowed MinerU parse of top candidates → incremental manifest `_eval_out/pools_30.json`.
+   - **Result: 30/30 topics processed; 22 have ≥1 locally parsed source paper (12 full 3-paper pools); 8 empty** (network/relevance caps — a measured coverage property, not silent).
+   - Real bugs hit & fixed: arXiv API `.../2503.16581v1` version suffix broke `_ID_RE`'s trailing `\b`; MinerU subprocess had **no timeout** (30-min hang on one PDF); judge step had no breakpoint resume.
+   - **End-to-end judged sample n=10 → Total 3.13** (BSC 3.08 · MAR 2.67 · TSQ 3.05 · HDQ 3.73; report `_eval_out/pools_30_report.md`). HDQ 3.73 confirms synthesis is where the pipeline shines; MAR 2.67 is dragged by 1-paper pools + text-only artifact.
+
+2. **Judge variance (`tools/eval/variance_run.py`)**: P-A/P-B/P-C × 2 fresh rounds → **P-A 3.88±0.53 · P-B 3.31±0.00 · P-C 3.53±0.13**. P-A's ±0.53 is honest judge noise on the strongest topic.
+
+3. **Robustness hardening**: LLMClient now retries empty opencode sessions up to 3× (flat, backoff); QA scorer recovers truncated judge JSON (max_tokens 400→1000 + regex fallback); judge is per-topic cached.
+
+4. **PubMedQA yes/no mode (`answer_question(mode="yesno")`)**: final-decision convergence instruction added; PQ-1..14 real runs → 8/14 correct, correctness 3.57. Yes/no *conclusion* is a model boundary, not a prompt gap.
+
+5. **QA panel regenerated full → n=31**: correctness 4.23 · groundedness 4.45 · 24/31; extract/context path (Qasper+SciQ+news+seed-route) **12/13**. New corpus paper `1703.10344` (news suggestions, 12 pp, one-command add via `add_paper.py`).
+
+Next: capabilities document `docs/CAPABILITY-STATUS.md`; remaining blocked items are the API-key/GPU/Chinese-corpus ones listed in §3 of that doc.
 
 ---
 

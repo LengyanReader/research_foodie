@@ -27,17 +27,32 @@ _ANSWER_PROMPT = (
 )
 
 
+_YESNO_TAIL = (
+    "5. This is a yes/no/maybe question. After the evidence, give a single "
+    "conclusive line, exactly one of: 'Final decision: yes', 'Final decision: no', "
+    "or 'Final decision: maybe' — no hedging, no alternatives."
+)
+
+
 def answer_question(
     client: LLMClient,
     question: str,
     paper_id: str,
     md: str,
     max_chars: int = 40_000,
+    mode: str = "",
 ) -> str:
-    """Return a grounded extractive answer for `question` from the paper markdown."""
+    """Return a grounded extractive answer for `question` from the paper markdown.
+
+    `mode="yesno"` appends a strict yes/no/maybe conclusion instruction
+    (PubMedQA-style questions).
+    """
+    prompt = _ANSWER_PROMPT.format(paper_id=paper_id)
+    if mode == "yesno":
+        prompt = _ANSWER_PROMPT.format(paper_id=paper_id) + "\n" + _YESNO_TAIL
     out = client.chat(
         [
-            Message(role="system", content=_ANSWER_PROMPT.format(paper_id=paper_id)),
+            Message(role="system", content=prompt),
             Message(role="user",
                     content=f"Question: {question}\n\nSource paper:\n{md[:max_chars]}"),
         ],

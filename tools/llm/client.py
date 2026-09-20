@@ -40,6 +40,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import time
 import urllib.request
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Any
@@ -147,7 +148,15 @@ class LLMClient:
         prompt = "\n\n".join(rendered)
         if json_mode:
             prompt += "\n\nIMPORTANT: output ONLY valid JSON (no prose, no markdown fences)."
-        text, usage = self._run_opencode(prompt)
+        text, usage = None, None
+        for attempt in range(3):  # opencode CLI hiccups return empty sessions
+            try:
+                text, usage = self._run_opencode(prompt)
+                break
+            except Exception as e:
+                if attempt == 2:
+                    raise
+                time.sleep(2 + 2 * attempt)
         return ChatResponse(
             text=text,
             model=self.model,

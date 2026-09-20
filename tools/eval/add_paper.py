@@ -38,18 +38,22 @@ def _download(arxiv_id: str, dst: Path) -> Path:
     return dst
 
 
-def _parse_window(pdf: Path, out_dir: Path, start: int, end: int, max_tries: int = 3) -> bool:
+def _parse_window(pdf: Path, out_dir: Path, start: int, end: int, max_tries: int = 3, timeout_s: int = 420) -> bool:
     mds = list(out_dir.rglob("*.md"))
     if mds:
         return True
     out_dir.mkdir(parents=True, exist_ok=True)
     for _ in range(max_tries):
-        subprocess.run(
-            [str(MINERU), "-p", str(pdf), "-o", str(out_dir.absolute()),
-             "-b", "pipeline", "-m", "txt", "-s", str(start), "-e", str(end)],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
-            cwd=str(Path.cwd()),
-        )
+        try:
+            subprocess.run(
+                [str(MINERU), "-p", str(pdf), "-o", str(out_dir.absolute()),
+                 "-b", "pipeline", "-m", "txt", "-s", str(start), "-e", str(end)],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
+                cwd=str(Path.cwd()), timeout=timeout_s,
+            )
+        except subprocess.TimeoutExpired:
+            print(f"  timeout {timeout_s}s on {pdf.name} [{start}-{end}]")
+            continue
         if list(out_dir.rglob("*.md")):
             return True
     return False

@@ -20,6 +20,7 @@ docs/
     ai-research-tools-workflow-guide.md
   design/                  架构与设计文档 (architecture/design docs)
     research-foodie-blueprint.md
+  CAPABILITY-STATUS.md     能力盘点 — 实测数字、GREEN/BLOCKED 清单、复现命令 (bilingual)
   PLAN.md                  执行计划 (bilingual)
   PROGRESS.md              进度日志 (bilingual)
 AGENTS.md                  本文件

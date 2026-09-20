@@ -8,7 +8,7 @@
 
 | id | kind | paper | candidates | papers | cited | out chars | pdf pg | L6 | internal judge | DAS-16 cov. |
 |---|---|---|---|---|---|---|---|---|---|---|
-| P-A | proxy | 2306.15666 | 2306.15666,1906.04043,2304.02819 | 3 | 3 | 15781 | 6 | 1.00 | pass@5.00 | 16/16 |
+| P-A | proxy | 2306.15666 | - | 3 | 3 | 18221 | 6 | 1.00 | revise@4.00 | 16/16 |
 | P-B | proxy | 2304.02819 | 2304.02819 | 1 | 1 | 14759 | 6 | 1.00 | pass@4.00 | 16/16 |
 | P-C | proxy | 1906.04043 | 1906.04043,2306.15666,2304.02819 | 3 | 3 | 11049 | 4 | 1.00 | pass@4.00 | 16/16 |
 | 001 | das | - | 2409.13740 | 0 | 0 | 0 | - | 0.00 | - | - |
@@ -28,11 +28,20 @@
 | SQ-3 | qa | ctx | - | 0 | 1 | 327 | 1 | 1.00 | QA 5/4 | gold 1/1 |
 | SQ-4 | qa | ctx | - | 0 | 1 | 350 | 1 | 1.00 | QA 5/3 | gold 1/1 |
 | SQ-5 | qa | ctx | - | 0 | 1 | 215 | 1 | 1.00 | QA 5/4 | gold 1/1 |
-| PQ-1 | qa | ctx | - | 0 | 1 | 811 | 1 | 1.00 | QA 2/1 | gold 0/1 |
-| PQ-2 | qa | ctx | - | 0 | 1 | 977 | 1 | 1.00 | QA 4/5 | gold 1/1 |
-| PQ-3 | qa | ctx | - | 0 | 1 | 1104 | 1 | 1.00 | QA 4/5 | gold 1/1 |
-| PQ-4 | qa | ctx | - | 0 | 1 | 1146 | 1 | 1.00 | QA 4/5 | gold 1/2 |
-| PQ-5 | qa | ctx | - | 0 | 1 | 1227 | 1 | 1.00 | QA 2/5 | gold 1/2 |
+| PQ-1 | qa | ctx | - | 0 | 1 | 760 | 1 | 1.00 | QA 4/5 | gold 0/1 |
+| PQ-2 | qa | ctx | - | 0 | 1 | 1097 | 1 | 1.00 | QA 4/4 | gold 1/1 |
+| PQ-3 | qa | ctx | - | 0 | 1 | 955 | 1 | 1.00 | QA 3/5 | gold 1/1 |
+| PQ-4 | qa | ctx | - | 0 | 1 | 1394 | 1 | 1.00 | QA 3/5 | gold 0/2 |
+| PQ-5 | qa | ctx | - | 0 | 1 | 968 | 1 | 1.00 | QA 4/4 | gold 2/2 |
+| PQ-6 | qa | ctx | - | 0 | 1 | 1118 | 1 | 1.00 | QA 5/4 | gold 1/1 |
+| PQ-7 | qa | ctx | - | 0 | 1 | 1354 | 1 | 1.00 | QA 2/5 | gold 0/1 |
+| PQ-8 | qa | ctx | - | 0 | 1 | 917 | 1 | 1.00 | QA 5/5 | gold 2/2 |
+| PQ-9 | qa | ctx | - | 0 | 1 | 1027 | 1 | 1.00 | QA 2/4 | gold 1/1 |
+| PQ-10 | qa | ctx | - | 0 | 1 | 704 | 1 | 1.00 | QA 4/1 | gold 1/1 |
+| PQ-11 | qa | ctx | - | 0 | 1 | 1176 | 1 | 1.00 | QA 3/5 | gold 1/1 |
+| PQ-12 | qa | ctx | - | 0 | 1 | 907 | 1 | 1.00 | QA 3/5 | gold 2/2 |
+| PQ-13 | qa | ctx | - | 0 | 1 | 1063 | 1 | 1.00 | QA 4/5 | gold 2/2 |
+| PQ-14 | qa | ctx | - | 0 | 1 | 883 | 1 | 1.00 | QA 4/5 | gold 2/2 |
 | QA-11 | qa | 1703.10344 | - | 1 | 1 | 502 | 1 | 1.00 | QA 5/5 | gold 1/1 |
 | QA-12 | qa | 1703.10344 | - | 1 | 1 | 355 | 1 | 1.00 | QA 5/5 | gold 1/1 |
 
@@ -144,37 +153,100 @@
 ## PQ-1 · PubMedQA · mitochondria / lace plant PCD (yes)
 
 - question: Do mitochondria play a role in remodelling lace plant leaves during programmed cell death?
-- paper_id: ctx · evidence chars: 811 · elapsed: 12.2s · **cached (vintage run)**
-- QA judge: correctness **2/5** · groundedness **1/5** · gold-token hit **0/1**
-   - judge feedback: The artifact is evasive rather than a definitive answer: it answers 'No' but immediately retreats to 'the paper does not state / makes no claim,' which avoids committing to the actual factual answer. The question asks whether mitochondria play a role in lace plant leaf remodelling during PCD, and a 
+- paper_id: ctx · evidence chars: 760 · elapsed: 16.5s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **0/1**
+   - judge feedback: The artifact correctly identifies that the source paper does not explicitly claim mitochondria play a role in remodelling lace plant leaves during PCD, and it flags uncertainty appropriately rather than overclaiming. Every claim is backed by a direct quote from the source, so groundedness is high. M
 
 ## PQ-2 · PubMedQA · Landolt C vs Snellen E acuity (no)
 
 - question: Landolt C and snellen e acuity: differences in strabismus amblyopia?
-- paper_id: ctx · evidence chars: 977 · elapsed: 10.8s · **cached (vintage run)**
-- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **1/1**
-   - judge feedback: The artifact correctly identifies that the provided excerpt contains only study-design information (100 patients, median age 60.5, 39 strabismus amblyopia) and explicitly, honestly states that no Landolt C vs. Snellen E result for the strabismus amblyopia subgroup is present, refusing to invent data
+- paper_id: ctx · evidence chars: 1097 · elapsed: 16.5s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **4/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly and honestly reports that the paper does not give a definitive subgroup result on Landolt C vs Snellen E in strabismus amblyopia, and its 'maybe' conclusion is appropriately hedged — it notes differences 'cannot be excluded' in the low-acuity range where amblyopia patients fal
 
 ## PQ-3 · PubMedQA · transanal vs transabdominal pull-through (no)
 
 - question: Are the long-term results of the transanal pull-through equal to those of the transabdominal pull-through?
-- paper_id: ctx · evidence chars: 1104 · elapsed: 15.9s · **cached (vintage run)**
-- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **1/1**
-   - judge feedback: The artifact correctly identifies that the provided excerpt contains only the study design and aim (41 patients, TERPT n=20 vs ABD n=21) and reports no comparative long-term outcomes, so it does not fabricate an equivalence claim. Scoring 4 rather than 5 because the question itself went unanswered (
+- paper_id: ctx · evidence chars: 955 · elapsed: 17.1s · **cached (vintage run)**
+- QA judge: correctness **3/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly recognizes that the supplied excerpt contains only the study aim and case mix (TERPT n=20, ABD n=21) with no long-term outcome results or comparative conclusion, and honestly states the question cannot be answered from the given evidence rather than fabricating a number. Howev
 
 ## PQ-4 · PubMedQA · HER2 immunoreactivity prognosis (maybe)
 
 - question: Does HER2 immunoreactivity provide prognostic information in locally advanced urothelial carcinoma patients receiving adjuvant M-VEC chemotherapy?
-- paper_id: ctx · evidence chars: 1146 · elapsed: 12.9s · **cached (vintage run)**
-- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **1/2**
-   - judge feedback: The artifact is fully grounded: every claim (study design, 114 specimens, M-VEC = methotrexate/vinblastine/epirubicin/cisplatin, evaluation of HER2 by IHC and its effect on PFS) is traceable to the quoted excerpt, and it invents no HR, p-value, or conclusion. It honestly and specifically identifies 
+- paper_id: ctx · evidence chars: 1394 · elapsed: 19.3s · **cached (vintage run)**
+- QA judge: correctness **3/5** · groundedness **5/5** · gold-token hit **0/2**
+   - judge feedback: {"correctness": 3, "groundedness": 5, "feedback": "The artifact is honest and accurate in scope: it correctly states that the provided excerpt reports only the study's aim and methods (114 FFPE specimens, HER2 IHC, evaluation of PFS association) and that no result is given, so it does not invent a c
 
 ## PQ-5 · PubMedQA · emergency laparotomy mortality (maybe)
 
 - question: 30-Day and 1-year mortality in emergency general surgery laparotomies: an area of concern and need for improvement?
-- paper_id: ctx · evidence chars: 1227 · elapsed: 18.0s · **cached (vintage run)**
-- QA judge: correctness **2/5** · groundedness **5/5** · gold-token hit **1/2**
-   - judge feedback: The artifact honestly reports that the paper's own 30-day and 1-year mortality figures are absent from the provided excerpt, so it cannot state the specific numeric answers the question asks for. It provides relevant context (background 30-day mortality 14-15%, study aim, and design), which is parti
+- paper_id: ctx · evidence chars: 968 · elapsed: 19.9s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **4/5** · gold-token hit **2/2**
+   - judge feedback: The artifact answers the question directly with a clear 'yes' and correctly characterizes the paper's framing (emergency surgery = poorer outcomes, 30-day mortality 14-15%, aim to encourage prospective data collection and best-practice strategies). The core claims are backed by the two inline source
+
+## PQ-6 · PubMedQA · water-induced urticaria (yes)
+
+- question: Syncope during bathing in infants, a pediatric form of water-induced urticaria?
+- paper_id: ctx · evidence chars: 1118 · elapsed: 18.7s · **cached (vintage run)**
+- QA judge: correctness **5/5** · groundedness **4/5** · gold-token hit **1/1**
+   - judge feedback: The artifact correctly identifies that the paper does not confirm bathing syncope in infants as a pediatric form of water-induced urticaria but rather considers it only as a hypothesis ('equivalent of aquagenic urticaria'). This is the precise, specific answer to the yes/maybe question and reflects 
+
+## PQ-7 · PubMedQA · tailored interventions / mammography (yes)
+
+- question: Can tailored interventions increase mammography use among HMO women?
+- paper_id: ctx · evidence chars: 1354 · elapsed: 18.5s · **cached (vintage run)**
+- QA judge: correctness **2/5** · groundedness **5/5** · gold-token hit **0/1**
+   - judge feedback: The artifact is evasive rather than wrong: the factual answer is 'yes' — the underlying trial of tailored telephone counseling vs. tailored print vs. usual care (1,099 HMO women 50+) did show tailored interventions increased mammography use. The artifact correctly describes the design but refuses to
+
+## PQ-8 · PubMedQA · double balloon enteroscopy (yes)
+
+- question: Double balloon enteroscopy: is it efficacious and safe in a community setting?
+- paper_id: ctx · evidence chars: 917 · elapsed: 18.0s · **cached (vintage run)**
+- QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **2/2**
+   - judge feedback: The artifact directly and precisely answers the question with 'Yes,' supplies the paper's own conclusion verbatim, and reproduces relevant specifics (88 procedures, 66 patients, procedure dates, indications, 43/66 VCE prior) that match the source. The final claim is grounded in an inline arXiv cite 
+
+## PQ-9 · PubMedQA · reporting heterogeneity / sleep (no)
+
+- question: Is adjustment for reporting heterogeneity necessary in sleep disorders?
+- paper_id: ctx · evidence chars: 1027 · elapsed: 20.6s · **cached (vintage run)**
+- QA judge: correctness **2/5** · groundedness **4/5** · gold-token hit **1/1**
+   - judge feedback: The artifact is honest about the source's limits, but it does not actually answer the question — it ends on a hedge ('maybe') and states necessity can be neither confirmed nor refuted, which leaves the factual question unanswered. If the cited source genuinely contains no findings, the artifact shou
+
+## PQ-10 · PubMedQA · low HDL mutations / cIMT (no)
+
+- question: Do mutations causing low HDL-C promote increased carotid intima-media thickness?
+- paper_id: ctx · evidence chars: 704 · elapsed: 16.9s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **1/5** · gold-token hit **1/1**
+   - judge feedback: The answer states a direct, specific 'No' with detailed supporting context (1:2 case-control, n=114, 10 mutations in LCAT/ABCA1/APOA1, cIMT nearly identical), which is consistent with the known literature that genetic HDL-C deficiency often does not promote early atherosclerosis. However, the ground
+
+## PQ-11 · PubMedQA · anticoagulation / trauma (no)
+
+- question: Therapeutic anticoagulation in the trauma patient: is it safe?
+- paper_id: ctx · evidence chars: 1176 · elapsed: 16.6s · **cached (vintage run)**
+- QA judge: correctness **3/5** · groundedness **5/5** · gold-token hit **1/1**
+   - judge feedback: Correctness: The artifact accurately reports that the provided excerpt contains only study purpose and methods (arXiv:SciQ:ctx quote is verbatim) and no results, complication rates, or conclusion, so it correctly declines to assert an answer. However, as a factual answer to 'is it safe?', it deliver
+
+## PQ-12 · PubMedQA · Hawkins sign / talar necrosis (maybe)
+
+- question: Is the Hawkins sign able to predict necrosis in fractures of the neck of the astragalus?
+- paper_id: ctx · evidence chars: 907 · elapsed: 17.3s · **cached (vintage run)**
+- QA judge: correctness **3/5** · groundedness **5/5** · gold-token hit **2/2**
+   - judge feedback: The artifact accurately reports that the provided source states only the study objective and contains no results or conclusion, so it does not itself state whether the Hawkins sign can predict necrosis. It correctly avoids inventing a predictive finding. However, it does not supply the actual factua
+
+## PQ-13 · PubMedQA · lymphedema detection (maybe)
+
+- question: Can a practicing surgeon detect early lymphedema reliably?
+- paper_id: ctx · evidence chars: 1063 · elapsed: 30.0s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **2/2**
+   - judge feedback: Correctly recognizes the source does not address whether a practicing surgeon can detect early lymphedema, and accurately reports what the paper does say (circumference vs volume changes, 10% volume increase or >1 cm arm circumference, verification by a lymphedema specialist). The answer is precise 
+
+## PQ-14 · PubMedQA · mesocolon invasion / T4 staging (maybe)
+
+- question: Should direct mesocolon invasion be included in T4 for the staging of gastric cancer?
+- paper_id: ctx · evidence chars: 883 · elapsed: 17.1s · **cached (vintage run)**
+- QA judge: correctness **4/5** · groundedness **5/5** · gold-token hit **2/2**
+   - judge feedback: The artifact answers precisely and honestly: the cited source excerpt does not explicitly state whether mesocolon invasion should be classified as T4, only that the mesocolon is frequently invaded and is not listed by UICC as an adjacent structure. It avoids inventing a staging recommendation and la
 
 ## QA-11 · News-suggestion precision (article-entity)
 
@@ -186,20 +258,20 @@
 ## QA-12 · News-suggestion precision (article-section)
 
 - question: What is the precision reported for the article-section placement stage?
-- paper_id: 1703.10344 · evidence chars: 355 · elapsed: 15.7s
+- paper_id: 1703.10344 · evidence chars: 355 · elapsed: 15.7s · **cached (vintage run)**
 - QA judge: correctness **5/5** · groundedness **5/5** · gold-token hit **1/1**
    - judge feedback: The artifact correctly and precisely identifies the article-section placement (ASP) stage precision as up to 84%, directly supported by an inline arXiv cite (arXiv:1703.10344) and an exact source quotation confirming the claim.
 
 ## P-A · Proxy · AI-generated text detection (paper-anchored)
 
-- paper_id: 2306.15666 · evidence chars: 15781 · elapsed: 309.1s · **cached (vintage run)**
+- paper_id: 2306.15666 · evidence chars: 18221 · elapsed: 359.6s
 - rendered manuscript (MAR): `_eval_out\manuscripts\P-A_manuscript.pdf` · **6 pages**
-- L6 gate: score 1.00 passed=True · internal P3 judge: pass@5.00
-- **BSC** — Claim-Level Citation Support: 5 · Reference Faithfulness and Attribution Accuracy: 5 · Multi-Reference Synthesis Coverage and Quality: 4 · Citation Distribution Balance and Non-Redundancy: 3  (avg 4.25)
-- **MAR** — Citation and Reference Presentation Integrity: 3 · Figure/Table Quality and Textual Integration: 3 · Layout and Formatting Professionalism: 3 · Manuscript Component Completeness: 3  (avg 3.00)
-- **TSQ** — Research-Space Coverage: 3 · Taxonomy Clarity and Boundary Control: 3 · Survey Organization and Functional Coherence: 4 · Synthesis Insight and Gap Analysis: 5  (avg 3.75)
-- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 5 · Atomic Claim Specificity and Technical Concreteness: 5 · Local Synthesis and Non-Enumerative Writing: 5  (avg 4.75)
-- **Total Avg**: 3.94  (coverage 16/16, judge=opencode/big-pickle)
+- L6 gate: score 1.00 passed=True · internal P3 judge: revise@4.00
+- **BSC** — Claim-Level Citation Support: 5 · Reference Faithfulness and Attribution Accuracy: 4 · Multi-Reference Synthesis Coverage and Quality: 5 · Citation Distribution Balance and Non-Redundancy: 4  (avg 4.50)
+- **MAR** — Citation and Reference Presentation Integrity: 4 · Figure/Table Quality and Textual Integration: 3 · Layout and Formatting Professionalism: 3 · Manuscript Component Completeness: 4  (avg 3.50)
+- **TSQ** — Research-Space Coverage: 4 · Taxonomy Clarity and Boundary Control: 4 · Survey Organization and Functional Coherence: 4 · Synthesis Insight and Gap Analysis: 5  (avg 4.25)
+- **HDQ** — Multi-Level Goal Alignment: 4 · Paragraph Argument Progression: 5 · Atomic Claim Specificity and Technical Concreteness: 5 · Local Synthesis and Non-Enumerative Writing: 4  (avg 4.50)
+- **Total Avg**: 4.19  (coverage 16/16, judge=opencode/big-pickle)
 
 ## P-B · Proxy · Detection-tool bias against non-native writers (paper-anchored)
 
@@ -242,20 +314,29 @@
 | SQ-3 | 5 | 4 | 1/1 | 1 |
 | SQ-4 | 5 | 3 | 1/1 | 1 |
 | SQ-5 | 5 | 4 | 1/1 | 1 |
-| PQ-1 | 2 | 1 | 0/1 | 1 |
-| PQ-2 | 4 | 5 | 1/1 | 1 |
-| PQ-3 | 4 | 5 | 1/1 | 1 |
-| PQ-4 | 4 | 5 | 1/2 | 1 |
-| PQ-5 | 2 | 5 | 1/2 | 1 |
+| PQ-1 | 4 | 5 | 0/1 | 1 |
+| PQ-2 | 4 | 4 | 1/1 | 1 |
+| PQ-3 | 3 | 5 | 1/1 | 1 |
+| PQ-4 | 3 | 5 | 0/2 | 1 |
+| PQ-5 | 4 | 4 | 2/2 | 1 |
+| PQ-6 | 5 | 4 | 1/1 | 1 |
+| PQ-7 | 2 | 5 | 0/1 | 1 |
+| PQ-8 | 5 | 5 | 2/2 | 1 |
+| PQ-9 | 2 | 4 | 1/1 | 1 |
+| PQ-10 | 4 | 1 | 1/1 | 1 |
+| PQ-11 | 3 | 5 | 1/1 | 1 |
+| PQ-12 | 3 | 5 | 2/2 | 1 |
+| PQ-13 | 4 | 5 | 2/2 | 1 |
+| PQ-14 | 4 | 5 | 2/2 | 1 |
 | QA-11 | 5 | 5 | 1/1 | 1 |
 | QA-12 | 5 | 5 | 1/1 | 1 |
-| **mean (n=22)** | **4.41** | **4.41** | - | - |
+| **mean (n=31)** | **4.23** | **4.45** | - | - |
 
 ## Family means across scored scenarios (preview)
 
 | method | BSC | MAR | TSQ | HDQ | Total |
 |---|---|---|---|---|---|
-| research_foodie (preview, n=3) | 3.67 | 3.33 | 3.42 | 4.25 | 3.67 |
+| research_foodie (preview, n=3) | 3.75 | 3.50 | 3.58 | 4.17 | 3.75 |
 | Human (published) | 3.84 | 5.00 | 4.29 | 4.24 | 4.34 |
 | Codex (published) | 2.80 | 4.19 | 2.99 | 2.75 | 3.18 |
 | GPT Deep Research (published) | 3.32 | 4.14 | 3.48 | 3.76 | 3.68 |

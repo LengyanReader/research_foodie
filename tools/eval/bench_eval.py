@@ -287,6 +287,78 @@ PubMedQA_SCENARIOS: List[Dict[str, Any]] = [
         "context": "Emergency surgery is associated with poorer outcomes and higher mortality with recent studies suggesting the 30-day mortality to be 14-15%. The aim of this study was to analyse the 30-day mortality, age-related 30-day mortality and 1-year mortality following emergency laparotomy. We hope this will encourage prospective data collection, improvement of care and initiate strategies to establish best practice in this area. This was a retrospective study of patients who underwent emergency laparotomy from June 2010 to May 2012.",
         "gold_tokens": ["mortality", "concern"],
     },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-6",
+        "topic": "PubMedQA · water-induced urticaria (yes)",
+        "question": "Syncope during bathing in infants, a pediatric form of water-induced urticaria?",
+        "context": "Apparent life-threatening events in infants are a difficult and frequent problem in pediatric practice. The prognosis is uncertain because of risk of sudden infant death syndrome. Eight infants aged 2 to 15 months were admitted during a period of 6 years; they suffered from similar maladies in the bath: on immersion, they became pale, hypotonic, still and unreactive; recovery took a few seconds after withdrawal from the bath and stimulation. Two diagnoses were initially considered: seizure or gastroesophageal reflux but this was doubtful. The hypothesis of an equivalent of aquagenic urticaria was then considered.",
+        "gold_tokens": ["yes"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-7",
+        "topic": "PubMedQA · tailored interventions / mammography (yes)",
+        "question": "Can tailored interventions increase mammography use among HMO women?",
+        "context": "Telephone counseling and tailored print communications have emerged as promising methods for promoting mammography screening. However, there has been little research testing, within the same randomized field trial, of the efficacy of these two methods compared to a high-quality usual care system for enhancing screening. This study addressed the question: Compared to usual care, is tailored telephone counseling more effective than tailored print materials for promoting mammography screening? Three-year randomized field trial. One thousand ninety-nine women aged 50 and older recruited from a health maintenance organization.",
+        "gold_tokens": ["yes"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-8",
+        "topic": "PubMedQA · double balloon enteroscopy (yes)",
+        "question": "Double balloon enteroscopy: is it efficacious and safe in a community setting?",
+        "context": "From March 2007 to January 2011, 88 DBE procedures were performed on 66 patients. Indications included evaluation anemia/gastrointestinal bleed, small bowel IBD and dilation of strictures. Video-capsule endoscopy (VCE) was used prior to DBE in 43 of the 66 patients prior to DBE evaluation. The mean age was 62 years. Thirty-two patients were female, 15 were African-American; 44 antegrade and 44 retrograde DBEs were performed. DBE procedures resulted in a definitive diagnosis or therapy in the large majority of cases with no major complications, showing DBE to be efficacious and safe in a community setting.",
+        "gold_tokens": ["yes", "safe"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-9",
+        "topic": "PubMedQA · reporting heterogeneity / sleep (no)",
+        "question": "Is adjustment for reporting heterogeneity necessary in sleep disorders?",
+        "context": "Anchoring vignettes are brief texts describing a hypothetical character who illustrates a certain fixed level of a trait under evaluation. This research uses vignettes to elucidate factors associated with sleep disorders in adult Japanese before and after adjustment for reporting heterogeneity in self-reports. This study also evaluates the need for adjusting for reporting heterogeneity in the management of sleep and energy related problems in Japan. We investigated a dataset of 1002 respondents aged 18 years and over from the Japanese World Health Survey.",
+        "gold_tokens": ["no"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-10",
+        "topic": "PubMedQA · low HDL mutations / cIMT (no)",
+        "question": "Do mutations causing low HDL-C promote increased carotid intima-media thickness?",
+        "context": "Although observational data support an inverse relationship between high-density lipoprotein (HDL) cholesterol and coronary heart disease (CHD), genetic HDL deficiency states often do not correlate with premature CHD. Carotid intima-media thickness (cIMT) measurements were obtained in cases comprising 10 different mutations in LCAT, ABCA1 and APOA1 to further evaluate the relationship between low HDL resulting from genetic variation and early atherosclerosis. In a 1:2 case-control study of sex and age-related subjects (n=114), cIMT was nearly identical between cases and controls.",
+        "gold_tokens": ["no"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-11",
+        "topic": "PubMedQA · anticoagulation / trauma (no)",
+        "question": "Therapeutic anticoagulation in the trauma patient: is it safe?",
+        "context": "Trauma patients who require therapeutic anticoagulation pose a difficult treatment problem. The purpose of this study was to determine: (1) the incidence of complications using therapeutic anticoagulation in trauma patients, and (2) if any patient factors are associated with these complications. An 18-month retrospective review was performed on trauma patients who received therapeutic anticoagulation using unfractionated heparin (UH) and/or fractionated heparin (FH). Forty different pre-treatment and treatment patient characteristics were recorded.",
+        "gold_tokens": ["no"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-12",
+        "topic": "PubMedQA · Hawkins sign / talar necrosis (maybe)",
+        "question": "Is the Hawkins sign able to predict necrosis in fractures of the neck of the astragalus?",
+        "context": "To assess if the Hawkins sign can predict whether or not astragalus fractures of the neck will develop avascular necrosis. It is also assessed whether the occurrence of this complication is related to the displacement of the fracture, soft tissue injury, or delay in the reduction or surgery. The results were compared with those found in the literature. A retrospective study was conducted on 23 talar neck fractures recorded over a period of thirteen years.",
+        "gold_tokens": ["maybe", "predict"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-13",
+        "topic": "PubMedQA · lymphedema detection (maybe)",
+        "question": "Can a practicing surgeon detect early lymphedema reliably?",
+        "context": "Lymphedema may be identified by simpler circumference changes as compared with changes in limb volume. Ninety breast cancer patients were prospectively enrolled in an academic trial, and seven upper extremity circumferences were measured quarterly for 3 years. A 10% volume increase or greater than 1 cm increase in arm circumference identified lymphedema with verification by a lymphedema specialist. Sensitivity and specificity of several different criteria for detecting lymphedema were compared using the academic trial as the standard.",
+        "gold_tokens": ["maybe", "circumference"],
+    },
+    {
+        "kind": "qa",
+        "topic_id": "PQ-14",
+        "topic": "PubMedQA · mesocolon invasion / T4 staging (maybe)",
+        "question": "Should direct mesocolon invasion be included in T4 for the staging of gastric cancer?",
+        "context": "One of the sites most frequently invaded by gastric cancer is the mesocolon; however, the UICC does not mention this anatomical site as an adjacent structure involved in gastric cancer. The purpose of this study was to characterize and classify mesocolon invasion from gastric cancer. We examined 806 patients who underwent surgery for advanced gastric carcinoma from 1992 to 2007 at the Department of Surgery, Gangnam Severance Hospital, Korea. Among these, patients who showed macroscopically direct invasion into the mesocolon were compared to other patients with advanced gastric cancer.",
+        "gold_tokens": ["maybe", "T4"],
+    },
 ]
 
 # 1703.10344 "Automated News Suggestions for Populating Wikipedia Entity Pages"
@@ -467,10 +539,27 @@ def run_scenarios(client: LLMClient, scenarios: List[Dict[str, Any]]) -> List[Di
                        "claims": [], "validation": check_answer(out_txt, seed)}
         elif s.get("context"):
             # SciQ-style provided-context MCQ: the support sentence is the source.
-            out_txt = answer_question(client, s["question"], "SciQ:ctx", s["context"])
+            mode = "yesno" if (s.get("yesno") or s["topic_id"].startswith("PQ-")) else ""
+            out_txt = answer_question(client, s["question"], "SciQ:ctx", s["context"], mode=mode)
             res = {"candidates": [], "papers": [], "paper_id": "ctx",
                    "output": out_txt, "draft": out_txt, "claims": [],
                    "validation": check_answer(out_txt, "SciQ:ctx", require_cite=False)}
+        elif s.get("papers"):
+            # Prebuilt evidence pool (30-topic battery, tools/eval/pools_30.py):
+            # skip live discovery — the pool IS the evidence. Invoke the graph
+            # with the same state shape `Pipeline.run` builds internally.
+            papers = s["papers"]
+            q = s["question"]
+            p = Pipeline(client)
+            state = {
+                "paper_id": papers[0]["arxiv_id"],
+                "parsed_md": papers[0]["md"],
+                "papers": papers,
+                "question": q,
+                "iteration": 0,
+            }
+            res = p.graph.invoke(state)
+            res["candidates"] = s.get("candidates", [])
         else:
             p = Pipeline(client)
             question = s["question"]

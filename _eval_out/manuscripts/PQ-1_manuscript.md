@@ -1,11 +1,10 @@
 ## Answer (EN)
-
-No. The source paper does not state that mitochondria play a role in remodelling lace plant (*Aponogeton madagascariensis*) leaves during programmed cell death (PCD). It describes the PCD process (cells at the centre of areoles die, stopping about five cells from the vasculature), but explicitly notes that while mitochondria's role in PCD is recognized in animals, it has been less studied in plants. It makes no claim about mitochondria driving leaf remodelling in the lace plant. (arXiv:SciQ:ctx)
+The paper does **not explicitly state** whether mitochondria play a role in remodelling lace plant (*Aponogeton madagascariensis*) leaves during programmed cell death (PCD). It only notes that mitochondrial involvement in PCD is established in animals but has been less studied in plants (arXiv:SciQ:ctx). No claim about mitochondria actively mediating lace plant leaf perforation/remodelling appears in the source.
 
 ## 中文速览
-
-不能确认。原文描述了网脉草叶片通过程序性细胞死亡（PCD）形成穿孔的机制，但明确指出：线粒体在 PCD 中的作用已在动物中被认识，而在植物 PCD 中研究较少。文中并无任何关于线粒体参与网脉草叶片重构的论断。(arXiv:SciQ:ctx)
+论文并未明确说明线粒体是否参与贯叶小七（*Aponogeton madagascariensis*）叶片程序性细胞死亡（PCD）中的重构过程。文中仅指出：线粒体在 PCD 中的作用已在动物中得到确认，但在植物中研究较少 (arXiv:SciQ:ctx)。未给出线粒体直接参与叶片穿孔/重构的证据或结论。
 
 ## Source evidence
+"The role of mitochondria during PCD has been recognized in animals; however, it has been less studied during PCD in plants."
 
-"The role of mitochondria during PCD has been recognized in animals; however, it has been less studied during PCD in plants." (arXiv:SciQ:ctx)
+Final decision: maybe

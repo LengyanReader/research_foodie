@@ -142,7 +142,7 @@ def seed_candidates(question: str, limit: int = 3) -> List[Dict[str, str]]:
     return [dict(e) for _, e in scored[:limit]]
 
 
-_ID_RE = re.compile(r"\b(\d{4}\.\d{4,5})\b")
+_ID_RE = re.compile(r"\b(\d{4}\.\d{4,5})(?:v\d+)?\b", re.I)
 _TAG_RE = re.compile(r"<[^>]+>")
 
 

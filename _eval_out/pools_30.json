@@ -1,0 +1,619 @@
+{
+ "003": {
+  "topic_id": "003",
+  "topic": "Retrieval-Augmented Generation for Large Language Models",
+  "papers": [
+   {
+    "arxiv_id": "2503.16581",
+    "title": "",
+    "label": "Investigating Retrieval-Augmented Generation in Quranic Studies: A Study of 13 Open-Source Large Language Models",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2503.16581\\2503.16581.md"
+   },
+   {
+    "arxiv_id": "2411.18583",
+    "title": "",
+    "label": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2411.18583\\2411.18583.md"
+   }
+  ],
+  "candidates": [
+   "2503.16581",
+   "2411.18583",
+   "2506.06962"
+  ]
+ },
+ "001": {
+  "topic_id": "001",
+  "topic": "Tool Learning and Function Calling for LLM Agents",
+  "papers": [
+   {
+    "arxiv_id": "2507.10593",
+    "title": "",
+    "label": "ToolRegistry: A Protocol-Agnostic Tool Management Library for Function-Calling LLMs",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2507.10593\\2507.10593.md"
+   },
+   {
+    "arxiv_id": "2605.18805",
+    "title": "",
+    "label": "RecoAtlas: From Semantic Plausibility to Set-Level Utility in LLM Recommendation Agents",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2605.18805\\2605.18805.md"
+   },
+   {
+    "arxiv_id": "2111.01762",
+    "title": "",
+    "label": "AIRCC-Clim: a user-friendly tool for generating regional probabilistic climate change scenarios and risk measures",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2111.01762\\2111.01762.md"
+   }
+  ],
+  "candidates": [
+   "2507.10593",
+   "2605.18805",
+   "2111.01762"
+  ]
+ },
+ "002": {
+  "topic_id": "002",
+  "topic": "Memory and Long-Context Mechanisms for Long-Horizon LLM Agents",
+  "papers": [
+   {
+    "arxiv_id": "2606.24322",
+    "title": "",
+    "label": "Securing LLM-Agent Long-Term Memory Against Poisoning: Non-Malleable, Origin-Bound Authority with Machine-Checked Guarantees",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2606.24322\\2606.24322.md"
+   },
+   {
+    "arxiv_id": "2603.01455",
+    "title": "",
+    "label": "From Verbatim to Gist: Distilling Pyramidal Multimodal Memory via Semantic Information Bottleneck for Long-Horizon Video Agents",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2603.01455\\2603.01455.md"
+   }
+  ],
+  "candidates": [
+   "2605.21768",
+   "2606.24322",
+   "2603.01455"
+  ]
+ },
+ "004": {
+  "topic_id": "004",
+  "topic": "Planning and Self-Reflection in Large Language Model Reasoning",
+  "papers": [
+   {
+    "arxiv_id": "2304.10464",
+    "title": "",
+    "label": "Learning to Plan with Natural Language",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2304.10464\\2304.10464.md"
+   },
+   {
+    "arxiv_id": "2309.02144",
+    "title": "",
+    "label": "Making Large Language Models Better Reasoners with Alignment",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2309.02144\\2309.02144.md"
+   },
+   {
+    "arxiv_id": "2508.04848",
+    "title": "",
+    "label": "Large Language Models Reasoning Abilities Under Non-Ideal Conditions After RL-Fine-Tuning",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2508.04848\\2508.04848.md"
+   }
+  ],
+  "candidates": [
+   "2304.10464",
+   "2309.02144",
+   "2508.04848"
+  ]
+ },
+ "005": {
+  "topic_id": "005",
+  "topic": "Prompt Injection and Tool-Use Security in LLM Agents",
+  "papers": [],
+  "candidates": []
+ },
+ "006": {
+  "topic_id": "006",
+  "topic": "Program Repair and Automated Debugging with Code LLMs",
+  "papers": [
+   {
+    "arxiv_id": "2411.07586",
+    "title": "",
+    "label": "A Comprehensive Survey of AI-Driven Advancements and Techniques in Automated Program Repair and Code Generation",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2411.07586\\2411.07586.md"
+   }
+  ],
+  "candidates": [
+   "2411.07586",
+   "2402.07542",
+   "2407.08958"
+  ]
+ },
+ "007": {
+  "topic_id": "007",
+  "topic": "Multimodal Retrieval-Augmented Generation for Chart and Document Understanding",
+  "papers": [
+   {
+    "arxiv_id": "2510.15253",
+    "title": "",
+    "label": "Scaling Beyond Context: A Survey of Multimodal Retrieval-Augmented Generation for Document Understanding",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2510.15253\\2510.15253.md"
+   },
+   {
+    "arxiv_id": "2506.06962",
+    "title": "",
+    "label": "AR-RAG: Autoregressive Retrieval Augmentation for Image Generation",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2506.06962\\2506.06962.md"
+   },
+   {
+    "arxiv_id": "2402.12317",
+    "title": "",
+    "label": "EVOR: Evolving Retrieval for Code Generation",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2402.12317\\2402.12317.md"
+   }
+  ],
+  "candidates": [
+   "2510.15253",
+   "2506.06962",
+   "2402.12317"
+  ]
+ },
+ "008": {
+  "topic_id": "008",
+  "topic": "Vision-Language Models for Embodied Reasoning",
+  "papers": [
+   {
+    "arxiv_id": "2504.16021",
+    "title": "",
+    "label": "Navigating the State of Cognitive Flow: Context-Aware AI Interventions for Effective Reasoning Support",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2504.16021\\2504.16021.md"
+   }
+  ],
+  "candidates": [
+   "2508.19294",
+   "2508.04848",
+   "2504.16021"
+  ]
+ },
+ "009": {
+  "topic_id": "009",
+  "topic": "Diffusion and Flow-Based Models for Controllable Image Generation",
+  "papers": [
+   {
+    "arxiv_id": "2403.04279",
+    "title": "",
+    "label": "Controllable Generation with Text-to-Image Diffusion Models: A Survey",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2403.04279\\2403.04279.md"
+   }
+  ],
+  "candidates": [
+   "2403.04279",
+   "2410.19288",
+   "2408.06070"
+  ]
+ },
+ "010": {
+  "topic_id": "010",
+  "topic": "Gaussian Splatting and Neural Rendering for Dynamic 3D Scene Reconstruction",
+  "papers": [
+   {
+    "arxiv_id": "2308.04079",
+    "title": "",
+    "label": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2308.04079\\2308.04079.md"
+   }
+  ],
+  "candidates": [
+   "2308.04079",
+   "2312.00732",
+   "2402.13827"
+  ]
+ },
+ "011": {
+  "topic_id": "011",
+  "topic": "Multi-Sensor Fusion for Autonomous Driving Perception",
+  "papers": [
+   {
+    "arxiv_id": "2301.06262",
+    "title": "",
+    "label": "Collaborative Perception in Autonomous Driving: Methods, Datasets and Challenges",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2301.06262\\2301.06262.md"
+   },
+   {
+    "arxiv_id": "2305.17181",
+    "title": "",
+    "label": "Selective Communication for Cooperative Perception in End-to-End Autonomous Driving",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2305.17181\\2305.17181.md"
+   },
+   {
+    "arxiv_id": "2504.13420",
+    "title": "",
+    "label": "Testing the Fault-Tolerance of Multi-Sensor Fusion Perception in Autonomous Driving Systems",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2504.13420\\2504.13420.md"
+   }
+  ],
+  "candidates": [
+   "2301.06262",
+   "2305.17181",
+   "2504.13420"
+  ]
+ },
+ "012": {
+  "topic_id": "012",
+  "topic": "Continual Learning and Model Editing for Foundation Models",
+  "papers": [],
+  "candidates": []
+ },
+ "013": {
+  "topic_id": "013",
+  "topic": "Offline and Preference-Based Reinforcement Learning for Robotics",
+  "papers": [
+   {
+    "arxiv_id": "2607.18488",
+    "title": "",
+    "label": "The Open Ant: A Robot Platform for Reinforcement Learning Research",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2607.18488\\2607.18488.md"
+   },
+   {
+    "arxiv_id": "1907.04543",
+    "title": "",
+    "label": "An Optimistic Perspective on Offline Reinforcement Learning",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\1907.04543\\1907.04543.md"
+   }
+  ],
+  "candidates": [
+   "2607.18488",
+   "1907.04543",
+   "2012.06899"
+  ]
+ },
+ "014": {
+  "topic_id": "014",
+  "topic": "Graph Neural Networks and Graph Foundation Models for Scientific Discovery",
+  "papers": [],
+  "candidates": []
+ },
+ "015": {
+  "topic_id": "015",
+  "topic": "Efficient LLM Serving with KV Cache, Speculative Decoding, and Quantization",
+  "papers": [],
+  "candidates": []
+ },
+ "016": {
+  "topic_id": "016",
+  "topic": "Vector Databases and Retrieval Systems for Large-Scale AI Applications",
+  "papers": [
+   {
+    "arxiv_id": "2604.16416",
+    "title": "",
+    "label": "Tensor Manifold-Based Graph-Vector Fusion for AI-Native Academic Literature Retrieval",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2604.16416\\2604.16416.md"
+   },
+   {
+    "arxiv_id": "2609.16850",
+    "title": "",
+    "label": "Efficient Swing Computation for Retrieval in Large-Scale Recommender Systems",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2609.16850\\2609.16850.md"
+   },
+   {
+    "arxiv_id": "2501.02842",
+    "title": "",
+    "label": "Foundations of GenIR",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2501.02842\\2501.02842.md"
+   }
+  ],
+  "candidates": [
+   "2604.16416",
+   "2609.16850",
+   "2501.02842"
+  ]
+ },
+ "017": {
+  "topic_id": "017",
+  "topic": "Privacy-Preserving Machine Learning with Federated Learning and Differential Privacy",
+  "papers": [],
+  "candidates": []
+ },
+ "018": {
+  "topic_id": "018",
+  "topic": "AI Software Supply-Chain Security and Vulnerability Detection",
+  "papers": [
+   {
+    "arxiv_id": "2304.02819",
+    "title": "",
+    "label": "GPT detectors are biased against non-native English writers (Liang et al., Patterns 4(7) 2023)",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2304.02819\\2304.02819.md"
+   },
+   {
+    "arxiv_id": "2306.15666",
+    "title": "",
+    "label": "Weber-Wulff et al. — testing of detection tools for AI-generated text",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2306.15666\\2306.15666.md"
+   }
+  ],
+  "candidates": [
+   "2304.02819",
+   "2306.15666"
+  ]
+ },
+ "019": {
+  "topic_id": "019",
+  "topic": "Human-AI Collaboration in Scientific Writing and Research Workflows",
+  "papers": [
+   {
+    "arxiv_id": "2504.16770",
+    "title": "",
+    "label": "DeBiasMe: De-biasing Human-AI Interactions with Metacognitive AIED (AI in Education) Interventions",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2504.16770\\2504.16770.md"
+   },
+   {
+    "arxiv_id": "2504.14689",
+    "title": "",
+    "label": "Designing AI Systems that Augment Human Performed vs. Demonstrated Critical Thinking",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2504.14689\\2504.14689.md"
+   },
+   {
+    "arxiv_id": "2405.14107",
+    "title": "",
+    "label": "Towards Feature Engineering with Human and AI's Knowledge: Understanding Data Science Practitioners' Perceptions in Human&amp;AI-Assisted Feature Engineering De",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2405.14107\\2405.14107.md"
+   }
+  ],
+  "candidates": [
+   "2504.16770",
+   "2504.14689",
+   "2405.14107"
+  ]
+ },
+ "020": {
+  "topic_id": "020",
+  "topic": "Causal Representation Learning and Causal Discovery in Deep Learning",
+  "papers": [
+   {
+    "arxiv_id": "2603.14483",
+    "title": "",
+    "label": "Disentangling Dynamical Systems: Causal Representation Learning Meets Local Sparse Attention",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2603.14483\\2603.14483.md"
+   },
+   {
+    "arxiv_id": "2306.08946",
+    "title": "",
+    "label": "Bootstrap aggregation and confidence measures to improve time series causal discovery",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2306.08946\\2306.08946.md"
+   },
+   {
+    "arxiv_id": "2008.09301",
+    "title": "",
+    "label": "Amortized learning of neural causal representations",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2008.09301\\2008.09301.md"
+   }
+  ],
+  "candidates": [
+   "2603.14483",
+   "2306.08946",
+   "2008.09301"
+  ]
+ },
+ "021": {
+  "topic_id": "021",
+  "topic": "Large Language Models for Generative Recommendation and User Behavior Modeling",
+  "papers": [
+   {
+    "arxiv_id": "2511.06077",
+    "title": "",
+    "label": "Make It Long, Keep It Fast: End-to-End 10K Long User Behavior Sequence Modeling for Billion-Scale Douyin Recommendation",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2511.06077\\2511.06077.md"
+   },
+   {
+    "arxiv_id": "2503.21676",
+    "title": "",
+    "label": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2503.21676\\2503.21676.md"
+   },
+   {
+    "arxiv_id": "2409.02228",
+    "title": "",
+    "label": "Unforgettable Generalization in Language Models",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2409.02228\\2409.02228.md"
+   }
+  ],
+  "candidates": [
+   "2511.06077",
+   "2503.21676",
+   "2409.02228"
+  ]
+ },
+ "022": {
+  "topic_id": "022",
+  "topic": "AI-Driven Protein Design with Diffusion and Language Models",
+  "papers": [
+   {
+    "arxiv_id": "2201.07338",
+    "title": "",
+    "label": "Controllable Protein Design with Language Models",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2201.07338\\2201.07338.md"
+   },
+   {
+    "arxiv_id": "2602.07546",
+    "title": "",
+    "label": "Improving Variable-Length Generation in Diffusion Language Models via Length Regularization",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2602.07546\\2602.07546.md"
+   },
+   {
+    "arxiv_id": "2407.16375",
+    "title": "",
+    "label": "Ranking protein-protein models with large language models and graph neural networks",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2407.16375\\2407.16375.md"
+   }
+  ],
+  "candidates": [
+   "2201.07338",
+   "2602.07546",
+   "2407.16375"
+  ]
+ },
+ "023": {
+  "topic_id": "023",
+  "topic": "Single-Cell Foundation Models for Cell Type Annotation and Perturbation Prediction",
+  "papers": [
+   {
+    "arxiv_id": "2311.04567",
+    "title": "",
+    "label": "CellPhoneDB v5: inferring cell-cell communication from single-cell multiomics data",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2311.04567\\2311.04567.md"
+   },
+   {
+    "arxiv_id": "2506.13817",
+    "title": "",
+    "label": "DeepSeq: High-Throughput Single-Cell RNA Sequencing Data Labeling via Web Search-Augmented Agentic Generative AI Foundation Models",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2506.13817\\2506.13817.md"
+   },
+   {
+    "arxiv_id": "2004.02069",
+    "title": "",
+    "label": "Single-cell protein analysis by mass-spectrometry",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2004.02069\\2004.02069.md"
+   }
+  ],
+  "candidates": [
+   "2311.04567",
+   "2506.13817",
+   "2004.02069"
+  ]
+ },
+ "024": {
+  "topic_id": "024",
+  "topic": "Radiomics and Deep Learning for Tumor Diagnosis and Prognosis",
+  "papers": [],
+  "candidates": []
+ },
+ "025": {
+  "topic_id": "025",
+  "topic": "Machine Learning for Solid-State Battery Materials Discovery",
+  "papers": [
+   {
+    "arxiv_id": "2306.04338",
+    "title": "",
+    "label": "Changing Data Sources in the Age of Machine Learning for Official Statistics",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2306.04338\\2306.04338.md"
+   },
+   {
+    "arxiv_id": "2006.16189",
+    "title": "",
+    "label": "DOME: Recommendations for supervised machine learning validation in biology",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2006.16189\\2006.16189.md"
+   },
+   {
+    "arxiv_id": "2602.11092",
+    "title": "",
+    "label": "MerLin: A Discovery Engine for Photonic and Hybrid Quantum Machine Learning",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2602.11092\\2602.11092.md"
+   }
+  ],
+  "candidates": [
+   "2306.04338",
+   "2006.16189",
+   "2602.11092"
+  ]
+ },
+ "026": {
+  "topic_id": "026",
+  "topic": "Machine Learning for Electrocatalyst Discovery in Energy Conversion",
+  "papers": [],
+  "candidates": [
+   "2306.04338",
+   "2006.16189",
+   "2602.11092"
+  ]
+ },
+ "027": {
+  "topic_id": "027",
+  "topic": "Deep Learning for Extreme Weather Forecasting",
+  "papers": [],
+  "candidates": []
+ },
+ "028": {
+  "topic_id": "028",
+  "topic": "Foundation Models for Satellite Earth Observation",
+  "papers": [
+   {
+    "arxiv_id": "2512.03307",
+    "title": "",
+    "label": "Robust Tabular Foundation Models",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2512.03307\\2512.03307.md"
+   },
+   {
+    "arxiv_id": "2111.06372",
+    "title": "",
+    "label": "Lunar-like silicate material forms the Earth quasisatellite (469219) 2016 HO3 Kamo`oalewa",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2111.06372\\2111.06372.md"
+   },
+   {
+    "arxiv_id": "2412.08244",
+    "title": "",
+    "label": "Call to Protect the Dark and Quiet Sky from Harmful Interference by Satellite Constellations",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2412.08244\\2412.08244.md"
+   }
+  ],
+  "candidates": [
+   "2512.03307",
+   "2111.06372",
+   "2412.08244"
+  ]
+ },
+ "029": {
+  "topic_id": "029",
+  "topic": "Deep Learning for Financial Risk Modeling under Uncertainty",
+  "papers": [
+   {
+    "arxiv_id": "2308.00065",
+    "title": "",
+    "label": "FinPT: Financial Risk Prediction with Profile Tuning on Pretrained Foundation Models",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2308.00065\\2308.00065.md"
+   },
+   {
+    "arxiv_id": "1710.05204",
+    "title": "",
+    "label": "Sequential Design and Spatial Modeling for Portfolio Tail Risk Measurement",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\1710.05204\\1710.05204.md"
+   },
+   {
+    "arxiv_id": "2306.11113",
+    "title": "",
+    "label": "Learn to Accumulate Evidence from All Training Samples: Theory and Practice",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\2306.11113\\2306.11113.md"
+   }
+  ],
+  "candidates": [
+   "2308.00065",
+   "1710.05204",
+   "2306.11113"
+  ]
+ },
+ "030": {
+  "topic_id": "030",
+  "topic": "Bayesian Deep Learning for Uncertainty Quantification",
+  "papers": [
+   {
+    "arxiv_id": "1811.10041",
+    "title": "",
+    "label": "BDLOB: Bayesian Deep Convolutional Neural Networks for Limit Order Books",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\1811.10041\\1811.10041.md"
+   },
+   {
+    "arxiv_id": "1811.12535",
+    "title": "",
+    "label": "The Relevance of Bayesian Layer Positioning to Model Uncertainty in Deep Bayesian Active Learning",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\1811.12535\\1811.12535.md"
+   },
+   {
+    "arxiv_id": "1811.09385",
+    "title": "",
+    "label": "On the Importance of Strong Baselines in Bayesian Deep Learning",
+    "path_md": "_demo_downloads\\mineru_out_ds0509\\1811.09385\\1811.09385.md"
+   }
+  ],
+  "candidates": [
+   "1811.10041",
+   "1811.12535",
+   "1811.09385"
+  ]
+ }
+}

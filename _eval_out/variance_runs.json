@@ -1,0 +1,56 @@
+[
+ {
+  "round": 1,
+  "topic_id": "P-A",
+  "total": 4.25,
+  "BSC": 4.5,
+  "MAR": 3.75,
+  "TSQ": 4,
+  "HDQ": 4.75
+ },
+ {
+  "round": 2,
+  "topic_id": "P-B",
+  "total": 3.3125,
+  "BSC": 3.25,
+  "MAR": 3.25,
+  "TSQ": 2.75,
+  "HDQ": 4
+ },
+ {
+  "round": 3,
+  "topic_id": "P-C",
+  "total": 3.625,
+  "BSC": 4,
+  "MAR": 3.5,
+  "TSQ": 2.75,
+  "HDQ": 4.25
+ },
+ {
+  "round": 4,
+  "topic_id": "P-A",
+  "total": 3.5,
+  "BSC": 3.5,
+  "MAR": 2.75,
+  "TSQ": 3.5,
+  "HDQ": 4.25
+ },
+ {
+  "round": 5,
+  "topic_id": "P-B",
+  "total": 3.3125,
+  "BSC": 3,
+  "MAR": 2.5,
+  "TSQ": 3.5,
+  "HDQ": 4.25
+ },
+ {
+  "round": 6,
+  "topic_id": "P-C",
+  "total": 3.4375,
+  "BSC": 4,
+  "MAR": 2.75,
+  "TSQ": 3,
+  "HDQ": 4
+ }
+]
