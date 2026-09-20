@@ -114,5 +114,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 4. 对比与复用通道：先本地补 L4 检索重排 + 多视角大纲 + 判题中位数（≈$0），待 ≥300B 判题端点后接入官方 DAS-Eval / DAS-2M / knowledge-storm——见 [`docs/TOOL-COMPARISON.md`](docs/TOOL-COMPARISON.md)。
 5. 自演化循环（基线冻结 + 健康检查 + 周更节奏）——`docs/PLAN.md §8 Phase X` 与 [`docs/design/self-evolution-mechanism.md`](docs/design/self-evolution-mechanism.md)。
 6. 本地 Web 前端（FastAPI + HTMX/SSE，仅 `127.0.0.1`）作为跑动/健康/反馈的观测台——`docs/PLAN.md §8 Phase F`；手跑命令全部见 runbook §3.1 演示。
+7. 模型路由（Phase D）：零 key 默认 `opencode`；注册任一 OpenAI 兼容 API key（DeepSeek/Qwen/Kimi/OpenRouter）作**强判题 lane**——目标 P-A sd <0.40。今日无 key 即可运行。
 
 可度量验收见 `docs/PLAN.md §8`。

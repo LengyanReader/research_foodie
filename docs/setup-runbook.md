@@ -102,10 +102,12 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
 
 ## 3.1 Usage & demo walkthroughs / 用法与演示
 
-> 中文速览：本小节把"怎么用"钉死成两份东西——(1) **工具速查表**（每条工具：用途 / 验证过的命令 / 版本引脚 / 对应已知问题）；(2) **三条端到端 demo**（PDF→接地综述→渲染、接地 QA、30 话题判题库电池），每条给出可复制的命令与预期产物。目标：任何会话照抄 §3.1 即可复现这篇管道的全部能力。规划对应 `docs/PLAN.md` §8 L-5（工具使用入档）与 Phase F（web 前端，见下节分析）。
+> 中文速览：本小节把"怎么用"钉死成两份东西——(1) **工具速查表**（每条工具：用途 / 验证过的命令 / 版本引脚 / 对应已知问题）；(2) **四条端到端 demo**（PDF→接地综述→渲染、接地 QA、30 话题判题库电池、人工 L6 判题检查）。每条给出可复制的命令与预期产物。规划对应 `docs/PLAN.md` §8：L-5（工具使用入档）· Phase X（自演化基线）· Phase F（web 前端）· Phase D（**模型接入与路由**——demo 里的 `opencode` 是零 key 默认 lane，注册任一 OpenAI 兼容 API key 后可由 profile 路由到更强判题模型，见 `docs/PLAN.md` §8 Phase D）。
 > **All commands below already ran green in Sessions 9–20** (with the recorded caveats). `$PY`, `$MINE`, `$UTF8` as in §3.
 
 ### 3.1.1 Per-tool usage cheat-sheet / 逐工具速查
+
+> **模型后端（Phase D）**：demo 全部用零 key 的默认 profile（`opencode`，`OPENCODE_MODEL`=opencode/big-pickle）。注册任一主流 API key 后，可用 **judge 强模型 lane** —— 设 `OPENAI_BASE_URL`/`OPENAI_MODEL`/`OPENAI_API_KEY`，跑 `health_check`/`bench_eval`/`variance_run` 时把 judge 路由到它（D-1/D-3）。key 只走环境变量，永不入库。
 
 | Tool | Purpose / 用途 | Verified command (copy-paste) | Ver. pin (E-4 ledger) | Known issue |
 |---|---|---|---|---|

@@ -138,7 +138,26 @@ Kept in sync with the "Next:" lines at the top of each PROGRESS session entry.
 
 ## 8. Next-implementation plan (recorded 2026-09-20) / 后续实现规划
 
-> 中文速览：基于 2026-09-20 对对标工具的一手核证（见 `docs/TOOL-COMPARISON.md`）。**Phase L（本地、≈$0、现在可做）** 按性价比排序 —— (L-1) S_write 检索重排（PaperQA2 RCS 的轻量复刻）→ (L-2) S_org 多视角分解（STORM 思想，纯 prompt）→ (L-3) 判题多评取中位数（压 judge 噪声；当前可信度瓶颈 P-A ±0.53）+ 顺带 (L-4) 引用校验接入自研链路。**Phase F（本地 Web 前端，≈$0）** —— 单机观测台：FastAPI + HTMX/SSE，理由与 Flask/无后端对比详见 Phase F。**Phase R（资源门控）** —— 套用 2026-08 已公开发布的官方 DAS-Eval 评测工具包、DAS-2M 元数据湖、220 篇样例综述；接入 knowledge-storm/oX 等需 OpenAI 兼容端点或 GPU/key 的资产。DAS 方法代码仍 ⏳ 未发布 → 状态机按论文复现路径不受下游变化影响。
+> 中文速览：本计划按**四条并行工作流（workstream）+ 各自的评估门**组织，而不是线性阶段——后端、前端、自演化可以同周开工，各自的验收各自可测（见下 Workstream map）：
+> - **WS-A 核心管道（Phase L）**：本地 ≈$0，现在可做——(L-1) S_write 检索重排（PaperQA2 RCS 轻量复刻）、(L-2) S_org 多视角分解（STORM 思想）、(L-3) 判题 median-of-3（压 judge 噪声，P-A ±0.53）、(L-4) 引用校验接线。评估门 = bench/variance 回归数字。
+> - **WS-B 前端与后端壳（Phase F）**：单机观测台 FastAPI + HTMX/SSE + 模型路由（WS-D 依赖的唯一接口是**稳定 CLI 入口 + `_eval_out/*.json`**，可与 WS-A 并行开工）。评估门 = F 项验收（SSE 实时进度 / 可取消 / 只读降级）。
+> - **WS-C 自演化（Phase X）**：基线冻结 + 健康检查 + 变异加固 + 周更节奏，**数据已存在**（E-1 基线数字当前全可测），与 L 项解耦可先行。评估门 = E 项验收（GREEN/WARN/FAIL、gate_coverage、次数/阈值规则）。
+> - **WS-D 模型接入与路由（Phase D，新增，2026-09-20）**：回答"前端靠什么模型跑"——**两者皆可**：`opencode` 注册免费托管模型（零 key、默认）+ 主流模型 API key（DeepSeek / DashScope(Qwen) / Kimi(Moonshot) / OpenRouter 等，全部走既有 `openai` backend）。设计为**按角色的 backend 配置文件（profiles）**：草稿/QA 走廉价 lane、判题走强模型 lane（D-3 解耦 judge），前端只读 profile、永不存 key。评估门 = 每 profile 过 mock 回归 + 跨模型判题矩阵。
+> - **WS-R 资源门控（Phase R）**：官方 DAS-Eval / DAS-2M / knowledge-storm / orx，需 ≥300B judge 端点/GPU/key——WS-D 的强模型 lane 先铺路。
+>
+> 每项带可度量验收；WS-A/B/D 的合入必须过 WS-C 的健康检查（基线回归），WS-C 的"演化"主张必须经 WS-D 跨模型验证。
+
+**Workstream map (parallel + evaluated) / 并行工作流与依赖**
+
+| WS | Lane | Ships (items) | Blocking dep | Evaluation gate | Can start |
+|---|---|---|---|---|---|
+| A | core pipeline | L-1..L-6 (Phase L) | none (code exists) | bench_eval + variance vs 2026-09-20 baselines | now |
+| B | web frontend/backend shell | F-1..F-4 (Phase F) | stable CLI + `_eval_out` I/O only | F acceptances (SSE/ cancel/ fallback) | now, parallel to A |
+| C | self-evolution cadence | E-1..E-7 (Phase X) | baselines (measured) | health verdicts + gate_coverage + promotion rules | now, parallel to A |
+| D | model access & routing | D-1..D-5 (Phase D) | LLMClient (exists) | per-profile mock 34/34 + cross-model judge matrix | now (keys optional) |
+| R | resource-gated | R-1..R-6 (Phase R) | strong judge lane (D-3) / GPU / keys | official vs self delta table | after D-3 or keys |
+
+Systemization rule (AGENTS.md-aligned, recorded so it can't drift): **no BD (frontend) commit may regress the C (baseline) verdicts; no C "improvement" claim is valid without a D (cross-model) check.** Each workstream logs into PROGRESS under its own heading so sessions can interleave.
 
 Sorted by impact-to-cost; each item carries a measurable acceptance check.
 
@@ -151,6 +170,24 @@ Sorted by impact-to-cost; each item carries a measurable acceptance check.
 
   *Accept:* a fresh agent can reproduce every pipeline stage (parse → pool → draft → render → bench → variance) from the runbook alone, and `rg` a stale-command sweep against the verified-command list returns zero docs hits (commands the LLM client no longer supports, e.g. old Ollama/env vars, are removed or flagged `superseded`).
 - **L-6. (optional) Evaluation-one-command** — bundle `bench_eval --scenarios` + `variance_run` + `health_check` (below) behind a single `tools/eval/self_check.ps1` runner so the cadence is one command. *Accept:* one command reproduces the health report; exit code reflects GREEN/WARN/FAIL.
+
+### Phase D — Model access & routing (backend profiles) / 模型接入与路由 (2026-09-20)
+
+> 中文速览：**结论——前端/后端跑什么模型，`opencode` 注册与主流 API key 两条路都支持，设计成"按角色路由、key 永不入库"**：
+> - `tools/llm/client.py` 已实现两种 backend：`opencode`（CLI 调 opencode 免费托管模型，默认 `opencode/big-pickle`，零 key）与 `openai`（任何 OpenAI 兼容端点：DeepSeek / DashScope(Qwen) / Moonshot(Kimi) / OpenRouter / OpenAI / 本地服务）。**注册 options**：`LLM_BACKEND`、`OPENCODE_MODEL`、`OPENAI_BASE_URL`、`OPENAI_MODEL`、`OPENAI_API_KEY`（client.py:22-27）。
+> - **现状判题与草稿共用一个 client/judge 模型**（judge.py:9-10,71）→ 噪声源之一（P-A ±0.53 有一部分是免费小模型判题导致的）。因此新增 **角色级路由**：`draft`(S_org/S_write/answer) 走廉价 lane，`judge`(判题/健康检查) 走强模型 lane。
+> - **仅 Java/无 key 约束不变**：默认 `opencode` 免费；入 D-3 后可把 judge 切到已注册的强模型，同时草稿仍走免费 lane——对标 DAS 惯例（judge 用 ≥300B 级）且不破坏"本地零成本"属性。key 只从环境变量读取，前端进程只读 profile 名，**不代理、不存储任何 key**。
+
+**D-1. Profile registry (`tools/llm/profiles.py`)** — named, immutable backend profiles read from env at startup (no keys in code/repo, `AGENTS.md` secret policy):
+- `free-opencode` (default): all lanes → opencode `opencode/big-pickle`, via `OPENCODE_MODEL`.
+- `judge-strong` (user-configured): `draft|qa` → opencode (or `OPENCODE_MODEL`), `judge` → `OPENAI_BASE_URL`/`OPENAI_MODEL`/`OPENAI_API_KEY` (any OpenAI-compatible provider the user registered).
+- `swap-opencode` build: `opencode --version` reachable (no key) | `openai` needs `OPENAI_API_KEY`.
+- The profile is a plain dict `{lane: {backend, model, base_url}}`; unknown env value → loud failure (recorded in PROGRESS), never silent fallback. *Accept:* running `bench_eval`/`health_check` with a profile emits a header line showing per-lane model; switching `OPENAI_MODEL` re-routes only the judge lane.
+- **D-2. Per-role routing in callers** — `bench_eval.py`, `variance_run.py`, `health_check.py`, and the web runner (F-1) construct **two** LLMClients from the profile: `draft_client` (pipe/QA) and `judge_client` (scoring). `judge.py:71` gains a `client=` param (already threaded in pipeline default); `score_*` functions in `bench_eval.py` accept the judge client explicitly. *Accept:* a run + judge can use different models; every artifact still records `judge_model` (provenance preserved).
+- **D-3. Strong-judge lane (unlocks R-1/R-6/E-7)** — when the user registers a ≥300B-class OpenAI-compatible model (e.g. DeepSeek/Qwen/Kimi/OpenRouter frontier), run the **judge lane** through it and measure judge-variance compression on P-A/P-B/P-C (target P-A sd < 0.40 vs 0.53 with median-of-3, L-3). This is the cheapest *model-side* lever on credibility; requires only env vars, no code migration. *Accept:* variance table before/after; then R-1 official DAS-Eval uses the strong lane with the vendored harness.
+- **D-4. Cross-model awareness** — treat any registered model as a **replaceable judging vantage** (E-7 adjudicator swap, and already-measured cross-judge disagreement: internal Qwen-vs-Kimi ?=0.507/MAE=0.630, PROGRESS). Record `model`+`judge_model`+`temperature`+profile name in every report footer so a score claim is always attributable to a specific model behind it.
+- **D-5. Cost & key hygiene** — report per-run token/cost when the backend exposes usage (opencode returns cost in step_finish; openai returns usage). Keys exist only as env vars, never in git or the web bundle; the frontend (Phase F) never sends/reads key material — the server process owns the env. *Accept:* `rg` finds zero key/literal in repo; a fresh agent reproduces a run with profile via env only.
+- **Explicit not-planned:** local-model lanes are removed (Ollama gone 2026-09-16); no multi-key load-balancing or auto-retry across providers (keep the failure model simple); no paid-API gateway dependency.
 
 ### Phase R — Resource-gated (≥300B judge endpoint / GPU / API key / FB bandwidth)
 - **R-1. Official DAS-Eval run (highest-value, blocked on judge)** — run the vendored `external/DAS` evaluation code (`evaluation/run_eval_all.sh` per `evaluation_protocol.md`) against our rendered manuscripts (substrate ready since Session 15) once an OpenAI-compatible ≥300B / page-aware judge endpoint is available. *Accept:* honest official-vs-self-scored delta table.

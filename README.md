@@ -114,5 +114,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 4. Stage comparison & reuse lane: L4 relevance re-rank + L2-style perspective outline + judge median (local, ≈$0) then official DAS-Eval/DAS-2M/knowledge-storm when a ≥300B judge endpoint exists — see [`docs/TOOL-COMPARISON.md`](docs/TOOL-COMPARISON.md).
 5. Self-evolution loop (baseline freeze + health check + weekly cadence) — `docs/PLAN.md §8 Phase X` & [`docs/design/self-evolution-mechanism.md`](docs/design/self-evolution-mechanism.md).
 6. Local web frontend (FastAPI + HTMX/SSE, `127.0.0.1`) as the observation surface for runs/health/feedback — `docs/PLAN.md §8 Phase F`; hand-run all commands from runbook §3.1 demos.
+7. Model routing (Phase D): zero-key `opencode` default; register any OpenAI-compatible API key (DeepSeek/Qwen/Kimi/OpenRouter) as a **strong judge lane** — variance P-A sd <0.40 target. Works with no key today.
 
 See `docs/PLAN.md §8` for measurable acceptance checks.
