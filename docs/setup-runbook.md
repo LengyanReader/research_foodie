@@ -4,7 +4,7 @@
 > 本文档是本仓库的**操作性手册**（bilingual）：基于 2026-09-15 P1 阶段的真实实测，记录环境怎么搭、哪些工具已跑通、每条命令、踩过的坑与临时解法、遗留问题，以及下一步怎么走。目标是"任何会话翻到本文档即可无缝继续"。
 > **一句话现状**：MinerU PDF→Markdown 跑通；**PaddleOCR 中文识别已解决（K7 关闭）**；**统一 LLM client 已建**（`tools/llm/`，**默认后端 = opencode CLI 免费模型 `opencode/big-pickle`**，另支持任何 OpenAI 兼容 API）；**Ollama 后端已于 2026-09-16 彻底移除**（用户决定"不要再考虑 Ollama"，K11 历史排障见台账）；**P2 最小纵切已打通**（`tools/pipeline/`：S_lit 可插拔发现 rail + LangGraph 完整链 + L6 确定性校验 + 写时反幻觉过滤 + 全文 claim 抽取）；**三大参考框架已运行时整合（Session 9）**：STORM-style 大纲（S_org outline→S_write 大纲驱动写作）、OpenResearch/orx + arXiv **实时发现 rail**（`S_LIT_BACKEND=seed|arxiv|orx`，2026-09-16 实测 arXiv API 已可达 1.1 s）、DAS-Bench-style **AI 评审门**（P3 preview，`validation.judge`）；测试 mock **19/19** + real `opencode/big-pickle` **18/18** @121.7 s（draft 3357 字、outline 3 节、score 1.0、judge=pass）；**已在第二篇真实论文（Weber-Wulff `2306.15666`）上验证泛化（Session 10）**；**DAS-Bench 16 轴基准评测试点已完成（Session 11）**：`tools/eval/bench_eval.py`，预览总分 P-A 2.62 / P-B 3.19 / 001 2.44 / 019 no-evidence，报告 `_eval_out/bench_pilot_das.md`；远程 GPU / 付费 API 仍按用户决定延后。
 
-- `Updated`: 2026-09-20 (added §3.1 Usage & Demos)
+- `Updated`: 2026-09-20 (added §3.0 End-to-end usage flow + §3.1 Usage & Demos; WS-B web dashboard in §3.0.5)
 - `Status`: P1 tooling — done (parsing ✓, OCR ✓ K7 closed, GPU deferred; LLM client ✓ opencode 3/3 + mock 3/3; Ollama removed 2026-09-16); **P2 minimal vertical — done** (LangGraph S_lit→S_org→S_write→S_final → L6 gate → P3 judge live: `tools/pipeline/` mock 19/19 + real `opencode/big-pickle` 18/18 @121.7 s, full-text claims, correct section attribution, STORM outline, orx/arXiv live discovery rail verified, DAS-Bench-style judge=pass; write-time grounded-claim filter catches fabrication; seed rail remains the offline default); **benchmark-style evaluation pilot vs DAS-Bench 16-criterion assets — done (Session 11, see §3 `bench_eval` + `_eval_out/bench_pilot_das.md`)**
 - `Language`: bilingual (English master + 中文速览 notes)
 - `See also`: `docs/design/research-foodie-blueprint.md` (architecture) · `docs/refs/ai-research-tools-workflow-guide.md` (tool survey)
@@ -99,6 +99,82 @@ $MINE = 'C:\Users\data\miniconda3\envs\ds0509\Scripts\mineru.exe'
   ```
   pandoc + MiKTeX xelatex + Microsoft YaHei (CJK) — both already installed (no new deps); page count via pypdf. The bench pipeline renders each scored artifact automatically to `_eval_out/manuscripts/<id>_manuscript.pdf` with a `pdf pg` report column. A text-only LLM judge still cannot score the MAR *Layout* axis — that needs a ≥300B page-aware judge (blocked).
 - **Download a test paper** (arXiv reachable from this host): `Invoke-WebRequest -Uri https://arxiv.org/pdf/<ID> -OutFile x.pdf`
+
+## 3.0 End-to-end usage flow / 端到端使用流程
+
+> 中文速览：本节回答一个普通用户的问题——**"我想调研 XX 问题，该怎么用这个工具？"** 五步走：(1) 写下研究问题 → (2) 选证据来源轨道 → (3) 设置输出**干货**（密度/语言/页数档位）→ (4) 设置输出**符合规范**（DAS-16 判题规范、L6 确定性门、引用核验、PDF 渲染规范/F 验证）→ (5) 运行并迭代（CLI 或 web dashboard）。每步给"已实现 knob"（直接可用）与"规划 knob"（Phase X/D，标注不可用），不夸大。
+
+### 3.0.1 Step 0 — 从一个"研究问题"开始（不是从工具开始）
+
+The tool is *question-first*. Write the survey-style question in one line, exactly the form the benchmark uses:
+
+```text
+P-A  "How reliable are automatic detection tools for AI-generated text?"
+001  "Tool Learning and Function Calling for LLM Agents"
+QA-6 "What does the corpus say about …?"      (answered from the local 3-paper pool)
+```
+
+Then choose a **track** — which determines the graph:
+
+| Your intent | Track | Entry point | Evidence source |
+|---|---|---|---|
+| 写一篇综述草稿 | survey | `tools.pipeline.test_pipeline real` | seed corpus / arXiv live (`S_LIT_BACKEND`) |
+| 就语料回答一个具体问题 | grounded QA | `bench_eval --scenarios QA-*` | local `_LOCAL_MD` pool |
+| 给批量话题打分（跑数） | benchmark battery | `bench_eval` / `pools_30` | scenario sets in `bench_eval.py:79-366` |
+
+### 3.0.2 Step 1 — 选证据来源轨道（discovery rail）
+
+```powershell
+$env:S_LIT_BACKEND = 'seed'    # 只有本地语料（确定性、离线、测试可复现）
+$env:S_LIT_BACKEND = 'arxiv'   # 实时 arXiv API（免费无 key，实测 ~1.1 s）— 20-09-16
+$env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动回退 arxiv→seed）
+# 每次运行都显式声明来源；seed 是离线默认，测试稳定靠它。
+```
+
+### 3.0.3 Step 2 — 设置"输出干货"（输出密度/形态档位）
+
+干货 = 结果信息密度可配。当前可调的 knob（已实现）：
+
+| 干货维度 | 已实现 knob | 说明 |
+|---|---|---|
+| 判题（输出质量门） | `validation.judge {label, score, checks, feedback}` | DAS-Bench 16 轴细化 |
+| 长度/页数 | `render_manuscript x.md out.pdf` → `PAGES n` | pandoc + xelatex + YaHei |
+| 语言 | LLM 自带双语能力（prompt/语料决定） | 无独立 flag，见规划 knob |
+| 批量数量 | `bench_eval --scenarios …` · `pools_30 --limit N` · `--judge K` | 覆盖度/成本权衡 |
+
+规划 knob（Phase X/D，**未实现**，做基线后再上）：`语言/篇幅/深度` 显式档位、密度打分、草稿 vs 判题模型分 lane（D-2/D-3）——目标把"草稿字数 3357、判题 1.0"这类产出固化成语料级指标。
+
+### 3.0.4 Step 3 — 设置"输出符合某种规范"（spec/格式约束）
+
+结果要**符合某套规范/标准的文档**时，把规范挂到门禁上：
+
+| 你想符合的规范 | 工具内对应 | 状态 |
+|---|---|---|
+| 学术论文文风与引用 | STORM-style outline + full-text claims + `tools/citation-verify` | 已实现（引用核验见 TOOL-COMPARISON） |
+| DAS-Bench 16 轴评审规范 | `validation.judge` + `bench_eval` 报告 | 已实现（pilot P-A 2.62 / P-B 3.19） |
+| 确定性事实门（L6） | `tools/pipeline/validate.py`（写时反幻觉过滤） | 已实现 |
+| 排版规范（CJK/边距/页数） | `render_manuscript`（YaHei、pandoc） | 已实现（MAR Layout 轴需 ≥300B page-aware 判题） |
+| 自演化基线规范（不允许回归） | Phase X `health_check` + `gate_coverage` + `baselines.json` | 规划（WS-C） |
+| 判题模型是 ≥300B 大模型 | `>>300B` conventions — DAS 默认 | 需 key/GPU（Phase D-3，`judge_model` 已记录实际判题模型） |
+
+关键原则：**要符合的规范 = 判题时挂哪条 rubric**。目前因判题模型是 `opencode/big-pickle`（free 权重方向性），DAS-16 判分为 *directional*（见 AGENTS 质量门）。
+
+### 3.0.5 Step 4 — 运行 + 看结果（CLI 或 web）
+
+```powershell
+# CLI：一条命令跑完 + 看报告
+& $PY -m tools.eval.bench_eval                        # 报告 _eval_out/bench_pilot_das.md
+# Web dashboard（WS-B，已实现）：触发/取消/SSe tail/dashboard/manuscripts/feedback
+& $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
+# 打开 http://127.0.0.1:8000/
+```
+
+### 3.0.6 Step 5 — 反馈 & 迭代（自演化入口）
+
+- `POST /feedback`（web）或直接追加 `_eval_out/feedback/feedback.jsonl` → 这是 Phase X E-5 的语料入口。
+- 迭代规则（Phase X 设计，见 `docs/design/self-evolution-mechanism.md`）：小改动跑 `health_check`（方差感知阈值，2σ=±0.5 FAIL）；结构改动跑 `gate_coverage`（≥20 变异全杀）；晋升征求 N≥3 轮、Δ≥2σ、mock/gold 无回归 + 换判题人复证（R 期）。
+
+---
 
 ## 3.1 Usage & demo walkthroughs / 用法与演示
 

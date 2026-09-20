@@ -11,3 +11,4 @@ __pycache__/
 # Regenerable eval run artifacts
 _eval_out/*.log
 _eval_out/pools_cache/
+_eval_out/web_runs/

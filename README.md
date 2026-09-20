@@ -115,5 +115,6 @@ $PY='C:\Users\data\miniconda3\envs\ds0509\python.exe'
 5. Self-evolution loop (baseline freeze + health check + weekly cadence) — `docs/PLAN.md §8 Phase X` & [`docs/design/self-evolution-mechanism.md`](docs/design/self-evolution-mechanism.md).
 6. Local web frontend (FastAPI + HTMX/SSE, `127.0.0.1`) as the observation surface for runs/health/feedback — `docs/PLAN.md §8 Phase F`; hand-run all commands from runbook §3.1 demos.
 7. Model routing (Phase D): zero-key `opencode` default; register any OpenAI-compatible API key (DeepSeek/Qwen/Kimi/OpenRouter) as a **strong judge lane** — variance P-A sd <0.40 target. Works with no key today.
+8. 📄 arXiv paper on this tool (outline now, full draft later): local-first, citation-mandatory survey pipeline + honest self-evaluation — [`docs/design/tool-paper-outline.md`](docs/design/tool-paper-outline.md).
 
 See `docs/PLAN.md §8` for measurable acceptance checks.
