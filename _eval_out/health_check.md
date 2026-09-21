@@ -1,16 +1,16 @@
 # Health check / 健康检查 (WS-C E-2)
 
-> Updated: 2026-09-20 · elapsed 6s · frozen subset = mock 34/34 + judge sanity ['P-A', 'P-B', 'P-C'] + pools re-scan + L6 gate coverage
-> Judge: skipped (--quick)  ·  thresholds: 2σ FAIL / 1σ WARN (σ per proxy from baselines.json)
-> Provenance (D-4): judge skipped (--quick)
+> Updated: 2026-09-20 · elapsed 88s · frozen subset = mock 34/34 + judge sanity ['P-A', 'P-B', 'P-C'] + pools re-scan + L6 gate coverage
+> Judge: opencode/big-pickle  ·  thresholds: 2σ FAIL / 1σ WARN (σ per proxy from baselines.json)
+> Provenance (D-4): [profile free-opencode] draft=opencode/big-pickle, qa=opencode/big-pickle, judge=opencode/big-pickle
 
 - **[PASS]** `mock` — mock 34/34 (baseline 34/0)
 - **[PASS]** `pools` — coverage 22/30 (full 14)
 - **[PASS]** `arxiv_probe` — reachable
 - **[PASS]** `gate_coverage` — 23/23 mutants killed (100%)
-- **[SKIP]** `judge:P-A` — no current score (skipped (--quick))
-- **[SKIP]** `judge:P-B` — no current score (skipped (--quick))
-- **[SKIP]** `judge:P-C` — no current score (skipped (--quick))
+- **[PASS]** `judge:P-A` — current 3.62 vs baseline 3.88 (σ=0.53) → Δ=0.26 = 0.5σ (FAIL≥2.0σ, WARN≥1.0σ)
+- **[PASS]** `judge:P-B` — current 3.31 vs baseline 3.31 (σ=0.1) → Δ=0.00 = 0.0σ (FAIL≥2.0σ, WARN≥1.0σ)
+- **[PASS]** `judge:P-C` — current 3.5 vs baseline 3.53 (σ=0.13) → Δ=0.03 = 0.2σ (FAIL≥2.0σ, WARN≥1.0σ)
 
 ## Baselines (frozen at freeze time)
 
