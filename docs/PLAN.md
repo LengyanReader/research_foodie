@@ -138,6 +138,8 @@ Kept in sync with the "Next:" lines at the top of each PROGRESS session entry.
 
 ## 8. Next-implementation plan (recorded 2026-09-20) / 后续实现规划
 
+> **更新（2026-09-22, Session 28）：** 论文交付顺序按用户钦定改为**大纲先行**——先调优 `docs/design/tool-paper-outline.md`（v2, 折入 S22–27），再建立大纲↔正文双向映射（大纲 §12），正文逐节同步（draft v2）。后续论文相关改动一律"大纲先、正文后、cadence 同步"。前端可访问地址：`http://127.0.0.1:8787/`（8000 被系统保留）。下一步 live 项（36-scenario 全量 / P-C drift watch / QA 重打分 / autoresearch 挂模型 lane）由用户从 Session 27 的 A–D 中单选。
+
 > 中文速览：本计划按**四条并行工作流（workstream）+ 各自的评估门**组织，而不是线性阶段——后端、前端、自演化可以同周开工，各自的验收各自可测（见下 Workstream map）：
 > - **WS-A 核心管道（Phase L）**：本地 ≈$0，现在可做——(L-1) S_write 检索重排（PaperQA2 RCS 轻量复刻）、(L-2) S_org 多视角分解（STORM 思想）、(L-3) 判题 median-of-3（压 judge 噪声，P-A ±0.53）、(L-4) 引用校验接线。评估门 = bench/variance 回归数字。
 > - **WS-B 前端与后端壳（Phase F）**：单机观测台 FastAPI + HTMX/SSE + 模型路由（WS-D 依赖的唯一接口是**稳定 CLI 入口 + `_eval_out/*.json`**，可与 WS-A 并行开工）。评估门 = F 项验收（SSE 实时进度 / 可取消 / 只读降级）。

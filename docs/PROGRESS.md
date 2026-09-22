@@ -2,8 +2,8 @@
 
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
-- `Updated`: 2026-09-20
-- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)** · **comparison + next-plan docs (Session 20)** · **self-evolution design + usage/demo runbook + web-frontend analysis (Session 21)** · **parallel-workstream re-plan + model-routing Phase D (Session 21b)** · **web frontend implemented + web-scoped usage flow + arXiv paper outline (Session 21c)** · **F-3 static export (Session 21d)** · **E-1/E-2 health check + D-1/D-2 model profiles + durable run resume (Session 21e)** · **WS-C self-evolution mechanism E-3/E-4/E-5 + L-6 one-command self-check + Phase L retrieval/judge strengthening L-1/L-2/L-3 + D-3 judge matrix (Session 22)** · **scheduled capability×benchmark report `capability_report` + 3-option base model (free-opencode/openai-compat/judge-strong, qwen3.8-flash redirect) + paper draft v1 (Session 23)** · **key-free hardening — opencode 401 root-cause + Qoder-endpoint probe + client fail-fast + deterministic §4.6 ablations + daily-cadence scheduler + paper Mermaid figures (Session 24)** · **D-5 deterministic key-hygiene audit + cadence wiring, guards 33→39 (Session 25)** · **OpenResearch-style parallel *autoresearch* orchestrator integrated model-free (`tools/pipeline/autoresearch.py`), guards 39→47 (Session 26)** · **free-model blocker resolved — full health check GREEN on `opencode/big-pickle` (Session 26b)** · **first live testing on the free lane — proxy trio 3.65 + fresh variance P-A stable/P-C −1.7σ flagged (Session 27)**)
+- `Updated`: 2026-09-22
+- `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)** · **comparison + next-plan docs (Session 20)** · **self-evolution design + usage/demo runbook + web-frontend analysis (Session 21)** · **parallel-workstream re-plan + model-routing Phase D (Session 21b)** · **web frontend implemented + web-scoped usage flow + arXiv paper outline (Session 21c)** · **F-3 static export (Session 21d)** · **E-1/E-2 health check + D-1/D-2 model profiles + durable run resume (Session 21e)** · **WS-C self-evolution mechanism E-3/E-4/E-5 + L-6 one-command self-check + Phase L retrieval/judge strengthening L-1/L-2/L-3 + D-3 judge matrix (Session 22)** · **scheduled capability×benchmark report `capability_report` + 3-option base model (free-opencode/openai-compat/judge-strong, qwen3.8-flash redirect) + paper draft v1 (Session 23)** · **key-free hardening — opencode 401 root-cause + Qoder-endpoint probe + client fail-fast + deterministic §4.6 ablations + daily-cadence scheduler + paper Mermaid figures (Session 24)** · **D-5 deterministic key-hygiene audit + cadence wiring, guards 33→39 (Session 25)** · **OpenResearch-style parallel *autoresearch* orchestrator integrated model-free (`tools/pipeline/autoresearch.py`), guards 39→47 (Session 26)** · **free-model blocker resolved — full health check GREEN on `opencode/big-pickle` (Session 26b)** · **first live testing on the free lane — proxy trio 3.65 + fresh variance P-A stable/P-C −1.7σ flagged (Session 27)** · **paper outline v2 (S22–27 folded in) + bidirectional outline↔draft map §12 + draft v2 per-section `(⇐ outline §X)` markers + web server live on 8787 (Session 28)**)
 
 ---
 
@@ -19,6 +19,29 @@
 3. **Provenance & guard state:** every artifact carries D-4 provenance (`judge_model: opencode/big-pickle`, temperature 0.0, profile `free-opencode`); resume ledger wrote each row crash-safely; health check stayed **GREEN (exit 0)** through the session.
 
 Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4, ≈3 h background) · **B.** P-C drift watch — 2-3 more variance rounds to confirm/narrow the 1.7σ (also gives the L-3 sd<0.40 target) · **C.** Track C QA panel subset re-score · **D.** `autoresearch` with a model-lane attached (real drafted surveys per direction). Paper §4 is a *living document* — refresh with whatever we produce.
+
+---
+
+## 2026-09-22 — Session 28: paper outline v2 tuning + bidirectional outline↔draft map + web server live (论文大纲调优 + 大纲↔正文联动 + 前端启动)
+
+**Why:** user answered Q1–Q4 and directed: (Q4) **论文必须"先调优大纲，再有论文内容的对应和联动"**；同时要求**打开前端自己看**。本会话按此顺序执行——大纲先行、映射其次、正文后同步；前端以可访问地址交付。
+
+1. **Frontend live** — `uvicorn tools.web.app:app` 默认 8000 被系统保留端口区占用（`winerror 10013`，WinHTTP 排除区冲突），改起在 **`http://127.0.0.1:8787/`**（PID 25752，GET `/` 200，len 5512）。会话前已探明路由：`/` · `/dashboard` · `/manuscripts` GET 200；`/runs` POST-only（GET 405 预期）；`/runs/{id}/resume|log|status|events|DELETE`、`/feedback` 全在——免费基座打通后 live SSE / cancel / resume 都可真实端到端测。
+2. **大纲 → v2（`docs/design/tool-paper-outline.md`）**——S22–27 成果全部折入：
+   - 状态改为 `Outline v2`（`as of 2026-09-22`）、新增 §12 双向映射表、lineage 改为 v2。
+   - §2 摘要六 beat 更新：health GREEN (exit 0)、**live trio Total 3.65**、P-C −1.7σ 单轮旗标、O* 并行编排。
+   - §4 贡献 **C1–C5**（C4=运行韧性 run-memory/key-hygiene/401 fail-fast; C5=诚实评测含单轮方差旗标）；问题陈述补第 (d) 韧性墙（S24–25 教训）。
+   - §6 系统设计补：**11→10 项**（新增 §6.5 run-memory resilience、§6.7 D-3 judge matrix、§6.10 D-4 provenance 独立项）；编排项记 `autoresearch` (S26) 与 E-1..E-5 全部标记 implemented（去掉 stale `[PLAN]`）。
+   - §7 评测刷新：7.1 mock/real 34/34 + self_check 15s；7.3 加 live trio 3.65 与 fresh variance；7.4 health GREEN 实测；7.5 live ~275–315s/篇、usage 已回传；7.6 消融 a/b/c 已完成（标注实测数字）、d 待 ≥300B。
+   - §8 局限 +1 条（第 6 条：free-base 单轮漂移 P-C −1.7σ 需 E-3 2–3 轮确认——正验证 median-of-N 必要性）；§9 结论 C1→C5；§11 roadmap 更新。
+3. **大纲↔正文 双向映射（大纲 §12）**——逐节列 `outline 节点 → draft 节`，规则：**大纲是主干，正文是展开；正文每节顶格标 `(⇐ outline §X)`；改大纲先、改正文后、cadence 同步**。新增 `§6.10 D-4 provenance` 入档保持对齐。
+4. **正文 → v2（`docs/paper/research-foodie-paper.md`）** 按调优后大纲联动：
+   - 每节加 `(⇐ outline §X)` 标记（Abstract→§2、Intro→§4、Related→§5、System→§6.x 逐节、Eval→§7.x 逐节、Discussion→§8、Conclusion→§9、References→§10）。
+   - §3 重排为 **3.1–3.10**：3.4 追加 `autoresearch` 并行 worker（O* 小节 `[TODO]`）、新 3.5 run-memory & resilience、3.6 L6 gate（23/23）、3.7 AI judge + D-3 judge_matrix、3.8 model access（三选项 + D-5 33→39）、3.9 provenance、3.10 self-evolution E-1..E-5。
+   - Abstract 与 §4 收 live trio **3.65 / P-A 4.31 / P-B 3.25 / P-C 3.38** + health GREEN + P-C −1.7σ flag；Eval 重排 4.1–4.6 使数字节号与大纲 §7.x 一一对应（4.3 并 16 轴 + 30 题电池 + live；4.4 self-evol；4.5 cost；4.6 ablations a/b/c 实测）。
+   - 内部交叉引用全量修正（§4.4/§4.5/§6.7/§13 等 stale 引用清零并复检）。
+
+**Verification:** 双文件 `rg` 交叉引用无 stale §-ref（§13→§12、§4.5→§4.4、§7→§4 header 均修正）；前端 `GET /` 200；`git status` 仅两份文档改动。**下一步（用户已确认顺序先做完）：36-scenario/QA/autoresearch 任一 live 选项由用户定，跑完回填 §4 living doc。**
 
 ---
 

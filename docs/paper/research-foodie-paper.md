@@ -1,8 +1,8 @@
 # Research Foodie: A Local-First, Cost-Sensitive, Citation-Mandatory Survey Pipeline with Evidence-Grounded Drafting and Honest Self-Evaluation
 
-> **中文速览** — 本文是 research_foodie 的论文**初稿（draft v1, 2026-09-20）**，由 `docs/design/tool-paper-outline.md` 大纲展开成文。所有实验数字均来自本仓库 `_eval_out/` 的本地免费模型实测（判题为非确定性模型，方向性）。本文件是**活文档**：§7 的每个数字都由 `python -m tools.eval.capability_report` 生成/复核（`_eval_out/capability_report.md`），随自演化周期更新。诚实性规则沿用 AGENTS.md：数字带 `as of` 日期、方向性结论标注、未一手复核的引用标 *unverified*。`[TODO]` = 待补实验/配图。
+> **中文速览** — 本文是 research_foodie 的论文**初稿（draft v2, 2026-09-22）**，由 `docs/design/tool-paper-outline.md` 大纲（v2）展开成文，逐节标注 `(⇐ outline §X)`，与大纲双向联动（大纲 §12 映射表）。所有实验数字均来自本仓库 `_eval_out/` 的本地免费模型实测（判题为非确定性模型，方向性）。本文件是**活文档**：§4 的每个数字都由 `python -m tools.eval.capability_report` 生成/复核（`_eval_out/capability_report.md`），随自演化周期更新。诚实性规则沿用 AGENTS.md：数字带 `as of` 日期、方向性结论标注、未一手复核的引用标 *unverified*。`[TODO]` = 待补实验/配图。
 
-- **Status:** Draft v1 — full spine + figures (`fig:architecture`, `fig:loop`, Mermaid) + deterministic §4.6 ablations (a/b/c) written; remaining: the live judge-swap ablation (d) + one-hand citation re-verification (both gated on a reachable model / deferred)
+- **Status:** Draft v2 — v1 spine kept; synced to outline v2: added C4/C5, run-resilience §3.5, autoresearch in §3.4, run-memory §3.5, judge matrix in §3.7, live trio numbers (2026-09-22), health GREEN. Remaining: live judge-swap (d), one-hand citation re-verification, worker `O*` subsection, cost/latency table.
 - **Target:** arXiv (cs.CL / cs.AI), applied-NLP / systems track
 - **Reproducibility:** every quantitative claim maps to a `docs/setup-runbook.md §3` command; regenerate the whole number set with the runbook + `capability_report`
 - **Data & code:** local-first; no API keys required for the ≈$0 core loop (hosted free model + free arXiv API + local MinerU parsing)
@@ -11,33 +11,40 @@
 
 ## Abstract
 
+*(⇐ outline §2)*
+
 LLM-assisted "deep research" tools now draft literature surveys at scale, but they remain
 opaque on two axes that matter most for scholarship: **factual grounding** (whether every
 factual claim can be traced to a specific source) and **reproducible evaluation** (whether
-the system knows, and honestly reports, when it gets worse). Reported citation-fabrication
-rates for frontier models are high — e.g. 78–90% for GPT-4o in the OpenScholar
-setting [12] — and quality is usually judged by a single non-deterministic call with no
-variance record, on paid cloud models that exclude low-resource users. We present
-**Research Foodie**, a local-first, cost-sensitive academic-survey pipeline that treats
-*per-claim verbatim grounding as a hard structural constraint* rather than a prompt
-request. Three mechanisms enforce it: a write-time anti-hallucination filter that drops
-un-grounded claims (5-gram overlap against the parsed source), a **deterministic L6 gate**
-that checks structure, citation form, grounding, and bilingual integrity with zero LLM
-calls, and a DAS-Bench-style 16-criterion AI judge layered on top. On top of generation we
-add a **self-evolution measurement loop** in which every "did this change help?" signal
-comes only from *external measurement* (mock regression, pool coverage, a mutation-tested
-gate, dependency-version drift) filtered through *variance-aware* thresholds, with
-human-gated promotion — the loop writes ledgers, never code. In ≈$0 CPU-only runs
-(hosted free model, temperature > 0) the pipeline passes **34/34 mock and 34/34 real**
-end-to-end tests on two third-party papers, answers an evidence-grounded QA panel
-(n = 31) at **correctness 4.23 / groundedness 4.45** — extractive factoid answering is
-essentially solved at **12/13**, while PubMedQA yes/no convergence sits at **8/14**, an
-explicitly reported model limit. On a 30-topic arbitrary-domain battery it covers
-**22/30** evidence pools and judges an end-to-end sample (n = 10) at Total **3.13**.
-We report judge noise (canonical trio P-A **3.88 ± 0.53**), coverage failures, and the
-boundary that a ≥ 300 B frozen judge would move but that we do not have keys for. The
-contribution is a demonstration that *auditable, ≈ $0, self-measuring* survey generation
-is constructible — and that its limits should be surfaced, not hidden.
+the system knows, and honestly reports, when it gets worse). A third operational axis —
+**resilience** — matters the moment such tools run unattended on zero budgets.
+Reported citation-fabrication rates for frontier models are high — e.g. 78–90% for GPT-4o
+in the OpenScholar setting [12] — and quality is usually judged by a single
+non-deterministic call with no variance record, on paid cloud models that exclude
+low-resource users. We present **Research Foodie**, a local-first, cost-sensitive
+academic-survey pipeline that treats *per-claim verbatim grounding as a hard structural
+constraint* rather than a prompt request. Three mechanisms enforce it: a write-time
+anti-hallucination filter that drops un-grounded claims (5-gram overlap against the parsed
+source), a **deterministic L6 gate** that checks structure, citation form, grounding, and
+bilingual integrity with zero LLM calls (hardened by a 23/23 mutation test), and a
+DAS-Bench-style 16-criterion AI judge layered on top. On top of generation we add a
+**self-evolution measurement loop** (ticket board, dependency ledger, anti-collapse gold
+quota) in which every "did this change help?" signal comes only from *external measurement*
+filtered through *variance-aware* thresholds, with human-gated promotion — the loop writes
+ledgers, never code. Runs are **resumable and auditable** (run-memory ledgers, fail-fast
+client, D-5 key-hygiene audit). In ≈$0 CPU-only runs (hosted free model, temperature > 0)
+the pipeline passes **34/34 mock and 34/34 real** end-to-end tests on two third-party
+papers; a 2026-09-22 health check is **GREEN (exit 0)**; evidence-grounded QA (n = 31)
+scores **correctness 4.23 / groundedness 4.45** with extractive factoid answering
+essentially solved at **12/13** while PubMedQA yes/no sits at **8/14**, an explicitly
+reported model limit. On a 30-topic arbitrary-domain battery it covers **22/30** evidence
+pools and judges an end-to-end sample (n = 10) at Total **3.13**; three live proxy surveys
+on the free base (as of 2026-09-22) reach **Total 3.65** (P-A 4.31 / P-B 3.25 / P-C 3.38).
+We report judge noise (canonical trio P-A **3.88 ± 0.53**), coverage failures, a
+single-round variance flag (−1.7σ, under confirmation), and the boundary that a
+≥ 300 B frozen judge would move but that we do not have keys for. The contribution is a
+demonstration that *auditable, ≈ $0, self-measuring, resumable* survey generation is
+constructible — and that its limits should be surfaced, not hidden.
 
 **Keywords:** survey generation · evidence grounding · hallucination prevention ·
 LLM evaluation · local-first · citation verification · DAS-Bench · self-evolution
@@ -45,6 +52,8 @@ LLM evaluation · local-first · citation verification · DAS-Bench · self-evol
 ---
 
 ## 1. Introduction
+
+*(⇐ outline §4)*
 
 The production of literature surveys has moved from a purely human craft to an
 agent-orchestrated pipeline. Systems such as OpenResearch/orx [1], STORM [2], PaperQA2 [3],
@@ -60,6 +69,12 @@ drafting. As capability has grown, two gaps have become the binding constraint o
    system *worse*. Meanwhile the barrier to entry (cloud models, GPUs) excludes the
    low-resource users who would most benefit from open tooling.
 
+A third, operational lesson emerged from running this pipeline on a zero-budget budget:
+long-running tools hit **resilience walls** before quality walls. A quota-blocked endpoint
+(HTTP 401) once froze runs silently; a power loss would have cost a multi-hour run its
+whole ledger. We therefore design for resumability and auditability up front
+(run-memory §3.5) rather than as an afterthought.
+
 **Our approach.** Research Foodie makes grounding a *structural* property. A factual claim
 that cannot be shown verbatim inside the source it cites never reaches the manuscript. On
 top of that floor we add honest self-measurement: a scheduled loop that detects regressions
@@ -68,25 +83,35 @@ from external signals only and never lets the system quietly edit itself.
 **Contributions.**
 
 - **C1 — Grounding as a first-class constraint.** A write-time 5-gram filter plus a
-  zero-LLM deterministic L6 gate plus a 16-criterion judge make "every claim is traceable"
-  an architectural invariant, not an aspiration (§6.5–6.6).
+  zero-LLM deterministic L6 gate (hardened by a 23/23 mutation test) plus a 16-criterion
+  judge make "every claim is traceable" an architectural invariant, not an aspiration
+  (§3.6, §4.4).
 - **C2 — A near-zero-cost, reproducible implementation.** The full vertical runs on a
   hosted *free* model, the free arXiv API, and local MinerU parsing on a CPU-only machine;
-  every stage has a one-line reproduction command (§7, `docs/setup-runbook.md`).
+  (as of 2026-09-22) three live proxy surveys complete end-to-end in ≈ 3–5 min/proxy on
+  the free base. Every stage has a one-line reproduction command (§4, `docs/setup-runbook.md`).
 - **C3 — A self-evolution measurement mechanism.** External-measurement-only triggers,
-  variance-aware thresholds, a frozen baseline, a mutation-tested gate, and human-gated
-  promotion turn "is the system better?" into a data question (§6.7).
-- **C4 — An honest evaluation protocol.** Judge noise, empty-pool failures, and the model's
-  decision limits are all reported explicitly; we never head-to-head against the published
-  DAS leaderboard we cannot reproduce (§7, §8).
+  variance-aware thresholds, a frozen baseline, a mutation-tested gate, an E-3 debug-ticket
+  board, an E-4 dependency ledger, and an E-5 anti-collapse real-gold quota turn "is the
+  system better?" into a data question (§3.10).
+- **C4 — Operational resilience.** Run-memory ledgers make runs resumable after an
+  interruption (fingerprint-based resume, atomic writes); a D-5 key-hygiene audit enforces
+  key hygiene; a fail-fast client turns quota errors into detectable verdicts instead of
+  silent hangs (§3.5, §3.8).
+- **C5 — An honest evaluation protocol.** Judge noise, empty-pool failures, the model's
+  decision limits, and a single-round variance flag (P-C −1.7σ, under E-3 confirmation) are
+  all reported explicitly; we never head-to-head against the published DAS leaderboard we
+  cannot reproduce (§4, §5). The free-base core loop measured ≈ $0.
 
 *Paper organization.* §2 positions the work; §3 describes the system; §4 reports evaluation;
-§5 discusses limitations; §6 concludes. *(Section numbering in this draft follows the
-outline's spine; final arXiv formatting TBD.)*
+§5 discusses limitations; §6 concludes. *(Section numbering follows the outline's spine;
+final arXiv formatting TBD.)*
 
 ---
 
 ## 2. Related Work
+
+*(⇐ outline §5)*
 
 We organize comparison along the evaluation axes the system itself uses.
 
@@ -111,7 +136,7 @@ We organize comparison along the evaluation axes the system itself uses.
 - **Self-evolution methodology:** GEPA/DSPy [15] (text-feedback optimization, up to ~35×
   cheaper than RL), Seddik [16] (anti-collapse / provenance floors), Huang [17]
   (measurement-driven optimization), Tyen [18] (LLM-as-judge noise). These motivate our
-  two design rules in §6.7.
+  two design rules in §3.10.
 
 **Research gap.** Existing systems are either *capable but expensive/ungrounded* or
 *grounded but not self-measuring*. To our knowledge no public implementation delivers
@@ -121,6 +146,8 @@ honestly self-evaluates with variance. That niche is ours.
 ---
 
 ## 3. System Design
+
+*(⇐ outline §6)*
 
 > `fig:architecture` — the L0–L6 layering over the LangGraph state machine, with the deterministic gate feeding back into drafting and the AI judge on top.
 
@@ -142,37 +169,58 @@ flowchart TD
 ```
 
 ### 3.1 Overview
+*(⇐ outline §6.1)*
 Six layers (L0 orchestration → L6 deterministic gate) over a LangGraph state machine. Two
 routing modes share the graph: a *survey* path and a `seed_id`-anchored *evidence-grounded
 QA* node (Track C). Model access is pluggable across three selectable base-model options
-(§3.7).
+(§3.8).
 
 ### 3.2 Discovery (L1)
+*(⇐ outline §6.2)*
 Three interchangeable rails — `seed | arxiv | orx` (`S_LIT_BACKEND`). The free arXiv API
 responds in ~1.1 s (measured 2026-09-16); the failure chain is `orx → arxiv → seed` so a
 run never dead-ends. Without a DAS-2M metadata lake (absent locally), pool precision is
-capped by arXiv relevance top-K — a measured property (§4.4).
+capped by arXiv relevance top-K — a measured property (§4.3).
 
 ### 3.3 Evidence & parsing (L2)
+*(⇐ outline §6.3)*
 MinerU converts PDF→Markdown in windowed mode (≤ 6 pages/window) to dodge a known
 long-document flake; `resolved_evidence()` assembles a multi-paper evidence pool.
 
 ### 3.4 Orchestration (L3–L5)
+*(⇐ outline §6.4)*
 Per-paper grounded claims (each tagged with its `paper_id`), STORM-style outline, per-section
 grounded writing, and a `_finalize` step emitting Abstract / Evidence Table / References /
-audit annex.
+audit annex. A parallel `autoresearch` worker (S26) forks independent per-direction
+sub-graphs in isolated worktrees that join on the evidence pool — model-agnostic, aligned
+with orx-style agent parallelism while keeping the deterministic LangGraph path and gates
+intact. *(worker subsection `O*`: `[TODO]` expand with worktree merge rules.)*
 
-### 3.5 Deterministic gate (L6, zero-LLM)
+### 3.5 Run-memory & resilience
+*(⇐ outline §6.5)*
+Every run writes a ledger under `_eval_out/ledgers/` (atomic writes). A fingerprint
+(profile + inputs) enables **resumability**: an interrupted run picks up from its last
+completed step, with `--no-resume` forcing a clean rerun. A `fail-fast` client converts a
+missing key or quota error (HTTP 401) into a hard, detectable verdict rather than a silent
+hang — the 401 was root-caused to a server-side quota block, not a client defect.
+
+### 3.6 Deterministic gate (L6, zero-LLM)
+*(⇐ outline §6.6)*
 `validate.py` checks structure, citation form (arXiv/DOI), **5-gram verbatim grounding**,
 bilingual integrity, and multi-paper presence. Claims failing grounding are dropped at write
 time. We harden the gate with a **mutation test** (23 hand-built mutants, 100 % kill) so a
-regression in the gate — not just in the draft — is caught (§4.5, E-2b).
+regression in the gate — not just in the draft — is caught (§4.4, E-2b).
 
-### 3.6 AI judge gate
+### 3.7 AI judge gate
+*(⇐ outline §6.7)*
 A DAS-Bench 16-criterion rubric (BSC · MAR · TSQ · HDQ, verbatim from the protocol).
-Every score is provenance-stamped with the actual `judge_model` and temperature (§3.8).
+Every score is provenance-stamped with the actual `judge_model` and temperature (§3.9).
+A `judge_matrix` harness (D-3) scores the same manuscript across axes × repeated draws and
+reports the **median of N** — the variance-reduction primitive the self-evolution loop's
+thresholds are calibrated in (§4.6c).
 
-### 3.7 Model access & routing (WS-D, Phase D)
+### 3.8 Model access & routing (WS-D, Phase D)
+*(⇐ outline §6.9)*
 Role-level *profiles* resolve which model runs which lane (draft | qa | judge). Three
 selectable options, chosen by env var — no keys ever in code or the repo:
 
@@ -184,14 +232,17 @@ selectable options, chosen by env var — no keys ever in code or the repo:
   DAS convention that drafting stays free even under a paid judge.
 
 An unknown profile or missing key fails loudly (never a silent fallback). This is verified by
-`tools/eval/test_capability.py`.
+`tools/eval/test_capability.py`. A D-5 key-hygiene audit (S25) raised the guard count
+33 → 39: no keys in tracked files, env-only surface, no accidental leak patterns.
 
-### 3.8 Provenance (D-4)
+### 3.9 Provenance (D-4)
+*(⇐ outline §6.10)*
 Every report (bench, health, sprint, judge matrix, capability snapshot) carries model,
 `judge_model`, temperature, profile, and an `as of` timestamp, so a number can always be
 traced to the run that produced it.
 
-### 3.9 Self-evolution (WS-C, Phase X)
+### 3.10 Self-evolution (WS-C, Phase X)
+*(⇐ outline §6.8)*
 A four-phase acquisition→refinement→updating→evaluation cycle (Tao [need ref id]; cf. the
 blueprint) built on **two enforced rules**: (i) a trigger may come *only* from external
 measurement — never model self-assessment (Huang [17], Tyen [18]); (ii) every signal passes a
@@ -220,18 +271,23 @@ flowchart LR
 
 ## 4. Evaluation
 
-> All figures `as of 2026-09-19/20`, from `_eval_out/`, produced by a non-deterministic
-> free judge (temperature > 0 → noisy; treat as directional). Regenerate/refresh the whole
-> table with `python -m tools.eval.capability_report` (writes
-> `_eval_out/capability_report.md`).
+*(⇐ outline §7)*
+
+> All figures `as of 2026-09-19/20` (updated 2026-09-22 with live free-base runs), from
+> `_eval_out/`, produced by a non-deterministic free judge (temperature > 0 → noisy; treat
+> as directional). Regenerate/refresh the whole table with
+> `python -m tools.eval.capability_report` (writes `_eval_out/capability_report.md`).
 
 ### 4.1 Vertical correctness (pipeline tests)
+*(⇐ outline §7.1)*
 Deterministic L6 gate + multi-paper grounding: **mock 34/34 · real 34/34** (real = two
 third-party papers, Liang 2304.02819 and Weber-Wulff 2306.15666, full loop), with verbatim
 quotes, normalized `arXiv:` citations, and validation score 1.0 regardless of which model
-drafts. Full P-A loop latency 121.7 s on the free hosted model.
+drafts. Full P-A loop latency 121.7 s on the free hosted model. `self_check.ps1` runs the
+whole offline net in ~15 s.
 
 ### 4.2 Evidence-grounded QA (Track C)
+*(⇐ outline §7.2)*
 
 | subset | n | correctness | groundedness | pass |
 |---|---|---|---|---|
@@ -244,29 +300,47 @@ drafts. Full P-A loop latency 121.7 s on the free hosted model.
 Extractive factoid answering is essentially solved; PubMedQA **yes/no conclusion
 convergence (8/14)** is an honestly-reported model limit, not a harness bug.
 
-### 4.3 16-criterion judge — canonical trio & variance
-P-A **3.88 ± 0.53** · P-B **3.31 ± 0.00** · P-C **3.53 ± 0.13** (2 fresh runs each). The ± is
-the point: we report the spread, and the self-evolution loop's FAIL threshold is defined in
-σ units of exactly this spread (§4.5).
+### 4.3 16-criterion judge — canonical trio, 30-topic battery & live proxy runs
+*(⇐ outline §7.3)*
+Frozen baseline (the variance the system is calibrated against): P-A **3.88 ± 0.53** ·
+P-B **3.31 ± 0.00** · P-C **3.53 ± 0.13** (2 fresh runs each). The ± is the point: we
+report the spread, and the self-evolution loop's FAIL threshold is defined in σ units of
+exactly this spread (§4.4).
 
-### 4.4 30-topic arbitrary-domain battery
-Pool build **22/30** covered (14 full 3-paper pools; **8 empty** = arXiv relevance + parse
-caps). End-to-end judged sample (n = 10) Total **3.13** (BSC 3.08 · MAR 2.67 · TSQ 3.05 ·
-HDQ 3.73). HDQ confirms synthesis; MAR 2.67 is dragged by 1-paper pools and the text-only
-artifact (no rendered-page scoring — a ≥ 300 B page-aware judge is the known blocker).
+**30-topic arbitrary-domain battery.** Pool build **22/30** covered (14 full 3-paper pools;
+**8 empty** = arXiv relevance + parse caps). End-to-end judged sample (n = 10) Total
+**3.13** (BSC 3.08 · MAR 2.67 · TSQ 3.05 · HDQ 3.73). HDQ confirms synthesis; MAR 2.67 is
+dragged by 1-paper pools and the text-only artifact (no rendered-page scoring — a
+≥ 300 B page-aware judge is the known blocker).
 
-### 4.5 Self-evolution measurement (Phase X, design verified)
+**Live free-base runs (as of 2026-09-22)** — the first full end-to-end proxy surveys
+actually executed on the free base after the quota-block was cleared: P-A **4.31** ·
+P-B **3.25** · P-C **3.38** → family **Total 3.65** (BSC 3.83 · MAR 2.92 · TSQ 3.58 ·
+HDQ 4.25). All three passed the L6 gate (1.00) and covered 16/16 DAS criteria;
+≈ 275–315 s per proxy (3-paper pools) → a full 36-scenario battery ≈ 2.5–3 h.
+
+### 4.4 Self-evolution measurement (Phase X, design verified)
+*(⇐ outline §7.4)*
 The mutation-tested gate kills **23/23** mutants (100 %), so gate regressions are detected
-independently of draft quality. `tools/eval/test_evolution.py` (31 assertions) and
-`tools/eval/test_capability.py` (22 assertions) prove ticket open/feed/close, promotion
-verdicts, gold-quota floor, dep-drift classification, and the config layer — all deterministically,
-zero-network, temp-isolated. Two consecutive `--quick` cadences render GREEN with a clear
-board; the L-6 `self_check.ps1` runs the whole offline net in ~15 s.
+independently of draft quality. The 2026-09-22 health check is **GREEN (exit 0)**: mock
+34/34 · pools 22/30 (14 full) · arXiv probe reachable · gate_coverage 23/23 · live judge
+sanity on cached manuscripts all PASS. `tools/eval/test_evolution.py` (31 assertions) and
+`tools/eval/test_capability.py` (47 assertions) prove ticket open/feed/close, promotion
+verdicts, gold-quota floor, dep-drift classification, and the config layer — all
+deterministically, zero-network, temp-isolated. Two consecutive `--quick` cadences render
+GREEN with a clear board; the L-6 `self_check.ps1` runs the whole offline net in ~15 s.
+
+### 4.5 Cost & latency
+*(⇐ outline §7.5)*
+Core loop ≈ $0. `[TODO]` a formal token / API-call / wall-clock table (usage fields started
+coming back in Session 27, so the ledger can now budget it). Live proxy latency
+≈ 275–315 s/proxy (§4.3) on a CPU-only machine.
 
 ### 4.6 Ablations
+*(⇐ outline §7.6)*
 Three of four ablations are **deterministic and model-free** (`python -m tools.eval.ablations`
 → `_eval_out/ablations.md`), isolating the system's contribution from the non-deterministic
-judge; the fourth (live judge swap) is gated on a reachable model and deferred (§5).
+judge; the fourth (live judge swap) is gated on a ≥ 300 B key (§5).
 
 **(a) Grounding gate ON vs OFF.** On a fixed fixture — 8 un-grounded candidates (contiguity-
 broken gap-1 + fabricated) and 5 grounded controls — the L6 5-gram gate drives draft-leakage
@@ -281,20 +355,23 @@ those topics), reported rather than padded.
 **(c) Median-of-N robustness.** Recorded repeat judge runs show small per-topic Total spread
 (P-A 0.75, P-B 0.00, P-C 0.19; mean ≈ 0.31 pts), a single draw landing within ~0.4 of the
 median; reporting the **median of N** damps this, and E-5 promotion further needs Δ ≥ 2σ over
-N ≥ 3 rounds before any change.
+N ≥ 3 rounds before any change. This is live: a fresh variance round (2026-09-22) landed
+P-A 3.875 (0.0σ), P-B 3.438 (+1.3σ), P-C 3.31 (**−1.7σ, flagged**) — the flag sits under
+the E-3 2–3-round confirmation bar, exactly as designed.
 
 **(d) Live judge swap (free vs ≥ 300 B) → score compression** — the D-3 `judge_matrix` harness
-is implemented and mock-verified; the live run is gated on a non-credit-blocked judge, deferred.
-
-### 4.7 Cost & latency
-Core loop ≈ $0. `[TODO]` a formal token / API-call / wall-clock table.
+is implemented and mock-verified; the live run is gated on a ≥ 300 B judge key, deferred.
 
 ---
 
 ## 5. Discussion & Limitations
 
+*(⇐ outline §8)*
+
 The three gates complement rather than replace human review: the positioning is
 anti-fabrication and noise reduction, **not** auto-publication (stated in README/AGENTS).
+Likewise the self-evolution loop (E-3–E-5) writes ledgers only — it never edits code or
+commits; promotion is a human-gated eligibility flag.
 
 Honest limitation list:
 1. Judge is a free non-deterministic model; MAR/Layout needs a ≥ 300 B page-aware judge (blocked on keys/GPU).
@@ -302,6 +379,9 @@ Honest limitation list:
 3. PubMedQA yes/no 8/14 is a model boundary.
 4. Single CPU-only machine; no metadata lake, no GAIA batch (HF gating).
 5. Self-evolution Phase-X E-7 (automated DSPy/GEPA prompt evolution + judge-vantage swap) remains a planning item gated on a strong reflection LM.
+6. Free-base single-round judge drift exists (P-C −1.7σ flagged, 2026-09-22) — under the
+   E-3 two-to-three-round confirmation bar; this is the variance the median-of-N design is
+   calibrated for, reported rather than smoothed away.
 
 **Takeaway for the community:** cost, grounding, and auditability can be satisfied together,
 at least in part — by making mandatory provenance a *structural* constraint (write-time
@@ -311,15 +391,22 @@ filter + deterministic gate) instead of a prompt instruction.
 
 ## 6. Conclusion
 
+*(⇐ outline §9)*
+
 We presented Research Foodie: an auditable, ≈ $0, self-measuring survey pipeline that makes
-per-claim verbatim grounding an architectural invariant and reports its own variance and
-failures. Its limits — the judge model, evidence-pool coverage — are surfaced explicitly.
-Future work: a ≥ 300 B frozen judge, the DAS-2M pool, GAIA, a Chinese evidence layer, and
-R-phase automated prompt evolution feeding the (still human-gated) promotion rule.
+per-claim verbatim grounding an architectural invariant, is resumable and auditable at the
+ledger level (C4), and reports its own variance and failures honestly (as of 2026-09-22 it
+runs the free base end-to-end, Total 3.65 on the live trio). Its limits — the judge model,
+evidence-pool coverage, single-round variance — are surfaced explicitly.
+Future work: a ≥ 300 B frozen judge, the DAS-2M pool, GAIA, a Chinese evidence layer,
+R-phase automated prompt evolution feeding the (still human-gated) promotion rule, and a
+full 36-scenario live battery to firm up §4.3.
 
 ---
 
 ## References (IEEE-style, draft)
+
+*(⇐ outline §10)*
 
 > From this repo's verified sources (PROGRESS U/LEDGER lines, TOOL-COMPARISON). Accessed
 > 2026-09-20. *unverified* marks entries needing one-hand re-check before publication; run
@@ -348,8 +435,11 @@ R-phase automated prompt evolution feeding the (still human-gated) promotion rul
 
 ---
 
-*Lineage: draft v1 authored 2026-09-20 from `docs/design/tool-paper-outline.md` +
-`docs/CAPABILITY-STATUS.md` + `_eval_out/` measured artifacts. Living document: §4 numbers
-are refreshed/verified by `python -m tools.eval.capability_report`; keep the outline
-(`docs/design/tool-paper-outline.md`) and this draft in step as the self-evolution cadence
-records new measurements.*
+*Lineage: draft v1 authored 2026-09-20 from `docs/design/tool-paper-outline.md` v1 +
+`docs/CAPABILITY-STATUS.md` + `_eval_out/` measured artifacts; **v2 (2026-09-22) synced to
+outline v2** — added `(⇐ outline §X)` markers per section, C4 (resilience) / C5 (honesty)
+contributions, run-memory §3.5, autoresearch §3.4, judge matrix §3.7, D-5 key hygiene §3.8,
+live free-base trio §4.3 (Total 3.65) and health GREEN §4.4; §12 in the outline is the
+bidirectional map to keep both in step. Living document: §4 numbers are refreshed/verified
+by `python -m tools.eval.capability_report`; keep the outline `docs/design/tool-paper-outline.md`
+and this draft in step as the self-evolution cadence records new measurements.*
