@@ -45,7 +45,26 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 ---
 
-## 2026-09-22 — Session 26b: free-model blocker resolved — full health check GREEN on opencode/big-pickle (基座可测)
+## 2026-09-22 — Session 29: interactive demo entry point + tool-survey in paper (可演示页面 · 论文补工具综述)
+
+**Why:** user gave three directives: (1) **首个可演示页面**——表现"工具能做什么"，先 mock、但要明确标注真实/模拟；(2) **性能持续调优**；(3) **论文大纲与内容要涉及相关工具综述与本工具的比较**。本会话按三点交付。
+
+1. **可演示页面（真实入口，标注 MOCK/REAL）**：
+   - 新 CLI 驱动 `tools/pipeline/run_survey.py`——接受自由文本 `--question`，跑 discovery→evidence→S_lit→S_org→S_write→L6→P3 judge 全流程；逐阶段 flush `[survey]` 进度（SSE 直播可见、非冻结）；产出 Markdown+PDF 手稿到 `_eval_out/manuscripts/`；结尾打 `[survey-result]` JSON 供前端渲染手稿/PDF 链接。
+   - `--mock` 模式：确定性离线（复用 mock 服务器），~1 s，输出隔离到 `_eval_out/mock_manuscripts/`，首行即 `MODE: MOCK`，run-card 显式标 **MOCK demo**（`NOT a live result`）；`--real` 默认显式标 **REAL run**。虚线原则：demo 永不冒充真跑。
+   - Web `/` 页顶部新增 **"Try it — answer a research question"**：文本输入 + **Mock(demo)/Real(live)** 单选（各自注明耗时与温度语义）；后端 `_run_card` 解析 `[survey-result]` 显示 question / L6 gate / judge / claims / papers / elapsed + manuscript+PDF 链接（`/manuscripts/*` 现同时服务托管 mock 与 real 两个目录）。
+   - 实测：mock 端到端 **1.3s、L6 pass、judge pass 5.0、四检查全 OK**，web POST→done 后 run-card 正确呈现 MOCK demo 徽标与手稿/PDF 链接（md 200 / pdf 200）。
+2. **性能（本次第一轮，持续迭代）**：
+   - `_TimedPipeline`：包装每个图节点打印 per-node 壁钟（lit/org/write/review/finalize/gate/judge）——定位热点（真实 run 的 362s 中大头是哪些 LLM 调用），是后续每轮优化的第一手测量。
+   - `--fast`：revisions 上限 1（跳过 revise_para 循环），供演示/夜间批处理快速出稿。
+   - 真实单篇 362s 基线已记录（free lane）；下一轮按节点耗时施计（如 BM25 窗口长度、max_revisions 预算、判题视图 ≤40K 字符）。
+3. **论文补工具综述 + 比较（对应请求 3）**：
+   - 大纲 `docs/design/tool-paper-outline.md` §5 增 **§5.1 工具综述对照表 `tab:tools`**（所列列: system | grounding | eval/judge | budget posture | relation to ours，末行 **Ours** ≈$0 CPU-only 强制溯源生态位），并同步 §12 映射行。
+   - 正文 `docs/paper/research-foodie-paper.md` §2 拆出 **§2.1 工具综述**（四桶: outline+retrieval 写手 / agentic deep research / retrieval+cite-verify QA / 评测与解析层）与 **§2.2 comparison table 含 "Research Foodie (ours)" 行**；status 与 lineage 记录本次增补。
+
+**Verification:** `run_survey --mock` 退出码 0、手稿/PDF 均生成；app.py ast 解析 OK；web 全链路 POST→SSE→done→run-card（MOCK demo 徽标 + 链接）实测通过；大纲/正文双文件交叉引用已同步。**下一步(按顺序)：** (a) per-node 计时跑一次真实单篇确认热点；(b) 36-scenario/night 批处理用 `--fast` 折半时间；(c) 前端加 read-only 静态导出（F-3 已有 CLI，未接线到这次新入口）。
+
+---
 
 **Why:** user asked to (a) check overall progress and (b) evaluate whether the **opencode free model (`opencode/big-pickle`) can now be the base model for testing** — i.e. is the live path unblocked? Session 24 had root-caused an HTTP 401 "No payment method" (CreditsError) on the opencode hosted "zen" gateway and left the model lane *deferred*; this session re-verified the live path.
 

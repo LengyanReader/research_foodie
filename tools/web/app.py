@@ -29,6 +29,7 @@ from .run_manager import manager, REPO_ROOT
 WEB_DIR = Path(__file__).resolve().parent
 EVAL_OUT = REPO_ROOT / "_eval_out"
 MANUSCRIPTS = EVAL_OUT / "manuscripts"
+MOCK_MANUSCRIPTS = EVAL_OUT / "mock_manuscripts"
 
 app = FastAPI(title="research_foodie — local observation dashboard", version="0.1.0")
 app.mount("/static", StaticFiles(directory=WEB_DIR / "static"), name="static")
@@ -99,9 +100,11 @@ def _pools_summary() -> dict:
 
 
 def _manuscript_list() -> List[Path]:
-    if not MANUSCRIPTS.is_dir():
-        return []
-    return sorted(MANUSCRIPTS.glob("*.pdf"))
+    out = []
+    for d in (MANUSCRIPTS, MOCK_MANUSCRIPTS):
+        if d.is_dir():
+            out.extend(sorted(d.glob("*.pdf")))
+    return out
 
 
 def _scenario_menu() -> List[dict]:
@@ -126,6 +129,17 @@ def _scenario_menu() -> List[dict]:
     ]
 
 
+def _survey_summary(run) -> Optional[dict]:
+    """Parse the `[survey-result]` JSON line written by run_survey, if any."""
+    for ln in reversed(run.lines):
+        if ln.startswith("[survey-result] "):
+            try:
+                return json.loads(ln[len("[survey-result] "):].strip())
+            except Exception:
+                return None
+    return None
+
+
 def _run_card(run) -> str:
     """HTML card for one run (list page)."""
     from tools.eval.run_ledger import ResumeLedger
@@ -134,6 +148,25 @@ def _run_card(run) -> str:
         "failed": 'fail', "cancelled": 'cancel', "interrupted": 'cancel',
     }.get(run.status, 'muted')
     logf = f'<a class="muted" href="/runs/{run.id}/log" target="_blank">log</a>'
+    greeting = ''
+    survey = _survey_summary(run)
+    if survey:
+        mode = survey.get("mode", "real")
+        badge_cls = "ok" if survey.get("gate_passed") else "fail"
+        mode_badge = (f'<span class="badge {"muted" if mode == "mock" else "run"}">'
+                      f'{"MOCK demo" if mode == "mock" else "REAL run"}</span>')
+        links = []
+        if survey.get("manuscript"):
+            links.append(f'<a href="/manuscripts/{Path(survey["manuscript"]).name}">manuscript</a>')
+        if survey.get("pdf"):
+            links.append(f'<a href="/manuscripts/{Path(survey["pdf"]).name}">pdf</a>')
+        links_html = " · ".join(links) if links else ""
+        greeting = (f'<br><span class="muted">question:</span> <em>{survey.get("question", "")}</em><br>'
+                    f'{mode_badge} '
+                    f'L6 gate <span class="badge {badge_cls}">{"pass" if survey.get("gate_passed") else "fail"}</span> '
+                    f'judge={survey.get("judge_label")} · {survey.get("claims", 0)} claims · '
+                    f'{survey.get("n_papers_cited", 0)} papers cited · {survey.get("elapsed_s", 0)}s'
+                    + (f' · {links_html}' if links_html else ""))
     # ledger progress for bench_eval / variance_run (they persist per-row state)
     progress = ""
     for mod, argv in (("tools.eval.bench_eval", r"bench_eval"),
@@ -156,6 +189,7 @@ def _run_card(run) -> str:
             f'<span class="mono muted">{run.id}</span> {logf} {progress}<br>'
             f'<span class="muted mono">{run.elapsed:.0f}s</span> · '
             f'rc={run.returncode} · {len(run.lines)} lines<br>'
+            f'{greeting}'
             f'{resume}'
             f'<span class="muted mono">{" ".join(run.cmd)}</span></div>')
 
@@ -191,6 +225,33 @@ this page is only a trigger + live tail. Profile (D): judge lane model, if set, 
 Run memory: an interrupted run can be <b>Resume</b>d after a crash/restart — the CLI driver picks up its
 on-disk ledger and continues from the last completed row (no re-pay from scratch).
 </p>
+<h2>Try it — answer a research question</h2>
+<div class="run-card" style="background:#fafafa">
+  <form onsubmit="return false">
+    <label class="muted"><strong>Research question</strong> (what the survey should answer):</label><br>
+    <input id="q" type="text" size="80" style="width:90%;padding:6px;font-size:14px"
+           placeholder="e.g. GPT detectors bias against non-native English writers"
+           list="q-examples">
+    <datalist id="q-examples">
+      <option value="GPT detectors bias against non-native English writers">
+      <option value="RAG evaluation needs human judgement">
+    </datalist>
+    <br>
+    <label style="display:inline-block;margin-top:8px">
+      <input type="radio" name="mode" value="mock" checked> <strong>Mock demo</strong>
+      <span class="muted badge">deterministic offline · ~1 s · repeatable · <u>NOT a live result</u></span>
+    </label>
+    <label style="display:inline-block;margin-left:18px">
+      <input type="radio" name="mode" value="real"> <strong>Real run</strong>
+      <span class="muted badge">live free model lane · ~5–8 min · directional (temperature &gt; 0)</span>
+    </label>
+    <br>
+    <button class="btn" onclick="startQuestion()">Run survey</button>
+    <span class="muted" id="q-msg"></span>
+    <p class="muted">The run card below marks every result <b>MOCK demo</b> vs <b>REAL run</b> and links the
+    manuscript + PDF once the pipeline finishes.</p>
+  </form>
+</div>
 <div><strong>Model lane (Phase D):</strong> <code>{_env_profile()}</code></div>
 <div style="margin:12px 0">{menu_html}</div>
 <h2>Live tail (SSE)</h2>
@@ -220,6 +281,21 @@ async function startRun(id){{
   const resp = await fetch('/runs', {{method:'POST', headers:{{'Content-Type':'application/json'}},
     body: JSON.stringify({{title:id, args}})}});
   const data = await resp.json();
+  if (data.error){{ alert(data.error); return; }}
+  attachSSE(data.id);
+}}
+async function startQuestion(){{
+  const question = document.getElementById('q').value.trim();
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  let msg = document.getElementById('q-msg');
+  if (!question){{ msg.textContent = 'type a research question first'; return; }}
+  const args = ['-m', 'tools.pipeline.run_survey', '--question', question];
+  if (mode === 'mock') args.push('--mock');
+  msg.textContent = (mode === 'mock' ? 'mock demo' : 'real run') + ' started — tail below…';
+  const resp = await fetch('/runs', {{method:'POST', headers:{{'Content-Type':'application/json'}},
+    body: JSON.stringify({{title: 'survey (' + mode + ')', args}})}});
+  const data = await resp.json();
+  if (data.error){{ msg.textContent = data.error; return; }}
   attachSSE(data.id);
 }}
 async function resumeRun(id){{
@@ -355,10 +431,12 @@ def manuscripts_page():
 
 @app.get("/manuscripts/{name}")
 def manuscript_file(name: str):
-    path = MANUSCRIPTS / name
-    if not path.is_file():
-        return JSONResponse({"error": "not found"}, status_code=404)
-    return FileResponse(path, media_type="application/pdf", filename=name)
+    for d in (MANUSCRIPTS, MOCK_MANUSCRIPTS):
+        path = d / name
+        if path.is_file():
+            media = "application/pdf" if path.suffix.lower() == ".pdf" else "text/markdown"
+            return FileResponse(path, media_type=media, filename=name)
+    return JSONResponse({"error": "not found"}, status_code=404)
 
 
 @app.get("/feedback", response_class=HTMLResponse)

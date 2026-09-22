@@ -222,7 +222,14 @@ $env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动�
 ```powershell
 # CLI：一条命令跑完 + 看报告
 & $PY -m tools.eval.bench_eval                        # 报告 _eval_out/bench_pilot_das.md
+# 调研一个问题（用户入口）：全程接地综述 → Markdown + PDF 手稿
+& $PY -X utf8 -m tools.pipeline.run_survey --question "GPT detectors bias against non-native writers"
+#    --mock  确定性离线 demo（~1 s，输出 _eval_out/mock_manuscripts/，明确标注 MOCK）
+#    --fast  性能档：单遍写作（revisions 上限为 1）——演示/夜间批处理更快出稿
+#    --backend arxiv  指定发现 rail
+# 手稿/PDF 落在 _eval_out/manuscripts/<slug>.{md,pdf}；log 打印 per-node 计时，便于性能调优
 # Web dashboard（WS-B，已实现）：触发/取消/SSE tail/dashboard/manuscripts/feedback
+#   Runs 页顶部新增"Try it — answer a research question"输入框 + Mock/Real 切换（明确标注）
 & $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
 # 打开 http://127.0.0.1:8000/
 ```

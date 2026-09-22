@@ -62,6 +62,20 @@
 - **GEPA/DSPy** [15]、**Seddik** [16]、**Huang** [17]、**Tyen** [18] —— Self-Evolution 方法学（外部触发、防坍缩、评估噪音）。
 - **空缺（research gap）**：现有系统或强能力（云/昂贵）或弱接地；**没有一套在 ≈$0、CPU-only、强制源码下达到可审计质量且自评"带噪声地诚实"** 的公开实现 —— 这是本文生态位。
 
+**5.1 工具综述对照表（system survey table）** — 成稿配 `tab:tools`，列为：系统 | 接地机制（grounding）| 判题 / 评测 | 预算·硬件姿态 | 与本文关系：
+
+| System [n] | Grounding mechanism | Evaluation / judge | Budget posture | Relation to ours |
+|---|---|---|---|---|
+| STORM [2] | none mandatory | none | cloud LLM | borrow perspective-outline; we add hard gate |
+| OpenResearch/orx [1] | alphaXiv full-text retrieval; no per-claim commit | none reported | agentic, cloud | borrow discovery rail; keep deterministic path |
+| PaperQA2 [3] | claim + verbatim quote + cite-verify + retraction check | LitQA2 | paid models | borrow evidence style |
+| DAS-Bench [4] | n/a (benchmark) | 16-axis frozen ≥300B rubric | eval harness | adopt rubric verbatim; judge self-implemented (directional) |
+| Tongyi DeepResearch [13] | n/a¹ | n/a¹ | open (Apache-2.0) | hallucination-prone anchor |
+| OpenScholar [12] | n/a¹ | n/a¹ | cloud frontier | GPT-4o 78–90% fabricated cites anchor |
+| **Ours** | write-time 5-gram filter + zero-LLM L6 gate (mutation-tested 23/23) + 16-axis judge on top | DAS-Bench 16 axes; L6 1.00; mock/real 34/34; live trio 3.65 | **≈$0, CPU-only, free hosted model** | the ≈$0 + mandatory provenance + self-measuring niche |
+
+> ¹ 以原始论文/公开评测为准，未在本仓库逐条复跑（见 §12 诚实边界）。
+
 ## 6. System Design / 系统设计
 
 > 大纲即"系统说明书压缩版"；成稿时配图 `fig:architecture`（L0–L6 分层 + 状态机）+ `fig:loop`（自演化循环）。
@@ -157,7 +171,7 @@
 | §2 Abstract | Draft `Abstract` | ✓ synced (v2) |
 | §3 Keywords | Draft `Keywords` | 一致 |
 | §4 Intro (bg/problem/approach) | Draft `§1 Introduction` | ✓ synced: resilience problem + C4/C5 |
-| §5 Related Work | Draft `§2 Related Work` | ✓ marker added; angle slotted (minor) |
+| §5 Related Work (§5.1 `tab:tools` survey + comparison) | Draft `§2 Related Work` (§2.1 survey · §2.2 comparison w/ ours row) | ✓ markers; table mirrored both sides (2026-09-22) |
 | §6.1–6.3 Overview/Discovery/Evidence | Draft `§3.1–3.3` | 一致 |
 | §6.4 Orchestration (+autoresearch) | Draft `§3.4` (+`O*` worker) | ✓ autoresearch paragraph; `O*` subsection `[TODO]` |
 | §6.5 Run-resilience | Draft `§3.5` | ✓ run-memory subsection |

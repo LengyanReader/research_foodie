@@ -2,7 +2,7 @@
 
 > **中文速览** — 本文是 research_foodie 的论文**初稿（draft v2, 2026-09-22）**，由 `docs/design/tool-paper-outline.md` 大纲（v2）展开成文，逐节标注 `(⇐ outline §X)`，与大纲双向联动（大纲 §12 映射表）。所有实验数字均来自本仓库 `_eval_out/` 的本地免费模型实测（判题为非确定性模型，方向性）。本文件是**活文档**：§4 的每个数字都由 `python -m tools.eval.capability_report` 生成/复核（`_eval_out/capability_report.md`），随自演化周期更新。诚实性规则沿用 AGENTS.md：数字带 `as of` 日期、方向性结论标注、未一手复核的引用标 *unverified*。`[TODO]` = 待补实验/配图。
 
-- **Status:** Draft v2 — v1 spine kept; synced to outline v2: added C4/C5, run-resilience §3.5, autoresearch in §3.4, run-memory §3.5, judge matrix in §3.7, live trio numbers (2026-09-22), health GREEN. Remaining: live judge-swap (d), one-hand citation re-verification, worker `O*` subsection, cost/latency table.
+- **Status:** Draft v2 — v1 spine kept; synced to outline v2: added C4/C5, run-resilience §3.5, autoresearch in §3.4, run-memory §3.5, judge matrix in §3.7, live trio numbers (2026-09-22), health GREEN. §2 expanded with 工具综述 (§2.1) + comparison table (§2.2). Remaining: live judge-swap (d), one-hand citation re-verification, worker `O*` subsection, cost/latency table.
 - **Target:** arXiv (cs.CL / cs.AI), applied-NLP / systems track
 - **Reproducibility:** every quantitative claim maps to a `docs/setup-runbook.md §3` command; regenerate the whole number set with the runbook + `capability_report`
 - **Data & code:** local-first; no API keys required for the ≈$0 core loop (hosted free model + free arXiv API + local MinerU parsing)
@@ -142,6 +142,36 @@ We organize comparison along the evaluation axes the system itself uses.
 *grounded but not self-measuring*. To our knowledge no public implementation delivers
 auditable, mandatory-provenance survey generation at ≈ $0 on CPU-only hardware *and*
 honestly self-evaluates with variance. That niche is ours.
+
+### 2.1 Tool survey — where the field stands / 工具综述
+
+*(⇐ outline §5.1)*
+
+The tools we position against fall into four buckets: *outline + retrieval writers*
+(STORM [2]), *agentic deep research* (OpenResearch/orx [1], Tongyi DeepResearch [13],
+OpenScholar [12]), *retrieval + citation-verification QA* (PaperQA2 [3]), and the
+*benchmarking layer* (DAS-Bench [4]; parsing/data: MinerU [5], DAS-2M [7]). Three features
+separate a survey tool from a chat wrapper: (i) whether a factual claim must be traced to a
+source at *write time*, (ii) whether quality is judged by a *reproducible* protocol rather
+than a single non-deterministic call, and (iii) whether the whole loop is affordable
+offthe-shelf for low-resource users.
+
+### 2.2 Comparison with this work / 与本工具比较
+
+*(⇐ outline §5.1, `tab:tools`)*
+
+| System [n] | Grounding | Evaluation / judge | Budget posture | Relation to ours |
+|---|---|---|---|---|
+| STORM [2] | none mandatory | none | cloud LLM | borrow perspective-outline; ours adds a hard grounding gate |
+| OpenResearch/orx [1] | alphaXiv retrieval; no per-claim commit | none reported | agentic, cloud | borrow discovery-rail pattern; ours keeps a deterministic path |
+| PaperQA2 [3] | claim + verbatim quote + cite-verify + retraction check | LitQA2 | paid models | borrow claim+quote evidence style |
+| DAS-Bench [4] | n/a (benchmark) | 16-axis frozen ≥ 300 B rubric | eval harness | adopt rubric **verbatim**; judge self-implemented (directional, §5) |
+| Tongyi DeepResearch [13] | n/a * | n/a * | open (Apache-2.0) | hallucination-prone frontier anchor [12] |
+| OpenScholar [12] | n/a * | n/a * | cloud frontier | GPT-4o 78–90% fabricated-cite anchor |
+| **Research Foodie (ours)** | write-time 5-gram filter + zero-LLM L6 gate (23/23 mutation-tested) + 16-axis judge | L6 1.00 (pass); mock/real 34/34; live trio Total 3.65 | **≈ $0 · CPU-only · free hosted model** | the ≈ $0 + mandatory provenance + self-measuring niche |
+
+> * Benchmarks/tables not re-run in this repo (see §5 honest-limitation list); cited for
+> positioning only. Grounding numbers measured *by us* in §4; DAS numbers are directional.
 
 ---
 
@@ -440,6 +470,8 @@ full 36-scenario live battery to firm up §4.3.
 outline v2** — added `(⇐ outline §X)` markers per section, C4 (resilience) / C5 (honesty)
 contributions, run-memory §3.5, autoresearch §3.4, judge matrix §3.7, D-5 key hygiene §3.8,
 live free-base trio §4.3 (Total 3.65) and health GREEN §4.4; §12 in the outline is the
-bidirectional map to keep both in step. Living document: §4 numbers are refreshed/verified
-by `python -m tools.eval.capability_report`; keep the outline `docs/design/tool-paper-outline.md`
-and this draft in step as the self-evolution cadence records new measurements.*
+bidirectional map to keep both in step. **2026-09-22 later pass**: §2 expanded — tool survey
+(§2.1) + comparison table with ours-as-a-row (§2.2), mirroring outline §5.1. Living document:
+§4 numbers are refreshed/verified by `python -m tools.eval.capability_report`; keep the
+outline `docs/design/tool-paper-outline.md` and this draft in step as the self-evolution
+cadence records new measurements.*
