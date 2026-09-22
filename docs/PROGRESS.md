@@ -66,6 +66,25 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 ---
 
+## 2026-09-22 — Session 31: editorial workbench redesign + 两档交付物（一套源·双渲染 · Q&A 干货稿 + arXiv 出版化稿）
+
+**Why:** two user directives. (a) *"从用户体验角度，实现一个简明但看得出来是经过良好设计的页面"* — the dashboard was functional but visually generic; needs a deliberate, subject-grounded identity. (b) *"输出内容注意两个层次：1 良好整理的干货内容；2 在干货基础上满足出版/发表要求"* — deliverables must be two-tier. Chosen via option-pick: 干货 default = **问答驱动·证据卡片**；出版化 = **arXiv preprint 风格**；交付 = **一套源·双渲染**（不改生成引擎、同 `.md`、双 PDF）。
+
+1. **前端重设计（`app.py`）——编辑部/手稿方向的视觉系统**，刻意避开 AI 生成模板痕迹（无奶油+赤陶、无酸绿黑底、无圆角卡片阴影、无 `→` 链接、无全大写 eyebrow）：
+   - 质感：冷纸底 `#f4f5ef` + 墨色 `#20211c`；结构用**细规则线**而非阴影；衬线显示字（Georgia）承载标题与叙事，等宽用于技术脚注行。
+   - 单一亮点：**阶段 01–09 序号作为页面脊柱**（管线分明是一条真实序列，序号有语义）。live mission 与 mission 页共用同一套 `.stg` 卡片。
+   - 两级层级明确：**叙事层在上（what/how/why + 进度条），工程层藏进 `<details>` 技术日志**；nav 增加当前页高亮（`page(..., cur=)`）；键盘焦点可见、`prefers-reduced-motion` 尊重、<700px 响应。
+   - 页面文案同时给中英（投题/研究进行时/历次运行）。
+2. **两档交付物（`render_manuscript.py` + `run_survey.py`）**：
+   - `render_to_pdf(..., style="plain"|"preprint")`：plain=阅读级干货稿（11pt/2cm/蓝链，原行为不变）；preprint=arXiv 风格（A4 2.6cm、10pt、**章节编号 `--number-sections`**、中性链色、居中 title/author/date 标题块）。`[survey]` 双档各打一行，`deliver` 阶段 `tech` 报 `pages` + `pages_preprint`。
+   - `run_survey --render plain|preprint|both`（默认 both）；产出 `<slug>.pdf` + `<slug>.preprint.pdf`；`[survey-result]` 新增 `pdf_pub`/`pages`/`pages_pub` 字段（旧字段 `pdf` 语义不变——手工兼容已有 run-card/mission 解析）。
+3. **干货缺省组织——问答驱动·证据卡片（`graph.py` `_finalize`）**：手稿正文 Abstract 后插入 `## Q&A Digest (问答速览)`——主问题 → 一句话答案（取 abstract 首句）→ 子问题（outline 视角含 key_points）→ 证据卡片计数（claims→Sources）。纯索引、零新增模型调用，生成引擎不动。
+4. **web 暴露双档**：run-card 与 mission 摘要链接改为 `manuscript / pdf 干货稿 / preprint 出版化稿`；manuscripts 页自动收录新 PDF（同目录遍历）。
+
+**Verification:** `run_survey --mock` 双档均 2 pages、`[survey-result]` 含 `pdf_pub`、md 含 Q&A Digest（Q/A/子问题/证据卡片 4 行齐全）✓；app.py AST OK、nav 四页 `cur` 高亮断言通过 ✓；web 实测：home=200 含 preprint 链接与 mission 初始快照、`/manuscripts/*.preprint.pdf`=200 application/pdf ✓。**诚实边界：** preprint 是**同一源码**的排版变体（满足 arXiv 外形/结构规范），**不是**重新生成内容；作者字段为管线署名占位（"Research Foodie (autonomous survey pipeline)"），投稿前人工替换。**下一步：** per-node 计时优化真实单篇；36-scenario 夜间 `--fast` 批处理（可直接产出双档 PDF）；静态导出（F-3）纳入 mission/preprint 视图。
+
+---
+
 ## 2026-09-22 — Session 30: research-mission narration on the web (研究任务叙事层：what/how/why + 业务/技术双语言)
 
 **Why:** user directive — *"现在前端展示了很多技术信息，但从应用场景（如何完成 research 工作）角度还缺乏系统的信息反馈/告知，让使用者明确知道你在做什么：现在研究做到什么阶段了、怎么做的、为什么这么做；既要有业务语言，也要有关键技术信息。"* 即：**把"研究任务视角"做成第一层叙事**，技术日志退为第二层。

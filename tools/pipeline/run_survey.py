@@ -50,15 +50,30 @@ def _slug(question: str, max_len: int = 48) -> str:
     return (slug[:max_len] or "survey").rstrip("-")
 
 
-def _render(md_path: Path, question: str) -> dict:
+def _render(md_path: Path, question: str, styles: List[str], author: str = "") -> dict:
+    """Render the same manuscript source to one or two PDF flavours ("一套源·双渲染").
+
+    Default: plain (reading-grade 干货稿) + preprint (arXiv-style 出版化稿).
+    Returns pdf/pages for the primary reading render and pdf_pub/pages_pub for
+    the publication render (same keys as the input styles when only one is set).
+    """
     from tools.eval.render_manuscript import render_to_pdf
-    pdf_path = md_path.with_suffix(".pdf")
-    try:
-        pages = render_to_pdf(md_path, pdf_path, title=question[:80])
-        return {"pdf": str(pdf_path), "pages": pages}
-    except Exception as e:  # noqa: BLE001
-        print(f"[survey] PDF render skipped: {e}", flush=True)
-        return {"pdf": "", "pages": 0}
+    out: dict = {"pdf": "", "pages": 0, "pdf_pub": "", "pages_pub": 0}
+    date = time.strftime("%Y-%m-%d")
+    for name in styles:
+        suffix = "" if name == "plain" else f".{name}"
+        pdf_path = md_path.with_name(md_path.stem + suffix + ".pdf")
+        try:
+            pages = render_to_pdf(md_path, pdf_path, title=question[:80],
+                                  style=name, author=author, date=date)
+        except Exception as e:  # noqa: BLE001
+            print(f"[survey] PDF render ({name}) skipped: {e}", flush=True)
+            pages = 0
+        if name == "plain":
+            out["pdf"], out["pages"] = str(pdf_path), pages
+        else:
+            out["pdf_pub"], out["pages_pub"] = str(pdf_path), pages
+    return out
 
 
 def _stage(stage: str, status: str, tech: Optional[dict] = None, dur_s: float = 0.0):
@@ -127,6 +142,9 @@ def main(argv: Optional[list] = None) -> int:
     ap.add_argument("--backend", default=None, help="discovery rail override (seed|arxiv|orx)")
     ap.add_argument("--out", default=None, help="output directory (default _eval_out/manuscripts)")
     ap.add_argument("--no-pdf", action="store_true", help="skip PDF render")
+    ap.add_argument("--render", choices=["plain", "preprint", "both"], default="both",
+                    help="PDF flavour(s) from the same .md source: plain 干货稿 (default) / "
+                         "preprint arXiv-style 出版化稿 (default both)")
     ap.add_argument("--mock", action="store_true",
                     help="deterministic offline demo (labeled MOCK) — repeatable, ~seconds")
     ap.add_argument("--fast", action="store_true",
@@ -231,21 +249,32 @@ def main(argv: Optional[list] = None) -> int:
     print("[survey] stage 5/5  finalize + manuscript written", flush=True)
     _stage("finalize", "done", tech={"chars": len(artifact)}, dur_s=0.0)
 
-    pdf = {"pdf": "", "pages": 0}
+    pdf = {"pdf": "", "pages": 0, "pdf_pub": "", "pages_pub": 0}
     if not args.no_pdf:
-        pdf = _render(md_path, question)
-        print(f"[survey] rendered PDF: {pdf['pdf']} ({pdf['pages']} pages)", flush=True)
-        _stage("deliver", "done", tech={"pages": pdf.get("pages", 0)}, dur_s=0.0)
+        styles = ["plain", "preprint"] if args.render == "both" else [args.render]
+        author = "Research Foodie (autonomous survey pipeline)" if "preprint" in styles else ""
+        pdf = _render(md_path, question, styles, author=author)
+        pages_pub = pdf.get("pages_pub") or 0
+        _stage("deliver", "done", tech={"pages": pdf.get("pages", 0),
+                                        "pages_preprint": pages_pub}, dur_s=0.0)
+        print(f"[survey] rendered PDF (plain 干货稿): {pdf['pdf']} ({pdf.get('pages', 0)} pages)", flush=True)
+        if pdf.get("pdf_pub"):
+            print(f"[survey] rendered PDF (arXiv preprint 出版化稿): {pdf['pdf_pub']} ({pdf['pages_pub']} pages)", flush=True)
 
     md_rel = str(md_path.relative_to(REPO_ROOT)).replace("\\", "/")
     pdf_rel = str(Path(pdf["pdf"]).relative_to(REPO_ROOT)).replace("\\", "/") if pdf.get("pdf") else ""
+    pdf_pub_rel = str(Path(pdf["pdf_pub"]).relative_to(REPO_ROOT)).replace("\\", "/") if pdf.get("pdf_pub") else ""
     print(f"[survey] DONE ✓  manuscript: {md_path}", flush=True)
     print(f"[survey] open in browser: /manuscripts/{md_path.name}", flush=True)
     if pdf.get("pdf"):
-        print(f"[survey] PDF: /manuscripts/{Path(pdf['pdf']).name}", flush=True)
+        print(f"[survey] PDF 干货稿: /manuscripts/{Path(pdf['pdf']).name}", flush=True)
+    if pdf.get("pdf_pub"):
+        print(f"[survey] PDF 出版化稿 (arXiv preprint): /manuscripts/{Path(pdf['pdf_pub']).name}", flush=True)
     _summary = {
         "mode": mode.lower(), "question": question, "gate_passed": passed,
         "judge_label": judge.get("label"), "manuscript": md_rel, "pdf": pdf_rel,
+        "pdf_pub": pdf_pub_rel, "pages": pdf.get("pages", 0),
+        "pages_pub": pdf.get("pages_pub", 0),
         "elapsed_s": round(elapsed, 1),
         "n_papers_cited": validation.get("n_papers_cited", 0),
         "claims": len(result.get("claims") or []),

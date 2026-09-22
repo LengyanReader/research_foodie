@@ -3,6 +3,14 @@
 ## Abstract
 Mock LLM response (EN): research_foodie is a local-first proactive research pipeline. 回复（中文）：research_foodie 是一套本地优先的主动式学术研究流水线。
 
+## Q&A Digest (问答速览)
+- **Q 研究问题**: 2304.02819
+- **A 一句话答案**: Mock LLM response (EN): research_foodie is a local-first proactive research pipeline. 回复（中文）：research_foodie 是一套本地优先的主动式学术研究流水线。
+- **子问题（写作视角）** → 证据卡片见 Claims：
+  - **Background** — Detectors misclassify non-native prose as AI-generated
+  - **Mitigation** — Simple prompting can mitigate the bias
+- **证据卡片**: 2 条声明，逐条带 paper_id（arXiv:xxxx）可溯源 → Sources 1 篇
+
 ## Intro
 Mock LLM response (EN): research_foodie is a local-first proactive research pipeline. 回复（中文）：research_foodie 是一套本地优先的主动式学术研究流水线。
 

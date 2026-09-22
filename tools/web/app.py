@@ -40,26 +40,151 @@ app.mount("/static", StaticFiles(directory=WEB_DIR / "static"), name="static")
 
 HTML_HEAD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>research_foodie · {title}</title><style>
-body{{font-family:system-ui,'Segoe UI',sans-serif;max-width:1100px;margin:0 auto;padding:16px;color:#1c1c1c;background:#fff}}
-h1{{font-size:20px}}h2{{font-size:16px;border-bottom:1px solid #ddd;padding-bottom:4px;margin-top:28px}}
-nav a{{margin-right:12px;text-decoration:none;color:#0b5cad}}
-table{{border-collapse:collapse;width:100%;font-size:13px}}td,th{{border:1px solid #ddd;padding:4px 8px;text-align:left}}
-code{{background:#f4f4f4;padding:1px 4px;font-size:12px}}pre{{background:#f7f7f7;padding:8px;overflow:auto;font-size:12px}}
-.btn{{background:#0b5cad;color:#fff;border:0;padding:6px 12px;cursor:pointer;border-radius:4px}}
-.btn.danger{{background:#b03030}}.run-card{{border:1px solid #ccc;border-radius:6px;padding:8px 12px;margin:8px 0}}
-.green{{color:#1a7f37}}.red{{color:#b03030}}.amber{{color:#a96400}}.mono{{font-family:Consolas,monospace;font-size:12px}}
-.muted{{color:#666;font-size:12px}}#tail{{background:#0d1117;color:#c9d1d9;padding:10px;border-radius:6px;
-height:300px;overflow:auto;font-family:Consolas,monospace;font-size:12px;white-space:pre-wrap}}
-.badge{{font-size:11px;padding:1px 6px;border-radius:10px}}.badge.ok{{background:#dafbe1;color:#1a7f37}}
-.badge.run{{background:#ddf4ff;color:#0b5cad}}.badge.fail{{background:#ffebe9;color:#b03030}}.badge.cancel{{background:#fff1e5;color:#a96400}}
+:root{{
+  --paper:#f4f5ef; --card:#fcfcfa; --ink:#20211c; --ink-soft:#56584e; --ink-faint:#8b8d80;
+  --rule:#d7d8cd; --rule-strong:#20211c; --mark:#b0432e; --pass:#2c6b4e; --warn:#96680f;
+  --link:#35506b;
+  --serif:Georgia,'Times New Roman',serif; --sans:system-ui,'Segoe UI','PingFang SC',sans-serif;
+  --mono:Consolas,'Cascadia Mono',monospace;
+}}
+*{{box-sizing:border-box}}
+html{{scrollbar-gutter:stable}}
+body{{margin:0;padding:26px clamp(16px,5vw,56px) 80px;color:var(--ink);
+  background:var(--paper);font:15px/1.65 var(--sans)}}
+h1,h2,h3{{font-family:var(--serif);line-height:1.2;font-weight:600}}
+h1{{font-size:clamp(25px,3.6vw,33px);margin:.1em 0 .25em}}
+h2{{font-size:17px;margin:0;letter-spacing:.01em}}
+h2 .en{{font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-left:8px}}
+a{{color:var(--link);text-decoration:none}}
+a:hover{{text-decoration:underline;color:var(--ink)}}
+code{{font-family:var(--mono);font-size:12px}}
+pre{{font-family:var(--mono);font-size:12px;background:transparent;margin:0}}
+
+/* nav */
+.nav{{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:4px}}
+.brand{{font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink)}}
+.brand .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12.5px;margin-left:8px}}
+nav a{{margin-left:20px;color:var(--ink-soft);font-size:14px}}
+nav a.cur{{color:var(--ink);border-bottom:1px solid var(--mark)}}
+
+/* masthead */
+.mast{{border-bottom:2px solid var(--ink);padding:14px 0 14px;margin-bottom:6px}}
+.mast-meta{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
+.lede{{color:var(--ink-soft);max-width:66ch;font-family:var(--serif);font-size:15.5px;line-height:1.6;margin:.5em 0 0}}
+
+/* sections */
+.sect{{margin:30px 0 0}}
+.sect-head{{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  border-bottom:1px solid var(--rule-strong);padding-bottom:5px;margin-bottom:16px}}
+.sect-head .side{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
+
+/* probe form */
+.probe{{background:var(--card);border:1px solid var(--rule);padding:18px 20px 16px}}
+.probe label.fl{{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:8px}}
+.qfield{{width:100%;padding:10px 12px;font:14.5px var(--sans);color:var(--ink);
+  border:1px solid var(--ink);border-radius:0;background:var(--paper)}}
+.qfield:focus{{outline:2px solid var(--link);outline-offset:2px}}
+.seg{{display:inline-flex;border:1px solid var(--ink);margin:0}}
+.seg label{{display:flex;align-items:baseline;gap:8px;margin:0;padding:8px 14px;font-size:13px;
+  color:var(--ink-soft);cursor:pointer;border-right:1px solid var(--rule)}}
+.seg label:last-child{{border-right:0}}
+.seg input{{position:absolute;opacity:0;pointer-events:none}}
+.seg b{{font-weight:600;color:var(--ink)}}
+.seg small{{display:block;font-size:11.5px;color:var(--ink-faint)}}
+.seg label:has(input:checked){{background:var(--paper)}}
+.probe-row{{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px}}
+.hint{{margin:12px 0 0;font-size:12.5px;color:var(--ink-faint)}}
+
+/* buttons */
+.btn{{font:13px var(--sans);color:var(--ink);background:transparent;border:1px solid var(--ink);
+  padding:8px 18px;cursor:pointer;border-radius:0}}
+.btn:hover{{background:var(--ink);color:var(--paper)}}
+.btn:focus-visible{{outline:2px solid var(--link);outline-offset:2px}}
+.btn.primary{{background:var(--ink);color:var(--paper)}}
+.btn.primary:hover{{background:var(--mark);border-color:var(--mark)}}
+.btn.danger{{border-color:var(--mark);color:var(--mark)}}
+.btn.danger:hover{{background:var(--mark);color:var(--paper)}}
+.btn.mini{{padding:4px 10px;font-size:12px;border-color:var(--rule);color:var(--ink-soft)}}
+.btn.mini:hover{{border-color:var(--ink);color:var(--ink)}}
+.chips{{display:flex;flex-wrap:wrap;gap:6px}}
+
+/* mission — the numbered stage sequence */
+.mission{{display:flex;flex-direction:column}}
+.progress{{height:3px;background:var(--rule);margin:2px 0 6px}}
+.progress i{{display:block;height:3px;background:var(--pass);transition:width .4s ease}}
+.stg{{display:grid;grid-template-columns:46px 1fr;padding:12px 0;border-bottom:1px solid var(--rule)}}
+.stg:last-child{{border-bottom:0}}
+.stg-no{{padding-top:3px;font-family:var(--serif);color:var(--ink-faint)}}
+.stg-title{{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-family:var(--serif);font-weight:600;font-size:15.5px}}
+.stg-title .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12.5px}}
+.stg-title .tick{{font-family:var(--mono);font-size:11.5px;color:var(--pass);margin-left:auto}}
+.stg-what{{margin:4px 0 1px}}
+.stg-why{{margin:0 0 5px;color:var(--ink-soft);font-family:var(--serif);font-size:14px}}
+.stg-note{{font-family:var(--mono);font-size:12px;color:var(--ink)}}
+.stg-tech{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:2px}}
+.stg.live .stg-no{{color:var(--mark);font-weight:700}}
+.stg.live .stg-title{{border-left:3px solid var(--mark);padding-left:10px}}
+.stg.live .stg-title .tick{{color:var(--mark)}}
+.stg.off{{opacity:.55}}
+.stg.done .stg-no{{color:var(--pass)}}
+
+/* raw tail */
+details.rawtail{{border:1px solid var(--rule);margin-top:6px}}
+details.rawtail summary{{cursor:pointer;padding:8px 12px;font-size:12.5px;color:var(--ink-soft);list-style:none}}
+details.rawtail summary:before{{content:'▸ ';color:var(--ink-faint)}}
+details.rawtail[open] summary:before{{content:'▾ '}}
+#tail{{margin:0;padding:10px 12px;height:230px;overflow:auto;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;color:#c9d1d9;background:#191a10;white-space:pre-wrap}}
+
+/* run archive */
+.runs{{display:flex;flex-direction:column;gap:12px}}
+.run-card{{background:var(--card);border:1px solid var(--rule);padding:12px 16px}}
+.run-top{{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}}
+.run-top strong{{font-family:var(--serif);font-size:15.5px}}
+.run-card .cmd{{margin-top:8px;font-size:11.5px;color:var(--ink-faint);word-break:break-all}}
+.run-card .q{{margin-top:6px;font-family:var(--serif);font-style:italic;color:var(--ink-soft)}}
+.run-card .res{{margin-top:4px;font-size:13px;color:var(--ink-soft)}}
+.mono{{font-family:var(--mono)}}
+.id{{color:var(--ink-faint);font-size:12px}}
+.badge{{font-size:11px;padding:1px 8px;border:1px solid var(--rule-strong);white-space:nowrap}}
+.badge.ok{{border-color:var(--pass);color:var(--pass)}}
+.badge.fail{{border-color:var(--mark);color:var(--mark)}}
+.badge.run{{border-color:var(--mark);color:var(--mark)}}
+.badge.cancel{{border-color:var(--warn);color:var(--warn)}}
+.badge.muted{{border-color:var(--rule);color:var(--ink-faint)}}
+
+/* generic utilities & tables */
+table{{border-collapse:collapse;width:100%;font-size:13px}}
+td,th{{border:1px solid var(--rule);padding:6px 10px;text-align:left}}
+th{{background:var(--card);font-weight:600}}
+ul{{margin:.4em 0}}li{{margin:.15em 0}}
+.muted{{color:var(--ink-faint)}}.green{{color:var(--pass)}}.red{{color:var(--mark)}}.amber{{color:var(--warn)}}
+.mission-empty{{color:var(--ink-faint);font-family:var(--serif);font-style:italic;padding:10px 0}}
+
+@media (max-width:700px){{
+  .stg{{grid-template-columns:32px 1fr}}
+  .stg-title .tick{{margin-left:0}}
+  nav a{{margin-left:12px;font-size:13px}}
+}}
+@media (prefers-reduced-motion: reduce){{
+  *{{transition:none!important;animation:none!important}}
+}}
 </style></head><body>
-<nav><a href="/">▶ Runs</a> <a href="/dashboard">📊 Dashboard</a> <a href="/manuscripts">📄 Manuscripts</a> <a href="/feedback">🐞 Feedback</a></nav>
+<nav class="nav"><span class="brand">Research Foodie<span class="zh">本地科研综述工作台</span></span>
+<span><a class="{cur_workbench}" href="/">Workbench</a><a class="{cur_dash}" href="/dashboard">Numbers</a><a class="{cur_ms}" href="/manuscripts">Manuscripts</a><a class="{cur_fb}" href="/feedback">Feedback</a></span></nav>
 """
 
 HTML_TAIL = "</body></html>"
 
-def page(title, body: str) -> HTMLResponse:
-    return HTMLResponse(HTML_HEAD.format(title=title) + body + HTML_TAIL)
+def page(title, body: str, cur: str = "wb") -> HTMLResponse:
+    kw = dict(
+        cur_workbench="cur" if cur == "wb" else "",
+        cur_dash="cur" if cur == "dash" else "",
+        cur_ms="cur" if cur == "ms" else "",
+        cur_fb="cur" if cur == "fb" else "",
+    )
+    return HTMLResponse(HTML_HEAD.format(title=title, **kw) + body + HTML_TAIL)
 
 # ---------------------------------------------------------------------------
 # Read-only data feeds (no LLM)
@@ -218,43 +343,44 @@ def _mission_html(stages: List[dict], summary: Optional[dict]) -> str:
     done = sum(1 for s in stages if s["status"] == "done")
     pct = int(100 * done / len(stages)) if stages else 0
     rows = []
-    for s in stages:
+    for i, s in enumerate(stages, 1):
         meta = next(m for m in SURVEY_STAGES if m["id"] == s["id"])
-        mark = {"done": "✓", "running": "●", "pending": "○"}.get(s["status"], "○")
-        cls = {"done": "green", "running": "amber", "pending": "muted"}.get(s["status"], "muted")
+        status = s["status"] if s["status"] in ("done", "running", "pending") else "pending"
+        mark = {"done": "✓", "running": "●", "pending": "○"}[status]
+        dur = f" · {s['dur_s']:.1f}s" if s.get("dur_s") else ""
+        tick = {"done": f"done{dur}", "running": "running", "pending": "pending"}[status]
         tech = " · ".join(f"{k}={v}" for k, v in (s.get("tech") or {}).items())
-        extras = ""
-        if tech:
-            extras += f' · <code class="mono">{tech}</code>'
-        if s["dur_s"]:
-            extras += f' · {s["dur_s"]:.1f}s'
+        note = ('<div class="stg-note">how · ' + meta["how"] + '</div>'
+                + (f'<div class="stg-tech">{tech}</div>' if tech else ""))
         rows.append(
-            f'<div style="border-left:3px solid #ccc;padding:6px 10px;margin:6px 0">'
-            f'<strong class="{cls}">{mark} {meta["label"]}</strong> '
-            f'<span class="muted">{meta["zh"]}</span>'
-            f'<div class="muted" style="margin-left:16px">'
-            f'<b>what</b> {meta["what"]}<br>'
-            f'<b>how</b> {meta["how"]}<br>'
-            f'<b>why</b> {meta["why"]}<br>'
-            f'<code class="mono">{meta["key"]}</code>{extras}'
-            f'</div></div>')
+            f'<article class="stg {status}">'
+            f'<div class="stg-no">{i:02d}</div><div>'
+            f'<div class="stg-title">{meta["label"]}<span class="zh">{meta["zh"]}</span>'
+            f'<span class="tick">{mark} {tick}</span></div>'
+            f'<p class="stg-what">{meta["what"]}</p>'
+            f'<p class="stg-why">{meta["why"]}</p>'
+            f'{note}'
+            f'</div></article>')
     summary_html = ""
     if summary:
         links = " ".join(
             f'<a href="/manuscripts/{Path(x).name}">{label}</a>'
             for label, x in (("manuscript", summary.get("manuscript")),
-                             ("pdf", summary.get("pdf")))
+                             ("pdf 干货稿", summary.get("pdf")),
+                             ("preprint 出版化稿", summary.get("pdf_pub")))
             if x)
+        verdict = "pass" if summary.get("gate_passed") else "fail"
         summary_html = (f'<div class="run-card">'
                         f'<span class="badge {"ok" if summary.get("gate_passed") else "fail"}">'
-                        f'L6 {"pass" if summary.get("gate_passed") else "fail"}</span> '
-                        f'judge={summary.get("judge_label")} · {summary.get("claims", 0)} claims · '
+                        f'L6 {verdict}</span> '
+                        f'<span class="res">judge={summary.get("judge_label")} · '
+                        f'{summary.get("claims", 0)} claims · '
                         f'{summary.get("n_papers_cited", 0)} papers · '
-                        f'{summary.get("elapsed_s", 0)}s · {links}</div>')
-    return (f'<div style="margin:8px 0">'
-            f'<div style="height:10px;background:#eee;border-radius:5px;overflow:hidden">'
-            f'<div style="height:10px;width:{pct}%;background:#1a7f37"></div></div>'
-            f'<span class="muted">{done}/{len(stages)} research stages · {pct}%</span></div>'
+                        f'{summary.get("elapsed_s", 0)}s</span> '
+                        f'{links}</div>')
+    return (f'<div class="progress"><i style="width:{pct}%"></i></div>'
+            f'<div class="muted" style="font-size:12px">{done}/{len(stages)} '
+            f'research stages · {pct}%</div>'
             + summary_html + "".join(rows))
 
 
@@ -292,14 +418,16 @@ def _run_card(run) -> str:
         if survey.get("manuscript"):
             links.append(f'<a href="/manuscripts/{Path(survey["manuscript"]).name}">manuscript</a>')
         if survey.get("pdf"):
-            links.append(f'<a href="/manuscripts/{Path(survey["pdf"]).name}">pdf</a>')
+            links.append(f'<a href="/manuscripts/{Path(survey["pdf"]).name}">pdf 干货稿</a>')
+        if survey.get("pdf_pub"):
+            links.append(f'<a href="/manuscripts/{Path(survey["pdf_pub"]).name}">preprint 出版化稿</a>')
         links_html = " · ".join(links) if links else ""
-        greeting = (f'<br><span class="muted">question:</span> <em>{survey.get("question", "")}</em><br>'
-                    f'{mode_badge} '
+        greeting = (f'<div class="q">{survey.get("question", "")}</div>'
+                    f'<div class="res">{mode_badge} '
                     f'L6 gate <span class="badge {badge_cls}">{"pass" if survey.get("gate_passed") else "fail"}</span> '
                     f'judge={survey.get("judge_label")} · {survey.get("claims", 0)} claims · '
                     f'{survey.get("n_papers_cited", 0)} papers cited · {survey.get("elapsed_s", 0)}s'
-                    + (f' · {links_html}' if links_html else ""))
+                    + (f' · {links_html}' if links_html else "") + '</div>')
     # ledger progress for bench_eval / variance_run (they persist per-row state)
     progress = ""
     for mod, argv in (("tools.eval.bench_eval", r"bench_eval"),
@@ -316,15 +444,15 @@ def _run_card(run) -> str:
     if run.status in ("failed", "cancelled", "interrupted"):
         resume = (f'<button class="btn" onclick="resumeRun(\'{run.id}\')">'
                   f'Resume</button> ')
-    return (f'<div class="run-card">'
+    return (f'<div class="run-card"><div class="run-top">'
             f'<strong>{run.title}</strong> '
             f'<span class="badge {status_badge}">{run.status}</span> '
-            f'<span class="mono muted">{run.id}</span> {logf} {mission_link}{progress}<br>'
-            f'<span class="muted mono">{run.elapsed:.0f}s</span> · '
-            f'rc={run.returncode} · {len(run.lines)} lines<br>'
+            f'<span class="id mono">{run.id}</span> {logf} {mission_link}{progress}</div>'
+            f'<div class="mono muted" style="font-size:12px">{run.elapsed:.0f}s · '
+            f'rc={run.returncode} · {len(run.lines)} lines</div>'
             f'{greeting}'
             f'{resume}'
-            f'<span class="muted mono">{" ".join(run.cmd)}</span></div>')
+            f'<div class="cmd">{" ".join(run.cmd)}</div></div>')
 
 
 def _env_profile() -> dict:
@@ -362,50 +490,55 @@ def runs_page(request: Request) -> HTMLResponse:
         mission_init = _mission_html(_parse_survey_stages(last_survey.lines),
                                      _survey_summary(last_survey))
     body = f"""
-<h1>Runs</h1>
-<p class="muted">Each button spawns the same <code>python -m …</code> command you would run from the terminal —
-this page is only a trigger + live tail. Profile (D): judge lane model, if set, routes through the current env.
-Run memory: an interrupted run can be <b>Resume</b>d after a crash/restart — the CLI driver picks up its
-on-disk ledger and continues from the last completed row (no re-pay from scratch).
-</p>
-<h2>Try it — answer a research question</h2>
-<div class="run-card" style="background:#fafafa">
-  <form onsubmit="return false">
-    <label class="muted"><strong>Research question</strong> (what the survey should answer):</label><br>
-    <input id="q" type="text" size="80" style="width:90%;padding:6px;font-size:14px"
-           placeholder="e.g. GPT detectors bias against non-native English writers"
-           list="q-examples">
-    <datalist id="q-examples">
-      <option value="GPT detectors bias against non-native English writers">
-      <option value="RAG evaluation needs human judgement">
-    </datalist>
-    <br>
-    <label style="display:inline-block;margin-top:8px">
-      <input type="radio" name="mode" value="mock" checked> <strong>Mock demo</strong>
-      <span class="muted badge">deterministic offline · ~1 s · repeatable · <u>NOT a live result</u></span>
-    </label>
-    <label style="display:inline-block;margin-left:18px">
-      <input type="radio" name="mode" value="real"> <strong>Real run</strong>
-      <span class="muted badge">live free model lane · ~5–8 min · directional (temperature &gt; 0)</span>
-    </label>
-    <br>
-    <button class="btn" onclick="startQuestion()">Run survey</button>
-    <span class="muted" id="q-msg"></span>
-    <p class="muted">The run card below marks every result <b>MOCK demo</b> vs <b>REAL run</b> and links the
-    manuscript + PDF once the pipeline finishes.</p>
-  </form>
-</div>
-<div><strong>Model lane (Phase D):</strong> <code>{_env_profile()}</code></div>
-<div style="margin:12px 0">{menu_html}</div>
-<div style="margin-top:18px"><h2>Live research mission <span class="muted">(what/how/why as the survey runs)</span></h2>
-<div id="mission" class="muted">{mission_init or 'Run a survey — progress is narrated stage-by-stage in research terms here.'}</div>
-<div style="height:8px"></div>
-<h2>Live tail (raw log) <span class="muted">(technical detail)</span></h2>
-<div id="tail">Run something to see progress here.</div>
-<div style="margin-top:8px"><button class="btn danger" onclick="cancelRun()">Cancel current run</button>
-<span id="active-msg" class="muted"></span></div>
-<h2>Recent runs <span class="muted">(persisted across restarts — resume continues an interrupted run)</span></h2>
-<div id="runs">{cards}</div>
+<header class="mast">
+  <div class="mast-meta">research_foodie · local-first survey pipeline · citations are the lifeline</div>
+  <h1>Survey workbench</h1>
+  <p class="lede">输入一个问题，得到一份逐句可溯源的综述。每一步研究都在这里直播——
+  做到哪个阶段、怎么做、为什么这么做。结果一律双档交付：干货稿 + arXiv preprint 稿。</p>
+</header>
+
+<section class="sect">
+  <div class="sect-head"><h2>投题 <span class="en">start a survey</span></h2>
+    <div class="side">模型通道 · {_env_profile()['LLM_BACKEND']} / {_env_profile()['OPENCODE_MODEL']}</div></div>
+  <div class="probe">
+    <form onsubmit="return false">
+      <label class="fl" for="q">研究问题 Research question <span class="muted">——这份综述要回答的问题</span></label>
+      <input id="q" class="qfield" type="text" autocomplete="off"
+             placeholder="e.g. GPT detectors bias against non-native English writers"
+             list="q-examples">
+      <datalist id="q-examples">
+        <option value="GPT detectors bias against non-native English writers">
+        <option value="RAG evaluation needs human judgement">
+      </datalist>
+      <div class="probe-row">
+        <div class="seg">
+          <label><input type="radio" name="mode" value="mock" checked>
+            <span><b>Mock demo</b><small>离线确定性 · ~1 s · 可复现 · 非真实结果</small></span></label>
+          <label><input type="radio" name="mode" value="real">
+            <span><b>Real run</b><small>免费模型通道 · ~5–8 min · 有涨落</small></span></label>
+        </div>
+        <button class="btn primary" onclick="startQuestion()">Run survey</button>
+        <span class="muted" id="q-msg"></span>
+      </div>
+      <p class="hint">取消中断的 run 可在卡片上 <b>Resume</b>——CLI 驱动保留断点台账，重启后从已完成的最后一行继续排队。</p>
+    </form>
+  </div>
+  <div style="margin-top:12px" class="chips">{menu_html}</div>
+</section>
+
+<section class="sect">
+  <div class="sect-head"><h2>研究进行时 <span class="en">live mission · what / how / why</span></h2>
+    <div class="side"><button class="btn danger mini" onclick="cancelRun()">Cancel run</button>
+    <span id="active-msg" class="muted"></span></div></div>
+  <div id="mission">{mission_init or '<p class="mission-empty">还没有研究在跑。投一个题，进度会在这里按研究术语逐阶段讲述。</p>'}</div>
+  <details class="rawtail"><summary>技术日志 raw log（工程细节，叙事层之下）</summary>
+  <div id="tail">Run something to see progress here.</div></details>
+</section>
+
+<section class="sect">
+  <div class="sect-head"><h2>历次运行 <span class="en">runs · ↘ 断点续跑</span></h2></div>
+  <div id="runs" class="runs">{cards}</div>
+</section>
 <script>
 const menus = {json.dumps({m["id"]: m["args"] for m in menu})};
 let currentRun = null, currentStart = 0, es = null;
@@ -418,26 +551,27 @@ function renderMission(){{
   const doneN = ids.filter(i => stagePlan[i] && stagePlan[i].status === 'done').length;
   const pct = Math.round(100 * doneN / ids.length);
   let rows = '';
-  for (const id of ids){{
+  ids.forEach((id, k) => {{
     const m = stagesMeta[id]; const p = stagePlan[id] || {{status:'pending', tech:{{}}}};
-    const mark = {{done:'✓', running:'●', pending:'○'}}[p.status] || '○';
-    const cls = {{done:'#1a7f37', running:'#a96400', pending:'#999'}}[p.status] || '#999';
-    const tech = Object.entries(p.tech||{{}}).map(([k,v])=>k+'='+v).join(' · ');
-    const doneNote = (p.status==='done' && p.dur_s) ? ` · ${{p.dur_s.toFixed(1)}}s` : '';
-    rows += `<div style="border-left:3px solid ${{cls}};padding:4px 10px;margin:5px 0">
-      <span style="color:${{cls}}">${{mark}}</span> <strong>${{m.label}}</strong>
-      <span class="muted">${{m.zh}}</span>
-      <div class="muted" style="margin-left:16px">
-        <b>why</b> ${{m.why}}<br><b>how</b> ${{m.how}}
-        <span class="mono">${{tech ? ' · '+tech : ''}}${{doneNote}}</span>
-      </div></div>`;
-  }}
-  el.innerHTML = `<div style="margin:6px 0">
-    <div style="height:10px;background:#eee;border-radius:5px;overflow:hidden">
-      <div style="height:10px;width:${{pct}}%;background:#1a7f37"></div></div>
-    <span class="muted">${{doneN}}/${{ids.length}} stages done · ${{pct}}%</span>
-    <span class="muted"> · full what/how/why on <a href="/runs/${{currentRun}}/mission">research view</a></span>
-  </div>` + rows;
+    const st = ['done','running','pending'].includes(p.status) ? p.status : 'pending';
+    const col = {{done: '#2c6b4e', running: '#b0432e', pending: '#8b8d80'}}[st];
+    const mark = {{done:'✓', running:'●', pending:'○'}}[st];
+    const doneNote = (st==='done' && p.dur_s) ? ` · ${{p.dur_s.toFixed(1)}}s` : '';
+    const tech = Object.entries(p.tech||{{}}).map(([a,b])=>a+'='+b).join(' · ');
+    const no = String(k+1).padStart(2, '0');
+    rows += `<article class="stg ${{st}} ${{st==='done' ? 'done' : (st==='running' ? 'live' : 'off')}}">
+      <div class="stg-no">${{no}}</div><div>
+      <div class="stg-title">${{m.label}}<span class="zh">${{m.zh}}</span>
+        <span class="tick">${{mark}} ${{st}}${{doneNote}}</span></div>
+      <p class="stg-what">${{m.what}}</p>
+      <p class="stg-why">${{m.why}}</p>
+      <div class="stg-note">how · ${{m.how}}</div>${{tech ? '<div class="stg-tech">'+tech+'</div>' : ''}}
+      </div></article>`;
+  }});
+  el.innerHTML = `<div class="progress"><i style="width:${{pct}}%"></i></div>
+    <div class="muted" style="font-size:12px">${{doneN}}/${{ids.length}} research stages · ${{pct}}%
+      ${{currentRun ? ' · 完整 what/how/why 见 <a href="/runs/'+currentRun+'/mission">research view</a>' : ''}}</div>`
+    + rows;
 }}
 function handleLine(line){{
   const st = line.match(/^\\[survey-stage\\] (.*)$/);
@@ -509,7 +643,7 @@ setInterval(() => {{ if (currentRun){{
 }}}}, 2500);
 </script>
 """
-    return page("Runs", body)
+    return page("Runs", body, cur="cur")
 
 
 @app.post("/runs", response_class=JSONResponse)
@@ -637,7 +771,7 @@ def dashboard():
 <h2>Bench report (raw markdown, `bench_pilot_das.md`)</h2>
 <pre>{report_text[:4000]}</pre>
 """
-    return page("Dashboard", body)
+    return page("Dashboard", body, cur="dash")
 
 
 @app.get("/manuscripts", response_class=HTMLResponse)
@@ -648,7 +782,7 @@ def manuscripts_page():
         or "<tr><td colspan=3 class=muted>no rendered manuscripts yet (run a bench scenario first)</td></tr>"
     body = (f"<h1>Manuscripts</h1><table><tr><th>file</th><th>size</th><th></th></tr>{rows}</table>"
             f"<p class=muted>Rendered by <code>render_manuscript</code> (pandoc + xelatex + YaHei) during bench runs.</p>")
-    return page("Manuscripts", body)
+    return page("Manuscripts", body, cur="ms")
 
 
 @app.get("/manuscripts/{name}")
@@ -679,7 +813,7 @@ placeholder='{{"feed": "judge too lenient on BSC", "topic": "P-A", "date": "2026
 <button class="btn" type="submit">append row</button></form>
 <h2>Last 50 rows</h2><table>{rows_html or '<tr><td class=muted>no feedback rows yet</td></tr>'}</table>
 """
-    return page("Feedback", body)
+    return page("Feedback", body, cur="fb")
 
 
 @app.post("/feedback")
@@ -689,4 +823,4 @@ def feedback_append(row: str = Form(...)):
     with (fb / "feedback.jsonl").open("a", encoding="utf-8") as f:
         f.write(row + "\n")
     body = "<p>appended ✓ <a href='/feedback'>back</a> — note: feedback does not auto-tune anything; it feeds the E-5 corpus reviewed in the weekly cadence.</p>"
-    return page("Feedback (appended)", body)
+    return page("Feedback (appended)", body, cur="fb")

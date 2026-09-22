@@ -383,6 +383,24 @@ class Pipeline:
         intro = draft.split("\n\n", 1)[0] if draft else ""
         abstract = (intro[:800] or "No abstract available.").rstrip()
 
+        # Q&A digest — the default 干货 frame: the main question, a one-line
+        # answer pointer, the sub-questions (outline perspectives) and the
+        # evidence-card counts behind each. Purely an index over already-grounded
+        # content (no new model calls); the claims list below are the cards.
+        ans_one = " ".join(abstract.strip().split())[:220] if abstract else "(no abstract)"
+        qlines = [
+            "## Q&A Digest (问答速览)",
+            f"- **Q 研究问题**: {question}",
+            f"- **A 一句话答案**: {ans_one}",
+            "- **子问题（写作视角）** → 证据卡片见 Claims：",
+        ]
+        for s in sections if isinstance(sections, list) else []:
+            if isinstance(s, dict) and s.get("heading"):
+                kp = "; ".join(s.get("key_points", []))
+                qlines.append(f"  - **{s['heading']}** — {kp}")
+        qlines.append(f"- **证据卡片**: {len(claims)} 条声明，逐条带 paper_id（arXiv:xxxx）可溯源 → Sources {len(papers)} 篇")
+        qa_digest = "\n".join(qlines)
+
         def _claim_arxiv(c: Dict[str, Any]) -> Optional[str]:
             pid = c.get("paper_id")
             if isinstance(pid, str) and pid:
@@ -426,6 +444,7 @@ class Pipeline:
         lines = [
             f"# {title}",
             f"\n## Abstract\n{abstract}",
+            f"\n{qa_digest}",
             f"\n## Intro\n{draft}",
             f"\n## Evidence Table\n{table}",
             f"\n## References\n{refs}",
