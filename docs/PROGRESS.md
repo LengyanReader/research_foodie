@@ -66,6 +66,24 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 ---
 
+## 2026-09-22 — Session 30: research-mission narration on the web (研究任务叙事层：what/how/why + 业务/技术双语言)
+
+**Why:** user directive — *"现在前端展示了很多技术信息，但从应用场景（如何完成 research 工作）角度还缺乏系统的信息反馈/告知，让使用者明确知道你在做什么：现在研究做到什么阶段了、怎么做的、为什么这么做；既要有业务语言，也要有关键技术信息。"* 即：**把"研究任务视角"做成第一层叙事**，技术日志退为第二层。
+
+1. **结构化阶段事件（`run_survey.py`）**——新增 `[survey-stage]` 机器可读事件（`{"id","status","dur_s","tech"}`）：
+   - 每个图节点（lit/org/write/review/finalize/gate/judge）由 `_TimedPipeline` 包装后发 start/done；discovery/evidence/finalize/deliver 直接发；全 9 阶段：**discover · evidence → synthesize · outline · write · finalize · gate · judge · deliver**。
+   - 这样 run log 同时携带两条信息流：人类可读 `[survey]`（工程细节）+ 机器可解析 `[survey-stage]`（叙事素材）。
+2. **前端「研究任务」叙事层（`app.py`）**：
+   - **`SURVEY_STAGES` 元数据**——每个阶段配 `label`(EN)/`zh`/`what`(业务：这一步对研究意味着什么)/`how`(怎么做的，含关键技术)/`why`(为什么这么设计)/`key`(技术要点一栏)。同一份元数据驱动 live 看板、mission 页、run-card。
+   - **Live 研究任务看板**（`/` 页，位于 raw tail 之上）：SSE 解析 `[survey-stage]` → 进度条（X/9 · %）+ 每阶段一行 `✓/●/○ 业务标签(中文) → why → how → 技术key+实测值+耗时`；页面刷新后从最近 survey run 恢复快照，不丢失。
+   - **只读研究视图页 `/runs/{id}/mission`**：单个已完成 run 的完整叙事——问题、L6/judge 结果摘要、9 阶段 what/how/why 全文、手稿/PDF 链接；run-card 加 `research view` 链接。
+   - 层级关系明确：**业务语言（研究任务）在上层，技术日志（raw tail + `/log`）在下层**，两者都可达。
+3. **诚实边界**：无证据 run（candidates=0）仍如实走"no parsed evidence"并标失败，mission 页照常显示已完成的 discover/evidence 与 0 证据结论——叙事层不掩盖失败。
+
+**Verification:** `run_survey --mock` 阶段事件 17 行齐全；app.py ast 解析 OK、无 escape 警告；live 服务器实测：POST→SSE→done→（a）mission 页 9 阶段"what 计数=9"、问题/L6/manuscript 链接齐全；（b）主页面 Live research mission 看板渲染 + 恢复快照 + run-card research view 链接；（c）无证据场景诚实失败。尚未接线：F-3 静态导出（gh-pages）不含 mission 视图——保留到后续。**下一步：** per-node 计时定向优化（写阶段/判题各一次）、`--fast` 夜间批处理、mission 视图进静态导出。
+
+---
+
 **Why:** user asked to (a) check overall progress and (b) evaluate whether the **opencode free model (`opencode/big-pickle`) can now be the base model for testing** — i.e. is the live path unblocked? Session 24 had root-caused an HTTP 401 "No payment method" (CreditsError) on the opencode hosted "zen" gateway and left the model lane *deferred*; this session re-verified the live path.
 
 1. **Live probe (new evidence):** `LLMClient(backend='opencode', model='opencode/big-pickle')` single-turn → **REPLY ok in 9.0s, 3386 prompt / 13 completion tokens, no key** — the previously credit-blocked account path now resolves. (The hosted account is provisioned again; session 24's ✓ error-class parser remains as fail-fast, harmless.)

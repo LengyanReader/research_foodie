@@ -230,6 +230,8 @@ $env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动�
 # 手稿/PDF 落在 _eval_out/manuscripts/<slug>.{md,pdf}；log 打印 per-node 计时，便于性能调优
 # Web dashboard（WS-B，已实现）：触发/取消/SSE tail/dashboard/manuscripts/feedback
 #   Runs 页顶部新增"Try it — answer a research question"输入框 + Mock/Real 切换（明确标注）
+#   "Live research mission"看板：跑 survey 时按阶段叙述 what/how/why（业务语言+技术要点）
+#   已完成 survey run 有只读研究视图：http://127.0.0.1:8000/runs/<id>/mission
 & $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
 # 打开 http://127.0.0.1:8000/
 ```

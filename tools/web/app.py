@@ -129,6 +129,135 @@ def _scenario_menu() -> List[dict]:
     ]
 
 
+# ---------------------------------------------------------------------------
+# Research-workflow narration (application-domain view of the pipeline stages)
+# ---------------------------------------------------------------------------
+# Each stage is described in *business* language (what is happening to the
+# research) + *technical* key points (how it is implemented), so the dashboard
+# answers "what stage is the research at / how / why". The same metadata drives
+# the live mission panel, the mission page, and the run-card summary.
+SURVEY_STAGES: List[dict] = [
+    {"id": "discover", "label": "Discover sources", "zh": "检索文献",
+     "what": "Search for the papers that are worth reading for this question",
+     "how": "Three discovery rails (seed / arXiv / orx) with the free arXiv API",
+     "why": "A survey is only as good as the papers it considers",
+     "key": "backend · candidates", "icon": "search"},
+    {"id": "evidence", "label": "Build evidence pool", "zh": "解析证据",
+     "what": "Turn selected PDFs into searchable, quotable text",
+     "how": "MinerU windowed parse (≤6 pages) + resolved_evidence() pool",
+     "why": "Only retrievable full text can back verbatim grounding later",
+     "key": "pool_size papers", "icon": "archive"},
+    {"id": "synthesize", "label": "Synthesise literature", "zh": "文献综合",
+     "what": "Distil each paper into the claims and facts it can actually support",
+     "how": "S_lit node — per-paper extraction, tagged with its paper_id",
+     "why": "Drafting builds on verified content instead of memory",
+     "key": "model lane · paper_id tags", "icon": "book"},
+    {"id": "outline", "label": "Plan the article", "zh": "制定大纲",
+     "what": "Break the question into a section structure and argument flow",
+     "how": "S_org node — STORM-style multi-perspective outline on LangGraph",
+     "why": "Outline decides coverage before a single sentence is written",
+     "key": "reader perspectives · sections", "icon": "list"},
+    {"id": "write", "label": "Write grounded sections", "zh": "接地写作",
+     "what": "Write each section so every claim is bound to its verbatim source",
+     "how": "S_write + review — BM25 source windows + 5-gram verbatim filter",
+     "why": "Kills hallucination at write time; un-grounded claims are dropped",
+     "key": "claims · BM25 windows · 5-gram", "icon": "pencil"},
+    {"id": "finalize", "label": "Assemble manuscript", "zh": "装配成稿",
+     "what": "Merge abstract, evidence table, references, and audit annex",
+     "how": "_finalize node — deterministic assembly of the artifact",
+     "why": "Produces a single reviewable deliverable with provenance",
+     "key": "chars · evidence table · annex", "icon": "layers"},
+    {"id": "gate", "label": "Deterministic gate", "zh": "机械门禁",
+     "what": "Zero-LLM quality checks: structure, citation form, grounding, bilingual",
+     "how": "validate.py L6 — deterministic rules, no model call",
+     "why": "A hard floor that never relies on the model's self-report",
+     "key": "L6 · 5-gram overlap · arXiv/DOI form", "icon": "shield"},
+    {"id": "judge", "label": "Academic judgement", "zh": "AI 判题",
+     "what": "Score the manuscript against a scholarly rubric",
+     "how": "P3 judge — DAS-Bench 16-axis rubric (BSC·MAR·TSQ·HDQ)",
+     "why": "Aligns with an external evaluation protocol, not just internal rules",
+     "key": "label · checks", "icon": "scale"},
+    {"id": "deliver", "label": "Render deliverables", "zh": "渲染交付",
+     "what": "Render the manuscript to PDF for human review",
+     "how": "render_manuscript — pandoc + xelatex + YaHei",
+     "why": "Human L6 review happens on a rendered artifact",
+     "key": "pages · pdf link", "icon": "doc"},
+]
+_STAGE_ORDER = {s["id"]: i for i, s in enumerate(SURVEY_STAGES)}
+
+
+def _parse_survey_stages(lines: List[str]) -> List[dict]:
+    """Reconstruct a stage plan from `[survey-stage]` JSON lines of a raw run log."""
+    plan: dict = {}
+    for ln in lines:
+        if not ln.startswith("[survey-stage] "):
+            continue
+        try:
+            ev = json.loads(ln[len("[survey-stage] "):].strip())
+        except Exception:
+            continue
+        sid, status = ev.get("id"), ev.get("status")
+        if sid not in _STAGE_ORDER:
+            continue
+        row = plan.setdefault(sid, {"id": sid, "status": "pending",
+                                    "dur_s": 0.0, "tech": {}})
+        if status == "start":
+            row["status"] = "running"
+        elif status == "done":
+            row["status"] = "done"
+            row["dur_s"] = max(row["dur_s"], float(ev.get("dur_s", 0)))
+            row["tech"] = ev.get("tech") or row.get("tech") or {}
+    ordered = [plan[s["id"]] for s in SURVEY_STAGES if s["id"] in plan]
+    return ordered
+
+
+def _mission_html(stages: List[dict], summary: Optional[dict]) -> str:
+    """Render the research-workflow narration block (business + tech)."""
+    if not stages:
+        return '<p class="muted">No survey mission info recorded for this run.</p>'
+    done = sum(1 for s in stages if s["status"] == "done")
+    pct = int(100 * done / len(stages)) if stages else 0
+    rows = []
+    for s in stages:
+        meta = next(m for m in SURVEY_STAGES if m["id"] == s["id"])
+        mark = {"done": "✓", "running": "●", "pending": "○"}.get(s["status"], "○")
+        cls = {"done": "green", "running": "amber", "pending": "muted"}.get(s["status"], "muted")
+        tech = " · ".join(f"{k}={v}" for k, v in (s.get("tech") or {}).items())
+        extras = ""
+        if tech:
+            extras += f' · <code class="mono">{tech}</code>'
+        if s["dur_s"]:
+            extras += f' · {s["dur_s"]:.1f}s'
+        rows.append(
+            f'<div style="border-left:3px solid #ccc;padding:6px 10px;margin:6px 0">'
+            f'<strong class="{cls}">{mark} {meta["label"]}</strong> '
+            f'<span class="muted">{meta["zh"]}</span>'
+            f'<div class="muted" style="margin-left:16px">'
+            f'<b>what</b> {meta["what"]}<br>'
+            f'<b>how</b> {meta["how"]}<br>'
+            f'<b>why</b> {meta["why"]}<br>'
+            f'<code class="mono">{meta["key"]}</code>{extras}'
+            f'</div></div>')
+    summary_html = ""
+    if summary:
+        links = " ".join(
+            f'<a href="/manuscripts/{Path(x).name}">{label}</a>'
+            for label, x in (("manuscript", summary.get("manuscript")),
+                             ("pdf", summary.get("pdf")))
+            if x)
+        summary_html = (f'<div class="run-card">'
+                        f'<span class="badge {"ok" if summary.get("gate_passed") else "fail"}">'
+                        f'L6 {"pass" if summary.get("gate_passed") else "fail"}</span> '
+                        f'judge={summary.get("judge_label")} · {summary.get("claims", 0)} claims · '
+                        f'{summary.get("n_papers_cited", 0)} papers · '
+                        f'{summary.get("elapsed_s", 0)}s · {links}</div>')
+    return (f'<div style="margin:8px 0">'
+            f'<div style="height:10px;background:#eee;border-radius:5px;overflow:hidden">'
+            f'<div style="height:10px;width:{pct}%;background:#1a7f37"></div></div>'
+            f'<span class="muted">{done}/{len(stages)} research stages · {pct}%</span></div>'
+            + summary_html + "".join(rows))
+
+
 def _survey_summary(run) -> Optional[dict]:
     """Parse the `[survey-result]` JSON line written by run_survey, if any."""
     for ln in reversed(run.lines):
@@ -150,6 +279,10 @@ def _run_card(run) -> str:
     logf = f'<a class="muted" href="/runs/{run.id}/log" target="_blank">log</a>'
     greeting = ''
     survey = _survey_summary(run)
+    mission_link = ''
+    if survey or any(ln.startswith("[survey-stage]") for ln in run.lines):
+        mission_link = (f'<a class="muted" href="/runs/{run.id}/mission" target="_blank">'
+                        f'research view</a> ')
     if survey:
         mode = survey.get("mode", "real")
         badge_cls = "ok" if survey.get("gate_passed") else "fail"
@@ -186,7 +319,7 @@ def _run_card(run) -> str:
     return (f'<div class="run-card">'
             f'<strong>{run.title}</strong> '
             f'<span class="badge {status_badge}">{run.status}</span> '
-            f'<span class="mono muted">{run.id}</span> {logf} {progress}<br>'
+            f'<span class="mono muted">{run.id}</span> {logf} {mission_link}{progress}<br>'
             f'<span class="muted mono">{run.elapsed:.0f}s</span> · '
             f'rc={run.returncode} · {len(run.lines)} lines<br>'
             f'{greeting}'
@@ -218,6 +351,16 @@ def runs_page(request: Request) -> HTMLResponse:
         f'<button class="btn" onclick="startRun(\'{m["id"]}\')">{m["title"]}</button> '
         for m in menu
     )
+    # snapshot the most recent survey run so the mission panel survives refresh
+    last_survey = None
+    for r in rows:
+        if any(ln.startswith("[survey-stage]") for ln in r.lines):
+            last_survey = r
+            break
+    mission_init = ""
+    if last_survey:
+        mission_init = _mission_html(_parse_survey_stages(last_survey.lines),
+                                     _survey_summary(last_survey))
     body = f"""
 <h1>Runs</h1>
 <p class="muted">Each button spawns the same <code>python -m …</code> command you would run from the terminal —
@@ -254,7 +397,10 @@ on-disk ledger and continues from the last completed row (no re-pay from scratch
 </div>
 <div><strong>Model lane (Phase D):</strong> <code>{_env_profile()}</code></div>
 <div style="margin:12px 0">{menu_html}</div>
-<h2>Live tail (SSE)</h2>
+<div style="margin-top:18px"><h2>Live research mission <span class="muted">(what/how/why as the survey runs)</span></h2>
+<div id="mission" class="muted">{mission_init or 'Run a survey — progress is narrated stage-by-stage in research terms here.'}</div>
+<div style="height:8px"></div>
+<h2>Live tail (raw log) <span class="muted">(technical detail)</span></h2>
 <div id="tail">Run something to see progress here.</div>
 <div style="margin-top:8px"><button class="btn danger" onclick="cancelRun()">Cancel current run</button>
 <span id="active-msg" class="muted"></span></div>
@@ -263,14 +409,65 @@ on-disk ledger and continues from the last completed row (no re-pay from scratch
 <script>
 const menus = {json.dumps({m["id"]: m["args"] for m in menu})};
 let currentRun = null, currentStart = 0, es = null;
+const stagesMeta = {json.dumps({s["id"]: {"label": s["label"], "zh": s["zh"],
+  "why": s["why"], "how": s["how"], "what": s["what"], "key": s["key"]} for s in SURVEY_STAGES})};
+const stagePlan = {{}};   // id -> {{status, dur_s, tech}}
+function renderMission(){{
+  const el = document.getElementById('mission');
+  const ids = Object.keys(stagesMeta);
+  const doneN = ids.filter(i => stagePlan[i] && stagePlan[i].status === 'done').length;
+  const pct = Math.round(100 * doneN / ids.length);
+  let rows = '';
+  for (const id of ids){{
+    const m = stagesMeta[id]; const p = stagePlan[id] || {{status:'pending', tech:{{}}}};
+    const mark = {{done:'✓', running:'●', pending:'○'}}[p.status] || '○';
+    const cls = {{done:'#1a7f37', running:'#a96400', pending:'#999'}}[p.status] || '#999';
+    const tech = Object.entries(p.tech||{{}}).map(([k,v])=>k+'='+v).join(' · ');
+    const doneNote = (p.status==='done' && p.dur_s) ? ` · ${{p.dur_s.toFixed(1)}}s` : '';
+    rows += `<div style="border-left:3px solid ${{cls}};padding:4px 10px;margin:5px 0">
+      <span style="color:${{cls}}">${{mark}}</span> <strong>${{m.label}}</strong>
+      <span class="muted">${{m.zh}}</span>
+      <div class="muted" style="margin-left:16px">
+        <b>why</b> ${{m.why}}<br><b>how</b> ${{m.how}}
+        <span class="mono">${{tech ? ' · '+tech : ''}}${{doneNote}}</span>
+      </div></div>`;
+  }}
+  el.innerHTML = `<div style="margin:6px 0">
+    <div style="height:10px;background:#eee;border-radius:5px;overflow:hidden">
+      <div style="height:10px;width:${{pct}}%;background:#1a7f37"></div></div>
+    <span class="muted">${{doneN}}/${{ids.length}} stages done · ${{pct}}%</span>
+    <span class="muted"> · full what/how/why on <a href="/runs/${{currentRun}}/mission">research view</a></span>
+  </div>` + rows;
+}}
+function handleLine(line){{
+  const st = line.match(/^\\[survey-stage\\] (.*)$/);
+  if (st){{
+    try {{
+      const ev = JSON.parse(st[1]);
+      const p = stagePlan[ev.id] = stagePlan[ev.id] || {{status:'pending', dur_s:0, tech:{{}}}};
+      if (ev.status === 'start'){{ p.status = 'running'; }}
+      else if (ev.status === 'done'){{
+        p.status = 'done'; p.dur_s = Math.max(p.dur_s||0, ev.dur_s||0);
+        for (const k in (ev.tech||{{}})) p.tech[k] = ev.tech[k];
+      }}
+      renderMission();
+    }} catch(_){{}}
+    return true;
+  }}
+  return false;
+}}
 function attachSSE(id){{
   currentRun = id; currentStart = 0;
   es && es.close();
   es = new EventSource(`/runs/${{id}}/events`);
   es.onmessage = (e) => {{
     const payload = JSON.parse(e.data);
-    if (payload.type === 'line'){{ document.getElementById('tail').textContent += payload.data + '\\n';
-      document.getElementById('tail').scrollTop = 1e9; }}
+    if (payload.type === 'line'){{
+      if (!handleLine(payload.data)){{
+        document.getElementById('tail').textContent += payload.data + '\\n';
+        document.getElementById('tail').scrollTop = 1e9;
+      }}
+    }}
     else if (payload.type === 'status'){{
       document.getElementById('active-msg').textContent = `run ${{currentRun}} → ${{payload.status}} (rc=${{payload.rc}})`;
       location.reload(); }}
@@ -353,6 +550,31 @@ def run_log(run_id: str):
     return page(f"log {run_id}",
                 f"<h1>log · {run_id} · <span class=badge>{run.status}</span></h1>"
                 f"<pre>{text}</pre>")
+
+
+@app.get("/runs/{run_id}/mission", response_class=HTMLResponse)
+def run_mission(run_id: str):
+    """Read-only 'research view' of a survey run: what stage, how, why —
+    business language with the key technical points, plus the result links.
+    This is the application-scenario answer to 'what is the tool doing'."""
+    run = manager.get(run_id)
+    if not run:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    stages = _parse_survey_stages(run.lines)
+    summary = _survey_summary(run)
+    if not stages and not summary:
+        return page(f"mission {run_id}",
+                    f"<h1>Research view · {run_id}</h1>"
+                    f'<p class="muted">This run is not a survey pipeline run, so it has no '
+                    f'research-workflow narration. See <a href="/runs/{run_id}/log">the log</a> '
+                    f'or <a href="/">the runs page</a>.</p>')
+    q = (summary or {}).get("question", "")
+    head = f"<h1>Research view · {run_id}</h1>"
+    if q:
+        head += f'<p><strong>Question:</strong> <em>{q}</em></p>'
+    head += (f'<p class="muted">How a survey answer is produced — one stage at a time. '
+             f'Business framing ({SURVEY_STAGES[0]["zh"]}…) + the key technical point of each stage.</p>')
+    return page(f"mission {run_id}", head + _mission_html(stages, summary))
 
 
 @app.get("/runs/{run_id}/status", response_class=JSONResponse)

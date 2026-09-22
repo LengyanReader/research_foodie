@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import io
+import json
 import sys
 import time
 from pathlib import Path
@@ -60,19 +61,55 @@ def _render(md_path: Path, question: str) -> dict:
         return {"pdf": "", "pages": 0}
 
 
+def _stage(stage: str, status: str, tech: Optional[dict] = None, dur_s: float = 0.0):
+    """Emit a machine-readable stage event for the dashboard's research-workflow view.
+
+    `status` is 'start' | 'done'. The frontend renders a research-workflow mission
+    panel from these events (business framing is added client-side per stage id).
+    """
+    payload = {"id": stage, "status": status, "dur_s": round(dur_s, 1)}
+    if tech:
+        payload["tech"] = tech
+    print(f"[survey-stage] {json.dumps(payload)}", flush=True)
+
+
 class _TimedPipeline(Pipeline):
     """Same graph, but wraps every node with a per-node wall-clock timer.
 
     Node timing is the first step of any performance pass: it shows exactly which
     LLM call dominates (S_org outline vs S_write claims vs revise_para vs L6 gate).
+    Each node also emits a [survey-stage] event so the dashboard can narrate the
+    research workflow in business terms, not just raw metrics.
     """
+
+    STAGE_OF_NODE = {
+        "_lit": "synthesize",        # S_lit — synthesise the evidence base
+        "_org": "outline",           # S_org — build the article plan
+        "_write": "write",           # S_write — grounded drafting
+        "_review": "write",          # revise — the write loop continues
+        "_revise_para": "write",
+        "_finalize": "finalize",     # assemble abstract/refs/audit annex
+        "_gate": "gate",             # L6 deterministic gate
+        "_judge": "judge",           # P3 academic-judge gate
+    }
+    _started: set = set()
 
     def _build(self):
         def wrap(name: str, fn):
             def timed(state):
+                stage = self.STAGE_OF_NODE.get(f"_{name}") or name
+                if stage not in self._started:
+                    self._started.add(stage)
+                    _stage(stage, "start")
                 t0 = time.time()
-                out = fn(state)
-                print(f"[survey]   node {name:<12} {time.time() - t0:6.1f}s", flush=True)
+                try:
+                    out = fn(state)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[survey]   node {name:<12} FAILED: {e}", flush=True)
+                    raise
+                dt = time.time() - t0
+                print(f"[survey]   node {name:<12} {dt:6.1f}s", flush=True)
+                _stage(stage, "done", tech={"node": name}, dur_s=dt)
                 return out
             return timed
 
@@ -140,6 +177,7 @@ def main(argv: Optional[list] = None) -> int:
             time.sleep(0.3)
         print(f"[survey] mock server up at {base}", flush=True)
 
+    _stage("discover", "start", tech={"backend": args.backend or "env-default"})
     print("[survey] stage 1/5  discovery rails", flush=True)
     t0 = time.time()
     t1 = t0
@@ -147,10 +185,13 @@ def main(argv: Optional[list] = None) -> int:
         candidates = discover(question, backend=args.backend)
         papers = resolved_evidence(question, limit=3, backend=args.backend)
     except Exception as e:  # noqa: BLE001
+        _stage("discover", "done", tech={"error": str(e)})
         print(f"[survey] discovery failed: {e}", flush=True)
         return 1
     t2 = time.time()
     print(f"[survey]   candidates={len(candidates)}  evidence pool={len(papers)} papers  ({t2 - t1:.1f}s)", flush=True)
+    _stage("discover", "done", tech={"candidates": len(candidates)}, dur_s=t2 - t1)
+    _stage("evidence", "done", tech={"pool_size": len(papers)}, dur_s=0.0)
     if not papers:
         print("[survey] no parsed evidence found — nothing grounded to write. Try a different question.", flush=True)
         return 1
@@ -188,11 +229,13 @@ def main(argv: Optional[list] = None) -> int:
     md_path = (out_dir / slug).with_suffix(".md")
     md_path.write_text(artifact, encoding="utf-8")
     print("[survey] stage 5/5  finalize + manuscript written", flush=True)
+    _stage("finalize", "done", tech={"chars": len(artifact)}, dur_s=0.0)
 
     pdf = {"pdf": "", "pages": 0}
     if not args.no_pdf:
         pdf = _render(md_path, question)
         print(f"[survey] rendered PDF: {pdf['pdf']} ({pdf['pages']} pages)", flush=True)
+        _stage("deliver", "done", tech={"pages": pdf.get("pages", 0)}, dur_s=0.0)
 
     md_rel = str(md_path.relative_to(REPO_ROOT)).replace("\\", "/")
     pdf_rel = str(Path(pdf["pdf"]).relative_to(REPO_ROOT)).replace("\\", "/") if pdf.get("pdf") else ""
@@ -200,7 +243,6 @@ def main(argv: Optional[list] = None) -> int:
     print(f"[survey] open in browser: /manuscripts/{md_path.name}", flush=True)
     if pdf.get("pdf"):
         print(f"[survey] PDF: /manuscripts/{Path(pdf['pdf']).name}", flush=True)
-    import json as _json
     _summary = {
         "mode": mode.lower(), "question": question, "gate_passed": passed,
         "judge_label": judge.get("label"), "manuscript": md_rel, "pdf": pdf_rel,
@@ -208,7 +250,7 @@ def main(argv: Optional[list] = None) -> int:
         "n_papers_cited": validation.get("n_papers_cited", 0),
         "claims": len(result.get("claims") or []),
     }
-    print(f"[survey-result] {_json.dumps(_summary)}", flush=True)
+    print(f"[survey-result] {json.dumps(_summary)}", flush=True)
     return 0
 
 
