@@ -52,5 +52,38 @@
   "MAR": 2.75,
   "TSQ": 3,
   "HDQ": 4
+ },
+ {
+  "round": 1,
+  "topic_id": "P-A",
+  "total": 3.875,
+  "BSC": 4,
+  "MAR": 3.25,
+  "TSQ": 3.5,
+  "HDQ": 4.75,
+  "median": 2,
+  "judge_model": "opencode/big-pickle"
+ },
+ {
+  "round": 1,
+  "topic_id": "P-B",
+  "total": 3.4375,
+  "BSC": 3.25,
+  "MAR": 3.25,
+  "TSQ": 3,
+  "HDQ": 4.25,
+  "median": 2,
+  "judge_model": "opencode/big-pickle"
+ },
+ {
+  "round": 1,
+  "topic_id": "P-C",
+  "total": 3.3125,
+  "BSC": 3.75,
+  "MAR": 2.75,
+  "TSQ": 2.75,
+  "HDQ": 4,
+  "median": 2,
+  "judge_model": "opencode/big-pickle"
  }
 ]
