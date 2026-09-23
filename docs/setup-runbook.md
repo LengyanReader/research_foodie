@@ -230,11 +230,13 @@ $env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动�
 #    --render plain|preprint|both   双档 PDF：plain=干货稿(缺省阅读)、preprint=arXiv 出版化稿（默认 both）
 # 手稿/PDF 落在 _eval_out/manuscripts/<slug>.{md,pdf,preprint.pdf}；log 打印 per-node 计时，便于性能调优
 # 手稿正文含 "## Q&A Digest (问答速览)"（缺省干货组织：主问题 → 一句话答案 → 子问题视角 → 证据卡片计数）
-# Web dashboard（WS-B，已实现）：触发/取消/SSE tail/dashboard/manuscripts/feedback
+#   Web dashboard（WS-B，已实现）：触发/取消/SSE tail/dashboard/manuscripts/feedback
 #   Runs 页顶部新增"Try it — answer a research question"输入框 + Mock/Real 切换（明确标注）
 #   "Live research mission"看板：跑 survey 时按阶段叙述 what/how/why（业务语言+技术要点）
 #   结果双档交付：run-card / mission 页 / manuscripts 页 提供 "pdf 干货稿" + "preprint 出版化稿" 两个链接
 #   已完成 survey run 有只读研究视图：http://127.0.0.1:8000/runs/<id>/mission
+#   全站中英切换：nav 右上角 中文/EN（cookie rf_lang 持久化一年，/_lang/{lang} 写 cookie 后回到原页）
+#   视觉：排印稿 × 终端转录——衬线正文 + 等宽元数据/序号/计时、罗马章节索引 I. II. III.、红色方块光标（入场动效）
 & $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
 # 打开 http://127.0.0.1:8000/
 ```

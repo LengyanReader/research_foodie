@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, StreamingResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from .run_manager import manager, REPO_ROOT
@@ -38,151 +38,306 @@ app.mount("/static", StaticFiles(directory=WEB_DIR / "static"), name="static")
 # Templates (no external JS; inline CSS — zero network deps, K1/K2-safe)
 # ---------------------------------------------------------------------------
 
-HTML_HEAD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
-<title>research_foodie · {title}</title><style>
+HTML_HEAD = """<!doctype html><html lang="{html_lang}"><head><meta charset="utf-8">
+<title>research_foodie · {title}</title>
+<style>
+/* ------------------------------------------------------------------
+   II    design tokens — a set manuscript with a terminal transcript.
+   Serif prose on cold press paper; every figure and footnote set in
+   a mono voice. One live heartbeat: the inked block cursor.
+   ------------------------------------------------------------------ */
 :root{{
-  --paper:#f4f5ef; --card:#fcfcfa; --ink:#20211c; --ink-soft:#56584e; --ink-faint:#8b8d80;
-  --rule:#d7d8cd; --rule-strong:#20211c; --mark:#b0432e; --pass:#2c6b4e; --warn:#96680f;
-  --link:#35506b;
-  --serif:Georgia,'Times New Roman',serif; --sans:system-ui,'Segoe UI','PingFang SC',sans-serif;
-  --mono:Consolas,'Cascadia Mono',monospace;
+  --paper:#f6f5f0; --card:#fcfbf7; --ink:#20221d;
+  --ink-soft:#56594e; --ink-faint:#7a7b6f;
+  --rule:#dbd8cc; --rule-strong:#20221d;
+  --link:#2f5568; --pass:#37614d; --warn:#8a6113; --mark:#a53a2c;
+  --serif:Georgia,'Iowan Old Style','Source Serif 4','Times New Roman',serif;
+  --sans:'Segoe UI','PingFang SC',system-ui,sans-serif;
+  --mono:Consolas,'Cascadia Mono','IBM Plex Mono',ui-monospace,monospace;
 }}
 *{{box-sizing:border-box}}
 html{{scrollbar-gutter:stable}}
-body{{margin:0;padding:26px clamp(16px,5vw,56px) 80px;color:var(--ink);
-  background:var(--paper);font:15px/1.65 var(--sans)}}
-h1,h2,h3{{font-family:var(--serif);line-height:1.2;font-weight:600}}
-h1{{font-size:clamp(25px,3.6vw,33px);margin:.1em 0 .25em}}
-h2{{font-size:17px;margin:0;letter-spacing:.01em}}
-h2 .en{{font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-left:8px}}
+::selection{{background:#2f5568;color:#fcfbf7}}
+body{{margin:0;padding:28px clamp(16px,5vw,60px) 64px;color:var(--ink);
+  background:var(--paper);font:15.5px/1.72 var(--serif}}
+h1,h2,h3{{font-family:var(--serif);line-height:1.25;font-weight:600}}
+h1{{font-size:clamp(26px,3.8vw,34px);margin:.1em 0 .3em}}
+h2{{font-size:18px;margin:0;letter-spacing:.01em}}
+h2 .en{{font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-left:10px}}
 a{{color:var(--link);text-decoration:none}}
 a:hover{{text-decoration:underline;color:var(--ink)}}
 code{{font-family:var(--mono);font-size:12px}}
 pre{{font-family:var(--mono);font-size:12px;background:transparent;margin:0}}
+.num, .stg-no, .tick, .id, td, th{{font-variant-numeric:tabular-nums}}
 
-/* nav */
+/* nav — letterhead */
 .nav{{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
   padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:4px}}
-.brand{{font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink)}}
-.brand .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12.5px;margin-left:8px}}
-nav a{{margin-left:20px;color:var(--ink-soft);font-size:14px}}
+.brand{{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;color:var(--ink)}}
+.brand .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12px;margin-left:10px}}
+.brand .cursor{{display:inline-block;width:.62em;height:1.05em;margin-left:5px;
+  background:var(--mark);vertical-align:-.18em;animation:blink 1.1s steps(2,start) 4;
+  animation-iteration-count:4;animation-fill-mode:forwards}}
+@keyframes blink{{to{{visibility:hidden}}}}
+nav a{{margin-left:20px;color:var(--ink-soft);font-size:14px;font-family:var(--sans)}}
 nav a.cur{{color:var(--ink);border-bottom:1px solid var(--mark)}}
 
-/* masthead */
-.mast{{border-bottom:2px solid var(--ink);padding:14px 0 14px;margin-bottom:6px}}
-.mast-meta{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
-.lede{{color:var(--ink-soft);max-width:66ch;font-family:var(--serif);font-size:15.5px;line-height:1.6;margin:.5em 0 0}}
+/* masthead — title block */
+.mast{{border-bottom:2px solid var(--rule-strong);padding:16px 0 14px;margin-bottom:4px}}
+.mast-meta{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
+.mast h1{{font-variant:small-caps;letter-spacing:.02em}}
+.lede{{color:var(--ink-soft);max-width:68ch;font-size:15.5px;line-height:1.66;margin:.6em 0 0}}
 
 /* sections */
-.sect{{margin:30px 0 0}}
+.sect{{margin:32px 0 0}}
 .sect-head{{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  border-bottom:1px solid var(--rule-strong);padding-bottom:5px;margin-bottom:16px}}
-.sect-head .side{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
+  border-bottom:1px solid var(--rule-strong);padding-bottom:6px;margin-bottom:16px}}
+.sect-head h2 .idx{{font-family:var(--mono);font-weight:400;color:var(--ink-faint);margin-right:10px;
+  font-variant-numeric:tabular-nums}}
+.sect-head .side{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
 
-/* probe form */
-.probe{{background:var(--card);border:1px solid var(--rule);padding:18px 20px 16px}}
-.probe label.fl{{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:8px}}
-.qfield{{width:100%;padding:10px 12px;font:14.5px var(--sans);color:var(--ink);
-  border:1px solid var(--ink);border-radius:0;background:var(--paper)}}
-.qfield:focus{{outline:2px solid var(--link);outline-offset:2px}}
-.seg{{display:inline-flex;border:1px solid var(--ink);margin:0}}
-.seg label{{display:flex;align-items:baseline;gap:8px;margin:0;padding:8px 14px;font-size:13px;
+/* probe — the paper form */
+.probe{{background:var(--card);border:1px solid var(--rule);padding:20px 22px 16px}}
+.probe label.fl{{display:block;font-size:12.5px;font-family:var(--mono);color:var(--ink-soft);margin-bottom:9px;letter-spacing:.02em}}
+.qfield{{width:100%;padding:11px 13px;font:15px/1.5 var(--serif);color:var(--ink);
+  border:1px solid var(--rule-strong);border-radius:0;background:var(--paper)}}
+.qfield::placeholder{{font-style:italic;color:var(--ink-faint)}}
+.qfield:focus{{outline:2px solid var(--link);outline-offset:1px;border-color:var(--link)}}
+.seg{{display:inline-flex;border:1px solid var(--rule-strong);margin:0}}
+.seg label{{display:flex;align-items:baseline;gap:8px;margin:0;padding:9px 15px;font:12.5px var(--mono);
   color:var(--ink-soft);cursor:pointer;border-right:1px solid var(--rule)}}
 .seg label:last-child{{border-right:0}}
 .seg input{{position:absolute;opacity:0;pointer-events:none}}
-.seg b{{font-weight:600;color:var(--ink)}}
-.seg small{{display:block;font-size:11.5px;color:var(--ink-faint)}}
-.seg label:has(input:checked){{background:var(--paper)}}
-.probe-row{{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px}}
-.hint{{margin:12px 0 0;font-size:12.5px;color:var(--ink-faint)}}
+.seg b{{font-weight:700;color:var(--ink)}}
+.seg small{{display:block;font-size:10.5px;color:var(--ink-faint);letter-spacing:.01em}}
+.seg label:has(input:checked){{background:var(--ink);color:var(--paper)}}
+.seg label:has(input:checked) b{{color:var(--paper)}}
+.seg label:has(input:checked) small{{color:var(--rule)}}
+.seg label:has(input:focus-visible){{outline:2px solid var(--link);outline-offset:1px}}
+.probe-row{{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:15px}}
+.hint{{margin:13px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
+.hint b{{font-weight:700;color:var(--ink-soft)}}
 
-/* buttons */
-.btn{{font:13px var(--sans);color:var(--ink);background:transparent;border:1px solid var(--ink);
-  padding:8px 18px;cursor:pointer;border-radius:0}}
-.btn:hover{{background:var(--ink);color:var(--paper)}}
+/* buttons — inked controls */
+.btn{{font:12.5px/1 var(--mono);color:var(--ink);background:transparent;border:1px solid var(--rule-strong);
+  padding:0 18px;min-height:36px;cursor:pointer;border-radius:0;letter-spacing:.02em}}
+.btn:hover:not(:disabled){{background:var(--ink);color:var(--paper)}}
+.btn:disabled{{opacity:.55;cursor:wait}}
 .btn:focus-visible{{outline:2px solid var(--link);outline-offset:2px}}
 .btn.primary{{background:var(--ink);color:var(--paper)}}
-.btn.primary:hover{{background:var(--mark);border-color:var(--mark)}}
+.btn.primary:hover:not(:disabled){{background:var(--mark);border-color:var(--mark)}}
 .btn.danger{{border-color:var(--mark);color:var(--mark)}}
-.btn.danger:hover{{background:var(--mark);color:var(--paper)}}
-.btn.mini{{padding:4px 10px;font-size:12px;border-color:var(--rule);color:var(--ink-soft)}}
-.btn.mini:hover{{border-color:var(--ink);color:var(--ink)}}
+.btn.danger:hover:not(:disabled){{background:var(--mark);color:var(--paper)}}
+.btn.mini{{padding:0 11px;min-height:28px;font-size:11px;border-color:var(--rule);color:var(--ink-soft)}}
+.btn.mini:hover:not(:disabled){{border-color:var(--ink);color:var(--ink)}}
 .chips{{display:flex;flex-wrap:wrap;gap:6px}}
+.chips .btn{{min-height:30px;border-color:var(--rule);color:var(--ink-soft);font-size:11.5px}}
+.chips .btn:hover:not(:disabled){{border-color:var(--rule-strong);color:var(--ink);background:var(--card)}}
 
-/* mission — the numbered stage sequence */
+/* mission — the numbered stage sequence, serif narration + mono margin */
 .mission{{display:flex;flex-direction:column}}
-.progress{{height:3px;background:var(--rule);margin:2px 0 6px}}
-.progress i{{display:block;height:3px;background:var(--pass);transition:width .4s ease}}
-.stg{{display:grid;grid-template-columns:46px 1fr;padding:12px 0;border-bottom:1px solid var(--rule)}}
+.progress{{height:2px;background:var(--rule);margin:2px 0 6px}}
+.progress i{{display:block;height:2px;background:var(--pass);transition:width .4s ease}}
+.stg{{display:grid;grid-template-columns:48px 1fr;padding:13px 0;border-bottom:1px solid var(--rule)}}
 .stg:last-child{{border-bottom:0}}
-.stg-no{{padding-top:3px;font-family:var(--serif);color:var(--ink-faint)}}
-.stg-title{{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-family:var(--serif);font-weight:600;font-size:15.5px}}
-.stg-title .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12.5px}}
-.stg-title .tick{{font-family:var(--mono);font-size:11.5px;color:var(--pass);margin-left:auto}}
-.stg-what{{margin:4px 0 1px}}
-.stg-why{{margin:0 0 5px;color:var(--ink-soft);font-family:var(--serif);font-size:14px}}
-.stg-note{{font-family:var(--mono);font-size:12px;color:var(--ink)}}
-.stg-tech{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:2px}}
+.stg-no{{padding-top:4px;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
+.stg-title{{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-family:var(--serif);font-weight:600;font-size:16px}}
+.stg-title .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12px}}
+.stg-title .tick{{font-family:var(--mono);font-size:11.5px;color:var(--pass);margin-left:auto;letter-spacing:.02em}}
+.stg-what{{margin:5px 0 1px}}
+.stg-why{{margin:0 0 6px;color:var(--ink-soft);font-size:14px}}
+.stg-note{{font-family:var(--mono);font-size:11.5px;color:var(--ink)}}
+.stg-tech{{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:2px}}
 .stg.live .stg-no{{color:var(--mark);font-weight:700}}
-.stg.live .stg-title{{border-left:3px solid var(--mark);padding-left:10px}}
+.stg.live .stg-title{{border-left:3px solid var(--mark);padding-left:12px}}
 .stg.live .stg-title .tick{{color:var(--mark)}}
-.stg.off{{opacity:.55}}
+.stg.live .stg-title .tick::before{{content:'● ';animation:pulse 1.4s ease-in-out infinite}}
+.stg.off{{opacity:.6}}
 .stg.done .stg-no{{color:var(--pass)}}
+@keyframes pulse{{50%{{opacity:.25}}}}
 
-/* raw tail */
-details.rawtail{{border:1px solid var(--rule);margin-top:6px}}
-details.rawtail summary{{cursor:pointer;padding:8px 12px;font-size:12.5px;color:var(--ink-soft);list-style:none}}
-details.rawtail summary:before{{content:'▸ ';color:var(--ink-faint)}}
-details.rawtail[open] summary:before{{content:'▾ '}}
-#tail{{margin:0;padding:10px 12px;height:230px;overflow:auto;border-top:1px solid var(--rule);
-  font-family:var(--mono);font-size:12px;color:#c9d1d9;background:#191a10;white-space:pre-wrap}}
+/* raw-tail — the transcript drawer */
+details.rawtail{{border:1px solid var(--rule);margin-top:6px;background:var(--card)}}
+details.rawtail summary{{cursor:pointer;padding:9px 13px;font:11.5px var(--mono);color:var(--ink-soft);list-style:none;letter-spacing:.02em}}
+details.rawtail summary::before{{content:'▸ ';color:var(--mark)}}
+details.rawtail[open] summary::before{{content:'▾ '}}
+#tail{{margin:0;padding:12px 14px;height:240px;overflow:auto;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;line-height:1.5;color:#dbe2c9;background:#16180f;white-space:pre-wrap}}
 
-/* run archive */
+/* run archive — bibliography entries */
 .runs{{display:flex;flex-direction:column;gap:12px}}
-.run-card{{background:var(--card);border:1px solid var(--rule);padding:12px 16px}}
+.run-card{{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:13px 17px 12px}}
+.run-card:hover{{border-left-color:var(--link)}}
 .run-top{{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}}
-.run-top strong{{font-family:var(--serif);font-size:15.5px}}
-.run-card .cmd{{margin-top:8px;font-size:11.5px;color:var(--ink-faint);word-break:break-all}}
+.run-top strong{{font-family:var(--serif);font-size:16px}}
+.run-card .cmd{{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);word-break:break-all;letter-spacing:.01em}}
 .run-card .q{{margin-top:6px;font-family:var(--serif);font-style:italic;color:var(--ink-soft)}}
-.run-card .res{{margin-top:4px;font-size:13px;color:var(--ink-soft)}}
+.run-card .res{{margin-top:5px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}}
+.run-card .res a{{margin-right:14px}}
 .mono{{font-family:var(--mono)}}
-.id{{color:var(--ink-faint);font-size:12px}}
-.badge{{font-size:11px;padding:1px 8px;border:1px solid var(--rule-strong);white-space:nowrap}}
+.id{{color:var(--ink-faint);font-size:11.5px}}
+.badge{{font-family:var(--mono);font-size:10.5px;padding:2px 9px;border:1px solid var(--rule-strong);letter-spacing:.03em}}
 .badge.ok{{border-color:var(--pass);color:var(--pass)}}
 .badge.fail{{border-color:var(--mark);color:var(--mark)}}
 .badge.run{{border-color:var(--mark);color:var(--mark)}}
 .badge.cancel{{border-color:var(--warn);color:var(--warn)}}
 .badge.muted{{border-color:var(--rule);color:var(--ink-faint)}}
 
-/* generic utilities & tables */
+/* tables & utilities */
 table{{border-collapse:collapse;width:100%;font-size:13px}}
-td,th{{border:1px solid var(--rule);padding:6px 10px;text-align:left}}
-th{{background:var(--card);font-weight:600}}
+td,th{{border:1px solid var(--rule);padding:7px 11px;text-align:left}}
+th{{background:var(--card);font-family:var(--mono);font-weight:600;font-size:11.5px}}
 ul{{margin:.4em 0}}li{{margin:.15em 0}}
 .muted{{color:var(--ink-faint)}}.green{{color:var(--pass)}}.red{{color:var(--mark)}}.amber{{color:var(--warn)}}
 .mission-empty{{color:var(--ink-faint);font-family:var(--serif);font-style:italic;padding:10px 0}}
 
+/* colophon */
+.colophon{{margin-top:56px;padding-top:12px;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--ink-faint);letter-spacing:.02em}}
+
 @media (max-width:700px){{
-  .stg{{grid-template-columns:32px 1fr}}
+  .stg{{grid-template-columns:36px 1fr}}
   .stg-title .tick{{margin-left:0}}
   nav a{{margin-left:12px;font-size:13px}}
 }}
 @media (prefers-reduced-motion: reduce){{
   *{{transition:none!important;animation:none!important}}
+  .brand .cursor{{animation:none;visibility:hidden}}
+  .stg.live .stg-title .tick::before{{animation:none}}
 }}
 </style></head><body>
-<nav class="nav"><span class="brand">Research Foodie<span class="zh">本地科研综述工作台</span></span>
-<span><a class="{cur_workbench}" href="/">Workbench</a><a class="{cur_dash}" href="/dashboard">Numbers</a><a class="{cur_ms}" href="/manuscripts">Manuscripts</a><a class="{cur_fb}" href="/feedback">Feedback</a></span></nav>
+<nav class="nav"><span class="brand">research_foodie<span class="zh">本地科研综述工作台</span><span class="cursor" aria-hidden="true"></span></span>
+<span><a class="{cur_workbench}" href="/">{ui_nav_workbench}</a><a class="{cur_dash}" href="/dashboard">{ui_nav_dash}</a><a class="{cur_ms}" href="/manuscripts">{ui_nav_ms}</a><a class="{cur_fb}" href="/feedback">{ui_nav_fb}</a></span>
+<span class="lang-nav"><a class="{cur_lang_zh}" href="/_lang/zh">中文</a><a class="{cur_lang_en}" href="/_lang/en">EN</a></span></nav>
 """
 
-HTML_TAIL = "</body></html>"
+HTML_TAIL = ('<footer class="colophon">research_foodie · local-first survey pipeline · '
+             'pandoc + xelatex (YaHei) · zero external network on the page · '
+             'binds 127.0.0.1 · citations are the lifeline</footer>'
+             "</body></html>")
 
-def page(title, body: str, cur: str = "wb") -> HTMLResponse:
+UI = {
+    "en": {
+        "nav_workbench": "Workbench", "nav_dash": "Numbers", "nav_ms": "Manuscripts", "nav_fb": "Feedback",
+        "mast_meta": "research_foodie · local-first survey pipeline · citations are the lifeline",
+        "mast_title": "Survey workbench",
+        "lede": ("Ask a question and get a survey where every sentence is traceable. Each step is "
+                 "narrated as it happens — what stage the research is at, how it is done, and why. "
+                 "Every survey ships in two tiers: the dry-goods manuscript (default) and an "
+                 "arXiv-style preprint."),
+        "probe_head": "Start a survey", "probe_head_en": "ask a research question",
+        "lane": "Model lane",
+        "q_label": "Research question", "q_hint": "what this survey should answer",
+        "q_ph": "e.g. GPT detectors bias against non-native English writers",
+        "mock_label": "Mock demo", "mock_note": "offline · deterministic · ~1 s · repeatable · not a live result",
+        "real_label": "Real run", "real_note": "live free model lane · ~5–8 min · temperature > 0",
+        "run_btn": "Run survey", "run_busy": "[ running… ]", "cancel_btn": "Cancel run",
+        "resume_hint": ("An interrupted run can be RESUMED from its card — the CLI keeps a per-step "
+                        "ledger, so a restart continues from the last finished step."),
+        "mission_head": "Live mission", "mission_head_en": "what / how / why as it runs",
+        "raw_head": "Raw log", "raw_head_en": "engineering detail, under the narration",
+        "no_mission": ("Nothing in flight yet. Ask a question above — progress is narrated stage by "
+                       "stage, in research terms."),
+        "runs_head": "Recent runs", "runs_head_en": "↘ resume continues an interrupted run",
+        "no_runs": "No runs yet this session.",
+        "done": "done", "running": "running", "pending": "pending",
+        "failed": "failed", "cancelled": "cancelled", "interrupted": "interrupted",
+        "l6_pass": "L6 pass", "l6_fail": "L6 fail",
+        "judge": "judge", "claims": "claims", "papers": "papers cited", "seconds": "s",
+        "stages": "research stages",
+        "research_view": "research view",
+        "link_manuscript": "manuscript", "link_pdf": "pdf · dry goods", "link_preprint": "preprint · arXiv",
+        "link_log": "log", "link_resume": "Resume",
+        "started": "submitted — narrating in the mission panel below…",
+        "mission_question": "Question:",
+        "mission_title": "Research view",
+        "mission_not_survey": ("This run is not a survey-pipeline run, so it has no research-workflow "
+                               "narration. See the log or the runs page instead."),
+        "mission_desc": ("How a survey answer is produced — one stage at a time. Business framing "
+                         "(检索文献…) plus each stage's key technical point."),
+        "dash_title": "Dashboard",
+        "dash_var": "Judge variance (Session 19 baseline)",
+        "dash_var_h": ("topic", "rounds", "mean total", "sd"),
+        "dash_pools": "30-topic evidence pools",
+        "dash_pools_h": ("total", "full (≥3 papers)", "partial", "empty"),
+        "dash_ms": "Manuscripts (L6 human review surface)",
+        "dash_bench": "Bench report (raw markdown, bench_pilot_das.md)",
+        "ms_title": "Manuscripts", "ms_h": ("file", "size", ""),
+        "ms_open": "open", "ms_none": "no rendered manuscripts yet — run a survey or a bench scenario first",
+        "ms_note": "Rendered from the manuscript source by pandoc + xelatex + YaHei (干货稿) and its arXiv-style preprint variant.",
+        "fb_title": "Feedback",
+        "log_title": "log",
+    },
+    "zh": {
+        "nav_workbench": "工作台", "nav_dash": "数据", "nav_ms": "手稿", "nav_fb": "反馈",
+        "mast_meta": "research_foodie · 本地优先调研管线 · 引用即生命线",
+        "mast_title": "调研工作台",
+        "lede": ("输入一个问题，得到一份逐句可溯源的综述。每一步研究都在这里直播——做到哪个阶段、"
+                 "怎么做、为什么这么做。每次调研都双档交付：干货稿（缺省）与 arXiv 出版化稿。"),
+        "probe_head": "投题", "probe_head_en": "输入一个研究问题",
+        "lane": "模型通道",
+        "q_label": "研究问题", "q_hint": "这份综述要回答的问题",
+        "q_ph": "例如：GPT detectors 是否对非母语作者有偏倚",
+        "mock_label": "模拟演示", "mock_note": "离线 · 确定性 · ~1 秒 · 可复现 · 非真实结果",
+        "real_label": "真实运行", "real_note": "实时免费模型通道 · 约 5–8 分钟 · 有涨落",
+        "run_btn": "开始调研", "run_busy": "[ 运行中… ]", "cancel_btn": "取消运行",
+        "resume_hint": ("中断的 run 可在卡片上续跑 —— CLI 保留分步台账，重启后从最后已完成的一步继续，"
+                        "不重复计费。"),
+        "mission_head": "研究进行时", "mission_head_en": "做到哪 / 怎么做 / 为什么",
+        "raw_head": "技术日志", "raw_head_en": "工程细节 · 在叙事层之下",
+        "no_mission": "还没有研究在跑。在上方投一个题——进度会按研究术语逐阶段讲述。",
+        "runs_head": "历次运行", "runs_head_en": "↘ 断点续跑",
+        "no_runs": "本次会话还没有运行记录。",
+        "done": "完成", "running": "进行中", "pending": "待开始",
+        "failed": "已失败", "cancelled": "已取消", "interrupted": "已中断",
+        "l6_pass": "门禁通过", "l6_fail": "门禁未过",
+        "judge": "判题", "claims": "条声明", "papers": "篇被引", "seconds": "秒",
+        "stages": "个研究阶段",
+        "research_view": "研究视图",
+        "link_manuscript": "干货稿", "link_pdf": "干货 PDF", "link_preprint": "出版化 PDF (arXiv)",
+        "link_log": "日志", "link_resume": "续跑",
+        "started": "已提交——正在下方「研究进行时」逐阶段讲述…",
+        "mission_question": "研究问题：",
+        "mission_title": "研究视图",
+        "mission_not_survey": ("这不是调研管线 run，没有研究流程叙事。请查看日志或回到工作台。"),
+        "mission_desc": "一份综述答案是怎样产生的——逐阶段展开：业务语言（检索文献…）+ 每阶段的关键技术点。",
+        "dash_title": "数据总览",
+        "dash_var": "判题方差基线（Session 19）",
+        "dash_var_h": ("主题", "轮次", "均值总分", "标准差"),
+        "dash_pools": "30 主题证据池",
+        "dash_pools_h": ("总计", "足量（≥3 篇）", "部分", "空池"),
+        "dash_ms": "手稿（L6 人工审读面）",
+        "dash_bench": "基准报告（bench_pilot_das.md 原文）",
+        "ms_title": "手稿", "ms_h": ("文件", "大小", ""),
+        "ms_open": "打开", "ms_none": "还没有已渲染手稿——先跑一次调研或基准场景",
+        "ms_note": "从同一份手稿源码渲染：pandoc + xelatex + YaHei（干货稿）与其 arXiv 出版化变体。",
+        "fb_title": "反馈",
+        "log_title": "日志",
+    },
+}
+
+
+def T(lang: str, key: str) -> str:
+    return UI.get(lang, UI["en"]).get(key, key)
+
+
+def lang_of(request: Request) -> str:
+    return request.cookies.get("rf_lang", "en") if request.cookies.get("rf_lang") in ("en", "zh") else "en"
+
+
+def page(title, body: str, cur: str = "wb", lang: str = "en") -> HTMLResponse:
     kw = dict(
         cur_workbench="cur" if cur == "wb" else "",
         cur_dash="cur" if cur == "dash" else "",
         cur_ms="cur" if cur == "ms" else "",
         cur_fb="cur" if cur == "fb" else "",
+        cur_lang_zh="cur" if lang == "zh" else "",
+        cur_lang_en="cur" if lang == "en" else "",
+        html_lang="zh-CN" if lang == "zh" else "en",
+        ui_nav_workbench=T(lang, "nav_workbench"),
+        ui_nav_dash=T(lang, "nav_dash"),
+        ui_nav_ms=T(lang, "nav_ms"),
+        ui_nav_fb=T(lang, "nav_fb"),
     )
     return HTMLResponse(HTML_HEAD.format(title=title, **kw) + body + HTML_TAIL)
 
@@ -266,47 +421,47 @@ SURVEY_STAGES: List[dict] = [
      "what": "Search for the papers that are worth reading for this question",
      "how": "Three discovery rails (seed / arXiv / orx) with the free arXiv API",
      "why": "A survey is only as good as the papers it considers",
-     "key": "backend · candidates", "icon": "search"},
+     "key": "backend · candidates", "icon": "search", "est": "≈2–15 s"},
     {"id": "evidence", "label": "Build evidence pool", "zh": "解析证据",
      "what": "Turn selected PDFs into searchable, quotable text",
      "how": "MinerU windowed parse (≤6 pages) + resolved_evidence() pool",
      "why": "Only retrievable full text can back verbatim grounding later",
-     "key": "pool_size papers", "icon": "archive"},
+     "key": "pool_size papers", "icon": "archive", "est": "≈5–30 s"},
     {"id": "synthesize", "label": "Synthesise literature", "zh": "文献综合",
      "what": "Distil each paper into the claims and facts it can actually support",
      "how": "S_lit node — per-paper extraction, tagged with its paper_id",
      "why": "Drafting builds on verified content instead of memory",
-     "key": "model lane · paper_id tags", "icon": "book"},
+     "key": "model lane · paper_id tags", "icon": "book", "est": "≈30–90 s"},
     {"id": "outline", "label": "Plan the article", "zh": "制定大纲",
      "what": "Break the question into a section structure and argument flow",
      "how": "S_org node — STORM-style multi-perspective outline on LangGraph",
      "why": "Outline decides coverage before a single sentence is written",
-     "key": "reader perspectives · sections", "icon": "list"},
+     "key": "reader perspectives · sections", "icon": "list", "est": "≈30–120 s"},
     {"id": "write", "label": "Write grounded sections", "zh": "接地写作",
      "what": "Write each section so every claim is bound to its verbatim source",
      "how": "S_write + review — BM25 source windows + 5-gram verbatim filter",
      "why": "Kills hallucination at write time; un-grounded claims are dropped",
-     "key": "claims · BM25 windows · 5-gram", "icon": "pencil"},
+     "key": "claims · BM25 windows · 5-gram", "icon": "pencil", "est": "≈1–3 min"},
     {"id": "finalize", "label": "Assemble manuscript", "zh": "装配成稿",
      "what": "Merge abstract, evidence table, references, and audit annex",
      "how": "_finalize node — deterministic assembly of the artifact",
      "why": "Produces a single reviewable deliverable with provenance",
-     "key": "chars · evidence table · annex", "icon": "layers"},
+     "key": "chars · evidence table · annex", "icon": "layers", "est": "<1 s"},
     {"id": "gate", "label": "Deterministic gate", "zh": "机械门禁",
      "what": "Zero-LLM quality checks: structure, citation form, grounding, bilingual",
      "how": "validate.py L6 — deterministic rules, no model call",
      "why": "A hard floor that never relies on the model's self-report",
-     "key": "L6 · 5-gram overlap · arXiv/DOI form", "icon": "shield"},
+     "key": "L6 · 5-gram overlap · arXiv/DOI form", "icon": "shield", "est": "<1 s"},
     {"id": "judge", "label": "Academic judgement", "zh": "AI 判题",
      "what": "Score the manuscript against a scholarly rubric",
      "how": "P3 judge — DAS-Bench 16-axis rubric (BSC·MAR·TSQ·HDQ)",
      "why": "Aligns with an external evaluation protocol, not just internal rules",
-     "key": "label · checks", "icon": "scale"},
+     "key": "label · checks", "icon": "scale", "est": "≈1–3 min"},
     {"id": "deliver", "label": "Render deliverables", "zh": "渲染交付",
      "what": "Render the manuscript to PDF for human review",
      "how": "render_manuscript — pandoc + xelatex + YaHei",
      "why": "Human L6 review happens on a rendered artifact",
-     "key": "pages · pdf link", "icon": "doc"},
+     "key": "pages · pdf link", "icon": "doc", "est": "≈5–60 s"},
 ]
 _STAGE_ORDER = {s["id"]: i for i, s in enumerate(SURVEY_STAGES)}
 
@@ -336,7 +491,7 @@ def _parse_survey_stages(lines: List[str]) -> List[dict]:
     return ordered
 
 
-def _mission_html(stages: List[dict], summary: Optional[dict]) -> str:
+def _mission_html(stages: List[dict], summary: Optional[dict], lang: str = "en") -> str:
     """Render the research-workflow narration block (business + tech)."""
     if not stages:
         return '<p class="muted">No survey mission info recorded for this run.</p>'
@@ -345,17 +500,24 @@ def _mission_html(stages: List[dict], summary: Optional[dict]) -> str:
     rows = []
     for i, s in enumerate(stages, 1):
         meta = next(m for m in SURVEY_STAGES if m["id"] == s["id"])
+        label = meta["label"] if lang == "en" else meta["zh"]
         status = s["status"] if s["status"] in ("done", "running", "pending") else "pending"
         mark = {"done": "✓", "running": "●", "pending": "○"}[status]
         dur = f" · {s['dur_s']:.1f}s" if s.get("dur_s") else ""
-        tick = {"done": f"done{dur}", "running": "running", "pending": "pending"}[status]
+        tick = {("done"): T(lang, "done") + dur,
+                "running": T(lang, "running"),
+                "pending": T(lang, "pending")}[status]
+        est = meta.get("est")
+        if status == "running" and est:
+            tick += f" · {est}"
         tech = " · ".join(f"{k}={v}" for k, v in (s.get("tech") or {}).items())
-        note = ('<div class="stg-note">how · ' + meta["how"] + '</div>'
+        note = ('<div class="stg-note">' + meta["how"] + '</div>'
                 + (f'<div class="stg-tech">{tech}</div>' if tech else ""))
         rows.append(
             f'<article class="stg {status}">'
             f'<div class="stg-no">{i:02d}</div><div>'
-            f'<div class="stg-title">{meta["label"]}<span class="zh">{meta["zh"]}</span>'
+            f'<div class="stg-title">{label}'
+            f'<span class="zh">{meta["label"] if lang != "en" else meta["zh"]}</span>'
             f'<span class="tick">{mark} {tick}</span></div>'
             f'<p class="stg-what">{meta["what"]}</p>'
             f'<p class="stg-why">{meta["why"]}</p>'
@@ -365,22 +527,22 @@ def _mission_html(stages: List[dict], summary: Optional[dict]) -> str:
     if summary:
         links = " ".join(
             f'<a href="/manuscripts/{Path(x).name}">{label}</a>'
-            for label, x in (("manuscript", summary.get("manuscript")),
-                             ("pdf 干货稿", summary.get("pdf")),
-                             ("preprint 出版化稿", summary.get("pdf_pub")))
+            for label, x in ((T(lang, "link_manuscript"), summary.get("manuscript")),
+                             (T(lang, "link_pdf"), summary.get("pdf")),
+                             (T(lang, "link_preprint"), summary.get("pdf_pub")))
             if x)
-        verdict = "pass" if summary.get("gate_passed") else "fail"
+        verdict = T(lang, "l6_pass") if summary.get("gate_passed") else T(lang, "l6_fail")
         summary_html = (f'<div class="run-card">'
                         f'<span class="badge {"ok" if summary.get("gate_passed") else "fail"}">'
-                        f'L6 {verdict}</span> '
-                        f'<span class="res">judge={summary.get("judge_label")} · '
-                        f'{summary.get("claims", 0)} claims · '
-                        f'{summary.get("n_papers_cited", 0)} papers · '
-                        f'{summary.get("elapsed_s", 0)}s</span> '
+                        f'{verdict}</span> '
+                        f'<span class="res">{T(lang, "judge")}={summary.get("judge_label")} · '
+                        f'{summary.get("claims", 0)} {T(lang, "claims")} · '
+                        f'{summary.get("n_papers_cited", 0)} {T(lang, "papers")} · '
+                        f'{summary.get("elapsed_s", 0)}{T(lang, "seconds")}</span> '
                         f'{links}</div>')
     return (f'<div class="progress"><i style="width:{pct}%"></i></div>'
             f'<div class="muted" style="font-size:12px">{done}/{len(stages)} '
-            f'research stages · {pct}%</div>'
+            f'{T(lang, "stages")} · {pct}%</div>'
             + summary_html + "".join(rows))
 
 
@@ -395,20 +557,21 @@ def _survey_summary(run) -> Optional[dict]:
     return None
 
 
-def _run_card(run) -> str:
+def _run_card(run, lang: str = "en") -> str:
     """HTML card for one run (list page)."""
     from tools.eval.run_ledger import ResumeLedger
     status_badge = {
         "done": 'ok', "running": 'run', "pending": 'run',
         "failed": 'fail', "cancelled": 'cancel', "interrupted": 'cancel',
     }.get(run.status, 'muted')
-    logf = f'<a class="muted" href="/runs/{run.id}/log" target="_blank">log</a>'
+    status_label = T(lang, run.status)
+    logf = f'<a class="muted" href="/runs/{run.id}/log" target="_blank">{T(lang, "link_log")}</a>'
     greeting = ''
     survey = _survey_summary(run)
     mission_link = ''
     if survey or any(ln.startswith("[survey-stage]") for ln in run.lines):
         mission_link = (f'<a class="muted" href="/runs/{run.id}/mission" target="_blank">'
-                        f'research view</a> ')
+                        f'{T(lang, "research_view")}</a> ')
     if survey:
         mode = survey.get("mode", "real")
         badge_cls = "ok" if survey.get("gate_passed") else "fail"
@@ -416,17 +579,23 @@ def _run_card(run) -> str:
                       f'{"MOCK demo" if mode == "mock" else "REAL run"}</span>')
         links = []
         if survey.get("manuscript"):
-            links.append(f'<a href="/manuscripts/{Path(survey["manuscript"]).name}">manuscript</a>')
+            links.append(f'<a href="/manuscripts/{Path(survey["manuscript"]).name}">'
+                         f'{T(lang, "link_manuscript")}</a>')
         if survey.get("pdf"):
-            links.append(f'<a href="/manuscripts/{Path(survey["pdf"]).name}">pdf 干货稿</a>')
+            links.append(f'<a href="/manuscripts/{Path(survey["pdf"]).name}">'
+                         f'{T(lang, "link_pdf")}</a>')
         if survey.get("pdf_pub"):
-            links.append(f'<a href="/manuscripts/{Path(survey["pdf_pub"]).name}">preprint 出版化稿</a>')
+            links.append(f'<a href="/manuscripts/{Path(survey["pdf_pub"]).name}">'
+                         f'{T(lang, "link_preprint")}</a>')
         links_html = " · ".join(links) if links else ""
+        verdict = T(lang, "l6_pass") if survey.get("gate_passed") else T(lang, "l6_fail")
         greeting = (f'<div class="q">{survey.get("question", "")}</div>'
                     f'<div class="res">{mode_badge} '
-                    f'L6 gate <span class="badge {badge_cls}">{"pass" if survey.get("gate_passed") else "fail"}</span> '
-                    f'judge={survey.get("judge_label")} · {survey.get("claims", 0)} claims · '
-                    f'{survey.get("n_papers_cited", 0)} papers cited · {survey.get("elapsed_s", 0)}s'
+                    f'<span class="badge {badge_cls}">{verdict}</span> '
+                    f'{T(lang, "judge")}={survey.get("judge_label")} · '
+                    f'{survey.get("claims", 0)} {T(lang, "claims")} · '
+                    f'{survey.get("n_papers_cited", 0)} {T(lang, "papers")} · '
+                    f'{survey.get("elapsed_s", 0)}{T(lang, "seconds")}'
                     + (f' · {links_html}' if links_html else "") + '</div>')
     # ledger progress for bench_eval / variance_run (they persist per-row state)
     progress = ""
@@ -437,16 +606,16 @@ def _run_card(run) -> str:
             led = ResumeLedger._load(argv)
             if led:
                 nd = len(led.get("done", {}))
-                progress = (f'<span class="muted">· ledger </span>'
+                progress = (f'<span class="muted">ledger </span>'
                             f'<span class="badge run">{nd} done</span>')
             break
     resume = ""
     if run.status in ("failed", "cancelled", "interrupted"):
-        resume = (f'<button class="btn" onclick="resumeRun(\'{run.id}\')">'
-                  f'Resume</button> ')
+        resume = (f'<button class="btn mini" onclick="resumeRun(\'{run.id}\')">'
+                  f'{T(lang, "link_resume")}</button> ')
     return (f'<div class="run-card"><div class="run-top">'
             f'<strong>{run.title}</strong> '
-            f'<span class="badge {status_badge}">{run.status}</span> '
+            f'<span class="badge {status_badge}">{status_label}</span> '
             f'<span class="id mono">{run.id}</span> {logf} {mission_link}{progress}</div>'
             f'<div class="mono muted" style="font-size:12px">{run.elapsed:.0f}s · '
             f'rc={run.returncode} · {len(run.lines)} lines</div>'
@@ -470,11 +639,24 @@ def _env_profile() -> dict:
 # Routes
 # ---------------------------------------------------------------------------
 
+@app.get("/_lang/{lang}", response_class=Response)
+def set_lang(lang: str, request: Request):
+    """Switch UI language: set a long-lived cookie and return to the referring page."""
+    if lang not in ("en", "zh"):
+        return JSONResponse({"error": "lang must be en|zh"}, status_code=400)
+    back = request.headers.get("referer") or "/"
+    resp = RedirectResponse(back)
+    resp.set_cookie("rf_lang", lang, max_age=31536000, httponly=False, samesite="lax")
+    return resp
+
+
 @app.get("/", response_class=HTMLResponse)
 def runs_page(request: Request) -> HTMLResponse:
+    lang = lang_of(request)
     menu = _scenario_menu()
     rows = manager.list()
-    cards = "".join(_run_card(r) for r in rows[:12]) or '<p class="muted">No runs yet this session.</p>'
+    cards = "".join(_run_card(r, lang) for r in rows[:12]) or \
+        f'<p class="muted">{T(lang, "no_runs")}</p>'
     menu_html = "".join(
         f'<button class="btn" onclick="startRun(\'{m["id"]}\')">{m["title"]}</button> '
         for m in menu
@@ -488,23 +670,22 @@ def runs_page(request: Request) -> HTMLResponse:
     mission_init = ""
     if last_survey:
         mission_init = _mission_html(_parse_survey_stages(last_survey.lines),
-                                     _survey_summary(last_survey))
+                                     _survey_summary(last_survey), lang)
     body = f"""
 <header class="mast">
-  <div class="mast-meta">research_foodie · local-first survey pipeline · citations are the lifeline</div>
-  <h1>Survey workbench</h1>
-  <p class="lede">输入一个问题，得到一份逐句可溯源的综述。每一步研究都在这里直播——
-  做到哪个阶段、怎么做、为什么这么做。结果一律双档交付：干货稿 + arXiv preprint 稿。</p>
+  <div class="mast-meta">{T(lang, "mast_meta")}</div>
+  <h1>{T(lang, "mast_title")}</h1>
+  <p class="lede">{T(lang, "lede")}</p>
 </header>
 
 <section class="sect">
-  <div class="sect-head"><h2>投题 <span class="en">start a survey</span></h2>
-    <div class="side">模型通道 · {_env_profile()['LLM_BACKEND']} / {_env_profile()['OPENCODE_MODEL']}</div></div>
+  <div class="sect-head"><h2><span class="idx">I.</span>{T(lang, "probe_head")} <span class="en">{T(lang, "probe_head_en")}</span></h2>
+    <div class="side">{T(lang, "lane")} · {_env_profile()['LLM_BACKEND']} / {_env_profile()['OPENCODE_MODEL']}</div></div>
   <div class="probe">
     <form onsubmit="return false">
-      <label class="fl" for="q">研究问题 Research question <span class="muted">——这份综述要回答的问题</span></label>
+      <label class="fl" for="q">{T(lang, "q_label")} <span class="muted">· {T(lang, "q_hint")}</span></label>
       <input id="q" class="qfield" type="text" autocomplete="off"
-             placeholder="e.g. GPT detectors bias against non-native English writers"
+             placeholder="{T(lang, "q_ph")}"
              list="q-examples">
       <datalist id="q-examples">
         <option value="GPT detectors bias against non-native English writers">
@@ -513,64 +694,71 @@ def runs_page(request: Request) -> HTMLResponse:
       <div class="probe-row">
         <div class="seg">
           <label><input type="radio" name="mode" value="mock" checked>
-            <span><b>Mock demo</b><small>离线确定性 · ~1 s · 可复现 · 非真实结果</small></span></label>
+            <span><b>{T(lang, "mock_label")}</b><small>{T(lang, "mock_note")}</small></span></label>
           <label><input type="radio" name="mode" value="real">
-            <span><b>Real run</b><small>免费模型通道 · ~5–8 min · 有涨落</small></span></label>
+            <span><b>{T(lang, "real_label")}</b><small>{T(lang, "real_note")}</small></span></label>
         </div>
-        <button class="btn primary" onclick="startQuestion()">Run survey</button>
+        <button class="btn primary" id="runbtn" onclick="startQuestion()">{T(lang, "run_btn")}</button>
         <span class="muted" id="q-msg"></span>
       </div>
-      <p class="hint">取消中断的 run 可在卡片上 <b>Resume</b>——CLI 驱动保留断点台账，重启后从已完成的最后一行继续排队。</p>
+      <p class="hint">{T(lang, "resume_hint")}</p>
     </form>
   </div>
   <div style="margin-top:12px" class="chips">{menu_html}</div>
 </section>
 
 <section class="sect">
-  <div class="sect-head"><h2>研究进行时 <span class="en">live mission · what / how / why</span></h2>
-    <div class="side"><button class="btn danger mini" onclick="cancelRun()">Cancel run</button>
-    <span id="active-msg" class="muted"></span></div></div>
-  <div id="mission">{mission_init or '<p class="mission-empty">还没有研究在跑。投一个题，进度会在这里按研究术语逐阶段讲述。</p>'}</div>
-  <details class="rawtail"><summary>技术日志 raw log（工程细节，叙事层之下）</summary>
-  <div id="tail">Run something to see progress here.</div></details>
+  <div class="sect-head"><h2><span class="idx">II.</span>{T(lang, "mission_head")} <span class="en">{T(lang, "mission_head_en")}</span></h2>
+    <div class="side"><span id="active-msg" class="muted"></span>
+    <button class="btn danger mini" onclick="cancelRun()">{T(lang, "cancel_btn")}</button></div></div>
+  <div id="mission">{mission_init or f'<p class="mission-empty">{T(lang, "no_mission")}</p>'}</div>
+  <details class="rawtail"><summary>{T(lang, "raw_head")} · <span class="muted">{T(lang, "raw_head_en")}</span></summary>
+  <div id="tail"></div></details>
 </section>
 
 <section class="sect">
-  <div class="sect-head"><h2>历次运行 <span class="en">runs · ↘ 断点续跑</span></h2></div>
+  <div class="sect-head"><h2><span class="idx">III.</span>{T(lang, "runs_head")} <span class="en">{T(lang, "runs_head_en")}</span></h2></div>
   <div id="runs" class="runs">{cards}</div>
 </section>
 <script>
+const LANG = {json.dumps(lang)};
+const UI = {json.dumps(UI[lang])};
 const menus = {json.dumps({m["id"]: m["args"] for m in menu})};
 let currentRun = null, currentStart = 0, es = null;
 const stagesMeta = {json.dumps({s["id"]: {"label": s["label"], "zh": s["zh"],
-  "why": s["why"], "how": s["how"], "what": s["what"], "key": s["key"]} for s in SURVEY_STAGES})};
-const stagePlan = {{}};   // id -> {{status, dur_s, tech}}
+  "why": s["why"], "how": s["how"], "what": s["what"], "key": s["key"], "est": s.get("est", "")} for s in SURVEY_STAGES})};
+const stagePlan = {{}};   // id -> {{status, dur_s, tech, stageStart}}
+const isZh = LANG === 'zh';
+const stageLabel = (m) => isZh ? m.zh : m.label;
+const stageAlt = (m) => isZh ? m.label : m.zh;
 function renderMission(){{
   const el = document.getElementById('mission');
   const ids = Object.keys(stagesMeta);
   const doneN = ids.filter(i => stagePlan[i] && stagePlan[i].status === 'done').length;
-  const pct = Math.round(100 * doneN / ids.length);
+  const pct = ids.length ? Math.round(100 * doneN / ids.length) : 0;
   let rows = '';
   ids.forEach((id, k) => {{
-    const m = stagesMeta[id]; const p = stagePlan[id] || {{status:'pending', tech:{{}}}};
+    const m = stagesMeta[id]; const p = stagePlan[id] || {{status:'pending', tech:{{}}, dur_s:0}};
     const st = ['done','running','pending'].includes(p.status) ? p.status : 'pending';
-    const col = {{done: '#2c6b4e', running: '#b0432e', pending: '#8b8d80'}}[st];
     const mark = {{done:'✓', running:'●', pending:'○'}}[st];
-    const doneNote = (st==='done' && p.dur_s) ? ` · ${{p.dur_s.toFixed(1)}}s` : '';
+    let tickText = {{done: UI.done, running: UI.running, pending: UI.pending}}[st];
+    if (st === 'done' && p.dur_s) tickText += ' · ' + p.dur_s.toFixed(1) + UI.seconds;
+    if (st === 'running' && p.stageStart) tickText += ' · ' + ((Date.now()-p.stageStart)/1000).toFixed(0) + UI.seconds;
+    else if (st === 'pending' && m.est) tickText += ' · ' + m.est;
     const tech = Object.entries(p.tech||{{}}).map(([a,b])=>a+'='+b).join(' · ');
     const no = String(k+1).padStart(2, '0');
     rows += `<article class="stg ${{st}} ${{st==='done' ? 'done' : (st==='running' ? 'live' : 'off')}}">
       <div class="stg-no">${{no}}</div><div>
-      <div class="stg-title">${{m.label}}<span class="zh">${{m.zh}}</span>
-        <span class="tick">${{mark}} ${{st}}${{doneNote}}</span></div>
+      <div class="stg-title">${{stageLabel(m)}}<span class="zh">${{stageAlt(m)}}</span>
+        <span class="tick">${{mark}} ${{tickText}}</span></div>
       <p class="stg-what">${{m.what}}</p>
       <p class="stg-why">${{m.why}}</p>
-      <div class="stg-note">how · ${{m.how}}</div>${{tech ? '<div class="stg-tech">'+tech+'</div>' : ''}}
+      <div class="stg-note">${{m.how}}</div>${{tech ? '<div class="stg-tech">'+tech+'</div>' : ''}}
       </div></article>`;
   }});
   el.innerHTML = `<div class="progress"><i style="width:${{pct}}%"></i></div>
-    <div class="muted" style="font-size:12px">${{doneN}}/${{ids.length}} research stages · ${{pct}}%
-      ${{currentRun ? ' · 完整 what/how/why 见 <a href="/runs/'+currentRun+'/mission">research view</a>' : ''}}</div>`
+    <div class="muted" style="font-size:12px">${{doneN}}/${{ids.length}} ${{UI.stages}} · ${{pct}}%
+      ${{currentRun ? ' · <a href="/runs/'+currentRun+'/mission">'+UI.research_view+'</a>' : ''}}</div>`
     + rows;
 }}
 function handleLine(line){{
@@ -578,8 +766,8 @@ function handleLine(line){{
   if (st){{
     try {{
       const ev = JSON.parse(st[1]);
-      const p = stagePlan[ev.id] = stagePlan[ev.id] || {{status:'pending', dur_s:0, tech:{{}}}};
-      if (ev.status === 'start'){{ p.status = 'running'; }}
+      const p = stagePlan[ev.id] = stagePlan[ev.id] || {{status:'pending', dur_s:0, tech:{{}}, stageStart:0}};
+      if (ev.status === 'start'){{ p.status = 'running'; p.stageStart = Date.now(); }}
       else if (ev.status === 'done'){{
         p.status = 'done'; p.dur_s = Math.max(p.dur_s||0, ev.dur_s||0);
         for (const k in (ev.tech||{{}})) p.tech[k] = ev.tech[k];
@@ -603,30 +791,37 @@ function attachSSE(id){{
       }}
     }}
     else if (payload.type === 'status'){{
-      document.getElementById('active-msg').textContent = `run ${{currentRun}} → ${{payload.status}} (rc=${{payload.rc}})`;
+      const btn = document.getElementById('runbtn');
+      if (btn){{ btn.disabled = false; btn.textContent = UI.run_btn; }}
+      if (payload.status === 'done'){{ document.getElementById('q-msg').textContent = UI.link_pdf + ' …'; }}
+      else {{ document.getElementById('q-msg').textContent = payload.status + ' rc=' + payload.rc; }}
       location.reload(); }}
   }};
-}}
+}} 
 async function startRun(id){{
   const args = menus[id];
+  const btn = document.getElementById('runbtn');
+  if (btn){{ btn.disabled = true; btn.textContent = UI.run_busy; }}
   const resp = await fetch('/runs', {{method:'POST', headers:{{'Content-Type':'application/json'}},
     body: JSON.stringify({{title:id, args}})}});
   const data = await resp.json();
-  if (data.error){{ alert(data.error); return; }}
+  if (data.error){{ alert(data.error); if (btn){{ btn.disabled = false; btn.textContent = UI.run_btn; }} return; }}
   attachSSE(data.id);
 }}
 async function startQuestion(){{
   const question = document.getElementById('q').value.trim();
   const mode = document.querySelector('input[name="mode"]:checked').value;
   let msg = document.getElementById('q-msg');
-  if (!question){{ msg.textContent = 'type a research question first'; return; }}
+  const btn = document.getElementById('runbtn');
+  if (!question){{ msg.textContent = isZh ? '请先输入一个研究问题' : 'type a research question first'; document.getElementById('q').focus(); return; }}
   const args = ['-m', 'tools.pipeline.run_survey', '--question', question];
   if (mode === 'mock') args.push('--mock');
-  msg.textContent = (mode === 'mock' ? 'mock demo' : 'real run') + ' started — tail below…';
+  if (btn){{ btn.disabled = true; btn.textContent = UI.run_busy; }}
+  msg.textContent = UI.started;
   const resp = await fetch('/runs', {{method:'POST', headers:{{'Content-Type':'application/json'}},
     body: JSON.stringify({{title: 'survey (' + mode + ')', args}})}});
   const data = await resp.json();
-  if (data.error){{ msg.textContent = data.error; return; }}
+  if (data.error){{ msg.textContent = data.error; if (btn) btn.disabled = false; return; }}
   attachSSE(data.id);
 }}
 async function resumeRun(id){{
@@ -637,13 +832,19 @@ async function resumeRun(id){{
 }}
 async function cancelRun(){{
   if (!currentRun) return; await fetch(`/runs/${{currentRun}}`, {{method:'DELETE'}}); }}
-setInterval(() => {{ if (currentRun){{
-  fetch(`/runs/${{currentRun}}/status`).then(r=>r.json()).then(d=>{{
-    document.getElementById('active-msg').textContent = `run ${{d.id}} ${{d.status}} elapsed=${{d.elapsed.toFixed(1)}}s rc=${{d.rc}} lines=${{d.lines}}`; }});
-}}}}, 2500);
+setInterval(() => {{
+  if (currentRun){{
+    fetch(`/runs/${{currentRun}}/status`).then(r=>r.json()).then(d=>{{
+      let s = isZh ? ({{done:'完成', running:'进行中', failed:'失败', cancelled:'已取消'}}[d.status]||d.status) : d.status;
+      document.getElementById('active-msg').textContent =
+        currentRun + ' · ' + s + ' · ' + d.elapsed.toFixed(0) + UI.seconds;
+      if (Object.values(stagePlan).some(p => p.status==='running')) renderMission();
+    }});
+  }}
+}}, 1500);
 </script>
 """
-    return page("Runs", body, cur="cur")
+    return page(T(lang, "probe_head"), body, cur="wb", lang=lang)
 
 
 @app.post("/runs", response_class=JSONResponse)
@@ -674,41 +875,44 @@ def resume_run(run_id: str):
 
 
 @app.get("/runs/{run_id}/log", response_class=HTMLResponse)
-def run_log(run_id: str):
+def run_log(run_id: str, request: Request):
+    lang = lang_of(request)
     run = manager.get(run_id)
     if not run:
         return JSONResponse({"error": "not found"}, status_code=404)
     text = ""
     if run.log_path.is_file():
         text = run.log_path.read_text(encoding="utf-8", errors="replace")[-60000:]
-    return page(f"log {run_id}",
-                f"<h1>log · {run_id} · <span class=badge>{run.status}</span></h1>"
-                f"<pre>{text}</pre>")
+    cls = {"done": 'ok', "running": 'run', "failed": 'fail',
+           "cancelled": 'cancel', "interrupted": 'cancel'}.get(run.status, 'muted')
+    return page(f"{T(lang, 'log_title')} {run_id}",
+                f"<h1>{T(lang, 'log_title')} · {run_id} · "
+                f"<span class='badge {cls}'>{T(lang, run.status)}</span></h1>"
+                f"<pre>{text}</pre>", lang=lang)
 
 
 @app.get("/runs/{run_id}/mission", response_class=HTMLResponse)
-def run_mission(run_id: str):
+def run_mission(run_id: str, request: Request):
     """Read-only 'research view' of a survey run: what stage, how, why —
     business language with the key technical points, plus the result links.
     This is the application-scenario answer to 'what is the tool doing'."""
+    lang = lang_of(request)
     run = manager.get(run_id)
     if not run:
         return JSONResponse({"error": "not found"}, status_code=404)
     stages = _parse_survey_stages(run.lines)
     summary = _survey_summary(run)
     if not stages and not summary:
-        return page(f"mission {run_id}",
-                    f"<h1>Research view · {run_id}</h1>"
-                    f'<p class="muted">This run is not a survey pipeline run, so it has no '
-                    f'research-workflow narration. See <a href="/runs/{run_id}/log">the log</a> '
-                    f'or <a href="/">the runs page</a>.</p>')
+        return page(f"{T(lang, 'mission_title')} {run_id}",
+                    f"<h1>{T(lang, 'mission_title')} · {run_id}</h1>"
+                    f"<p class=\"muted\">{T(lang, 'mission_not_survey')}</p>", lang=lang)
     q = (summary or {}).get("question", "")
-    head = f"<h1>Research view · {run_id}</h1>"
+    head = f"<h1>{T(lang, 'mission_title')} · {run_id}</h1>"
     if q:
-        head += f'<p><strong>Question:</strong> <em>{q}</em></p>'
-    head += (f'<p class="muted">How a survey answer is produced — one stage at a time. '
-             f'Business framing ({SURVEY_STAGES[0]["zh"]}…) + the key technical point of each stage.</p>')
-    return page(f"mission {run_id}", head + _mission_html(stages, summary))
+        head += f"<p><strong>{T(lang, 'mission_question')}</strong> <em>{q}</em></p>"
+    head += f"<p class=\"muted\">{T(lang, 'mission_desc')}</p>"
+    return page(f"{T(lang, 'mission_title')} {run_id}",
+                head + _mission_html(stages, summary, lang), lang=lang)
 
 
 @app.get("/runs/{run_id}/status", response_class=JSONResponse)
@@ -748,41 +952,48 @@ def cancel_run(run_id: str):
 
 
 @app.get("/dashboard", response_class=HTMLResponse)
-def dashboard():
+def dashboard(request: Request):
+    lang = lang_of(request)
     var = _variance_summary()
     pools = _pools_summary()
     bench_report = EVAL_OUT / "bench_pilot_das.md"
     report_text = bench_report.read_text(encoding="utf-8") if bench_report.is_file() else "no report yet"
 
+    vh = T(lang, "dash_var_h")
+    ph = T(lang, "dash_pools_h")
     var_rows = "".join(
         f'<tr><td>{t["topic_id"]}</td><td>{t["n"]}</td><td>{t["mean"]:.2f}</td>'
-        f'<td>{t["sd"]:.2f}</td></tr>' for t in var) or "<tr><td colspan=4 class=muted>no variance data</td></tr>"
+        f'<td>{t["sd"]:.2f}</td></tr>' for t in var) or \
+        f'<tr><td colspan=4 class=muted>—</td></tr>'
     pools_row = (f'<tr><td>{pools["total"]}</td><td>{pools["full"]}</td>'
                  f'<td>{pools["partial"]}</td><td>{pools["empty"]}</td></tr>')
-    m_args = ",".join(f'"{p.name}"' for p in _manuscript_list())
     body = f"""
-<h1>Dashboard</h1>
-<h2>Judge variance (Session 19 baseline)</h2>
-<table><tr><th>topic</th><th>rounds</th><th>mean total</th><th>sd</th></tr>{var_rows}</table>
-<h2>30-topic evidence pools</h2>
-<table><tr><th>total</th><th>full (≥3 papers)</th><th>partial</th><th>empty</th></tr>{pools_row}</table>
-<h2>Manuscripts (L6 human review surface)</h2>
-<div>{", ".join(f'<a href="/manuscripts/{p.name}">{p.name}</a>' for p in _manuscript_list()) or "none"}</div>
-<h2>Bench report (raw markdown, `bench_pilot_das.md`)</h2>
+<h1>{T(lang, "dash_title")}</h1>
+<h2>{T(lang, "dash_var")}</h2>
+<table><tr><th>{vh[0]}</th><th>{vh[1]}</th><th>{vh[2]}</th><th>{vh[3]}</th></tr>{var_rows}</table>
+<h2>{T(lang, "dash_pools")}</h2>
+<table><tr><th>{ph[0]}</th><th>{ph[1]}</th><th>{ph[2]}</th><th>{ph[3]}</th></tr>{pools_row}</table>
+<h2>{T(lang, "dash_ms")}</h2>
+<div>{", ".join(f'<a href="/manuscripts/{p.name}">{p.name}</a>' for p in _manuscript_list()) or "—"}</div>
+<h2>{T(lang, "dash_bench")}</h2>
 <pre>{report_text[:4000]}</pre>
 """
-    return page("Dashboard", body, cur="dash")
+    return page(T(lang, "dash_title"), body, cur="dash", lang=lang)
 
 
 @app.get("/manuscripts", response_class=HTMLResponse)
-def manuscripts_page():
+def manuscripts_page(request: Request):
+    lang = lang_of(request)
     items = _manuscript_list()
-    rows = "".join(f'<tr><td>{p.name}</td><td>{p.stat().st_size:,} B</td>'
-                   f'<td><a href="/manuscripts/{p.name}">open pdf</a></td></tr>' for p in items) \
-        or "<tr><td colspan=3 class=muted>no rendered manuscripts yet (run a bench scenario first)</td></tr>"
-    body = (f"<h1>Manuscripts</h1><table><tr><th>file</th><th>size</th><th></th></tr>{rows}</table>"
-            f"<p class=muted>Rendered by <code>render_manuscript</code> (pandoc + xelatex + YaHei) during bench runs.</p>")
-    return page("Manuscripts", body, cur="ms")
+    mh = T(lang, "ms_h")
+    rows = "".join(
+        f'<tr><td>{p.name}</td><td>{p.stat().st_size:,} B</td>'
+        f'<td><a href="/manuscripts/{p.name}">{T(lang, "ms_open")} pdf</a></td></tr>' for p in items) \
+        or f'<tr><td colspan=3 class=muted>{T(lang, "ms_none")}</td></tr>'
+    body = (f"<h1>{T(lang, 'ms_title')}</h1><table><tr><th>{mh[0]}</th><th>{mh[1]}</th><th>{mh[2]}</th>"
+            f"</tr>{rows}</table>"
+            f"<p class=muted>{T(lang, 'ms_note')}</p>")
+    return page(T(lang, "ms_title"), body, cur="ms", lang=lang)
 
 
 @app.get("/manuscripts/{name}")
@@ -796,7 +1007,8 @@ def manuscript_file(name: str):
 
 
 @app.get("/feedback", response_class=HTMLResponse)
-def feedback_page():
+def feedback_page(request: Request):
+    lang = lang_of(request)
     fb = EVAL_OUT / "feedback"
     rows_html = ""
     if fb.is_dir():
@@ -807,20 +1019,22 @@ def feedback_page():
                     lines.append(ln)
         rows_html = "".join(f"<tr><td class=mono>{ln[:200]}</td></tr>" for ln in lines[-50:])
     body = f"""
-<h1>Feedback → JSONL (self-evolution E-5 ingestion)</h1>
+<h1>{T(lang, "fb_title")} → JSONL (self-evolution E-5 ingestion)</h1>
 <form method="post"><textarea name="row" rows="4" style="width:100%"
 placeholder='{{"feed": "judge too lenient on BSC", "topic": "P-A", "date": "2026-09-20"}}'></textarea>
 <button class="btn" type="submit">append row</button></form>
-<h2>Last 50 rows</h2><table>{rows_html or '<tr><td class=muted>no feedback rows yet</td></tr>'}</table>
+<h2>Last 50 rows</h2><table>{rows_html or '<tr><td class=muted>—</td></tr>'}</table>
 """
-    return page("Feedback", body, cur="fb")
+    return page(f"{T(lang, 'fb_title')}", body, cur="fb", lang=lang)
 
 
 @app.post("/feedback")
-def feedback_append(row: str = Form(...)):
+def feedback_append(request: Request, row: str = Form(...)):
+    lang = lang_of(request)
     fb = EVAL_OUT / "feedback"
     fb.mkdir(parents=True, exist_ok=True)
     with (fb / "feedback.jsonl").open("a", encoding="utf-8") as f:
         f.write(row + "\n")
-    body = "<p>appended ✓ <a href='/feedback'>back</a> — note: feedback does not auto-tune anything; it feeds the E-5 corpus reviewed in the weekly cadence.</p>"
-    return page("Feedback (appended)", body, cur="fb")
+    body = ("<p>appended ✓ <a href='/feedback'>back</a> — feedback does not auto-tune anything; "
+            "it feeds the E-5 corpus reviewed in the weekly cadence.</p>")
+    return page("Feedback (appended)", body, cur="fb", lang=lang)

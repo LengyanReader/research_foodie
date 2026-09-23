@@ -66,6 +66,26 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 ---
 
+## 2026-09-22 — Session 32: 页面中英切换 + 更学术·更极客的设计（i18n EN/中文 · set-manuscript × terminal 设计语言 · 人性化交互）
+
+**Why:** 两条新指令。*"页面显示语言，分为英文和中文两种，用户可以选择"* → 全站 i18n（cookie 持久化）。*"把风格、配色、布局、互动等等调整为更加学术和极客的风格，请好好设计"* → 在 Session 31 编辑部手稿底子上推得更远：**排印稿 × 终端转录**的混合语言。
+
+1. **i18n（`app.py`）——两语全程可选、持久化**：
+   - `UI` 字典（en/zh，30+ 键）+ `T(lang, key)` + `lang_of(request)`（cookie `rf_lang`，缺省 `en`）；`/_lang/{lang}` 写 cookie（max_age=1y）后按 `Referer` 免损跳回；`<html lang>` 跟随语言。
+   - 覆盖全部路由：runs 主页面、mission 视图、log、dashboard、manuscripts、feedback（含 POST 后回显）；nav 右上角 `中文/EN` 切换（当前语言高亮）；`SURVEY_STAGES` 全部 9 阶段补 `est` 时长提示（语言中立，约 2–15 s … 1–3 min）。
+   - live mission JS 注入 `LANG` + `UI`：阶段标签/状态词/标题栏全部走 `UI`；进度头、research view 链接、运行计时同文案化。
+2. **设计再推进一步——"一套排印稿 + 一屏终端转录"**（刻意避开 AI 模板痕迹：无奶油底+赤陶、无圆角卡片阴影、无 `→` 链接、无全大写 eyebrow）：
+   - **配色**：冷纸底 `#f6f5f0` + 墨 `#20221d`；链接用深油墨蓝 `#2f5568`（不是陶土色）；已验证绿 `#37614d`、氧化金 `#8a6113`、墨红 `#a53a2c`（**只**给 live 心跳/光标用）；`::selection` 油墨蓝反白。
+   - **字排**：正文直接衬线（Georgia），所有元数据/序号/耗时/脚注/按钮用等宽（Consolas）——**排版主体是衬线正文，页边注是等宽体**；`font-variant-numeric: tabular-nums` 保证表格数字对齐；h1 用 `small-caps`（学术而非全大写 eyebrow）。
+   - **布局**：nav 品牌换成等宽 `research_foodie` + **红色方块光标**（入场 blink 四次后静止——全页唯一一次动效）；章节标题加罗马序号 `I. II. III.`（投题/研究进行时/历次运行）作页内索引；masthead 双线压版；raw log 保留为机身下方 `▸ 技术日志` 转录抽屉（终端深底 + 文字 `#dbe2c9`）。
+   - **互动**：run 按钮运行中被置灰并把文案切为 `[ running… ]`（译成 `[ 运行中… ]`）；live 阶段标题 `●` 呼吸脉冲（仅运行中一格）；segmented 选中项整块反向（`:has(input:checked)` ink 底纸色字）；按钮/输入焦点环油墨蓝；run-card 左缘 hover 变油墨蓝；`prefers-reduced-motion` 关停光标/脉冲。
+   - **run 列表按文献条目排**：serif 标题 + mono 元数据行（RUN id · 状态徽 · 耗时）+ 斜体问题 + mono 结果链接行。
+3. **尾部 colophon**：mono 页脚行（pandoc + xelatex (YaHei) · 页面零外部网络 · 只绑 127.0.0.1 · 引用即生命线）。
+
+**Verification:** `ast.parse` OK ✓；i18n 断言脚本全绿（en 缺省、`/_lang/zh` cookie 写入与跳转回、zh 全路由文案——首页 mast/h1/阶段标签、mission 页"研究视图/检索文献/干货 PDF"、manuscripts、dashboard）✓；线上 smoke：8787 重启动（DETACHED 拉法规避 shell 回收子进程）、home 34937 B 含新 token（`--mark:#a53a2c`、colophon、`.cursor`、`idx`）✓、zh cookie 渲染 ✓、无 f-string `{{`/`}}` 泄漏（`@keyframes` 嵌套花括号为正常 CSS）✓。**下一步：** mission/研究进度进 F-3 静态导出；`prefers-color-scheme: dark` 终端暗色变体（可作为后续一轮）。
+
+---
+
 ## 2026-09-22 — Session 31: editorial workbench redesign + 两档交付物（一套源·双渲染 · Q&A 干货稿 + arXiv 出版化稿）
 
 **Why:** two user directives. (a) *"从用户体验角度，实现一个简明但看得出来是经过良好设计的页面"* — the dashboard was functional but visually generic; needs a deliberate, subject-grounded identity. (b) *"输出内容注意两个层次：1 良好整理的干货内容；2 在干货基础上满足出版/发表要求"* — deliverables must be two-tier. Chosen via option-pick: 干货 default = **问答驱动·证据卡片**；出版化 = **arXiv preprint 风格**；交付 = **一套源·双渲染**（不改生成引擎、同 `.md`、双 PDF）。
