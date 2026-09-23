@@ -75,6 +75,24 @@ SEED_MANIFEST: List[Dict[str, str]] = [
         "label": "BERT: pre-training of deep bidirectional transformers (Devlin et al. 2019)",
         "keywords": "bert pre-training bidirectional transformer devlin nlp",
     },
+    # Weekly digest (Session 36, 2026-09-23): three notable submissions uploaded
+    # 2026-09-22 across systems/agents/security. Keywords tuned to the weekly
+    # roundup question so they outscore unrelated manifest papers.
+    {
+        "arxiv_id": "2609.26796",
+        "label": "Flash-dLLM: IO-Aware KV Caching and Parallel Decoding for Fast, Memory-Efficient Diffusion LLMs (2026)",
+        "keywords": "diffusion llm kv caching parallel decoding io-aware serving efficiency inference",
+    },
+    {
+        "arxiv_id": "2609.26781",
+        "label": "Agensh: Scaling Organizational Intelligence to 1,024 Agents (2026)",
+        "keywords": "agensh multi-agent organization intelligence scaling agents hierarchical",
+    },
+    {
+        "arxiv_id": "2609.26761",
+        "label": "A2M: Trace-Optimized Agent Hijacking in the MCP Ecosystem (2026)",
+        "keywords": "a2m mcp model context protocol agent hijacking security attack trace",
+    },
 ]
 
 
@@ -244,6 +262,13 @@ _LOCAL_MD: Dict[str, str] = {
     # (Besancon et al. 2017). Session 19: 12pp, two windows, parsed via
     # tools/eval/add_paper.py (one-command corpus adder).
     "1703.10344": "1703.10344/1703.10344.md",
+    # Weekly digest (2026-09-23, session 36): three notable submissions from the
+    # week of 2026-09-22 — Flash-dLLM (IO-aware KV caching for diffusion LLMs);
+    # Agensh (scaling agent orgs to 1,024 agents); A2M (MCP ecosystem agent
+    # hijacking). Parsed by tools/eval/add_paper.py (windowed -m txt), merged.
+    "2609.26796": "2609.26796/2609.26796.md",  # flash-dllm
+    "2609.26781": "2609.26781/2609.26781.md",  # agensh
+    "2609.26761": "2609.26761/2609.26761.md",  # a2m-mcp-hijack
 }
 
 

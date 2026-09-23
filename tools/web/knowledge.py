@@ -139,7 +139,12 @@ def _survey_summaries() -> Dict[str, dict]:
                     s = json.loads(ln[len("[survey-result] "):].strip())
                 except Exception:
                     continue
-                for p in (s.get("manuscript") or ""):
+                # "manuscript" is a single path string in survey-result JSON.
+                # Guard against iterating it char-by-char (bug found 2026-09-23,
+                # Session 36: `for p in (s.get("manuscript") or "")`).
+                m = s.get("manuscript") or ""
+                paths = [m] if isinstance(m, str) else (m or [])
+                for p in paths:
                     if p:
                         out.setdefault(Path(p).stem, s)
                 break
@@ -222,7 +227,8 @@ def sync(force: bool = False) -> List[dict]:
                    COALESCE((SELECT favorite FROM items WHERE key=:key),0),
                    COALESCE((SELECT created_at FROM items WHERE key=:key),:now), :now)
                 ON CONFLICT(key) DO UPDATE SET
-                   title=excluded.title, question=excluded.question,
+                   kind=excluded.kind, title=excluded.title,
+                   question=excluded.question,
                    path_md=excluded.path_md, path_pdf=excluded.path_pdf,
                    path_preprint=excluded.path_preprint, status='done',
                    mode=excluded.mode, verdict=excluded.verdict, judge=excluded.judge,

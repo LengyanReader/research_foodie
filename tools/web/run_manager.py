@@ -96,6 +96,10 @@ class Run:
         r = cls(meta.get("title", "run"), list(meta.get("cmd") or []),
                 meta.get("env_profile", "opencode-default"))
         r.id = meta.get("id", r.id)
+        # id is overwritten above, so re-derive the log path from the REAL id —
+        # otherwise a fresh random UUID leaks in here and append() writes to the
+        # wrong file after a restart. (found 2026-09-23, Session 36)
+        r.log_path = LOG_DIR / f"{r.id}.log"
         r.status = meta.get("status", "interrupted")
         r.returncode = meta.get("returncode")
         r.started = meta.get("started", r.started)

@@ -96,7 +96,20 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 2. **论文 outline（`docs/design/tool-paper-outline.md`）**：§5 新增商用深度研究层 + 证据基础件 + 判题方法学子弹；§5.1 表扩至 14 行（Co-STORM、OpenAI DR、Gemini DR、NotebookLM、Perplexity DR、S2AG 入表）；§10 引用 [1]–[20] **修正**（OpenResearch 无 arXiv；OpenScholar 出版年 2026；DAS `2608.18034` 已核实；MinerU `2409.18839`；Tyen `2311.08516`）并**新增 [21]–[31]**（Co-STORM、JudgeLM、MT-bench、Schroeder&Wood-Doughty、DRBench/urlhealth、DRACO、ReportEval、Gemini API DR、NotebookLM、S2AG、Perplexity DR）。
 3. **论文正文（`docs/paper/research-foodie-paper.md`）**：§2 related-work 子弹重写为五桶口径 + 商用层（DRBench 数字 + "无 Science 论文"告诫）+ 判题方法学（Tyen 定位≠判定 → 判题配机械门）；§2.1 四桶→五桶；§2.2 表同步 14 行；§5 limitations 补 #7（我们与商用引用幻觉基准的定位对照）/ #8（未复跑系统的方向性引用）；References 同步 21–31 与修正。
 
-**Verification:** outline §5 ↔ 正文 §2 引用编号 [21]–[31] 双向一致 ✓；`rg` 检查无残留旧 ID（2410.17381 / 2504.01874 误引 / 2311.16502-as-Tyen / "Horizon" 未定义系统 → 已从正文清出）✓；AGENTS 引用纪律（一手 source + 访问日期 2026-09-23 + `*unverified*` 标注）全文过 ✓。Commit `afc4cd2` 之后本轮文档交付待 commit（no push）。
+**Verification:** outline §5 ↔ 正文 §2 引用编号 [21]–[31] 双向一致 ✓；`rg` 检查无残留旧 ID（2410.17381 / 2504.01874 误引 / 2311.16502-as-Tyen / "Horizon" 未定义系统 → 已从正文清出）✓；AGENTS 引用纪律（一手 source + 访问日期 2026-09-23 + `*unverified*` 标注）全文过 ✓。已提交 `a4ffb29`（no push）。
+
+### Session 36 — 每周科技/学术/业界 Top 工作与论文速览（weekly digest）+ 知识库富化两处 bug 修复（2026-09-23）
+
+**Why:** 用户指令"跑一个每周科技、学术、和业界的 top 工作和论文的任务"→ 用调研管线跑一期**每周速览**；过程中挖出并修复了知识库运行日志富化的两个真实 bug（发现层从第一天起就坏了）。
+
+1. **本周三篇入库并建档**（2026-09-22 上传的 arXiv 一手来源，`tools/eval/add_paper` 窗口化 MinerU 解析，全部 registered in `_LOCAL_MD` + `SEED_MANIFEST`）：`2609.26796` Flash-dLLM（**技术/效率**：IO 感知 KV 缓存 + 并行解码，GSM8K/HumanEval 对 Elastic-Cache 提升 5.1×/11.0×；GPU 显存 I/O 是主导瓶颈，中间层 32 个高注意力 token 占约 50% 权重）；`2609.26781` Agensh（**学术/规模**：组织智能扩至 1,024 个 agent，事件驱动运行时；ProgramBench 最难五题 1→128 使通过率 19.31%→28.78%，pandoc 33.89%→55.06%）；`2609.26761` A2M（**业界/安全**：MCP 生态 trace-optimized agent hijacking，GLM-4.6 宏平均恶意工具调用率 93.6%、跨四模型迁移 63.6%、FIDES 式 IFC 把 C-DoS 从 32.4× 压到 9.0×）。
+2. **weekly digest survey 完整跑通**（`run_survey --backend seed --profile free-opencode`，828s）：L6 gate **passed 1.00**（12 claims / 3 papers）、judge **pass 4.0**（bilingual/clarity/groundedness/structure 全 OK）；9 页干货稿 + 8 页 arXiv 出版化稿；结论综合出「**安全—规模—效率三角反馈环**」主线（效率降价→规模与攻击都更便宜；规模放大 trace-优化攻击面；IFC 只挽回部分安全余量），每个量化声明带 arXiv ID 可溯源 + *unverified* 标注拒绝过度断言。
+3. **Bug A — `knowledge._survey_summaries` 逐字符遍历（发现即修）**：`for p in (s.get("manuscript") or "")` 把字符串**按字符**迭代（每个字母都成为 summary key），导致运行日志富化自知识库上线起从未真正命中（全部条目 kind 恒为 'bench'、无 verdict/claims）。修复为 str→list 归一化（非字符串兼容）。
+4. **Bug B — `sync()` upsert 不更新 `kind`**：`ON CONFLICT DO UPDATE` 漏掉 `kind`，旧 row 的 'bench' 永不纠正。补 `kind=excluded.kind`。
+5. **Bug C（顺带，run_manager）— `Run.hydrate` log_path 错位**：`log_path` 在 `r.id` 覆写**之前**由一次性随机 UUID 生成，重启后 append() 会写错文件。修复：覆写 id 后按真实 id 重派 `log_path`。
+6. **CLI run 登记回 web_runs**：直接把 `[survey-result]` 写成 run record（直接构造 `Run`，不触发子进程），让 CLI 跑出的手稿也获得和 web 触发一致的 kind=survey / mode=real / verdict=pass / claims=12 / papers=3 / elapsed_s=828.1 富化。本地知识库现在 46 条目（survey ×1：本速览；mock-survey ×1：gpt-detectors 更正；bench ×44）。
+
+**Verification:** AST ✓ / i18n 全绿 ✓ / `smoke_library` OK（46 items）✓ / `_survey_summaries` 茎 = 真实 slug（非单字符）✓ / weekly 条目 kind=survey·mode=real·verdict=pass·claims=12·papers=3·elapsed_s=828.1 ✓。产物（gitignored）：`_eval_out/manuscripts/what-are-this-week-s-most-notable-ai-research-wo.{md,pdf,preprint.pdf}`。交付：knowledge lib 富化 bug 修复合入本 commit；手稿在 8787 重启后于 `/library` 可见。
 
 ---
 
