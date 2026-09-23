@@ -236,7 +236,8 @@ $env:S_LIT_BACKEND = 'orx'     # auto-research 外壳（本机未装 → 自动�
 #   结果双档交付：run-card / mission 页 / manuscripts 页 提供 "pdf 干货稿" + "preprint 出版化稿" 两个链接
 #   已完成 survey run 有只读研究视图：http://127.0.0.1:8000/runs/<id>/mission
 #   全站中英切换：nav 右上角 中文/EN（cookie rf_lang 持久化一年，/_lang/{lang} 写 cookie 后回到原页）
-#   视觉：排印稿 × 终端转录——衬线正文 + 等宽元数据/序号/计时、罗马章节索引 I. II. III.、红色方块光标（入场动效）
+#   视觉（沉稳关怀风）：人文无衬线 + 温纸白底 + 圆角卡片 + 柔和蓝绿点缀；进度为圆角条 + "第 N/9 步"；
+#     问题优先的 run 卡片；极客元素（mono/深色终端）只保留在"技术日志"抽屉（#tail）
 & $PY -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8000
 # 打开 http://127.0.0.1:8000/
 ```

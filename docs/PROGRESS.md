@@ -2,7 +2,7 @@
 
 > 中文速览：本文件记录执行进度、事实核验结果、修正与错误来源。按日期逆序追加。所有事实声明带来源与访问日期;无法验证的标记 *unverified*。
 
-- `Updated`: 2026-09-22
+- `Updated`: 2026-09-23
 - `Status`: Ongoing (implementation phase: `tools/llm/` ✓ · `tools/pipeline/` P2 minimal vertical GREEN + **framework integration** — STORM outline · orx/arXiv live discovery rail · DAS-Bench-style judge gate · benchmark-style evaluation pilot · **multi-paper evidence synthesis (P0) GREEN** · **survey-depth S_write GREEN** · **P1 judge threshold calibration GREEN** · **MAR render axes Part 1 GREEN** · **data hygiene (Session 16)** · **Track C evidence-grounded QA GREEN — QA panel n=31 correctness 4.23, extract/context 12/13 (Sessions 17–19)** · **30-topic evidence-pool battery GREEN — 22/30 pools, 10 judged Total 3.13 (Session 19)** · **judge variance measured — P-A 3.88±0.53 / P-B 3.31±0.00 / P-C 3.53±0.13 (Session 19)** · **comparison + next-plan docs (Session 20)** · **self-evolution design + usage/demo runbook + web-frontend analysis (Session 21)** · **parallel-workstream re-plan + model-routing Phase D (Session 21b)** · **web frontend implemented + web-scoped usage flow + arXiv paper outline (Session 21c)** · **F-3 static export (Session 21d)** · **E-1/E-2 health check + D-1/D-2 model profiles + durable run resume (Session 21e)** · **WS-C self-evolution mechanism E-3/E-4/E-5 + L-6 one-command self-check + Phase L retrieval/judge strengthening L-1/L-2/L-3 + D-3 judge matrix (Session 22)** · **scheduled capability×benchmark report `capability_report` + 3-option base model (free-opencode/openai-compat/judge-strong, qwen3.8-flash redirect) + paper draft v1 (Session 23)** · **key-free hardening — opencode 401 root-cause + Qoder-endpoint probe + client fail-fast + deterministic §4.6 ablations + daily-cadence scheduler + paper Mermaid figures (Session 24)** · **D-5 deterministic key-hygiene audit + cadence wiring, guards 33→39 (Session 25)** · **OpenResearch-style parallel *autoresearch* orchestrator integrated model-free (`tools/pipeline/autoresearch.py`), guards 39→47 (Session 26)** · **free-model blocker resolved — full health check GREEN on `opencode/big-pickle` (Session 26b)** · **first live testing on the free lane — proxy trio 3.65 + fresh variance P-A stable/P-C −1.7σ flagged (Session 27)** · **paper outline v2 (S22–27 folded in) + bidirectional outline↔draft map §12 + draft v2 per-section `(⇐ outline §X)` markers + web server live on 8787 (Session 28)**)
 
 ---
@@ -63,6 +63,21 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
    - 正文 `docs/paper/research-foodie-paper.md` §2 拆出 **§2.1 工具综述**（四桶: outline+retrieval 写手 / agentic deep research / retrieval+cite-verify QA / 评测与解析层）与 **§2.2 comparison table 含 "Research Foodie (ours)" 行**；status 与 lineage 记录本次增补。
 
 **Verification:** `run_survey --mock` 退出码 0、手稿/PDF 均生成；app.py ast 解析 OK；web 全链路 POST→SSE→done→run-card（MOCK demo 徽标 + 链接）实测通过；大纲/正文双文件交叉引用已同步。**下一步(按顺序)：** (a) per-node 计时跑一次真实单篇确认热点；(b) 36-scenario/night 批处理用 `--fast` 折半时间；(c) 前端加 read-only 静态导出（F-3 已有 CLI，未接线到这次新入口）。
+
+---
+
+## 2026-09-23 — Session 34: 温润关怀风重设计（人性化主导 · 极客元素只留守抽屉）(calm, human-first redesign)
+
+**Why:** 用户在 Session 33 密度版后反馈——*"咱们的页面设计应该更加人性化，从用户的角度去考虑"*，并要求 **重新设计**。经选项确认（question tool）：主风格 **沉稳关怀风**（温纸白底 · 柔和蓝绿点缀 · 人文无衬线 · 宽松留白 · 圆角卡片 · 克制动效）；**极客/终端元素只允许保留在"技术日志"抽屉内**。方向从"排印稿 × 终端转录"整体转为"为人服务的调研工作台"。
+
+1. **顶栏**——白底细边界栏：`research_foodie` 品牌 + 蓝绿圆点，导航/语言切换全部改 **pill 胶囊**（当前项浅底高亮），无等宽字、无闪烁光标、无墨色报头。
+2. **hero + trust**——首屏白卡化 hero：标题 + 一句 lede + 三个信任徽章（*引用逐条可溯源 · 双档 PDF 交付 · 本地运行·免密钥*）；通道信息收敛进"投题"小节右上角，不再有 `nostamp`、edition、live-dot。
+3. **表单**——大号圆角提问框（focus 蓝绿光环）、segmented 选择收进圆角胶囊（选中浅底高亮，去掉反向墨块）、主按钮 **accent 实底圆角**；预置场景 chips 移入表单底部（去掉 `#01` 计数器序号）、附"或直接运行预置场景："标签。
+4. **研究进行时**——删掉印张/folio 与右缘 mono 计时列，改 **柔和圆角进度条 + `N / 9 · pct%` 文案**；阶段行改为 图标圆圈（✓/●/○ 三态着色）+ 标题 + **`k / 9` 步数** + what/why/note；运行中整行浅琥珀底 + 呼吸圆点（保留），`prefers-reduced-motion` 照常全关。
+5. **run 归档——问题优先**：卡片去掉幽灵 run id（`::after attr(data-id)` 水印）、去掉 `#01` 字号、去掉按文献条目排版；改为 标题 + 状态胶囊(圆点着色) + **问题行**（左缘细线）+ 圆角链接按钮组（干货稿 / 干货 PDF / 出版化稿 / 研究视图 / 日志）+ 一行小字元数据（命令 · 耗时 · rc · 行数）。judge/claims/耗时 数字移出卡片，保留在研究视图与 dashboard。
+6. **样式系统**——全部换 `--font` 人文无衬线（`-apple-system / Segoe UI / PingFang SC / Microsoft YaHei / system-ui`）；**mono（Consolas）只出现在 `code`/`pre` 与 `#tail` 技术日志抽屉**；暗色变体 token 全量覆写（仍全组件支持）；删除 ruled-paper 栏线、顶部墨条、罗马序号 `I./II./III.`、`§` 前缀、small-caps。
+
+**Verification:** `ast.parse` OK ✓；i18n 断言脚本全绿（en 缺省 / `/_lang/zh` cookie / zh 全路由）✓；残留断言通过（`mast-grid`/`nostamp`/`f-tick`/`class="idx"`/`data-id` 幽灵卡零残留，新标记 `topbar-row`/`hero`/`mission-bar`/`chips-label`/`brand-tag` 命中 15）✓；8787 重启 smoke：home 200 · 38.6KB 含全部新 token、zh 跳转 200 ✓。**注：** verdict 任务的数字（judge/claims/papers/elapsed）已从 run-card 移除，完整数据仍可在"研究视图"mission 页与 dashboard 读取。
 
 ---
 

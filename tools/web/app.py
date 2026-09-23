@@ -42,228 +42,226 @@ HTML_HEAD = """<!doctype html><html lang="{html_lang}"><head><meta charset="utf-
 <title>research_foodie · {title}</title>
 <style>
 /* ------------------------------------------------------------------
-   II    design tokens — a set manuscript with a terminal transcript.
-   Serif prose on cold press paper; every figure and footnote set in
-   a mono voice. One live heartbeat: the inked block cursor.
+   II    design tokens — a calm, human-first surface. Humanist sans,
+   soft warm paper, rounded cards, one serene blue-green accent.
+   The only mono surface is the raw-log drawer.
    ------------------------------------------------------------------ */
 :root{{
-  --paper:#f3f1e7; --card:#fbf9f1; --panel:#eceadc;
-  --ink:#22231c; --ink-soft:#57584a; --ink-faint:#8b8c7d;
-  --rule:#d8d5c2; --rule-strong:#22231c;
-  --link:#345b6e; --pass:#3c6b52; --warn:#9a6d10; --mark:#a63a2a;
-  --ghost:#c9c6b3; --live-tint:#f6e7de; --mast:#22231c;
-  --serif:Georgia,'Iowan Old Style','Source Serif 4','Times New Roman',serif;
-  --sans:'Segoe UI','PingFang SC',system-ui,sans-serif;
-  --mono:Consolas,'Cascadia Mono','IBM Plex Mono',ui-monospace,monospace;
+  --paper:#f6f5f0; --surface:#ffffff; --surface-soft:#f0efea; --surface-soft2:#f7f6f2;
+  --ink:#2f3238; --ink-soft:#5b5f66; --ink-faint:#98999f;
+  --rule:#e7e5de; --rule-strong:#cfcbc2;
+  --accent:#3a6b5f; --accent-strong:#2d554b; --accent-soft:#e8f0ec;
+  --ok:#3f7a55; --ok-soft:#eaf1eb; --live:#b0703c; --live-soft:#f7ede2;
+  --danger:#b4544c; --danger-soft:#f7ebea; --warn:#a57b1c;
+  --sh-sm:0 1px 2px rgba(47,50,55,.05); --sh:0 1px 3px rgba(47,50,55,.06),0 10px 28px rgba(47,50,55,.08);
+  --r-lg:16px; --r:12px; --r-sm:9px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  --mono:Consolas,'Cascadia Mono',ui-monospace,monospace;
 }}
 *{{box-sizing:border-box}}
 html{{scrollbar-gutter:stable}}
-::selection{{background:#345b6e;color:#fbf9f1}}
-body{{margin:0;color:var(--ink);background-color:var(--paper);
-  font:15.5px/1.72 var(--serif);
-  background-image:repeating-linear-gradient(90deg,transparent 0 68px,
-    rgba(34,35,28,.05) 68px 69px),repeating-linear-gradient(90deg,transparent 0 340px,
-    rgba(34,35,28,.05) 340px 341px);background-attachment:fixed}}
-body::before{{content:'';position:fixed;inset:0 0 auto 0;height:4px;background:var(--mast);z-index:5}}
-.frame{{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,44px)}}
-h1,h2,h3{{font-family:var(--serif);line-height:1.25;font-weight:600}}
-h1{{font-size:clamp(26px,3.8vw,34px);margin:.1em 0 .3em}}
-h2{{font-size:18px;margin:0;letter-spacing:.01em}}
-h2 .en{{font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-left:10px}}
-a{{color:var(--link);text-decoration:none}}
-a:hover{{text-decoration:underline;color:var(--ink)}}
-code{{font-family:var(--mono);font-size:12px}}
-pre{{font-family:var(--mono);font-size:12px;background:transparent;margin:0}}
-.num, .stg-no, .tick, .id, td, th{{font-variant-numeric:tabular-nums}}
+::selection{{background:var(--accent);color:#fff}}
+body{{margin:0;color:var(--ink);background:var(--paper);font:15px/1.7 var(--font);
+  -webkit-font-smoothing:antialiased}}
+.frame{{max-width:1000px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}}
+h1,h2,h3{{font-family:var(--font);line-height:1.25;font-weight:700;letter-spacing:-.01em}}
+h1{{font-size:clamp(24px,3.4vw,32px);margin:0 0 .2em}}
+h2{{font-size:17px;margin:0}}
+h2 .en{{font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-left:8px}}
+a{{color:var(--accent-strong);text-decoration:none}}
+a:hover{{text-decoration:underline}}
+code,pre{{font-family:var(--mono);font-size:12.5px}}
+pre{{margin:0}}
 
-/* layout frame */
-.frame{{max-width:1080px;margin:0 auto;padding:16px clamp(16px,5vw,60px) 64px}}
-.nav{{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
-  padding:14px 0;margin-bottom:22px}}
-.brand{{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;color:var(--ink)}}
-.brand .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12px;margin-left:10px}}
-.brand .cursor{{display:inline-block;width:.62em;height:1.05em;margin-left:5px;
-  background:var(--mark);vertical-align:-.18em;animation:blink 1.1s steps(2,start) 4;
-  animation-iteration-count:4;animation-fill-mode:forwards}}
-@keyframes blink{{to{{visibility:hidden}}}}
-nav a{{margin-left:20px;color:var(--ink-soft);font-size:14px;font-family:var(--sans)}}
-nav a.cur{{color:var(--ink);border-bottom:1px solid var(--mark)}}
+/* ------------------------------------------------------------------
+   III   surface — calm & humane. Warm paper, soft cards, humanist
+   sans. Monospace is confined to the raw-log drawer only.
+   ------------------------------------------------------------------ */
 
-/* masthead — ink letterpress band */
-.mast{{background:var(--mast);color:var(--paper);position:relative;
-  padding:30px clamp(20px,4vw,44px) 26px;margin-bottom:6px}}
-.mast::after{{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--mark)}}
-.mast-grid{{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start}}
-.mast-meta{{font-family:var(--mono);font-size:11px;color:#c9cbb8;letter-spacing:.06em;text-transform:none;margin-bottom:10px}}
-.mast h1{{margin:.05em 0 .1em;font-variant:small-caps;font-size:clamp(30px,4.6vw,46px);
-  letter-spacing:.02em;color:var(--paper);line-height:1.1}}
-.mast h1 .cursor{{display:inline-block;width:.28em;height:.9em;margin-left:10px;
-  background:var(--mark);vertical-align:.08em;animation:blink 1.1s steps(2,start) 6;
-  animation-iteration-count:6;animation-fill-mode:forwards}}
-.lede{{max-width:66ch;color:#cdceba;font-size:15.5px;line-height:1.72;margin:.65em 0 0}}
-.nostamp{{font-family:var(--mono);font-size:10.5px;line-height:2;color:#b7b9a4;text-align:right;
-  border-left:1px solid rgba(205,206,186,.28);padding-left:18px;white-space:nowrap;margin-top:6px}}
-.nostamp b{{color:#efefe2;font-weight:700}}
-.nostamp .live-dot{{color:var(--mark)}}
-@keyframes pulse{{50%{{opacity:.25}}}}
+/* top bar */
+.topbar{{background:var(--surface);border-bottom:1px solid var(--rule)}}
+.topbar-row{{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:9px 0}}
+.brand{{display:inline-flex;align-items:baseline;gap:9px;font-size:15.5px;font-weight:700;color:var(--ink);text-decoration:none}}
+.brand:hover{{text-decoration:none}}
+.brand-dot{{width:9px;height:9px;border-radius:50%;background:var(--accent);align-self:center}}
+.brand-tag{{font-size:12px;font-weight:400;color:var(--ink-faint)}}
+.navpills{{display:flex;gap:2px;flex:1;min-width:230px}}
+.pill{{padding:6px 13px;border-radius:999px;font-size:13.5px;color:var(--ink-soft);white-space:nowrap}}
+.pill:hover{{color:var(--accent-strong);background:var(--surface-soft);text-decoration:none}}
+.pill.cur{{background:var(--surface-soft);color:var(--accent-strong);font-weight:600;box-shadow:inset 0 0 0 1px var(--rule)}}
+.langseg{{display:inline-flex;gap:2px}}
+.main{{padding:26px 0 8px}}
 
 /* sections */
-.sect{{margin:34px 0 0}}
-.sect-head{{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  border-bottom:1px solid var(--rule-strong);padding-bottom:6px;margin-bottom:16px}}
-.sect-head h2 .idx{{font-family:var(--mono);font-weight:700;color:var(--mark);margin-right:10px;
-  font-variant-numeric:tabular-nums}}
-.sect-head .side{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
+.sect{{margin:28px 0 0}}
+.sect-head{{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}}
+.sect-head h2{{font-size:16.5px}}
+.sect-head .side{{font-size:12.5px;color:var(--ink-faint)}}
 
-/* probe — the paper form */
-.probe{{background:var(--card);border:1px solid var(--rule);padding:22px 24px 18px;position:relative}}
-.probe::before{{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--rule)}}
-.probe label.fl{{display:block;font-size:12.5px;font-family:var(--mono);color:var(--ink-soft);margin-bottom:9px;letter-spacing:.02em}}
-.probe label.fl::before{{content:'§ ';color:var(--mark);font-weight:700}}
-.qfield{{width:100%;padding:12px 14px;font:15px/1.5 var(--serif);color:var(--ink);
-  border:1px solid var(--rule-strong);border-radius:0;background:var(--panel);caret-color:var(--mark)}}
-.qfield::placeholder{{font-style:italic;color:var(--ink-faint)}}
-.qfield:focus{{outline:2px solid var(--link);outline-offset:1px;border-color:var(--link);background:var(--card)}}
-.seg{{display:inline-flex;border:1px solid var(--rule-strong);margin:0}}
-.seg label{{display:flex;align-items:baseline;gap:8px;margin:0;padding:9px 15px;font:12.5px var(--mono);
-  color:var(--ink-soft);cursor:pointer;border-right:1px solid var(--rule)}}
-.seg label:last-child{{border-right:0}}
+/* hero */
+.hero{{padding:6px 2px 2px}}
+.hero h1{{margin:0 0 8px}}
+.hero .lede{{color:var(--ink-soft);max-width:64ch;font-size:15.5px;margin:0 0 16px}}
+.trust{{display:flex;flex-wrap:wrap;gap:8px}}
+.trust span{{font-size:12.5px;color:var(--ink-soft);background:var(--surface-soft);border:1px solid var(--rule);border-radius:999px;padding:5px 13px}}
+
+/* probe form */
+.probe{{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--sh);padding:20px 22px}}
+.probe-head{{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}}
+.probe-head h2{{font-size:16.5px}}
+.probe-head .en{{font-size:12px;color:var(--ink-faint)}}
+.probe label.fl{{display:block;font-size:13px;font-weight:600;margin-bottom:9px;color:var(--ink-soft)}}
+.qfield{{width:100%;padding:13px 16px;font:16px/1.5 var(--font);color:var(--ink);
+  border:1px solid var(--rule-strong);border-radius:var(--r);background:var(--surface);
+  transition:border-color .15s ease, box-shadow .15s ease}}
+.qfield::placeholder{{color:var(--ink-faint)}}
+.qfield:focus{{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}}
+.probe-row{{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}}
+.seg{{display:inline-flex;border:1px solid var(--rule);border-radius:999px;padding:3px;gap:2px}}
+.seg label{{display:flex;align-items:center;gap:7px;margin:0;padding:7px 13px;border-radius:999px;font-size:13.5px;color:var(--ink-soft);cursor:pointer}}
 .seg input{{position:absolute;opacity:0;pointer-events:none}}
-.seg b{{font-weight:700;color:var(--ink)}}
-.seg small{{display:block;font-size:10px;color:var(--ink-faint);letter-spacing:.01em}}
-.seg label:has(input:checked){{background:var(--ink);color:var(--paper)}}
-.seg label:has(input:checked) b{{color:var(--paper)}}
-.seg label:has(input:checked) small{{color:var(--rule)}}
-.seg label:has(input:checked)::before{{content:'▮ ';color:var(--mark)}}
-.seg label:has(input:focus-visible){{outline:2px solid var(--link);outline-offset:1px}}
-.probe-row{{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:15px}}
-.hint{{margin:13px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
-.hint b{{font-weight:700;color:var(--ink-soft)}}
+.seg b{{font-weight:600}}
+.seg small{{font-size:11px;color:var(--ink-faint)}}
+.seg label:has(input:checked){{background:var(--surface-soft);box-shadow:inset 0 0 0 1px var(--rule);color:var(--ink);font-weight:600}}
+.seg label:has(input:focus-visible){{outline:2px solid var(--accent);outline-offset:2px}}
+.hint{{margin:13px 0 0;font-size:12.5px;color:var(--ink-faint)}}
+.hint b{{color:var(--ink-soft)}}
+.chips-label{{font-size:12px;color:var(--ink-faint);margin:0 2px 8px 0}}
+.chips{{display:flex;flex-wrap:wrap;gap:8px}}
+.chips .btn{{min-height:30px;border-color:var(--rule);color:var(--ink-soft);font-size:12.5px;background:var(--surface)}}
+.chips .btn:hover:not(:disabled){{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong)}}
 
-/* buttons — inked controls */
-.btn{{font:12.5px/1 var(--mono);color:var(--ink);background:transparent;border:1px solid var(--rule-strong);
-  padding:0 18px;min-height:36px;cursor:pointer;border-radius:0;letter-spacing:.02em}}
-.btn:hover:not(:disabled){{background:var(--ink);color:var(--paper)}}
+/* buttons — soft, rounded, human */
+.btn{{font:600 14px/1 var(--font);color:var(--ink-soft);background:var(--surface);
+  border:1px solid var(--rule-strong);border-radius:var(--r-sm);padding:0 18px;min-height:42px;
+  cursor:pointer;transition:background .15s ease, border-color .15s ease, box-shadow .15s ease}}
+.btn:hover:not(:disabled){{background:var(--surface-soft);border-color:var(--ink-faint);color:var(--ink)}}
 .btn:disabled{{opacity:.55;cursor:wait}}
-.btn:focus-visible{{outline:2px solid var(--link);outline-offset:2px}}
-.btn.primary{{background:var(--ink);color:var(--paper)}}
-.btn.primary:hover:not(:disabled){{background:var(--mark);border-color:var(--mark)}}
-.btn.danger{{border-color:var(--mark);color:var(--mark)}}
-.btn.danger:hover:not(:disabled){{background:var(--mark);color:var(--paper)}}
-.btn.mini{{padding:0 11px;min-height:28px;font-size:11px;border-color:var(--rule);color:var(--ink-soft)}}
-.btn.mini:hover:not(:disabled){{border-color:var(--ink);color:var(--ink)}}
-.chips{{display:flex;flex-wrap:wrap;gap:8px;counter-reset:chip}}
-.chips .btn{{min-height:30px;border-color:var(--rule);color:var(--ink-soft);font-size:11.5px;background:var(--card)}}
-.chips .btn::before{{counter-increment:chip;content:'#' counter(chip,decimal-leading-zero) ' ';color:var(--mark);font-weight:700}}
-.chips .btn:hover:not(:disabled){{background:var(--ink);border-color:var(--ink);color:var(--paper)}}
-.chips .btn:hover:not(:disabled)::before{{color:var(--paper)}}
+.btn:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
+.btn.primary{{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:var(--sh-sm)}}
+.btn.primary:hover:not(:disabled){{background:var(--accent-strong);border-color:var(--accent-strong);color:#fff}}
+.btn.danger{{border-color:var(--danger);color:var(--danger)}}
+.btn.danger:hover:not(:disabled){{background:var(--danger-soft);color:var(--danger)}}
+.btn.mini{{padding:0 13px;min-height:30px;font-size:12.5px;border-radius:999px;font-weight:500}}
+.btn.ghost{{border-color:transparent;color:var(--accent-strong);box-shadow:none}}
+.btn.ghost:hover:not(:disabled){{background:var(--accent-soft);border-color:transparent}}
 
-/* mission — folio + numbered stage sequence */
+/* mission — calm step sequence, friendly progress */
 .mission{{display:flex;flex-direction:column}}
-.folio{{display:flex;gap:3px;align-items:center;margin:0 0 8px}}
-.f-tick{{flex:1;height:7px;background:var(--ghost)}}
-.f-tick.done{{background:var(--pass)}}
-.f-tick.live{{background:var(--mark);animation:pulse 1.4s ease-in-out infinite}}
-.f-label{{font:11.5px var(--mono);color:var(--ink-faint);margin-left:12px;letter-spacing:.02em}}
-.stg{{display:grid;grid-template-columns:56px 1fr auto;gap:0 14px;padding:15px 8px 14px 4px;
-  border-bottom:1px solid var(--rule)}}
-.stg:last-child{{border-bottom:0}}
-.stg-no{{padding-top:5px;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
-.stg-title{{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-family:var(--serif);font-weight:600;font-size:16px}}
-.stg-title .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12px}}
-.stg-title .tick{{font-family:var(--mono);font-size:11px;color:var(--pass);margin-left:auto;letter-spacing:.02em}}
-.stg-meta{{font:11px var(--mono);color:var(--ink-faint);text-align:right;padding-top:6px;
-  letter-spacing:.02em;white-space:nowrap}}
-.stg-what{{margin:5px 0 1px}}
-.stg-why{{margin:0 0 6px;color:var(--ink-soft);font-size:14px}}
-.stg-note{{font-family:var(--mono);font-size:11.5px;color:var(--ink)}}
-.stg-tech{{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:2px}}
-.stg.live{{background:var(--live-tint);margin:0 -12px;padding-left:16px;padding-right:16px}}
-.stg.live .stg-no{{color:var(--mark);font-weight:700}}
-.stg.live .stg-title .tick{{color:var(--mark)}}
-.stg.live .stg-title .tick::before{{content:'● ';animation:pulse 1.4s ease-in-out infinite}}
-.stg.live .stg-meta{{color:var(--mark);font-weight:700}}
-.stg.off{{opacity:.62}}
-.stg.done .stg-no{{color:var(--pass)}}
-.stg.done .stg-meta{{color:var(--pass)}}
+.mission-bar{{display:flex;align-items:center;gap:14px;margin:2px 0 0}}
+.bar{{flex:1;height:9px;border-radius:999px;background:var(--surface-soft);overflow:hidden}}
+.bar i{{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-strong));transition:width .5s ease}}
+.bar-label{{font-size:13px;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}}
+.stg{{display:grid;grid-template-columns:32px 1fr;gap:2px 12px;padding:12px 10px;border-top:1px solid var(--rule)}}
+.stg-no{{font-size:11.5px;color:var(--ink-faint);font-weight:500}}
+.stg-icon{{grid-row:1 / span 2;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--surface-soft);color:var(--ink-faint);align-self:start;margin-top:2px}}
+.stg-title{{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-weight:600;font-size:15px;grid-column:2;min-width:0}}
+.stg-title .zh{{font-weight:400;color:var(--ink-faint);font-size:12px}}
+.stg-what{{margin:2px 0 0;font-size:13.5px;color:var(--ink-soft);grid-column:2}}
+.stg-why{{margin:0;font-size:13.5px;color:var(--ink-faint);grid-column:2}}
+.stg-note{{font-size:12.5px;color:var(--ink);margin-top:4px;grid-column:2}}
+.stg-tech{{font-size:11.5px;color:var(--ink-faint);margin-top:2px;font-family:var(--mono);grid-column:2}}
+@keyframes breathe{{50%{{opacity:.35}}}}
+.stg.running{{background:var(--live-soft);border-radius:var(--r-sm);border-top-color:transparent;margin-top:6px}}
+.stg.running .st-icon{{background:var(--live);color:#fff}}
+.stg.running .stg-title .tick::before{{content:'● ';animation:breathe 1.6s ease-in-out infinite}}
+.stg.done .st-icon{{background:var(--ok-soft);color:var(--ok)}}
+.tick{{margin-left:auto;font-size:12px;font-weight:600}}
+.stg-title .tick{{opacity:.9}}
+.stg.running .tick{{color:var(--live)}}
+.stg.done .tick{{color:var(--ok)}}
+.tick em{{font-style:normal;font-weight:400;color:var(--ink-faint)}}
 
-/* raw-tail — the transcript drawer */
-details.rawtail{{border:1px solid var(--rule);margin-top:8px;background:var(--card)}}
-details.rawtail summary{{cursor:pointer;padding:9px 13px;font:11.5px var(--mono);color:var(--ink-soft);list-style:none;letter-spacing:.02em}}
-details.rawtail summary::before{{content:'▸ ';color:var(--mark)}}
-details.rawtail[open] summary::before{{content:'▾ '}}
-#tail{{margin:0;padding:12px 14px;height:240px;overflow:auto;border-top:1px solid var(--rule);
-  font-family:var(--mono);font-size:12px;line-height:1.5;color:#dbe2c9;background:#16180f;white-space:pre-wrap}}
+/* raw drawer — the only mono surface on the page */
+details.rawtail{{margin-top:10px}}
+details.rawtail summary{{cursor:pointer;padding:9px 14px;border:1px solid var(--rule);border-radius:999px;
+  font:500 12.5px var(--font);color:var(--ink-soft);list-style:none;display:inline-flex;align-items:center;gap:7px}}
+details.rawtail summary::before{{content:'▸ ';color:var(--accent)}}
+details.rawtail[open] summary::before{{content:'▾ ';color:var(--accent)}}
+#tail{{margin:10px 0 0;padding:14px 16px;height:260px;overflow:auto;border:1px solid var(--rule);
+  border-radius:var(--r);background:#14170f;color:#dbe2c9;font-family:var(--mono);font-size:12px;line-height:1.55;white-space:pre-wrap}}
 
-/* run archive — index cards with ghost folio numbers */
+/* run archive — question-first calm cards */
 .runs{{display:flex;flex-direction:column;gap:12px}}
-.run-card{{position:relative;background:var(--card);border:1px solid var(--rule);
-  border-left:3px solid var(--rule);padding:14px 18px 13px;overflow:hidden;transition:border-color .15s ease}}
-.run-card:hover{{border-left-color:var(--link)}}
-.run-card::after{{content:attr(data-id);position:absolute;right:14px;top:4px;
-  font:700 46px/1 var(--mono);color:var(--ghost);opacity:.55;pointer-events:none;letter-spacing:.01em}}
-.run-top{{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:90px;position:relative;z-index:1}}
-.run-top strong{{font-family:var(--serif);font-size:16px}}
-.run-card .cmd{{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);word-break:break-all;letter-spacing:.01em}}
-.run-card .q{{margin-top:6px;font-family:var(--serif);font-style:italic;color:var(--ink-soft);padding-right:90px}}
-.run-card .res{{margin-top:6px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}}
-.run-card .res a{{margin-right:14px}}
-.mono{{font-family:var(--mono)}}
-.id{{color:var(--ink-faint);font-size:11.5px}}
-.badge{{font-family:var(--mono);font-size:10.5px;padding:2px 9px;border:1px solid var(--rule-strong);letter-spacing:.03em}}
-.badge.ok{{border-color:var(--pass);color:var(--pass)}}
-.badge.fail{{border-color:var(--mark);color:var(--mark)}}
-.badge.run{{border-color:var(--mark);color:var(--mark)}}
-.badge.cancel{{border-color:var(--warn);color:var(--warn)}}
-.badge.muted{{border-color:var(--rule);color:var(--ink-faint)}}
-.badge.ok, .badge.fail, .badge.run{{background:var(--card)}}
+.run-card{{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:16px 20px}}
+.rc-head{{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}}
+.rc-title{{font-weight:600;font-size:15.5px}}
+.rc-q{{margin:9px 0 0;font-size:15px;color:var(--ink);border-left:3px solid var(--rule);padding-left:12px}}
+.rc-res{{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}}
+.rc-link{{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border:1px solid var(--rule);border-radius:999px;font-size:12.5px;color:var(--accent-strong);background:var(--surface);text-decoration:none}}
+.rc-link:hover{{border-color:var(--accent);background:var(--accent-soft);text-decoration:none}}
+.rc-meta{{margin-top:10px;font-size:12px;color:var(--ink-faint)}}
+.resume-row{{margin-top:10px}}
+
+/* status chips */
+.chip{{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px}}
+.chip::before{{content:'';width:7px;height:7px;border-radius:50%}}
+.chip.ok{{background:var(--ok-soft);color:var(--ok)}}
+.chip.ok::before{{background:var(--ok)}}
+.chip.run{{background:var(--live-soft);color:var(--live)}}
+.chip.run::before{{background:var(--live);animation:breathe 1.6s ease-in-out infinite}}
+.chip.fail{{background:var(--danger-soft);color:var(--danger)}}
+.chip.fail::before{{background:var(--danger)}}
+.chip.cancel{{background:var(--surface-soft);color:var(--warn)}}
+.chip.cancel::before{{background:var(--warn)}}
+.chip.muted{{background:var(--surface-soft);color:var(--ink-faint)}}
+.chip.muted::before{{background:var(--ink-faint)}}
+
+/* badges (manuscript/dashboard tables) */
+.badge{{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:999px}}
+.badge.ok{{background:var(--ok-soft);color:var(--ok)}}
+.badge.fail{{background:var(--danger-soft);color:var(--danger)}}
+.badge.run{{background:var(--live-soft);color:var(--live)}}
+.badge.cancel{{background:var(--surface-soft);color:var(--warn)}}
+.badge.muted{{background:var(--surface-soft);color:var(--ink-faint)}}
 
 /* tables & utilities */
-table{{border-collapse:collapse;width:100%;font-size:13px}}
-td,th{{border:1px solid var(--rule);padding:7px 11px;text-align:left}}
-th{{background:var(--panel);font-family:var(--mono);font-weight:600;font-size:11.5px}}
-tbody tr:nth-child(even){{background:var(--card)}}
+table{{border-collapse:collapse;width:100%;font-size:13.5px}}
+td,th{{border:1px solid var(--rule);padding:8px 12px;text-align:left}}
+th{{background:var(--surface-soft);font-weight:600}}
+tbody tr:nth-child(even){{background:var(--surface-soft2)}}
 ul{{margin:.4em 0}}li{{margin:.15em 0}}
-.muted{{color:var(--ink-faint)}}.green{{color:var(--pass)}}.red{{color:var(--mark)}}.amber{{color:var(--warn)}}
-.mission-empty{{color:var(--ink-faint);font-family:var(--serif);font-style:italic;padding:10px 0}}
+.muted{{color:var(--ink-faint)}}.green{{color:var(--ok)}}.red{{color:var(--danger)}}.amber{{color:var(--warn)}}
+.mono{{font-family:var(--mono);font-size:12px}}
+.id{{color:var(--ink-faint);font-size:12px}}
+.mission-empty, .empty{{color:var(--ink-faint);font-size:14px;padding:14px 4px}}
 
 /* colophon */
-.colophon{{margin-top:56px;padding-top:12px;border-top:1px solid var(--rule);
-  font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--ink-faint);letter-spacing:.02em}}
+.colophon{{margin-top:44px;padding:16px 0 4px;border-top:1px solid var(--rule);
+  font-size:12px;line-height:1.7;color:var(--ink-faint)}}
 
 @media (prefers-color-scheme: dark){{
   :root{{
-    --paper:#171810; --card:#1e2016; --panel:#24261b; --ink:#e9e4d3; --ink-soft:#bec0ae; --ink-faint:#96988a;
-    --rule:#3a3c2e; --rule-strong:#e9e4d3; --link:#9bbccb; --pass:#8ab596; --warn:#c9a35e; --mark:#dc8b7b;
-    --ghost:#33352a; --live-tint:#372820; --mast:#0e0f09;
+    --paper:#16181a; --surface:#1d2023; --surface-soft:#24282c; --surface-soft2:#1a1d1f;
+    --ink:#e8e6e1; --ink-soft:#b4b6b2; --ink-faint:#83868a;
+    --rule:#33363a; --rule-strong:#4a4e52;
+    --accent:#7fb6a6; --accent-strong:#a4d3c5; --accent-soft:#22302b;
+    --ok:#8fbc9d; --ok-soft:#233026; --live:#d9a476; --live-soft:#3a2c1e;
+    --danger:#d98981; --danger-soft:#3a2422; --warn:#d3b26a;
+    --sh-sm:0 1px 2px rgba(0,0,0,.35); --sh:0 1px 3px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
   }}
-  body{{background-image:none}}
-  .lede{{color:#b7b9a6}}
-  .nostamp{{color:#9a9c8a;border-left-color:rgba(233,228,211,.2)}}
-  .nostamp b{{color:#e9e4d3}}
-  .run-card::after{{color:#2b2d23}}
-  ::selection{{background:#9bbccb;color:#171810}}
+  .btn.primary{{color:#101312}}
 }}
-
 @media (max-width:700px){{
-  .mast-grid{{grid-template-columns:1fr}}
-  .nostamp{{text-align:left;border-left:0;padding-left:0;margin-top:14px;white-space:normal}}
-  .stg{{grid-template-columns:40px 1fr}}
-  .stg-meta{{grid-column:2;text-align:left;padding-top:2px}}
-  nav a{{margin-left:12px;font-size:13px}}
-  .run-card::after{{font-size:32px;top:8px}}
-  .run-top{{padding-right:56px}}
+  .topbar-row{{gap:8px}}
+  .navpills{{order:3;flex-basis:100%;min-width:0}}
+  .main{{padding:18px 0 6px}}
+  .probe-row .btn{{width:100%}}
+  .stg{{grid-template-columns:28px 1fr;gap:2px 10px}}
+  .st-icon{{width:24px;height:24px;font-size:12px}}
+  .rc-head, .sect-head{{align-items:flex-start}}
 }}
 @media (prefers-reduced-motion: reduce){{
   *{{transition:none!important;animation:none!important}}
-  .brand .cursor, .mast h1 .cursor{{animation:none;visibility:hidden}}
-  .stg.live .stg-title .tick::before, .f-tick.live{{animation:none}}
+  .stg.running .stg-title .tick::before, .chip.run::before{{animation:none}}
 }}
 </style></head><body>
-<nav class="nav"><span class="brand">research_foodie<span class="zh">本地科研综述工作台</span><span class="cursor" aria-hidden="true"></span></span>
-<span><a class="{cur_workbench}" href="/">{ui_nav_workbench}</a><a class="{cur_dash}" href="/dashboard">{ui_nav_dash}</a><a class="{cur_ms}" href="/manuscripts">{ui_nav_ms}</a><a class="{cur_fb}" href="/feedback">{ui_nav_fb}</a></span>
-<span class="lang-nav"><a class="{cur_lang_zh}" href="/_lang/zh">中文</a><a class="{cur_lang_en}" href="/_lang/en">EN</a></span></nav>
-<div class="frame">
+<div class="topbar"><div class="frame topbar-row">
+<a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>research_foodie<span class="brand-tag">{ui_brand_tag}</span></a>
+<nav class="navpills"><a class="pill {cur_workbench}" href="/">{ui_nav_workbench}</a><a class="pill {cur_dash}" href="/dashboard">{ui_nav_dash}</a><a class="pill {cur_ms}" href="/manuscripts">{ui_nav_ms}</a><a class="pill {cur_fb}" href="/feedback">{ui_nav_fb}</a></nav>
+<span class="langseg"><a class="pill {cur_lang_zh}" href="/_lang/zh">中文</a><a class="pill {cur_lang_en}" href="/_lang/en">EN</a></span>
+</div></div>
+<div class="frame main">
 """
 
 HTML_TAIL = ('<footer class="colophon">research_foodie · local-first survey pipeline · '
@@ -274,6 +272,10 @@ HTML_TAIL = ('<footer class="colophon">research_foodie · local-first survey pip
 UI = {
     "en": {
         "nav_workbench": "Workbench", "nav_dash": "Numbers", "nav_ms": "Manuscripts", "nav_fb": "Feedback",
+        "brand_tag": "local survey workbench",
+        "trust_cite": "every citation traceable",
+        "trust_double": "two-tier PDF delivery",
+        "trust_local": "runs offline · no API key",
         "mast_meta": "research_foodie · local-first survey pipeline · citations are the lifeline",
         "mast_title": "Survey workbench",
         "lede": ("Ask a question and get a survey where every sentence is traceable. Each step is "
@@ -281,6 +283,7 @@ UI = {
                  "Every survey ships in two tiers: the dry-goods manuscript (default) and an "
                  "arXiv-style preprint."),
         "probe_head": "Start a survey", "probe_head_en": "ask a research question",
+        "quick_tasks": "or launch a saved scenario:",
         "lane": "Model lane",
         "q_label": "Research question", "q_hint": "what this survey should answer",
         "q_ph": "e.g. GPT detectors bias against non-native English writers",
@@ -325,11 +328,16 @@ UI = {
     },
     "zh": {
         "nav_workbench": "工作台", "nav_dash": "数据", "nav_ms": "手稿", "nav_fb": "反馈",
+        "brand_tag": "本地科研综述工作台",
+        "trust_cite": "引用逐条可溯源",
+        "trust_double": "双档 PDF 交付",
+        "trust_local": "本地运行 · 免密钥",
         "mast_meta": "research_foodie · 本地优先调研管线 · 引用即生命线",
         "mast_title": "调研工作台",
         "lede": ("输入一个问题，得到一份逐句可溯源的综述。每一步研究都在这里直播——做到哪个阶段、"
                  "怎么做、为什么这么做。每次调研都双档交付：干货稿（缺省）与 arXiv 出版化稿。"),
         "probe_head": "投题", "probe_head_en": "输入一个研究问题",
+        "quick_tasks": "或直接运行预置场景：",
         "lane": "模型通道",
         "q_label": "研究问题", "q_hint": "这份综述要回答的问题",
         "q_ph": "例如：GPT detectors 是否对非母语作者有偏倚",
@@ -393,6 +401,7 @@ def page(title, body: str, cur: str = "wb", lang: str = "en") -> HTMLResponse:
         ui_nav_dash=T(lang, "nav_dash"),
         ui_nav_ms=T(lang, "nav_ms"),
         ui_nav_fb=T(lang, "nav_fb"),
+        ui_brand_tag=T(lang, "brand_tag"),
     )
     return HTMLResponse(HTML_HEAD.format(title=title, **kw) + body + HTML_TAIL)
 
@@ -556,57 +565,52 @@ def _mission_html(stages: List[dict], summary: Optional[dict], lang: str = "en")
     for i, s in enumerate(stages, 1):
         meta = next(m for m in SURVEY_STAGES if m["id"] == s["id"])
         label = meta["label"] if lang == "en" else meta["zh"]
+        alt = meta["zh"] if lang == "en" else meta["label"]
         status = s["status"] if s["status"] in ("done", "running", "pending") else "pending"
-        mark = {"done": "✓", "running": "●", "pending": "○"}[status]
-        dur = f" · {s['dur_s']:.1f}s" if s.get("dur_s") else ""
-        tick = {("done"): T(lang, "done") + dur,
-                "running": T(lang, "running"),
-                "pending": T(lang, "pending")}[status]
-        est = meta.get("est")
-        if status == "running" and est:
-            tick += f" · {est}"
-        meta_text = {"done": (f"{s['dur_s']:.1f}{T(lang, 'seconds')}" if s.get("dur_s") else T(lang, "done")),
-                     "running": (est or T(lang, "running")),
-                     "pending": (est or "—")}[status]
+        ic = {"done": "✓", "running": "●", "pending": "○"}[status]
+        if status == "done":
+            tick = (T(lang, "done") + f" · {s['dur_s']:.1f}{T(lang, 'seconds')}"
+                    if s.get("dur_s") else T(lang, "done"))
+        elif status == "running":
+            tick = T(lang, "running")
+            if meta.get("est"):
+                tick += f" · {meta['est']}"
+        else:
+            tick = T(lang, "pending")
         tech = " · ".join(f"{k}={v}" for k, v in (s.get("tech") or {}).items())
-        note = ('<div class="stg-note">' + meta["how"] + '</div>'
-                + (f'<div class="stg-tech">{tech}</div>' if tech else ""))
         rows.append(
             f'<article class="stg {status}">'
-            f'<div class="stg-no">{i:02d}</div><div>'
-            f'<div class="stg-title">{label}'
-            f'<span class="zh">{meta["label"] if lang != "en" else meta["zh"]}</span>'
-            f'<span class="tick">{mark} {tick}</span></div>'
+            f'<span class="st-icon" aria-hidden="true">{ic}</span>'
+            f'<div class="stg-title">{label}<span class="zh">{alt}</span>'
+            f'<span class="stg-no">{i}/{len(stages)}</span>'
+            f'<span class="tick">{tick}</span></div>'
             f'<p class="stg-what">{meta["what"]}</p>'
             f'<p class="stg-why">{meta["why"]}</p>'
-            f'{note}'
-            f'</div><div class="stg-meta">{meta_text}</div></article>')
+            f'<div class="stg-note">{meta["how"]}</div>'
+            + (f'<div class="stg-tech">{tech}</div>' if tech else "")
+            + '</article>')
     summary_html = ""
     if summary:
         links = " ".join(
-            f'<a href="/manuscripts/{Path(x).name}">{label}</a>'
+            f'<a href="/manuscripts/{Path(x).name}" class="rc-link">{label}</a>'
             for label, x in ((T(lang, "link_manuscript"), summary.get("manuscript")),
                              (T(lang, "link_pdf"), summary.get("pdf")),
                              (T(lang, "link_preprint"), summary.get("pdf_pub")))
             if x)
         verdict = T(lang, "l6_pass") if summary.get("gate_passed") else T(lang, "l6_fail")
-        summary_html = (f'<div class="run-card">'
-                        f'<span class="badge {"ok" if summary.get("gate_passed") else "fail"}">'
-                        f'{verdict}</span> '
-                        f'<span class="res">{T(lang, "judge")}={summary.get("judge_label")} · '
-                        f'{summary.get("claims", 0)} {T(lang, "claims")} · '
+        summary_html = (f'<div class="run-card" style="margin:12px 0">'
+                        f'<div class="rc-head"><span class="rc-title">{verdict}</span>'
+                        f'<span class="chip {"ok" if summary.get("gate_passed") else "fail"}">'
+                        f'{T(lang, "judge")} {summary.get("judge_label")}</span></div>'
+                        f'<div class="rc-res">{links}</div>'
+                        f'<div class="rc-meta">{summary.get("claims", 0)} {T(lang, "claims")} · '
                         f'{summary.get("n_papers_cited", 0)} {T(lang, "papers")} · '
-                        f'{summary.get("elapsed_s", 0)}{T(lang, "seconds")}</span> '
-                        f'{links}</div>')
-    folio = "".join(
-        '<span class="f-tick %s"></span>' % ("done" if s["status"] == "done"
-                                             else ("live" if s["status"] == "running" else ""))
-        for s in stages)
-    return (f'<div class="folio">{folio}'
-            f'<span class="f-label">{done:02d}/{len(stages)} · {pct}%</span></div>'
-            f'<div class="muted" style="font-size:12px">{done}/{len(stages)} '
-            f'{T(lang, "stages")}</div>'
-            + summary_html + "".join(rows))
+                        f'{summary.get("elapsed_s", 0)}{T(lang, "seconds")}</div></div>')
+    bar = (f'<div class="mission-bar"><div class="bar"><i style="width:{pct}%"></i></div>'
+           f'<span class="bar-label">{done}/{len(stages)} · {pct}%</span></div>'
+           f'<p class="muted" style="font-size:12px;padding:2px 4px;margin:0">'
+           f'{len(stages)} {T(lang, "stages")}</p>')
+    return bar + summary_html + "".join(rows)
 
 
 def _survey_summary(run) -> Optional[dict]:
@@ -621,45 +625,29 @@ def _survey_summary(run) -> Optional[dict]:
 
 
 def _run_card(run, lang: str = "en") -> str:
-    """HTML card for one run (list page)."""
+    """HTML card for one run (list page). Question first; numbers live elsewhere."""
     from tools.eval.run_ledger import ResumeLedger
     status_badge = {
-        "done": 'ok', "running": 'run', "pending": 'run',
+        "done": 'ok', "running": 'run', "pending": 'muted',
         "failed": 'fail', "cancelled": 'cancel', "interrupted": 'cancel',
     }.get(run.status, 'muted')
     status_label = T(lang, run.status)
-    logf = f'<a class="muted" href="/runs/{run.id}/log" target="_blank">{T(lang, "link_log")}</a>'
-    greeting = ''
     survey = _survey_summary(run)
-    mission_link = ''
-    if survey or any(ln.startswith("[survey-stage]") for ln in run.lines):
-        mission_link = (f'<a class="muted" href="/runs/{run.id}/mission" target="_blank">'
-                        f'{T(lang, "research_view")}</a> ')
+    is_survey = survey or any(ln.startswith("[survey-stage]") for ln in run.lines)
+    links = []
     if survey:
-        mode = survey.get("mode", "real")
-        badge_cls = "ok" if survey.get("gate_passed") else "fail"
-        mode_badge = (f'<span class="badge {"muted" if mode == "mock" else "run"}">'
-                      f'{"MOCK demo" if mode == "mock" else "REAL run"}</span>')
-        links = []
-        if survey.get("manuscript"):
-            links.append(f'<a href="/manuscripts/{Path(survey["manuscript"]).name}">'
-                         f'{T(lang, "link_manuscript")}</a>')
-        if survey.get("pdf"):
-            links.append(f'<a href="/manuscripts/{Path(survey["pdf"]).name}">'
-                         f'{T(lang, "link_pdf")}</a>')
-        if survey.get("pdf_pub"):
-            links.append(f'<a href="/manuscripts/{Path(survey["pdf_pub"]).name}">'
-                         f'{T(lang, "link_preprint")}</a>')
-        links_html = " · ".join(links) if links else ""
-        verdict = T(lang, "l6_pass") if survey.get("gate_passed") else T(lang, "l6_fail")
-        greeting = (f'<div class="q">{survey.get("question", "")}</div>'
-                    f'<div class="res">{mode_badge} '
-                    f'<span class="badge {badge_cls}">{verdict}</span> '
-                    f'{T(lang, "judge")}={survey.get("judge_label")} · '
-                    f'{survey.get("claims", 0)} {T(lang, "claims")} · '
-                    f'{survey.get("n_papers_cited", 0)} {T(lang, "papers")} · '
-                    f'{survey.get("elapsed_s", 0)}{T(lang, "seconds")}'
-                    + (f' · {links_html}' if links_html else "") + '</div>')
+        for key, attr in ((T(lang, "link_manuscript"), "manuscript"),
+                          (T(lang, "link_pdf"), "pdf"),
+                          (T(lang, "link_preprint"), "pdf_pub")):
+            x = survey.get(attr)
+            if x:
+                links.append(f'<a class="rc-link" href="/manuscripts/{Path(x).name}">{key}</a>')
+    if is_survey:
+        links.append(f'<a class="rc-link" href="/runs/{run.id}/mission" target="_blank">'
+                     f'{T(lang, "research_view")}</a>')
+    links.append(f'<a class="rc-link" href="/runs/{run.id}/log" target="_blank">{T(lang, "link_log")}</a>')
+    q_html = f'<p class="rc-q">{survey.get("question", "")}</p>' if survey else ""
+    res_line = f'<div class="rc-res">{"".join(links)}</div>' if links else ""
     # ledger progress for bench_eval / variance_run (they persist per-row state)
     progress = ""
     for mod, argv in (("tools.eval.bench_eval", r"bench_eval"),
@@ -668,23 +656,19 @@ def _run_card(run, lang: str = "en") -> str:
         if any(search in str(c) for c in run.cmd):
             led = ResumeLedger._load(argv)
             if led:
-                nd = len(led.get("done", {}))
-                progress = (f'<span class="muted">ledger </span>'
-                            f'<span class="badge run">{nd} done</span>')
+                progress = f'<span class="chip ok">{len(led.get("done", {}))} done</span>'
             break
     resume = ""
     if run.status in ("failed", "cancelled", "interrupted"):
         resume = (f'<button class="btn mini" onclick="resumeRun(\'{run.id}\')">'
-                  f'{T(lang, "link_resume")}</button> ')
-    return (f'<div class="run-card" data-id="{run.id}"><div class="run-top">'
-            f'<strong>{run.title}</strong> '
-            f'<span class="badge {status_badge}">{status_label}</span> '
-            f'<span class="id mono">{run.id}</span> {logf} {mission_link}{progress}</div>'
-            f'<div class="mono muted" style="font-size:11.5px;margin-top:6px">{run.elapsed:.0f}s · '
-            f'rc={run.returncode} · {len(run.lines)} lines</div>'
-            f'{greeting}'
-            f'{resume}'
-            f'<div class="cmd">{" ".join(run.cmd)}</div></div>')
+                  f'{T(lang, "link_resume")}</button>')
+    meta = (f'<div class="rc-meta">{" ".join(run.cmd)} · {run.elapsed:.0f}s · rc={run.returncode} · '
+            f'{len(run.lines)} lines</div>')
+    foot = f'<div class="resume-row">{progress} {resume}</div>' if (progress or resume) else ""
+    return (f'<div class="run-card"><div class="rc-head">'
+            f'<span class="rc-title">{run.title}</span>'
+            f'<span class="chip {status_badge}">{status_label}</span></div>'
+            f'{q_html}{res_line}{foot}{meta}</div>')
 
 
 def _env_profile() -> dict:
@@ -735,21 +719,16 @@ def runs_page(request: Request) -> HTMLResponse:
         mission_init = _mission_html(_parse_survey_stages(last_survey.lines),
                                      _survey_summary(last_survey), lang)
     body = f"""
-<header class="mast">
-  <div class="mast-grid">
-    <div>
-      <div class="mast-meta">{T(lang, "mast_meta")}</div>
-      <h1>{T(lang, "mast_title")}<span class="cursor" aria-hidden="true"></span></h1>
-      <p class="lede">{T(lang, "lede")}</p>
-    </div>
-    <div class="nostamp">edition 2026.09<br>
-      lane <b>{_env_profile()['LLM_BACKEND']}</b> / rack <b>{_env_profile()['OPENCODE_MODEL']}</b><br>
-      <span class="live-dot">●</span> commit a question &#8594; the flipbook prints here</div>
+<section class="hero">
+  <h1>{T(lang, "mast_title")}</h1>
+  <p class="lede">{T(lang, "lede")}</p>
+  <div class="trust">
+    <span>{T(lang, "trust_cite")}</span><span>{T(lang, "trust_double")}</span><span>{T(lang, "trust_local")}</span>
   </div>
-</header>
+</section>
 
 <section class="sect">
-  <div class="sect-head"><h2><span class="idx">I.</span>{T(lang, "probe_head")} <span class="en">{T(lang, "probe_head_en")}</span></h2>
+  <div class="sect-head"><h2>{T(lang, "probe_head")} <span class="en">{T(lang, "probe_head_en")}</span></h2>
     <div class="side">{T(lang, "lane")} · {_env_profile()['LLM_BACKEND']} / {_env_profile()['OPENCODE_MODEL']}</div></div>
   <div class="probe">
     <form onsubmit="return false">
@@ -764,21 +743,22 @@ def runs_page(request: Request) -> HTMLResponse:
       <div class="probe-row">
         <div class="seg">
           <label><input type="radio" name="mode" value="mock" checked>
-            <span><b>{T(lang, "mock_label")}</b><small>{T(lang, "mock_note")}</small></span></label>
+            <b>{T(lang, "mock_label")}</b><small>{T(lang, "mock_note")}</small></label>
           <label><input type="radio" name="mode" value="real">
-            <span><b>{T(lang, "real_label")}</b><small>{T(lang, "real_note")}</small></span></label>
+            <b>{T(lang, "real_label")}</b><small>{T(lang, "real_note")}</small></label>
         </div>
         <button class="btn primary" id="runbtn" onclick="startQuestion()">{T(lang, "run_btn")}</button>
         <span class="muted" id="q-msg"></span>
       </div>
       <p class="hint">{T(lang, "resume_hint")}</p>
+      <p class="chips-label">{T(lang, "quick_tasks")}</p>
+      <div class="chips">{menu_html}</div>
     </form>
   </div>
-  <div style="margin-top:12px" class="chips">{menu_html}</div>
 </section>
 
 <section class="sect">
-  <div class="sect-head"><h2><span class="idx">II.</span>{T(lang, "mission_head")} <span class="en">{T(lang, "mission_head_en")}</span></h2>
+  <div class="sect-head"><h2>{T(lang, "mission_head")} <span class="en">{T(lang, "mission_head_en")}</span></h2>
     <div class="side"><span id="active-msg" class="muted"></span>
     <button class="btn danger mini" onclick="cancelRun()">{T(lang, "cancel_btn")}</button></div></div>
   <div id="mission">{mission_init or f'<p class="mission-empty">{T(lang, "no_mission")}</p>'}</div>
@@ -787,7 +767,7 @@ def runs_page(request: Request) -> HTMLResponse:
 </section>
 
 <section class="sect">
-  <div class="sect-head"><h2><span class="idx">III.</span>{T(lang, "runs_head")} <span class="en">{T(lang, "runs_head_en")}</span></h2></div>
+  <div class="sect-head"><h2>{T(lang, "runs_head")} <span class="en">{T(lang, "runs_head_en")}</span></h2></div>
   <div id="runs" class="runs">{cards}</div>
 </section>
 <script>
@@ -801,6 +781,7 @@ const stagePlan = {{}};   // id -> {{status, dur_s, tech, stageStart}}
 const isZh = LANG === 'zh';
 const stageLabel = (m) => isZh ? m.zh : m.label;
 const stageAlt = (m) => isZh ? m.label : m.zh;
+const ST_ICON = {{done:'✓', running:'●', pending:'○'}};
 function renderMission(){{
   const el = document.getElementById('mission');
   const ids = Object.keys(stagesMeta);
@@ -810,30 +791,29 @@ function renderMission(){{
   ids.forEach((id, k) => {{
     const m = stagesMeta[id]; const p = stagePlan[id] || {{status:'pending', tech:{{}}, dur_s:0}};
     const st = ['done','running','pending'].includes(p.status) ? p.status : 'pending';
-    const mark = {{done:'✓', running:'●', pending:'○'}}[st];
-    let tickText = {{done: UI.done, running: UI.running, pending: UI.pending}}[st];
-    let metaText = st === 'done' ? (p.dur_s ? p.dur_s.toFixed(1) + UI.seconds : UI.done)
-      : st === 'running' ? (p.stageStart ? Math.round((Date.now()-p.stageStart)/1000) + UI.seconds : UI.running)
-      : (m.est || '—');
+    let tick = {{done: UI.done, running: UI.running, pending: UI.pending}}[st];
+    if (st === 'done' && p.dur_s) tick += ' · ' + p.dur_s.toFixed(1) + UI.seconds;
+    if (st === 'running'){{
+      tick += ' · ';
+      tick += p.stageStart ? Math.round((Date.now()-p.stageStart)/1000) : '…';
+      tick += UI.seconds;
+    }}
     const tech = Object.entries(p.tech||{{}}).map(([a,b])=>a+'='+b).join(' · ');
-    const no = String(k+1).padStart(2, '0');
-    rows += `<article class="stg ${{st}} ${{st==='done' ? 'done' : (st==='running' ? 'live' : 'off')}}">
-      <div class="stg-no">${{no}}</div><div>
+    rows += `<article class="stg ${{st}}">
+      <span class="st-icon" aria-hidden="true">${{ST_ICON[st]}}</span>
       <div class="stg-title">${{stageLabel(m)}}<span class="zh">${{stageAlt(m)}}</span>
-        <span class="tick">${{mark}} ${{tickText}}</span></div>
+        <span class="stg-no">${{k+1}} / ${{ids.length}}</span>
+        <span class="tick">${{tick}}</span></div>
       <p class="stg-what">${{m.what}}</p>
       <p class="stg-why">${{m.why}}</p>
       <div class="stg-note">${{m.how}}</div>${{tech ? '<div class="stg-tech">'+tech+'</div>' : ''}}
-      </div><div class="stg-meta">${{metaText}}</div></article>`;
+      </article>`;
   }});
-  const folio = ids.map(i => {{
-    const p = stagePlan[i] || {{}};
-    const cls = p.status === 'done' ? 'done' : (p.status === 'running' ? 'live' : '');
-    return `<span class="f-tick ${{cls}}"></span>`;
-  }}).join('');
-  el.innerHTML = `<div class="folio">${{folio}}<span class="f-label">${{String(doneN).padStart(2,'0')}}/${{ids.length}} · ${{pct}}%</span></div>
-    <div class="muted" style="font-size:12px">${{UI.stages}}
-      ${{currentRun ? ' · <a href="/runs/'+currentRun+'/mission">'+UI.research_view+'</a>' : ''}}</div>`
+  el.innerHTML =
+    `<div class="mission-bar"><div class="bar"><i style="width:${{pct}}%"></i></div>
+      <span class="bar-label">${{doneN}} / ${{ids.length}} · ${{pct}}%</span></div>
+     <div class="muted" style="font-size:12px;padding:2px 4px">${{UI.stages}}
+       ${{currentRun ? ' · <a href="/runs/'+currentRun+'/mission">'+UI.research_view+'</a>' : ''}}</div>`
     + rows;
 }}
 function handleLine(line){{
