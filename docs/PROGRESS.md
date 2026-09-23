@@ -88,6 +88,16 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 **Verification:** AST ✓ / i18n 断言全绿 ✓ / library smoke 全过 ✓（sync 45 · fav ×2 · tags 增删 · en+zh）/ 新增 reader 断言：lazy `data-src`、无 eager `src`、preprint 惰性 iframe + 下载按钮、默认 tab 自适应 ✓；8787 重启 live：reader 200 · 23.9KB · preprint-lazy ✓。清理测试残留 tags/favorite 后再重启。
 
+### Session 35c — 全方位工具深度对比 + 论文工具综述更新（2026-09-23，`docs/TOOL-COMPARISON.md` 主文档 + outline §5 + 正文 §2）
+
+**Why:** 用户指令——*"在相关文档或论文中，把该工具与其他工具的详细对比分析写出来，包括各个阶段的对比，各个工具的优势在哪里，做一个全方位的深度分析评估比对"*。
+
+1. **深度对比主文档（`docs/TOOL-COMPARISON.md` 从简短版改写为全景版）**：格局五桶（①学术综述管线 ②商用深度研究产品 ③检索/证据基础件 ④agent 编排框架 ⑤判题与评测工具，≈30 系统/组件）；**逐阶段 L1–L6 + 交付/评测深度对比表**（每一级"我们 vs 对标 → 谁赢在哪/差距"，例如：L1 无元数据湖/无语义召回 → S2AG 零成本同层替代；L2 不建 chunk 索引、无 retraction check；L3 缺 STORM 式多视角 + DAS 反向路由；L4 无 RCS 重排 = 头号自研缺口；L5 DAS scoped-loop 是实增益；L6 median-of-N 有文献背书 + urlhealth 补丁；交付双语双档为差异化）；**单工具评估卡**（§3：学术 8 卡全量 + 商用 7 行 + 基础件 9 行 + 框架 6 行 + 判题 6 行，全部带 source）；**横向结论 §4**（引用幻觉 3–13%/5–18% DRBench；judge 单样本不可靠→median-of-N；《Science》无 DR 评测论文；成本两极→≈$0 CPU 生态位仍空白）；**复用决策矩阵 §5**（S2AG 最高优先待接、urlhealth、RCS 自研项等）；**诚实边界 §6**（*unverified* 清单）。
+2. **论文 outline（`docs/design/tool-paper-outline.md`）**：§5 新增商用深度研究层 + 证据基础件 + 判题方法学子弹；§5.1 表扩至 14 行（Co-STORM、OpenAI DR、Gemini DR、NotebookLM、Perplexity DR、S2AG 入表）；§10 引用 [1]–[20] **修正**（OpenResearch 无 arXiv；OpenScholar 出版年 2026；DAS `2608.18034` 已核实；MinerU `2409.18839`；Tyen `2311.08516`）并**新增 [21]–[31]**（Co-STORM、JudgeLM、MT-bench、Schroeder&Wood-Doughty、DRBench/urlhealth、DRACO、ReportEval、Gemini API DR、NotebookLM、S2AG、Perplexity DR）。
+3. **论文正文（`docs/paper/research-foodie-paper.md`）**：§2 related-work 子弹重写为五桶口径 + 商用层（DRBench 数字 + "无 Science 论文"告诫）+ 判题方法学（Tyen 定位≠判定 → 判题配机械门）；§2.1 四桶→五桶；§2.2 表同步 14 行；§5 limitations 补 #7（我们与商用引用幻觉基准的定位对照）/ #8（未复跑系统的方向性引用）；References 同步 21–31 与修正。
+
+**Verification:** outline §5 ↔ 正文 §2 引用编号 [21]–[31] 双向一致 ✓；`rg` 检查无残留旧 ID（2410.17381 / 2504.01874 误引 / 2311.16502-as-Tyen / "Horizon" 未定义系统 → 已从正文清出）✓；AGENTS 引用纪律（一手 source + 访问日期 2026-09-23 + `*unverified*` 标注）全文过 ✓。Commit `afc4cd2` 之后本轮文档交付待 commit（no push）。
+
 ---
 
 ## 2026-09-23 — Session 34: 温润关怀风重设计（人性化主导 · 极客元素只留守抽屉）(calm, human-first redesign)

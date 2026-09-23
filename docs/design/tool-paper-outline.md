@@ -53,13 +53,14 @@
 ## 5. Related Work / 相关工作
 
 按 P3 评测轴组织的对比（每行给 [n] + 一句差异）：
-- **STORM** [2]（NAACL 2024）：多视角大纲 + 检索式写作；无强制接地门、无判题门 → 我们借大纲式样，加 grounding 约束。
-- **OpenResearch / orx** [1]：agent 编排 + alphaXiv 全文检索；不承诺每声明可溯源 → 我们借发现 rail 式样，保留 LangGraph 确定性路径。
-- **PaperQA2** [3]：检索重排 + 引用核验 + retraction check；未绑定免费模型路线 → 我们借 claim+quote 证据式样。
-- **DAS / DAS-Bench** [4]：arXiv:2608.18034，30 话题/16 轴；判题规范 verbatim 借鉴，官方 harness **未运行**（自实现判题，方向性）；≥300B 判题 = 限制。
-- **Tongyi DeepResearch** [13]（Apache-2.0 开放）；**OpenScholar** [12]（Nature 650:857，GPT-4o 幻觉基准）—— 作为"可理解高引用幻觉"的锚点。
-- **MinerU** [5]、**DAS-2M**（HF 2026-08）、**GAIA**（466 Qs）——解析/数据/评测基准。
-- **GEPA/DSPy** [15]、**Seddik** [16]、**Huang** [17]、**Tyen** [18] —— Self-Evolution 方法学（外部触发、防坍缩、评估噪音）。
+- **STORM** [2]（NAACL 2024, arXiv:2402.14207）+ **Co-STORM** [21]（arXiv:2408.15232）：多视角大纲 + 检索式写作；FreshWiki 实测 **+25% organized / +10% coverage**；无强制接地门、无判题门 → 借大纲式样，加 grounding 约束。
+- **OpenResearch / orx** [1]（**无 arXiv 论文**，repo `alphaXiv/openresearch-cli`）：agent 编排 + alphaXiv/OpenAlex 检索；不承诺每声明可溯源 → 借发现 rail 式样，保留 LangGraph 确定性路径。
+- **PaperQA2** [3]（arXiv:2409.13740, Apache-2.0）：**RCS 检索重排** + 引用核验 + **retraction check**；未绑定免费模型路线 → 借 claim+quote 证据式样 + RCS 最小镜像（L4 头号自研缺口）。
+- **DAS / DAS-Bench** [4]（arXiv:2608.18034，**已核实**）：30 话题/16 轴；**主对比全 30 话题 DAS 4.34 ≈ Human ref 4.34**（vs Naive RAG 4.03、Gemini-DR 3.92、GPT-DR 3.68）；判题规范 verbatim 借鉴，官方 harness **未运行**（自实现判题，方向性）；**方法代码仍未开源**；≥300B 判题 = 限制。
+- **商用深度研究层**（**全 cloud-only**）：OpenAI Deep Research [26]（HLE 26.6% 系 2025-02 启动期数字，勿当"当前"）、Gemini Deep Research [28]、Perplexity Deep Research [31]、Grok DeepSearch、NotebookLM/Gemini Notebook [29]（语料接地、与我们姿态最近）；**DRBench [25] 实测：引用 URL 幻造 3–13%、不可解析 5–18%、"引得多≠可靠"**；**《Science》并无 Deep Research 人类评测论文**（量化评测活在 arXiv：DRACO [26]/ReportEval [27]/Rao [25]）。
+- **证据/检索基础件**：**Semantic Scholar S2AG API** [30]（免费：引用图 + relevance search ≤1000 + SPECTER2 嵌入可下载）、**Grobid**（Apache-2.0，纯 CPU 官方镜像）、**MinerU** [5]（arXiv:2409.18839，在用）、PaddleOCR-VL [19]、Elicit/Consensus/Scite/AlphaXiv（付费/覆盖层）——构成 **L1/L2 低/零成本补丁层**。
+- **Tongyi DeepResearch** [13]（arXiv:2510.24701，**3.3B active MoE 最便宜本地档**）；**OpenScholar** [12]（**Nature 650:857, 2026-02**，GPT-4o 幻觉基准，OpenScholar-8B >GPT-4o 6.1%）——"可理解高引用幻觉"与"免费档能力上限"锚点。
+- **判题与自演化方法学**：**GEPA/DSPy** [15]、**Seddik** [16]、**Huang** [17]；**Tyen** [18]（arXiv:2311.08516：判"对不对"≠找"错在哪"→ 判题必须配机械验位）；**JudgeLM** [22]（bias+swap/ref 缓解）/ **MT-bench** [23]；**Schroeder & Wood-Doughty** [24]（单样本判题随 seed/temp 漂移 → **median-of-N 背书**）。
 - **空缺（research gap）**：现有系统或强能力（云/昂贵）或弱接地；**没有一套在 ≈$0、CPU-only、强制源码下达到可审计质量且自评"带噪声地诚实"** 的公开实现 —— 这是本文生态位。
 
 **5.1 工具综述对照表（system survey table）** — 成稿配 `tab:tools`，列为：系统 | 接地机制（grounding）| 判题 / 评测 | 预算·硬件姿态 | 与本文关系：
@@ -67,11 +68,17 @@
 | System [n] | Grounding mechanism | Evaluation / judge | Budget posture | Relation to ours |
 |---|---|---|---|---|
 | STORM [2] | none mandatory | none | cloud LLM | borrow perspective-outline; we add hard gate |
+| Co-STORM [21] | none mandatory; human-in-the-loop | n/a | cloud LLM | collaborative mind-map concept (L3) — not core |
 | OpenResearch/orx [1] | alphaXiv full-text retrieval; no per-claim commit | none reported | agentic, cloud | borrow discovery rail; keep deterministic path |
-| PaperQA2 [3] | claim + verbatim quote + cite-verify + retraction check | LitQA2 | paid models | borrow evidence style |
+| PaperQA2 [3] | claim + verbatim quote + cite-verify + retraction check | LitQA2 | paid models | borrow evidence style + minimal RCS mirror |
 | DAS-Bench [4] | n/a (benchmark) | 16-axis frozen ≥300B rubric | eval harness | adopt rubric verbatim; judge self-implemented (directional) |
-| Tongyi DeepResearch [13] | n/a¹ | n/a¹ | open (Apache-2.0) | hallucination-prone anchor |
-| OpenScholar [12] | n/a¹ | n/a¹ | cloud frontier | GPT-4o 78–90% fabricated cites anchor |
+| OpenAI Deep Research [26] | agent plan → browse → cited report; no mandatory provenance | DRBench: **3.5% hallucinated URLs** | cloud, subscription | capability ceiling; not auditable/open |
+| Gemini Deep Research [28] | plan → execute → cited report | DRBench: **13.3% hallucinated URLs** (highest) | cloud, free/paid tiers | free to try; worst measured citation health |
+| NotebookLM / Gemini Notebook [29] | corpus-grounded, inline citations | n/a | cloud SaaS | closest grounding posture; sources-only scope |
+| Perplexity DR [31] | agentic search-then-synthesize; numbered cites | fabricated-attribution incidents | cloud, paid | fast; trust self-published |
+| Tongyi DeepResearch [13] | n/a¹ | n/a¹ | open (Apache-2.0); 3.3B active | free-lane capability ceiling anchor |
+| OpenScholar [12] | 45M-paper datastore + self-feedback loop | Nature; GPT-4o 78–90% fabricated cites | 8B model cheap / datastore heavy | hallucination frontier anchor |
+| S2AG API [30] | citation graph + relevance search + SPECTER2 embeddings | n/a | **free** | L1 metadata/embedding patch |
 | **Ours** | write-time 5-gram filter + zero-LLM L6 gate (mutation-tested 23/23) + 16-axis judge on top | DAS-Bench 16 axes; L6 1.00; mock/real 34/34; live trio 3.65 | **≈$0, CPU-only, free hosted model** | the ≈$0 + mandatory provenance + self-measuring niche |
 
 > ¹ 以原始论文/公开评测为准，未在本仓库逐条复跑（见 §12 诚实边界）。
@@ -125,30 +132,41 @@
 
 ## 10. References / 参考文献（draft, IEEE-style numbered）
 
-> 均来自本仓库已核验来源（PROGRESS U 行与 TOOL-COMPARISON）。访问日期 2026-09-20。*unverified* 处为仍需一手复核的条目。
+> 均来自本仓库已核验来源（PROGRESS U 行与 TOOL-COMPARISON）。访问日期 2026-09-20（新增条目 21–31 为 2026-09-23）。*unverified* 处为仍需一手复核的条目。
 
-1. OpenResearch / orx (2025), meta-repo research/open-reserch+orx; CLI `orx discover`. (镜像官方仓库)— **官方仓库**
+1. OpenResearch / orx (2025), meta-repo research/open-reserch+orx; CLI `orx discover`. (镜像官方仓库)— **官方仓库；无 arXiv 论文**（2504.01874 系代数几何数学稿，勿引）
 2. Y. Shao et al., "Assisting in Writing Wikipedia-like Articles from Scratch with Large Language Models," NAACL 2024, arXiv:2402.14207.
 3. PaperQA2, arXiv:2409.13740 (retraction check; LitQA2 superhuman).
-4. J. Xu et al., DAS: Efficient and Scalable Collaboration between Agents (tech survey), arXiv:2608.18034; DAS-Bench 30 topics / 16 criteria, repo ZhikaiXu24/DAS. —— **arXiv ID 未来出版前再核**（数据可能含合成内容）
-5. MinerU open-source solution for precise document extraction, arXiv:2410.17381. (repo company (verified) —— 版本待核 *unverified*)
+4. J. Xu et al., DAS: Efficient and Scalable Collaboration between Agents (tech survey), arXiv:2608.18034; DAS-Bench 30 topics / 16 criteria, repo ZhikaiXu24/DAS. —— **ID 已核实**（2026-09-23）；方法代码 "To be released" 未开源；数据可能含合成内容
+5. MinerU open-source solution for precise document extraction, arXiv:2409.18839. (repo company verified) —— **ID 已修正 2026-09-23**（旧 2410.17381 作废）
 6. LangGraph (LangChain), docs.langchain.com. (library)
 7. DAS-2M ≈2M arXiv papers (2020-01→2026-06), 8 field groups, HuggingFace. (dataset, 2026-08)
 8. Qasper qasper-train-dev-v0.3.tgz (dev 281 papers; keys = arXiv IDs), allenai. (dataset)
 9. PubMedQA: qiaojin/PubMedQA (HF). (dataset)
 10. SciQ: AllenAI (provided-context mode). (dataset)
 11. GAIA benchmark (466 Qs). (benchmark)
-12. H. Chen et al. (OpenScholar), *Nature* vol. 650, pp. 857-863, 2025, DOI 10.1038/s41586-025-10072-4. (GPT-4o citation-hallucination anchor)
+12. H. Chen et al. (OpenScholar), *Nature* vol. 650, pp. 857-863, **2026-02-04**, DOI 10.1038/s41586-025-10072-4. (GPT-4o citation-hallucination anchor; OpenScholar-8B >GPT-4o 6.1%) —— 出版年已修正为 2026
 13. Tongyi DeepResearch, 30.5B total / 3.3B active, arXiv:2510.24701 (Apache-2.0). (open baseline)
 14. Jiang et al., "STORM...", arXiv reference verified in TOOL-COMPARISON (feas 5 · val 4). —— 与 [2] 一致，一实一备
 15. GEPA (vs GRPO up to 35× cheaper on text feedback), arXiv:2507.19457.
 16. Seddik et al., arXiv:2404.05090. (self-evolution anti-collapse / provenance)
 17. Huang et al., "Efficient Optimization..." arXiv:2310.01798. —— 主题：量化评测驱动优化 (外部测量触发) —— *unverified 精确标题待一手复核*
-18. Tyen et al., arXiv:2311.08516. —— LLM-as-judge 评估方法 —— *unverified 待核*
+18. Tyen et al., "Why do LLMs quote sources?" arXiv:2311.08516. —— LLM-as-judge 要找推理错误而非下整体结论（**2311.16502 系 MMMU，勿混**）—— **ID 已核实**
 19. PaddleOCR / PaddleOCR-VL, arXiv:2510.14528 (109 langs). (OCR engine)
 20. Lloyd et al. (cookbooks LRM judging measure), 2025. —— *unverified*
+21. Y. Moon et al. (Co-STORM), arXiv:2408.15232. (IEEE S&P 2026 / arXiv 2024, MIT) —— **新增**
+22. L. Zhu et al. (JudgeLM), arXiv:2310.17631. —— **新增**（judge bias + swap/ref 缓解）
+23. M. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," NeurIPS 2024, arXiv:2306.05685. —— **新增**
+24. B. Schroeder & B. Wood-Doughty, arXiv:2412.12509. —— **新增**（seed/temp 改变评级 → median-of-N 判题背书）
+25. Rao et al., "Agentic AI Reviews: Final Verdicts Are More Reliable but Not Always Better," 2026; + urlhealth (MIT, 83-line URL self-heal). arXiv:2604.03173. —— **新增**（商用 DR 引用幻觉 3–13% URL / 5–18% 不可解析；OpenAI 3.5% 最低 / Gemini 13.3% 最高）
+26. DRACO benchmark (deep-research agent code compilation), arXiv:2602.11685. —— **新增**；OpenAI Deep Research 产品层参见产品官方页
+27. DeepResearch-ReportEval (report-grounded metrics), arXiv:2510.07861. —— **新增**
+28. Gemini API "Deep Research" agent (official docs, GA 2026-03/04; 1M ctx + Google Search + MCP File Search). —— **新增**
+29. NotebookLM / Gemini Notebook (official product docs; 2026-07 更名; 2026-06 Gemini 3.5+ code sandbox + PDF/PPTX artifacts). —— **新增**
+30. Semantic Scholar S2AG API (official docs; free; relevance search ≤1000, batch 500 IDs / 9999 citations, SPECTER2 embeddings downloadable). —— **新增**
+31. Perplexity Deep Research (official docs; "Search-as-Code", Advanced). —— **新增**
 
-> 出版前必做：逐条跑 `tools/citation-verify` 复核 [4][14][17][18][19][20]；删除未核实条目；Google Scholar 搜索补充 2024–2026 同类 systems 论文保持 related-work 新鲜。
+> 出版前必做：逐条跑 `tools/citation-verify` 复核 [4][14][17][19][20]；删除未核实条目；Google Scholar 搜索补充 2024–2026 同类 systems 论文保持 related-work 新鲜。21–31 已一次一手核对（2026-09-23），属"低风险"段。
 
 ---
 
@@ -156,7 +174,7 @@
 
 - 论文定位一句话：**"把强制溯源从 prompt 约束升级为结构约束（write-time filter + L6 门），并在免费模型预算下把 '诚实评测' 做成可复现指标。"**
 - 所有实验数字已在 `_eval_out/` 与 `docs/` 复现路径；**论文数字 = 复现命令清单 + 日期**（AGENTS 质量门）。
-- Expansion roadmap（成稿顺序）：§7 补齐 cost/latency 表（usage 已回传）→ §5 补 1–2 个 2026 系统 → §6 配图（architecture + loop + autoresearch 并行）→ IEEE refs 复核（[4][14][17][18][19][20]）→ 中译版摘要 → 36 场景全量 live 收进 §7.3。
+- Expansion roadmap（成稿顺序）：§7 补齐 cost/latency 表（usage 已回传）→ §5 已补 2026 系统（35c，商用层 + 证据基础件 + 判题方法学入表）→ §6 配图（architecture + loop + autoresearch 并行）→ IEEE refs 复核（剩余 [4][14][17][19][20]）→ 中译版摘要 → 36 场景全量 live 收进 §7.3。
 
 ---
 

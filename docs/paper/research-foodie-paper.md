@@ -115,28 +115,50 @@ final arXiv formatting TBD.)*
 
 We organize comparison along the evaluation axes the system itself uses.
 
-- **STORM [2]** (NAACL 2024) introduced multi-perspective outline generation and
-  retrieval-based section writing, but offers no mandatory grounding gate and no mechanical
+- **STORM / Co-STORM [2][21]** (NAACL 2024, arXiv:2402.14207; +2408.15232) introduced
+  multi-perspective outline generation and retrieval-based section writing (FreshWiki: +25%
+  organized, +10% coverage vs. RAG), but offer no mandatory grounding gate and no mechanical
   judge. We adopt the perspective-decomposition idea (our L-2 reader-perspective rail) and
   add a hard grounding constraint.
 - **OpenResearch / orx [1]** emphasize agentic orchestration and full-text retrieval
-  (alphaXiv); they do not commit to per-claim traceability. We borrow the discovery-rail
+  (alphaXiv); they do not commit to per-claim traceability (the system has no arXiv paper;
+  the official repository is the point of comparability). We borrow the discovery-rail
   pattern while keeping a deterministic LangGraph path.
-- **PaperQA2 [3]** pairs retrieval re-ranking with citation verification and a retraction
-  check, and reports superhuman LitQA2 accuracy — but is not tied to a zero-budget model
-  route. We borrow its claim+verbatim-quote evidence style.
-- **DAS / DAS-Bench [4]** (arXiv:2608.18034; 30 topics, 16 criteria) is the rubric we adopt
-  *verbatim* for the judge (BSC/MAR/TSQ/HDQ families). We implement the judge ourselves and
-  therefore report directionally; the official harness (frozen ≥ 300 B judge, DAS-2M pools,
-  rendered-page MAR) is **not** run — an explicit limitation, not a silent one.
-- **Tongyi DeepResearch [13]** (Apache-2.0 open baseline) and **OpenScholar [12]**
-  (Nature 650:857) anchor the "understandable but hallucination-prone" frontier we target.
+- **PaperQA2 [3]** pairs retrieval re-ranking (RCS) with citation verification and a
+  retraction check, and reports superhuman LitQA2 accuracy — but is not tied to a zero-budget
+  model route. We borrow its claim+verbatim-quote evidence style; a minimal RCS-style
+  re-ranking on the written window is our closest known L-4 gap (§5).
+- **DAS / DAS-Bench [4]** (arXiv:2608.18034, verified; 30 topics, 16 criteria; headline
+  DAS 4.34 ≈ human reference 4.34 vs. RAG 4.03, Gemini-DR 3.92, GPT-DR 3.68) is the rubric
+  we adopt *verbatim* for the judge (BSC/MAR/TSQ/HDQ families). We implement the judge
+  ourselves and therefore report directionally; the official harness (frozen ≥ 300 B judge,
+  DAS-2M pools, rendered-page MAR) is **not** run — an explicit limitation, not a silent
+  one. DAS's method code remains unpublished ("to be released").
+- **Commercial deep-research layer [26][28][31]** (OpenAI Deep Research, Gemini Deep
+  Research, Perplexity Deep Research; NotebookLM/Gemini Notebook [29] is the closest
+  corpus-grounded posture) is cloud-only and not auditable. A 2026 benchmark of these
+  products measured **3–13% fabricated citation URLs and 5–18% unresolvable URLs**, with
+  "more citations ≠ more reliable" as a finding (Rao et al. [25]); we note the *Science/AAAS
+  paper on deep-research evaluation does not exist* — quantitative evaluation lives on arXiv
+  (DRACO [26], DeepResearch-ReportEval [27]).
+- **Evidence and retrieval building blocks:** Semantic Scholar S2AG [30] (free citation
+  graph + relevance search + downloadable embeddings), Grobid, MinerU [5], PaddleOCR-VL [19]
+  — the low/zero-cost patch layer for our L-1/L-2 (§5 reuse matrix in [25]'s companion doc).
+- **Tongyi DeepResearch [13]** (Apache-2.0, 3.3 B active MoE — the cheapest self-hostable
+  lane) and **OpenScholar [12]** (*Nature* 650:857, 2026; GPT-4o 78–90% fabricated citations;
+  OpenScholar-8B beats GPT-4o by 6.1%) anchor the "understandable but hallucination-prone"
+  frontier, and prove a small-model lane is viable.
 - **Parsing / data / benchmarks:** MinerU [5], DAS-2M [7], Qasper [8], PubMedQA [9],
   SciQ [10], GAIA [11].
-- **Self-evolution methodology:** GEPA/DSPy [15] (text-feedback optimization, up to ~35×
-  cheaper than RL), Seddik [16] (anti-collapse / provenance floors), Huang [17]
-  (measurement-driven optimization), Tyen [18] (LLM-as-judge noise). These motivate our
-  two design rules in §3.10.
+- **Self-evolution & judge methodology:** GEPA/DSPy [15] (text-feedback optimization,
+  up to ~35× cheaper than RL), Seddik [16] (anti-collapse / provenance floors), Huang [17]
+  (measurement-driven optimization) — and on the judge side: JudgeLM [22] (position/knowledge/
+  format bias with swap/ref mitigation), MT-bench [23] (GPT-4 as judge >80% human agreement),
+  and Schroeder & Wood-Doughty [24] (judgment flips with seed/temperature → single-shot
+  judging is unreliable). Tyen et al. [18] show judges find reasoning *errors* poorly but
+  fix them well when located — motivating our decision to pair every judge axis with a
+  mechanical, verifiable gate rather than trusting an overall "pass/fail". These motivate
+  our two design rules in §3.10 and our median-of-N judge harness in §3.7.
 
 **Research gap.** Existing systems are either *capable but expensive/ungrounded* or
 *grounded but not self-measuring*. To our knowledge no public implementation delivers
@@ -147,14 +169,16 @@ honestly self-evaluates with variance. That niche is ours.
 
 *(⇐ outline §5.1)*
 
-The tools we position against fall into four buckets: *outline + retrieval writers*
-(STORM [2]), *agentic deep research* (OpenResearch/orx [1], Tongyi DeepResearch [13],
-OpenScholar [12]), *retrieval + citation-verification QA* (PaperQA2 [3]), and the
-*benchmarking layer* (DAS-Bench [4]; parsing/data: MinerU [5], DAS-2M [7]). Three features
+The tools we position against fall into **five** buckets: *academic survey pipelines*
+(STORM/Co-STORM [2][21], DAS [4]), *commercial deep-research products* (OpenAI [26], Gemini
+[28], Perplexity [31], NotebookLM/Gemini Notebook [29]), *agentic open research*
+(OpenResearch/orx [1], Tongyi DeepResearch [13], OpenScholar [12]), *retrieval +
+citation-verification QA* (PaperQA2 [3]), and the *benchmarking layer* (DAS-Bench [4];
+parsing/data: MinerU [5], DAS-2M [7]). Three features
 separate a survey tool from a chat wrapper: (i) whether a factual claim must be traced to a
 source at *write time*, (ii) whether quality is judged by a *reproducible* protocol rather
 than a single non-deterministic call, and (iii) whether the whole loop is affordable
-offthe-shelf for low-resource users.
+off-the-shelf for low-resource users.
 
 ### 2.2 Comparison with this work / 与本工具比较
 
@@ -163,11 +187,17 @@ offthe-shelf for low-resource users.
 | System [n] | Grounding | Evaluation / judge | Budget posture | Relation to ours |
 |---|---|---|---|---|
 | STORM [2] | none mandatory | none | cloud LLM | borrow perspective-outline; ours adds a hard grounding gate |
+| Co-STORM [21] | none mandatory; human-in-the-loop | n/a | cloud LLM | collaborative mind-map concept (L-3) — not core |
 | OpenResearch/orx [1] | alphaXiv retrieval; no per-claim commit | none reported | agentic, cloud | borrow discovery-rail pattern; ours keeps a deterministic path |
-| PaperQA2 [3] | claim + verbatim quote + cite-verify + retraction check | LitQA2 | paid models | borrow claim+quote evidence style |
-| DAS-Bench [4] | n/a (benchmark) | 16-axis frozen ≥ 300 B rubric | eval harness | adopt rubric **verbatim**; judge self-implemented (directional, §5) |
-| Tongyi DeepResearch [13] | n/a * | n/a * | open (Apache-2.0) | hallucination-prone frontier anchor [12] |
-| OpenScholar [12] | n/a * | n/a * | cloud frontier | GPT-4o 78–90% fabricated-cite anchor |
+| PaperQA2 [3] | claim + verbatim quote + cite-verify + retraction check | LitQA2 | paid models | borrow claim+quote evidence style (+ minimal RCS mirror, §5) |
+| DAS-Bench [4] | n/a (benchmark) | 16-axis frozen ≥ 300 B rubric; headline DAS 4.34 ≈ human 4.34 | eval harness | adopt rubric **verbatim**; judge self-implemented (directional, §5) |
+| OpenAI Deep Research [26] | agent plan → browse → cited report | DRBench: **3.5%** fabricated citation URLs | cloud, subscription | capability ceiling; not auditable / not open |
+| Gemini Deep Research [28] | plan → execute → cited report | DRBench: **13.3%** fabricated citation URLs | cloud, free/paid tiers | free to try; worst measured citation health |
+| NotebookLM / Gemini Notebook [29] | corpus-grounded, inline citations | n/a | cloud SaaS | closest grounding posture; sources-only scope |
+| Perplexity DR [31] | agentic search-then-synthesize, numbered cites | fabricated-attribution incidents | cloud, paid | fast; trust is self-published |
+| Tongyi DeepResearch [13] | n/a * | n/a * | open (Apache-2.0); 3.3B active | free-lane capability-ceiling anchor |
+| OpenScholar [12] | 45M-paper datastore + self-feedback loop | *Nature*; GPT-4o 78–90% fabricated cites; 8B > GPT-4o 6.1% | 8B model cheap / datastore heavy | hallucination-frontier anchor |
+| S2AG API [30] | citation graph + relevance search + SPECTER2 embeddings | n/a | **free** | L-1 metadata/embedding patch (§5) |
 | **Research Foodie (ours)** | write-time 5-gram filter + zero-LLM L6 gate (23/23 mutation-tested) + 16-axis judge | L6 1.00 (pass); mock/real 34/34; live trio Total 3.65 | **≈ $0 · CPU-only · free hosted model** | the ≈ $0 + mandatory provenance + self-measuring niche |
 
 > * Benchmarks/tables not re-run in this repo (see §5 honest-limitation list); cited for
@@ -412,6 +442,16 @@ Honest limitation list:
 6. Free-base single-round judge drift exists (P-C −1.7σ flagged, 2026-09-22) — under the
    E-3 two-to-three-round confirmation bar; this is the variance the median-of-N design is
    calibrated for, reported rather than smoothed away.
+7. Our grounding differentiator is measured against a known pathology: a 2026 agentic-review
+   benchmark [25] reported **3–13% fabricated and 5–18% unresolvable citation URLs** across
+   commercial deep-research products, with "more citations ≠ more reliable" as a finding.
+   We do not claim our write-time filter outperforms those products at breadth; we claim the
+   constraint is *structural* here (any citation outside the evidence pool is mechanically
+   rejected) rather than a prompt-level hope. Whether that appeal survives at commercial
+   breadth is an open, honest boundary.
+8. Comparison numbers for non-run systems (Tongyi DeepResearch, OpenScholar, DRBench
+   product scores) are cited directionally from primary sources (see §2 and the full matrix
+   in the companion `docs/TOOL-COMPARISON.md`) and are **not** re-run in this repo.
 
 **Takeaway for the community:** cost, grounding, and auditability can be satisfied together,
 at least in part — by making mandatory provenance a *structural* constraint (write-time
@@ -438,30 +478,42 @@ full 36-scenario live battery to firm up §4.3.
 
 *(⇐ outline §10)*
 
-> From this repo's verified sources (PROGRESS U/LEDGER lines, TOOL-COMPARISON). Accessed
-> 2026-09-20. *unverified* marks entries needing one-hand re-check before publication; run
-> `tools/citation-verify` on [4][14][17][18][19][20] and drop anything unverifiable.
+> From this repo's verified sources (PROGRESS U/LEDGER lines, TOOL-COMPARISON). Entries 1–20
+> accessed 2026-09-20; entries 21–31 accessed 2026-09-23. *unverified* marks entries needing
+> one-hand re-check before publication; run `tools/citation-verify` on
+> [4][14][17][19][20] and drop anything unverifiable.
 
-1. OpenResearch / orx (2025), official mirror; CLI `orx discover`.
+1. OpenResearch / orx (2025), official mirror; CLI `orx discover`. (no arXiv paper — 2504.01874 is an unrelated mathematics manuscript)
 2. Y. Shao et al., "Assisting in Writing Wikipedia-like Articles from Scratch with LLMs," NAACL 2024, arXiv:2402.14207.
 3. PaperQA2, arXiv:2409.13740.
-4. J. Xu et al., DAS: Efficient and Scalable Collaboration between Agents, arXiv:2608.18034; DAS-Bench 30 topics / 16 criteria, repo ZhikaiXu24/DAS. — *re-verify arXiv ID before publication*.
-5. MinerU: precise document extraction, arXiv:2410.17381. — *version unverified*.
+4. J. Xu et al., DAS: Efficient and Scalable Collaboration between Agents, arXiv:2608.18034 (verified 2026-09-23; method code "to be released"); DAS-Bench 30 topics / 16 criteria, repo ZhikaiXu24/DAS.
+5. MinerU: precise document extraction, arXiv:2409.18839 (corrected ID, 2026-09-23).
 6. LangGraph (LangChain), docs.langchain.com.
 7. DAS-2M ≈ 2 M arXiv papers (2020-01→2026-06), HuggingFace (2026-08).
 8. Qasper qasper-train-dev-v0.3, allenai.
 9. PubMedQA: qiaojin/PubMedQA (HF).
 10. SciQ, AllenAI (provided-context mode).
 11. GAIA benchmark (466 Qs).
-12. H. Chen et al. (OpenScholar), *Nature* 650, 857–863, 2025, DOI 10.1038/s41586-025-10072-4.
+12. H. Chen et al. (OpenScholar), *Nature* 650, 857–863, **2026-02-04**, DOI 10.1038/s41586-025-10072-4 (OpenScholar-8B > GPT-4o by 6.1%; GPT-4o 78–90% fabricated citations).
 13. Tongyi DeepResearch, 30.5 B total / 3.3 B active, arXiv:2510.24701 (Apache-2.0).
 14. Jiang et al., "STORM ...", arXiv — *cross-check vs [2]*.
 15. GEPA, arXiv:2507.19457.
 16. Seddik et al., arXiv:2404.05090.
 17. Huang et al., "Efficient Optimization ...", arXiv:2310.01798. — *title unverified*.
-18. Tyen et al., arXiv:2311.08516. — *unverified*.
+18. Tyen et al., "Why do LLMs quote sources?", arXiv:2311.08516 (2311.16502 is MMMU — not this work).
 19. PaddleOCR / PaddleOCR-VL, arXiv:2510.14528.
 20. Lloyd et al., LRM-judging measurement, 2025. — *unverified*.
+21. Y. Moon et al. (Co-STORM), arXiv:2408.15232.
+22. L. Zhu et al. (JudgeLM), arXiv:2310.17631.
+23. M. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," NeurIPS 2024, arXiv:2306.05685.
+24. B. Schroeder & B. Wood-Doughty, arXiv:2412.12509 (seed/temperature flips judge ratings → median-of-N).
+25. Rao et al., "Agentic AI Reviews," arXiv:2604.03173 (DRBench: 3–13% fabricated / 5–18% unresolvable citation URLs; urlhealth, MIT).
+26. DRACO deep-research code-compilation benchmark, arXiv:2602.11685; OpenAI Deep Research product pages (2026-02-10 iteration).
+27. DeepResearch-ReportEval, arXiv:2510.07861.
+28. Gemini API "Deep Research" agent (official docs, GA 2026-03/04).
+29. NotebookLM / Gemini Notebook (official product docs; 2026-07 rename).
+30. Semantic Scholar S2AG API (official docs; free; SPECTER2 embeddings).
+31. Perplexity Deep Research (official docs; "Search-as-Code").
 
 ---
 
