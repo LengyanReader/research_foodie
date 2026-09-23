@@ -66,6 +66,20 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 ---
 
+## 2026-09-22 — Session 33: 视觉再推一档——"油墨印刷版式 × 工程纵页"（墨色报头 · 印张进度标 · 幽灵页号）(post-proof density pass)
+
+**Why:** user feedback — *"页面设计是不是太朴素了"*。第一版太克制（近乎单色文字排版）；在维持"学术×极客"标识不变的前提下，把**视觉密度与存在感**提起来：版式主体由"素排"改为"墨色报头 + 排满九格的印张进度标 + 海量却安静的 mono 页边注"。
+
+1. **墨色报头（mast）**——整块墨底 `#22231c` + 纸色小大写字型标题（`small-caps`）+ 红色方块光标（入场后静止）；右侧 `nostamp` 等宽三行：edition 2026.09 · `lane opencode` / `rack opencode/big-pickle` · `● commit a question → the flipbook prints here`。这是全页**唯一的深色块**，视觉锚点。
+2. **印张进度标（folio）**——替换旧细进度条：09 个纵向 tick（done=墨绿实块、live=墨红呼吸脉冲、pending=灰空块）+ mono 计数 `N/09 · pct%`；live mission 与只读 mission 页共用同一套 `.folio`。阶段卡改为 **56px 页边号 + 正文 + 右缘 mono 计时列**（`.stg-meta`：live=已耗时、done=历时、pending=est），运行中阶段整卡淡红 `--live-tint` 底。
+3. **幽灵页号（run 归档）**——每张 run 卡右上角压印 46px 等宽水印 run id（`::after{content:attr(data-id)}`），卡片左缘 hover 转油墨蓝；场景按钮 chips 加 `#01…` 递增序号（`counter`），hover 整块反墨。
+4. **纸张肌理**——纸底 `#f3f1e7` + 两组微弱的"排字栏"纵向引导线（`repeating-linear-gradient` 68px/340px，`background-attachment:fixed`）+ 顶部 4px 墨条；`::selection` 油墨蓝反白；醒目字段：`§` 前缀表单标签、红色 caret、`▮` 选中态、表格斑马行。
+5. **暗色变体**——`@media (prefers-color-scheme: dark)` 全套 token 覆写（墨绿纸 `#171810`、纸色文字、暗色报头、`--live-tint` 暗红）；`prefers-reduced-motion` 继续全关动效。
+
+**Verification:** AST OK ✓；i18n 断言全部继续绿（en 缺省 / `/_lang/zh` cookie / zh 全路由）✓；新增设计断言通过（mast-grid、nostamp、frame、f-tick、stg-meta、data-id 幽灵卡、dark scheme、无 `??`/`a99a` 泄漏）✓；8787 重启 smoke：home 200 39.8KB 含全部新标记 ✓。
+
+---
+
 ## 2026-09-22 — Session 32: 页面中英切换 + 更学术·更极客的设计（i18n EN/中文 · set-manuscript × terminal 设计语言 · 人性化交互）
 
 **Why:** 两条新指令。*"页面显示语言，分为英文和中文两种，用户可以选择"* → 全站 i18n（cookie 持久化）。*"把风格、配色、布局、互动等等调整为更加学术和极客的风格，请好好设计"* → 在 Session 31 编辑部手稿底子上推得更远：**排印稿 × 终端转录**的混合语言。

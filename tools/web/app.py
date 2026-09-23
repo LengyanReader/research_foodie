@@ -47,19 +47,25 @@ HTML_HEAD = """<!doctype html><html lang="{html_lang}"><head><meta charset="utf-
    a mono voice. One live heartbeat: the inked block cursor.
    ------------------------------------------------------------------ */
 :root{{
-  --paper:#f6f5f0; --card:#fcfbf7; --ink:#20221d;
-  --ink-soft:#56594e; --ink-faint:#7a7b6f;
-  --rule:#dbd8cc; --rule-strong:#20221d;
-  --link:#2f5568; --pass:#37614d; --warn:#8a6113; --mark:#a53a2c;
+  --paper:#f3f1e7; --card:#fbf9f1; --panel:#eceadc;
+  --ink:#22231c; --ink-soft:#57584a; --ink-faint:#8b8c7d;
+  --rule:#d8d5c2; --rule-strong:#22231c;
+  --link:#345b6e; --pass:#3c6b52; --warn:#9a6d10; --mark:#a63a2a;
+  --ghost:#c9c6b3; --live-tint:#f6e7de; --mast:#22231c;
   --serif:Georgia,'Iowan Old Style','Source Serif 4','Times New Roman',serif;
   --sans:'Segoe UI','PingFang SC',system-ui,sans-serif;
   --mono:Consolas,'Cascadia Mono','IBM Plex Mono',ui-monospace,monospace;
 }}
 *{{box-sizing:border-box}}
 html{{scrollbar-gutter:stable}}
-::selection{{background:#2f5568;color:#fcfbf7}}
-body{{margin:0;padding:28px clamp(16px,5vw,60px) 64px;color:var(--ink);
-  background:var(--paper);font:15.5px/1.72 var(--serif}}
+::selection{{background:#345b6e;color:#fbf9f1}}
+body{{margin:0;color:var(--ink);background-color:var(--paper);
+  font:15.5px/1.72 var(--serif);
+  background-image:repeating-linear-gradient(90deg,transparent 0 68px,
+    rgba(34,35,28,.05) 68px 69px),repeating-linear-gradient(90deg,transparent 0 340px,
+    rgba(34,35,28,.05) 340px 341px);background-attachment:fixed}}
+body::before{{content:'';position:fixed;inset:0 0 auto 0;height:4px;background:var(--mast);z-index:5}}
+.frame{{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,44px)}}
 h1,h2,h3{{font-family:var(--serif);line-height:1.25;font-weight:600}}
 h1{{font-size:clamp(26px,3.8vw,34px);margin:.1em 0 .3em}}
 h2{{font-size:18px;margin:0;letter-spacing:.01em}}
@@ -70,9 +76,10 @@ code{{font-family:var(--mono);font-size:12px}}
 pre{{font-family:var(--mono);font-size:12px;background:transparent;margin:0}}
 .num, .stg-no, .tick, .id, td, th{{font-variant-numeric:tabular-nums}}
 
-/* nav — letterhead */
+/* layout frame */
+.frame{{max-width:1080px;margin:0 auto;padding:16px clamp(16px,5vw,60px) 64px}}
 .nav{{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
-  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:4px}}
+  padding:14px 0;margin-bottom:22px}}
 .brand{{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;color:var(--ink)}}
 .brand .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12px;margin-left:10px}}
 .brand .cursor{{display:inline-block;width:.62em;height:1.05em;margin-left:5px;
@@ -82,37 +89,52 @@ pre{{font-family:var(--mono);font-size:12px;background:transparent;margin:0}}
 nav a{{margin-left:20px;color:var(--ink-soft);font-size:14px;font-family:var(--sans)}}
 nav a.cur{{color:var(--ink);border-bottom:1px solid var(--mark)}}
 
-/* masthead — title block */
-.mast{{border-bottom:2px solid var(--rule-strong);padding:16px 0 14px;margin-bottom:4px}}
-.mast-meta{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
-.mast h1{{font-variant:small-caps;letter-spacing:.02em}}
-.lede{{color:var(--ink-soft);max-width:68ch;font-size:15.5px;line-height:1.66;margin:.6em 0 0}}
+/* masthead — ink letterpress band */
+.mast{{background:var(--mast);color:var(--paper);position:relative;
+  padding:30px clamp(20px,4vw,44px) 26px;margin-bottom:6px}}
+.mast::after{{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--mark)}}
+.mast-grid{{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start}}
+.mast-meta{{font-family:var(--mono);font-size:11px;color:#c9cbb8;letter-spacing:.06em;text-transform:none;margin-bottom:10px}}
+.mast h1{{margin:.05em 0 .1em;font-variant:small-caps;font-size:clamp(30px,4.6vw,46px);
+  letter-spacing:.02em;color:var(--paper);line-height:1.1}}
+.mast h1 .cursor{{display:inline-block;width:.28em;height:.9em;margin-left:10px;
+  background:var(--mark);vertical-align:.08em;animation:blink 1.1s steps(2,start) 6;
+  animation-iteration-count:6;animation-fill-mode:forwards}}
+.lede{{max-width:66ch;color:#cdceba;font-size:15.5px;line-height:1.72;margin:.65em 0 0}}
+.nostamp{{font-family:var(--mono);font-size:10.5px;line-height:2;color:#b7b9a4;text-align:right;
+  border-left:1px solid rgba(205,206,186,.28);padding-left:18px;white-space:nowrap;margin-top:6px}}
+.nostamp b{{color:#efefe2;font-weight:700}}
+.nostamp .live-dot{{color:var(--mark)}}
+@keyframes pulse{{50%{{opacity:.25}}}}
 
 /* sections */
-.sect{{margin:32px 0 0}}
+.sect{{margin:34px 0 0}}
 .sect-head{{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
   border-bottom:1px solid var(--rule-strong);padding-bottom:6px;margin-bottom:16px}}
-.sect-head h2 .idx{{font-family:var(--mono);font-weight:400;color:var(--ink-faint);margin-right:10px;
+.sect-head h2 .idx{{font-family:var(--mono);font-weight:700;color:var(--mark);margin-right:10px;
   font-variant-numeric:tabular-nums}}
 .sect-head .side{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
 
 /* probe — the paper form */
-.probe{{background:var(--card);border:1px solid var(--rule);padding:20px 22px 16px}}
+.probe{{background:var(--card);border:1px solid var(--rule);padding:22px 24px 18px;position:relative}}
+.probe::before{{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--rule)}}
 .probe label.fl{{display:block;font-size:12.5px;font-family:var(--mono);color:var(--ink-soft);margin-bottom:9px;letter-spacing:.02em}}
-.qfield{{width:100%;padding:11px 13px;font:15px/1.5 var(--serif);color:var(--ink);
-  border:1px solid var(--rule-strong);border-radius:0;background:var(--paper)}}
+.probe label.fl::before{{content:'§ ';color:var(--mark);font-weight:700}}
+.qfield{{width:100%;padding:12px 14px;font:15px/1.5 var(--serif);color:var(--ink);
+  border:1px solid var(--rule-strong);border-radius:0;background:var(--panel);caret-color:var(--mark)}}
 .qfield::placeholder{{font-style:italic;color:var(--ink-faint)}}
-.qfield:focus{{outline:2px solid var(--link);outline-offset:1px;border-color:var(--link)}}
+.qfield:focus{{outline:2px solid var(--link);outline-offset:1px;border-color:var(--link);background:var(--card)}}
 .seg{{display:inline-flex;border:1px solid var(--rule-strong);margin:0}}
 .seg label{{display:flex;align-items:baseline;gap:8px;margin:0;padding:9px 15px;font:12.5px var(--mono);
   color:var(--ink-soft);cursor:pointer;border-right:1px solid var(--rule)}}
 .seg label:last-child{{border-right:0}}
 .seg input{{position:absolute;opacity:0;pointer-events:none}}
 .seg b{{font-weight:700;color:var(--ink)}}
-.seg small{{display:block;font-size:10.5px;color:var(--ink-faint);letter-spacing:.01em}}
+.seg small{{display:block;font-size:10px;color:var(--ink-faint);letter-spacing:.01em}}
 .seg label:has(input:checked){{background:var(--ink);color:var(--paper)}}
 .seg label:has(input:checked) b{{color:var(--paper)}}
 .seg label:has(input:checked) small{{color:var(--rule)}}
+.seg label:has(input:checked)::before{{content:'▮ ';color:var(--mark)}}
 .seg label:has(input:focus-visible){{outline:2px solid var(--link);outline-offset:1px}}
 .probe-row{{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:15px}}
 .hint{{margin:13px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}}
@@ -130,49 +152,61 @@ nav a.cur{{color:var(--ink);border-bottom:1px solid var(--mark)}}
 .btn.danger:hover:not(:disabled){{background:var(--mark);color:var(--paper)}}
 .btn.mini{{padding:0 11px;min-height:28px;font-size:11px;border-color:var(--rule);color:var(--ink-soft)}}
 .btn.mini:hover:not(:disabled){{border-color:var(--ink);color:var(--ink)}}
-.chips{{display:flex;flex-wrap:wrap;gap:6px}}
-.chips .btn{{min-height:30px;border-color:var(--rule);color:var(--ink-soft);font-size:11.5px}}
-.chips .btn:hover:not(:disabled){{border-color:var(--rule-strong);color:var(--ink);background:var(--card)}}
+.chips{{display:flex;flex-wrap:wrap;gap:8px;counter-reset:chip}}
+.chips .btn{{min-height:30px;border-color:var(--rule);color:var(--ink-soft);font-size:11.5px;background:var(--card)}}
+.chips .btn::before{{counter-increment:chip;content:'#' counter(chip,decimal-leading-zero) ' ';color:var(--mark);font-weight:700}}
+.chips .btn:hover:not(:disabled){{background:var(--ink);border-color:var(--ink);color:var(--paper)}}
+.chips .btn:hover:not(:disabled)::before{{color:var(--paper)}}
 
-/* mission — the numbered stage sequence, serif narration + mono margin */
+/* mission — folio + numbered stage sequence */
 .mission{{display:flex;flex-direction:column}}
-.progress{{height:2px;background:var(--rule);margin:2px 0 6px}}
-.progress i{{display:block;height:2px;background:var(--pass);transition:width .4s ease}}
-.stg{{display:grid;grid-template-columns:48px 1fr;padding:13px 0;border-bottom:1px solid var(--rule)}}
+.folio{{display:flex;gap:3px;align-items:center;margin:0 0 8px}}
+.f-tick{{flex:1;height:7px;background:var(--ghost)}}
+.f-tick.done{{background:var(--pass)}}
+.f-tick.live{{background:var(--mark);animation:pulse 1.4s ease-in-out infinite}}
+.f-label{{font:11.5px var(--mono);color:var(--ink-faint);margin-left:12px;letter-spacing:.02em}}
+.stg{{display:grid;grid-template-columns:56px 1fr auto;gap:0 14px;padding:15px 8px 14px 4px;
+  border-bottom:1px solid var(--rule)}}
 .stg:last-child{{border-bottom:0}}
-.stg-no{{padding-top:4px;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
+.stg-no{{padding-top:5px;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}}
 .stg-title{{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-family:var(--serif);font-weight:600;font-size:16px}}
 .stg-title .zh{{font-family:var(--sans);font-weight:400;color:var(--ink-faint);font-size:12px}}
-.stg-title .tick{{font-family:var(--mono);font-size:11.5px;color:var(--pass);margin-left:auto;letter-spacing:.02em}}
+.stg-title .tick{{font-family:var(--mono);font-size:11px;color:var(--pass);margin-left:auto;letter-spacing:.02em}}
+.stg-meta{{font:11px var(--mono);color:var(--ink-faint);text-align:right;padding-top:6px;
+  letter-spacing:.02em;white-space:nowrap}}
 .stg-what{{margin:5px 0 1px}}
 .stg-why{{margin:0 0 6px;color:var(--ink-soft);font-size:14px}}
 .stg-note{{font-family:var(--mono);font-size:11.5px;color:var(--ink)}}
 .stg-tech{{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:2px}}
+.stg.live{{background:var(--live-tint);margin:0 -12px;padding-left:16px;padding-right:16px}}
 .stg.live .stg-no{{color:var(--mark);font-weight:700}}
-.stg.live .stg-title{{border-left:3px solid var(--mark);padding-left:12px}}
 .stg.live .stg-title .tick{{color:var(--mark)}}
 .stg.live .stg-title .tick::before{{content:'● ';animation:pulse 1.4s ease-in-out infinite}}
-.stg.off{{opacity:.6}}
+.stg.live .stg-meta{{color:var(--mark);font-weight:700}}
+.stg.off{{opacity:.62}}
 .stg.done .stg-no{{color:var(--pass)}}
-@keyframes pulse{{50%{{opacity:.25}}}}
+.stg.done .stg-meta{{color:var(--pass)}}
 
 /* raw-tail — the transcript drawer */
-details.rawtail{{border:1px solid var(--rule);margin-top:6px;background:var(--card)}}
+details.rawtail{{border:1px solid var(--rule);margin-top:8px;background:var(--card)}}
 details.rawtail summary{{cursor:pointer;padding:9px 13px;font:11.5px var(--mono);color:var(--ink-soft);list-style:none;letter-spacing:.02em}}
 details.rawtail summary::before{{content:'▸ ';color:var(--mark)}}
 details.rawtail[open] summary::before{{content:'▾ '}}
 #tail{{margin:0;padding:12px 14px;height:240px;overflow:auto;border-top:1px solid var(--rule);
   font-family:var(--mono);font-size:12px;line-height:1.5;color:#dbe2c9;background:#16180f;white-space:pre-wrap}}
 
-/* run archive — bibliography entries */
+/* run archive — index cards with ghost folio numbers */
 .runs{{display:flex;flex-direction:column;gap:12px}}
-.run-card{{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:13px 17px 12px}}
+.run-card{{position:relative;background:var(--card);border:1px solid var(--rule);
+  border-left:3px solid var(--rule);padding:14px 18px 13px;overflow:hidden;transition:border-color .15s ease}}
 .run-card:hover{{border-left-color:var(--link)}}
-.run-top{{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}}
+.run-card::after{{content:attr(data-id);position:absolute;right:14px;top:4px;
+  font:700 46px/1 var(--mono);color:var(--ghost);opacity:.55;pointer-events:none;letter-spacing:.01em}}
+.run-top{{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:90px;position:relative;z-index:1}}
 .run-top strong{{font-family:var(--serif);font-size:16px}}
 .run-card .cmd{{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);word-break:break-all;letter-spacing:.01em}}
-.run-card .q{{margin-top:6px;font-family:var(--serif);font-style:italic;color:var(--ink-soft)}}
-.run-card .res{{margin-top:5px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}}
+.run-card .q{{margin-top:6px;font-family:var(--serif);font-style:italic;color:var(--ink-soft);padding-right:90px}}
+.run-card .res{{margin-top:6px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}}
 .run-card .res a{{margin-right:14px}}
 .mono{{font-family:var(--mono)}}
 .id{{color:var(--ink-faint);font-size:11.5px}}
@@ -182,11 +216,13 @@ details.rawtail[open] summary::before{{content:'▾ '}}
 .badge.run{{border-color:var(--mark);color:var(--mark)}}
 .badge.cancel{{border-color:var(--warn);color:var(--warn)}}
 .badge.muted{{border-color:var(--rule);color:var(--ink-faint)}}
+.badge.ok, .badge.fail, .badge.run{{background:var(--card)}}
 
 /* tables & utilities */
 table{{border-collapse:collapse;width:100%;font-size:13px}}
 td,th{{border:1px solid var(--rule);padding:7px 11px;text-align:left}}
-th{{background:var(--card);font-family:var(--mono);font-weight:600;font-size:11.5px}}
+th{{background:var(--panel);font-family:var(--mono);font-weight:600;font-size:11.5px}}
+tbody tr:nth-child(even){{background:var(--card)}}
 ul{{margin:.4em 0}}li{{margin:.15em 0}}
 .muted{{color:var(--ink-faint)}}.green{{color:var(--pass)}}.red{{color:var(--mark)}}.amber{{color:var(--warn)}}
 .mission-empty{{color:var(--ink-faint);font-family:var(--serif);font-style:italic;padding:10px 0}}
@@ -195,26 +231,45 @@ ul{{margin:.4em 0}}li{{margin:.15em 0}}
 .colophon{{margin-top:56px;padding-top:12px;border-top:1px solid var(--rule);
   font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--ink-faint);letter-spacing:.02em}}
 
+@media (prefers-color-scheme: dark){{
+  :root{{
+    --paper:#171810; --card:#1e2016; --panel:#24261b; --ink:#e9e4d3; --ink-soft:#bec0ae; --ink-faint:#96988a;
+    --rule:#3a3c2e; --rule-strong:#e9e4d3; --link:#9bbccb; --pass:#8ab596; --warn:#c9a35e; --mark:#dc8b7b;
+    --ghost:#33352a; --live-tint:#372820; --mast:#0e0f09;
+  }}
+  body{{background-image:none}}
+  .lede{{color:#b7b9a6}}
+  .nostamp{{color:#9a9c8a;border-left-color:rgba(233,228,211,.2)}}
+  .nostamp b{{color:#e9e4d3}}
+  .run-card::after{{color:#2b2d23}}
+  ::selection{{background:#9bbccb;color:#171810}}
+}}
+
 @media (max-width:700px){{
-  .stg{{grid-template-columns:36px 1fr}}
-  .stg-title .tick{{margin-left:0}}
+  .mast-grid{{grid-template-columns:1fr}}
+  .nostamp{{text-align:left;border-left:0;padding-left:0;margin-top:14px;white-space:normal}}
+  .stg{{grid-template-columns:40px 1fr}}
+  .stg-meta{{grid-column:2;text-align:left;padding-top:2px}}
   nav a{{margin-left:12px;font-size:13px}}
+  .run-card::after{{font-size:32px;top:8px}}
+  .run-top{{padding-right:56px}}
 }}
 @media (prefers-reduced-motion: reduce){{
   *{{transition:none!important;animation:none!important}}
-  .brand .cursor{{animation:none;visibility:hidden}}
-  .stg.live .stg-title .tick::before{{animation:none}}
+  .brand .cursor, .mast h1 .cursor{{animation:none;visibility:hidden}}
+  .stg.live .stg-title .tick::before, .f-tick.live{{animation:none}}
 }}
 </style></head><body>
 <nav class="nav"><span class="brand">research_foodie<span class="zh">本地科研综述工作台</span><span class="cursor" aria-hidden="true"></span></span>
 <span><a class="{cur_workbench}" href="/">{ui_nav_workbench}</a><a class="{cur_dash}" href="/dashboard">{ui_nav_dash}</a><a class="{cur_ms}" href="/manuscripts">{ui_nav_ms}</a><a class="{cur_fb}" href="/feedback">{ui_nav_fb}</a></span>
 <span class="lang-nav"><a class="{cur_lang_zh}" href="/_lang/zh">中文</a><a class="{cur_lang_en}" href="/_lang/en">EN</a></span></nav>
+<div class="frame">
 """
 
 HTML_TAIL = ('<footer class="colophon">research_foodie · local-first survey pipeline · '
              'pandoc + xelatex (YaHei) · zero external network on the page · '
              'binds 127.0.0.1 · citations are the lifeline</footer>'
-             "</body></html>")
+             '</div></body></html>')
 
 UI = {
     "en": {
@@ -510,6 +565,9 @@ def _mission_html(stages: List[dict], summary: Optional[dict], lang: str = "en")
         est = meta.get("est")
         if status == "running" and est:
             tick += f" · {est}"
+        meta_text = {"done": (f"{s['dur_s']:.1f}{T(lang, 'seconds')}" if s.get("dur_s") else T(lang, "done")),
+                     "running": (est or T(lang, "running")),
+                     "pending": (est or "—")}[status]
         tech = " · ".join(f"{k}={v}" for k, v in (s.get("tech") or {}).items())
         note = ('<div class="stg-note">' + meta["how"] + '</div>'
                 + (f'<div class="stg-tech">{tech}</div>' if tech else ""))
@@ -522,7 +580,7 @@ def _mission_html(stages: List[dict], summary: Optional[dict], lang: str = "en")
             f'<p class="stg-what">{meta["what"]}</p>'
             f'<p class="stg-why">{meta["why"]}</p>'
             f'{note}'
-            f'</div></article>')
+            f'</div><div class="stg-meta">{meta_text}</div></article>')
     summary_html = ""
     if summary:
         links = " ".join(
@@ -540,9 +598,14 @@ def _mission_html(stages: List[dict], summary: Optional[dict], lang: str = "en")
                         f'{summary.get("n_papers_cited", 0)} {T(lang, "papers")} · '
                         f'{summary.get("elapsed_s", 0)}{T(lang, "seconds")}</span> '
                         f'{links}</div>')
-    return (f'<div class="progress"><i style="width:{pct}%"></i></div>'
+    folio = "".join(
+        '<span class="f-tick %s"></span>' % ("done" if s["status"] == "done"
+                                             else ("live" if s["status"] == "running" else ""))
+        for s in stages)
+    return (f'<div class="folio">{folio}'
+            f'<span class="f-label">{done:02d}/{len(stages)} · {pct}%</span></div>'
             f'<div class="muted" style="font-size:12px">{done}/{len(stages)} '
-            f'{T(lang, "stages")} · {pct}%</div>'
+            f'{T(lang, "stages")}</div>'
             + summary_html + "".join(rows))
 
 
@@ -613,11 +676,11 @@ def _run_card(run, lang: str = "en") -> str:
     if run.status in ("failed", "cancelled", "interrupted"):
         resume = (f'<button class="btn mini" onclick="resumeRun(\'{run.id}\')">'
                   f'{T(lang, "link_resume")}</button> ')
-    return (f'<div class="run-card"><div class="run-top">'
+    return (f'<div class="run-card" data-id="{run.id}"><div class="run-top">'
             f'<strong>{run.title}</strong> '
             f'<span class="badge {status_badge}">{status_label}</span> '
             f'<span class="id mono">{run.id}</span> {logf} {mission_link}{progress}</div>'
-            f'<div class="mono muted" style="font-size:12px">{run.elapsed:.0f}s · '
+            f'<div class="mono muted" style="font-size:11.5px;margin-top:6px">{run.elapsed:.0f}s · '
             f'rc={run.returncode} · {len(run.lines)} lines</div>'
             f'{greeting}'
             f'{resume}'
@@ -673,9 +736,16 @@ def runs_page(request: Request) -> HTMLResponse:
                                      _survey_summary(last_survey), lang)
     body = f"""
 <header class="mast">
-  <div class="mast-meta">{T(lang, "mast_meta")}</div>
-  <h1>{T(lang, "mast_title")}</h1>
-  <p class="lede">{T(lang, "lede")}</p>
+  <div class="mast-grid">
+    <div>
+      <div class="mast-meta">{T(lang, "mast_meta")}</div>
+      <h1>{T(lang, "mast_title")}<span class="cursor" aria-hidden="true"></span></h1>
+      <p class="lede">{T(lang, "lede")}</p>
+    </div>
+    <div class="nostamp">edition 2026.09<br>
+      lane <b>{_env_profile()['LLM_BACKEND']}</b> / rack <b>{_env_profile()['OPENCODE_MODEL']}</b><br>
+      <span class="live-dot">●</span> commit a question &#8594; the flipbook prints here</div>
+  </div>
 </header>
 
 <section class="sect">
@@ -742,9 +812,9 @@ function renderMission(){{
     const st = ['done','running','pending'].includes(p.status) ? p.status : 'pending';
     const mark = {{done:'✓', running:'●', pending:'○'}}[st];
     let tickText = {{done: UI.done, running: UI.running, pending: UI.pending}}[st];
-    if (st === 'done' && p.dur_s) tickText += ' · ' + p.dur_s.toFixed(1) + UI.seconds;
-    if (st === 'running' && p.stageStart) tickText += ' · ' + ((Date.now()-p.stageStart)/1000).toFixed(0) + UI.seconds;
-    else if (st === 'pending' && m.est) tickText += ' · ' + m.est;
+    let metaText = st === 'done' ? (p.dur_s ? p.dur_s.toFixed(1) + UI.seconds : UI.done)
+      : st === 'running' ? (p.stageStart ? Math.round((Date.now()-p.stageStart)/1000) + UI.seconds : UI.running)
+      : (m.est || '—');
     const tech = Object.entries(p.tech||{{}}).map(([a,b])=>a+'='+b).join(' · ');
     const no = String(k+1).padStart(2, '0');
     rows += `<article class="stg ${{st}} ${{st==='done' ? 'done' : (st==='running' ? 'live' : 'off')}}">
@@ -754,10 +824,15 @@ function renderMission(){{
       <p class="stg-what">${{m.what}}</p>
       <p class="stg-why">${{m.why}}</p>
       <div class="stg-note">${{m.how}}</div>${{tech ? '<div class="stg-tech">'+tech+'</div>' : ''}}
-      </div></article>`;
+      </div><div class="stg-meta">${{metaText}}</div></article>`;
   }});
-  el.innerHTML = `<div class="progress"><i style="width:${{pct}}%"></i></div>
-    <div class="muted" style="font-size:12px">${{doneN}}/${{ids.length}} ${{UI.stages}} · ${{pct}}%
+  const folio = ids.map(i => {{
+    const p = stagePlan[i] || {{}};
+    const cls = p.status === 'done' ? 'done' : (p.status === 'running' ? 'live' : '');
+    return `<span class="f-tick ${{cls}}"></span>`;
+  }}).join('');
+  el.innerHTML = `<div class="folio">${{folio}}<span class="f-label">${{String(doneN).padStart(2,'0')}}/${{ids.length}} · ${{pct}}%</span></div>
+    <div class="muted" style="font-size:12px">${{UI.stages}}
       ${{currentRun ? ' · <a href="/runs/'+currentRun+'/mission">'+UI.research_view+'</a>' : ''}}</div>`
     + rows;
 }}
