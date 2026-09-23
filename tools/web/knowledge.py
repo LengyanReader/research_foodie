@@ -69,6 +69,43 @@ _ITEM_FIELDS = ("key", "kind", "title", "question", "path_md", "path_pdf",
                 "claims", "papers", "elapsed_s", "tags", "favorite",
                 "created_at", "updated_at")
 
+# --------------------------------------------------------------------------
+# Change-detection for `sync()` — skip the disk scan when nothing moved.
+# Signature = (mtime, file-count) of the manuscript dirs + newest run-log mtime,
+# polled at most every _SCAN_POLL_S seconds. User-state writes (tags/favorite)
+# never touch the signature, so a cached scan still serves fresh DB rows.
+_SCAN_POLL_S = 3.0
+_last_check = 0.0
+_last_sig: Optional[dict] = None
+
+
+def _signature() -> dict:
+    sig: Dict[str, tuple] = {}
+    for d in (EVAL_OUT / "manuscripts", EVAL_OUT / "mock_manuscripts"):
+        if d.is_dir():
+            entry = list(d.iterdir())
+            sig[str(d)] = (d.stat().st_mtime, len(entry))
+        else:
+            sig[str(d)] = (0, 0)
+    wr = EVAL_OUT / "web_runs"
+    if wr.is_dir():
+        mtimes = [f.stat().st_mtime for f in wr.iterdir() if f.is_file()]
+        sig["web_runs"] = (max(mtimes) if mtimes else 0, len(mtimes))
+    return sig
+
+
+def _needs_rescan() -> bool:
+    global _last_check, _last_sig
+    now = time.time()
+    if now - _last_check < _SCAN_POLL_S:
+        return False
+    _last_check = now
+    sig = _signature()
+    if sig != _last_sig:
+        _last_sig = sig
+        return True
+    return False
+
 
 def _connect() -> sqlite3.Connection:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -160,9 +197,15 @@ def _scan_disk() -> List[dict]:
     return sorted(items.values(), key=lambda i: i["key"].lower())
 
 
-def sync() -> List[dict]:
-    """Refresh the index from disk (upsert new/changed, purge gone rows)."""
+def sync(force: bool = False) -> List[dict]:
+    """Refresh the index from disk (upsert new/changed, purge gone rows).
+
+    Skips the disk scan when the corpus signature is unchanged since the last
+    poll (tags/favorite stays visible because rows are always re-read below).
+    """
     _init()
+    if not force and not _needs_rescan():
+        return _list()
     now = time.time()
     fresh = _scan_disk()
     seen: set[str] = set()

@@ -40,6 +40,27 @@ app.mount("/static", StaticFiles(directory=WEB_DIR / "static"), name="static")
 # Offline markdown→HTML for the in-page reader (html=False → no raw-HTML passthrough)
 _md = MarkdownIt("js-default", {"html": False})
 
+# Rendered-markdown cache, keyed by (key, mtime_ns, size); simple FIFO eviction.
+_RENDER_CACHE: dict[str, str] = {}
+_RENDER_CACHE_MAX = 40
+
+
+def _render_md(key: str, path_within_repo: str) -> str:
+    try:
+        st = (REPO_ROOT / Path(path_within_repo)).stat()
+        ckey = f"{key}:{st.st_mtime_ns}:{st.st_size}"
+    except OSError:
+        ckey = f"{key}:missing"
+    hit = _RENDER_CACHE.get(ckey)
+    if hit is not None:
+        return hit
+    raw = (REPO_ROOT / Path(path_within_repo)).read_text(encoding="utf-8", errors="replace")
+    html = _md.render(raw)
+    _RENDER_CACHE[ckey] = html
+    while len(_RENDER_CACHE) > _RENDER_CACHE_MAX:
+        _RENDER_CACHE.pop(next(iter(_RENDER_CACHE)))
+    return html
+
 # ---------------------------------------------------------------------------
 # Templates (no external JS; inline CSS — zero network deps, K1/K2-safe)
 # ---------------------------------------------------------------------------
@@ -409,7 +430,8 @@ UI = {
         "lib_mock": "Mock", "lib_real": "Real",
         "kind_survey": "survey", "kind_mock": "mock", "kind_bench": "bench",
         "read": "Read", "read_title": "Reader", "read_tab_doc": "Markdown",
-        "read_tab_pdf": "PDF", "read_open": "new tab", "read_download": "download",
+        "read_tab_pdf": "PDF", "read_tab_preprint": "Preprint", "kind_preprint": "preprint",
+        "read_open": "new tab", "read_download": "download",
         "read_back": "Back to library", "read_missing": "not found in the knowledge library.",
         "tag_ph": "add tag…", "del_confirm": "Delete this item and its files from disk? (run logs are kept)",
         "del_done": "deleted", "lib_offline": "offline render · zero network",
@@ -472,7 +494,8 @@ UI = {
         "lib_mock": "Mock", "lib_real": "真实",
         "kind_survey": "调研", "kind_mock": "演示", "kind_bench": "基准",
         "read": "阅读", "read_title": "阅读器", "read_tab_doc": "正文",
-        "read_tab_pdf": "PDF", "read_open": "新窗口", "read_download": "下载",
+        "read_tab_pdf": "PDF", "read_tab_preprint": "出版化稿", "kind_preprint": "出版化稿",
+        "read_open": "新窗口", "read_download": "下载",
         "read_back": "返回知识库", "read_missing": "知识库中找不到这个条目。",
         "tag_ph": "添加标签…", "del_confirm": "从磁盘删除该条目及其文件？（运行日志保留）",
         "del_done": "已删除", "lib_offline": "离线渲染 · 零外部网络",
@@ -1200,6 +1223,9 @@ def _lib_card(item: dict, lang: str) -> str:
         actions.append(f'<a class="btn mini" href="/manuscripts/{Path(item["path_md"]).name}">MD</a>')
     if item.get("path_pdf"):
         actions.append(f'<a class="btn mini" href="/manuscripts/{Path(item["path_pdf"]).name}">PDF</a>')
+    if item.get("path_preprint"):
+        actions.append(f'<a class="btn mini" href="/manuscripts/{Path(item["path_preprint"]).name}">'
+                       f'{T(lang, "kind_preprint")}</a>')
     actions.append(f'<button class="btn mini danger kdel" onclick="delItem(\'{item["key"]}\')">'
                    f'{T(lang, "del")}</button>')
     return (f'<article class="kcard" data-q="{_h(q + " " + title + " " + item["tags"])}" '
@@ -1316,7 +1342,7 @@ async function delItem(key){{
 
 @app.post("/lib/api/sync", response_class=JSONResponse)
 def lib_sync():
-    items = knowledge.sync()
+    items = knowledge.sync(force=True)
     return {"ok": True, "count": len(items)}
 
 
@@ -1347,16 +1373,19 @@ def reader_page(key: str, request: Request):
         return page(f"{T(lang, 'read_title')} · {key}",
                     f'<h1>{_h(key)}</h1><p class="empty">{_h(key)} {T(lang, "read_missing")}</p>'
                     f'<a href="/library">{T(lang, "read_back")}</a>', cur="lib", lang=lang)
-    md_html, has_md, has_pdf = "", False, False
+    md_html, has_md, has_pdf, has_preprint = "", False, False, False
     if item.get("path_md") and (REPO_ROOT / Path(item["path_md"])).is_file():
-        raw = (REPO_ROOT / Path(item["path_md"])).read_text(encoding="utf-8", errors="replace")
-        md_html = _md.render(raw)
+        md_html = _render_md(key, item["path_md"])
         has_md = True
     pdf_url = ""
     if item.get("path_pdf") and (REPO_ROOT / Path(item["path_pdf"])).is_file():
         pdf_url = f'/manuscripts/{Path(item["path_pdf"]).name}'
         has_pdf = True
-    if not has_md and not has_pdf:
+    preprint_url = ""
+    if item.get("path_preprint") and (REPO_ROOT / Path(item["path_preprint"])).is_file():
+        preprint_url = f'/manuscripts/{Path(item["path_preprint"]).name}'
+        has_preprint = True
+    if not has_md and not has_pdf and not has_preprint:
         return page(f"{T(lang, 'read_title')} · {key}",
                     f'<h1>{_h(item["title"])}</h1><p class="empty">{T(lang, "read_missing")}</p>',
                     cur="lib", lang=lang)
@@ -1376,39 +1405,70 @@ def reader_page(key: str, request: Request):
         banner = (f'<div class="reader-banner"><p class="bq"><strong>'
                   f'{T(lang, "mission_question")}</strong> {_h(item["question"])}</p>'
                   f'<div class="kmeta">{"".join(meta)}</div></div>')
-    doc_panel = (f'<div class="kviewer" id="pane-doc">{md_html}</div>' if has_md else
-                 f'<div class="kviewer" id="pane-doc"><p class="empty">PDF only</p></div>')
-    pdf_panel = (f'<div class="kviewer" id="pane-pdf" style="display:none">'
-                 f'<iframe src="{pdf_url}" title="PDF"></iframe></div>' if has_pdf else
-                 f'<div class="kviewer" id="pane-pdf" style="display:none"><p class="empty">—</p></div>')
+
+    # Panels in display order; PDF iframes are lazy (src set on first tab select).
+    panes, tab_defs = [], []
+    if has_md:
+        panes.append('<div class="kviewer" id="pane-doc">' + md_html + '</div>')
+        tab_defs.append(("doc", T(lang, "read_tab_doc")))
+    if has_pdf:
+        panes.append('<div class="kviewer" id="pane-pdf" style="display:none">'
+                     f'<iframe id="frame-pdf" data-src="{pdf_url}" title="PDF"></iframe></div>')
+        tab_defs.append(("pdf", T(lang, "read_tab_pdf")))
+    if has_preprint:
+        panes.append('<div class="kviewer" id="pane-preprint" style="display:none">'
+                     f'<iframe id="frame-preprint" data-src="{preprint_url}" '
+                     'title="preprint"></iframe></div>')
+        tab_defs.append(("preprint", T(lang, "read_tab_preprint")))
+    default_tab = tab_defs[0][0] if tab_defs else ""
+    tab_buttons = "".join(
+        f'<button class="rtab{" on" if t == default_tab else ""}" data-tab="{t}" '
+        f'onclick="rdTab(\'{t}\')">{label}</button>' for t, label in tab_defs)
+    extra_actions = ""
+    if has_md:
+        extra_actions += (f'<a class="btn mini ghost" href="/manuscripts/'
+                          f'{Path(item["path_md"]).name}" target="_blank">'
+                          f'{T(lang, "read_open")} MD</a>')
+    if has_pdf:
+        extra_actions += (f'<a class="btn mini ghost" href="/manuscripts/'
+                          f'{Path(item["path_pdf"]).name}" download>'
+                          f'{T(lang, "read_download")} PDF</a>')
+    if has_preprint:
+        extra_actions += (f'<a class="btn mini ghost" href="/manuscripts/'
+                          f'{Path(item["path_preprint"]).name}" download>'
+                          f'{T(lang, "read_download")} {T(lang, "kind_preprint")}</a>')
     tabs = f"""
 <div class="reader-head">
   <a class="btn ghost mini" href="/library">← {T(lang, "read_back")}</a>
   <span class="rtitle">{_h(item["title"])}</span>
-  <div class="rtabs">
-    <button class="rtab on" data-tab="doc" onclick="rdTab('doc')">{T(lang, "read_tab_doc")}</button>
-    <button class="rtab" data-tab="pdf" onclick="rdTab('pdf')">{T(lang, "read_tab_pdf")}</button>
+  <div class="rtabs"{'' if len(tab_defs) > 1 else ' hidden'}>
+    {tab_buttons}
   </div>
-  <div class="rtabs">
-    <a class="btn mini ghost" href="/manuscripts/{Path(item["path_md"]).name if item.get("path_md") else ""}"
-       target="_blank">{T(lang, "read_open")}</a>
-    {f'<a class="btn mini ghost" href="/manuscripts/{Path(item["path_pdf"]).name}" download>{T(lang, "read_download")} PDF</a>' if has_pdf else ""}
-  </div>
+  <div class="rtabs">{extra_actions}</div>
 </div>
 """
     body = f"""
 <section class="sect">
   {tabs}
   {banner}
-  {doc_panel}
-  {pdf_panel}
+  {''.join(panes)}
 </section>
 <script>
+let pdfLoaded = false, preprintLoaded = false;
 function rdTab(t){{
   document.querySelectorAll('.rtab').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
-  document.getElementById('pane-doc').style.display = (t === 'doc') ? '' : 'none';
-  const pdf = document.getElementById('pane-pdf');
-  if (pdf) pdf.style.display = (t === 'pdf') ? '' : 'none';
+  ['doc','pdf','preprint'].forEach(p => {{
+    const pane = document.getElementById('pane-' + p);
+    if (pane) pane.style.display = (p === t) ? '' : 'none';
+  }});
+  if (t === 'pdf' && !pdfLoaded) {{
+    const f = document.getElementById('frame-pdf');
+    if (f && f.dataset.src) {{ f.src = f.dataset.src; pdfLoaded = true; }}
+  }}
+  if (t === 'preprint' && !preprintLoaded) {{
+    const f = document.getElementById('frame-preprint');
+    if (f && f.dataset.src) {{ f.src = f.dataset.src; preprintLoaded = true; }}
+  }}
 }}
 </script>
 """

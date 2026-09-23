@@ -79,6 +79,15 @@ Next (user to pick): **A.** full 36-scenario free-lane run (refreshes paper §4,
 
 > **产品形态原则（后续迭代锚点）**：信息架构 = 工作台(发起/看跑) · 知识库(沉淀/管理/阅读) · 数据(数字) · 反馈(自演化入口)；**单条知识 = 手稿三元组 {md, pdf, preprint}** + 元数据；文件是真理、索引可重建、用户态永存；删除只动声明路径；零外部网络（markdown_it + iframe viewer）；默认离线渲染、真/模分离贯穿。后续可升级：分页/虚拟滚动、tag 云、全文搜索、批量删除、原位标签重渲染、preprint tab。
 
+### Session 35b — 性能增量 + preprint tab（优化第一轮，2026-09-23）
+
+1. **`sync()` 增量重扫**（knowledge.py）：目录签名 = (mtime, 文件数) × `manuscripts/`、`mock_manuscripts/` + 最新 run-log mtime，`_SCAN_POLL_S=3s` 节流。签名未变则跳过磁盘扫描、直接读库——**用户态（tags/favorite）永远最新**（每次仍 `_list()` 读 DB），`/library` GET 不再全量 upsert；"重新扫描"按钮走 `POST /lib/api/sync`（force=True）。
+2. **markdown 渲染缓存**（app.py `_render_md`）：key = `(key, mtime_ns, size)`，FIFO 上限 40 条；正文未变则阅读器零重渲染。
+3. **PDF 惰性加载**：`/read` iframe 不再带 `src`（改 `data-src`），PDF/Preprint tab 首次点击才 `set src`——打开阅读器不再被大 PDF 拖慢。
+4. **preprint tab + 卡动作**：阅读器第三 tab「出版化稿」（`data-tab="preprint"`，惰性加载），卡片动作区加「出版化稿」按钮；默认 tab 自适应（有 md 默认正文，纯 PDF 默认 PDF）。实测 `gpt-detectors-…` 三 tab 齐全（doc/pdf/preprint）且各项工作。i18n key：`read_tab_preprint` / `kind_preprint`（en/zh）。
+
+**Verification:** AST ✓ / i18n 断言全绿 ✓ / library smoke 全过 ✓（sync 45 · fav ×2 · tags 增删 · en+zh）/ 新增 reader 断言：lazy `data-src`、无 eager `src`、preprint 惰性 iframe + 下载按钮、默认 tab 自适应 ✓；8787 重启 live：reader 200 · 23.9KB · preprint-lazy ✓。清理测试残留 tags/favorite 后再重启。
+
 ---
 
 ## 2026-09-23 — Session 34: 温润关怀风重设计（人性化主导 · 极客元素只留守抽屉）(calm, human-first redesign)
