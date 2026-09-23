@@ -24,7 +24,10 @@ from fastapi import FastAPI, Form, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
+from markdown_it import MarkdownIt
+
 from .run_manager import manager, REPO_ROOT
+from . import knowledge
 
 WEB_DIR = Path(__file__).resolve().parent
 EVAL_OUT = REPO_ROOT / "_eval_out"
@@ -33,6 +36,9 @@ MOCK_MANUSCRIPTS = EVAL_OUT / "mock_manuscripts"
 
 app = FastAPI(title="research_foodie — local observation dashboard", version="0.1.0")
 app.mount("/static", StaticFiles(directory=WEB_DIR / "static"), name="static")
+
+# Offline markdown→HTML for the in-page reader (html=False → no raw-HTML passthrough)
+_md = MarkdownIt("js-default", {"html": False})
 
 # ---------------------------------------------------------------------------
 # Templates (no external JS; inline CSS — zero network deps, K1/K2-safe)
@@ -193,6 +199,75 @@ details.rawtail[open] summary::before{{content:'▾ ';color:var(--accent)}}
 .rc-meta{{margin-top:10px;font-size:12px;color:var(--ink-faint)}}
 .resume-row{{margin-top:10px}}
 
+/* knowledge library — product surface */
+.lib-toolbar{{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 2px 16px}}
+.lib-toolbar .qsearch{{flex:1;min-width:220px;padding:10px 14px;font:15px/1.4 var(--font);
+  border:1px solid var(--rule-strong);border-radius:999px;background:var(--surface);color:var(--ink)}}
+.lib-toolbar .qsearch:focus{{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}}
+.fpill{{padding:6px 13px;border-radius:999px;border:1px solid var(--rule);background:var(--surface);
+  font:500 13px var(--font);color:var(--ink-soft);cursor:pointer}}
+.fpill:hover{{border-color:var(--accent);color:var(--accent-strong)}}
+.fpill.on{{background:var(--accent);border-color:var(--accent);color:#fff}}
+.lib-meta{{font-size:12.5px;color:var(--ink-faint);padding:0 2px}}
+.lib-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}}
+.kcard{{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:16px 18px}}
+.kcard-head{{display:flex;align-items:center;gap:8px;flex-wrap:wrap}}
+.kcard-head .badge{{margin-right:auto}}
+.kfav{{border:0;background:transparent;cursor:pointer;font-size:18px;line-height:1;color:var(--ink-faint);
+  padding:2px 4px;border-radius:var(--r-sm)}}
+.kfav.on{{color:var(--warn)}}
+.kfav:hover{{background:var(--surface-soft)}}
+.kcard-title{{font-weight:600;font-size:15px;color:var(--ink);line-height:1.4}}
+.kcard-title:hover{{color:var(--accent-strong);text-decoration:none}}
+.kcard-q{{font-size:13px;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:3;
+  -webkit-box-orient:vertical;overflow:hidden}}
+.kmeta{{font-size:12px;color:var(--ink-faint);display:flex;gap:6px;flex-wrap:wrap}}
+.ktags{{display:flex;gap:6px;flex-wrap:wrap;align-items:center}}
+.ktag{{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;
+  background:var(--accent-soft);color:var(--accent-strong);font-size:12px}}
+.ktag button{{border:0;background:transparent;color:var(--accent-strong);cursor:pointer;padding:0;
+  font-size:13px;line-height:1}}
+.ktag-add{{flex:0 0 auto;border:1px dashed var(--rule-strong);border-radius:999px;background:transparent;
+  color:var(--ink-faint);padding:3px 10px;font:12px var(--font);width:110px}}
+.ktag-add:focus{{outline:none;border-style:solid;border-color:var(--accent);color:var(--ink)}}
+.kactions{{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}}
+.kdel{{margin-left:auto}}
+.lib-empty{{grid-column:1/-1;background:var(--surface);border:1px dashed var(--rule-strong);
+  border-radius:var(--r-lg);padding:34px 20px;text-align:center;color:var(--ink-faint);font-size:14px}}
+
+/* reader */
+.reader-head{{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}}
+.reader-head .rtitle{{font-weight:700;font-size:18px;min-width:0;flex:1}}
+.reader-banner{{background:var(--accent-soft);border:1px solid var(--rule);border-radius:var(--r);
+  padding:12px 16px;margin:2px 0 14px}}
+.reader-banner .bq{{font-size:15px;color:var(--ink);margin-bottom:6px}}
+.rtabs{{display:inline-flex;gap:2px;background:var(--surface-soft);border-radius:999px;padding:3px}}
+.rtab{{border:0;background:transparent;padding:7px 16px;border-radius:999px;font:500 13px var(--font);
+  color:var(--ink-soft);cursor:pointer}}
+.rtab.on{{background:var(--surface);box-shadow:var(--sh-sm);color:var(--accent-strong);font-weight:600}}
+.kviewer{{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);
+  box-shadow:var(--sh);padding:8px}}
+.kviewer iframe{{width:100%;height:78vh;border:0;border-radius:var(--r)}}
+.kprose{{max-width:820px;margin:0 auto;padding:22px 26px 60px;font-size:15.5px;line-height:1.75;color:var(--ink)}}
+.kprose h1{{font-size:26px;margin:1.2em 0 .5em;padding-bottom:.3em;border-bottom:1px solid var(--rule)}}
+.kprose h2{{font-size:20px;margin:1.4em 0 .5em}}
+.kprose h3{{font-size:17px;margin:1.2em 0 .4em}}
+.kprose h1:first-child{{margin-top:0}}
+.kprose p{{margin:.6em 0}}
+.kprose a{{color:var(--accent-strong);text-decoration:underline}}
+.kprose ul,.kprose ol{{padding-left:1.4em;margin:.6em 0}}
+.kprose li{{margin:.2em 0}}
+.kprose blockquote{{margin:.8em 0;padding:.2em 1em;border-left:3px solid var(--accent);
+  background:var(--surface-soft);border-radius:0 var(--r-sm) var(--r-sm) 0;color:var(--ink-soft)}}
+.kprose code{{background:var(--surface-soft);border:1px solid var(--rule);border-radius:6px;padding:.1em .35em}}
+.kprose pre{{background:var(--surface-soft);border:1px solid var(--rule);border-radius:var(--r);
+  padding:14px 16px;overflow:auto;margin:.8em 0}}
+.kprose pre code{{background:none;border:0;padding:0}}
+.kprose table{{margin:.8em 0}}
+.kprose img{{max-width:100%;border-radius:var(--r)}}
+.kprose hr{{border:0;border-top:1px solid var(--rule);margin:1.4em 0}}
+
 /* status chips */
 .chip{{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px}}
 .chip::before{{content:'';width:7px;height:7px;border-radius:50%}}
@@ -258,7 +333,7 @@ ul{{margin:.4em 0}}li{{margin:.15em 0}}
 </style></head><body>
 <div class="topbar"><div class="frame topbar-row">
 <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>research_foodie<span class="brand-tag">{ui_brand_tag}</span></a>
-<nav class="navpills"><a class="pill {cur_workbench}" href="/">{ui_nav_workbench}</a><a class="pill {cur_dash}" href="/dashboard">{ui_nav_dash}</a><a class="pill {cur_ms}" href="/manuscripts">{ui_nav_ms}</a><a class="pill {cur_fb}" href="/feedback">{ui_nav_fb}</a></nav>
+<nav class="navpills"><a class="pill {cur_workbench}" href="/">{ui_nav_workbench}</a><a class="pill {cur_lib}" href="/library">{ui_nav_lib}</a><a class="pill {cur_dash}" href="/dashboard">{ui_nav_dash}</a><a class="pill {cur_fb}" href="/feedback">{ui_nav_fb}</a></nav>
 <span class="langseg"><a class="pill {cur_lang_zh}" href="/_lang/zh">中文</a><a class="pill {cur_lang_en}" href="/_lang/en">EN</a></span>
 </div></div>
 <div class="frame main">
@@ -271,7 +346,7 @@ HTML_TAIL = ('<footer class="colophon">research_foodie · local-first survey pip
 
 UI = {
     "en": {
-        "nav_workbench": "Workbench", "nav_dash": "Numbers", "nav_ms": "Manuscripts", "nav_fb": "Feedback",
+        "nav_workbench": "Workbench", "nav_lib": "Library", "nav_dash": "Numbers", "nav_ms": "Manuscripts", "nav_fb": "Feedback",
         "brand_tag": "local survey workbench",
         "trust_cite": "every citation traceable",
         "trust_double": "two-tier PDF delivery",
@@ -325,6 +400,19 @@ UI = {
         "ms_note": "Rendered from the manuscript source by pandoc + xelatex + YaHei (干货稿) and its arXiv-style preprint variant.",
         "fb_title": "Feedback",
         "log_title": "log",
+        "lib_title": "Knowledge Library",
+        "lib_search_ph": "search question, title or tag…",
+        "lib_scan": "re-scan",
+        "lib_items": "items", "lib_empty": ("No knowledge items yet. Run a survey — its "
+                                             "manuscript (markdown + PDF) lands here."),
+        "lib_all": "All", "lib_fav": "Favorites", "lib_pass": "Passed",
+        "lib_mock": "Mock", "lib_real": "Real",
+        "kind_survey": "survey", "kind_mock": "mock", "kind_bench": "bench",
+        "read": "Read", "read_title": "Reader", "read_tab_doc": "Markdown",
+        "read_tab_pdf": "PDF", "read_open": "new tab", "read_download": "download",
+        "read_back": "Back to library", "read_missing": "not found in the knowledge library.",
+        "tag_ph": "add tag…", "del_confirm": "Delete this item and its files from disk? (run logs are kept)",
+        "del_done": "deleted", "lib_offline": "offline render · zero network",
     },
     "zh": {
         "nav_workbench": "工作台", "nav_dash": "数据", "nav_ms": "手稿", "nav_fb": "反馈",
@@ -376,6 +464,18 @@ UI = {
         "ms_note": "从同一份手稿源码渲染：pandoc + xelatex + YaHei（干货稿）与其 arXiv 出版化变体。",
         "fb_title": "反馈",
         "log_title": "日志",
+        "lib_title": "知识库",
+        "lib_search_ph": "搜索问题、标题或标签…",
+        "lib_scan": "重新扫描",
+        "lib_items": "条", "lib_empty": "还没有知识条目——跑一次调研，产出（markdown + PDF）就会沉淀在这里。",
+        "lib_all": "全部", "lib_fav": "收藏", "lib_pass": "已通过",
+        "lib_mock": "Mock", "lib_real": "真实",
+        "kind_survey": "调研", "kind_mock": "演示", "kind_bench": "基准",
+        "read": "阅读", "read_title": "阅读器", "read_tab_doc": "正文",
+        "read_tab_pdf": "PDF", "read_open": "新窗口", "read_download": "下载",
+        "read_back": "返回知识库", "read_missing": "知识库中找不到这个条目。",
+        "tag_ph": "添加标签…", "del_confirm": "从磁盘删除该条目及其文件？（运行日志保留）",
+        "del_done": "已删除", "lib_offline": "离线渲染 · 零外部网络",
     },
 }
 
@@ -391,6 +491,7 @@ def lang_of(request: Request) -> str:
 def page(title, body: str, cur: str = "wb", lang: str = "en") -> HTMLResponse:
     kw = dict(
         cur_workbench="cur" if cur == "wb" else "",
+        cur_lib="cur" if cur == "lib" else "",
         cur_dash="cur" if cur == "dash" else "",
         cur_ms="cur" if cur == "ms" else "",
         cur_fb="cur" if cur == "fb" else "",
@@ -398,6 +499,7 @@ def page(title, body: str, cur: str = "wb", lang: str = "en") -> HTMLResponse:
         cur_lang_en="cur" if lang == "en" else "",
         html_lang="zh-CN" if lang == "zh" else "en",
         ui_nav_workbench=T(lang, "nav_workbench"),
+        ui_nav_lib=T(lang, "nav_lib"),
         ui_nav_dash=T(lang, "nav_dash"),
         ui_nav_ms=T(lang, "nav_ms"),
         ui_nav_fb=T(lang, "nav_fb"),
@@ -1059,6 +1161,258 @@ def manuscript_file(name: str):
             media = "application/pdf" if path.suffix.lower() == ".pdf" else "text/markdown"
             return FileResponse(path, media_type=media, filename=name)
     return JSONResponse({"error": "not found"}, status_code=404)
+
+
+# --------------------------------------------------------------------------
+# Knowledge library (Phase H)
+# --------------------------------------------------------------------------
+
+_KIND_LABEL = {"survey": "kind_survey", "mock-survey": "kind_mock", "bench": "kind_bench"}
+_CHIP_CLASS = {"survey": "ok", "mock-survey": "muted", "bench": "run"}
+
+
+def _lib_card(item: dict, lang: str) -> str:
+    q = (item.get("question") or "").strip()
+    title = q or item.get("title") or item["key"]
+    kind = _KIND_LABEL.get(item["kind"], "kind_bench")
+    fav = "★" if item.get("favorite") else "☆"
+    favcls = "on" if item.get("favorite") else ""
+    tags = "".join(
+        f'<span class="ktag">{t}<button title="×" onclick="rmTag(\'{item["key"]}\',' +
+        f"'{t}')>×</button></span>" for t in item.get("tags", "").split(",") if t.strip())
+    meta = []
+    if item.get("mode"):
+        meta.append(f'<span class="chip {_CHIP_CLASS.get(item["kind"], "muted")}">{item["mode"]}</span>')
+    if item.get("verdict"):
+        vcls = "ok" if item["verdict"] == "pass" else "fail"
+        meta.append(f'<span class="chip {vcls}">{T(lang,"l6_pass") if item["verdict"]=="pass" else T(lang,"l6_fail")}</span>')
+    if item.get("judge"):
+        meta.append(f'<span>{T(lang, "judge")}={item["judge"]}</span>')
+    if item.get("claims"):
+        meta.append(f'{item["claims"]} {T(lang, "claims")}')
+    if item.get("papers"):
+        meta.append(f'{item["papers"]} {T(lang, "papers")}')
+    if item.get("elapsed_s"):
+        meta.append(f'{item["elapsed_s"]:.0f}{T(lang, "seconds")}')
+    meta_html = f'<div class="kmeta">{"".join(meta)}</div>' if meta else ""
+    actions = [f'<a class="btn mini" href="/read/{item["key"]}">{T(lang, "read")}</a>']
+    if item.get("path_md"):
+        actions.append(f'<a class="btn mini" href="/manuscripts/{Path(item["path_md"]).name}">MD</a>')
+    if item.get("path_pdf"):
+        actions.append(f'<a class="btn mini" href="/manuscripts/{Path(item["path_pdf"]).name}">PDF</a>')
+    actions.append(f'<button class="btn mini danger kdel" onclick="delItem(\'{item["key"]}\')">'
+                   f'{T(lang, "del")}</button>')
+    return (f'<article class="kcard" data-q="{_h(q + " " + title + " " + item["tags"])}" '
+            f'data-mode="{item["mode"]}" data-verdict="{item["verdict"]}" '
+            f'data-fav="{1 if item.get("favorite") else 0}">'
+            f'<div class="kcard-head">'
+            f'<span class="badge {_CHIP_CLASS.get(item["kind"], "muted")}">{T(lang, kind)}</span>'
+            f'<button class="kfav {favcls}" onclick="favItem(\'{item["key"]}\')" '
+            f'title="{T(lang, "fav_on") if item.get("favorite") else T(lang, "fav_off")}">{fav}</button>'
+            f'</div>'
+            f'<a class="kcard-title" href="/read/{item["key"]}">{_h(title)}</a>'
+            f'{meta_html}'
+            f'<div class="ktags">{tags}'
+            f'<input class="ktag-add" placeholder="{T(lang, "tag_ph")}" '
+            f'onkeydown="if(event.key===\'Enter\')addTag(\'{item["key"]}\',this)"></div>'
+            f'<div class="kactions">{"".join(actions)}</div>'
+            f'</article>')
+
+
+def _h(s: str) -> str:
+    import html as _html
+    return _html.escape(s, quote=True)
+
+
+@app.get("/library", response_class=HTMLResponse)
+def library_page(request: Request):
+    lang = lang_of(request)
+    items = knowledge.sync()
+    cards = "".join(_lib_card(i, lang) for i in items)
+    if not cards:
+        cards = f'<div class="lib-empty">{T(lang, "lib_empty")}</div>'
+    body = f"""
+<script>
+const LANG = {json.dumps(lang)};
+const UI = {json.dumps(UI[lang])};
+function esc(s){{const d=document.createElement('div');d.textContent=s;return d.innerHTML;}}
+function applyLib(){{
+  const q = document.getElementById('lq').value.trim().toLowerCase();
+  const f = document.getElementById('lfilter').value;
+  let n = 0;
+  document.querySelectorAll('.kcard').forEach(c => {{
+    const okQ = !q || 0 <= (c.dataset.q || '').toLowerCase().indexOf(q);
+    const okF = f === 'all'
+      || (f === 'fav' && c.dataset.fav === '1')
+      || (f === 'pass' && c.dataset.verdict === 'pass')
+      || (f === 'mock' && c.dataset.mode === 'mock')
+      || (f === 'real' && c.dataset.mode === 'real');
+    c.style.display = (okQ && okF) ? '' : 'none';
+    if (okQ && okF) n++;
+  }});
+  document.getElementById('lcount').textContent = n + ' ' + UI.lib_items;
+}}
+function setFilter(v){{
+  document.getElementById('lfilter').value = v;
+  document.querySelectorAll('.fpill').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  applyLib();
+}}
+async function favItem(key){{
+  const r = await fetch('/lib/api/' + key + '/favorite', {{method:'POST'}});
+  const d = await r.json(); if (!d.ok) {{alert(d.error); return;}}
+  const card = [...document.querySelectorAll('.kcard')].find(c => c.querySelector('[href^="/read/' + key + '"]'));
+  if (card){{ card.dataset.fav = d.item.favorite ? '1' : '0';
+    const b = card.querySelector('.kfav'); b.classList.toggle('on', !!d.item.favorite);
+    b.textContent = d.item.favorite ? '★' : '☆'; }}
+}}
+async function addTag(key, input){{
+  const card = input.closest('.kcard'); let t = input.value.trim(); if (!t) return;
+  const cur = [...card.querySelectorAll('.ktag')].map(x => x.firstChild.textContent);
+  const r = await fetch('/lib/api/' + key + '/tags', {{method:'POST', headers:{{'Content-Type':'application/json'}},
+    body: JSON.stringify({{tags: [...new Set([...cur, t])]}})}});
+  const d = await r.json(); if (!d.ok) {{alert(d.error); return;}}
+  location.reload();
+}}
+async function rmTag(key, tag){{
+  const card = [...document.querySelectorAll('.kcard')].find(c => c.querySelector('[href^="/read/' + key + '"]'));
+  const cur = [...card.querySelectorAll('.ktag')].map(x => x.firstChild.textContent).filter(x => x !== tag);
+  const r = await fetch('/lib/api/' + key + '/tags', {{method:'POST', headers:{{'Content-Type':'application/json'}},
+    body: JSON.stringify({{tags: cur}})}});
+  const d = await r.json(); if (!d.ok) {{alert(d.error); return;}}
+  location.reload();
+}}
+async function delItem(key){{
+  if (!confirm(UI.del_confirm)) return;
+  const r = await fetch('/lib/api/' + key, {{method:'DELETE'}});
+  const d = await r.json(); if (!d.ok) {{alert(d.error); return;}}
+  document.querySelectorAll('.kcard').forEach(c => {{
+    if (c.querySelector('[href^="/read/' + key + '"]')) c.remove();
+  }});
+  applyLib();
+}}
+</script>
+<section class="sect">
+  <h1>{T(lang, "lib_title")}</h1>
+  <div class="lib-toolbar">
+    <input id="lq" class="qsearch" type="search" placeholder="{T(lang, "lib_search_ph")}" oninput="applyLib()">
+    <input type="hidden" id="lfilter" value="all">
+    <div class="seg" style="border-radius:999px;padding:3px;gap:2px">
+      <button class="fpill on" data-v="all" onclick="setFilter('all')">{T(lang, "lib_all")}</button>
+      <button class="fpill" data-v="fav" onclick="setFilter('fav')">{T(lang, "lib_fav")}</button>
+      <button class="fpill" data-v="pass" onclick="setFilter('pass')">{T(lang, "lib_pass")}</button>
+      <button class="fpill" data-v="mock" onclick="setFilter('mock')">{T(lang, "lib_mock")}</button>
+      <button class="fpill" data-v="real" onclick="setFilter('real')">{T(lang, "lib_real")}</button>
+    </div>
+    <button class="btn mini" onclick="location.reload()">{T(lang, "lib_scan")}</button>
+    <span class="lib-meta" id="lcount"></span>
+  </div>
+  <div class="lib-grid" id="lgrid">{cards}</div>
+  <p class="muted" style="font-size:12px">{T(lang, "lib_offline")}</p>
+</section>
+<script>applyLib();</script>
+"""
+    return page(T(lang, "lib_title"), body, cur="lib", lang=lang)
+
+
+@app.post("/lib/api/sync", response_class=JSONResponse)
+def lib_sync():
+    items = knowledge.sync()
+    return {"ok": True, "count": len(items)}
+
+
+@app.post("/lib/api/{key}/favorite", response_class=JSONResponse)
+def lib_favorite(key: str):
+    item = knowledge.toggle_favorite(key)
+    return {"ok": item is not None, "item": item, "error": None if item else "not found"}
+
+
+@app.post("/lib/api/{key}/tags", response_class=JSONResponse)
+def lib_tags(key: str, payload: dict):
+    tags = payload.get("tags") if isinstance(payload.get("tags"), list) else []
+    item = knowledge.set_tags(key, tags)
+    return {"ok": item is not None, "item": item, "error": None if item else "not found"}
+
+
+@app.delete("/lib/api/{key}", response_class=JSONResponse)
+def lib_delete(key: str):
+    return knowledge.delete_item(key)
+
+
+@app.get("/read/{key}", response_class=HTMLResponse)
+def reader_page(key: str, request: Request):
+    """In-page reader for one knowledge artifact: rendered markdown + native PDF view."""
+    lang = lang_of(request)
+    item = knowledge.get(key)
+    if not item:
+        return page(f"{T(lang, 'read_title')} · {key}",
+                    f'<h1>{_h(key)}</h1><p class="empty">{_h(key)} {T(lang, "read_missing")}</p>'
+                    f'<a href="/library">{T(lang, "read_back")}</a>', cur="lib", lang=lang)
+    md_html, has_md, has_pdf = "", False, False
+    if item.get("path_md") and (REPO_ROOT / Path(item["path_md"])).is_file():
+        raw = (REPO_ROOT / Path(item["path_md"])).read_text(encoding="utf-8", errors="replace")
+        md_html = _md.render(raw)
+        has_md = True
+    pdf_url = ""
+    if item.get("path_pdf") and (REPO_ROOT / Path(item["path_pdf"])).is_file():
+        pdf_url = f'/manuscripts/{Path(item["path_pdf"]).name}'
+        has_pdf = True
+    if not has_md and not has_pdf:
+        return page(f"{T(lang, 'read_title')} · {key}",
+                    f'<h1>{_h(item["title"])}</h1><p class="empty">{T(lang, "read_missing")}</p>',
+                    cur="lib", lang=lang)
+    banner = ""
+    if item.get("question"):
+        v = (f'<span class="chip {"ok" if item["verdict"]=="pass" else "fail"}">'
+             f'{T(lang,"l6_pass") if item["verdict"]=="pass" else T(lang,"l6_fail")}</span>')
+        meta = [v]
+        if item.get("mode"):
+            meta.append(f'<span>{item["mode"]}</span>')
+        if item.get("claims"):
+            meta.append(f'{item["claims"]} {T(lang, "claims")}')
+        if item.get("papers"):
+            meta.append(f'{item["papers"]} {T(lang, "papers")}')
+        if item.get("elapsed_s"):
+            meta.append(f'{item["elapsed_s"]:.0f}{T(lang, "seconds")}')
+        banner = (f'<div class="reader-banner"><p class="bq"><strong>'
+                  f'{T(lang, "mission_question")}</strong> {_h(item["question"])}</p>'
+                  f'<div class="kmeta">{"".join(meta)}</div></div>')
+    doc_panel = (f'<div class="kviewer" id="pane-doc">{md_html}</div>' if has_md else
+                 f'<div class="kviewer" id="pane-doc"><p class="empty">PDF only</p></div>')
+    pdf_panel = (f'<div class="kviewer" id="pane-pdf" style="display:none">'
+                 f'<iframe src="{pdf_url}" title="PDF"></iframe></div>' if has_pdf else
+                 f'<div class="kviewer" id="pane-pdf" style="display:none"><p class="empty">—</p></div>')
+    tabs = f"""
+<div class="reader-head">
+  <a class="btn ghost mini" href="/library">← {T(lang, "read_back")}</a>
+  <span class="rtitle">{_h(item["title"])}</span>
+  <div class="rtabs">
+    <button class="rtab on" data-tab="doc" onclick="rdTab('doc')">{T(lang, "read_tab_doc")}</button>
+    <button class="rtab" data-tab="pdf" onclick="rdTab('pdf')">{T(lang, "read_tab_pdf")}</button>
+  </div>
+  <div class="rtabs">
+    <a class="btn mini ghost" href="/manuscripts/{Path(item["path_md"]).name if item.get("path_md") else ""}"
+       target="_blank">{T(lang, "read_open")}</a>
+    {f'<a class="btn mini ghost" href="/manuscripts/{Path(item["path_pdf"]).name}" download>{T(lang, "read_download")} PDF</a>' if has_pdf else ""}
+  </div>
+</div>
+"""
+    body = f"""
+<section class="sect">
+  {tabs}
+  {banner}
+  {doc_panel}
+  {pdf_panel}
+</section>
+<script>
+function rdTab(t){{
+  document.querySelectorAll('.rtab').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  document.getElementById('pane-doc').style.display = (t === 'doc') ? '' : 'none';
+  const pdf = document.getElementById('pane-pdf');
+  if (pdf) pdf.style.display = (t === 'pdf') ? '' : 'none';
+}}
+</script>
+"""
+    return page(f"{T(lang, 'read_title')} · {item['title'][:60]}", body, cur="lib", lang=lang)
 
 
 @app.get("/feedback", response_class=HTMLResponse)

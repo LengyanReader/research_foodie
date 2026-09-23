@@ -235,3 +235,15 @@ The goal is a *measurable, scheduled, human-in-the-loop* evolution loop — the 
 - **F-4. Wiring into cadence** — the dashboard is the visible surface of Phase X: E-2 health verdict, E-3 debug tickets, E-4 ledger snapshots, E-5 feedback log are all readable on one local URL. *Accept:* running the weekly cadence end-to-end (checks → tickets → next-row) can be done from the dashboard once F-1/F-2 land; it never pushes to any remote, keeps `127.0.0.1` binding (auth added only if exposed beyond localhost — explicit scope boundary).
 
 Kept in sync with the "Next:" lines at the top of each PROGRESS session entry.
+
+### Phase H — Knowledge Library + Reader (产品化 · data/knowledge management, 2026-09-23)
+
+> 中文速览：用户三项指令——(1) **数据/知识管理**（底层 + 界面都要）；(2) markdown / PDF **在页内显示/阅读**；(3) **页面体现明显产品形态、可用、好用**，且**后续升级调整依此成立**。落地为一个"本地科研知识工作台"：把每次 survey/bench 产出的手稿（md + 干货 PDF + 出版化稿）登记为**知识条目**（SQLite 索引 = 底层），提供**知识库**（检索/筛选/打标/收藏/删除）与**阅读器**（markdown 渲染 + PDF 原生预览，零外部网络）两个产品面。设计原则写入 PROGRESS Session 35，作为后续迭代的锚点。
+>
+> **产品形态（信息架构）**：`工作台`(发起+看跑) · `知识库`(沉淀/管理/阅读) · `数据`(性能数字) · `反馈`(自演化入口)。单条知识 = 手稿三元组 `{md, pdf, preprint}` + 元数据（来源 run · mode · verdict · judge · claims · papers · elapsed · tags · favorite · created）。
+
+- **H-1. 底层数据层（`tools/web/knowledge.py`）** — **文件是事实源头**（`_eval_out/manuscripts/` + `mock_manuscripts/`），SQLite（stdlib，无新依赖）做**索引与用户态**：`items(key PK, kind, title, question, path_md, path_pdf, path_preprint, status, mode, verdict, judge, claims, papers, elapsed_s, tags, favorite, created_at, updated_at)`。`sync()`：枚举磁盘手稿 → 用 run 日志里 `[survey-result]` 富化元数据 → upsert；磁盘上已删除的条目从索引清除。CRUD：`set_tags` / `toggle_favorite` / `delete_item`（删索引 + 真实文件，scope 明确）。
+- **H-2. 知识库页面（`/library`）** — 卡片网格（`auto-fill`），每卡：kind 徽章 + 状态 chip + 收藏星 + 问题/标题 + 元数据行（mode/verdict/claims/papers/elapsed）+ 可编辑 tags + 动作（阅读 / MD / PDF / 删除·确认）。顶部：搜索框 + 筛选 pill（全部 / 收藏 / 已通过 / Mock / Real）+ 重新扫描。筛选在客户端跑（`data-*`），收藏/标签/删除走 JSON API。
+- **H-3. 阅读器（`/read/{base}`）** — 阅读器 chrome（tab: 正文 / PDF）+ 沉浸式内容区：**markdown** 用 `markdown_it`（已装，offline、`html=False` 防注入）渲染为 `.kprose` 排版（贴合原型 token）；**PDF** 用浏览器原生 viewer（`<iframe>`，零外部网络）+ 新窗口/下载按钮。survey 条目顶部给"问题 + verdict + 交付链接"横幅。
+- **H-4. 数据管理动作** — 收藏/标签/删除全部落 SQLite 且删除真删文件（confirm 二次确认；run 日志不动）。`/manuscripts` 路由保持向后兼容（阅读器 iframe 与旧链接复用）。
+- *质量门*：AST + i18n 断言全绿；library/reader en+zh smoke 200；无 `markdown` 直出未转义 HTML；删除只作用于该条目声明的文件路径。

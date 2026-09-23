@@ -12,6 +12,8 @@ __pycache__/
 _eval_out/*.log
 _eval_out/pools_cache/
 _eval_out/web_runs/
+# Knowledge-library derived index (regenerable via knowledge.sync(); files remain the source of truth)
+_eval_out/knowledge.db
 # Run-memory resume state (regenerated per run; resumed automatically on next launch)
 _eval_out/ledgers/
 # Self-evolution append-only streams (regenerated every cadence; keep unbounded growth out)
