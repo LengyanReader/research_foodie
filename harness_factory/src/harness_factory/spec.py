@@ -111,6 +111,7 @@ class HarnessPlan:
     task: TaskSpec
     features: FeatureVector
     modules: list[ModulePlan] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
     version: str = ""
     created: str = ""
     files: list[str] = field(default_factory=list)
@@ -131,6 +132,7 @@ class HarnessPlan:
             "created": self.created,
             "task": asdict(self.task),
             "features": self.features.to_dict(),
+            "capabilities": list(self.capabilities),
             "modules": [m.to_dict() for m in self.modules],
             "files": sorted(self.files),
         }

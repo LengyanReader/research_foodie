@@ -38,6 +38,11 @@ def _add_task_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--task", required=True, help="natural-language task description")
     parser.add_argument("--domain", choices=domain_ids(), help="force a domain")
     parser.add_argument("--goal", default=None, help="explicit goal (optional)")
+    parser.add_argument(
+        "--project",
+        default=None,
+        help="path to the target project to profile (adapts the harness; observe-only)",
+    )
     parser.add_argument("--horizon", choices=HORIZONS)
     parser.add_argument("--verifiability", choices=VERIFIABILITY)
     parser.add_argument("--stakes", choices=STAKES)
@@ -144,6 +149,45 @@ def build_parser() -> argparse.ArgumentParser:
     )
     selfup_p.add_argument("--force", action="store_true", help="overwrite existing catalog files")
 
+    skill_p = sub.add_parser(
+        "skill", help="print the agent load-index, or one module (agent-native entry)"
+    )
+    skill_p.add_argument("name", nargs="?", default=None, help="module name (omit to print the index)")
+    skill_p.add_argument("--json", action="store_true")
+
+    cap_p = sub.add_parser(
+        "capabilities", help="list the capability map (requirement -> modules)"
+    )
+    cap_p.add_argument("--json", action="store_true")
+
+    profile_p = sub.add_parser(
+        "profile", help="scan a target project -> PROFILE.md + capabilities (observe-only)"
+    )
+    profile_p.add_argument("--project", default=".", help="project directory to scan")
+    profile_p.add_argument("--goal", default=None, help="task goal (context for the domain hint)")
+    profile_p.add_argument(
+        "--root", "--data-dir", dest="root", default=None,
+        help="where to write updates/profile (default: user home)",
+    )
+    profile_p.add_argument("--print", dest="print_md", action="store_true", help="print PROFILE.md")
+    profile_p.add_argument("--no-write", action="store_true", help="report only; write nothing")
+    profile_p.add_argument("--json", action="store_true")
+
+    learn_p = sub.add_parser(
+        "learn", help="profile a project + record a case (project -> factory learning)"
+    )
+    learn_p.add_argument("--task", required=True, help="task/goal description")
+    learn_p.add_argument("--project", default=".", help="project directory to profile")
+    learn_p.add_argument("--goal", default=None)
+    learn_p.add_argument("--domain", choices=domain_ids())
+    learn_p.add_argument("--root", "--data-dir", dest="root", default=None)
+    learn_p.add_argument("--llm", action="store_true")
+    learn_p.add_argument("--json", action="store_true")
+
+    cases_p = sub.add_parser("cases", help="show aggregated learned project cases")
+    cases_p.add_argument("--root", "--data-dir", dest="root", default=None)
+    cases_p.add_argument("--json", action="store_true")
+
     return parser
 
 
@@ -159,9 +203,36 @@ def _overrides(args: argparse.Namespace) -> dict[str, str]:
 
 
 def _make_plan(args: argparse.Namespace) -> HarnessPlan:
+    from .profile import ProjectProfile, profile_project
+
     task = TaskSpec(text=args.task, domain=getattr(args, "domain", None), goal=args.goal)
-    features = classify(task, overrides=_overrides(args), use_llm=args.llm)
-    return derive(task, features)
+    overrides = _overrides(args)
+
+    profile: ProjectProfile | None = None
+    project = getattr(args, "project", None)
+    if project:
+        profile = profile_project(project, goal=args.goal)
+        if "domain" not in overrides and not task.domain and profile.domain_hint != "general":
+            overrides = {**overrides, "domain": profile.domain_hint}
+
+    features = classify(task, overrides=overrides, use_llm=args.llm)
+    plan = derive(task, features)
+    if profile is not None:
+        setattr(plan, "_profile", profile)
+    return plan
+
+
+def _profile_extra(plan: HarnessPlan, goal: str | None) -> dict[str, str] | None:
+    from .profile import render_profile_md
+
+    profile = getattr(plan, "_profile", None)
+    if profile is None:
+        return None
+    note = (
+        f"- **Project profiled:** `{profile.path}`  ·  stacks: {', '.join(profile.stacks) or '—'}  "
+        f"·  existing capabilities: {', '.join(profile.capabilities) or '—'}"
+    )
+    return {"profile_md": render_profile_md(profile, goal=goal), "profile_note": note}
 
 
 def _format_plan(plan: HarnessPlan) -> str:
@@ -171,6 +242,7 @@ def _format_plan(plan: HarnessPlan) -> str:
         f"Domain : {f.domain}",
         "Features: " + ", ".join(f"{k}={getattr(f, k)}" for k in FEATURE_FIELDS),
         f"Source : {f.source}",
+        f"Capabilities: {', '.join(plan.capabilities) or '(none)'}",
         "Modules:",
     ]
     for m in plan.modules:
@@ -185,9 +257,17 @@ def _format_plan(plan: HarnessPlan) -> str:
 def _cmd_derive(args: argparse.Namespace) -> int:
     plan = _make_plan(args)
     if args.json:
-        print(json.dumps(plan.to_dict(), ensure_ascii=False, indent=2))
+        payload = plan.to_dict()
+        profile = getattr(plan, "_profile", None)
+        if profile is not None:
+            payload["profile"] = profile.to_dict()
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
     else:
         print(_format_plan(plan))
+        profile = getattr(plan, "_profile", None)
+        if profile is not None:
+            print(f"Profile: {profile.path}  stacks={', '.join(profile.stacks) or '—'}  "
+                  f"domain_hint={profile.domain_hint}")
     return 0
 
 
@@ -195,7 +275,9 @@ def _cmd_init(args: argparse.Namespace) -> int:
     plan = _make_plan(args)
     out = args.out or str(Path.cwd() / _slug(args.task))
     try:
-        written = write_harness(plan, out, force=args.force)
+        written = write_harness(
+            plan, out, force=args.force, extra=_profile_extra(plan, args.goal)
+        )
     except FileExistsError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
@@ -458,6 +540,119 @@ def _cmd_self_update(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_skill(args: argparse.Namespace) -> int:
+    from . import skill
+
+    if not args.name:
+        if args.json:
+            rows = [
+                {"name": s.name, "group": s.group, "path": s.path, "description": s.description}
+                for s in skill.index()
+            ]
+            print(json.dumps(rows, ensure_ascii=False, indent=2))
+        else:
+            print(skill.render_index())
+        return 0
+
+    text = skill.read(args.name)
+    if text is None:
+        print(
+            f"error: unknown skill '{args.name}' (run `harness skill` for the index)",
+            file=sys.stderr,
+        )
+        return 2
+    print(text, end="" if text.endswith("\n") else "\n")
+    return 0
+
+
+def _cmd_profile(args: argparse.Namespace) -> int:
+    from . import config
+    from .profile import profile_project, render_profile_md, write_profile
+
+    profile = profile_project(args.project, goal=args.goal)
+    wrote: list[str] = []
+    if not args.no_write:
+        root = args.root
+        if not root:
+            config.ensure_home()
+            root = str(config.home())
+        wrote = write_profile(root, profile)
+
+    if args.json:
+        print(json.dumps(profile.to_dict(), ensure_ascii=False, indent=2))
+        return 0
+    if args.print_md:
+        print(render_profile_md(profile, goal=args.goal))
+        return 0
+    print(f"profile @ {profile.path}  files={profile.file_count}")
+    print(f"  name={profile.name}  domain_hint={profile.domain_hint}")
+    print(f"  stacks: {', '.join(profile.stacks) or '—'}")
+    print(f"  capabilities: {', '.join(profile.capabilities) or '—'}")
+    if wrote:
+        print(f"  wrote {', '.join(wrote)}")
+    return 0
+
+
+def _cmd_learn(args: argparse.Namespace) -> int:
+    from . import config
+    from .learning import append_case, build_case
+    from .profile import profile_project
+
+    plan = _make_plan(args)
+    profile = getattr(plan, "_profile", None) or profile_project(args.project, goal=args.goal)
+    case = build_case(profile, plan)
+
+    root = args.root
+    if not root:
+        config.ensure_home()
+        root = str(config.home())
+    path = append_case(root, case)
+
+    if args.json:
+        print(json.dumps(case, ensure_ascii=False, indent=2))
+        return 0
+    print(f"learned case @ {path}")
+    print(f"  project={case['project']}  domain={case['domain']}  modules={','.join(case['modules'])}")
+    print(f"  harness capabilities: {', '.join(case['harness_capabilities']) or '—'}")
+    print(f"  project capabilities: {', '.join(case['project_capabilities']) or '—'}")
+    return 0
+
+
+def _cmd_cases(args: argparse.Namespace) -> int:
+    from . import config
+    from .learning import aggregate, load_cases
+
+    root = args.root
+    if not root:
+        config.ensure_home()
+        root = str(config.home())
+    agg = aggregate(load_cases(root))
+    if args.json:
+        print(json.dumps(agg, ensure_ascii=False, indent=2))
+        return 0
+    print(f"cases: {agg['cases']}")
+    print(f"  domains: {agg['domains'] or '—'}")
+    print(f"  project capabilities: {agg['project_capabilities'] or '—'}")
+    print(f"  harness capabilities: {agg['harness_capabilities'] or '—'}")
+    print(f"  modules: {agg['modules'] or '—'}")
+    return 0
+
+
+def _cmd_capabilities(args: argparse.Namespace) -> int:
+    from .capabilities import capabilities
+
+    caps = capabilities()
+    if args.json:
+        print(json.dumps(caps, ensure_ascii=False, indent=2))
+        return 0
+    for cid, meta in caps.items():
+        modules = ", ".join(meta.get("modules", []))
+        print(f"{cid:<32} modules={modules}")
+        print(f"  {meta.get('title_en', '')} / {meta.get('title_zh', '')}")
+        print(f"  when: {json.dumps(meta.get('when', {}), ensure_ascii=False)}")
+    return 0
+
+
 def _force_utf8() -> None:
     """Keep bilingual output readable on Windows consoles (cp1252/cp936)."""
     for stream in (sys.stdout, sys.stderr):
@@ -496,6 +691,16 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_doctor(args)
     if args.command == "self-update":
         return _cmd_self_update(args)
+    if args.command == "skill":
+        return _cmd_skill(args)
+    if args.command == "capabilities":
+        return _cmd_capabilities(args)
+    if args.command == "profile":
+        return _cmd_profile(args)
+    if args.command == "learn":
+        return _cmd_learn(args)
+    if args.command == "cases":
+        return _cmd_cases(args)
     return 1
 
 

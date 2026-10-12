@@ -173,3 +173,32 @@ Landed path semantics:
 tool home  (A, user space)  : %LOCALAPPDATA%\harness-factory\   catalog/ · corpus/ · updates/
 target project (B, any dir) : <out>/  AGENTS.md · tasks/ · .harness/   (via harness init)
 ```
+
+---
+
+## 8. Re-evaluation (2026-10-12): packaging **cancelled** as a channel · 打包方向取消
+
+**User feedback:** the package route "确实感觉用起来不太方便" — installing a global command and keeping a
+user-space KB is ceremony that does not match how the tool is actually wanted: point a vibe-coding
+assistant at the repo path + the task goal, and let it configure the harness.
+
+**Decision (locked 2026-10-12):** **cancel packaging as a distribution channel.**
+- ❌ PyPI publishing, `uv tool install` / `pipx`, and `zipapp`/binary/MCP packaging are **dropped from the roadmap**.
+- ✅ Primary consumption is **agent-native (L0) + CLI-from-path (L1)**:
+  - **L0:** `SKILL.md` + `core/` + `data/*.json` read directly by the assistant; `harness skill` prints the load-index.
+  - **L1:** run without installing: `PYTHONPATH=<repo>/src python -m harness_factory <cmd>` (or `./refresh.ps1`).
+
+**What is kept (no cost, still useful):**
+- `pyproject.toml` stays only as a **dev/CI convenience** (editable install, `uv run`, `[project.scripts]`); it is
+  **not** a publish target and needs no versioning/channel policy.
+- `config.py` / `HARNESS_HOME` / `doctor` / `self-update` remain **optional**: path mode is primary, the user-space
+  KB is a convenience for running many refreshes outside the repo. Nothing is deleted (reversible, M0.9).
+
+**Rationale.** The asset is the knowledge + rules, not the executable. Agent-native consumption removes install
+friction, works for any assistant (Claude Code / opencode / Cursor / …), and lets the assistant reason beyond the
+fixed rule table — while L1 keeps a deterministic, reproducible path when one is needed. The trade-off
+(non-determinism at L0) is mitigated by the provenance contract (`.harness/PROVENANCE.md`) and the `check` gate.
+
+**Supersedes:** §3 (options B/C/F) and §5.6 packaging-polish as *distribution* goals; those items are retained only
+as optional dev tooling.
+

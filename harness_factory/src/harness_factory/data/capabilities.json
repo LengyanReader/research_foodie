@@ -1,0 +1,88 @@
+{
+  "baseline-discipline": {
+    "title_en": "Baseline discipline",
+    "title_zh": "基线纪律",
+    "when": {},
+    "modules": ["M0", "M1", "M7"],
+    "why": "Every task needs load-bearing invariants, curated context, and change governance."
+  },
+  "verification-gate": {
+    "title_en": "Verification gate",
+    "title_zh": "验证门禁",
+    "when": {},
+    "modules": ["M3"],
+    "why": "Define done before work and verify with observed evidence (M0.3)."
+  },
+  "resumable-memory": {
+    "title_en": "Resumable memory",
+    "title_zh": "可续接记忆",
+    "when": { "min_horizon": "session" },
+    "modules": ["M2"],
+    "why": "Work that spans a session must externalize state and resume from it."
+  },
+  "traceable-sources": {
+    "title_en": "Traceable sources",
+    "title_zh": "来源可溯",
+    "when": {
+      "any": [
+        { "grounding": ["preferred", "required"] },
+        { "artifact": ["document", "dataset", "knowledge_base"] }
+      ]
+    },
+    "modules": ["M4"],
+    "why": "Cited material demands every claim trace to a primary source (M0.1)."
+  },
+  "self-improving-loop": {
+    "title_en": "Self-improving loop",
+    "title_zh": "自改进循环",
+    "when": { "min_horizon": "multi_session" },
+    "modules": ["M5"],
+    "why": "Multi-session work benefits from an explicit signal→audit→mutation→journal loop (M0.10)."
+  },
+  "tool-use": {
+    "title_en": "Tool use",
+    "title_zh": "工具使用",
+    "when": { "tool_surface": ["read", "read_write", "external"] },
+    "modules": ["M6"],
+    "why": "A task that touches the world needs a minimal, progressive toolset."
+  },
+  "human-review-gate": {
+    "title_en": "Human review gate",
+    "title_zh": "人工复核门",
+    "when": {
+      "any": [
+        { "collaboration": ["human_review", "multi_agent"] },
+        { "stakes": "high" }
+      ]
+    },
+    "modules": ["M8"],
+    "why": "Others are involved or stakes are high: escalate irreversible decisions (M0.8)."
+  },
+  "high-stakes-guardrails": {
+    "title_en": "High-stakes guardrails",
+    "title_zh": "高风险护栏",
+    "when": { "stakes": "high" },
+    "modules": ["M3", "M8"],
+    "why": "When stakes are high, strengthen gates and lower autonomy."
+  },
+  "reproducible-experiments": {
+    "title_en": "Reproducible experiments",
+    "title_zh": "可复现实验",
+    "when": {
+      "domain": ["data-science", "research"],
+      "verifiability": "high"
+    },
+    "modules": ["M3", "M4", "M5"],
+    "why": "Data/research with measurable outcomes must be reproducible and traceable."
+  },
+  "long-horizon-autonomy-control": {
+    "title_en": "Long-horizon autonomy control",
+    "title_zh": "长时程自主控制",
+    "when": {
+      "min_horizon": "multi_session",
+      "stakes": "high"
+    },
+    "modules": ["M2", "M3", "M8"],
+    "why": "A long, high-stakes run needs durable memory, hard gates, and low autonomy."
+  }
+}

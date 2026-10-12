@@ -40,11 +40,19 @@ harness derive  --task "add unit tests to the parser" --json
 harness init    --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
 harness check   --dir ./my-task          # verify the emitted harness (gate)
 
-# cross-project: install once, use in ANY directory (see tasks/DISTRIBUTION.md)
-uv tool install .                        # gives a global, isolated `harness` on PATH
-harness doctor                           # where is the tool home / catalog / config?
-harness self-update                      # refresh the tool's own catalog from packaged defaults
-harness refresh                          # self-update loop (M5): pulls sources as PROPOSALS only
+# agent-native consumption (no install): point an assistant at this repo + a task goal,
+# or call the CLI from the path:
+PYTHONPATH=src python -m harness_factory derive --task "…" --json
+harness skill                            # print the agent load-index; `harness skill M4` prints a module
+harness capabilities                     # the requirement -> capability -> modules map
+
+# profile a target project + learn from it (observe-only, project -> factory)
+harness profile --project ./myproj --goal "…"   # -> updates/profile/<slug>.{json,md}
+harness derive  --task "…" --project ./myproj   # adapts the harness to the project (weak domain hint)
+harness learn   --task "…" --project ./myproj   # record a case -> updates/cases.jsonl
+harness cases                                   # aggregate learned cases
+
+# self-update loop (M5): pulls sources as PROPOSALS only
 harness refresh --provider all --intel   # file + tracked feeds + (LLM if configured) -> intel
 harness refresh-apply --accept 0 2601.12345   # human gate -> proposals
 
@@ -62,9 +70,25 @@ MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (Nature/Science/NeurIPS
 **people** (Karpathy, Ilya, LeCun, Hassabis, …) and **self-media** (Substack/YouTube/newsletters).
 Feeds are RSS/Atom; YouTube `@handle` pages are resolved to channel feeds on the fly.
 
-**Two roots.** The **tool home** (catalogs, corpus, refresh output) lives in user space
+**Agent-native first · 面向 agent 的用法.** The most flexible way to use this is to **point a
+vibe-coding assistant (Claude Code / opencode / Cursor / …) at this repository plus a task goal**.
+Read [`SKILL.md`](SKILL.md) first: it carries the cardinal rules, a load-index, the output contract,
+and the provenance requirement, so the assistant can derive and emit the harness itself — no install.
+The deterministic CLI (from the path) stays available when reproducibility matters. **Packaging
+(`uv tool install` / PyPI) is cancelled as a distribution channel** (rationale in
+`tasks/DISTRIBUTION.md` §8).
+
+**Requirement → harness, and mutual learning · 需求配置与相互学习.** Module selection is driven by a
+data-driven **capability map** (`data/capabilities.json`): a requirement (task features) matches
+capabilities, which annotate the enabled modules — new requirements are added by editing JSON, not code.
+And the tool **learns from every project it configures**: `profile` describes a target project
+(observe-only), `learn` records a case, and `evolution` turns a capability that keeps recurring into a
+human-gated proposal. Projects teach the factory; the factory's next harness is better.
+
+**Two roots.** The **tool home** (catalogs, corpus, cycle output) lives in user space
 (`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`), so the tool runs from any
-directory. Each **target project** receives its generated files via `init --out`.
+directory. Each **target project** receives its generated files via `init --out` (or from the agent, at
+L0). In path mode the home is optional.
 
 **Design stance.** The compiler only *classifies, selects, and emits* — it never fabricates task substance (M0.4). Every derivation is logged in `.harness/manifest.json`. The refresh loop is *observe-only*: it audits/counts/ranks and writes proposals under `updates/`; a human merges (M0.8). See `tasks/PLAN.md` for architecture and `tasks/REFRESH.md` for the self-update loop and scheduling.
 
@@ -75,15 +99,18 @@ directory. Each **target project** receives its generated files via `init --out`
 ```
 harness_factory/
 ├── README.md                      ← 本文件：定位 · 结构 · 用法
+├── SKILL.md                        agent-native entry (cardinal rules + load-index + contract)
 ├── introduction.md                简介：是什么 · 心智模型 · Quickstart
-├── pyproject.toml                 packaging (console script `harness`)
+├── pyproject.toml                 dev/CI convenience only (packaging cancelled as a channel)
 ├── refresh.ps1                    scheduler entry for the self-update loop
-├── src/harness_factory/           the tool: spec·derive·classify·assemble·check·collect·curate·journal·extract·evolution·refresh·cli
-│   ├── data/                      modules.json · domains.json · watchlist.json · sources.json
-│   └── templates/                 emitted harness files (AGENTS.md · tasks/* · .harness/*)
+├── install-skill.ps1              optional: copy repo-as-skill into a skills dir
+├── reference/derivation-rules.md  markdown mirror of the rule table (for L0 agents)
+├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·refresh·skill·cli
+│   ├── data/                      modules.json · capabilities.json · domains.json · watchlist.json · sources.json
+│   └── templates/                 emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
 ├── tests/                         stdlib unittest (no deps)
 ├── tasks/                         PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md
-├── updates/                       cycle output (queue · REPORT · JOURNAL · proposals · INTEL · EVOLUTION · metrics)
+├── updates/                       cycle output (queue · REPORT · JOURNAL · INTEL · EVOLUTION · metrics · cases · profile · proposals)
 ├── core/                          ← 跨域通用主干（可移植到任何项目）
 │   ├── 00-index.md                核心索引 + 阅读顺序
 │   ├── 01-meta-principles.md      十条承重不变式（先读）
@@ -121,6 +148,12 @@ harness_factory/
 3. **Assemble** — the domain file names which `core/*` modules it composes and in what order; apply them as an operating manual.
 4. **Gate** — run the domain's Definition-of-Done gates before claiming anything is done (`core/04`).
 5. **Evolve** — end every work session with the `core/06` loop: harvest what the session taught and route it back into the harness.
+
+**Agent-native workflow (recommended).** Instead of (or in addition to) driving the CLI yourself, point
+a coding assistant at this repo and give it a task goal. The assistant reads [`SKILL.md`](SKILL.md), loads
+only the modules it needs via the load-index (`harness skill`), derives with `reference/derivation-rules.md`
++ the `data/*.json` catalogs, emits the output contract into the target project, and records provenance in
+`.harness/PROVENANCE.md`. It can also `profile`/`learn` the project so the factory keeps improving.
 
 ---
 

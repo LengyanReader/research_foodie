@@ -11,6 +11,7 @@ from __future__ import annotations
 import datetime as _dt
 
 from ._version import __version__
+from .capabilities import annotate as _annotate_capabilities
 from .registry import modules as _modules
 from .spec import FeatureVector, HarnessPlan, ModulePlan, TaskSpec, _at_least
 
@@ -172,10 +173,12 @@ def derive(task: TaskSpec, features: FeatureVector) -> HarnessPlan:
         )
 
     created = _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).isoformat()
-    return HarnessPlan(
+    plan = HarnessPlan(
         task=task,
         features=features,
         modules=mods,
         version=__version__,
         created=created,
     )
+    plan.capabilities = _annotate_capabilities(plan)
+    return plan

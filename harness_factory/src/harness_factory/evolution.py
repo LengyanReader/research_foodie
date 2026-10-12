@@ -17,6 +17,7 @@ import datetime as _dt
 import hashlib
 import json
 import re
+from collections import Counter
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -65,9 +66,11 @@ def snapshot(
     sources: dict[str, Any],
     watchlist: dict[str, Any],
     intel_items: list[Any] | None = None,
+    cases: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Compute observable metrics for one evolution tick."""
     intel_items = intel_items or []
+    cases = cases or []
     entities = iter_entities(sources)
     groups: dict[str, int] = {}
     for group, _entity in entities:
@@ -84,6 +87,7 @@ def snapshot(
         "uncovered_topics": uncovered,
         "topic_coverage": round(coverage, 3),
         "intel_items": len(intel_items),
+        "cases": len(cases),
     }
 
 
@@ -94,8 +98,9 @@ def audit(
     seen_entities: set[str] | None = None,
     metrics: dict[str, Any] | None = None,
     queue_rows: list[dict[str, Any]] | None = None,
+    cases: list[dict[str, Any]] | None = None,
 ) -> list[Audit]:
-    """Detect structural gaps from the registry + this run's intel + accepted queue."""
+    """Detect structural gaps from the registry + this run's intel + accepted queue + cases."""
     metrics = metrics or snapshot(sources, watchlist, intel_items)
     out: list[Audit] = []
 
@@ -134,6 +139,25 @@ def audit(
                         "untracked_source",
                         host,
                         f"Accepted candidate from untracked source '{host}'.",
+                        "medium",
+                    )
+                )
+
+    # Mutual learning: a project capability that recurs but is absent from the map.
+    if cases:
+        from .capabilities import capability_ids
+
+        known = set(capability_ids())
+        counts: Counter[str] = Counter()
+        for case in cases:
+            counts.update(set(case.get("project_capabilities", [])))
+        for cap, n in sorted(counts.items()):
+            if n >= 2 and cap not in known:
+                out.append(
+                    Audit(
+                        "missing_capability",
+                        cap,
+                        f"Project capability '{cap}' recurs in {n} cases but is not in the capability map.",
                         "medium",
                     )
                 )
@@ -188,6 +212,20 @@ def propose(audits: list[Audit]) -> list[Proposal]:
                     a.severity,
                 )
             )
+        elif a.kind == "missing_capability":
+            out.append(
+                Proposal(
+                    _pid("add_capability", a.subject),
+                    "add_capability",
+                    a.subject,
+                    {
+                        "capability": a.subject,
+                        "suggest": "Add this recurring project capability to data/capabilities.json.",
+                    },
+                    a.detail,
+                    a.severity,
+                )
+            )
     return out
 
 
@@ -219,6 +257,7 @@ def run_evolution(
     watchlist: dict[str, Any],
     intel_items: list[Any] | None = None,
     queue_rows: list[dict[str, Any]] | None = None,
+    cases: list[dict[str, Any]] | None = None,
     dry_run: bool = False,
 ) -> dict[str, Any]:
     """One full evolution tick; returns a summary (no catalogs touched)."""
@@ -227,9 +266,13 @@ def run_evolution(
         intel_items = load_intel(root)
     if queue_rows is None:
         queue_rows = load_queue(root / "updates" / "queue.jsonl")
+    if cases is None:
+        from .learning import load_cases
 
-    metrics = snapshot(sources, watchlist, intel_items)
-    audits = audit(sources, watchlist, intel_items, _seen(intel_items), metrics, queue_rows)
+        cases = load_cases(root)
+
+    metrics = snapshot(sources, watchlist, intel_items, cases)
+    audits = audit(sources, watchlist, intel_items, _seen(intel_items), metrics, queue_rows, cases)
     proposals = propose(audits)
 
     created = _now()

@@ -41,14 +41,19 @@ merge. See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/0
 ```bash
 cd harness_factory
 
-# derive + scaffold a harness for any task (rules over M0–M8; optional LLM assist)
+# fastest path: point your vibe-coding assistant at this repo + a task goal.
+# It reads SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
+PYTHONPATH=src python -m harness_factory derive --task "write a literature review with citations"
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
 harness check  --dir ./my-task
+harness skill                            # agent load-index; `harness skill M4` prints a module
+harness capabilities                     # requirement -> capability -> modules map
 
-# install once, use from ANY directory
-uv tool install .
-harness doctor
+# profile + learn from a real project (observe-only, project -> factory)
+harness profile --project ./myproj --goal "…"
+harness learn   --task "…" --project ./myproj   # -> updates/cases.jsonl
+harness cases
 
 # self-update + intel + self-evolution (all human-gated, all reversible)
 harness refresh --provider all --intel   # tracked sources -> proposals + updates/INTEL.md
@@ -57,13 +62,18 @@ harness evolve                           # coverage/gap audit -> updates/EVOLUTI
 harness evolve-apply --accept <id|target>
 ```
 
+**Consumption modes.** L0 — an assistant reads `SKILL.md` + `core/` + `data/*.json` and derives itself
+(no install); L1 — run the CLI from the path (`PYTHONPATH=src python -m harness_factory …`);
+L2 — an installed package. **L2 (packaging) is cancelled as a distribution channel** — see
+[`harness_factory/tasks/DISTRIBUTION.md`](harness_factory/tasks/DISTRIBUTION.md) §8.
+
 **Two roots.** The **tool home** (catalogs, corpus, cycle output) lives in user space
 (`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`); each **target project** receives
-its generated files via `init --out`.
+its generated files via `init --out` (or directly from the agent). In path mode the home is optional.
 
-> 中文速览：`harness derive/init/check` 面向「任意任务 → 所需 harness」；`refresh/intel/evolve` 是
-> **观察式、人工确认、可回退**的自我更新与自演化循环。安装用 `uv tool install .`，工具数据放在用户目录，
-> 从任意目录都能调用。
+> 中文速览：最灵活用法是**把 vibe-coding 助手指向本仓库 + 任务目标**，助手读 `SKILL.md` 自行推导并落盘
+> harness（免安装）；需要可复现时再用**路径调用 CLI** 的 L1 模式。`profile/learn/cases` 让工厂**从项目中学习**；
+> 打包（`uv tool install`/PyPI）作为分发渠道**已取消**。
 
 ---
 
@@ -72,12 +82,14 @@ its generated files via `init --out`.
 ```
 harness_factory/          the project (start at its README)
 ├── README.md             定位 · 结构 · 用法
+├── SKILL.md              agent-native entry (cardinal rules + load-index + output contract)
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
+├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
 ├── domains/               科研 / 知识管理 / 数据科学 / DevOps 四域编排
 ├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
 ├── sources/               提炼溯源表（模式 ← 一手材料）
-├── src/harness_factory/   工具源码 + data/（modules·domains·watchlist·sources.json）+ templates/
+├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·watchlist·sources.json）+ templates/
 ├── tests/                 标准库 unittest（无外部依赖）
 ├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
 └── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）
@@ -92,6 +104,7 @@ See [`harness_factory/README.md`](harness_factory/README.md) for the full docume
 | What you want | Where |
 |---|---|
 | Positioning, layout, usage | [`harness_factory/README.md`](harness_factory/README.md) |
+| **Use directly from an agent (L0)** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md), `harness_factory/reference/derivation-rules.md` |
 | Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | Core harness invariants | `harness_factory/core/01-meta-principles.md` |
 | Domain playbooks | `harness_factory/domains/*/README.md` |

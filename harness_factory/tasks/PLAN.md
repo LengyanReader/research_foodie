@@ -30,7 +30,11 @@
 - `harness sources` — list tracked entities (projects/harnesses/venues/people/media).
 - `harness intel` — pull tracked RSS/Atom/YouTube feeds → `updates/INTEL.md` (scored, tagged; optional LLM brief).
 - `harness evolve` / `harness evolve-apply` — self-evolution audit → mutation proposals → human gate.
-- Deterministic rule engine over M0–M8 + 4 domains + general.
+- `harness skill [<name>]` — print the agent load-index (or one module/doc) so a vibe-coding
+  assistant pointed at this path can consume the factory as an agent-native skill (no install).
+- `harness profile --project DIR` — scan a target project → `PROFILE.md` + capabilities (observe-only).
+- `harness learn` / `harness cases` — record / review learned project cases (project → factory learning).
+- Deterministic rule engine over M0–M8 + capability map + 4 domains + general.
 - Optional LLM classifier (off by default; plugs in via env config).
 
 **Out of scope (later phases).**
@@ -54,8 +58,10 @@ harness_factory/
       domains.json    domain catalog (research, knowledge-management, data-science, devops, general)
       watchlist.json  refresh topics + frontier probes (M5 signal source)
       sources.json    tracked entities (projects/harnesses/venues/people/media) + feeds
-    derive.py      FeatureVector -> HarnessPlan   (explainable rule table)
+      capabilities.json  requirement -> capability -> modules map (extensible, data-driven)
+    derive.py      FeatureVector -> HarnessPlan   (explainable rule table + capability annotation)
     classify.py    task text -> FeatureVector      (rules; optional LLM)
+    capabilities.py  load capability map; match(features) -> active capabilities + module reasons
     llm.py         OpenAI-compatible classify + discover + summarize (stdlib urllib), env-gated
     render.py      tiny {{key}} template engine (no deps)
     assemble.py    HarnessPlan -> files on disk
@@ -65,13 +71,18 @@ harness_factory/
     journal.py     refresh: report / queue / proposal writers (append-only journal)
     extract.py     intel: candidates -> scored intel (INTEL.md + intel.jsonl)
     evolution.py   self-evolution: snapshot -> audit -> proposal -> journal + metrics; apply gate
+    profile.py     project scan -> ProjectProfile (stacks/capabilities) + PROFILE.md (observe-only)
+    learning.py    project cases: record / load / aggregate (project -> factory mutual learning)
     refresh.py     refresh: orchestrate signal->audit->proposal->journal; apply gate; watermark
-    cli.py         argparse: derive / init / explain / check / refresh / refresh-apply / sources / intel / evolve / evolve-apply / doctor / self-update
+    cli.py         argparse: derive / init / explain / check / profile / skill / refresh / refresh-apply / sources / intel / evolve / evolve-apply / learn / cases / doctor / self-update
     __main__.py    python -m harness_factory
-    templates/     AGENTS.md, tasks/*, .harness/*, check.py
+    templates/     AGENTS.md, tasks/*, .harness/* (incl. PROVENANCE.md), check.py
+  SKILL.md         agent-native entry point (cardinal rules + load-index + output contract)
+  reference/       derivation-rules.md (markdown mirror of the rule table, for L0 agents)
+  install-skill.ps1  copy repo-as-skill into a skills dir (optional global install)
   tests/           stdlib unittest (no deps)
   tasks/           PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md
-  updates/         cycle output (queue.jsonl · REPORT.md · JOURNAL.md · INTEL.md · EVOLUTION.md · metrics.jsonl · proposals/)
+  updates/         cycle output (queue.jsonl · REPORT.md · JOURNAL.md · INTEL.md · EVOLUTION.md · metrics.jsonl · cases.jsonl · profile/ · proposals/)
 ```
 
 ## Derivation model · 推导模型
@@ -96,6 +107,25 @@ harness_factory/
 - `memory_depth`: session if horizon = session; durable if ≥ multi_session.
 - `evolution_cadence`: per_session if multi_session; periodic if long_running.
 
+## Consumption model · 消费形态（P1.8）
+
+| Level | Form | Install | Determinism | Use |
+|---|---|---|---|---|
+| **L0** agent-native | assistant reads `SKILL.md` + `core/` + `data/*.json`, derives itself | none | model-dependent | any file-reading Vibe-coding assistant |
+| **L1** CLI-from-path | `PYTHONPATH=<path>/src python -m harness_factory derive …` | none | high | reproducible without install |
+| **L2** installed | `uv tool install` → `harness …` | yes | high | **cancelled as a distribution channel** |
+
+### Requirement → harness mechanism · 需求配置机制
+`requirement → FeatureVector (rules/LLM) → capability match (data/capabilities.json) → modules + params`.
+Capabilities are data-driven entries `{id, title_en/zh, when, modules, why}`; new requirements are added by
+editing JSON, not code. The derivation always records which capability and which rule fired.
+
+### Mutual learning · 相互学习
+`project → profile (observe-only) → case (features+capabilities+modules) → updates/cases.jsonl`.
+`evolution` audits cases: a capability recurring across projects but missing from the registry becomes a
+`missing_capability` proposal (human-gated) — projects teach the factory, the factory's next harness is
+better, and capabilities discovered in one project become reusable options for others.
+
 ## Milestones · 里程碑
 
 - **P0 (done):** pattern library (`core/`, `domains/`, `review/`, `sources/`).
@@ -103,6 +133,7 @@ harness_factory/
 - **P1.5 (done):** self-update loop (M5) — `refresh`/`refresh-apply`, watchlist, curate, journal, scheduler, tests.
 - **P1.6 (done):** cross-project packaging — user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; `uv tool install`.
 - **P1.7 (done):** intel tracking (`sources.json`, feed/YouTube collection, `extract.py`) + self-evolution (`evolution.py`, metrics, proposal gate); CLI `sources`/`intel`/`evolve`/`evolve-apply`; run watermark.
+- **P1.8 (active):** agent-native mode + project learning. **Cancel packaging as a distribution channel** (PyPI/`uv tool install`); primary = agent-native skill (`SKILL.md` + `harness skill`) + CLI-from-path (L1). Data-driven **capability mechanism** (`capabilities.json`), **project profile/能力提炼** (`profile.py`), **mutual learning** (`learning.py` cases + `missing_capability` audit).
 - **P2:** LLM-assisted discovery/classification hardening + more domains + feed/entity coverage expansion.
 - **P3:** emitted-harness runtime hooks (gate runner, signal harvest).
 - **P4:** plugin protocol for new domains/templates.

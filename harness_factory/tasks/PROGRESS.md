@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-12 — P1.8: agent-native mode + project learning (done)
+- **Agent-native (L0/L1).** Added `SKILL.md` (front-matter + 4 cardinal rules + load-index + output contract + provenance requirement), `reference/derivation-rules.md`, `install-skill.ps1` (optional copy into a skills dir), and `skill.py` (`index`/`find`/`read`); CLI **`skill`** prints the load-index (`harness skill M4` prints one module). An assistant pointed at the repo + a task goal derives and emits the harness itself — no install.
+- **Capability mechanism (requirement → harness).** `data/capabilities.json` (10 capabilities) + `capabilities.py` (feature match → annotate enabled modules); `spec.HarnessPlan.capabilities`; `derive` annotates. New requirements are added by editing JSON, not code. CLI **`capabilities`**.
+- **Project profiling + mutual learning (project → factory).** `profile.py` scans a target project (stacks, tests/packaging, structure; observe-only) → `updates/profile/<slug>.{json,md}`; `learning.py` records **cases** (`updates/cases.jsonl`) and aggregates them. CLI **`profile`**, **`learn`**, **`cases`**; `--project` on `derive`/`init` wires a weak domain hint + optional `.harness/PROFILE.md`.
+- **Evolution from cases.** `evolution.audit` gains `missing_capability` (a project capability recurring ≥2× but absent from the registry); `propose` emits an `add_capability` proposal; `run_evolution` loads cases via `learning.load_cases` (human-gated).
+- **Provenance output.** `assemble` always emits `.harness/PROVENANCE.md` (derivation record; mark unverified); `AGENTS.md.tmpl` gains a capabilities section.
+- **Packaging cancelled.** Locked with user: L0/L1 only; PyPI / `uv tool install` / pipx / zipapp / MCP dropped as distribution channels (`pyproject.toml` kept as dev/CI convenience). Decision in `tasks/DISTRIBUTION.md` §8; PLAN new consumption-model + requirement→harness + mutual-learning sections.
+- **Docs synced.** `harness_factory/README.md`, root `README.md` + `README.zh-CN.md`, `introduction.md` (§9 agent-native & learning; §10 roadmap P1.8).
+- **Tests:** +9 (`test_agent_mode.py`: skill index/read, capabilities match/annotate, profile scan, learning case roundtrip, mutual-learning missing_capability) → **71** passing.
+
 ## 2026-10-12 — Coverage-gap closure (feeds · watermark · discovery loop · CI · tests)
 - **Feed coverage:** probed + wired RSS/Atom feeds across the registry — **47/59 entities** now tracked (was ~20). `releases.atom` vs `commits.atom` chosen per repo; YouTube `@handle` → channel feed resolved and verified. 12 remain feedless by the honesty rule (no legitimate feed: ICML/ICLR/ACL/EMNLP/TMLR pages; a few people sites).
 - **Watermark:** `refresh` persists the effective `since` to `updates/state.json` (`load_state`/`save_state`); repeated cycles surface only new items without re-passing `--since`.

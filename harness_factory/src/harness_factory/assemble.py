@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .capabilities import capabilities as _capabilities
 from .registry import domains as _domains
 from .render import render_template
 from .spec import HarnessPlan
@@ -20,9 +21,11 @@ _TEMPLATE_MAP = {
     ".harness/ledger.md": "ledger.md.tmpl",
     ".harness/skills/README.md": "skills_README.md.tmpl",
     ".harness/decisions.md": "decisions.md.tmpl",
+    ".harness/PROVENANCE.md": "PROVENANCE.md.tmpl",
 }
 
 _MANIFEST = ".harness/manifest.json"
+_PROFILE = ".harness/PROFILE.md"
 
 
 def _enabled(plan: HarnessPlan, module_id: str) -> bool:
@@ -36,6 +39,7 @@ def _selected_files(plan: HarnessPlan) -> list[str]:
         "tasks/PROGRESS.md",
         ".harness/gates.md",
         ".harness/check.py",
+        ".harness/PROVENANCE.md",
     ]
     if _enabled(plan, "M2"):
         names.append(".harness/ledger.md")
@@ -56,6 +60,18 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     modules_table = "\n".join(
         f"| {m.module_id} | {m.title_en} / {m.title_zh} | {m.rule_en} |" for m in enabled
     )
+    modules_reasons_table = "\n".join(
+        f"| {m.module_id} | {m.title_en} / {m.title_zh} | {m.rule_en} | {'; '.join(m.reasons)} |"
+        for m in enabled
+    )
+    cap_catalog = _capabilities()
+    cap_rows = []
+    for cid in plan.capabilities:
+        meta = cap_catalog.get(cid, {})
+        title = meta.get("title_en", cid)
+        cap_rows.append(f"| {cid} | {title} — {meta.get('why', '')} |")
+    capabilities_table = "\n".join(cap_rows) or "| _(none matched)_ | |"
+    capabilities_line = ", ".join(plan.capabilities) or "(none)"
     workflow = domain_meta.get("workflow", [])
     workflow_list = "\n".join(f"{i + 1}. {step}" for i, step in enumerate(workflow))
 
@@ -97,6 +113,10 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
         ),
         "modules_line": modules_line,
         "modules_table": modules_table,
+        "modules_reasons_table": modules_reasons_table,
+        "capabilities_line": capabilities_line,
+        "capabilities_table": capabilities_table,
+        "profile_note": "",
         "workflow_list": workflow_list,
         "gate_strictness": gates_strict,
         "hard_gates": "\n".join(hard_gates),
@@ -130,12 +150,20 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def build_files(plan: HarnessPlan) -> dict[str, str]:
-    """Return ``{relative_path: content}`` for the whole harness."""
+def build_files(plan: HarnessPlan, extra: dict[str, str] | None = None) -> dict[str, str]:
+    """Return ``{relative_path: content}`` for the whole harness.
+
+    ``extra`` may inject optional artifacts (e.g. ``{"profile_md": ...,
+    "profile_note": ...}``), used when a project profile is attached.
+    """
+    extra = extra or {}
     params = plan.params()
     ctx = _context(plan, params)
+    ctx["profile_note"] = extra.get("profile_note", "")
 
     names = _selected_files(plan)
+    if extra.get("profile_md"):
+        names = sorted([*names, _PROFILE])
     plan.files = names
     ctx["files_list"] = "\n".join(f"- `{name}`" for name in names)
 
@@ -143,20 +171,28 @@ def build_files(plan: HarnessPlan) -> dict[str, str]:
     for name in names:
         if name == _MANIFEST:
             continue
+        if name == _PROFILE:
+            files[name] = extra["profile_md"]
+            continue
         files[name] = render_template(_TEMPLATE_MAP[name], ctx)
 
     files[_MANIFEST] = json.dumps(plan.to_dict(), ensure_ascii=False, indent=2) + "\n"
     return files
 
 
-def write_harness(plan: HarnessPlan, out_dir: str | Path, force: bool = False) -> list[str]:
+def write_harness(
+    plan: HarnessPlan,
+    out_dir: str | Path,
+    force: bool = False,
+    extra: dict[str, str] | None = None,
+) -> list[str]:
     """Write the harness to ``out_dir``; return the written paths.
 
     Checks all destinations before writing anything, so a collision leaves the
     tree untouched.
     """
     out = Path(out_dir)
-    files = build_files(plan)
+    files = build_files(plan, extra=extra)
 
     if not force:
         clashes = [name for name in files if (out / name).exists()]

@@ -27,14 +27,21 @@
 ```bash
 cd harness_factory
 
+# 最灵活：把 vibe-coding 助手指向本仓库 + 任务目标，读 SKILL.md 自行推导（免安装）
+# 或走确定性路径（同样免安装）：
+PYTHONPATH=src python -m harness_factory derive --task "…" --json
+
 # 任意任务 → 生成 harness（规则 M0–M8；可选 LLM 辅助）
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out 默认 ./<slug>
 harness check  --dir ./my-task
 
-# 安装一次，任意目录可用
-uv tool install .
-harness doctor
+# 面向 agent 的助手命令 + 项目画像/学习（观察式）
+harness skill                            # agent 加载索引；`harness skill M4` 打印某模块
+harness capabilities                     # 需求 → 能力 → 模块 映射
+harness profile --project ./myproj --goal "…"   # → updates/profile/<slug>.{json,md}
+harness learn   --task "…" --project ./myproj   # → updates/cases.jsonl
+harness cases
 
 # 自我更新 + 情报提取 + 自演化（全部人工确认、可回退）
 harness refresh --provider all --intel   # 跟踪来源 → 提案 + updates/INTEL.md
@@ -43,21 +50,27 @@ harness evolve                           # 覆盖/缺口审计 → updates/EVOLU
 harness evolve-apply --accept <id|target>
 ```
 
+**消费层级。** **L0**——助手读 `SKILL.md` + `core/` + `data/*.json` 自行推导（最灵活、免安装）；
+**L1**——不安装，直接路径调用 CLI（`PYTHONPATH=src python -m harness_factory …`，确定性）；
+**L2**——安装包，作为**分发渠道已取消**（理由见 `harness_factory/tasks/DISTRIBUTION.md` §8）。
+
 **两个根。** **工具主目录**（目录库、语料、循环产物）位于用户空间
 （`%LOCALAPPDATA%\harness-factory`，可用 `HARNESS_HOME` 覆盖）；每个**目标项目**通过 `init --out`
-接收生成文件。
+接收生成文件。路径/L0 模式下主目录是可选的。
 
 ## 结构
 
 ```
 harness_factory/          项目主体（先读其 README）
 ├── README.md             定位 · 结构 · 用法
+├── SKILL.md              agent 入口（硬规则 + 加载索引 + 输出契约）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
+├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
 ├── domains/               科研 / 知识管理 / 数据科学 / DevOps 四域编排
 ├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
 ├── sources/               提炼溯源表（模式 ← 一手材料）
-├── src/harness_factory/   工具源码 + data/（modules·domains·watchlist·sources.json）+ templates/
+├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·watchlist·sources.json）+ templates/
 ├── tests/                 标准库 unittest（无外部依赖）
 ├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
 └── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）
@@ -70,6 +83,7 @@ harness_factory/          项目主体（先读其 README）
 | 想要什么 | 去哪里 |
 |---|---|
 | 定位、结构、用法 | [`harness_factory/README.md`](harness_factory/README.md) |
+| **agent 直接使用（L0）** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md)、`harness_factory/reference/derivation-rules.md` |
 | 心智模型 + 快速上手 | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | 核心 harness 不变式 | `harness_factory/core/01-meta-principles.md` |
 | 各域 playbook | `harness_factory/domains/*/README.md` |

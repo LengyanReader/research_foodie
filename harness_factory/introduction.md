@@ -1,6 +1,6 @@
 # Introduction · harness-factory 简介
 
-**Updated:** 2026-10-12 · **Status:** working tool (P1 + P1.5) · **Version:** 0.1.0 · **License:** MIT
+**Updated:** 2026-10-12 · **Status:** working tool (P1.8) · **Version:** 0.1.0 · **License:** MIT
 
 > **Give any task the agent harness it needs — and keep that know-how current.**
 > 为任意任务生成它所需的 agent harness，并让这套 know-how 持续自我更新。
@@ -11,13 +11,13 @@
 
 **一句话。** `harness-factory` 把「**任务**」编译成该任务所需的 **agent harness**（上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 工具/技能 · 变更治理 · 协作协议），并用一个受人类把关的**自我更新循环**让这套知识库不被冻结。
 
-**它是什么。** 一个可安装的 **Python 命令行工具 `harness`**，外加一套跨域提炼的 **harness 模式库**（`core/`、`domains/`、`review/`）。工具与知识库在同一个仓库里：`core/` 定义「有哪些模式」，`data/*.json` 是机器可读目录，`src/` 是编译器。
+**它是什么。** 一套跨域提炼的 **harness 模式库**（`core/`、`domains/`、`review/`）+ 一个把任务**编译成 harness** 的工具。工具既可由 **vibe-coding 助手直接读取（L0，免安装）**，也可用 CLI **从仓库路径调用（L1）**；打包分发（L2）已取消。
 
 **它怎么工作。** `task → 特征向量 → 选模块 → 生成脚手架`。任务被归约为 8 个特征轴，规则据其启用 M0–M8 模块并推导参数；每一步的选择与理由写入 `.harness/manifest.json`，可解释、可复核。
 
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容，绝不自动改写正文，破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
-**怎么用。** `harness init --task "…" --out <目录>` 在**任意目录**生成 harness；`harness check` 校验；`harness refresh` 定期抓取新前沿工作（只出提案）。
+**怎么用。** 把 vibe-coding 助手指向本仓库 + 任务目标，它读 `SKILL.md` 自行推导并落盘 harness；或用 `harness init --task "…" --out <目录>` 在**任意目录**生成；`harness check` 校验；`harness profile/learn` 让它**从目标项目中学习**；`harness refresh/evolve` 定期抓取新前沿工作（只出提案）。
 
 ---
 
@@ -38,7 +38,7 @@ Two halves, one repository:
 | **Pattern library** (knowledge) | `core/`, `domains/`, `review/`, `sources/` | Domain-neutral harness patterns + domain compositions + literature review, all sourced. |
 | **Compiler & loop** (tool) | `src/harness_factory/` | Classify → derive → assemble → check, plus the self-update loop. |
 
-The library is *readable by humans*; the tool is *executable by agents*. `data/modules.json` and `data/domains.json` are the single machine-readable bridge between them (M0.5).
+The library is *readable by humans*; the tool is *executable by agents*. `data/modules.json`, `data/domains.json`, and `data/capabilities.json` are the single machine-readable bridge between them (M0.5).
 
 ---
 
@@ -86,11 +86,10 @@ The library is *readable by humans*; the tool is *executable by agents*. `data/m
 ## 4. Quickstart · 快速上手
 
 ```bash
-# install once, use in ANY directory (see tasks/DISTRIBUTION.md for the evaluation)
-uv tool install .        # global, isolated `harness` on PATH
-# (development: `uv run python -m harness_factory ...` against src/)
-
-harness doctor           # show the tool home / catalog / config / LLM status
+# 0. Agent-native (L0): point a coding assistant at this repo + a task goal.
+#    It reads SKILL.md and derives/emits the harness itself — no install.
+#    Deterministic path (L1), no install either:
+PYTHONPATH=src python -m harness_factory derive --task "…" --json
 
 # 1. See the plan for a task (explainable: which rule fired, and why)
 harness derive --task "write a literature review with citations over several weeks"
@@ -102,6 +101,13 @@ harness check --dir C:\work\parser-task        # gate: manifest + no placeholder
 
 # 3. Explain an emitted harness later
 harness explain --dir C:\work\parser-task
+
+# 3b. Agent-native helpers + project profiling / learning (observe-only)
+harness skill                       # agent load-index; `harness skill M4` prints a module
+harness capabilities                # requirement -> capability -> modules map
+harness profile --project C:\work\parser-task --goal "…"   # -> <home>/updates/profile/
+harness learn   --task "…" --project C:\work\parser-task   # -> <home>/updates/cases.jsonl
+harness cases                       # aggregate learned cases
 
 # 4. Self-update the knowledge base (proposals only; writes to the tool home)
 harness self-update                  # refresh the tool's own catalog from packaged defaults
@@ -116,7 +122,12 @@ harness evolve                       # coverage/gap audit -> <home>/updates/EVOL
 harness evolve-apply --accept <id|target>    # human gate -> <home>/updates/accepted.json
 ```
 
-**Two roots.** The **tool home** (`%LOCALAPPDATA%`\harness-factory on Windows, overridable via `HARNESS_HOME`) holds catalogs, corpus, and refresh output, so the tool works from any directory. Each **target project** receives its generated files via `init --out`.
+**Consumption modes.** **L0** — the assistant reads `SKILL.md` + `core/` + `data/*.json` and derives
+itself (most flexible, no install). **L1** — run the CLI from the path without installing
+(`PYTHONPATH=src python -m harness_factory …`; deterministic). **L2** — an installed package; this is
+**cancelled as a distribution channel** (see `tasks/DISTRIBUTION.md` §8).
+
+**Two roots.** The **tool home** (`%LOCALAPPDATA%`\harness-factory on Windows, overridable via `HARNESS_HOME`) holds catalogs, corpus, and cycle output, so the tool works from any directory. Each **target project** receives its generated files via `init --out` (or directly from the agent). In path/L0 mode the home is optional.
 
 **Exit codes:** `init`/`check` return non-zero if the self-check gate fails, so they compose in CI.
 
@@ -131,12 +142,14 @@ harness evolve-apply --accept <id|target>    # human gate -> <home>/updates/acce
   AGENTS.md               operating manual for the task (bilingual)
   tasks/PLAN.md           plan-first scaffold
   tasks/PROGRESS.md       append-only progress log + handoff
-  .harness/manifest.json  the decision record: features, modules, reasons, files
+  .harness/manifest.json  the decision record: features, capabilities, modules, reasons, files
   .harness/gates.md       definition of done (hard/soft gates)
+  .harness/PROVENANCE.md  derivation record (which rule/capability fired; mark unverified)
   .harness/check.py       standalone self-check (stdlib only)
   .harness/ledger.md      (if M2) append-only state
   .harness/skills/README.md (if M6) progressive skill index
   .harness/decisions.md   (if M8) decision log
+  .harness/PROFILE.md     (if --project) read-only scan of the target project
 ```
 
 Every emitted file is plain Markdown/Python — no lock-in, no runtime dependency.
@@ -185,15 +198,42 @@ Start with `core/01-meta-principles.md` (the ten invariants). Then `core/00-inde
 
 ---
 
-## 9. Status & roadmap
+## 9. Agent-native mode & project learning · 面向 agent 与项目学习（P1.8）
+
+**Why.** The asset is the *knowledge + rules*, not the executable. The most flexible use is to let a
+vibe-coding assistant read the factory directly: point it at this repo + a task goal, and it derives and
+emits the harness itself. `SKILL.md` is the entry (cardinal rules + load-index + output contract);
+`reference/derivation-rules.md` is the agent-readable mirror of the rule table; `harness skill` prints the
+index. This removes install friction and works for any assistant (Claude Code / opencode / Cursor / …).
+
+**Capability mechanism (requirement → harness).** Module selection is driven by a data-driven **capability
+map** (`data/capabilities.json`): a requirement (task features) matches capabilities, which *annotate* the
+enabled modules and are recorded in the manifest. New requirements are added by editing JSON, not code, so
+the configuration mechanism is complete and extensible.
+
+**Mutual learning (project → factory).** When the tool configures a project it can also **distill it**:
+`profile` scans the target project (stacks, existing capabilities, structure — observe-only) and `learn`
+records a **case** (`updates/cases.jsonl`: features + capabilities + modules). `evolution` audits cases: a
+project capability that keeps recurring but is missing from the registry becomes a `missing_capability`
+proposal (human-gated). Projects teach the factory; capabilities discovered in one project become reusable
+options for others; the factory's next harness is better.
+
+**Packaging cancelled.** Installing a global command + maintaining a user-space KB is friction that does
+not match the intended use. L0/L1 suffice; `pyproject.toml` remains only as dev/CI convenience. Rationale
+and superseded decisions: `tasks/DISTRIBUTION.md` §8.
+
+---
+
+## 10. Status & roadmap
 
 - **P0 done** — pattern library.
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests.
 - **P1.5 done** — self-update loop (`refresh`/`refresh-apply`), watchlist, curate, journal, scheduler.
 - **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
 - **P1.7 done** — intel tracking (`data/sources.json`, 59 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
+- **P1.8 done** — agent-native mode (`SKILL.md`, `reference/derivation-rules.md`, `harness skill`) + project learning (`profile`/`learn`/`cases` + `missing_capability` audit) + capability mechanism (`data/capabilities.json`); packaging cancelled.
 - **P2** — LLM discovery/classification hardening; more domains; feed/entity coverage expansion.
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store.
-- **P4** — plugin protocol for third-party domains/templates; optional zipapp / MCP server.
+- **P4** — plugin protocol for third-party domains/templates.
 
 See `tasks/PLAN.md` (plan), `tasks/PROGRESS.md` (log), and `tasks/DISTRIBUTION.md` (packaging & tool-form evaluation).
