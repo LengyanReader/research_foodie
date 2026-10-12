@@ -106,8 +106,14 @@ harness explain --dir C:\work\parser-task
 # 4. Self-update the knowledge base (proposals only; writes to the tool home)
 harness self-update                  # refresh the tool's own catalog from packaged defaults
 harness refresh --dry-run            # collect + score, write nothing
-harness refresh --verify             # writes <home>/updates/{REPORT.md,queue.jsonl,JOURNAL.md}
+harness refresh --provider all --intel   # file + tracked feeds + LLM(opt) -> intel
 harness refresh-apply --accept 0 2601.12345   # human gate -> <home>/updates/proposals/
+
+# 5. Intel + self-evolution (tracked sources: labs, harnesses, venues, people, media)
+harness sources --group harnesses    # list every tracked entity (see data/sources.json)
+harness intel --since 2026-01-01     # pull tracked feeds -> <home>/updates/INTEL.md
+harness evolve                       # coverage/gap audit -> <home>/updates/EVOLUTION.md
+harness evolve-apply --accept <id|target>    # human gate -> <home>/updates/accepted.json
 ```
 
 **Two roots.** The **tool home** (`%LOCALAPPDATA%`\harness-factory on Windows, overridable via `HARNESS_HOME`) holds catalogs, corpus, and refresh output, so the tool works from any directory. Each **target project** receives its generated files via `init --out`.
@@ -145,8 +151,15 @@ The knowledge base must not freeze. `harness refresh` runs `signal → audit →
 - **Audit** drops anything without a traceable url/arXiv-id/DOI (M4) and dedupes against the existing `review/` corpus.
 - **Report** a bilingual `updates/REPORT.md` with **hot topics** (frequency × recency) and **coverage gaps** (declared topics with zero hits) — the cue for boundary expansion.
 - **Human gate:** `refresh-apply` only writes merge stubs to `updates/proposals/`; a human edits the catalogs. Nothing is auto-merged, and everything is reversible by deleting `updates/`.
+- **Watermark:** the effective `since` date is persisted to `updates/state.json`, so repeated cycles only surface *new* items without passing `--since` each time.
 
-Scheduling (weekly) is documented in `tasks/REFRESH.md` (Task Scheduler / cron / GitHub Actions).
+**Tracked entities (`data/sources.json`).** 59 entities across 5 groups — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, and **self-media** (newsletters/podcasts/YouTube). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
+
+**Intel (`harness intel`).** Pulls those feeds, scores relevance (topic keywords + entity mention + recency), tags by topic/entity, and writes a bilingual `updates/INTEL.md` + `updates/intel.jsonl`. Briefs are verbatim excerpts unless an LLM summary is configured (`llm.summarize`).
+
+**Self-evolution (`harness evolve`).** The structural loop **snapshot → audit → mutation-proposal → journal**: audits topic coverage, empty groups, stale entities, and accepted candidates from untracked sources; writes `updates/EVOLUTION.md` + `updates/evolution.jsonl` and appends a metric snapshot to `updates/metrics.jsonl`. `evolve-apply` accepts proposals into `updates/accepted.json` only (M0.8/M0.9).
+
+Scheduling (weekly): run `refresh.ps1` (now: refresh `--provider all --intel` then `evolve`); details in `tasks/REFRESH.md` (Task Scheduler / cron / GitHub Actions).
 
 ---
 
@@ -178,7 +191,8 @@ Start with `core/01-meta-principles.md` (the ten invariants). Then `core/00-inde
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests.
 - **P1.5 done** — self-update loop (`refresh`/`refresh-apply`), watchlist, curate, journal, scheduler.
 - **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
-- **P2** — LLM discovery/classification hardening; more domains.
+- **P1.7 done** — intel tracking (`data/sources.json`, 59 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
+- **P2** — LLM discovery/classification hardening; more domains; feed/entity coverage expansion.
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store.
 - **P4** — plugin protocol for third-party domains/templates; optional zipapp / MCP server.
 

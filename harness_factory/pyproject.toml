@@ -11,7 +11,23 @@ requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "harness_factory" }]
 keywords = ["agents", "harness", "scaffolding", "context-engineering"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/LengyanReader/research_foodie"
+Repository = "https://github.com/LengyanReader/research_foodie"
+Changelog = "https://github.com/LengyanReader/research_foodie/blob/main/CHANGELOG.md"
 
 [project.scripts]
 harness = "harness_factory.cli:main"

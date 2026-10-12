@@ -192,6 +192,23 @@ class EvolutionTest(unittest.TestCase):
             evolution.run_evolution(tmp, self._sources(), self._watchlist(), dry_run=True)
             self.assertFalse((Path(tmp) / "updates").exists())
 
+    def test_untracked_source_proposal(self):
+        src = {
+            "groups": {
+                "projects": [
+                    {"id": "p", "name": "P", "kind": "repo", "url": "https://known.example/x", "topics": ["agent-harness"], "feed": None}
+                ]
+            }
+        }
+        wl = {"cadence": "weekly", "topics": [{"id": "agent-harness"}]}
+        queue = [{"title": "t", "url": "https://newhost.example/a", "status": "accepted"}]
+        audits = evolution.audit(src, wl, [], queue_rows=queue)
+        self.assertIn("untracked_source", {a.kind for a in audits})
+        proposals = evolution.propose(audits)
+        self.assertTrue(
+            any(p.action == "add_source" and p.target == "newhost.example" for p in proposals)
+        )
+
 
 class RefreshIntelTest(unittest.TestCase):
     def test_refresh_writes_intel_under_root(self):

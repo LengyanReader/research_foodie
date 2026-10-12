@@ -109,6 +109,19 @@ class RefreshTest(unittest.TestCase):
         keys = known_keys([root / "review" / "references.md"])
         self.assertIn("2408.08435", keys)
 
+    def test_run_persists_watermark(self):
+        root = self._root()
+        run_refresh(root, providers=[file_provider(root / "updates" / "inbox.jsonl")])
+        state = json.loads((root / "updates" / "state.json").read_text(encoding="utf-8"))
+        self.assertEqual(state["since"], "2026-01-05")
+        self.assertIn("last_run", state)
+
+    def test_watermark_resumes_as_default_since(self):
+        root = self._root()
+        run_refresh(root, providers=[file_provider(root / "updates" / "inbox.jsonl")])
+        summary = run_refresh(root, providers=[])
+        self.assertEqual(summary["since"], "2026-01-05")
+
 
 if __name__ == "__main__":
     unittest.main()

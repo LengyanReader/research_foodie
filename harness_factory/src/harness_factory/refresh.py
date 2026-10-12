@@ -54,6 +54,24 @@ def load_sources(path: str | Path | None = None) -> dict[str, Any]:
     return json.loads(target.read_text(encoding="utf-8"))
 
 
+def load_state(root: str | Path) -> dict[str, Any]:
+    """Read the persisted run watermark (``updates/state.json``), or ``{}``."""
+    path = Path(root) / "updates" / "state.json"
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def save_state(root: str | Path, state: dict[str, Any]) -> None:
+    path = Path(root) / "updates" / "state.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def default_providers(
     inbox: str | Path,
     since: str | None,
@@ -104,9 +122,14 @@ def run_refresh(
     wl = watchlist or load_watchlist(watchlist_path)
     inbox_path = Path(inbox) if inbox else root / "updates" / "inbox.jsonl"
 
+    # Persisted watermark: unless --since is given, resume from the last run so
+    # repeated cycles only surface new items (M5 continuity).
+    state = load_state(root)
+    effective_since = since if since is not None else state.get("since")
+
     if providers is None:
         providers, names = default_providers(
-            inbox_path, since, max_items, discover, sources=sources, feed=feed
+            inbox_path, effective_since, max_items, discover, sources=sources, feed=feed
         )
     else:
         names = provider_names or ["custom"]
@@ -126,7 +149,7 @@ def run_refresh(
     if intel and sources is not None:
         intel_items = extract_intel(candidates, sources, wl, enrich=enrich)
 
-    run = {"created": _now(), "providers": names, "since": since, "dry_run": dry_run}
+    run = {"created": _now(), "providers": names, "since": effective_since, "dry_run": dry_run}
     summary = {
         "created": run["created"],
         "providers": names,
@@ -134,6 +157,7 @@ def run_refresh(
         "accepted": trend["accepted"],
         "rejected": trend["rejected"],
         "intel_items": len(intel_items),
+        "since": effective_since,
         "hot_topics": trend["hot_topics"],
         "coverage_gaps": trend["coverage_gaps"],
         "root": str(root),
@@ -147,6 +171,15 @@ def run_refresh(
     write_report(updates / "REPORT.md", audited, trend, wl, run)
     if intel and sources is not None:
         write_intel(root, intel_items, created=run["created"])
+
+    dates = sorted(c.published for c in candidates if c.published)
+    save_state(
+        root,
+        {
+            "last_run": run["created"],
+            "since": dates[-1] if dates else effective_since,
+        },
+    )
     append_journal(
         updates / "JOURNAL.md",
         [

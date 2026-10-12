@@ -1,26 +1,14 @@
-# External harness references (gitignored — not part of the doc repo)
-external/
-tools/.venv/
-tools/.venv-ocr/
-*_demo_downloads/
-
-# Python bytecode
+# Python bytecode / caches
 __pycache__/
 *.pyc
 
-# harness-factory archived (legacy) material — excluded from version control
-harness_factory/_archive/
-# harness-factory runtime output (refresh proposals/reports are regenerable)
-harness_factory/updates/
+# Local virtualenvs + build artifacts
+.venv/
+*.egg-info/
+build/
+dist/
 
-# Regenerable eval run artifacts
-_eval_out/*.log
-_eval_out/pools_cache/
-_eval_out/web_runs/
-# Knowledge-library derived index (regenerable via knowledge.sync(); files remain the source of truth)
-_eval_out/knowledge.db
-# Run-memory resume state (regenerated per run; resumed automatically on next launch)
-_eval_out/ledgers/
-# Self-evolution append-only streams (regenerated every cadence; keep unbounded growth out)
-_eval_out/feedback/
-_eval_out/evolution_log.jsonl
+# harness-factory archived (legacy) material - excluded from version control
+harness_factory/_archive/
+# harness-factory runtime output (proposals/reports/intel are regenerable)
+harness_factory/updates/

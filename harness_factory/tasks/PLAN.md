@@ -27,6 +27,9 @@
 - `harness refresh` — the self-update loop: pull new/leading sources, audit + dedupe
   against the corpus, rank, and write a bilingual report + queue (proposal only).
 - `harness refresh-apply` — human gate: accept queued candidates into merge stubs.
+- `harness sources` — list tracked entities (projects/harnesses/venues/people/media).
+- `harness intel` — pull tracked RSS/Atom/YouTube feeds → `updates/INTEL.md` (scored, tagged; optional LLM brief).
+- `harness evolve` / `harness evolve-apply` — self-evolution audit → mutation proposals → human gate.
 - Deterministic rule engine over M0–M8 + 4 domains + general.
 - Optional LLM classifier (off by default; plugs in via env config).
 
@@ -45,26 +48,30 @@ harness_factory/
   refresh.ps1                    scheduler entry (Task Scheduler / cron; see tasks/REFRESH.md)
   src/harness_factory/
     spec.py        TaskSpec · FeatureVector · ModulePlan · HarnessPlan (dataclasses)
+    config.py      tool home / catalog / corpus / updates resolution; seed catalog
     data/
       modules.json   module catalog M0–M8 (id, titles, rule)
       domains.json    domain catalog (research, knowledge-management, data-science, devops, general)
       watchlist.json  refresh topics + frontier probes (M5 signal source)
+      sources.json    tracked entities (projects/harnesses/venues/people/media) + feeds
     derive.py      FeatureVector -> HarnessPlan   (explainable rule table)
     classify.py    task text -> FeatureVector      (rules; optional LLM)
-    llm.py         OpenAI-compatible classify + discover (stdlib urllib), env-gated
+    llm.py         OpenAI-compatible classify + discover + summarize (stdlib urllib), env-gated
     render.py      tiny {{key}} template engine (no deps)
     assemble.py    HarnessPlan -> files on disk
     check.py       validate an emitted harness against its manifest (gate)
-    collect.py     refresh: Candidate + file/llm providers (fetch only)
+    collect.py     refresh/intel: Candidate + file/llm/feed providers; RSS/Atom parse; YouTube resolve
     curate.py      refresh: audit / dedupe / score / trends (observe-only)
     journal.py     refresh: report / queue / proposal writers (append-only journal)
-    refresh.py     refresh: orchestrate signal->audit->proposal->journal; apply gate
-    cli.py         argparse: derive / init / explain / check / refresh / refresh-apply
+    extract.py     intel: candidates -> scored intel (INTEL.md + intel.jsonl)
+    evolution.py   self-evolution: snapshot -> audit -> proposal -> journal + metrics; apply gate
+    refresh.py     refresh: orchestrate signal->audit->proposal->journal; apply gate; watermark
+    cli.py         argparse: derive / init / explain / check / refresh / refresh-apply / sources / intel / evolve / evolve-apply / doctor / self-update
     __main__.py    python -m harness_factory
     templates/     AGENTS.md, tasks/*, .harness/*, check.py
   tests/           stdlib unittest (no deps)
-  tasks/           PLAN.md · PROGRESS.md · REFRESH.md
-  updates/         refresh output (queue.jsonl · REPORT.md · JOURNAL.md · proposals/)
+  tasks/           PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md
+  updates/         cycle output (queue.jsonl · REPORT.md · JOURNAL.md · INTEL.md · EVOLUTION.md · metrics.jsonl · proposals/)
 ```
 
 ## Derivation model · 推导模型
@@ -94,7 +101,9 @@ harness_factory/
 - **P0 (done):** pattern library (`core/`, `domains/`, `review/`, `sources/`).
 - **P1 (done):** CLI scaffold generator — `derive`/`init`/`explain`/`check`, rules engine, tests.
 - **P1.5 (done):** self-update loop (M5) — `refresh`/`refresh-apply`, watchlist, curate, journal, scheduler, tests.
-- **P2:** LLM-assisted discovery/classification hardening + more domains.
+- **P1.6 (done):** cross-project packaging — user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; `uv tool install`.
+- **P1.7 (done):** intel tracking (`sources.json`, feed/YouTube collection, `extract.py`) + self-evolution (`evolution.py`, metrics, proposal gate); CLI `sources`/`intel`/`evolve`/`evolve-apply`; run watermark.
+- **P2:** LLM-assisted discovery/classification hardening + more domains + feed/entity coverage expansion.
 - **P3:** emitted-harness runtime hooks (gate runner, signal harvest).
 - **P4:** plugin protocol for new domains/templates.
 

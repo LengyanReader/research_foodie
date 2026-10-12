@@ -16,16 +16,22 @@ from __future__ import annotations
 import datetime as _dt
 import hashlib
 import json
+import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
 from .collect import iter_entities
-from .journal import append_journal
+from .journal import append_journal, load_queue
 
 
 def _now() -> str:
     return _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _host(url: str) -> str:
+    match = re.match(r"https?://([^/]+)/?", url or "")
+    return match.group(1).lower() if match else ""
 
 
 @dataclass
@@ -87,8 +93,9 @@ def audit(
     intel_items: list[Any] | None = None,
     seen_entities: set[str] | None = None,
     metrics: dict[str, Any] | None = None,
+    queue_rows: list[dict[str, Any]] | None = None,
 ) -> list[Audit]:
-    """Detect structural gaps from the registry + this run's intel."""
+    """Detect structural gaps from the registry + this run's intel + accepted queue."""
     metrics = metrics or snapshot(sources, watchlist, intel_items)
     out: list[Audit] = []
 
@@ -110,6 +117,24 @@ def audit(
                         entity.get("id", ""),
                         f"No new items from '{entity.get('name')}' this run.",
                         "low",
+                    )
+                )
+
+    # Discovery -> registry: accepted candidates from sources not yet tracked.
+    if queue_rows:
+        known = {_host(e.get("url", "")) for _g, e in iter_entities(sources)}
+        known.discard("")
+        seen_hosts: set[str] = set()
+        for row in queue_rows:
+            host = _host(row.get("url", ""))
+            if host and host not in known and host not in seen_hosts:
+                seen_hosts.add(host)
+                out.append(
+                    Audit(
+                        "untracked_source",
+                        host,
+                        f"Accepted candidate from untracked source '{host}'.",
+                        "medium",
                     )
                 )
     return out
@@ -152,6 +177,17 @@ def propose(audits: list[Audit]) -> list[Proposal]:
                     a.severity,
                 )
             )
+        elif a.kind == "untracked_source":
+            out.append(
+                Proposal(
+                    _pid("track_source", a.subject),
+                    "add_source",
+                    a.subject,
+                    {"host": a.subject, "suggest": "Add this source to data/sources.json."},
+                    a.detail,
+                    a.severity,
+                )
+            )
     return out
 
 
@@ -182,15 +218,18 @@ def run_evolution(
     sources: dict[str, Any],
     watchlist: dict[str, Any],
     intel_items: list[Any] | None = None,
+    queue_rows: list[dict[str, Any]] | None = None,
     dry_run: bool = False,
 ) -> dict[str, Any]:
     """One full evolution tick; returns a summary (no catalogs touched)."""
     root = Path(root)
     if intel_items is None:
         intel_items = load_intel(root)
+    if queue_rows is None:
+        queue_rows = load_queue(root / "updates" / "queue.jsonl")
 
     metrics = snapshot(sources, watchlist, intel_items)
-    audits = audit(sources, watchlist, intel_items, _seen(intel_items), metrics)
+    audits = audit(sources, watchlist, intel_items, _seen(intel_items), metrics, queue_rows)
     proposals = propose(audits)
 
     created = _now()

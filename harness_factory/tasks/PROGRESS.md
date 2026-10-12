@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-10-12 — Coverage-gap closure (feeds · watermark · discovery loop · CI · tests)
+- **Feed coverage:** probed + wired RSS/Atom feeds across the registry — **47/59 entities** now tracked (was ~20). `releases.atom` vs `commits.atom` chosen per repo; YouTube `@handle` → channel feed resolved and verified. 12 remain feedless by the honesty rule (no legitimate feed: ICML/ICLR/ACL/EMNLP/TMLR pages; a few people sites).
+- **Watermark:** `refresh` persists the effective `since` to `updates/state.json` (`load_state`/`save_state`); repeated cycles surface only new items without re-passing `--since`.
+- **Discovery→registry:** `evolution.audit` gains `queue_rows` and detects `untracked_source` (accepted candidate from an untracked host); `propose` emits `add_source` proposals; `run_evolution` loads `updates/queue.jsonl`.
+- **Docs + scheduler:** `refresh.ps1` now runs `refresh --provider all --intel` then `evolve`; `introduction.md` + `tasks/PLAN.md` synced (sources/intel/evolve commands, P1.6/P1.7 milestones); stale legacy paths removed from `.gitignore`.
+- **CI / packaging:** added `.github/workflows/ci.yml` (ubuntu+windows × 3.10/3.12), `CHANGELOG.md`, `.gitattributes`; `pyproject.toml` classifiers + `project.urls`.
+- **Tests:** +12 (`test_cli.py` end-to-end CLI, `test_sources.py` registry validation, plus watermark + untracked-source cases) → **62** passing.
+- Fixed a data bug: `langchain` topic `tool-surface` → canonical `agent-skills-tools`.
+
 ## 2026-10-12 — P1.7: intel tracking + self-evolution (done)
 - Added `data/sources.json`: tracked-entity registry with 5 groups — **projects** (OpenAI, Anthropic, Google DeepMind, Meta, Mistral, DeepSeek, Moonshot/Kimi, …), **harnesses** (Agents SDK, Swarm, Codex, Claude Code, MCP, Claude Agent SDK, ADK, Gemini CLI, A2A, Llama Stack, Mistral Agents, …), **venues** (Nature/Science/NeurIPS/ICML/ICLR/ACL/arXiv), **people** (Karpathy, Ilya, LeCun, Hassabis, …), **media** (Substack/YouTube/newsletters). 59 entities.
 - `collect.py`: RSS 2.0 + Atom `parse_feed`, `http_get`, `iter_entities`, `resolve_youtube_feed` (`@handle` → channel feed), `feed_provider`; `Candidate.entity` added.
