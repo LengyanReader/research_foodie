@@ -105,8 +105,8 @@ harness_factory/
 ├── refresh.ps1                    scheduler entry for the self-update loop
 ├── install-skill.ps1              optional: copy repo-as-skill into a skills dir
 ├── reference/derivation-rules.md  markdown mirror of the rule table (for L0 agents)
-├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·refresh·skill·cli
-│   ├── data/                      modules.json · capabilities.json · domains.json · watchlist.json · sources.json
+├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·registry·catalog·skill·cli
+│   ├── data/                      modules.json · capabilities.json · domains.json · harnesses.json · watchlist.json · sources.json
 │   └── templates/                 emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
 ├── tests/                         stdlib unittest (no deps)
 ├── tasks/                         PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md
@@ -122,15 +122,19 @@ harness_factory/
 │   ├── 07-tools-and-skills.md     工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md    单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/
-│   ├── research/README.md         科学研究域 harness
-│   ├── knowledge-management/README.md 信息与知识管理域 harness
-│   ├── data-science/README.md     数据科学 / ML 评测域 harness
-│   └── devops/README.md           开发与维护（DevOps）域 harness
+├── domains/                       20 disciplines · 20 个学科门类（每域一个 README）
+│   ├── research/ knowledge-management/ data-science/ (meta + methods)
+│   ├── software-engineering/ devops/ engineering/ (engineering)
+│   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)
+│   ├── medicine/ (health)
+│   ├── economics-finance/ psychology/ social-science/ (social sciences)
+│   ├── law/ humanities/ education/ arts-design/ (law/humanities/education/arts)
+│   └── general/ (fallback，无独立 README)
 ├── review/
 │   ├── practitioner-playbook.md   顶尖实践者技能提炼（Karpathy 及同级/更高级同行）
 │   ├── masters-playbook.md        跨行业顶级人物的「能力支架」提炼（投资/创业/产品/科学/风险/内容/教育）
-│   ├── harness-catalog.md         全部 agent harness 与自演化方法的分类总览
+│   ├── harness-catalog.md         全部 agent harness 与自演化方法的分类总览（散文式）
+│   ├── harness-index.md           全部 harness 的查找索引（由 data/harnesses.json 生成）
 │   ├── ai-harness-survey.md       AI harness 全方位调研与文献综述
 │   ├── references.md              合并参考文献（IEEE，统一编号 R1–R79）
 │   └── references.bib             BibTeX

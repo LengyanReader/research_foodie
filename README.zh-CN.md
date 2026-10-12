@@ -67,10 +67,10 @@ harness_factory/          项目主体（先读其 README）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
-├── domains/               科研 / 知识管理 / 数据科学 / DevOps 四域编排
-├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
+├── domains/               20 个学科门类（每域一个 README）
+├── review/                文献综述 · harness 分类总览与索引（catalog/index）
 ├── sources/               提炼溯源表（模式 ← 一手材料）
-├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·watchlist·sources.json）+ templates/
+├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·watchlist·sources.json）+ templates/
 ├── tests/                 标准库 unittest（无外部依赖）
 ├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
 └── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）

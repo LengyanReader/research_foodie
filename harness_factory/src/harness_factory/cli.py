@@ -13,7 +13,7 @@ from .assemble import write_harness
 from .check import check_harness
 from .classify import classify
 from .derive import derive
-from .registry import domain_ids
+from .registry import domain_ids, module_ids
 from .spec import (
     ARTIFACTS,
     COLLABORATION,
@@ -187,6 +187,23 @@ def build_parser() -> argparse.ArgumentParser:
     cases_p = sub.add_parser("cases", help="show aggregated learned project cases")
     cases_p.add_argument("--root", "--data-dir", dest="root", default=None)
     cases_p.add_argument("--json", action="store_true")
+
+    from . import catalog
+
+    catalog_p = sub.add_parser(
+        "catalog", help="unified harness catalog: list / search / filter (data/harnesses.json)"
+    )
+    catalog_p.add_argument("id", nargs="?", default=None, help="show one entry in detail")
+    catalog_p.add_argument("--class", dest="klass", choices=catalog.class_ids(), help="filter by class")
+    catalog_p.add_argument("--kind", choices=catalog.kind_ids(), help="filter by kind")
+    catalog_p.add_argument("--module", choices=module_ids(), help="harnesses that exercise a core module")
+    catalog_p.add_argument("--vendor", default=None, help="filter by vendor (substring)")
+    catalog_p.add_argument("--tag", default=None, help="filter by tag")
+    catalog_p.add_argument("--search", default=None, help="free-text search")
+    catalog_p.add_argument("--tracked", action="store_true", help="only entities tracked in sources.json")
+    catalog_p.add_argument("--markdown", action="store_true", help="print the generated index doc")
+    catalog_p.add_argument("--write", action="store_true", help="write review/harness-index.md")
+    catalog_p.add_argument("--json", action="store_true")
 
     return parser
 
@@ -638,6 +655,59 @@ def _cmd_cases(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_catalog(args: argparse.Namespace) -> int:
+    from . import catalog
+
+    if args.write:
+        path = catalog.write_index()
+        print(f"wrote {path}")
+        return 0
+    if args.markdown:
+        print(catalog.render_markdown(), end="")
+        return 0
+    if args.id:
+        entry = catalog.find(args.id)
+        if entry is None:
+            print(f"error: unknown harness '{args.id}' (run `harness catalog` to list)", file=sys.stderr)
+            return 2
+        if args.json:
+            print(json.dumps(entry, ensure_ascii=False, indent=2))
+            return 0
+        print(f"{entry['id']} — {entry.get('name')} · {entry.get('name_zh', '')}")
+        print(f"  class : {entry.get('class')} / kind: {entry.get('kind')}")
+        print(f"  vendor: {entry.get('vendor')}    ecosystem: {entry.get('ecosystem')}")
+        print(f"  maps  : {', '.join(entry.get('maps_to', []))}")
+        print(f"  en    : {entry.get('summary_en', '')}")
+        print(f"  zh    : {entry.get('summary_zh', '')}")
+        if entry.get("paper"):
+            print(f"  paper : {entry['paper']}")
+        if entry.get("url"):
+            print(f"  url   : {entry['url']}")
+        if entry.get("tracked"):
+            print(f"  tracked: sources.json::{entry['tracked']}")
+        if entry.get("tags"):
+            print(f"  tags  : {', '.join(entry['tags'])}")
+        return 0
+
+    rows = catalog.items()
+    if args.search:
+        rows = catalog.search(args.search, rows)
+    rows = catalog.filter_rows(
+        rows,
+        klass=args.klass,
+        kind=args.kind,
+        vendor=args.vendor,
+        tag=args.tag,
+        module=args.module,
+        tracked_only=args.tracked,
+    )
+    if args.json:
+        print(json.dumps(rows, ensure_ascii=False, indent=2))
+        return 0
+    print(catalog.render_index(rows, detailed=False))
+    return 0
+
+
 def _cmd_capabilities(args: argparse.Namespace) -> int:
     from .capabilities import capabilities
 
@@ -701,6 +771,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_learn(args)
     if args.command == "cases":
         return _cmd_cases(args)
+    if args.command == "catalog":
+        return _cmd_catalog(args)
     return 1
 
 

@@ -232,7 +232,7 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 - **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
 - **P1.7 done** — intel tracking (`data/sources.json`, 59 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
 - **P1.8 done** — agent-native mode (`SKILL.md`, `reference/derivation-rules.md`, `harness skill`) + project learning (`profile`/`learn`/`cases` + `missing_capability` audit) + capability mechanism (`data/capabilities.json`); packaging cancelled.
-- **P2** — LLM discovery/classification hardening; more domains; feed/entity coverage expansion.
+- **P2 (disciplines + catalog)** — disciplines expanded to **20** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store.
 - **P4** — plugin protocol for third-party domains/templates.
 

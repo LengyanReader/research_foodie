@@ -1,5 +1,6 @@
 {
   "research": {
+    "faculty": "meta",
     "title_en": "Research",
     "name_zh": "科研域",
     "summary": "Local-first, citation-grounded research pipeline",
@@ -17,6 +18,7 @@
     "signals": ["research", "literature", "survey", "paper", "cite", "citation", "arxiv", "doi", "文献", "综述", "论文", "引用"]
   },
   "knowledge-management": {
+    "faculty": "meta",
     "title_en": "Knowledge management",
     "name_zh": "知识管理域",
     "summary": "Coverage-mapped, source-ledgered knowledge base",
@@ -32,6 +34,7 @@
     "signals": ["knowledge base", "wiki", "coverage", "ledger", "知识库", "笔记", "覆盖"]
   },
   "data-science": {
+    "faculty": "engineering",
     "title_en": "Data science",
     "name_zh": "数据科学域",
     "summary": "Reproducible, leakage-free experiment pipeline",
@@ -47,7 +50,25 @@
     "grounding": "preferred",
     "signals": ["dataset", "model", "training", "eval", "evaluation", "metrics", "experiment", "数据", "模型", "训练", "评测"]
   },
+  "software-engineering": {
+    "faculty": "engineering",
+    "title_en": "Software engineering",
+    "name_zh": "软件工程域",
+    "summary": "Test-gated, reviewable code changes over a versioned codebase",
+    "workflow": [
+      "Frame the change",
+      "Read the code map",
+      "Implement in small diffs",
+      "Test & lint (gate)",
+      "Review",
+      "Merge & record"
+    ],
+    "artifact": "code",
+    "grounding": "preferred",
+    "signals": ["codebase", "refactor", "api", "bug", "feature", "software", "代码", "重构", "接口", "缺陷", "功能", "单元测试"]
+  },
   "devops": {
+    "faculty": "engineering",
     "title_en": "DevOps / meta",
     "name_zh": "运维与元域",
     "summary": "Harness self-evolution and change control",
@@ -62,7 +83,246 @@
     "grounding": "preferred",
     "signals": ["deploy", "ci", "pipeline", "infra", "ops", "evolution", "governance", "运维", "部署", "演化"]
   },
+  "engineering": {
+    "faculty": "engineering",
+    "title_en": "Engineering (mechanical / electrical / civil)",
+    "name_zh": "工程学域",
+    "summary": "Constraint-driven design with fabricated/bench-verified artifacts",
+    "workflow": [
+      "Specify requirements & constraints",
+      "Calculate / model",
+      "Design & simulate",
+      "Build / prototype",
+      "Test to spec (gate)",
+      "Document & release"
+    ],
+    "artifact": "mixed",
+    "grounding": "preferred",
+    "signals": ["mechanical", "electrical", "circuit", "cad", "materials", "structural", "tolerance", "机械", "电气", "电路", "材料", "结构", "公差"]
+  },
+  "physics": {
+    "faculty": "natural-sciences",
+    "title_en": "Physics",
+    "name_zh": "物理学域",
+    "summary": "Measurement-grounded experiment / theory with unit-checked data",
+    "workflow": [
+      "Pose the question & hypotheses",
+      "Design apparatus / derivation",
+      "Acquire measurements",
+      "Analyze & propagate uncertainty",
+      "Cross-check against theory",
+      "Report with provenance"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": ["physics", "quantum", "particle", "mechanics", "thermodynamics", "optics", "物理", "量子", "粒子", "实验测量"]
+  },
+  "chemistry": {
+    "faculty": "natural-sciences",
+    "title_en": "Chemistry",
+    "name_zh": "化学域",
+    "summary": "Reaction- and structure-grounded synthesis with safety gates",
+    "workflow": [
+      "Define target / hypothesis",
+      "Literature & mechanism review",
+      "Plan synthesis / computation",
+      "Run & characterize",
+      "Verify structure & yield",
+      "Report (safety-aware)"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": ["chemistry", "molecule", "reaction", "synthesis", "compound", "catalysis", "化学", "分子", "反应", "合成"]
+  },
+  "biology": {
+    "faculty": "natural-sciences",
+    "title_en": "Biology / life sciences",
+    "name_zh": "生物学生命科学域",
+    "summary": "Protocol-, sequence- and evidence-grounded life-science work",
+    "workflow": [
+      "Frame the biological question",
+      "Review prior evidence",
+      "Design protocol / analysis",
+      "Acquire data (wet or dry)",
+      "Statistical & biological validation",
+      "Report with provenance"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": ["biology", "gene", "genomics", "protein", "cell", "ecology", "生物", "基因", "蛋白", "细胞", "生态"]
+  },
+  "earth-environment": {
+    "faculty": "natural-sciences",
+    "title_en": "Earth & environmental science",
+    "name_zh": "地球与环境科学域",
+    "summary": "Spatiotemporal data pipeline with model/data provenance",
+    "workflow": [
+      "Define region, period & question",
+      "Assemble geospatial / observational data",
+      "Model or analyze",
+      "Validate against independent data",
+      "Quantify uncertainty",
+      "Report (map + ledger)"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": ["climate", "geology", "earth", "environment", "weather", "hydrology", "气候", "地质", "环境", "气象", "水文"]
+  },
+  "mathematics": {
+    "faculty": "natural-sciences",
+    "title_en": "Mathematics",
+    "name_zh": "数学域",
+    "summary": "Proof-checked derivation with explicit assumptions",
+    "workflow": [
+      "State definitions & assumptions",
+      "Conjecture / recall known results",
+      "Construct proof or computation",
+      "Check every step (gate)",
+      "Seek counterexamples / edge cases",
+      "Write up with provenance"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": ["theorem", "proof", "lemma", "algebra", "topology", "combinatorics", "数学", "定理", "证明", "代数", "几何"]
+  },
+  "medicine": {
+    "faculty": "health",
+    "title_en": "Medicine / clinical",
+    "name_zh": "医学与临床域",
+    "summary": "Evidence-graded, high-stakes, human-in-the-loop clinical reasoning",
+    "workflow": [
+      "Define the clinical question (PICO)",
+      "Appraise evidence",
+      "Reason to differential / plan",
+      "High-stakes gate (clinician review)",
+      "Document with citations & caveats",
+      "Follow-up / audit"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": ["clinical", "patient", "diagnosis", "treatment", "trial", "medical", "临床", "患者", "诊断", "治疗", "医学"]
+  },
+  "economics-finance": {
+    "faculty": "social-sciences",
+    "title_en": "Economics & finance",
+    "name_zh": "经济与金融域",
+    "summary": "Identification-first analysis of markets and policy",
+    "workflow": [
+      "State the hypothesis & estimand",
+      "Assemble data & sources",
+      "Identify / model",
+      "Robustness & sensitivity checks",
+      "Backtest / out-of-sample",
+      "Report with provenance"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": ["economic", "market", "finance", "portfolio", "econometrics", "trade", "经济", "市场", "金融", "投资", "计量"]
+  },
+  "psychology": {
+    "faculty": "social-sciences",
+    "title_en": "Psychology & cognitive science",
+    "name_zh": "心理与认知科学域",
+    "summary": "Pre-registered, replication-aware behavioral research",
+    "workflow": [
+      "Formulate hypotheses & pre-register",
+      "Design stimuli & measures",
+      "Collect data (IRB/ethics)",
+      "Analyze (power, effect sizes)",
+      "Robustness / replication",
+      "Report with open materials"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": ["psychology", "cognitive", "behaviour", "behavior", "questionnaire", "psychometric", "心理", "认知", "行为", "问卷"]
+  },
+  "social-science": {
+    "faculty": "social-sciences",
+    "title_en": "Social sciences",
+    "name_zh": "社会科学域",
+    "summary": "Theory-led, evidence-triangulated study of societies and policy",
+    "workflow": [
+      "Frame theory & research question",
+      "Select method (quant/qual/mixed)",
+      "Collect / source evidence",
+      "Analyze & triangulate",
+      "Address validity threats",
+      "Report with provenance"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": ["sociology", "political", "policy", "ethnography", "qualitative", "社会", "政治", "政策", "民族志", "治理"]
+  },
+  "law": {
+    "faculty": "law",
+    "title_en": "Law",
+    "name_zh": "法学域",
+    "summary": "Authority-first legal analysis with citation currency checks",
+    "workflow": [
+      "Frame the legal issue",
+      "Find controlling authority",
+      "Check currency (good law)",
+      "Reason to conclusion (IRAC)",
+      "Flag risk & uncertainty",
+      "Deliver with citations"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": ["legal", "statute", "contract", "case law", "regulation", "jurisdiction", "法律", "法条", "合同", "判例", "法规"]
+  },
+  "humanities": {
+    "faculty": "humanities",
+    "title_en": "Humanities",
+    "name_zh": "人文学域",
+    "summary": "Primary-source close reading with interpretive honesty",
+    "workflow": [
+      "Frame the question & texts",
+      "Assemble primary sources",
+      "Close read & contextualize",
+      "Interpret (state the lens)",
+      "Anticipate counter-readings",
+      "Write with provenance"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": ["history", "philosophy", "philology", "archive", "hermeneutics", "历史", "哲学", "文学", "文献学", "诠释"]
+  },
+  "education": {
+    "faculty": "education",
+    "title_en": "Education",
+    "name_zh": "教育域",
+    "summary": "Outcome-aligned curriculum and assessment design",
+    "workflow": [
+      "Define learning outcomes",
+      "Map to backward design",
+      "Build materials & activities",
+      "Design assessment (aligned)",
+      "Pilot & measure",
+      "Iterate with evidence"
+    ],
+    "artifact": "document",
+    "grounding": "preferred",
+    "signals": ["education", "curriculum", "pedagogy", "teaching", "assessment", "learning outcomes", "教育", "课程", "教学", "评估"]
+  },
+  "arts-design": {
+    "faculty": "arts",
+    "title_en": "Arts & design",
+    "name_zh": "艺术与设计域",
+    "summary": "Intent-first creative work with critique and versioning",
+    "workflow": [
+      "State intent & constraints",
+      "Reference / moodboard",
+      "Explore variations",
+      "Critique against intent",
+      "Refine & select",
+      "Deliver with versioning"
+    ],
+    "artifact": "mixed",
+    "grounding": "off",
+    "signals": ["art", "design", "typography", "illustration", "composition", "creative", "艺术", "设计", "排版", "插画", "创意"]
+  },
   "general": {
+    "faculty": "meta",
     "title_en": "General",
     "name_zh": "通用域",
     "summary": "Domain-agnostic baseline harness",

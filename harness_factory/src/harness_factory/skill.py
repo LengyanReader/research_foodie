@@ -8,10 +8,12 @@ skill manifest stay in sync.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+_DATA = ROOT / "src" / "harness_factory" / "data"
 
 
 @dataclass(frozen=True)
@@ -22,8 +24,24 @@ class Skill:
     description: str
 
 
-# Ordered index: group -> entries. Paths are relative to the repo root.
-_INDEX: tuple[Skill, ...] = (
+def _domain_skills() -> tuple[Skill, ...]:
+    """Domain entries derived from ``domains.json`` so new domains auto-appear."""
+    try:
+        data = json.loads((_DATA / "domains.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return ()
+    out: list[Skill] = []
+    for did, meta in data.items():
+        if did == "general":
+            continue
+        label = meta.get("title_en", did)
+        zh = meta.get("name_zh", "")
+        out.append(Skill(did, "domains", f"domains/{did}/README.md", f"{label} · {zh}"))
+    return tuple(out)
+
+
+# Ordered index: overview -> modules -> domains (dynamic) -> reference/review -> catalogs.
+_HEAD: tuple[Skill, ...] = (
     Skill("skill", "overview", "SKILL.md", "Cardinal rules + load-index + output contract. Read first."),
     Skill("index", "overview", "core/00-index.md", "Library index (how core/domains/review fit)."),
     Skill("M0", "modules", "core/01-meta-principles.md", "Meta-principles: truth/traceability outrank speed."),
@@ -35,21 +53,24 @@ _INDEX: tuple[Skill, ...] = (
     Skill("M6", "modules", "core/07-tools-and-skills.md", "Minimal toolset; progressive skills."),
     Skill("M7", "modules", "core/08-change-governance.md", "Single source of truth; reviewable diffs."),
     Skill("M8", "modules", "core/09-collaboration-and-sessions.md", "Explicit contracts; escalate; hand off state."),
-    Skill("academic-research", "domains", "domains/research/README.md", "Research domain workflow."),
-    Skill("knowledge-management", "domains", "domains/knowledge-management/README.md", "KM domain workflow."),
-    Skill("data-science", "domains", "domains/data-science/README.md", "Data-science domain workflow."),
-    Skill("devops", "domains", "domains/devops/README.md", "DevOps domain workflow."),
+)
+
+_TAIL: tuple[Skill, ...] = (
     Skill("derivation-rules", "reference", "reference/derivation-rules.md", "Markdown mirror of the derive.py rule table (for L0)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),
-    Skill("harness-catalog", "review", "review/harness-catalog.md", "Catalog of harnesses/patterns."),
+    Skill("harness-catalog", "review", "review/harness-catalog.md", "Prose taxonomy of harnesses & self-evolution methods."),
+    Skill("harness-index", "review", "review/harness-index.md", "Generated lookup index of all cataloged harnesses."),
     Skill("survey", "review", "review/ai-harness-survey.md", "AI harness survey."),
     Skill("source-map", "sources", "sources/source-map.md", "Where every claim comes from."),
     Skill("modules.json", "catalogs", "src/harness_factory/data/modules.json", "Machine-readable module catalog."),
     Skill("capabilities.json", "catalogs", "src/harness_factory/data/capabilities.json", "Requirement->capability->modules map."),
-    Skill("domains.json", "catalogs", "src/harness_factory/data/domains.json", "Machine-readable domain catalog."),
+    Skill("domains.json", "catalogs", "src/harness_factory/data/domains.json", "Machine-readable discipline/domain catalog."),
+    Skill("harnesses.json", "catalogs", "src/harness_factory/data/harnesses.json", "Unified harness catalog (SSOT for the index)."),
     Skill("sources.json", "catalogs", "src/harness_factory/data/sources.json", "Tracked entities + feeds."),
     Skill("watchlist.json", "catalogs", "src/harness_factory/data/watchlist.json", "Refresh topics + frontier probes."),
 )
+
+_INDEX: tuple[Skill, ...] = _HEAD + _domain_skills() + _TAIL
 
 
 def index() -> list[Skill]:

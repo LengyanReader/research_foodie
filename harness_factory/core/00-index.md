@@ -42,5 +42,6 @@ Each module ends with **Checklist** (do these) and **Anti-patterns** (don't do t
 **Cross-references · 交叉引用**
 - `../sources/source-map.md` — where each module's patterns came from.
 - `../review/practitioner-playbook.md` — the same invariants distilled from Karpathy and peers of comparable/higher standing, with citations.
-- `../review/harness-catalog.md` — every agent harness / self-evolution method, classified (README-level map for M5).
+- `../review/harness-index.md` — generated lookup index of all cataloged harnesses (classes, kinds, core modules, tracked cross-links).
+- `../review/harness-catalog.md` — prose taxonomy of harnesses & self-evolution methods.
 - `../review/masters-playbook.md` — cross-industry "ability harness" distillation from top performers (companion to the practitioner playbook).

@@ -13,14 +13,14 @@ import json
 from functools import lru_cache
 from typing import Any
 
-from .registry import data_dir
+from .registry import data_file
 from .spec import FeatureVector, HarnessPlan, _at_least
 
 
 @lru_cache(maxsize=1)
 def capabilities() -> dict[str, dict[str, Any]]:
     """The capability catalog."""
-    with (data_dir() / "capabilities.json").open(encoding="utf-8") as fh:
+    with data_file("capabilities.json").open(encoding="utf-8") as fh:
         return json.load(fh)
 
 
