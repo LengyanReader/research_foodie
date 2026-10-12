@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harness-factory"
+version = "0.1.0"
+description = "Inclusive harness compiler: derive and scaffold the agent harness any task needs."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "harness_factory" }]
+keywords = ["agents", "harness", "scaffolding", "context-engineering"]
+dependencies = []
+
+[project.scripts]
+harness = "harness_factory.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+harness_factory = ["data/*.json", "templates/*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true

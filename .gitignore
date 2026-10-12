@@ -8,6 +8,11 @@ tools/.venv-ocr/
 __pycache__/
 *.pyc
 
+# harness-factory archived (legacy) material — excluded from version control
+harness_factory/_archive/
+# harness-factory runtime output (refresh proposals/reports are regenerable)
+harness_factory/updates/
+
 # Regenerable eval run artifacts
 _eval_out/*.log
 _eval_out/pools_cache/

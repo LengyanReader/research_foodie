@@ -1,0 +1,51 @@
+# PROGRESS · 进度日志
+
+**Updated:** 2026-10-12
+
+---
+
+## 2026-10-12 — P1.7: intel tracking + self-evolution (done)
+- Added `data/sources.json`: tracked-entity registry with 5 groups — **projects** (OpenAI, Anthropic, Google DeepMind, Meta, Mistral, DeepSeek, Moonshot/Kimi, …), **harnesses** (Agents SDK, Swarm, Codex, Claude Code, MCP, Claude Agent SDK, ADK, Gemini CLI, A2A, Llama Stack, Mistral Agents, …), **venues** (Nature/Science/NeurIPS/ICML/ICLR/ACL/arXiv), **people** (Karpathy, Ilya, LeCun, Hassabis, …), **media** (Substack/YouTube/newsletters). 59 entities.
+- `collect.py`: RSS 2.0 + Atom `parse_feed`, `http_get`, `iter_entities`, `resolve_youtube_feed` (`@handle` → channel feed), `feed_provider`; `Candidate.entity` added.
+- `extract.py`: deterministic intel (relevance = topic keywords + entity mention + recency, topic/entity tagging, verbatim brief); optional LLM summary; writes `updates/INTEL.md` + `intel.jsonl` (grouped projects/harnesses/venues/people/media).
+- `llm.py`: refactored to `_chat_content` + added `summarize()`.
+- `evolution.py`: complete cycle **snapshot → audit → mutation-proposal → journal** + metrics (`updates/EVOLUTION.md`, `evolution.jsonl`, `metrics.jsonl`); human-gated `apply_accepted` → `updates/accepted.json` (reversible). Audits: uncovered topics, empty groups, stale sources.
+- `refresh.py`: `load_sources`, feed provider support, `--intel` extraction wired in; summary gains `intel_items`.
+- CLI: **`sources`**, **`intel`**, **`evolve`**, **`evolve-apply`**; `refresh --provider {auto,file,llm,feed,all}` + `--intel` + `--sources`.
+- Rewrote root `README.md` + `README.zh-CN.md` (project intro + tool usage; archived old content); synced `harness_factory/README.md`.
+- Tests: +14 (`test_intel.py`: feed parse/resolve/provider, intel scoring/enrich/write, evolution snapshot/audit/propose/run/apply/dry-run) → **49** passing.
+
+## 2026-10-12 — P1.6: cross-project packaging (done)
+- Evaluated tool forms → `tasks/DISTRIBUTION.md`; wrote `introduction.md`.
+- Locked with user: primary = **installable package via `uv tool install`**; state = **user data dir**; channel = **git-only first**; names = pkg `harness-factory`, cmd `harness`.
+- Added `config.py` (tool home resolution: `HARNESS_HOME` → platform default; optional `config.toml`; catalog/corpus/updates dirs; seeding; corpus-root resolution).
+- `registry.py` now prefers the user catalog (`HARNESS_DATA_DIR` → user catalog → bundled).
+- `refresh` re-rooted: corpus from checkout `review/` if present else home `corpus/`; CLI `refresh`/`refresh-apply` default to the **user home** (`--root`/`--data-dir` override).
+- New CLI: **`doctor`** (paths/config/seed/LLM) and **`self-update`** (re-seed tool catalog; non-destructive, journaled, `--force`).
+- `init --out` defaults to `./<task-slug>`.
+- `.gitignore`: exclude `harness_factory/_archive/` and `harness_factory/updates/` from version control.
+- Verified from an arbitrary directory with isolated `HARNESS_HOME`: doctor/self-update/refresh/init all work; emitted harness self-check OK.
+- Tests: +7 (`test_config.py`) → **35** passing.
+
+## 2026-10-12 — P1.5: self-update loop (done)
+- Added the M5 self-update subsystem: `refresh` (collect → audit → rank → proposal → journal) and `refresh-apply` (human gate).
+- New modules: `collect.py` (Candidate + file/llm providers, `verify_url`), `curate.py` (audit/dedupe/score/trends), `journal.py` (report/queue/proposal writers + append-only journal), `refresh.py` (orchestrator + apply gate).
+- `llm.py`: added `discover_items()` (env-gated, returns untrusted items; always audited).
+- `data/watchlist.json`: 8 topics + 4 frontier probes (boundary expansion).
+- CLI: `harness refresh` (`--root/--inbox/--watchlist/--provider/--since/--verify/--dry-run/--json`) and `harness refresh-apply --accept`.
+- `refresh.ps1` + `tasks/REFRESH.md`: weekly scheduling (Task Scheduler / cron / GitHub Actions) and the human gate.
+- **Guardrails honored:** provenance gate drops untraceable items (M4); observe-only (M0.4); human gate (M0.8); all output under `updates/`, append-only journal, fully reversible (M0.9).
+- Tests: 28 total (`test_refresh.py` adds provider roundtrip, injected LLM discovery, dedupe/score, dry-run, apply-by-index, corpus key extraction).
+
+## 2026-10-12 — P1: inclusive harness CLI (done)
+- Locked decisions with user: CLI scaffolder · hybrid rules+LLM · Python · MVP = task→harness generator.
+- Wrote `tasks/PLAN.md` (architecture, derivation model, milestones, risks).
+- Built the package: `pyproject.toml`, `spec.py`, `registry.py`, `derive.py`, `classify.py`, `llm.py`, `render.py`, `assemble.py`, `check.py`, `cli.py`, `__main__.py`, `data/{modules,domains}.json`, 8 templates.
+- Fixed: `__init__.py` now sources `__version__` from `_version.py` (SSOT); CLI forces UTF-8 output (Windows cp1252 console crash on `title_zh`); removed a literal `{{` from emitted gate text that would have tripped the self-check.
+- Verified end-to-end: `harness init --task "..."` → 8 files, `harness check` OK.
+- Tests: 21 unittest cases (derive rules, classify, assemble/check). All pass.
+
+### Notes
+- Python available: 3.12.9 (miniconda). `pytest` not installed → tests use stdlib `unittest` to stay dependency-free.
+- Tool self-constraint: M0.4 (observe/classify/emit only; never fabricate task substance).
+- Run tests: `$env:PYTHONPATH="src"; python -m unittest discover -s tests`.

@@ -1,0 +1,61 @@
+{
+  "updated": "2026-10-12",
+  "cadence": "weekly",
+  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery.",
+  "topics": [
+    {
+      "id": "agent-harness",
+      "name_zh": "Agent 外壳/脚手架",
+      "queries": ["agent harness design", "agentic scaffold architecture", "autonomous agent loop"],
+      "keywords": ["harness", "agent loop", "scaffold", "orchestration", "agent architecture"]
+    },
+    {
+      "id": "self-evolving-agents",
+      "name_zh": "自演化 agent",
+      "queries": ["self-evolving agents", "self-improving agent", "automated agent design"],
+      "keywords": ["self-evolv", "self-improv", "self-referential", "godel", "seal", "adas", "evolution"]
+    },
+    {
+      "id": "context-engineering",
+      "name_zh": "上下文工程",
+      "queries": ["context engineering LLM agents", "long context management", "context compaction agents"],
+      "keywords": ["context engineering", "context window", "compaction", "retrieval", "attention"]
+    },
+    {
+      "id": "agent-memory",
+      "name_zh": "Agent 记忆",
+      "queries": ["agent memory long-term", "episodic memory LLM", "memory management agents 2026"],
+      "keywords": ["memory", "episodic", "semantic memory", "persistent state", "resumable"]
+    },
+    {
+      "id": "agent-skills-tools",
+      "name_zh": "工具与技能",
+      "queries": ["agent skills", "tool use LLM", "progressive disclosure skills agents"],
+      "keywords": ["skill", "tool use", "function calling", "progressive disclosure", "tool surface"]
+    },
+    {
+      "id": "evaluation-gates",
+      "name_zh": "评测与门禁",
+      "queries": ["LLM agent evaluation", "agent verifier reward", "process reward model agents"],
+      "keywords": ["evaluation", "gate", "verifier", "reward model", "benchmark", "self-check"]
+    },
+    {
+      "id": "provenance-integrity",
+      "name_zh": "来源与完整性",
+      "queries": ["LLM citation faithfulness", "attribution hallucination detection", "provenance agents"],
+      "keywords": ["provenance", "citation", "attribution", "faithfulness", "grounding", "unverified"]
+    },
+    {
+      "id": "multi-agent-collaboration",
+      "name_zh": "多智能体协作",
+      "queries": ["multi-agent collaboration LLM", "agent handoff protocols", "agent teams orchestration"],
+      "keywords": ["multi-agent", "handoff", "collaboration", "protocol", "delegation"]
+    }
+  ],
+  "frontier_probes": [
+    { "id": "adjacent-1", "query": "emerging AI agent paradigms 2026", "why": "boundary expansion" },
+    { "id": "adjacent-2", "query": "agent sandboxing and safety 2026", "why": "risk surface" },
+    { "id": "adjacent-3", "query": "computer-use and browser agents 2026", "why": "tool surface frontier" },
+    { "id": "adjacent-4", "query": "world models and planning agents 2026", "why": "adjacent paradigm" }
+  ]
+}

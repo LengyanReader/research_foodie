@@ -1,155 +1,102 @@
-# research_foodie
+# research_foodie → Harness Factory
 
-**Local-first, cost-sensitive active academic research pipeline.** Turn a research question (or a watched field) into a *citation-grounded*, bilingual survey manuscript — every factual sentence traces to a parsed paper, and every gate is mechanical before it is human.
+> **A generalizable library of agent-harness patterns — plus an executable compiler that derives
+> the harness any task needs.**
+> 跨域提炼的 **agent harness 模式库**，外加一个**把任务编译成所需 harness**的可执行工具。
 
-> 中文版见 [`README.zh-CN.md`](README.zh-CN.md) · Master overview (goals / components / workflow / measured status): [`docs/PROJECT.md`](docs/PROJECT.md) · Blueprint: [`docs/design/research-foodie-blueprint.md`](docs/design/research-foodie-blueprint.md)
+**Updated:** 2026-10-12 · **Status:** active · **License:** MIT
 
-`Updated: 2026-09-20` · `License: MIT`
+> 中文速览：本仓库现聚焦 **`harness_factory/`**——一个「agent harness」模式库 + `harness` CLI。
+> *Harness* = 让 LLM 智能体在**跨会话、长时程、有限上下文**下把任务做稳的**一整套外部化方法**
+> （上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 自我演化 · 工具/技能 · 变更治理 · 协作协议）。
+> 工具只做**分类/选择/生成/观察/排序**，绝不编造任务实质；所有循环产物先作为**提案**，由人确认。详见
+> [`harness_factory/README.md`](harness_factory/README.md) 与 [`introduction.md`](harness_factory/introduction.md)。
 
 ---
 
-## Why this exists / 为什么做这个
+## What this is · 这是什么
 
-General "deep research" tools produce fluent surveys that look right but **fabricate citations** — a measured GPT-4o hallucination rate around 78–90% (*OpenScholar*, Nature 650:857, 2025). They are also black boxes, cost real money, and hide failure cells behind averages.
+An **agent harness** is everything *around* the model that turns a probabilistic text generator into
+a reliable, long-running worker: the context you feed it, the memory you externalize, the tools you
+expose, the gates that decide "done", the provenance that keeps it honest, and the loop that makes
+the harness itself improve. The model is the engine; the harness is the vehicle, the dashboard, the
+seatbelts, and the maintenance manual.
 
-research_foodie takes the opposite posture:
+This repository holds two things:
 
-- **Citations are the lifeline.** Every claim must anchor to a *verbatim quote* from a locally parsed paper (arXiv); a deterministic 5-gram grounding gate blocks hallucinations mechanically — before any LLM review.
-- **≈$0 core loop.** Runs on MinerU (local parse) + the free hosted model `opencode/big-pickle` + the free arXiv API. No API keys required for the core loop.
-- **Honest self-measurement.** Judge noise, pool coverage, and model boundaries are reported, not averaged away.
+1. **A pattern library** — cross-domain harness patterns distilled so they survive removal of their
+   originating project (`core/`, `domains/`, `review/`, `sources/`).
+2. **The `harness` CLI** — a compiler that classifies a task, selects the modules it needs, emits a
+   runnable harness scaffold, and **self-updates** its own knowledge base on a cadence.
 
-## What it does / 做什么
+**Design stance.** The compiler only *classifies, selects, and emits* — it never fabricates task
+substance. Every derivation is logged in `.harness/manifest.json`. The refresh/evolution loop is
+*observe-only*: it audits, counts, and ranks, then writes proposals under `updates/` for a human to
+merge. See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/01-meta-principles.md).
 
-- **Mode 1 — research survey:** question → live discovery → MinerU parse → taxonomy + STORM-style outline → per-paper grounded claims → **survey-depth bilingual (EN + 中文) draft** with inline `(arXiv:…)` attribution, disagreement/gap handling → manuscript (Abstract / Evidence Table / References) → local **PDF** (pandoc + xelatex + CJK).
-- **Mode 2 — evidence-grounded QA (Track C):** answer a benchmark question *directly from a paper/context* via a grounded extractive-answer node (Qasper / SciQ / PubMedQA / corpus-anchored).
-- **Mode 3 — battery:** run any of the 30 DAS-Bench topics end-to-end (discovery → evidence pool → judge).
-- **Evaluation:** DAS-Bench's 16-criterion rubric re-implemented verbatim; judge-variance harness; 30-topic pools; citation-verify harness (CrossRef / arXiv / Semantic Scholar).
+---
 
-## Architecture / 架构
+## Quickstart · 快速开始
 
-```text
-[L0] Question / field watch
-  ▼
-[L1] S_lit   discovery rails: seed manifest · live arXiv API · orx CLI
-  ▼
-[L2] Evidence  MinerU PDF→Markdown → multi-paper evidence pool (per-paper grounding)
-  ▼
-[L3] S_org   taxonomy + STORM-style outline (sections + key_points)
-  ▼
-[L4] S_write per-paper grounded claims (verbatim quotes) → cross-paper draft
-  ▼
-[L5] S_final assembled manuscript (Sources + per-claim arXiv attribution) → local PDF
-  ▼
-[L6] Gates  deterministic zero-LLM validation → DAS-Bench-style AI judge → HUMAN
+```bash
+cd harness_factory
+
+# derive + scaffold a harness for any task (rules over M0–M8; optional LLM assist)
+harness derive --task "write a literature review with citations over several weeks"
+harness init   --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
+harness check  --dir ./my-task
+
+# install once, use from ANY directory
+uv tool install .
+harness doctor
+
+# self-update + intel + self-evolution (all human-gated, all reversible)
+harness refresh --provider all --intel   # tracked sources -> proposals + updates/INTEL.md
+harness sources                          # every tracked entity (labs, harnesses, venues, people, media)
+harness evolve                           # coverage/gap audit -> updates/EVOLUTION.md (proposals)
+harness evolve-apply --accept <id|target>
 ```
 
-Implemented as a LangGraph state machine (`tools/pipeline/graph.py`): `lit → org → write → revise_para → finalize → gate → judge`. Scoped review re-enters only the offending paragraph; a failing mechanical gate loops back scoped. `seed_id`/`ctx` questions route to the extractive-answer node instead. Discovery rails are pluggable (`S_LIT_BACKEND=seed|arxiv|orx`; arXiv API verified reachable ~1.1 s, 2026-09-16).
+**Two roots.** The **tool home** (catalogs, corpus, cycle output) lives in user space
+(`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`); each **target project** receives
+its generated files via `init --out`.
 
-## Quickstart / 快速上手
+> 中文速览：`harness derive/init/check` 面向「任意任务 → 所需 harness」；`refresh/intel/evolve` 是
+> **观察式、人工确认、可回退**的自我更新与自演化循环。安装用 `uv tool install .`，工具数据放在用户目录，
+> 从任意目录都能调用。
 
-Environment: conda env `ds0509` (Python 3.12, Windows). Use it explicitly:
+---
 
-```powershell
-$PY = 'C:\Users\data\miniconda3\envs\ds0509\python.exe'
-$UTF8 = '-X','utf8'                 # avoids cp1252 decode noise in the opencode subprocess
+## Layout · 结构
+
+```
+harness_factory/          the project (start at its README)
+├── README.md             定位 · 结构 · 用法
+├── introduction.md        简介：是什么 · 心智模型 · Quickstart
+├── core/                  跨域通用主干模式（M0–M9）
+├── domains/               科研 / 知识管理 / 数据科学 / DevOps 四域编排
+├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
+├── sources/               提炼溯源表（模式 ← 一手材料）
+├── src/harness_factory/   工具源码 + data/（modules·domains·watchlist·sources.json）+ templates/
+├── tests/                 标准库 unittest（无外部依赖）
+├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
+└── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）
 ```
 
-**Integration test** (mock = deterministic, seconds; real = full free-model loop, 2–4 min):
+See [`harness_factory/README.md`](harness_factory/README.md) for the full documentation.
 
-```powershell
-& $PY -m tools.pipeline.test_pipeline mock      # 34/34 PASS
-& $PY $UTF8 -m tools.pipeline.test_pipeline real  # opencode/big-pickle, verdict PASS
-```
+---
 
-**Demo questions:** *"GPT detectors bias against non-native English writers"* (Liang `2304.02819`) · *"How reliable are automatic detection tools for AI-generated text?"* (multi-paper pool: Liang + Weber-Wulff `2306.15666` + GLTR `1906.04043`).
+## Documentation map · 文档地图
 
-**DAS-Bench 16-axis benchmark** (report → `_eval_out/bench_pilot_das.md`; `--out` overwrites, always run the full set in one call):
-
-```powershell
-& $PY $UTF8 -m tools.eval.bench_eval --scenarios P-A,P-B,P-C,001,019
-```
-
-**Evidence-grounded QA panel subset:**
-
-```powershell
-& $PY $UTF8 -m tools.eval.bench_eval --scenarios QA-6,QA-7,SQ-1,PQ-1
-```
-
-**30-topic battery + judge variance:**
-
-```powershell
-& $PY $UTF8 -m tools.eval.pools_30          # → _eval_out/pools_30.json + pools_30_report.md
-& $PY $UTF8 -m tools.eval.variance_run      # → _eval_out/variance_runs.json
-```
-
-**Local web dashboard (WS-B):** trigger runs, live SSE progress, cancel, manuscripts, feedback — all in a browser:
-
-```powershell
-& $PY -X utf8 -m uvicorn tools.web.app:app --host 127.0.0.1 --port 8787
-# → http://127.0.0.1:8787/
-```
-
-It binds **127.0.0.1 only** and is a *local observation surface*: GitHub Pages is static-host-only (no server-side execution — Python/Node/PHP runtimes are not supported on Pages), so the live dashboard stays local; read-only static export is the deployable fallback (F-3).
-
-**LLM backends** (`tools/llm/client.py`): `opencode` default (free hosted model, zero key) · `openai` for any OpenAI-compatible endpoint (DeepSeek / DashScope·Qwen / Moonshot·Kimi / OpenRouter / OpenAI) via `OPENAI_BASE_URL` / `OPENAI_MODEL` / `OPENAI_API_KEY`. Phase D adds per-role profiles (cheap draft lane / strong judge lane). **Parse a paper** with MinerU (`-m txt`, page windows ≤6 pp for long PDFs — see runbook K12).
-
-> Full per-tool cheat-sheet + 4 end-to-end demos: [`docs/setup-runbook.md §3.1`](docs/setup-runbook.md) · End-to-end usage flow (question-first → dense-output settings → spec/format conformance): [`§3.0`](docs/setup-runbook.md).
-
-## Measured status / 实测能力 (as of 2026-09-19)
-
-> Directional, never head-to-head vs the published DAS table (that needs a ≥300B frozen judge). Judge model is recorded in every verdict. Full statement: [`docs/CAPABILITY-STATUS.md`](docs/CAPABILITY-STATUS.md).
-
-| Area | Number | Meaning |
-|---|---|---|
-| Pipeline tests | **mock 34/34 · real 34/34** | Deterministic + full LLM loop green (2 real papers: Liang, Weber-Wulff) |
-| QA panel n=31 | correctness **4.23** · groundedness **4.45** · 24/31 | Track C, incl. Qasper gold 5/5 · SciQ context 5/5 · PubMedQA 8/14 |
-| Extract/context path (n=13) | **12/13** | Factoid from single paper/context ≈ solved |
-| PubMedQA yes/no (PQ-1..14) | **8/14** | Yes/no *conclusion* = measured model boundary |
-| Canonical trio (variance) | **P-A 3.88±0.53 · P-B 3.31±0.00 · P-C 3.53±0.13** | Judge run-to-run noise (free model) |
-| Battery judged (n=10) | **Total 3.13** (BSC 3.08 · MAR 2.67 · TSQ 3.05 · HDQ 3.73) | End-to-end incl. discovery noise; HDQ = strength, MAR = pool-size drag |
-| Pool coverage | **22/30 DAS topics** with parsed evidence (12 full pools) | 8 empty = relevance/network caps, measured not silent |
-
-**Honesty contract:** judge noise is reported (P-A σ≈0.53), 001/019 are correctly *no-evidence*, PubMedQA's 8/14 boundary is owned, and hidden failure cells are listed — not averaged away. Chains go through three gates: deterministic L6 (factual integrity, zero cost) → AI judge (quality) → **human** (release; nothing auto-publishes).
-
-## Repository map / 仓库地图
-
-| Path | What it is |
+| What you want | Where |
 |---|---|
-| `README.zh-CN.md` | 中文入口 (this project's Chinese entry) |
-| `docs/PROJECT.md` | **Master overview:** goals / components / workflow / measured status / roadmap |
-| `docs/design/research-foodie-blueprint.md` | Architecture blueprint: L0–L6, state model, cost matrix, roadmap |
-| `docs/design/self-evolution-mechanism.md` | Self-evolution design (WS-C): 4-phase cycle, evidence, failure modes |
-| `docs/design/tool-paper-outline.md` | arXiv systems-paper outline (bilingual) for this tool |
-| `docs/DATAFLOW-AND-REUSE.md` | Inputs/outputs per mode, stage I/O, honest framework-stitch ledger |
-| `docs/TOOL-COMPARISON.md` | Stage-by-stage compare vs STORM / orx / PaperQA2 / DAS / MinerU |
-| `docs/CAPABILITY-STATUS.md` | Measured numbers, GREEN/BLOCKED list, reproduce commands |
-| `docs/setup-runbook.md` | Ops runbook: env, commands, usage flow §3.0, demos §3.1, issues K1–K12 |
-| `docs/PLAN.md` · `docs/PROGRESS.md` | Plan-first / track-as-you-go (§8 = parallel workstreams WS-A/B/C/D/R) |
-| `tools/llm/` | Unified LLM client (`opencode` + `openai`) · mock server · smoke test |
-| `tools/pipeline/` | LangGraph: `corpus.py` · `graph.py` · `validate.py` (L6) · `judge.py` · `answer.py` · `test_pipeline.py` |
-| `tools/eval/` | `bench_eval.py` (DAS-16) · `pools_30.py` · `variance_run.py` · `add_paper.py` · `render_manuscript.py` |
-| `tools/web/` | Local FastAPI dashboard (runs / SSE / cancel / manuscripts / feedback) — WS-B |
-| `tools/citation-verify/` | CrossRef / arXiv / Semantic Scholar batch citation verification |
-| `_eval_out/` | Real results: bench reports, pools, variance, manuscripts, web run logs (gitignored) |
+| Positioning, layout, usage | [`harness_factory/README.md`](harness_factory/README.md) |
+| Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
+| Core harness invariants | `harness_factory/core/01-meta-principles.md` |
+| Domain playbooks | `harness_factory/domains/*/README.md` |
+| Literature & catalog | `harness_factory/review/` |
+| Plans & progress | `harness_factory/tasks/PLAN.md`, `harness_factory/tasks/PROGRESS.md` |
+| Self-update + evolution | `harness_factory/tasks/REFRESH.md`, `harness_factory/src/harness_factory/evolution.py` |
 
-## Governance / 质量护栏
-
-- **Citations are the lifeline** — every factual claim traces to a primary source (parsed paper, arXiv ID) with access dates; unverifiable → *unverified*, never asserted as fact.
-- **Dates are explicit** — current-state statements carry `as of <date>`; pricing/leaderboard numbers are directional with sources.
-- **Cost-sensitive** — open/free by default; paid APIs only at quality-critical escalation lanes.
-- **No unsolicited commits; plan-first, track-as-you-go** (`docs/PLAN.md` → `docs/PROGRESS.md`).
-
-## Roadmap & open workstreams / 路线图
-
-Progress is organized as **parallel workstreams** (see `docs/PLAN.md §8`):
-
-- **WS-A** core pipeline (Phase L): L-1 relevance re-rank · L-3 judge median-of-3 (attack P-A σ 0.53) · L-4 citation-verify wiring.
-- **WS-B** web dashboard (Phase F): ✅ F-1/F-2 delivered (runs/SSE/cancel) · F-3 read-only static export (GH Pages deployable) · F-4 cadence wiring (E-2/E-3/E-4/E-5 on one URL).
-- **WS-C** self-evolution (Phase X): baseline freeze → variance-aware health check → gate-coverage mutation test → weekly cadence with provenance floor (E-1…E-7).
-- **WS-D** model routing (Phase D): per-role profiles; strong judge lane on an OpenAI-compatible API key (no key required today) — target P-A sd < 0.40.
-- **WS-R** resource-gated (Phase R): official DAS-Eval harness · DAS-2M metadata lake · knowledge-storm · ≥300B page-aware judge (needs keys / GPU / network).
-
-**Blocked (needs keys · GPU · input):** ≥300B page-aware judge on rendered PDFs (MAR Layout axis + full DAS-Bench compliance) · GAIA batch · Chinese evidence layer (Track B) — merge decision in [`docs/CAPABILITY-STATUS.md §3`](docs/CAPABILITY-STATUS.md).
-
----
-*MIT License · bilingual docs enforced by [`AGENTS.md`](AGENTS.md) · built Windows 11, CPU-only, conda `ds0509`.*
+Licensed under MIT — see [`LICENSE`](LICENSE). 中文入口见 [`README.zh-CN.md`](README.zh-CN.md)。

@@ -1,0 +1,79 @@
+{
+  "research": {
+    "title_en": "Research",
+    "name_zh": "科研域",
+    "summary": "Local-first, citation-grounded research pipeline",
+    "workflow": [
+      "L0 Scaffold & plan",
+      "L1 Acquire sources",
+      "L2 Parse & normalize",
+      "L3 Ground claims",
+      "L4 Synthesize",
+      "L5 Judge & score",
+      "L6 Publish"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": ["research", "literature", "survey", "paper", "cite", "citation", "arxiv", "doi", "文献", "综述", "论文", "引用"]
+  },
+  "knowledge-management": {
+    "title_en": "Knowledge management",
+    "name_zh": "知识管理域",
+    "summary": "Coverage-mapped, source-ledgered knowledge base",
+    "workflow": [
+      "Map coverage",
+      "Acquire on gap",
+      "Canonicalize",
+      "Ledger sources",
+      "Gate publication"
+    ],
+    "artifact": "knowledge_base",
+    "grounding": "required",
+    "signals": ["knowledge base", "wiki", "coverage", "ledger", "知识库", "笔记", "覆盖"]
+  },
+  "data-science": {
+    "title_en": "Data science",
+    "name_zh": "数据科学域",
+    "summary": "Reproducible, leakage-free experiment pipeline",
+    "workflow": [
+      "Register datasets",
+      "Split non-overlapping",
+      "Fix eval protocol",
+      "Run experiments",
+      "Judge",
+      "Report"
+    ],
+    "artifact": "dataset",
+    "grounding": "preferred",
+    "signals": ["dataset", "model", "training", "eval", "evaluation", "metrics", "experiment", "数据", "模型", "训练", "评测"]
+  },
+  "devops": {
+    "title_en": "DevOps / meta",
+    "name_zh": "运维与元域",
+    "summary": "Harness self-evolution and change control",
+    "workflow": [
+      "Collect signals",
+      "Audit",
+      "Mutate",
+      "Journal",
+      "Govern"
+    ],
+    "artifact": "code",
+    "grounding": "preferred",
+    "signals": ["deploy", "ci", "pipeline", "infra", "ops", "evolution", "governance", "运维", "部署", "演化"]
+  },
+  "general": {
+    "title_en": "General",
+    "name_zh": "通用域",
+    "summary": "Domain-agnostic baseline harness",
+    "workflow": [
+      "Plan",
+      "Do",
+      "Verify",
+      "Handoff"
+    ],
+    "artifact": "mixed",
+    "grounding": "preferred",
+    "signals": []
+  }
+}

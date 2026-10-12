@@ -1,0 +1,77 @@
+# AGENTS.md — {{ domain_title }}
+
+> Generated harness for: **{{ task_text }}**
+> By `harness-factory` {{ version }} on {{ created }}. This file is the operating manual for the task.
+
+## 中文速览
+
+本文件是本次任务所需 harness 的操作说明。**任务特征**：{{ features_line }}。**启用模块**：{{ modules_line }}。硬规则以 M0 为准；完成判定见 `.harness/gates.md`。选择理由见 `.harness/manifest.json`（可运行 `harness explain`）。
+
+---
+
+## Task · 任务
+
+{{ task_text }}
+
+- **Domain:** {{ domain }} ({{ domain_zh }}) — {{ domain_summary }}
+- **Goal:** {{ goal }}
+
+## Feature vector · 任务特征
+
+| feature | value |
+|---|---|
+| horizon | {{ f_horizon }} |
+| verifiability | {{ f_verifiability }} |
+| stakes | {{ f_stakes }} |
+| grounding | {{ f_grounding }} |
+| artifact | {{ f_artifact }} |
+| tool_surface | {{ f_tool_surface }} |
+| collaboration | {{ f_collaboration }} |
+| classification source | {{ f_source }} |
+
+## Modules · 启用模块
+
+| id | module | rule |
+|---|---|---|
+{{ modules_table }}
+
+## Hard rules (M0) · 硬规则
+
+- **Truth before throughput.** Never let a mechanism that "helps finish" invent content.
+- **Source-grounding.** Every factual claim traces to a primary source (+ access date), or is marked `unverified`.
+- **Verify before "done".** "Done" is a verified state with observed evidence, not a feeling.
+- **Machines observe, humans decide substance.** Automation may observe, record, and rank — never fabricate or silently mutate substantive output.
+- **Human gate.** Irreversible acts (delete / push / publish / spend / contact) require explicit human authorization.
+
+> 真相优先；来源可溯；先验证再称完成；机器只观察、实质靠人决断；破坏性动作须人工确认。
+
+## Workflow · 工作流
+
+{{ workflow_list }}
+
+## Gates · 完成门禁
+
+See `.harness/gates.md`. Gate strictness: **{{ gate_strictness }}**. Do not claim "done" without observed evidence.
+{{ gates_extra }}
+
+## Governance · 变更治理
+
+- Single source of truth; reviewable diffs; Conventional Commits (short subject).
+- Commit locally is routine; **never push/publish without an explicit human request**.
+{{ collaboration_extra }}
+
+## Session protocol · 会话协议
+
+- Plan first: update `tasks/PLAN.md`; log results in `tasks/PROGRESS.md`.
+- End every session with a handoff: goal · done · blocked · next · sources.
+{{ memory_extra }}
+
+## Files in this harness · 生成的文件
+
+{{ files_list }}
+
+## Self-check · 自检
+
+```
+python .harness/check.py .
+```

@@ -1,0 +1,17 @@
+# Gates — Definition of Done
+
+> Gate strictness: **{{ gate_strictness }}**
+> Every criterion starts `false`. It may be set `true` only after the required evidence is attached (M0.3).
+
+## Hard gates · 硬门 (mechanical)
+
+{{ hard_gates }}
+
+## Soft gates · 软门 (human judgment)
+
+{{ soft_gates }}
+
+## Evidence rule · 证据规则
+
+- Evidence is a first-class artifact (a test result, a file, a log line, a screenshot). No evidence → no pass.
+- An independent evaluator (fresh context, no write access) confirms the hard gates where possible.

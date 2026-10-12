@@ -1,0 +1,65 @@
+{
+  "M0": {
+    "title_en": "Meta-principles",
+    "title_zh": "元原则",
+    "rule_en": "Truth and traceability outrank speed; automate only observe/record/rank",
+    "rule_zh": "真相与可溯优先于速度；自动化只做观察/记录/排序",
+    "doc": "core/01-meta-principles.md"
+  },
+  "M1": {
+    "title_en": "Context engineering",
+    "title_zh": "上下文工程",
+    "rule_en": "Context is a finite, scarce resource - curate, don't dump",
+    "rule_zh": "上下文稀缺——精修，不要倾倒",
+    "doc": "core/02-context-engineering.md"
+  },
+  "M2": {
+    "title_en": "Long-running agents",
+    "title_zh": "长时程 agent",
+    "rule_en": "Externalize memory; advance incrementally; make every run resumable",
+    "rule_zh": "记忆外部化；增量推进；每次运行可续接",
+    "doc": "core/03-long-running-agents.md"
+  },
+  "M3": {
+    "title_en": "Verification & gates",
+    "title_zh": "验证与门禁",
+    "rule_en": "Define done before work; verify the verifier; hard vs soft gates",
+    "rule_zh": "先定义完成；验证验证器；硬门/软门分离",
+    "doc": "core/04-verification-and-gates.md"
+  },
+  "M4": {
+    "title_en": "Provenance & integrity",
+    "title_zh": "来源与完整性",
+    "rule_en": "Every fact traceable to a primary source; uncertain means uncertain",
+    "rule_zh": "每个事实可溯源；不确定即标注不确定",
+    "doc": "core/05-provenance-and-integrity.md"
+  },
+  "M5": {
+    "title_en": "Self-evolution",
+    "title_zh": "自演化",
+    "rule_en": "signal -> audit -> mutation -> journal, human-gated",
+    "rule_zh": "信号→审计→变异→日志，人类把关",
+    "doc": "core/06-self-evolution.md"
+  },
+  "M6": {
+    "title_en": "Tools & skills",
+    "title_zh": "工具与技能",
+    "rule_en": "Minimal toolset; biased errors; skills load progressively",
+    "rule_zh": "最小工具集；偏向正确的错误；技能渐进加载",
+    "doc": "core/07-tools-and-skills.md"
+  },
+  "M7": {
+    "title_en": "Change governance",
+    "title_zh": "变更治理",
+    "rule_en": "Single source of truth; reviewable diffs; no unsolicited destructive acts",
+    "rule_zh": "单一事实来源；可审阅 diff；不擅自做破坏性动作",
+    "doc": "core/08-change-governance.md"
+  },
+  "M8": {
+    "title_en": "Collaboration & sessions",
+    "title_zh": "协作与会话",
+    "rule_en": "Explicit contracts; escalate decisions; hand off with state",
+    "rule_zh": "显式契约；决策升级；带状态交接",
+    "doc": "core/09-collaboration-and-sessions.md"
+  }
+}
