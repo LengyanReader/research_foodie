@@ -13,7 +13,7 @@
 
 **本库的目标是「泛化」而非「记录」。** 每一条模式都从具体项目里提炼，但**写成与具体项目无关的形式**——任何「用 LLM 智能体做某类工作」的仓库都可直接套用。原项目只作为**出处示例（Exemplar）**标注，不构成定义。
 
-**结构。** `core/` 放**跨域通用**的 9 条主干模式；`domains/` 放四大域（科研 / 知识管理 / 数据科学 / DevOps）的**域内专属**编排；`review/` 是对「AI harness」这一主题的**文献综述**；`sources/` 是**提炼溯源表**（哪个模式来自哪份一手材料）。
+**结构。** `core/` 放**跨域通用**的 9 条主干模式；`domains/` 放各学科门类（20 个）的**域内专属**编排；`review/` 是对「AI harness」这一主题的**文献综述**与 `harness-index.md` 统一索引；`sources/` 是**提炼溯源表**（哪个模式来自哪份一手材料）。**完整介绍与实例见 [`GUIDE.md`](GUIDE.md)。**
 
 **怎么用。** 新任务先读 `core/01-meta-principles.md`；再按任务性质进入对应 `domains/*`；实现时把对应 `core/*` 文件当作**操作手册**逐条落实；收尾跑域内的验证门禁。
 
@@ -99,6 +99,7 @@ L0). In path mode the home is optional.
 ```
 harness_factory/
 ├── README.md                      ← 本文件：定位 · 结构 · 用法
+├── GUIDE.md                       项目指南 · Project Guide：介绍 + 命令速查 + 6 个实例（中英对照）
 ├── SKILL.md                        agent-native entry (cardinal rules + load-index + contract)
 ├── introduction.md                简介：是什么 · 心智模型 · Quickstart
 ├── pyproject.toml                 dev/CI convenience only (packaging cancelled as a channel)
@@ -146,6 +147,9 @@ harness_factory/
 ---
 
 ## How to use this factory · 使用方式
+
+> New here? Read [`GUIDE.md`](GUIDE.md) — full intro, command reference, and six worked examples (bilingual).
+> 初次使用请读 [`GUIDE.md`](GUIDE.md)——完整介绍、命令速查与六个实例（中英对照）。
 
 1. **Orient** — read `core/01-meta-principles.md`. These ten invariants govern everything else.
 2. **Classify the task** — pick the domain in `domains/` that matches the *kind of work*, not the *topic*. A research repo that also ships a website still uses `research/` for its research loop and `devops/` for its build loop.
