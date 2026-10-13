@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-12 · 55 entries · 8 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-12 · 64 entries · 9 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -87,7 +87,7 @@ harness catalog claude-code           # detail one entry
 | `anthropic-agent-skills` | Anthropic Agent Skills · Anthropic Agent Skills | 技能生态 | M1, M6 | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview |
 | `mcp` | Model Context Protocol (MCP) · 模型上下文协议 (MCP) | 协议 | M1, M6 | https://modelcontextprotocol.io · tracked:anthropic-mcp |
 
-## Evaluation harnesses · 评测 harness  (7)
+## Evaluation harnesses · 评测 harness  (11)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -98,6 +98,10 @@ harness catalog claude-code           # detail one entry
 | `polyglot` | SWE-bench Polyglot · SWE-bench Polyglot | 基准/评测器 | M3 | https://github.com/swe-bench/swe-bench.github.io |
 | `locomo` | LoCoMo · LoCoMo | 基准/评测器 | M2, M3 | https://github.com/snap-research/locomo |
 | `longmemeval` | LongMemEval · LongMemEval | 基准/评测器 | M2, M3 | https://github.com/xiaowu0162/LongMemEval |
+| `lm-eval-harness` | LM Evaluation Harness · LM Evaluation Harness | eval-framework | M3 | https://github.com/EleutherAI/lm-evaluation-harness |
+| `helm` | HELM · HELM | eval-framework | M3, M4 | https://github.com/stanford-crfm/helm |
+| `simple-evals` | simple-evals · simple-evals | eval-framework | M3 | https://github.com/openai/simple-evals |
+| `lighteval` | LightEval · LightEval | eval-framework | M3 | https://github.com/huggingface/lighteval |
 
 ## Surveys (orientation) · 综述导航  (5)
 
@@ -115,6 +119,16 @@ harness catalog claude-code           # detail one entry
 |---|---|---|---|---|
 | `saver` | SAVER (Safety in Self-Evolving Agents) · SAVER（自演化 agent 的安全） | 安全框架 | M0, M5, M8 | arXiv:2610.00093 |
 | `misevolution` | Misevolution (Emergent Risks in Self-evolving LLM Agents) · Misevolution（自演化 agent 的涌现风险） | 安全框架 | M0, M5, M8 | arXiv:2509.26354 |
+
+## Discovery / evidence & model search · 发现·证据与模型搜索  (5)
+
+| id | name | kind | core modules | source |
+|---|---|---|---|---|
+| `elicit` | Elicit · Elicit | evidence-extractor | M1, M4 | https://elicit.com/ |
+| `consensus` | Consensus · Consensus | evidence-synthesizer | M1, M4 | https://consensus.app/ |
+| `connected-papers` | Connected Papers · Connected Papers | graph-explorer | M1, M4 | https://www.connectedpapers.com/ |
+| `researchrabbit` | ResearchRabbit · ResearchRabbit | graph-explorer | M1, M4 | https://www.researchrabbit.ai/ |
+| `paperswithcode` | PapersWithCode · PapersWithCode | index | M1, M4 | https://paperswithcode.com/ |
 
 ---
 

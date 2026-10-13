@@ -15,7 +15,20 @@
     ],
     "artifact": "document",
     "grounding": "required",
-    "signals": ["research", "literature", "survey", "paper", "cite", "citation", "arxiv", "doi", "文献", "综述", "论文", "引用"]
+    "signals": [
+      "research",
+      "literature",
+      "survey",
+      "paper",
+      "cite",
+      "citation",
+      "arxiv",
+      "doi",
+      "文献",
+      "综述",
+      "论文",
+      "引用"
+    ]
   },
   "knowledge-management": {
     "faculty": "meta",
@@ -31,7 +44,15 @@
     ],
     "artifact": "knowledge_base",
     "grounding": "required",
-    "signals": ["knowledge base", "wiki", "coverage", "ledger", "知识库", "笔记", "覆盖"]
+    "signals": [
+      "knowledge base",
+      "wiki",
+      "coverage",
+      "ledger",
+      "知识库",
+      "笔记",
+      "覆盖"
+    ]
   },
   "data-science": {
     "faculty": "engineering",
@@ -48,7 +69,19 @@
     ],
     "artifact": "dataset",
     "grounding": "preferred",
-    "signals": ["dataset", "model", "training", "eval", "evaluation", "metrics", "experiment", "数据", "模型", "训练", "评测"]
+    "signals": [
+      "dataset",
+      "model",
+      "training",
+      "eval",
+      "evaluation",
+      "metrics",
+      "experiment",
+      "数据",
+      "模型",
+      "训练",
+      "评测"
+    ]
   },
   "software-engineering": {
     "faculty": "engineering",
@@ -65,7 +98,20 @@
     ],
     "artifact": "code",
     "grounding": "preferred",
-    "signals": ["codebase", "refactor", "api", "bug", "feature", "software", "代码", "重构", "接口", "缺陷", "功能", "单元测试"]
+    "signals": [
+      "codebase",
+      "refactor",
+      "api",
+      "bug",
+      "feature",
+      "software",
+      "代码",
+      "重构",
+      "接口",
+      "缺陷",
+      "功能",
+      "单元测试"
+    ]
   },
   "devops": {
     "faculty": "engineering",
@@ -81,7 +127,18 @@
     ],
     "artifact": "code",
     "grounding": "preferred",
-    "signals": ["deploy", "ci", "pipeline", "infra", "ops", "evolution", "governance", "运维", "部署", "演化"]
+    "signals": [
+      "deploy",
+      "ci",
+      "pipeline",
+      "infra",
+      "ops",
+      "evolution",
+      "governance",
+      "运维",
+      "部署",
+      "演化"
+    ]
   },
   "engineering": {
     "faculty": "engineering",
@@ -98,7 +155,21 @@
     ],
     "artifact": "mixed",
     "grounding": "preferred",
-    "signals": ["mechanical", "electrical", "circuit", "cad", "materials", "structural", "tolerance", "机械", "电气", "电路", "材料", "结构", "公差"]
+    "signals": [
+      "mechanical",
+      "electrical",
+      "circuit",
+      "cad",
+      "materials",
+      "structural",
+      "tolerance",
+      "机械",
+      "电气",
+      "电路",
+      "材料",
+      "结构",
+      "公差"
+    ]
   },
   "physics": {
     "faculty": "natural-sciences",
@@ -115,7 +186,18 @@
     ],
     "artifact": "dataset",
     "grounding": "required",
-    "signals": ["physics", "quantum", "particle", "mechanics", "thermodynamics", "optics", "物理", "量子", "粒子", "实验测量"]
+    "signals": [
+      "physics",
+      "quantum",
+      "particle",
+      "mechanics",
+      "thermodynamics",
+      "optics",
+      "物理",
+      "量子",
+      "粒子",
+      "实验测量"
+    ]
   },
   "chemistry": {
     "faculty": "natural-sciences",
@@ -132,7 +214,18 @@
     ],
     "artifact": "dataset",
     "grounding": "required",
-    "signals": ["chemistry", "molecule", "reaction", "synthesis", "compound", "catalysis", "化学", "分子", "反应", "合成"]
+    "signals": [
+      "chemistry",
+      "molecule",
+      "reaction",
+      "synthesis",
+      "compound",
+      "catalysis",
+      "化学",
+      "分子",
+      "反应",
+      "合成"
+    ]
   },
   "biology": {
     "faculty": "natural-sciences",
@@ -149,7 +242,19 @@
     ],
     "artifact": "dataset",
     "grounding": "required",
-    "signals": ["biology", "gene", "genomics", "protein", "cell", "ecology", "生物", "基因", "蛋白", "细胞", "生态"]
+    "signals": [
+      "biology",
+      "gene",
+      "genomics",
+      "protein",
+      "cell",
+      "ecology",
+      "生物",
+      "基因",
+      "蛋白",
+      "细胞",
+      "生态"
+    ]
   },
   "earth-environment": {
     "faculty": "natural-sciences",
@@ -166,7 +271,19 @@
     ],
     "artifact": "dataset",
     "grounding": "required",
-    "signals": ["climate", "geology", "earth", "environment", "weather", "hydrology", "气候", "地质", "环境", "气象", "水文"]
+    "signals": [
+      "climate",
+      "geology",
+      "earth",
+      "environment",
+      "weather",
+      "hydrology",
+      "气候",
+      "地质",
+      "环境",
+      "气象",
+      "水文"
+    ]
   },
   "mathematics": {
     "faculty": "natural-sciences",
@@ -183,7 +300,19 @@
     ],
     "artifact": "document",
     "grounding": "required",
-    "signals": ["theorem", "proof", "lemma", "algebra", "topology", "combinatorics", "数学", "定理", "证明", "代数", "几何"]
+    "signals": [
+      "theorem",
+      "proof",
+      "lemma",
+      "algebra",
+      "topology",
+      "combinatorics",
+      "数学",
+      "定理",
+      "证明",
+      "代数",
+      "几何"
+    ]
   },
   "medicine": {
     "faculty": "health",
@@ -200,7 +329,19 @@
     ],
     "artifact": "document",
     "grounding": "required",
-    "signals": ["clinical", "patient", "diagnosis", "treatment", "trial", "medical", "临床", "患者", "诊断", "治疗", "医学"]
+    "signals": [
+      "clinical",
+      "patient",
+      "diagnosis",
+      "treatment",
+      "trial",
+      "medical",
+      "临床",
+      "患者",
+      "诊断",
+      "治疗",
+      "医学"
+    ]
   },
   "economics-finance": {
     "faculty": "social-sciences",
@@ -217,7 +358,19 @@
     ],
     "artifact": "dataset",
     "grounding": "required",
-    "signals": ["economic", "market", "finance", "portfolio", "econometrics", "trade", "经济", "市场", "金融", "投资", "计量"]
+    "signals": [
+      "economic",
+      "market",
+      "finance",
+      "portfolio",
+      "econometrics",
+      "trade",
+      "经济",
+      "市场",
+      "金融",
+      "投资",
+      "计量"
+    ]
   },
   "psychology": {
     "faculty": "social-sciences",
@@ -234,7 +387,18 @@
     ],
     "artifact": "dataset",
     "grounding": "required",
-    "signals": ["psychology", "cognitive", "behaviour", "behavior", "questionnaire", "psychometric", "心理", "认知", "行为", "问卷"]
+    "signals": [
+      "psychology",
+      "cognitive",
+      "behaviour",
+      "behavior",
+      "questionnaire",
+      "psychometric",
+      "心理",
+      "认知",
+      "行为",
+      "问卷"
+    ]
   },
   "social-science": {
     "faculty": "social-sciences",
@@ -251,7 +415,18 @@
     ],
     "artifact": "document",
     "grounding": "required",
-    "signals": ["sociology", "political", "policy", "ethnography", "qualitative", "社会", "政治", "政策", "民族志", "治理"]
+    "signals": [
+      "sociology",
+      "political",
+      "policy",
+      "ethnography",
+      "qualitative",
+      "社会",
+      "政治",
+      "政策",
+      "民族志",
+      "治理"
+    ]
   },
   "law": {
     "faculty": "law",
@@ -268,7 +443,19 @@
     ],
     "artifact": "document",
     "grounding": "required",
-    "signals": ["legal", "statute", "contract", "case law", "regulation", "jurisdiction", "法律", "法条", "合同", "判例", "法规"]
+    "signals": [
+      "legal",
+      "statute",
+      "contract",
+      "case law",
+      "regulation",
+      "jurisdiction",
+      "法律",
+      "法条",
+      "合同",
+      "判例",
+      "法规"
+    ]
   },
   "humanities": {
     "faculty": "humanities",
@@ -285,7 +472,18 @@
     ],
     "artifact": "document",
     "grounding": "required",
-    "signals": ["history", "philosophy", "philology", "archive", "hermeneutics", "历史", "哲学", "文学", "文献学", "诠释"]
+    "signals": [
+      "history",
+      "philosophy",
+      "philology",
+      "archive",
+      "hermeneutics",
+      "历史",
+      "哲学",
+      "文学",
+      "文献学",
+      "诠释"
+    ]
   },
   "education": {
     "faculty": "education",
@@ -302,7 +500,18 @@
     ],
     "artifact": "document",
     "grounding": "preferred",
-    "signals": ["education", "curriculum", "pedagogy", "teaching", "assessment", "learning outcomes", "教育", "课程", "教学", "评估"]
+    "signals": [
+      "education",
+      "curriculum",
+      "pedagogy",
+      "teaching",
+      "assessment",
+      "learning outcomes",
+      "教育",
+      "课程",
+      "教学",
+      "评估"
+    ]
   },
   "arts-design": {
     "faculty": "arts",
@@ -319,7 +528,19 @@
     ],
     "artifact": "mixed",
     "grounding": "off",
-    "signals": ["art", "design", "typography", "illustration", "composition", "creative", "艺术", "设计", "排版", "插画", "创意"]
+    "signals": [
+      "art",
+      "design",
+      "typography",
+      "illustration",
+      "composition",
+      "creative",
+      "艺术",
+      "设计",
+      "排版",
+      "插画",
+      "创意"
+    ]
   },
   "general": {
     "faculty": "meta",
@@ -335,5 +556,31 @@
     "artifact": "mixed",
     "grounding": "preferred",
     "signals": []
+  },
+  "model-selection": {
+    "faculty": "engineering",
+    "title_en": "Model selection / fit-for-task evaluation",
+    "name_zh": "模型选型·任务适配性评估域",
+    "summary": "From requirement matrix to reproducible fit-for-task evaluation with provenance.",
+    "workflow": [
+      "L0 Requirements matrix",
+      "L1 Candidate discovery",
+      "L2 Evidence provenance",
+      "L3 Fit-for-task eval",
+      "L4 Decision gate",
+      "L5 Record & reproducible"
+    ],
+    "artifact": "mixed",
+    "grounding": "required",
+    "signals": [
+      "model selection",
+      "fit for task",
+      "fit-for-task",
+      "task suitability",
+      "lm eval",
+      "选型",
+      "任务适配",
+      "模型选型"
+    ]
   }
 }
