@@ -65,7 +65,7 @@ harness refresh-apply --accept 0 2601.12345   # human gate -> proposals
 # intel + self-evolution (tracked sources: labs, vendor harnesses, venues, people, self-media)
 harness sources --group harnesses        # list every tracked entity (109 across 7 groups)
 harness intel --since 2026-01-01         # pull tracked feeds -> updates/INTEL.md (+ intel.jsonl)
-harness evolve                           # audit coverage/gaps -> updates/EVOLUTION.md (proposals)
+harness evolve                           # audit coverage/gaps + stale apex bars -> updates/EVOLUTION.md
 harness evolve --dry-run                 # same, write nothing
 harness evolve-apply --accept <id|target>  # human gate -> updates/accepted.json (reversible)
 ```

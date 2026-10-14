@@ -212,7 +212,7 @@ self-check: OK
 | `standard … [--domain D]` | Frontier-standard ratchet: bar/score/audit/raise/frontier on the domain rubric. | 最高标准棘轮：定标杆/评分/审计/提升/前沿。 |
 | `sources [--group G]` | List tracked sources. | 列出已追踪信源。 |
 | `intel [--since D]` | Pull tracked feeds → `updates/INTEL.md`. | 抓取信源 → 情报简报。 |
-| `evolve [--dry-run]` | Audit coverage/gaps → proposals. | 审计覆盖/缺口 → 提案。 |
+| `evolve [--dry-run]` | Audit coverage/gaps + stale apex bars → proposals. | 审计覆盖/缺口与过期的最高标准 → 提案。 |
 | `evolve-apply --accept …` | Human gate → `updates/accepted.json`. | 人工采纳提案。 |
 | `refresh [--provider all --intel]` | Pull new/leading sources (proposal only). | 抓取新前沿信源（只出提案）。 |
 | `refresh-apply --accept …` | Human gate → proposal stubs. | 人工采纳候选。 |

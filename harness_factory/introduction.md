@@ -173,7 +173,7 @@ The knowledge base must not freeze. `harness refresh` runs `signal → audit →
 
 **Intel (`harness intel`).** Pulls those feeds, scores relevance (topic keywords + entity mention + recency), tags by topic/entity, and writes a bilingual `updates/INTEL.md` + `updates/intel.jsonl`. Briefs are verbatim excerpts unless an LLM summary is configured (`llm.summarize`).
 
-**Self-evolution (`harness evolve`).** The structural loop **snapshot → audit → mutation-proposal → journal**: audits topic coverage, empty groups, stale entities, and accepted candidates from untracked sources; writes `updates/EVOLUTION.md` + `updates/evolution.jsonl` and appends a metric snapshot to `updates/metrics.jsonl`. `evolve-apply` accepts proposals into `updates/accepted.json` only (M0.8/M0.9).
+**Self-evolution (`harness evolve`).** The structural loop **snapshot → audit → mutation-proposal → journal**: audits topic coverage, empty groups, stale entities, accepted candidates from untracked sources, and **apex bars whose moving frontier is un-rechecked** (`stale_frontier`, from `updates/standard.json`); writes `updates/EVOLUTION.md` + `updates/evolution.jsonl` and appends a metric snapshot to `updates/metrics.jsonl`. `evolve-apply` accepts proposals into `updates/accepted.json` only (M0.8/M0.9).
 
 Scheduling (weekly): run `refresh.ps1` (now: refresh `--provider all --intel` then `evolve`); details in `tasks/REFRESH.md` (Task Scheduler / cron / GitHub Actions).
 

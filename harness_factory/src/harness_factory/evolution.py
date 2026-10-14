@@ -35,9 +35,28 @@ def _host(url: str) -> str:
     return match.group(1).lower() if match else ""
 
 
+#: The moving frontier must be re-checked at least this often (days).
+FRONTIER_MAX_AGE_DAYS = 90
+
+
+def _age_days(stamp: str | None, now: str) -> float | None:
+    if not stamp:
+        return None
+    try:
+        then = _dt.datetime.fromisoformat(stamp)
+        ref = _dt.datetime.fromisoformat(now)
+    except ValueError:
+        return None
+    if then.tzinfo is None:
+        then = then.replace(tzinfo=_dt.timezone.utc)
+    if ref.tzinfo is None:
+        ref = ref.replace(tzinfo=_dt.timezone.utc)
+    return (ref - then).total_seconds() / 86400.0
+
+
 @dataclass
 class Audit:
-    kind: str  # uncovered_topic | empty_group | stale_source
+    kind: str  # uncovered_topic | empty_group | stale_source | stale_frontier
     subject: str
     detail: str
     severity: str = "low"  # low | medium | high
@@ -99,6 +118,9 @@ def audit(
     metrics: dict[str, Any] | None = None,
     queue_rows: list[dict[str, Any]] | None = None,
     cases: list[dict[str, Any]] | None = None,
+    standard_objectives: dict[str, dict[str, Any]] | None = None,
+    now: str | None = None,
+    frontier_max_age_days: int = FRONTIER_MAX_AGE_DAYS,
 ) -> list[Audit]:
     """Detect structural gaps from the registry + this run's intel + accepted queue + cases."""
     metrics = metrics or snapshot(sources, watchlist, intel_items)
@@ -159,6 +181,36 @@ def audit(
                         cap,
                         f"Project capability '{cap}' recurs in {n} cases but is not in the capability map.",
                         "medium",
+                    )
+                )
+
+    # Moving frontier: an apex bar (R4+) whose frontier has not been re-checked.
+    if standard_objectives:
+        ref = now or _now()
+        for name, obj in standard_objectives.items():
+            bar = obj.get("bar") or {}
+            checked = obj.get("frontier_checked_at")
+            age = _age_days(checked, ref)
+            if not bar:
+                out.append(
+                    Audit(
+                        "stale_frontier",
+                        name,
+                        f"Objective '{name}' has a floor but no named bar to anchor the frontier.",
+                        "high",
+                    )
+                )
+            elif bar.get("is_apex") and (
+                age is None or age > frontier_max_age_days
+            ):
+                when = "never" if age is None else f"{age:.0f}d ago"
+                out.append(
+                    Audit(
+                        "stale_frontier",
+                        name,
+                        f"Apex bar '{bar.get('level')}·{bar.get('name', '')}' for '{name}' "
+                        f"was last checked {when} (> {frontier_max_age_days}d).",
+                        "medium" if age is not None else "high",
                     )
                 )
     return out
@@ -226,6 +278,20 @@ def propose(audits: list[Audit]) -> list[Proposal]:
                     a.severity,
                 )
             )
+        elif a.kind == "stale_frontier":
+            out.append(
+                Proposal(
+                    _pid("recheck_bar", a.subject),
+                    "recheck_frontier",
+                    a.subject,
+                    {
+                        "objective": a.subject,
+                        "suggest": "Re-check the apex bar (new SOTA?) and run `harness standard ... frontier`.",
+                    },
+                    a.detail,
+                    a.severity,
+                )
+            )
     return out
 
 
@@ -238,6 +304,14 @@ def _seen(intel_items: list[Any]) -> set[str]:
         if entity:
             seen.add(str(entity))
     return seen
+
+
+def load_standard_objectives(root: str | Path) -> dict[str, dict[str, Any]]:
+    """The frontier-standard ledger's objectives (``updates/standard.json``), if any."""
+    from . import standard
+
+    ledger = standard.load_ledger(Path(root) / "updates" / "standard.json")
+    return ledger.get("objectives", {})
 
 
 def load_intel(root: str | Path) -> list[dict[str, Any]]:
@@ -272,7 +346,17 @@ def run_evolution(
         cases = load_cases(root)
 
     metrics = snapshot(sources, watchlist, intel_items, cases)
-    audits = audit(sources, watchlist, intel_items, _seen(intel_items), metrics, queue_rows, cases)
+    objectives = load_standard_objectives(root)
+    audits = audit(
+        sources,
+        watchlist,
+        intel_items,
+        _seen(intel_items),
+        metrics,
+        queue_rows,
+        cases,
+        standard_objectives=objectives,
+    )
     proposals = propose(audits)
 
     created = _now()

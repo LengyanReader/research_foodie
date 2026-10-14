@@ -1,7 +1,10 @@
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from harness_factory.registry import domains
-from harness_factory import standard
+from harness_factory import evolution, standard
 
 
 class RubricCoverageTest(unittest.TestCase):
@@ -63,6 +66,67 @@ class RatchetTest(unittest.TestCase):
         ledger = self._ledger()
         with self.assertRaises(ValueError):
             standard.record_scores(ledger, "o", {"fidelity": 5}, "excellence")
+
+
+class StaleFrontierAuditTest(unittest.TestCase):
+    NOW = "2026-10-14T00:00:00+00:00"
+    EMPTY_SRC = {"groups": {}}
+    EMPTY_WL = {"topics": []}
+
+    def _objectives(self):
+        return {
+            "fresh": {
+                "bar": {"level": "R4", "name": "x", "is_apex": True},
+                "frontier_checked_at": "2026-10-10T00:00:00+00:00",
+            },
+            "stale": {
+                "bar": {"level": "R5", "name": "y", "is_apex": True},
+                "frontier_checked_at": "2026-06-01T00:00:00+00:00",
+            },
+            "never": {"bar": {"level": "R4", "name": "z", "is_apex": True}},
+            "unbarred": {"bar": None, "floor": 2.0},
+        }
+
+    def _audits(self):
+        return evolution.audit(
+            self.EMPTY_SRC,
+            self.EMPTY_WL,
+            [],
+            standard_objectives=self._objectives(),
+            now=self.NOW,
+            frontier_max_age_days=90,
+        )
+
+    def test_only_stale_and_never_and_unbarred_flagged(self):
+        subjects = {a.subject for a in self._audits() if a.kind == "stale_frontier"}
+        self.assertEqual(subjects, {"stale", "never", "unbarred"})
+
+    def test_severity_by_case(self):
+        sev = {a.subject: a.severity for a in self._audits() if a.kind == "stale_frontier"}
+        self.assertEqual(sev["stale"], "medium")
+        self.assertEqual(sev["never"], "high")
+        self.assertEqual(sev["unbarred"], "high")
+
+    def test_proposal_is_recheck_frontier(self):
+        proposals = {p.target: p for p in evolution.propose(self._audits())}
+        self.assertIn("stale", proposals)
+        self.assertEqual(proposals["stale"].action, "recheck_frontier")
+
+    def test_no_objectives_no_audit(self):
+        audits = evolution.audit(self.EMPTY_SRC, self.EMPTY_WL, [], now=self.NOW)
+        self.assertEqual([a for a in audits if a.kind == "stale_frontier"], [])
+
+    def test_run_evolution_reads_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            updates = Path(tmp) / "updates"
+            updates.mkdir(parents=True)
+            (updates / "standard.json").write_text(
+                json.dumps({"objectives": self._objectives()}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            summary = evolution.run_evolution(tmp, self.EMPTY_SRC, self.EMPTY_WL, dry_run=True)
+            subjects = {a["subject"] for a in summary["audits"] if a["kind"] == "stale_frontier"}
+            self.assertEqual(subjects, {"stale", "never", "unbarred"})
 
 
 if __name__ == "__main__":
