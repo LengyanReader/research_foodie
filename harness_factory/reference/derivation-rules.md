@@ -63,8 +63,9 @@ they never enable a module the rule table did not. Current set:
 | `high-stakes-guardrails` | `stakes = high` | M3, M8 |
 | `reproducible-experiments` | `domain ∈ {data-science, research}` AND `verifiability = high` | M3, M4, M5 |
 | `long-horizon-autonomy-control` | `horizon ≥ multi_session` AND `stakes = high` | M2, M3, M8 |
+| `frontier-standard` | `domain = excellence` OR (`verifiability = high` AND `horizon ≥ multi_session`) | M3, M5, M8 |
 
-Add a requirement by editing the JSON, not code.
+Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.)
 
 ## 4. Output contract · 输出契约
 

@@ -23,7 +23,7 @@
 
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容；破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
-**本文件。** 完整介绍 + 命令速查 + **8 个可运行的实例**（含「网球出界判定」全流程、「读物阅读近乎无损」、「深度调研至 Anthropic 水准」与「新 harness 反哺回本仓库」的闭环）。
+**本文件。** 完整介绍 + 命令速查 + **9 个可运行的实例**（含「网球出界判定」全流程、「读物阅读近乎无损」、「深度调研至 Anthropic 水准」、「对标最高标准棘轮」与「新 harness 反哺回本仓库」的闭环）。
 
 ---
 
@@ -82,7 +82,7 @@ These describe *the kind of work*, not the topic. · 描述**工作的性质**�
 | `artifact` | `code` · `document` · `dataset` · `knowledge_base` · `plan` · `mixed` | what is produced · 产出物 |
 | `tool_surface` | `none` · `read` · `read_write` · `external` | how much the agent touches the world · 触达世界的程度 |
 | `collaboration` | `solo` · `human_review` · `multi_agent` | who else is involved · 协作形态 |
-| `domain` | 22 disciplines (below) · 22 个学科 | weak prior for defaults · 默认值的弱先验 |
+| `domain` | 23 disciplines (below) · 23 个学科 | weak prior for defaults · 默认值的弱先验 |
 
 ### 2.3 Modules M0–M8 · 核心模块
 
@@ -117,9 +117,9 @@ Requirements match **capabilities**, which *annotate* the enabled modules and ar
 
 ### 2.5 Domains · 学科门类
 
-Data-driven taxonomy of **22 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **22 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
+Data-driven taxonomy of **23 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **23 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
 
-`deep-research` · `research` · `reading` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
+`deep-research` · `research` · `reading` · `excellence` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
 
 ### 2.6 Consumption modes · 消费形态
 
@@ -513,6 +513,31 @@ PYTHONPATH=src python -m harness_factory sources --group tools
 
 ---
 
+### Example 9 — Aim at the highest standard (the ratchet) · 对标最高标准（棘轮）
+
+**EN.** `excellence` turns "make it world-class" into a measurable, monotone loop: **name the best-known bar → baseline → gap audit → raise → ratchet (never regress) → track the moving frontier**. The mechanism is in [`domains/excellence/standard-ladder.md`](domains/excellence/standard-ladder.md); the `frontier-standard` capability fires it (M3+M5+M8).
+
+**中文。** `excellence` 把「做到世界一流」变成可测量、只升不降的闭环：**定标杆→对标→差距审计→提升→棘轮（不回退）→跟踪移动前沿**。机制见 `domains/excellence/standard-ladder.md`；`frontier-standard` 能力触发它（M3+M5+M8）。
+
+```bash
+# Derive a frontier-standard harness: high verifiability + multi-session => capability fires
+PYTHONPATH=src python -m harness_factory derive \
+  --task "raise this research brief to the best-known standard; measure gaps and ratchet" \
+  --domain excellence --verifiability high --horizon multi_session --grounding required --stakes high
+
+# Inspect the capabilities map (requirement -> capability -> modules)
+PYTHONPATH=src python -m harness_factory capabilities
+PYTHONPATH=src python -m harness_factory catalog --kind research-eval   # where to read the bar
+```
+
+**The ratchet in one line · 棘轮一行:** `floor_next = max(floor,achieved)` — the floor is a promise: no future submission may score below it without a human-approved exception. · 下限是承诺：未获人工豁免，后续产出不得低于它。
+
+**The bar ladder · 标杆阶梯:** R1 floor (correct) → R2 peer → R3 strong → R4 leader (SOTA) → R5 frontier (best exemplar) → R6 moving (as SOTA advances).
+
+> **Boundary · 边界.** A bar with no measurable, sourced reference is `unverified`; excellence is **never self-declared** (M0.4/M0.8). · 无据可测的标杆标为 `unverified`；优秀**绝不自我宣称**。
+
+---
+
 ## 7. What it produces · 生成物
 
 ```text
@@ -587,7 +612,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
 - **P1.8 done** — agent-native mode (`SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **22 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); and **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研覆盖。
+- **P2 (in progress)** — **23 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); and **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力。
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store. · 运行时钩子。
 - **P4** — plugin protocol for third-party domains/templates. · 第三方插件协议。
 

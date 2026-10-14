@@ -657,5 +657,43 @@
       "体裁",
       "精读"
     ]
+  },
+  "excellence": {
+    "faculty": "meta",
+    "title_en": "Frontier standard / excellence",
+    "name_zh": "最高标准域",
+    "summary": "Aim at the best-known bar: fix the apex standard, audit the gap, ratchet up monotonically, and track the moving frontier",
+    "workflow": [
+      "L0 Fix the apex bar",
+      "L1 Baseline the output",
+      "L2 Dimension gap audit",
+      "L3 Improvement plan",
+      "L4 Raise & re-verify",
+      "L5 Ratchet (no regression)",
+      "L6 Track the moving frontier",
+      "L7 Record"
+    ],
+    "artifact": "mixed",
+    "grounding": "required",
+    "signals": [
+      "highest standard",
+      "state of the art",
+      "state-of-the-art",
+      "sota",
+      "best in class",
+      "best-in-class",
+      "benchmark against",
+      "excellence",
+      "apex",
+      "gold standard",
+      "frontier standard",
+      "top tier",
+      "最高标准",
+      "极致",
+      "对标",
+      "标杆",
+      "第一梯队",
+      "顶尖"
+    ]
   }
 }
