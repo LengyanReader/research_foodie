@@ -105,6 +105,9 @@ harness explain --dir C:\work\parser-task
 # 3b. Agent-native helpers + project profiling / learning (observe-only)
 harness skill                       # agent load-index; `harness skill M4` prints a module
 harness capabilities                # requirement -> capability -> modules map
+harness standard --domain deep-research bar brief --level R4 --name "SOTA report" --source https://…
+harness standard --domain deep-research score brief --set fidelity=2 --set coverage=3
+harness standard --domain deep-research audit brief   # gaps; `raise brief` ratchets the floor
 harness profile --project C:\work\parser-task --goal "…"   # -> <home>/updates/profile/
 harness learn   --task "…" --project C:\work\parser-task   # -> <home>/updates/cases.jsonl
 harness cases                       # aggregate learned cases
@@ -166,7 +169,7 @@ The knowledge base must not freeze. `harness refresh` runs `signal → audit →
 - **Human gate:** `refresh-apply` only writes merge stubs to `updates/proposals/`; a human edits the catalogs. Nothing is auto-merged, and everything is reversible by deleting `updates/`.
 - **Watermark:** the effective `since` date is persisted to `updates/state.json`, so repeated cycles only surface *new* items without passing `--since` each time.
 
-**Tracked entities (`data/sources.json`).** 70 entities across 6 groups — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), and **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
+**Tracked entities (`data/sources.json`).** 109 entities across 7 groups — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), and **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
 
 **Intel (`harness intel`).** Pulls those feeds, scores relevance (topic keywords + entity mention + recency), tags by topic/entity, and writes a bilingual `updates/INTEL.md` + `updates/intel.jsonl`. Briefs are verbatim excerpts unless an LLM summary is configured (`llm.summarize`).
 
@@ -230,9 +233,9 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests.
 - **P1.5 done** — self-update loop (`refresh`/`refresh-apply`), watchlist, curate, journal, scheduler.
 - **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
-- **P1.7 done** — intel tracking (`data/sources.json`, 70 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
+- **P1.7 done** — intel tracking (`data/sources.json`, 109 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
 - **P1.8 done** — agent-native mode (`SKILL.md`, `reference/derivation-rules.md`, `harness skill`) + project learning (`profile`/`learn`/`cases` + `missing_capability` audit) + capability mechanism (`data/capabilities.json`); packaging cancelled.
-- **P2 (disciplines + catalog)** — disciplines expanded to **20** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
+- **P2 (disciplines + catalog)** — disciplines expanded to **23** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store.
 - **P4** — plugin protocol for third-party domains/templates.
 

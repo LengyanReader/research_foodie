@@ -46,6 +46,12 @@ PYTHONPATH=src python -m harness_factory derive --task "…" --json
 harness skill                            # print the agent load-index; `harness skill M4` prints a module
 harness capabilities                     # the requirement -> capability -> modules map
 
+# frontier-standard ratchet (aim at the best-known bar; applies to every domain)
+harness standard --domain deep-research bar brief --level R4 --name "SOTA report" --source https://…
+harness standard --domain deep-research score brief --set fidelity=2 --set coverage=3
+harness standard --domain deep-research audit brief    # weighted gap (largest first)
+harness standard --domain deep-research raise brief    # ratchet the floor (refuses a regression)
+
 # profile a target project + learn from it (observe-only, project -> factory)
 harness profile --project ./myproj --goal "…"   # -> updates/profile/<slug>.{json,md}
 harness derive  --task "…" --project ./myproj   # adapts the harness to the project (weak domain hint)
@@ -109,8 +115,8 @@ harness_factory/
 ├── refresh.ps1                    scheduler entry for the self-update loop
 ├── install-skill.ps1              optional: copy repo-as-skill into a skills dir
 ├── reference/derivation-rules.md  markdown mirror of the rule table (for L0 agents)
-├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·registry·catalog·skill·cli
-│   ├── data/                      modules.json · capabilities.json · domains.json · harnesses.json · watchlist.json · sources.json
+├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·standard·registry·catalog·skill·cli
+│   ├── data/                      modules.json · capabilities.json · domains.json · rubrics.json · harnesses.json · watchlist.json · sources.json
 │   └── templates/                 emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
 ├── tests/                         stdlib unittest (no deps)
 ├── tasks/                         PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md

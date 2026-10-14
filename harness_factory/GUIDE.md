@@ -209,6 +209,7 @@ self-check: OK
 | `learn --task … --project P` | Record a case → `updates/cases.jsonl`. | 记录一个案例。 |
 | `cases` | Aggregate learned cases. | 聚合案例。 |
 | `catalog [id] [--class …]` | Unified harness catalog: list/search/filter. | 统一 harness 目录：列出/搜索/筛选。 |
+| `standard … [--domain D]` | Frontier-standard ratchet: bar/score/audit/raise/frontier on the domain rubric. | 最高标准棘轮：定标杆/评分/审计/提升/前沿。 |
 | `sources [--group G]` | List tracked sources. | 列出已追踪信源。 |
 | `intel [--since D]` | Pull tracked feeds → `updates/INTEL.md`. | 抓取信源 → 情报简报。 |
 | `evolve [--dry-run]` | Audit coverage/gaps → proposals. | 审计覆盖/缺口 → 提案。 |
@@ -528,7 +529,17 @@ PYTHONPATH=src python -m harness_factory derive \
 # Inspect the capabilities map (requirement -> capability -> modules)
 PYTHONPATH=src python -m harness_factory capabilities
 PYTHONPATH=src python -m harness_factory catalog --kind research-eval   # where to read the bar
+
+# Run the ratchet: name a sourced bar, score on the domain rubric, audit, raise (never regress)
+PYTHONPATH=src python -m harness_factory standard --domain deep-research bar brief \
+  --level R4 --name "SOTA deep-research report" --source https://openai.com/index/introducing-deep-research/
+PYTHONPATH=src python -m harness_factory standard --domain deep-research score brief \
+  --set fidelity=2 --set coverage=3 --set contradiction-honesty=2 --set calibration=1
+PYTHONPATH=src python -m harness_factory standard --domain deep-research audit brief  # gaps, largest first
+PYTHONPATH=src python -m harness_factory standard --domain deep-research raise brief  # ratchet the floor
 ```
+
+**Per-domain rubrics · 分域评分表.** Every domain carries its own weighted rubric in `data/rubrics.json` (unknown domains fall back to `default`), so the same ratchet works for code, math, law, medicine, the arts, etc. · 每个域在 `data/rubrics.json` 有各自加权评分表（未知域回退 `default`），同一棘轮适用于代码、数学、法律、医学、艺术等。
 
 **The ratchet in one line · 棘轮一行:** `floor_next = max(floor,achieved)` — the floor is a promise: no future submission may score below it without a human-approved exception. · 下限是承诺：未获人工豁免，后续产出不得低于它。
 

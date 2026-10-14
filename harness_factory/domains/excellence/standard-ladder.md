@@ -2,7 +2,9 @@
 
 > How to define "the highest standard", measure against it, and improve **monotonically** — without self-declaration.
 > 如何定义「最高标准」、对标测量并**单调提升**——且不自我宣称。
-**Updated:** 2026-10-13 · Companion to `domains/excellence/README.md`.
+**Updated:** 2026-10-14 · Companion to `domains/excellence/README.md`.
+
+> **Executable · 可执行.** This ledger is implemented by `harness standard` (`src/harness_factory/standard.py`): `bar` (name a sourced standard) → `score` (per-dimension 0–3) → `audit` (weighted gap, largest first) → `raise` (ratchet `floor = max(floor, total)`, refusing a regression unless `--force`) → `frontier` (mark a re-check). The rubric per domain lives in `data/rubrics.json` (unknown domain → `default`), so the same mechanism applies to all 24 domains. · 台账由 `harness standard` 落地：定标杆→评分→差距审计→下游棘轮（`floor = max(floor,total)`，除非 `--force` 拒绝回退）→前沿复核；分域评分表在 `data/rubrics.json`（未知域回退 `default`），故适用于全部 24 个域。
 
 ---
 

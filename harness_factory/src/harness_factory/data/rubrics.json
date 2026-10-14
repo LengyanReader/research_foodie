@@ -1,0 +1,927 @@
+{
+  "default": {
+    "title_en": "Generic excellence",
+    "title_zh": "通用最高标准",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fidelity",
+        "zh": "保真",
+        "weight": 0.25
+      },
+      {
+        "dim": "coverage",
+        "zh": "覆盖",
+        "weight": 0.2
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.15
+      },
+      {
+        "dim": "insight",
+        "zh": "洞见",
+        "weight": 0.1
+      },
+      {
+        "dim": "polish",
+        "zh": "打磨",
+        "weight": 0.1
+      }
+    ]
+  },
+  "deep-research": {
+    "title_en": "Deep-research quality",
+    "title_zh": "深度调研质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fidelity",
+        "zh": "引文保真",
+        "weight": 0.25
+      },
+      {
+        "dim": "coverage",
+        "zh": "覆盖",
+        "weight": 0.2
+      },
+      {
+        "dim": "contradiction-honesty",
+        "zh": "矛盾坦诚",
+        "weight": 0.2
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.15
+      },
+      {
+        "dim": "insight",
+        "zh": "洞见",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "research": {
+    "title_en": "Research quality",
+    "title_zh": "科研质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fidelity",
+        "zh": "引文保真",
+        "weight": 0.25
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "coverage",
+        "zh": "覆盖",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "novelty",
+        "zh": "新意",
+        "weight": 0.1
+      }
+    ]
+  },
+  "reading": {
+    "title_en": "Reading fidelity",
+    "title_zh": "阅读保真",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fidelity",
+        "zh": "原文保真",
+        "weight": 0.3
+      },
+      {
+        "dim": "coverage",
+        "zh": "覆盖台账",
+        "weight": 0.2
+      },
+      {
+        "dim": "intent",
+        "zh": "作者意图",
+        "weight": 0.15
+      },
+      {
+        "dim": "preservation",
+        "zh": "不确定保留",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "insight",
+        "zh": "洞见",
+        "weight": 0.1
+      }
+    ]
+  },
+  "excellence": {
+    "title_en": "Standard-raising quality",
+    "title_zh": "最高标准质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "gap-closure",
+        "zh": "差距收敛",
+        "weight": 0.25
+      },
+      {
+        "dim": "bar-quality",
+        "zh": "标杆质量",
+        "weight": 0.2
+      },
+      {
+        "dim": "measurement-rigor",
+        "zh": "测量严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "ratchet-discipline",
+        "zh": "棘轮纪律",
+        "weight": 0.15
+      },
+      {
+        "dim": "frontier-awareness",
+        "zh": "前沿敏感",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "knowledge-management": {
+    "title_en": "Knowledge-base quality",
+    "title_zh": "知识管理质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "findability",
+        "zh": "可检索",
+        "weight": 0.25
+      },
+      {
+        "dim": "fidelity",
+        "zh": "保真",
+        "weight": 0.2
+      },
+      {
+        "dim": "structure",
+        "zh": "结构",
+        "weight": 0.2
+      },
+      {
+        "dim": "freshness",
+        "zh": "时效",
+        "weight": 0.15
+      },
+      {
+        "dim": "interlinking",
+        "zh": "互链",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "data-science": {
+    "title_en": "Modeling quality",
+    "title_zh": "数据科学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "validity",
+        "zh": "有效性",
+        "weight": 0.25
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "leakage-control",
+        "zh": "防泄漏",
+        "weight": 0.15
+      },
+      {
+        "dim": "evaluation",
+        "zh": "评估",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.15
+      },
+      {
+        "dim": "impact",
+        "zh": "影响",
+        "weight": 0.1
+      }
+    ]
+  },
+  "software-engineering": {
+    "title_en": "Code quality",
+    "title_zh": "软件质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.25
+      },
+      {
+        "dim": "tests",
+        "zh": "测试",
+        "weight": 0.2
+      },
+      {
+        "dim": "maintainability",
+        "zh": "可维护",
+        "weight": 0.2
+      },
+      {
+        "dim": "security",
+        "zh": "安全",
+        "weight": 0.15
+      },
+      {
+        "dim": "docs",
+        "zh": "文档",
+        "weight": 0.1
+      },
+      {
+        "dim": "performance",
+        "zh": "性能",
+        "weight": 0.1
+      }
+    ]
+  },
+  "devops": {
+    "title_en": "Operational quality",
+    "title_zh": "运维质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "reliability",
+        "zh": "可靠性",
+        "weight": 0.25
+      },
+      {
+        "dim": "observability",
+        "zh": "可观测",
+        "weight": 0.2
+      },
+      {
+        "dim": "automation",
+        "zh": "自动化",
+        "weight": 0.2
+      },
+      {
+        "dim": "security",
+        "zh": "安全",
+        "weight": 0.15
+      },
+      {
+        "dim": "rollback",
+        "zh": "可回滚",
+        "weight": 0.1
+      },
+      {
+        "dim": "docs",
+        "zh": "文档",
+        "weight": 0.1
+      }
+    ]
+  },
+  "engineering": {
+    "title_en": "Engineering quality",
+    "title_zh": "工程质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "safety-factor",
+        "zh": "安全系数",
+        "weight": 0.25
+      },
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.2
+      },
+      {
+        "dim": "manufacturability",
+        "zh": "可制造",
+        "weight": 0.15
+      },
+      {
+        "dim": "cost",
+        "zh": "成本",
+        "weight": 0.15
+      },
+      {
+        "dim": "durability",
+        "zh": "耐久",
+        "weight": 0.15
+      },
+      {
+        "dim": "docs",
+        "zh": "文档",
+        "weight": 0.1
+      }
+    ]
+  },
+  "physics": {
+    "title_en": "Physics quality",
+    "title_zh": "物理质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.25
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "uncertainty",
+        "zh": "不确定度",
+        "weight": 0.2
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "novelty",
+        "zh": "新意",
+        "weight": 0.1
+      }
+    ]
+  },
+  "chemistry": {
+    "title_en": "Chemistry quality",
+    "title_zh": "化学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.25
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "characterization",
+        "zh": "表征",
+        "weight": 0.2
+      },
+      {
+        "dim": "safety",
+        "zh": "安全",
+        "weight": 0.15
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "biology": {
+    "title_en": "Biology quality",
+    "title_zh": "生物质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.25
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "controls",
+        "zh": "对照",
+        "weight": 0.2
+      },
+      {
+        "dim": "statistics",
+        "zh": "统计",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "novelty",
+        "zh": "新意",
+        "weight": 0.1
+      }
+    ]
+  },
+  "earth-environment": {
+    "title_en": "Earth-science quality",
+    "title_zh": "地环质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.25
+      },
+      {
+        "dim": "data-quality",
+        "zh": "数据质量",
+        "weight": 0.2
+      },
+      {
+        "dim": "uncertainty",
+        "zh": "不确定度",
+        "weight": 0.2
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "impact",
+        "zh": "影响",
+        "weight": 0.1
+      }
+    ]
+  },
+  "mathematics": {
+    "title_en": "Mathematical quality",
+    "title_zh": "数学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.3
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.3
+      },
+      {
+        "dim": "generality",
+        "zh": "普适",
+        "weight": 0.15
+      },
+      {
+        "dim": "elegance",
+        "zh": "优雅",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "novelty",
+        "zh": "新意",
+        "weight": 0.05
+      }
+    ]
+  },
+  "medicine": {
+    "title_en": "Clinical quality",
+    "title_zh": "医学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "evidence-level",
+        "zh": "证据等级",
+        "weight": 0.25
+      },
+      {
+        "dim": "safety",
+        "zh": "安全",
+        "weight": 0.2
+      },
+      {
+        "dim": "efficacy",
+        "zh": "有效性",
+        "weight": 0.2
+      },
+      {
+        "dim": "guideline-adherence",
+        "zh": "指南符合",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "patient-centered",
+        "zh": "以患者为中心",
+        "weight": 0.1
+      }
+    ]
+  },
+  "economics-finance": {
+    "title_en": "Economic/finance quality",
+    "title_zh": "经济金融质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "identification",
+        "zh": "识别策略",
+        "weight": 0.25
+      },
+      {
+        "dim": "data-quality",
+        "zh": "数据质量",
+        "weight": 0.2
+      },
+      {
+        "dim": "robustness",
+        "zh": "稳健性",
+        "weight": 0.2
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "relevance",
+        "zh": "相关性",
+        "weight": 0.1
+      }
+    ]
+  },
+  "psychology": {
+    "title_en": "Psychological quality",
+    "title_zh": "心理学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "validity",
+        "zh": "效度",
+        "weight": 0.25
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "controls",
+        "zh": "对照",
+        "weight": 0.2
+      },
+      {
+        "dim": "ethics",
+        "zh": "伦理",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "impact",
+        "zh": "影响",
+        "weight": 0.1
+      }
+    ]
+  },
+  "social-science": {
+    "title_en": "Social-science quality",
+    "title_zh": "社科质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "validity",
+        "zh": "效度",
+        "weight": 0.25
+      },
+      {
+        "dim": "evidence",
+        "zh": "证据",
+        "weight": 0.2
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "reflexivity",
+        "zh": "反思性",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "impact",
+        "zh": "影响",
+        "weight": 0.1
+      }
+    ]
+  },
+  "law": {
+    "title_en": "Legal quality",
+    "title_zh": "法律质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "accuracy",
+        "zh": "准确性",
+        "weight": 0.25
+      },
+      {
+        "dim": "authority",
+        "zh": "权威依据",
+        "weight": 0.2
+      },
+      {
+        "dim": "completeness",
+        "zh": "完备",
+        "weight": 0.2
+      },
+      {
+        "dim": "reasoning",
+        "zh": "论证",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "currency",
+        "zh": "时效",
+        "weight": 0.1
+      }
+    ]
+  },
+  "humanities": {
+    "title_en": "Humanities quality",
+    "title_zh": "人文质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "interpretation",
+        "zh": "阐释",
+        "weight": 0.25
+      },
+      {
+        "dim": "evidence",
+        "zh": "证据",
+        "weight": 0.2
+      },
+      {
+        "dim": "context",
+        "zh": "语境",
+        "weight": 0.2
+      },
+      {
+        "dim": "originality",
+        "zh": "原创",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.1
+      }
+    ]
+  },
+  "education": {
+    "title_en": "Instructional quality",
+    "title_zh": "教育质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "outcomes",
+        "zh": "学习成效",
+        "weight": 0.25
+      },
+      {
+        "dim": "evidence",
+        "zh": "证据",
+        "weight": 0.2
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.2
+      },
+      {
+        "dim": "engagement",
+        "zh": "参与度",
+        "weight": 0.15
+      },
+      {
+        "dim": "equity",
+        "zh": "公平",
+        "weight": 0.1
+      },
+      {
+        "dim": "assessment",
+        "zh": "评估",
+        "weight": 0.1
+      }
+    ]
+  },
+  "arts-design": {
+    "title_en": "Design quality",
+    "title_zh": "设计质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "craft",
+        "zh": "工艺",
+        "weight": 0.25
+      },
+      {
+        "dim": "concept",
+        "zh": "概念",
+        "weight": 0.2
+      },
+      {
+        "dim": "originality",
+        "zh": "原创",
+        "weight": 0.2
+      },
+      {
+        "dim": "coherence",
+        "zh": "连贯",
+        "weight": 0.15
+      },
+      {
+        "dim": "impact",
+        "zh": "影响",
+        "weight": 0.1
+      },
+      {
+        "dim": "finish",
+        "zh": "完成度",
+        "weight": 0.1
+      }
+    ]
+  },
+  "model-selection": {
+    "title_en": "Fit-for-task quality",
+    "title_zh": "选型质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fit",
+        "zh": "适配度",
+        "weight": 0.25
+      },
+      {
+        "dim": "evidence",
+        "zh": "证据",
+        "weight": 0.2
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "cost-latency",
+        "zh": "成本/时延",
+        "weight": 0.15
+      },
+      {
+        "dim": "provenance",
+        "zh": "溯源",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "general": {
+    "title_en": "Generic excellence",
+    "title_zh": "通用最高标准",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fidelity",
+        "zh": "保真",
+        "weight": 0.25
+      },
+      {
+        "dim": "coverage",
+        "zh": "覆盖",
+        "weight": 0.2
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.15
+      },
+      {
+        "dim": "insight",
+        "zh": "洞见",
+        "weight": 0.1
+      },
+      {
+        "dim": "polish",
+        "zh": "打磨",
+        "weight": 0.1
+      }
+    ]
+  }
+}

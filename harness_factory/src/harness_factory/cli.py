@@ -188,7 +188,45 @@ def build_parser() -> argparse.ArgumentParser:
     cases_p.add_argument("--root", "--data-dir", dest="root", default=None)
     cases_p.add_argument("--json", action="store_true")
 
-    from . import catalog
+    from . import catalog, standard
+
+    standard_p = sub.add_parser(
+        "standard",
+        help="frontier-standard ratchet: name the bar, score, audit, raise (domains/excellence)",
+    )
+    standard_p.add_argument("--store", default=None, help="ledger JSON (default: ./updates/standard.json)")
+    standard_p.add_argument("--domain", choices=domain_ids(), help="domain whose rubric to use")
+    standard_p.add_argument("--json", action="store_true")
+    std_sub = standard_p.add_subparsers(dest="action")
+
+    std_sub.add_parser("list", help="list tracked objectives")
+
+    std_show = std_sub.add_parser("show", help="show one objective, its bar, and the gap table")
+    std_show.add_argument("objective")
+
+    std_bar = std_sub.add_parser("bar", help="set the apex bar (needs a checkable source)")
+    std_bar.add_argument("objective")
+    std_bar.add_argument("--level", choices=standard.LEVELS, required=True)
+    std_bar.add_argument("--name", required=True, help="what the bar is")
+    std_bar.add_argument("--source", required=True, help="checkable reference (http...)")
+    std_bar.add_argument("--checked", default=None, help="date checked (default: now)")
+
+    std_score = std_sub.add_parser("score", help="record the artifact's scores on the rubric (0..3)")
+    std_score.add_argument("objective")
+    std_score.add_argument(
+        "--set", dest="pairs", action="append", default=[], metavar="dim=0..3", help="repeatable"
+    )
+
+    std_audit = std_sub.add_parser("audit", help="weighted gap table (largest gap first)")
+    std_audit.add_argument("objective")
+
+    std_raise = std_sub.add_parser("raise", help="ratchet the floor (refuses a regression)")
+    std_raise.add_argument("objective")
+    std_raise.add_argument("--force", action="store_true", help="adopt a lower floor (logged override)")
+
+    std_frontier = std_sub.add_parser("frontier", help="mark a moving-frontier re-check")
+    std_frontier.add_argument("objective")
+    std_frontier.add_argument("--checked", default=None)
 
     catalog_p = sub.add_parser(
         "catalog", help="unified harness catalog: list / search / filter (data/harnesses.json)"
@@ -723,6 +761,92 @@ def _cmd_capabilities(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_standard(args: argparse.Namespace) -> int:
+    from . import standard
+
+    store = args.store or str(Path.cwd() / "updates" / "standard.json")
+    ledger = standard.load_ledger(store)
+    action = args.action or "list"
+    domain = args.domain
+
+    def _scores(pairs: list[str]) -> dict[str, float]:
+        out: dict[str, float] = {}
+        for pair in pairs:
+            if "=" not in pair:
+                raise SystemExit(f"error: --set expects dim=value, got {pair!r}")
+            key, _, val = pair.partition("=")
+            out[key.strip()] = float(val)
+        return out
+
+    if action == "list":
+        if args.json:
+            print(json.dumps(ledger.get("objectives", {}), ensure_ascii=False, indent=2))
+        else:
+            print(standard.render(ledger))
+        return 0
+
+    name = getattr(args, "objective", None)
+    if action == "show":
+        print(standard.render(ledger, name, domain))
+        return 0
+    if action == "bar":
+        try:
+            bar = standard.set_bar(
+                ledger, name, args.level, args.name, args.source, args.checked, domain or "general"
+            )
+        except ValueError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        standard.save_ledger(store, ledger)
+        print(f"bar set for {name}: {bar['level']} · {bar['name']}  ({bar['source']})")
+        return 0
+    if action == "score":
+        try:
+            total = standard.record_scores(ledger, name, _scores(args.pairs), domain)
+        except ValueError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        standard.save_ledger(store, ledger)
+        print(f"scored {name}: total={total:.3f} / 3.000")
+        return 0
+    if action == "audit":
+        obj = standard.objective(ledger, name, domain or "general")
+        rows = standard.audit(ledger, name, domain)
+        if args.json:
+            print(json.dumps(rows, ensure_ascii=False, indent=2))
+            return 0
+        print(f"gap audit for {name} (floor={float(obj.get('floor', 0.0)):.3f})")
+        for row in rows:
+            print(
+                f"  {row['dim']:<22} {row.get('zh',''):<8} w={row['weight']:.2f} "
+                f"ours={row['ours']:.0f}/3  gap={row['weighted_gap']:.3f}"
+            )
+        standard.save_ledger(store, ledger)
+        return 0
+    if action == "raise":
+        try:
+            result = standard.ratchet(ledger, name, force=args.force, domain=domain)
+        except ValueError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        standard.save_ledger(store, ledger)
+        if result["accepted"]:
+            note = " (forced override)" if result["forced"] else ""
+            print(f"floor raised to {result['floor']:.3f}{note}")
+            return 0
+        print(
+            f"refused: total {result['total']:.3f} < floor {result['floor']:.3f} (regression); "
+            f"use --force to override"
+        )
+        return 1
+    if action == "frontier":
+        checked = standard.mark_frontier(ledger, name, args.checked, domain)
+        standard.save_ledger(store, ledger)
+        print(f"frontier re-checked for {name} at {checked}")
+        return 0
+    return 1
+
+
 def _force_utf8() -> None:
     """Keep bilingual output readable on Windows consoles (cp1252/cp936)."""
     for stream in (sys.stdout, sys.stderr):
@@ -773,6 +897,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_cases(args)
     if args.command == "catalog":
         return _cmd_catalog(args)
+    if args.command == "standard":
+        return _cmd_standard(args)
     return 1
 
 
