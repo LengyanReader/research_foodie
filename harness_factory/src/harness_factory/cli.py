@@ -228,6 +228,12 @@ def build_parser() -> argparse.ArgumentParser:
     std_frontier.add_argument("objective")
     std_frontier.add_argument("--checked", default=None)
 
+    std_plan = std_sub.add_parser(
+        "plan", help="gap audit -> harness configuration (modules + catalog tools)"
+    )
+    std_plan.add_argument("objective")
+    std_plan.add_argument("--top", type=int, default=None, help="only the N largest gaps")
+
     catalog_p = sub.add_parser(
         "catalog", help="unified harness catalog: list / search / filter (data/harnesses.json)"
     )
@@ -843,6 +849,14 @@ def _cmd_standard(args: argparse.Namespace) -> int:
         checked = standard.mark_frontier(ledger, name, args.checked, domain)
         standard.save_ledger(store, ledger)
         print(f"frontier re-checked for {name} at {checked}")
+        return 0
+    if action == "plan":
+        p = standard.plan(ledger, name, domain, top=args.top)
+        if args.json:
+            print(json.dumps(p, ensure_ascii=False, indent=2))
+        else:
+            print(standard.render_plan(p))
+        standard.save_ledger(store, ledger)
         return 0
     return 1
 

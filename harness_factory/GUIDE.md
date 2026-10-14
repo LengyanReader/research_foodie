@@ -537,7 +537,13 @@ PYTHONPATH=src python -m harness_factory standard --domain deep-research score b
   --set fidelity=2 --set coverage=3 --set contradiction-honesty=2 --set calibration=1
 PYTHONPATH=src python -m harness_factory standard --domain deep-research audit brief  # gaps, largest first
 PYTHONPATH=src python -m harness_factory standard --domain deep-research raise brief  # ratchet the floor
+# gaps -> harness configuration (which modules to enable, which catalog tools to wire)
+PYTHONPATH=src python -m harness_factory standard --domain deep-research plan brief
 ```
+
+**Applied to this project · 反身应用.** The factory holds *itself* to the same bar: `harness standard --domain software-engineering plan harness-factory` scores the repo against Anthropic's documented engineering practice and emits the config to close its own gaps — see [`domains/excellence/self-standard.md`](domains/excellence/self-standard.md). · 项目把同一标杆用在自己身上：`plan harness-factory` 对照 Anthropic 公开工程实践打分并给出配置，见 `self-standard.md`。
+
+**Lever map · 差距映射.** `data/levers.json` maps each rubric dimension to the modules (M0–M8) and catalog tool-kinds that close it — anchored to Claude/Anthropic's documented practice where one exists (e.g. `fidelity` → a citation agent; `coverage` → 3–5 parallel subagents). `standard plan` grounds the tool suggestions in `data/harnesses.json`.
 
 **Per-domain rubrics · 分域评分表.** Every domain carries its own weighted rubric in `data/rubrics.json` (unknown domains fall back to `default`), so the same ratchet works for code, math, law, medicine, the arts, etc. · 每个域在 `data/rubrics.json` 有各自加权评分表（未知域回退 `default`），同一棘轮适用于代码、数学、法律、医学、艺术等。
 

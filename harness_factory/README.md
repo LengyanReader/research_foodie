@@ -51,6 +51,7 @@ harness standard --domain deep-research bar brief --level R4 --name "SOTA report
 harness standard --domain deep-research score brief --set fidelity=2 --set coverage=3
 harness standard --domain deep-research audit brief    # weighted gap (largest first)
 harness standard --domain deep-research raise brief    # ratchet the floor (refuses a regression)
+harness standard --domain deep-research plan brief     # gaps -> harness config (modules + catalog tools)
 
 # profile a target project + learn from it (observe-only, project -> factory)
 harness profile --project ./myproj --goal "…"   # -> updates/profile/<slug>.{json,md}
@@ -116,7 +117,7 @@ harness_factory/
 ├── install-skill.ps1              optional: copy repo-as-skill into a skills dir
 ├── reference/derivation-rules.md  markdown mirror of the rule table (for L0 agents)
 ├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·standard·registry·catalog·skill·cli
-│   ├── data/                      modules.json · capabilities.json · domains.json · rubrics.json · harnesses.json · watchlist.json · sources.json
+│   ├── data/                      modules.json · capabilities.json · domains.json · rubrics.json · levers.json · harnesses.json · watchlist.json · sources.json
 │   └── templates/                 emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
 ├── tests/                         stdlib unittest (no deps)
 ├── tasks/                         PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md

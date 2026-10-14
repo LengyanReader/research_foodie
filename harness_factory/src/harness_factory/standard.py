@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import datetime as _dt
 import json
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -47,6 +48,25 @@ def rubric_for(domain: str) -> dict[str, Any]:
 
 def dimensions(domain: str) -> list[str]:
     return [d["dim"] for d in rubric_for(domain)["dimensions"]]
+
+
+@lru_cache(maxsize=1)
+def levers() -> dict[str, Any]:
+    path = data_file("levers.json")
+    if not path.exists():
+        return {"default": {"modules": ["M3", "M4"], "kinds": [], "tools": [], "note": ""}}
+    with path.open(encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def lever_for(dim: str) -> dict[str, Any]:
+    """How to close a gap in ``dim`` (modules + catalog kinds), default fallback."""
+    return levers().get("by_dim", {}).get(dim) or levers()["default"]
+
+
+def suggested_bar(domain: str) -> dict[str, Any] | None:
+    """A curated, sourced bar for a domain, if one is recorded (else None)."""
+    return levers().get("domain_bars", {}).get(domain)
 
 
 # --- ledger I/O ---------------------------------------------------------------
@@ -194,6 +214,67 @@ def mark_frontier(
     return obj["frontier_checked_at"]
 
 
+def plan(
+    ledger: dict[str, Any], name: str, domain: str | None = None, top: int | None = None
+) -> dict[str, Any]:
+    """Turn the gap audit into a harness configuration: per-gap modules + catalog tools.
+
+    Reads the domain rubric (``data/rubrics.json``) for gaps and the lever map
+    (``data/levers.json``) for remediation, then grounds tool suggestions in the
+    catalog (``data/harnesses.json``). Observe-only; the human adopts (M0.8).
+    """
+    from . import catalog
+
+    obj = objective(ledger, name, domain or "general")
+    dom = domain or obj.get("domain", "general")
+    rows = [r for r in audit_from(obj, dom) if r["weighted_gap"] > 0]
+    if top is not None:
+        rows = rows[:top]
+
+    module_rank: Counter[str] = Counter()
+    tools: list[str] = []
+    nodes: list[dict[str, Any]] = []
+    for r in rows:
+        lv = lever_for(r["dim"])
+        kinds = list(lv.get("kinds", []))
+        node_tools: list[str] = []
+        for kind in kinds:
+            for entry in catalog.filter_rows(kind=kind)[:3]:
+                hid = entry["id"]
+                if hid not in node_tools:
+                    node_tools.append(hid)
+                if hid not in tools:
+                    tools.append(hid)
+        for m in lv.get("modules", []):
+            module_rank[m] += 1
+        nodes.append(
+            {
+                "dim": r["dim"],
+                "zh": r.get("zh", ""),
+                "weight": r["weight"],
+                "ours": r["ours"],
+                "gap": r["weighted_gap"],
+                "modules": list(lv.get("modules", [])),
+                "kinds": kinds,
+                "tools": node_tools,
+                "note": lv.get("note", ""),
+                "claude": lv.get("claude", ""),
+            }
+        )
+
+    return {
+        "objective": name,
+        "domain": dom,
+        "bar": obj.get("bar"),
+        "suggested_bar": None if obj.get("bar") else suggested_bar(dom),
+        "floor": float(obj.get("floor", 0.0)),
+        "total": obj.get("total"),
+        "nodes": nodes,
+        "modules": [m for m, _ in module_rank.most_common()],
+        "tools": tools,
+    }
+
+
 # --- rendering ----------------------------------------------------------------
 
 def render(ledger: dict[str, Any], name: str | None = None, domain: str | None = None) -> str:
@@ -242,6 +323,45 @@ def _render_one(name: str, obj: dict[str, Any], domain: str | None) -> str:
         )
     if obj.get("frontier_checked_at"):
         lines.append(f"frontier  : checked {obj['frontier_checked_at']}")
+    return "\n".join(lines)
+
+
+def render_plan(p: dict[str, Any]) -> str:
+    dom = p["domain"]
+    rubric = rubric_for(dom)
+    lines = [f"plan · {p['objective']}  ({dom})"]
+    bar = p.get("bar")
+    if bar:
+        lines.append(f"bar  : {bar.get('level')} · {bar.get('name')}  ({bar.get('source')})")
+    elif p.get("suggested_bar"):
+        sb = p["suggested_bar"]
+        lines.append(f"bar  : (none set) -> suggested {sb.get('level')} · {sb.get('name')}")
+        lines.append(f"       source: {sb.get('source')}")
+    lines.append(f"floor: {p['floor']:.3f}   total: {p.get('total') if p.get('total') is not None else '—'}")
+    if not p["nodes"]:
+        lines.append("(no open gaps — at/above the bar on every dimension)")
+        return "\n".join(lines)
+    lines.append("")
+    lines.append("largest gaps -> configuration · 最大差距 -> 配置")
+    for n in p["nodes"]:
+        lines.append(
+            f"  [{n['dim']}] {n.get('zh','')}  w={n['weight']:.2f} ours={n['ours']:.0f}/3 gap={n['gap']:.3f}"
+        )
+        cfg = f"    modules: {', '.join(n['modules']) or '—'}"
+        if n["kinds"]:
+            cfg += f"   tools<-{'/'.join(n['kinds'])}"
+        lines.append(cfg)
+        if n["tools"]:
+            lines.append(f"    try: {', '.join(n['tools'])}")
+        if n["note"]:
+            lines.append(f"    why: {n['note']}")
+        if n.get("claude"):
+            lines.append(f"    claude: {n['claude']}")
+    lines.append("")
+    lines.append(f"enable modules · 启用模块: {', '.join(p['modules']) or '—'}")
+    if p["tools"]:
+        lines.append(f"wire tools · 挂载工具: {', '.join(p['tools'])}")
+    lines.append("(observe-only — a human adopts this; M0.8)")
     return "\n".join(lines)
 
 

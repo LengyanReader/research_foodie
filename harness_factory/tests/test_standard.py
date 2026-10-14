@@ -68,6 +68,58 @@ class RatchetTest(unittest.TestCase):
             standard.record_scores(ledger, "o", {"fidelity": 5}, "excellence")
 
 
+class PlanTest(unittest.TestCase):
+    def _ledger(self):
+        ledger = {"objectives": {}}
+        standard.set_bar(
+            ledger, "o", "R5", "x", "https://www.anthropic.com/engineering/building-effective-agents",
+            "2026-01-01", "deep-research",
+        )
+        standard.record_scores(
+            ledger, "o",
+            {"fidelity": 1, "coverage": 1, "contradiction-honesty": 1, "calibration": 1},
+            "deep-research",
+        )
+        return ledger
+
+    def test_levers_have_default_and_cover(self):
+        lv = standard.levers()
+        self.assertIn("default", lv)
+        self.assertIn("by_dim", lv)
+        for domain in domains():
+            for d in standard.dimensions(domain):
+                lever = standard.lever_for(d)
+                self.assertIn("modules", lever)
+
+    def test_suggested_bar_is_sourced(self):
+        bar = standard.suggested_bar("deep-research")
+        self.assertIsNotNone(bar)
+        self.assertTrue(bar["source"].startswith("http"))
+        self.assertIsNone(standard.suggested_bar("no-such-domain"))
+
+    def test_plan_nodes_sorted_with_modules_and_tools(self):
+        p = standard.plan(self._ledger(), "o", "deep-research")
+        self.assertTrue(p["nodes"])
+        gaps = [n["gap"] for n in p["nodes"]]
+        self.assertEqual(gaps, sorted(gaps, reverse=True))
+        self.assertIn("M3", p["modules"])
+        fidelity = next(n for n in p["nodes"] if n["dim"] == "fidelity")
+        self.assertTrue(set(fidelity["modules"]) & {"M3", "M4"})
+        self.assertTrue(fidelity["claude"])
+
+    def test_plan_suggests_bar_when_unset(self):
+        ledger = {"objectives": {}}
+        standard.objective(ledger, "o", "deep-research")
+        p = standard.plan(ledger, "o", "deep-research")
+        self.assertIsNone(p["bar"])
+        self.assertIsNotNone(p["suggested_bar"])
+
+    def test_rendered_plan_mentions_claude(self):
+        out = standard.render_plan(standard.plan(self._ledger(), "o", "deep-research"))
+        self.assertIn("claude:", out)
+        self.assertIn("observe-only", out)
+
+
 class StaleFrontierAuditTest(unittest.TestCase):
     NOW = "2026-10-14T00:00:00+00:00"
     EMPTY_SRC = {"groups": {}}
