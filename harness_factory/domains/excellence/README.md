@@ -66,6 +66,6 @@ Each rung is a named, sourced standard — climb in order, never skip the defini
 - **Averaging the gap** — hiding a large deficit behind an overall good score.
 
 ## See also
-`self-standard.md` (this project held to Claude's engineering bar) · `standard-ladder.md` (the ratchet mechanism, in detail) · `../deep-research/README.md` (the output this can point at) · `../model-selection/README.md` (fit-for-task eval) · `../core/04-verification-and-gates.md` · `../core/06-self-evolution.md` · `../review/harness-index.md`.
+`self-standard.md` (this project held to Claude's engineering bar) · `security-model.md` (least privilege, human gate, reversibility) · `standard-ladder.md` (the ratchet mechanism, in detail) · `../deep-research/README.md` (the output this can point at) · `../model-selection/README.md` (fit-for-task eval) · `../core/04-verification-and-gates.md` · `../core/06-self-evolution.md` · `../review/harness-index.md`.
 
 > **Keeping the frontier alive · 保持前沿鲜活.** `harness evolve` audits the bar ledger (`updates/standard.json`) and raises a `stale_frontier` proposal for any apex bar (R4+) whose moving frontier has not been re-checked within `FRONTIER_MAX_AGE_DAYS` (90) — or that has a floor but no named bar. · `harness evolve` 审计标杆台账，对超过 90 天未复核（或只有下限、无标杆）的 R4+ 标杆发出 `stale_frontier` 提案。
