@@ -1,8 +1,19 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-12
+**Updated:** 2026-10-14
 
 ---
+
+## 2026-10-14 — P2: frontier-standard executable ratchet + writing domain (done)
+- **Frontier-standard CLI.** New `standard.py` + CLI **`standard`**: `harness standard [--store F] --domain <D> bar|score|audit|raise|plan|frontier <objective>` over a bar ledger (default `updates/standard.json`). `bar` names a sourced apex bar (levels R1–R6); `score` records per-dimension scores on the domain rubric; `audit` prints weighted gaps largest-first; `raise` ratchets the floor (`floor_next = max(floor, achieved)`) and **refuses regressions** unless `--force`; `plan` turns gaps into a harness config; `frontier` records a re-check of a moving bar.
+- **Per-domain rubrics.** `data/rubrics.json` (25 entries: `default` + every domain in `domains.json`) — weighted dimension tables per domain, so the same ratchet applies to code, math, law, medicine, the arts, etc.; unknown domains fall back to `default`.
+- **Gap → lever map.** `data/levers.json`: each rubric dimension → the modules (M0–M8) and catalog tool-kinds that close it, anchored to Claude/Anthropic's documented practice where one exists; `standard plan` grounds its tool suggestions in `data/harnesses.json`.
+- **Stale-frontier audit.** `evolution.audit` gains `stale_frontier`: an apex bar (R4+) not re-checked within `FRONTIER_MAX_AGE_DAYS` (90), or a floor with no named bar → proposal only (human-gated).
+- **Excellence docs.** `domains/excellence/{standard-ladder.md,self-standard.md,security-model.md}` — the ratchet mechanism in detail; this project held to Anthropic's engineering bar (`standard --domain software-engineering plan harness-factory` → its own gap config); least-privilege / human-gate / reversibility security model.
+- **Writing domain (doc-level).** `domains/writing/README.md` — citation-first essay harness for weak-spot writing (evidence/structure/originality): thesis→outline→context pack→forced claim→evidence pairing→originality check→clarity pass; humanities-aligned rubric. **Not yet registered** in `domains.json`/`rubrics.json` (SSOT) — registration is a pending decision, so `--domain writing` is not selectable in the CLI yet.
+- **One-line agent directives (一句话指令词).** Paste-ready one-sentence prompts added to the main entry docs (root READMEs, `harness_factory/README.md`, `GUIDE.md`, `SKILL.md`) and to the excellence/writing domain READMEs.
+- **Tests:** +17 (`test_standard.py`: rubric scoring, bar ledger roundtrip, ratchet no-regression, plan/levers, stale-frontier audit) → **103** passing.
+- **Docs synced.** `GUIDE.md` (command reference, Example 9 ratchet walkthrough, test count), `harness_factory/README.md` (standard block + writing layout), root `README.md`/`README.zh-CN.md` (quickstart + standard), `domains/excellence/README.md`, `domains/writing/README.md`.
 
 ## 2026-10-12 — P1.8: agent-native mode + project learning (done)
 - **Agent-native (L0/L1).** Added `SKILL.md` (front-matter + 4 cardinal rules + load-index + output contract + provenance requirement), `reference/derivation-rules.md`, `install-skill.ps1` (optional copy into a skills dir), and `skill.py` (`index`/`find`/`read`); CLI **`skill`** prints the load-index (`harness skill M4` prints one module). An assistant pointed at the repo + a task goal derives and emits the harness itself — no install.

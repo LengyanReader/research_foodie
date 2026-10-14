@@ -3,7 +3,7 @@
 > **跨域提炼的 agent harness 模式库，外加一个把任务编译成所需 harness 的可执行工具。**
 > A generalizable library of agent-harness patterns, plus an executable compiler.
 
-**更新：** 2026-10-12 · **状态：** 活跃 · **许可：** MIT
+**更新：** 2026-10-14 · **状态：** 活跃 · **许可：** MIT
 
 ## 这是什么
 
@@ -24,6 +24,10 @@
 
 ## 快速开始
 
+> **一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』
+> 推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），
+> 最后跑 `check`；只提案、不编造任务内容。」
+
 ```bash
 cd harness_factory
 
@@ -39,9 +43,17 @@ harness check  --dir ./my-task
 # 面向 agent 的助手命令 + 项目画像/学习（观察式）
 harness skill                            # agent 加载索引；`harness skill M4` 打印某模块
 harness capabilities                     # 需求 → 能力 → 模块 映射
+harness catalog --class deep-research    # 统一 harness 目录：列出/搜索/筛选
 harness profile --project ./myproj --goal "…"   # → updates/profile/<slug>.{json,md}
 harness learn   --task "…" --project ./myproj   # → updates/cases.jsonl
 harness cases
+
+# 最高标准棘轮：对标最好标杆（每个域都有各自评分表）
+harness standard --domain deep-research bar brief --level R4 --name "SOTA report" --source https://…
+harness standard --domain deep-research score brief --set fidelity=2 --set coverage=3
+harness standard --domain deep-research audit brief   # 加权差距，从大到小
+harness standard --domain deep-research raise brief   # 固化新下限（拒绝回退）
+harness standard --domain deep-research plan brief    # 差距 → harness 配置（模块 + 工具）
 
 # 自我更新 + 情报提取 + 自演化（全部人工确认、可回退）
 harness refresh --provider all --intel   # 跟踪来源 → 提案 + updates/INTEL.md
@@ -67,10 +79,10 @@ harness_factory/          项目主体（先读其 README）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
-├── domains/               20 个学科门类（每域一个 README）
+├── domains/               23 个学科门类 + general 兜底（每域一个 README；writing 域 README 待注册）
 ├── review/                文献综述 · harness 分类总览与索引（catalog/index）
 ├── sources/               提炼溯源表（模式 ← 一手材料）
-├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·watchlist·sources.json）+ templates/
+├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·rubrics·levers·watchlist·sources.json）+ templates/
 ├── tests/                 标准库 unittest（无外部依赖）
 ├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
 └── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）

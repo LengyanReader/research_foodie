@@ -4,7 +4,7 @@
 > **Give any task the agent harness it needs — and keep the know-how current.**
 > **为任意任务生成它所需的 agent harness —— 并让这套 know-how 持续自我更新。**
 
-**Updated:** 2026-10-13 · **Status:** working tool (P2) · **Version:** 0.1.0 · **License:** MIT
+**Updated:** 2026-10-14 · **Status:** working tool (P2) · **Version:** 0.1.0 · **License:** MIT
 **Reader:** anyone who wants an LLM agent to do real work reliably (research, coding, data, ops, writing).
 **读者：** 希望让 LLM 智能体**可靠地**完成真实工作（科研 / 编码 / 数据 / 运维 / 写作）的人。
 
@@ -13,6 +13,8 @@
 ## 中文速览
 
 **一句话。** `harness-factory` 把「**任务**」编译成该任务所需的 **agent harness**（上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 工具/技能 · 变更治理 · 协作协议），并用一个**人类把关的自我更新循环**让这套知识库不被冻结。
+
+**一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
 **怎么用（三种）。**
 1. **L0 面向 agent（免安装）**：把 vibe-coding 助手指向本仓库 + 一句任务目标，它读 `SKILL.md` 自行推导并落盘 harness。
@@ -119,6 +121,8 @@ Requirements match **capabilities**, which *annotate* the enabled modules and ar
 
 Data-driven taxonomy of **23 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **23 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
 
+> `domains/writing/README.md` is a **doc-level (L0) harness** not yet registered in `domains.json`/`rubrics.json`, so `--domain writing` is not selectable in the CLI yet. · `writing` 目前是**文档级（L0）harness**，尚未注册进 SSOT，CLI 暂不可选。
+
 `deep-research` · `research` · `reading` · `excellence` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
 
 ### 2.6 Consumption modes · 消费形态
@@ -150,7 +154,7 @@ Run the tests (stdlib `unittest`, no deps) · 跑测试：
 
 ```bash
 cd harness_factory
-PYTHONPATH=src python -m unittest discover -s tests     # 86 tests OK
+PYTHONPATH=src python -m unittest discover -s tests     # 103 tests OK
 ```
 
 ---
@@ -629,7 +633,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
 - **P1.8 done** — agent-native mode (`SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **23 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); and **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力。
+- **P2 (in progress)** — **23 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); and **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. **`writing` domain** added at doc level (pending SSOT registration). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（待注册）。
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store. · 运行时钩子。
 - **P4** — plugin protocol for third-party domains/templates. · 第三方插件协议。
 

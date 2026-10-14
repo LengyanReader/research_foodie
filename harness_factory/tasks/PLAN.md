@@ -1,6 +1,6 @@
 # PLAN · Inclusive Harness Tool · 通用 harness 工具计划
 
-**Updated:** 2026-10-12 · **Status:** active · **Owner:** user + agent
+**Updated:** 2026-10-14 · **Status:** active · **Owner:** user + agent
 
 > Goal: turn `harness_factory/` from a pattern **library** into a working **harness compiler** — given any task, emit the harness that task needs.
 > 目标：把 `harness_factory/` 从模式**库**升级为可运行的**harness 编译器**——给定任意任务，产出该任务所需的 harness。
@@ -34,6 +34,9 @@
   assistant pointed at this path can consume the factory as an agent-native skill (no install).
 - `harness profile --project DIR` — scan a target project → `PROFILE.md` + capabilities (observe-only).
 - `harness learn` / `harness cases` — record / review learned project cases (project → factory learning).
+- `harness catalog [<id>] [--class/--kind/--module/--vendor/--tag/--search/--tracked/--markdown/--write/--json]` — unified harness catalog: list/search/filter; `--write` regenerates `review/harness-index.md`.
+- `harness standard [--store F] --domain D bar|score|audit|raise|plan|frontier <name>` — the frontier-standard ratchet over a per-domain weighted rubric (`data/rubrics.json`); `raise` refuses regressions (unless `--force`); `plan` maps gaps → modules + catalog tools (`data/levers.json`).
+- `harness doctor` / `harness self-update` — path/config/LLM status; re-seed the tool's own catalog (non-destructive).
 - Deterministic rule engine over M0–M8 + capability map + 4 domains + general.
 - Optional LLM classifier (off by default; plugs in via env config).
 
@@ -55,13 +58,19 @@ harness_factory/
     config.py      tool home / catalog / corpus / updates resolution; seed catalog
     data/
       modules.json   module catalog M0–M8 (id, titles, rule)
-      domains.json    domain catalog (research, knowledge-management, data-science, devops, general)
+      domains.json    domain catalog (23 disciplines + `general`; faculty taxonomy)
+      harnesses.json  unified harness catalog (127 entries: class × kind × module-map × vendor)
+      rubrics.json    per-domain weighted excellence rubric (`default` fallback)
+      levers.json     rubric dimension -> modules (M0–M8) + catalog tool-kinds that close it
       watchlist.json  refresh topics + frontier probes (M5 signal source)
-      sources.json    tracked entities (projects/harnesses/venues/people/media) + feeds
+      sources.json    tracked entities (projects/harnesses/venues/people/media/libraries/tools) + feeds
       capabilities.json  requirement -> capability -> modules map (extensible, data-driven)
     derive.py      FeatureVector -> HarnessPlan   (explainable rule table + capability annotation)
     classify.py    task text -> FeatureVector      (rules; optional LLM)
     capabilities.py  load capability map; match(features) -> active capabilities + module reasons
+    catalog.py     load/search/filter/render/validate/write_index over data/harnesses.json
+    standard.py    frontier-standard ratchet: bar ledger, rubric scoring, gap audit, raise (no regress), plan
+    skill.py       agent load-index: index / find / read (SKILL.md + core + data + domains)
     llm.py         OpenAI-compatible classify + discover + summarize (stdlib urllib), env-gated
     render.py      tiny {{key}} template engine (no deps)
     assemble.py    HarnessPlan -> files on disk
@@ -136,7 +145,9 @@ better, and capabilities discovered in one project become reusable options for o
 - **P1.8 (done):** agent-native mode + project learning. Cancelled packaging as a distribution channel (PyPI/`uv tool install`); primary = agent-native skill (`SKILL.md` + `harness skill`) + CLI-from-path (L1). Data-driven **capability mechanism** (`capabilities.json`), **project profile** (`profile.py`), **mutual learning** (`learning.py` cases + `missing_capability` audit).
 - **P2 (active):** comprehensiveness + discoverability.
   - **Disciplines · 学科门类（~20）:** expand `domains/` from 4 to a faculty-level taxonomy — natural sciences (physics, chemistry, biology, earth-environment, mathematics), engineering (engineering, software-engineering, devops), health (medicine), social sciences (economics-finance, psychology, social-science), humanities (humanities), law, business/education/arts (education, arts-design). Each = `domains/<id>/README.md` + `domains.json` entry (artifact/grounding/signals). Adds no new rules — features stay compositional (M0.5).
-  - **Harness index · harness 索引:** a unified, machine-readable catalog `data/harnesses.json` (classes × kinds × core-module maps × source), cross-linked to `sources.json` by id; `catalog.py` + CLI `harness catalog` (list/search/filter/`--json`); generated `review/harness-index.md` with a drift-guard test. Prose taxonomy in `review/harness-catalog.md` stays as the explanation; the index is the lookup surface.
+  - **Harness index · harness 索引:** a unified, machine-readable catalog `data/harnesses.json` (127 entries; classes × kinds × core-module maps × source), cross-linked to `sources.json` by id; `catalog.py` + CLI `harness catalog` (list/search/filter/`--json`); generated `review/harness-index.md` with a drift-guard test. Prose taxonomy in `review/harness-catalog.md` stays as the explanation; the index is the lookup surface.
+  - **Frontier standard · 最高标准棘轮 (done):** `excellence` domain + `standard-ladder.md`; per-domain weighted rubrics (`data/rubrics.json`, `default` fallback) and the gap→lever map (`data/levers.json`); executable ratchet `standard.py` + CLI `harness standard bar|score|audit|raise|plan|frontier` (refuses regressions); `stale_frontier` audit in `evolution.py`; applied reflexively in `self-standard.md` + `security-model.md`.
+  - **Writing domain · 写作域 (doc-level):** `domains/writing/README.md` — citation-first essay harness (thesis→outline→context pack→claim↔evidence→originality→clarity) with a humanities-aligned rubric. **Pending:** register in `domains.json`/`rubrics.json` so `--domain writing` becomes selectable.
   - **LLM-assisted discovery/classification hardening** and **feed/entity coverage expansion** — deferred to a later P2 slice.
 - **P3:** emitted-harness runtime hooks (gate runner, signal harvest).
 - **P4:** plugin protocol for new domains/templates.

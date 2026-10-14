@@ -3,7 +3,7 @@
 > **A generalizable library of agent-harness patterns, distilled across domains.**
 > 跨域提炼、面向迁移复用的 **agent harness 模式库**。
 
-**Updated:** 2026-10-12 · **Status:** active · **License:** MIT (see repo root)
+**Updated:** 2026-10-14 · **Status:** active · **License:** MIT (see repo root)
 
 ---
 
@@ -16,6 +16,8 @@
 **结构。** `core/` 放**跨域通用**的 9 条主干模式；`domains/` 放各学科门类（20 个）的**域内专属**编排；`review/` 是对「AI harness」这一主题的**文献综述**与 `harness-index.md` 统一索引；`sources/` 是**提炼溯源表**（哪个模式来自哪份一手材料）。**完整介绍与实例见 [`GUIDE.md`](GUIDE.md)。**
 
 **怎么用。** 新任务先读 `core/01-meta-principles.md`；再按任务性质进入对应 `domains/*`；实现时把对应 `core/*` 文件当作**操作手册**逐条落实；收尾跑域内的验证门禁。
+
+> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
 ---
 
@@ -133,7 +135,7 @@ harness_factory/
 │   ├── 07-tools-and-skills.md     工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md    单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/                       23 disciplines · 23 个学科门类（每域一个 README）
+├── domains/                       23 disciplines · 23 个学科门类（每域一个 README；+ `writing/` doc-level，待注册）
 │   ├── deep-research/ research/ reading/ excellence/ knowledge-management/ data-science/ model-selection/ (meta + methods)
 │   ├── software-engineering/ devops/ engineering/ (engineering)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)

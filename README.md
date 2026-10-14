@@ -4,13 +4,17 @@
 > the harness any task needs.**
 > 跨域提炼的 **agent harness 模式库**，外加一个**把任务编译成所需 harness**的可执行工具。
 
-**Updated:** 2026-10-12 · **Status:** active · **License:** MIT
+**Updated:** 2026-10-14 · **Status:** active · **License:** MIT
 
 > 中文速览：本仓库现聚焦 **`harness_factory/`**——一个「agent harness」模式库 + `harness` CLI。
 > *Harness* = 让 LLM 智能体在**跨会话、长时程、有限上下文**下把任务做稳的**一整套外部化方法**
 > （上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 自我演化 · 工具/技能 · 变更治理 · 协作协议）。
 > 工具只做**分类/选择/生成/观察/排序**，绝不编造任务实质；所有循环产物先作为**提案**，由人确认。详见
 > [`harness_factory/README.md`](harness_factory/README.md) 与 [`introduction.md`](harness_factory/introduction.md)。
+>
+> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `SKILL.md`，
+> 为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入
+> `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
 ---
 
@@ -49,6 +53,14 @@ harness init   --task "add unit tests to the parser" --out ./my-task   # --out d
 harness check  --dir ./my-task
 harness skill                            # agent load-index; `harness skill M4` prints a module
 harness capabilities                     # requirement -> capability -> modules map
+harness catalog --class deep-research    # unified harness catalog: list/search/filter
+
+# frontier-standard ratchet: aim at the best-known bar (every domain has a rubric)
+harness standard --domain deep-research bar brief --level R4 --name "SOTA report" --source https://…
+harness standard --domain deep-research score brief --set fidelity=2 --set coverage=3
+harness standard --domain deep-research audit brief   # weighted gap, largest first
+harness standard --domain deep-research raise brief   # ratchet the floor (refuses a regression)
+harness standard --domain deep-research plan brief    # gaps -> harness config (modules + tools)
 
 # profile + learn from a real project (observe-only, project -> factory)
 harness profile --project ./myproj --goal "…"
@@ -89,7 +101,7 @@ harness_factory/          the project (start at its README)
 ├── domains/               科研 / 知识管理 / 数据科学 / DevOps 四域编排
 ├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
 ├── sources/               提炼溯源表（模式 ← 一手材料）
-├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·watchlist·sources.json）+ templates/
+├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·rubrics·levers·watchlist·sources.json）+ templates/
 ├── tests/                 标准库 unittest（无外部依赖）
 ├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
 └── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）

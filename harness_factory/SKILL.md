@@ -26,6 +26,7 @@ available. Either way: **select and scaffold — never fabricate task substance*
 
 - **L0 — read & reason (no install).** Read this file, then load only what you need from the index below;
   derive with `reference/derivation-rules.md` + the `data/*.json` catalogs, then emit the output contract.
+  > **One-liner to paste · 一句话指令词.** 「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 - **L1 — call the CLI from the path (no install).**
   ```bash
   PYTHONPATH=<repo>/src python -m harness_factory derive --task "<goal>" --json
@@ -52,8 +53,8 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `M6` | `core/07-tools-and-skills.md` | tools & skills |
 | `M7` | `core/08-change-governance.md` | change governance |
 | `M8` | `core/09-collaboration-and-sessions.md` | collaboration & sessions |
-| catalogs | `src/harness_factory/data/{modules,capabilities,domains}.json` | machine-readable truth |
-| domains | `domains/<name>/README.md` | research / knowledge-management / data-science / devops |
+| catalogs | `src/harness_factory/data/{modules,capabilities,domains,harnesses,rubrics,levers}.json` | machine-readable truth |
+| domains | `domains/<name>/README.md` | 23 disciplines + `general` (faculty taxonomy); `writing/` is doc-level, pending registration |
 
 ## How to configure a harness · 如何配置
 

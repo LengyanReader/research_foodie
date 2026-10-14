@@ -1,6 +1,6 @@
 # Introduction · harness-factory 简介
 
-**Updated:** 2026-10-12 · **Status:** working tool (P1.8) · **Version:** 0.1.0 · **License:** MIT
+**Updated:** 2026-10-14 · **Status:** working tool (P2) · **Version:** 0.1.0 · **License:** MIT
 
 > **Give any task the agent harness it needs — and keep that know-how current.**
 > 为任意任务生成它所需的 agent harness，并让这套 know-how 持续自我更新。
@@ -18,6 +18,8 @@
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容，绝不自动改写正文，破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
 **怎么用。** 把 vibe-coding 助手指向本仓库 + 任务目标，它读 `SKILL.md` 自行推导并落盘 harness；或用 `harness init --task "…" --out <目录>` 在**任意目录**生成；`harness check` 校验；`harness profile/learn` 让它**从目标项目中学习**；`harness refresh/evolve` 定期抓取新前沿工作（只出提案）。
+
+**一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
 ---
 
@@ -235,7 +237,7 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 - **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
 - **P1.7 done** — intel tracking (`data/sources.json`, 109 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
 - **P1.8 done** — agent-native mode (`SKILL.md`, `reference/derivation-rules.md`, `harness skill`) + project learning (`profile`/`learn`/`cases` + `missing_capability` audit) + capability mechanism (`data/capabilities.json`); packaging cancelled.
-- **P2 (disciplines + catalog)** — disciplines expanded to **23** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
+- **P2 (disciplines + catalog + frontier standard)** — disciplines expanded to **23** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`, 127 entries), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. **Frontier standard** is now executable: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. A **writing** domain is added at doc level (pending SSOT registration). Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store.
 - **P4** — plugin protocol for third-party domains/templates.
 

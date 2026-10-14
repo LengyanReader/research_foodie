@@ -8,6 +8,8 @@
 ## 中文速览
 最高标准域回答一个问题：**「这件事的最高水平是什么样？我们现在差多少？怎么一步步逼近，且永不倒退？」** 它不生产领域内容，而是给任何任务加一层**标杆回路**：**L0 定标**（指名当前公认的最高标——SOTA 榜、顶级专家/产品范例、头名结果，并给出可核验依据）→ **L1 对标**（用同一把尺子给当前产出自评）→ **L2 差距审计**（逐维度：我们在哪、标杆在哪、差因何在）→ **L3 提升计划**（一次只拉最大的那块短板）→ **L4 提升并复测** → **L5 棘轮**（把已达到的分数固化为新下限，**绝不接受回退**）→ **L6 跟踪移动前沿**（标杆会前进，定期重新定标）→ **L7 记录**。**铁律：标杆必须可溯源、可核验（M4）；「是否达到最高标准」由人工确认（M0.8）；不得自我宣称优秀。**
 
+> **一句话指令词（贴给助手）· One-liner for an agent.**「用 excellence 域的最高标准棘轮处理 <产出物>：先指名一个**可溯源**的最高标杆（R4+，给出来源），按本域 rubric 打分 → 审计最大差距 → 逐项提升 → 把达标分固化为**新下限**（未获人工豁免不得回退），并定期复核标杆是否前移。」
+
 > 机制细节见 [`standard-ladder.md`](standard-ladder.md)。能力以数据驱动方式接入：`data/capabilities.json` 的 `frontier-standard`（触发模块 M3 校验 · M5 自演化 · M8 人工门）。
 >
 > **可执行 · Executable.** 棘轮已落为 CLI：`harness standard --domain <D> bar|score|audit|raise|frontier <objective>`，读写一份 bar ledger（默认 `updates/standard.json`）。每个域在 `data/rubrics.json` 有各自加权评分表（未知域回退 `default`），因此**同一棘轮适用于所有 24 个域**；`raise` 拒绝回退（除非 `--force`）。· The ratchet is a CLI over a per-domain weighted rubric (`data/rubrics.json`, `default` fallback); it applies to **all 24 domains** and refuses regressions unless `--force`.
