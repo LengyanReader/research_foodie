@@ -1025,6 +1025,103 @@
         ],
         "why": "AI-engineer interviews and agent practice."
       }
+    ],
+    "libraries": [
+      {
+        "id": "gutenberg",
+        "name": "Project Gutenberg",
+        "kind": "other",
+        "url": "https://www.gutenberg.org/",
+        "feed": "https://www.gutenberg.org/cache/epub/feeds/today.rss",
+        "topics": [
+          "provenance-integrity",
+          "agent-harness"
+        ],
+        "tags": [
+          "public-domain",
+          "ebooks"
+        ],
+        "why": "Public-domain book corpus for reading/distillation."
+      },
+      {
+        "id": "standard-ebooks",
+        "name": "Standard Ebooks",
+        "kind": "other",
+        "url": "https://standardebooks.org/",
+        "feed": "https://standardebooks.org/feeds/atom/new-releases",
+        "topics": [
+          "provenance-integrity"
+        ],
+        "tags": [
+          "public-domain",
+          "curated"
+        ],
+        "why": "Carefully edited public-domain ebooks."
+      },
+      {
+        "id": "internet-archive",
+        "name": "Internet Archive",
+        "kind": "post",
+        "url": "https://archive.org/",
+        "feed": "https://blog.archive.org/feed/",
+        "topics": [
+          "provenance-integrity",
+          "context-engineering"
+        ],
+        "tags": [
+          "library",
+          "lending",
+          "scans"
+        ],
+        "why": "Scanned texts + controlled digital lending."
+      },
+      {
+        "id": "open-library",
+        "name": "Open Library",
+        "kind": "other",
+        "url": "https://openlibrary.org/",
+        "feed": null,
+        "topics": [
+          "provenance-integrity"
+        ],
+        "tags": [
+          "library",
+          "metadata"
+        ],
+        "why": "Open book catalog with borrowable editions."
+      },
+      {
+        "id": "hathitrust",
+        "name": "HathiTrust",
+        "kind": "other",
+        "url": "https://www.hathitrust.org/",
+        "feed": null,
+        "topics": [
+          "provenance-integrity"
+        ],
+        "tags": [
+          "library",
+          "scans",
+          "research"
+        ],
+        "why": "Research-library scans; full view for public domain."
+      },
+      {
+        "id": "doab",
+        "name": "DOAB (Directory of Open Access Books)",
+        "kind": "other",
+        "url": "https://www.doabooks.org/",
+        "feed": null,
+        "topics": [
+          "provenance-integrity",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "open-access",
+          "books"
+        ],
+        "why": "Peer-reviewed open-access monographs."
+      }
     ]
   }
 }

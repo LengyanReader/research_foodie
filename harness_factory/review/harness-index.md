@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-12 · 64 entries · 9 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-12 · 84 entries · 10 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -129,6 +129,31 @@ harness catalog claude-code           # detail one entry
 | `connected-papers` | Connected Papers · Connected Papers | graph-explorer | M1, M4 | https://www.connectedpapers.com/ |
 | `researchrabbit` | ResearchRabbit · ResearchRabbit | graph-explorer | M1, M4 | https://www.researchrabbit.ai/ |
 | `paperswithcode` | PapersWithCode · PapersWithCode | index | M1, M4 | https://paperswithcode.com/ |
+
+## Reading, acquisition & distillation · 读物阅读·获取与提炼  (20)
+
+| id | name | kind | core modules | source |
+|---|---|---|---|---|
+| `project-gutenberg` | Project Gutenberg · Project Gutenberg | 原文获取 | M4, M6 | https://www.gutenberg.org/ · tracked:gutenberg |
+| `standard-ebooks` | Standard Ebooks · Standard Ebooks | 原文获取 | M4, M6 | https://standardebooks.org/ · tracked:standard-ebooks |
+| `internet-archive` | Internet Archive · Internet Archive | 原文获取 | M4, M6 | https://archive.org/ · tracked:internet-archive |
+| `open-library` | Open Library · Open Library | 原文获取 | M4, M6 | https://openlibrary.org/ · tracked:open-library |
+| `hathitrust` | HathiTrust · HathiTrust | 原文获取 | M4, M6 | https://www.hathitrust.org/ · tracked:hathitrust |
+| `doab` | DOAB · DOAB | 原文获取 | M4, M6 | https://www.doabooks.org/ · tracked:doab |
+| `unpaywall` | Unpaywall · Unpaywall | 原文获取 | M4, M6 | https://unpaywall.org/ |
+| `arxiv` | arXiv · arXiv | 原文获取 | M4, M6 | https://arxiv.org/ |
+| `google-books` | Google Books · Google Books | 原文获取 | M4 | https://books.google.com/ |
+| `pandoc` | Pandoc · Pandoc | 文档解析 / OCR | M6 | https://pandoc.org/ |
+| `calibre` | Calibre · Calibre | 文档解析 / OCR | M6 | https://calibre-ebook.com/ |
+| `mineru` | MinerU · MinerU | 文档解析 / OCR | M6 | https://github.com/opendatalab/MinerU |
+| `grobid` | GROBID · GROBID | 文档解析 / OCR | M6 | https://github.com/kermitt2/grobid |
+| `docling` | Docling · Docling | 文档解析 / OCR | M6 | https://github.com/DS4SD/docling |
+| `marker` | Marker · Marker | 文档解析 / OCR | M6 | https://github.com/VikParuchuri/marker |
+| `tesseract` | Tesseract OCR · Tesseract | 文档解析 / OCR | M6 | https://github.com/tesseract-ocr/tesseract |
+| `hypothesis` | Hypothesis · Hypothesis | 标注与批注 | M4, M6 | https://web.hypothes.is/ |
+| `zotero` | Zotero · Zotero | 标注与批注 | M4, M6 | https://www.zotero.org/ |
+| `readwise` | Readwise · Readwise | 标注与批注 | M4, M6 | https://readwise.io/ |
+| `notebooklm` | NotebookLM · NotebookLM | 提炼与综述 | M1, M4 | https://notebooklm.google/ |
 
 ---
 

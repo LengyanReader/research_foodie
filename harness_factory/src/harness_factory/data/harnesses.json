@@ -83,6 +83,16 @@
         "M1",
         "M4"
       ]
+    },
+    {
+      "id": "reading",
+      "en": "Reading, acquisition & distillation",
+      "zh": "读物阅读·获取与提炼",
+      "maps_to": [
+        "M1",
+        "M4",
+        "M6"
+      ]
     }
   ],
   "kinds": [
@@ -190,6 +200,26 @@
       "id": "eval-framework",
       "en": "eval-framework",
       "zh": "eval-framework"
+    },
+    {
+      "id": "acquisition",
+      "en": "Text acquisition",
+      "zh": "原文获取"
+    },
+    {
+      "id": "document-parser",
+      "en": "Document parser / OCR",
+      "zh": "文档解析 / OCR"
+    },
+    {
+      "id": "annotator",
+      "en": "Annotation / highlights",
+      "zh": "标注与批注"
+    },
+    {
+      "id": "distiller",
+      "en": "Distillation / summarization",
+      "zh": "提炼与综述"
     }
   ],
   "harnesses": [
@@ -1632,6 +1662,458 @@
         "code",
         "datasets",
         "benchmarks"
+      ]
+    },
+    {
+      "id": "project-gutenberg",
+      "name": "Project Gutenberg",
+      "name_zh": "Project Gutenberg",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "Project Gutenberg",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "70k+ public-domain ebooks; canonical plain-text/EPUB corpus.",
+      "summary_zh": "7 万余种公版电子书；权威纯文本/EPUB 语料库。",
+      "url": "https://www.gutenberg.org/",
+      "tracked": "gutenberg",
+      "verified": true,
+      "tags": [
+        "public-domain",
+        "ebooks",
+        "acquisition"
+      ]
+    },
+    {
+      "id": "standard-ebooks",
+      "name": "Standard Ebooks",
+      "name_zh": "Standard Ebooks",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "Standard Ebooks",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Carefully edited, professionally typeset public-domain ebooks.",
+      "summary_zh": "精校、精排的公版电子书。",
+      "url": "https://standardebooks.org/",
+      "tracked": "standard-ebooks",
+      "verified": true,
+      "tags": [
+        "public-domain",
+        "curated",
+        "ebooks"
+      ]
+    },
+    {
+      "id": "internet-archive",
+      "name": "Internet Archive",
+      "name_zh": "Internet Archive",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "Internet Archive",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Digital library of scanned texts; controlled digital lending.",
+      "summary_zh": "扫描文本数字图书馆；受控数字借阅。",
+      "url": "https://archive.org/",
+      "tracked": "internet-archive",
+      "verified": true,
+      "tags": [
+        "library",
+        "lending",
+        "scans"
+      ]
+    },
+    {
+      "id": "open-library",
+      "name": "Open Library",
+      "name_zh": "Open Library",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "Internet Archive",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Open catalog of books with borrowable editions + rich metadata.",
+      "summary_zh": "开放书目库，含可借版本与丰富元数据。",
+      "url": "https://openlibrary.org/",
+      "tracked": "open-library",
+      "verified": true,
+      "tags": [
+        "library",
+        "metadata",
+        "lending"
+      ]
+    },
+    {
+      "id": "hathitrust",
+      "name": "HathiTrust",
+      "name_zh": "HathiTrust",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "HathiTrust",
+      "ecosystem": "research",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Large research-library corpus; full view only for public domain.",
+      "summary_zh": "大型研究图书馆语料；仅公版可全览。",
+      "url": "https://www.hathitrust.org/",
+      "tracked": "hathitrust",
+      "verified": true,
+      "tags": [
+        "library",
+        "scans",
+        "research"
+      ]
+    },
+    {
+      "id": "doab",
+      "name": "DOAB",
+      "name_zh": "DOAB",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "DOAB",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Directory of Open Access Books; peer-reviewed OA monographs.",
+      "summary_zh": "开放获取图书目录；同行评议 OA 专著。",
+      "url": "https://www.doabooks.org/",
+      "tracked": "doab",
+      "verified": true,
+      "tags": [
+        "open-access",
+        "books",
+        "discovery"
+      ]
+    },
+    {
+      "id": "unpaywall",
+      "name": "Unpaywall",
+      "name_zh": "Unpaywall",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "OurResearch",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Finds legal free full-text versions of paywalled articles by DOI.",
+      "summary_zh": "按 DOI 查找合法的免费全文版本。",
+      "url": "https://unpaywall.org/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "open-access",
+        "papers",
+        "fulltext"
+      ]
+    },
+    {
+      "id": "arxiv",
+      "name": "arXiv",
+      "name_zh": "arXiv",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "arXiv",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Open preprint server; API for papers and their source.",
+      "summary_zh": "开放预印本服务器；论文与源码 API。",
+      "url": "https://arxiv.org/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "preprints",
+        "papers",
+        "open-access"
+      ]
+    },
+    {
+      "id": "google-books",
+      "name": "Google Books",
+      "name_zh": "Google Books",
+      "class": "reading",
+      "kind": "acquisition",
+      "vendor": "Google",
+      "ecosystem": "product",
+      "maps_to": [
+        "M4"
+      ],
+      "summary_en": "Book metadata, snippets, and previews for locating editions.",
+      "summary_zh": "图书元数据、片段与预览，用于定位版本。",
+      "url": "https://books.google.com/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "metadata",
+        "preview",
+        "locate"
+      ]
+    },
+    {
+      "id": "pandoc",
+      "name": "Pandoc",
+      "name_zh": "Pandoc",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "John MacFarlane",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Universal document converter across dozens of formats.",
+      "summary_zh": "通用文档转换器，支持数十种格式。",
+      "url": "https://pandoc.org/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "convert",
+        "markdown",
+        "formats"
+      ]
+    },
+    {
+      "id": "calibre",
+      "name": "Calibre",
+      "name_zh": "Calibre",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "Calibre",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Ebook manager/converter; library, metadata, format conversion.",
+      "summary_zh": "电子书管理与转换；书库、元数据、格式转换。",
+      "url": "https://calibre-ebook.com/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "ebooks",
+        "convert",
+        "library"
+      ]
+    },
+    {
+      "id": "mineru",
+      "name": "MinerU",
+      "name_zh": "MinerU",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "OpenDataLab",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "High-fidelity PDF/Office to Markdown extraction.",
+      "summary_zh": "高保真 PDF/Office → Markdown 解析。",
+      "url": "https://github.com/opendatalab/MinerU",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "pdf",
+        "markdown",
+        "parsing"
+      ]
+    },
+    {
+      "id": "grobid",
+      "name": "GROBID",
+      "name_zh": "GROBID",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "kermitt2",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Scholarly PDF to structured TEI (headers, refs, sections).",
+      "summary_zh": "学术 PDF → 结构化 TEI（标题、参考文献、章节）。",
+      "url": "https://github.com/kermitt2/grobid",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "pdf",
+        "tei",
+        "scholarly"
+      ]
+    },
+    {
+      "id": "docling",
+      "name": "Docling",
+      "name_zh": "Docling",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "IBM",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Document conversion to structured Markdown/JSON with layout.",
+      "summary_zh": "文档转结构化 Markdown/JSON，保留版面。",
+      "url": "https://github.com/DS4SD/docling",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "pdf",
+        "docx",
+        "markdown"
+      ]
+    },
+    {
+      "id": "marker",
+      "name": "Marker",
+      "name_zh": "Marker",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "Datalab",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Fast, accurate PDF to Markdown (with OCR fallback).",
+      "summary_zh": "快速准确的 PDF → Markdown（含 OCR 回退）。",
+      "url": "https://github.com/VikParuchuri/marker",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "pdf",
+        "markdown",
+        "ocr"
+      ]
+    },
+    {
+      "id": "tesseract",
+      "name": "Tesseract OCR",
+      "name_zh": "Tesseract",
+      "class": "reading",
+      "kind": "document-parser",
+      "vendor": "tesseract-ocr",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Widely used OCR engine for scanned text.",
+      "summary_zh": "广泛使用的 OCR 引擎，用于扫描文本。",
+      "url": "https://github.com/tesseract-ocr/tesseract",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "ocr",
+        "scans",
+        "images"
+      ]
+    },
+    {
+      "id": "hypothesis",
+      "name": "Hypothesis",
+      "name_zh": "Hypothesis",
+      "class": "reading",
+      "kind": "annotator",
+      "vendor": "Hypothesis",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Open W3C web-annotation layer; anchored annotations on texts.",
+      "summary_zh": "开放 W3C 网页标注层；文本上的带锚批注。",
+      "url": "https://web.hypothes.is/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "annotation",
+        "w3c",
+        "anchors"
+      ]
+    },
+    {
+      "id": "zotero",
+      "name": "Zotero",
+      "name_zh": "Zotero",
+      "class": "reading",
+      "kind": "annotator",
+      "vendor": "Corporation for Digital Scholarship",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Reference manager with PDF annotations, notes, and citations.",
+      "summary_zh": "文献管理器，含 PDF 批注、笔记与引用。",
+      "url": "https://www.zotero.org/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "references",
+        "annotation",
+        "citations"
+      ]
+    },
+    {
+      "id": "readwise",
+      "name": "Readwise",
+      "name_zh": "Readwise",
+      "class": "reading",
+      "kind": "annotator",
+      "vendor": "Readwise",
+      "ecosystem": "product",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Capture and sync highlights across reading sources.",
+      "summary_zh": "跨阅读来源采集与同步高亮。",
+      "url": "https://readwise.io/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "highlights",
+        "capture",
+        "sync"
+      ]
+    },
+    {
+      "id": "notebooklm",
+      "name": "NotebookLM",
+      "name_zh": "NotebookLM",
+      "class": "reading",
+      "kind": "distiller",
+      "vendor": "Google",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Source-grounded summaries, notes, and Q&A over your documents.",
+      "summary_zh": "基于自有来源的摘要、笔记与问答，强调有据可依。",
+      "url": "https://notebooklm.google/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "grounded",
+        "summary",
+        "sources"
       ]
     }
   ]

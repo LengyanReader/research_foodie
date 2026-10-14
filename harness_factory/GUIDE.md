@@ -23,7 +23,7 @@
 
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容；破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
-**本文件。** 完整介绍 + 命令速查 + **6 个可运行的实例**（含「网球出界判定」全流程与「新 harness 反哺回本仓库」的闭环）。
+**本文件。** 完整介绍 + 命令速查 + **7 个可运行的实例**（含「网球出界判定」全流程、「读物阅读近乎无损」与「新 harness 反哺回本仓库」的闭环）。
 
 ---
 
@@ -117,9 +117,9 @@ Requirements match **capabilities**, which *annotate* the enabled modules and ar
 
 ### 2.5 Domains · 学科门类
 
-Data-driven taxonomy of **20 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **20 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
+Data-driven taxonomy of **21 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **21 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
 
-`research` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
+`research` · `reading` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
 
 ### 2.6 Consumption modes · 消费形态
 
@@ -437,6 +437,44 @@ PYTHONPATH=src python -m harness_factory evolve-apply --accept <id|target>   # -
 
 ---
 
+### Example 7 — Reading a book, losslessly · 读物阅读：近乎无损
+
+**EN.** Reading is its own domain (`reading`). The goal: **classify the material → acquire the original → extract every dimension by type → keep it near-lossless → escalate to a human when the original cannot be obtained.**
+
+**中文。** 阅读是一个独立领域（`reading`）：**判定类型 → 获取原文 → 按类型穷尽提炼 → 近乎无损 → 拿不到原文则通知人工。**
+
+```bash
+# 1) Derive a reading harness (genre drives which dimensions apply)
+PYTHONPATH=src python -m harness_factory derive \
+  --task "read this book chapter by chapter; extract key points, highlights, author intent, argument, quotes losslessly" \
+  --domain reading --horizon multi_session --verifiability high --grounding required
+
+# 2) Find acquisition + parsing + annotation + distillation tools
+PYTHONPATH=src python -m harness_factory catalog --class reading
+PYTHONPATH=src python -m harness_factory catalog project-gutenberg   # one entry in detail
+
+# 3) Tracked book libraries (public-domain / borrowable / open-access)
+PYTHONPATH=src python -m harness_factory sources --group libraries
+```
+
+**What the reading pipeline guarantees · 阅读流水线保证:**
+
+| layer · 层 | guarantee · 保证 | module |
+|---|---|---|
+| L0 Identify · 判型 | genre + language + edition + confidence; ambiguous → confirm with human | M0,M7 |
+| L1 Acquire · 获取 | original + source + access date + license; **unobtainable → notify human** | M6,M4 |
+| L2 Normalize · 归一 | chapter-structured text + content hash (pins the version) | M6,M2 |
+| L3 Extract · 提炼 | the genre's dimension set (`extraction-dimensions.md`) | M1,M4 |
+| L4 Distill · 蒸馏 | **anchored verbatim quotes**; quote ≠ inference; coverage ledger | M1,M3 |
+| L5 Verify · 校验 | every claim resolves to an anchor; gaps/ambiguity flagged (three-state) | M3,M4 |
+| L6 Record · 记录 | provenance ledger; fail-loud on unobtainable/ambiguous items | M4,M7,M8 |
+
+**Dimensions · 维度 (exhaustive).** Bibliographic · structural · key points · highlights · **author intent** · rhetoric · argument map · evidence · themes/characters/timeline · terminology · **anchored quotes** · assumptions · contradictions · unresolved questions · actionables · fidelity report — full checklist in [`domains/reading/extraction-dimensions.md`](domains/reading/extraction-dimensions.md). · 书目/结构/要点/重点/**作者意图**/修辞/论证/证据/主题人物时间线/术语/**带锚引文**/前提/矛盾/未解问题/可执行项/保真报告。
+
+> **Boundary · 边界.** With no obtainable original, the harness **stops and asks a human** — it never fabricates the source text (M0.1/M0.2/M4). · 拿不到原文时**停止并询问人工**，绝不编造原文。
+
+---
+
 ## 7. What it produces · 生成物
 
 ```text
@@ -511,7 +549,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
 - **P1.8 done** — agent-native mode (`SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **20 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices in `sources.json`). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估覆盖。
+- **P2 (in progress)** — **21 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 84 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices) and **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取覆盖。
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store. · 运行时钩子。
 - **P4** — plugin protocol for third-party domains/templates. · 第三方插件协议。
 

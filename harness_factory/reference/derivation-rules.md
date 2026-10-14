@@ -20,7 +20,7 @@ Classify the task into these closed vocabularies (rules; optional LLM may fill g
 | `artifact` | `code` · `document` · `dataset` · `knowledge_base` · `plan` · `mixed` | deliverable kind |
 | `tool_surface` | `none` · `read` · `read_write` · `external` | what the task touches |
 | `collaboration` | `solo` · `human_review` · `multi_agent` | who is involved |
-| `domain` | `general` · `research` · `knowledge-management` · `data-science` · `devops` | scenario |
+| `domain` | full list in `data/domains.json` (e.g. `general` · `research` · `reading` · `knowledge-management` · `data-science` · `devops` · `model-selection` · …) | scenario |
 
 ## 2. Module rules · 模块规则
 

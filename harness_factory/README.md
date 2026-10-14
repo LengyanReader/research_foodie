@@ -57,7 +57,7 @@ harness refresh --provider all --intel   # file + tracked feeds + (LLM if config
 harness refresh-apply --accept 0 2601.12345   # human gate -> proposals
 
 # intel + self-evolution (tracked sources: labs, vendor harnesses, venues, people, self-media)
-harness sources --group harnesses        # list every tracked entity (59 across 5 groups)
+harness sources --group harnesses        # list every tracked entity (70 across 6 groups)
 harness intel --since 2026-01-01         # pull tracked feeds -> updates/INTEL.md (+ intel.jsonl)
 harness evolve                           # audit coverage/gaps -> updates/EVOLUTION.md (proposals)
 harness evolve --dry-run                 # same, write nothing
@@ -67,7 +67,8 @@ harness evolve-apply --accept <id|target>  # human gate -> updates/accepted.json
 `data/sources.json` is the tracked-entity registry: **projects & labs** (OpenAI, Anthropic, Google
 DeepMind, Meta, Mistral, DeepSeek, Moonshot/Kimi, …), **vendor harnesses** (Agents SDK, Claude Code,
 MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (Nature/Science/NeurIPS/ICML/ICLR/ACL/arXiv),
-**people** (Karpathy, Ilya, LeCun, Hassabis, …) and **self-media** (Substack/YouTube/newsletters).
+**people** (Karpathy, Ilya, LeCun, Hassabis, …), **self-media** (Substack/YouTube/newsletters), and
+**libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB).
 Feeds are RSS/Atom; YouTube `@handle` pages are resolved to channel feeds on the fly.
 
 **Agent-native first · 面向 agent 的用法.** The most flexible way to use this is to **point a
@@ -99,7 +100,7 @@ L0). In path mode the home is optional.
 ```
 harness_factory/
 ├── README.md                      ← 本文件：定位 · 结构 · 用法
-├── GUIDE.md                       项目指南 · Project Guide：介绍 + 命令速查 + 6 个实例（中英对照）
+├── GUIDE.md                       项目指南 · Project Guide：介绍 + 命令速查 + 7 个实例（中英对照）
 ├── SKILL.md                        agent-native entry (cardinal rules + load-index + contract)
 ├── introduction.md                简介：是什么 · 心智模型 · Quickstart
 ├── pyproject.toml                 dev/CI convenience only (packaging cancelled as a channel)
@@ -123,8 +124,8 @@ harness_factory/
 │   ├── 07-tools-and-skills.md     工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md    单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/                       20 disciplines · 20 个学科门类（每域一个 README）
-│   ├── research/ knowledge-management/ data-science/ (meta + methods)
+├── domains/                       21 disciplines · 21 个学科门类（每域一个 README）
+│   ├── research/ reading/ knowledge-management/ data-science/ model-selection/ (meta + methods)
 │   ├── software-engineering/ devops/ engineering/ (engineering)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)
 │   ├── medicine/ (health)
@@ -148,8 +149,8 @@ harness_factory/
 
 ## How to use this factory · 使用方式
 
-> New here? Read [`GUIDE.md`](GUIDE.md) — full intro, command reference, and six worked examples (bilingual).
-> 初次使用请读 [`GUIDE.md`](GUIDE.md)——完整介绍、命令速查与六个实例（中英对照）。
+> New here? Read [`GUIDE.md`](GUIDE.md) — full intro, command reference, and seven worked examples (bilingual).
+> 初次使用请读 [`GUIDE.md`](GUIDE.md)——完整介绍、命令速查与七个实例（中英对照）。
 
 1. **Orient** — read `core/01-meta-principles.md`. These ten invariants govern everything else.
 2. **Classify the task** — pick the domain in `domains/` that matches the *kind of work*, not the *topic*. A research repo that also ships a website still uses `research/` for its research loop and `devops/` for its build loop.

@@ -582,5 +582,40 @@
       "任务适配",
       "模型选型"
     ]
+  },
+  "reading": {
+    "faculty": "humanities",
+    "title_en": "Reading & distillation",
+    "name_zh": "读物阅读域",
+    "summary": "Type-aware, lossless reading: classify genre -> acquire the original -> extract every dimension with anchors",
+    "workflow": [
+      "L0 Identify & classify material",
+      "L1 Locate & acquire original",
+      "L2 Ingest & normalize",
+      "L3 Type-aware extraction",
+      "L4 Lossless distillation",
+      "L5 Fidelity verification",
+      "L6 Record & notify"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "reading",
+      "book",
+      "books",
+      "novel",
+      "chapter",
+      "genre",
+      "close reading",
+      "annotation",
+      "excerpt",
+      "读物",
+      "阅读",
+      "书籍",
+      "原著",
+      "章节",
+      "体裁",
+      "精读"
+    ]
   }
 }
