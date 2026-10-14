@@ -17,12 +17,14 @@ Turn a research question into a cited, reproducible deliverable — a survey, a 
 | Layer | Step | Core modules | Notes |
 |---|---|---|---|
 | L0 | Scaffold & plan | M7, M0 | project dir, plan-first, run ledger |
-| L1 | Acquire sources | M6, M0.2 | arXiv/API fetch; record IDs + access dates |
+| L1 | Search & acquire sources | M6, M0.2 | web + academic search (see `deep-research`); arXiv/PubMed/API fetch; record IDs + access dates |
 | L2 | Parse & normalize | M6, M2 | PDF → markdown (MinerU/pypdf); idempotent hashing |
-| L3 | Ground claims | M4, M3 | claim ↔ source ledger; `verified`/`unverified` |
-| L4 | Synthesize | M1, M3 | minimal high-signal context; draft from evidence |
+| L3 | Screen & ground claims | M4, M3 | inclusion/exclusion + dedup; claim ↔ source ledger; `verified`/`unverified` |
+| L4 | Synthesize | M1, M3 | minimal high-signal context; keep contradictions; draft from evidence |
 | L5 | Judge & score | M3 | separate evaluator; three-state; default-FAIL |
 | L6 | Publish | M4, M7 | references (IEEE), render (pandoc+xelatex), no auto-push |
+
+> **Web-scale / iterative research** (parallel search, screening, gap-fill loops, self-eval) is its own domain: see [`../deep-research/README.md`](../deep-research/README.md). This domain is the **local-first academic** core it builds on.
 
 ## Module combination · 模块组合
 - **M0** is the constitution: truth before throughput; every claim sourced.

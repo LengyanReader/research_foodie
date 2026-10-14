@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-12 · 84 entries · 10 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-12 · 127 entries · 11 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -154,6 +154,54 @@ harness catalog claude-code           # detail one entry
 | `zotero` | Zotero · Zotero | 标注与批注 | M4, M6 | https://www.zotero.org/ |
 | `readwise` | Readwise · Readwise | 标注与批注 | M4, M6 | https://readwise.io/ |
 | `notebooklm` | NotebookLM · NotebookLM | 提炼与综述 | M1, M4 | https://notebooklm.google/ |
+
+## Deep research — search, retrieval & synthesis · 深度调研·检索与综合  (43)
+
+| id | name | kind | core modules | source |
+|---|---|---|---|---|
+| `openai-deep-research` | OpenAI Deep Research · OpenAI Deep Research | 深研代理 / 产品 | M1, M4 | https://openai.com/index/introducing-deep-research/ · tracked:openai-deep-research |
+| `gemini-deep-research` | Gemini Deep Research · Gemini Deep Research | 深研代理 / 产品 | M1, M4 | https://gemini.google/overview/deep-research/ · tracked:gemini-deep-research |
+| `claude-research` | Claude Research · Claude Research | 深研代理 / 产品 | M1, M3, M4 | https://www.anthropic.com/news/research · tracked:claude-research |
+| `perplexity` | Perplexity · Perplexity | 深研代理 / 产品 | M1, M4 | https://www.perplexity.ai/ · tracked:perplexity |
+| `you-com` | You.com · You.com | 深研代理 / 产品 | M1, M4 | https://you.com/ · tracked:you-com |
+| `grok-deepsearch` | Grok DeepSearch · Grok DeepSearch | 深研代理 / 产品 | M1, M4 | https://x.ai/ · tracked:grok-deepsearch |
+| `gpt-researcher` | GPT Researcher · GPT Researcher | 深研代理 / 产品 | M1, M4 | https://github.com/assafelovic/gpt-researcher · tracked:gpt-researcher |
+| `open-deep-research` | open-deep-research · open-deep-research | 深研代理 / 产品 | M1, M4 | https://github.com/dzhng/deep-research · tracked:open-deep-research |
+| `storm` | STORM · STORM | 深研代理 / 产品 | M1, M4 | https://github.com/stanford-oval/storm · tracked:storm |
+| `jina-deepsearch` | Jina DeepSearch · Jina DeepSearch | 深研代理 / 产品 | M1, M4 | https://github.com/jina-ai/node-DeepResearch · tracked:jina |
+| `exa` | Exa · Exa | 网页检索 API / 引擎 | M6 | https://exa.ai/ · tracked:exa |
+| `tavily` | Tavily · Tavily | 网页检索 API / 引擎 | M6 | https://tavily.com/ · tracked:tavily |
+| `brave-search` | Brave Search API · Brave Search API | 网页检索 API / 引擎 | M6 | https://brave.com/search/api/ · tracked:brave-search |
+| `searxng` | SearXNG · SearXNG | 网页检索 API / 引擎 | M6 | https://github.com/searxng/searxng · tracked:searxng |
+| `serpapi` | SerpApi · SerpApi | 网页检索 API / 引擎 | M6 | https://serpapi.com/ · tracked:serpapi |
+| `semantic-scholar` | Semantic Scholar · Semantic Scholar | 学术检索 API | M1, M4 | https://www.semanticscholar.org/product/api · tracked:semantic-scholar |
+| `crossref` | Crossref · Crossref | 学术检索 API | M1, M4 | https://www.crossref.org/ · tracked:crossref |
+| `openalex` | OpenAlex · OpenAlex | 学术检索 API | M1, M4 | https://openalex.org/ · tracked:openalex |
+| `europepmc` | Europe PMC · Europe PMC | 学术检索 API | M1, M4 | https://europepmc.org/ · tracked:europepmc |
+| `core` | CORE · CORE | 学术检索 API | M1, M4 | https://core.ac.uk/ · tracked:core |
+| `scite` | Scite · Scite | 学术检索 API | M1, M4 | https://scite.ai/ · tracked:scite |
+| `litmaps` | Litmaps · Litmaps | graph-explorer | M1, M4 | https://www.litmaps.com/ · tracked:litmaps |
+| `inciteful` | Inciteful · Inciteful | graph-explorer | M1, M4 | https://inciteful.xyz/ · tracked:inciteful |
+| `llamaindex` | LlamaIndex · LlamaIndex | 检索增强 / 向量 | M1, M2, M6 | https://github.com/run-llama/llama_index · tracked:llamaindex |
+| `langchain` | LangChain · LangChain | 检索增强 / 向量 | M1, M6 | https://github.com/langchain-ai/langchain · tracked:langchain |
+| `faiss` | FAISS · FAISS | 检索增强 / 向量 | M1, M2 | https://github.com/facebookresearch/faiss · tracked:faiss |
+| `qdrant` | Qdrant · Qdrant | 检索增强 / 向量 | M1, M2 | https://github.com/qdrant/qdrant · tracked:qdrant |
+| `chroma` | Chroma · Chroma | 检索增强 / 向量 | M1, M2 | https://github.com/chroma-core/chroma · tracked:chroma |
+| `sentence-transformers` | sentence-transformers · sentence-transformers | 检索增强 / 向量 | M1, M6 | https://github.com/UKPLab/sentence-transformers · tracked:sentence-transformers |
+| `bm25s` | bm25s · bm25s | 检索增强 / 向量 | M1, M6 | https://github.com/xhluca/bm25s · tracked:bm25s |
+| `trafilatura` | Trafilatura · Trafilatura | 抓取 / 正文提取 | M6 | https://github.com/adbar/trafilatura · tracked:trafilatura |
+| `readability` | Readability · Readability | 抓取 / 正文提取 | M6 | https://github.com/mozilla/readability · tracked:readability |
+| `jina-reader` | Jina Reader · Jina Reader | 抓取 / 正文提取 | M6 | https://github.com/jina-ai/reader · tracked:jina-reader |
+| `firecrawl` | Firecrawl · Firecrawl | 抓取 / 正文提取 | M6 | https://github.com/mendableai/firecrawl · tracked:firecrawl |
+| `crawl4ai` | Crawl4AI · Crawl4AI | 抓取 / 正文提取 | M6 | https://github.com/unclecode/crawl4ai · tracked:crawl4ai |
+| `rayyan` | Rayyan · Rayyan | 筛选 / 系统综述 | M3, M4 | https://www.rayyan.ai/ · tracked:rayyan |
+| `covidence` | Covidence · Covidence | 筛选 / 系统综述 | M3, M4 | https://www.covidence.org/ · tracked:covidence |
+| `asreview` | ASReview · ASReview | 筛选 / 系统综述 | M3, M4 | https://github.com/asreview/asreview · tracked:asreview |
+| `gaia` | GAIA · GAIA | 调研质量评测 | M3 | https://huggingface.co/datasets/gaia-benchmark/GAIA · tracked:gaia |
+| `browsecomp` | BrowseComp · BrowseComp | 调研质量评测 | M3 | https://openai.com/index/browsecomp/ · tracked:browsecomp |
+| `hle` | Humanity’s Last Exam · Humanity’s Last Exam | 调研质量评测 | M3 | https://lastexam.ai/ · tracked:hle |
+| `frames` | FRAMES · FRAMES | 调研质量评测 | M3 | https://huggingface.co/datasets/google/frames-benchmark · tracked:frames |
+| `deepresearch-bench` | DeepResearch Bench · DeepResearch Bench | 调研质量评测 | M3 | https://github.com/Ayanami0730/deep_research_bench · tracked:deepresearch-bench |
 
 ---
 

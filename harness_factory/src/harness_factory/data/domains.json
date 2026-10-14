@@ -1,4 +1,44 @@
 {
+  "deep-research": {
+    "faculty": "meta",
+    "title_en": "Deep research",
+    "name_zh": "深度调研域",
+    "summary": "Anthropic-grade deep research: plan -> parallel search -> screen -> extract -> synthesize -> verify -> iterate, all citation-grounded",
+    "workflow": [
+      "L0 Scope the question",
+      "L1 Plan & decompose",
+      "L2 Parallel search (web + academic)",
+      "L3 Retrieve & parse",
+      "L4 Screen & dedup",
+      "L5 Extract evidence",
+      "L6 Synthesize with contradictions",
+      "L7 Verify & citation-audit",
+      "L8 Iterate / gap-fill",
+      "L9 Report & self-eval"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "deep research",
+      "deep-research",
+      "multi-hop",
+      "multi hop",
+      "iterative search",
+      "research report",
+      "evidence synthesis",
+      "systematic review",
+      "scoping review",
+      "snowball",
+      "gap analysis",
+      "citation audit",
+      "调研",
+      "深研",
+      "子问题",
+      "文献检索",
+      "证据综合",
+      "深调"
+    ]
+  },
   "research": {
     "faculty": "meta",
     "title_en": "Research",

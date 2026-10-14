@@ -23,7 +23,7 @@
 
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容；破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
-**本文件。** 完整介绍 + 命令速查 + **7 个可运行的实例**（含「网球出界判定」全流程、「读物阅读近乎无损」与「新 harness 反哺回本仓库」的闭环）。
+**本文件。** 完整介绍 + 命令速查 + **8 个可运行的实例**（含「网球出界判定」全流程、「读物阅读近乎无损」、「深度调研至 Anthropic 水准」与「新 harness 反哺回本仓库」的闭环）。
 
 ---
 
@@ -82,7 +82,7 @@ These describe *the kind of work*, not the topic. · 描述**工作的性质**�
 | `artifact` | `code` · `document` · `dataset` · `knowledge_base` · `plan` · `mixed` | what is produced · 产出物 |
 | `tool_surface` | `none` · `read` · `read_write` · `external` | how much the agent touches the world · 触达世界的程度 |
 | `collaboration` | `solo` · `human_review` · `multi_agent` | who else is involved · 协作形态 |
-| `domain` | 21 disciplines (below) · 21 个学科 | weak prior for defaults · 默认值的弱先验 |
+| `domain` | 22 disciplines (below) · 22 个学科 | weak prior for defaults · 默认值的弱先验 |
 
 ### 2.3 Modules M0–M8 · 核心模块
 
@@ -117,9 +117,9 @@ Requirements match **capabilities**, which *annotate* the enabled modules and ar
 
 ### 2.5 Domains · 学科门类
 
-Data-driven taxonomy of **21 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **21 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
+Data-driven taxonomy of **22 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **22 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
 
-`research` · `reading` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
+`deep-research` · `research` · `reading` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
 
 ### 2.6 Consumption modes · 消费形态
 
@@ -475,6 +475,44 @@ PYTHONPATH=src python -m harness_factory sources --group libraries
 
 ---
 
+### Example 8 — Deep research to an Anthropic-grade bar · 深度调研
+
+**EN.** Give the factory a topic and it derives a **plan → parallel search → screen → extract → synthesize → verify → iterate** loop, then reports with coverage + confidence. The method is in [`domains/deep-research/method.md`](domains/deep-research/method.md); the tools are the `deep-research` catalog class.
+
+**中文。** 给工厂一个课题，它推导出 **规划→并行检索→筛选→抽取→综合→校验→迭代** 闭环，并给出带覆盖率与置信度的报告。方法见 `domains/deep-research/method.md`，工具见 `deep-research` 目录类。
+
+```bash
+# 1) Derive a deep-research harness (multi-hop, high verifiability, required grounding)
+PYTHONPATH=src python -m harness_factory derive \
+  --task "do deep research on <topic>: decompose, multi-source search, cite everything, keep contradictions, state gaps" \
+  --domain deep-research --horizon multi_session --verifiability high --grounding required
+
+# 2) Tools: agents + web/academic search + retrieval + crawl + screening + eval
+PYTHONPATH=src python -m harness_factory catalog --class deep-research
+PYTHONPATH=src python -m harness_factory catalog --kind academic-search
+PYTHONPATH=src python -m harness_factory catalog --kind research-eval
+
+# 3) Tracked tools/agents
+PYTHONPATH=src python -m harness_factory sources --group tools
+```
+
+**What "Anthropic-grade" requires · 判据:**
+
+| criterion · 判据 | guarantee · 保证 | module |
+|---|---|---|
+| Scope fidelity · 切题 | restate + confirm the actual question before searching | M0,M7 |
+| Breadth · 广度 | orchestrator + **parallel subagents**; ≥2 independent source types on contested points | M1,M6 |
+| Citation integrity · 引文 | every claim → checkable source; quotes verbatim; `unverified` fenced | M0.2,M4 |
+| Contradiction honesty · 矛盾 | disagreements shown, not averaged | M0.1,M3 |
+| Coverage & calibration · 覆盖/校准 | per-sub-question coverage; confidence stated and matched | M4,M5 |
+| Separation of duties · 分权 | searcher ≠ synthesizer ≠ verifier ≠ evaluator | M3 |
+| Iteration · 迭代 | gap detection → new queries → stop criteria | M2,M5 |
+| Self-eval · 自评 | rubric scores the brief; ≤1 on any criterion → don't ship | M3,M7 |
+
+> **Boundary · 边界.** No source → no claim; absent/contested evidence is reported, never fabricated (M0.1/M0.2/M4). · 无源不下断言；缺失/争议如实呈现，绝不编造。
+
+---
+
 ## 7. What it produces · 生成物
 
 ```text
@@ -549,7 +587,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
 - **P1.8 done** — agent-native mode (`SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **21 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 84 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices) and **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取覆盖。
+- **P2 (in progress)** — **22 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); and **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研覆盖。
 - **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store. · 运行时钩子。
 - **P4** — plugin protocol for third-party domains/templates. · 第三方插件协议。
 

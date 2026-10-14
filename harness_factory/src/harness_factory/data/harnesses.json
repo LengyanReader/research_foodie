@@ -93,6 +93,17 @@
         "M4",
         "M6"
       ]
+    },
+    {
+      "id": "deep-research",
+      "en": "Deep research — search, retrieval & synthesis",
+      "zh": "深度调研·检索与综合",
+      "maps_to": [
+        "M1",
+        "M3",
+        "M4",
+        "M6"
+      ]
     }
   ],
   "kinds": [
@@ -220,6 +231,46 @@
       "id": "distiller",
       "en": "Distillation / summarization",
       "zh": "提炼与综述"
+    },
+    {
+      "id": "research-agent",
+      "en": "Deep-research agent / product",
+      "zh": "深研代理 / 产品"
+    },
+    {
+      "id": "web-search",
+      "en": "Web search API / engine",
+      "zh": "网页检索 API / 引擎"
+    },
+    {
+      "id": "academic-search",
+      "en": "Scholarly search API",
+      "zh": "学术检索 API"
+    },
+    {
+      "id": "retrieval",
+      "en": "Retrieval / RAG / embeddings",
+      "zh": "检索增强 / 向量"
+    },
+    {
+      "id": "crawler",
+      "en": "Crawler / content extraction",
+      "zh": "抓取 / 正文提取"
+    },
+    {
+      "id": "screening",
+      "en": "Screening / systematic review",
+      "zh": "筛选 / 系统综述"
+    },
+    {
+      "id": "fact-check",
+      "en": "Claim verification / fact-check",
+      "zh": "事实核查"
+    },
+    {
+      "id": "research-eval",
+      "en": "Research-quality benchmark",
+      "zh": "调研质量评测"
     }
   ],
   "harnesses": [
@@ -2114,6 +2165,970 @@
         "grounded",
         "summary",
         "sources"
+      ]
+    },
+    {
+      "id": "openai-deep-research",
+      "name": "OpenAI Deep Research",
+      "name_zh": "OpenAI Deep Research",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "OpenAI",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "ChatGPT agent that browses, reads, and writes cited research reports.",
+      "summary_zh": "ChatGPT 深研代理：浏览、精读并生成带引用的研究报告。",
+      "url": "https://openai.com/index/introducing-deep-research/",
+      "tracked": "openai-deep-research",
+      "verified": true,
+      "tags": [
+        "research",
+        "web",
+        "citations"
+      ]
+    },
+    {
+      "id": "gemini-deep-research",
+      "name": "Gemini Deep Research",
+      "name_zh": "Gemini Deep Research",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "Google",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Gemini agent that plans and runs a multi-step cited research report.",
+      "summary_zh": "Gemini 深研代理：多步规划并产出带引用报告。",
+      "url": "https://gemini.google/overview/deep-research/",
+      "tracked": "gemini-deep-research",
+      "verified": true,
+      "tags": [
+        "research",
+        "web",
+        "citations"
+      ]
+    },
+    {
+      "id": "claude-research",
+      "name": "Claude Research",
+      "name_zh": "Claude Research",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "Anthropic",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Claude multi-agent research: orchestrator + parallel searchers + cited synthesis.",
+      "summary_zh": "Claude 多智能体调研：编排 + 并行检索 + 带引用综合。",
+      "url": "https://www.anthropic.com/news/research",
+      "tracked": "claude-research",
+      "verified": true,
+      "tags": [
+        "multi-agent",
+        "research",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "perplexity",
+      "name": "Perplexity",
+      "name_zh": "Perplexity",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "Perplexity",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Answer engine with web citations and a Deep Research mode.",
+      "summary_zh": "带网页引用的问答引擎，含 Deep Research 模式。",
+      "url": "https://www.perplexity.ai/",
+      "tracked": "perplexity",
+      "verified": true,
+      "tags": [
+        "search",
+        "citations",
+        "answers"
+      ]
+    },
+    {
+      "id": "you-com",
+      "name": "You.com",
+      "name_zh": "You.com",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "You.com",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "AI search assistant with Research and multi-source citations.",
+      "summary_zh": "AI 搜索助手，含 Research 与多来源引用。",
+      "url": "https://you.com/",
+      "tracked": "you-com",
+      "verified": true,
+      "tags": [
+        "search",
+        "citations"
+      ]
+    },
+    {
+      "id": "grok-deepsearch",
+      "name": "Grok DeepSearch",
+      "name_zh": "Grok DeepSearch",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "xAI",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "xAI Grok web-grounded deep search over live sources.",
+      "summary_zh": "xAI Grok 联网 DeepSearch，覆盖实时来源。",
+      "url": "https://x.ai/",
+      "tracked": "grok-deepsearch",
+      "verified": true,
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    {
+      "id": "gpt-researcher",
+      "name": "GPT Researcher",
+      "name_zh": "GPT Researcher",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "assafelovic",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Open-source autonomous agent: plan, crawl, and write cited reports.",
+      "summary_zh": "开源自主代理：规划、抓取并撰写带引用报告。",
+      "url": "https://github.com/assafelovic/gpt-researcher",
+      "tracked": "gpt-researcher",
+      "verified": true,
+      "tags": [
+        "open-source",
+        "research",
+        "citations"
+      ]
+    },
+    {
+      "id": "open-deep-research",
+      "name": "open-deep-research",
+      "name_zh": "open-deep-research",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "dzhng",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Open-source clone of a deep-research agent (firecrawl + reasoning).",
+      "summary_zh": "开源深研代理复刻（firecrawl + 推理）。",
+      "url": "https://github.com/dzhng/deep-research",
+      "tracked": "open-deep-research",
+      "verified": true,
+      "tags": [
+        "open-source",
+        "research"
+      ]
+    },
+    {
+      "id": "storm",
+      "name": "STORM",
+      "name_zh": "STORM",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "Stanford OVAL",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Stanford system: perspective-guided question asking -> cited article.",
+      "summary_zh": "斯坦福系统：多视角提问→带引用长文。",
+      "url": "https://github.com/stanford-oval/storm",
+      "tracked": "storm",
+      "verified": true,
+      "tags": [
+        "open-source",
+        "research",
+        "writing"
+      ]
+    },
+    {
+      "id": "jina-deepsearch",
+      "name": "Jina DeepSearch",
+      "name_zh": "Jina DeepSearch",
+      "class": "deep-research",
+      "kind": "research-agent",
+      "vendor": "Jina AI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Open deep-search agent; one-shot query -> multi-round research report.",
+      "summary_zh": "开放深研代理：一次提问→多轮调研报告。",
+      "url": "https://github.com/jina-ai/node-DeepResearch",
+      "tracked": "jina",
+      "verified": true,
+      "tags": [
+        "open-source",
+        "research"
+      ]
+    },
+    {
+      "id": "exa",
+      "name": "Exa",
+      "name_zh": "Exa",
+      "class": "deep-research",
+      "kind": "web-search",
+      "vendor": "Exa",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Neural/keyword web search API built for LLM agents.",
+      "summary_zh": "面向 LLM 代理的神经/关键词网页检索 API。",
+      "url": "https://exa.ai/",
+      "tracked": "exa",
+      "verified": true,
+      "tags": [
+        "search",
+        "api",
+        "agents"
+      ]
+    },
+    {
+      "id": "tavily",
+      "name": "Tavily",
+      "name_zh": "Tavily",
+      "class": "deep-research",
+      "kind": "web-search",
+      "vendor": "Tavily",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Search API purpose-built for LLM agents with extracted answers.",
+      "summary_zh": "为 LLM 代理定制的检索 API，返回抽取结果。",
+      "url": "https://tavily.com/",
+      "tracked": "tavily",
+      "verified": true,
+      "tags": [
+        "search",
+        "api",
+        "agents"
+      ]
+    },
+    {
+      "id": "brave-search",
+      "name": "Brave Search API",
+      "name_zh": "Brave Search API",
+      "class": "deep-research",
+      "kind": "web-search",
+      "vendor": "Brave",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Independent web index with a privacy-first search API.",
+      "summary_zh": "独立网页索引，隐私优先的检索 API。",
+      "url": "https://brave.com/search/api/",
+      "tracked": "brave-search",
+      "verified": true,
+      "tags": [
+        "search",
+        "api",
+        "index"
+      ]
+    },
+    {
+      "id": "searxng",
+      "name": "SearXNG",
+      "name_zh": "SearXNG",
+      "class": "deep-research",
+      "kind": "web-search",
+      "vendor": "SearXNG",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Self-hostable metasearch aggregating many engines.",
+      "summary_zh": "可自托管的元搜索引擎，聚合多引擎。",
+      "url": "https://github.com/searxng/searxng",
+      "tracked": "searxng",
+      "verified": true,
+      "tags": [
+        "metasearch",
+        "self-hosted",
+        "open-source"
+      ]
+    },
+    {
+      "id": "serpapi",
+      "name": "SerpApi",
+      "name_zh": "SerpApi",
+      "class": "deep-research",
+      "kind": "web-search",
+      "vendor": "SerpApi",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Scraping API for Google/Bing/etc. SERPs with structured JSON.",
+      "summary_zh": "Google/Bing 等结果页的结构化 JSON 抓取 API。",
+      "url": "https://serpapi.com/",
+      "tracked": "serpapi",
+      "verified": true,
+      "tags": [
+        "search",
+        "serp",
+        "api"
+      ]
+    },
+    {
+      "id": "semantic-scholar",
+      "name": "Semantic Scholar",
+      "name_zh": "Semantic Scholar",
+      "class": "deep-research",
+      "kind": "academic-search",
+      "vendor": "Allen Institute for AI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "AI-powered scholarly index with API, citations, and TLDRs.",
+      "summary_zh": "AI 学术索引，含 API、引文与 TLDR。",
+      "url": "https://www.semanticscholar.org/product/api",
+      "tracked": "semantic-scholar",
+      "verified": true,
+      "tags": [
+        "scholarly",
+        "api",
+        "citations"
+      ]
+    },
+    {
+      "id": "crossref",
+      "name": "Crossref",
+      "name_zh": "Crossref",
+      "class": "deep-research",
+      "kind": "academic-search",
+      "vendor": "Crossref",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "DOI registry and metadata REST API for works and citations.",
+      "summary_zh": "DOI 注册与元数据 REST API（作品与引文）。",
+      "url": "https://www.crossref.org/",
+      "tracked": "crossref",
+      "verified": true,
+      "tags": [
+        "doi",
+        "metadata",
+        "api"
+      ]
+    },
+    {
+      "id": "openalex",
+      "name": "OpenAlex",
+      "name_zh": "OpenAlex",
+      "class": "deep-research",
+      "kind": "academic-search",
+      "vendor": "OurResearch",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Open catalog of scholarly works, authors, and citation graph.",
+      "summary_zh": "开放学术目录：作品、作者与引文图。",
+      "url": "https://openalex.org/",
+      "tracked": "openalex",
+      "verified": true,
+      "tags": [
+        "scholarly",
+        "open",
+        "api"
+      ]
+    },
+    {
+      "id": "europepmc",
+      "name": "Europe PMC",
+      "name_zh": "Europe PMC",
+      "class": "deep-research",
+      "kind": "academic-search",
+      "vendor": "EMBL-EBI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Life-science literature + full text with search API.",
+      "summary_zh": "生命科学文献与全文，含检索 API。",
+      "url": "https://europepmc.org/",
+      "tracked": "europepmc",
+      "verified": true,
+      "tags": [
+        "biomedical",
+        "fulltext",
+        "api"
+      ]
+    },
+    {
+      "id": "core",
+      "name": "CORE",
+      "name_zh": "CORE",
+      "class": "deep-research",
+      "kind": "academic-search",
+      "vendor": "The Open University",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Aggregator of open-access papers and repositories.",
+      "summary_zh": "开放获取论文与仓储聚合器。",
+      "url": "https://core.ac.uk/",
+      "tracked": "core",
+      "verified": true,
+      "tags": [
+        "open-access",
+        "aggregator",
+        "api"
+      ]
+    },
+    {
+      "id": "scite",
+      "name": "Scite",
+      "name_zh": "Scite",
+      "class": "deep-research",
+      "kind": "academic-search",
+      "vendor": "Research Solutions",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Citation statements: how papers are supported or refuted.",
+      "summary_zh": "引文陈述：论文被支持或反驳的情况。",
+      "url": "https://scite.ai/",
+      "tracked": "scite",
+      "verified": true,
+      "tags": [
+        "citations",
+        "evidence",
+        "stance"
+      ]
+    },
+    {
+      "id": "litmaps",
+      "name": "Litmaps",
+      "name_zh": "Litmaps",
+      "class": "deep-research",
+      "kind": "graph-explorer",
+      "vendor": "Litmaps",
+      "ecosystem": "product",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Citation-graph exploration to find connected literature.",
+      "summary_zh": "引文图探索，寻找关联文献。",
+      "url": "https://www.litmaps.com/",
+      "tracked": "litmaps",
+      "verified": true,
+      "tags": [
+        "citation-graph",
+        "discovery"
+      ]
+    },
+    {
+      "id": "inciteful",
+      "name": "Inciteful",
+      "name_zh": "Inciteful",
+      "class": "deep-research",
+      "kind": "graph-explorer",
+      "vendor": "Inciteful",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4"
+      ],
+      "summary_en": "Free citation-graph tool for literature mapping.",
+      "summary_zh": "免费引文图工具，用于文献地图。",
+      "url": "https://inciteful.xyz/",
+      "tracked": "inciteful",
+      "verified": true,
+      "tags": [
+        "citation-graph",
+        "open",
+        "discovery"
+      ]
+    },
+    {
+      "id": "llamaindex",
+      "name": "LlamaIndex",
+      "name_zh": "LlamaIndex",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "LlamaIndex",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M2",
+        "M6"
+      ],
+      "summary_en": "Data framework for RAG: ingestion, indexes, query engines.",
+      "summary_zh": "RAG 数据框架：摄取、索引、查询引擎。",
+      "url": "https://github.com/run-llama/llama_index",
+      "tracked": "llamaindex",
+      "verified": true,
+      "tags": [
+        "rag",
+        "framework",
+        "ingestion"
+      ]
+    },
+    {
+      "id": "langchain",
+      "name": "LangChain",
+      "name_zh": "LangChain",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "LangChain",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Framework for retrieval-augmented and agentic LLM apps.",
+      "summary_zh": "检索增强与代理式 LLM 应用框架。",
+      "url": "https://github.com/langchain-ai/langchain",
+      "tracked": "langchain",
+      "verified": true,
+      "tags": [
+        "rag",
+        "agents",
+        "framework"
+      ]
+    },
+    {
+      "id": "faiss",
+      "name": "FAISS",
+      "name_zh": "FAISS",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "Meta AI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M2"
+      ],
+      "summary_en": "Efficient similarity search over dense vectors.",
+      "summary_zh": "稠密向量的高效相似度检索。",
+      "url": "https://github.com/facebookresearch/faiss",
+      "tracked": "faiss",
+      "verified": true,
+      "tags": [
+        "vector",
+        "similarity",
+        "index"
+      ]
+    },
+    {
+      "id": "qdrant",
+      "name": "Qdrant",
+      "name_zh": "Qdrant",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "Qdrant",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M2"
+      ],
+      "summary_en": "Vector database with payload filtering for RAG.",
+      "summary_zh": "支持负载过滤的向量数据库，用于 RAG。",
+      "url": "https://github.com/qdrant/qdrant",
+      "tracked": "qdrant",
+      "verified": true,
+      "tags": [
+        "vector-db",
+        "rag"
+      ]
+    },
+    {
+      "id": "chroma",
+      "name": "Chroma",
+      "name_zh": "Chroma",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "Chroma",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M2"
+      ],
+      "summary_en": "Embeddable vector store for retrieval applications.",
+      "summary_zh": "可嵌入的向量存储，用于检索应用。",
+      "url": "https://github.com/chroma-core/chroma",
+      "tracked": "chroma",
+      "verified": true,
+      "tags": [
+        "vector-db",
+        "embeddings"
+      ]
+    },
+    {
+      "id": "sentence-transformers",
+      "name": "sentence-transformers",
+      "name_zh": "sentence-transformers",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "UKPLab",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Dense text embeddings for semantic search and retrieval.",
+      "summary_zh": "用于语义检索的稠密文本嵌入。",
+      "url": "https://github.com/UKPLab/sentence-transformers",
+      "tracked": "sentence-transformers",
+      "verified": true,
+      "tags": [
+        "embeddings",
+        "semantic-search"
+      ]
+    },
+    {
+      "id": "bm25s",
+      "name": "bm25s",
+      "name_zh": "bm25s",
+      "class": "deep-research",
+      "kind": "retrieval",
+      "vendor": "bm25s",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Fast lexical BM25 retrieval (sparse baseline).",
+      "summary_zh": "快速词法 BM25 检索（稀疏基线）。",
+      "url": "https://github.com/xhluca/bm25s",
+      "tracked": "bm25s",
+      "verified": true,
+      "tags": [
+        "bm25",
+        "lexical",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "trafilatura",
+      "name": "Trafilatura",
+      "name_zh": "Trafilatura",
+      "class": "deep-research",
+      "kind": "crawler",
+      "vendor": "adbar",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Extract clean main text + metadata from web pages.",
+      "summary_zh": "从网页抽取正文与元数据。",
+      "url": "https://github.com/adbar/trafilatura",
+      "tracked": "trafilatura",
+      "verified": true,
+      "tags": [
+        "extraction",
+        "web",
+        "open-source"
+      ]
+    },
+    {
+      "id": "readability",
+      "name": "Readability",
+      "name_zh": "Readability",
+      "class": "deep-research",
+      "kind": "crawler",
+      "vendor": "Mozilla",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Readability.js/parser: article extraction from HTML.",
+      "summary_zh": "Readability：从 HTML 提取文章正文。",
+      "url": "https://github.com/mozilla/readability",
+      "tracked": "readability",
+      "verified": true,
+      "tags": [
+        "extraction",
+        "html"
+      ]
+    },
+    {
+      "id": "jina-reader",
+      "name": "Jina Reader",
+      "name_zh": "Jina Reader",
+      "class": "deep-research",
+      "kind": "crawler",
+      "vendor": "Jina AI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "URL -> clean LLM-ready markdown via r.jina.ai.",
+      "summary_zh": "URL → 供 LLM 使用的干净 Markdown（r.jina.ai）。",
+      "url": "https://github.com/jina-ai/reader",
+      "tracked": "jina-reader",
+      "verified": true,
+      "tags": [
+        "extraction",
+        "markdown",
+        "llm"
+      ]
+    },
+    {
+      "id": "firecrawl",
+      "name": "Firecrawl",
+      "name_zh": "Firecrawl",
+      "class": "deep-research",
+      "kind": "crawler",
+      "vendor": "Firecrawl",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Crawl + scrape sites into clean structured data for LLMs.",
+      "summary_zh": "抓取站点并为 LLM 输出干净结构化数据。",
+      "url": "https://github.com/mendableai/firecrawl",
+      "tracked": "firecrawl",
+      "verified": true,
+      "tags": [
+        "crawl",
+        "scrape",
+        "llm"
+      ]
+    },
+    {
+      "id": "crawl4ai",
+      "name": "Crawl4AI",
+      "name_zh": "Crawl4AI",
+      "class": "deep-research",
+      "kind": "crawler",
+      "vendor": "Crawl4AI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Open-source LLM-friendly async web crawler.",
+      "summary_zh": "开源、LLM 友好的异步网页爬虫。",
+      "url": "https://github.com/unclecode/crawl4ai",
+      "tracked": "crawl4ai",
+      "verified": true,
+      "tags": [
+        "crawl",
+        "async",
+        "llm"
+      ]
+    },
+    {
+      "id": "rayyan",
+      "name": "Rayyan",
+      "name_zh": "Rayyan",
+      "class": "deep-research",
+      "kind": "screening",
+      "vendor": "Rayyan",
+      "ecosystem": "product",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Systematic-review screening with collaborative inclusion/exclusion.",
+      "summary_zh": "系统综述筛选，支持协作式纳入/排除。",
+      "url": "https://www.rayyan.ai/",
+      "tracked": "rayyan",
+      "verified": true,
+      "tags": [
+        "screening",
+        "systematic-review"
+      ]
+    },
+    {
+      "id": "covidence",
+      "name": "Covidence",
+      "name_zh": "Covidence",
+      "class": "deep-research",
+      "kind": "screening",
+      "vendor": "Covidence",
+      "ecosystem": "product",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "PRISMA-aligned systematic-review workflow and screening.",
+      "summary_zh": "对齐 PRISMA 的系统综述流程与筛选。",
+      "url": "https://www.covidence.org/",
+      "tracked": "covidence",
+      "verified": true,
+      "tags": [
+        "systematic-review",
+        "prisma"
+      ]
+    },
+    {
+      "id": "asreview",
+      "name": "ASReview",
+      "name_zh": "ASReview",
+      "class": "deep-research",
+      "kind": "screening",
+      "vendor": "Utrecht University",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Active-learning tool to prioritize records in systematic reviews.",
+      "summary_zh": "主动学习工具，优先排序系统综述记录。",
+      "url": "https://github.com/asreview/asreview",
+      "tracked": "asreview",
+      "verified": true,
+      "tags": [
+        "screening",
+        "active-learning"
+      ]
+    },
+    {
+      "id": "gaia",
+      "name": "GAIA",
+      "name_zh": "GAIA",
+      "class": "deep-research",
+      "kind": "research-eval",
+      "vendor": "Meta / Hugging Face",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "General assistant benchmark with multi-hop, tool-using questions.",
+      "summary_zh": "通用助手基准，含多跳、用工具的问题。",
+      "url": "https://huggingface.co/datasets/gaia-benchmark/GAIA",
+      "tracked": "gaia",
+      "verified": true,
+      "tags": [
+        "benchmark",
+        "multi-hop",
+        "agents"
+      ]
+    },
+    {
+      "id": "browsecomp",
+      "name": "BrowseComp",
+      "name_zh": "BrowseComp",
+      "class": "deep-research",
+      "kind": "research-eval",
+      "vendor": "OpenAI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Benchmark for browsing agents: hard, hard-to-find facts.",
+      "summary_zh": "浏览代理基准：困难、难找的事实。",
+      "url": "https://openai.com/index/browsecomp/",
+      "tracked": "browsecomp",
+      "verified": true,
+      "tags": [
+        "benchmark",
+        "browsing",
+        "search"
+      ]
+    },
+    {
+      "id": "hle",
+      "name": "Humanity’s Last Exam",
+      "name_zh": "Humanity’s Last Exam",
+      "class": "deep-research",
+      "kind": "research-eval",
+      "vendor": "CAIS / Scale AI",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Frontier knowledge benchmark across expert domains.",
+      "summary_zh": "跨专家领域的尖端知识基准。",
+      "url": "https://lastexam.ai/",
+      "tracked": "hle",
+      "verified": true,
+      "tags": [
+        "benchmark",
+        "knowledge",
+        "frontier"
+      ]
+    },
+    {
+      "id": "frames",
+      "name": "FRAMES",
+      "name_zh": "FRAMES",
+      "class": "deep-research",
+      "kind": "research-eval",
+      "vendor": "Google",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Retrieval + factuality benchmark over multi-document reasoning.",
+      "summary_zh": "多文档推理的检索与事实性基准。",
+      "url": "https://huggingface.co/datasets/google/frames-benchmark",
+      "tracked": "frames",
+      "verified": true,
+      "tags": [
+        "benchmark",
+        "retrieval",
+        "factuality"
+      ]
+    },
+    {
+      "id": "deepresearch-bench",
+      "name": "DeepResearch Bench",
+      "name_zh": "DeepResearch Bench",
+      "class": "deep-research",
+      "kind": "research-eval",
+      "vendor": "Community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Benchmark for deep-research reports (RACE/FACT metrics).",
+      "summary_zh": "深度调研报告基准（RACE/FACT 指标）。",
+      "url": "https://github.com/Ayanami0730/deep_research_bench",
+      "tracked": "deepresearch-bench",
+      "verified": true,
+      "tags": [
+        "benchmark",
+        "report",
+        "deep-research"
       ]
     }
   ]

@@ -9,7 +9,11 @@
     "agent-skills-tools",
     "evaluation-gates",
     "provenance-integrity",
-    "multi-agent-collaboration"
+    "multi-agent-collaboration",
+    "deep-research",
+    "retrieval-grounding",
+    "research-evaluation",
+    "citation-integrity"
   ],
   "groups": {
     "projects": [
@@ -596,6 +600,144 @@
           "moonshot"
         ],
         "why": "Kimi K2 agentic model + open tooling."
+      },
+      {
+        "id": "gemini-deep-research",
+        "name": "Gemini Deep Research",
+        "kind": "doc",
+        "url": "https://gemini.google/overview/deep-research/",
+        "feed": null,
+        "topics": [
+          "deep-research",
+          "agent-harness"
+        ],
+        "tags": [
+          "research",
+          "web"
+        ],
+        "why": "Multi-step cited research agent."
+      },
+      {
+        "id": "claude-research",
+        "name": "Claude Research",
+        "kind": "doc",
+        "url": "https://www.anthropic.com/news/research",
+        "feed": null,
+        "topics": [
+          "deep-research",
+          "multi-agent-collaboration",
+          "agent-harness"
+        ],
+        "tags": [
+          "research",
+          "multi-agent"
+        ],
+        "why": "Anthropic orchestrator + parallel search."
+      },
+      {
+        "id": "perplexity",
+        "name": "Perplexity",
+        "kind": "post",
+        "url": "https://www.perplexity.ai/",
+        "feed": null,
+        "topics": [
+          "deep-research"
+        ],
+        "tags": [
+          "search",
+          "citations"
+        ],
+        "why": "Answer engine + Deep Research."
+      },
+      {
+        "id": "you-com",
+        "name": "You.com",
+        "kind": "post",
+        "url": "https://you.com/",
+        "feed": null,
+        "topics": [
+          "deep-research"
+        ],
+        "tags": [
+          "search"
+        ],
+        "why": "AI search with citations."
+      },
+      {
+        "id": "grok-deepsearch",
+        "name": "Grok DeepSearch",
+        "kind": "post",
+        "url": "https://x.ai/",
+        "feed": null,
+        "topics": [
+          "deep-research"
+        ],
+        "tags": [
+          "search",
+          "web"
+        ],
+        "why": "Web-grounded deep search."
+      },
+      {
+        "id": "gpt-researcher",
+        "name": "GPT Researcher",
+        "kind": "repo",
+        "url": "https://github.com/assafelovic/gpt-researcher",
+        "feed": null,
+        "topics": [
+          "deep-research",
+          "agent-harness"
+        ],
+        "tags": [
+          "open-source",
+          "research"
+        ],
+        "why": "OSS autonomous research agent."
+      },
+      {
+        "id": "open-deep-research",
+        "name": "open-deep-research",
+        "kind": "repo",
+        "url": "https://github.com/dzhng/deep-research",
+        "feed": null,
+        "topics": [
+          "deep-research",
+          "agent-harness"
+        ],
+        "tags": [
+          "open-source"
+        ],
+        "why": "OSS deep-research clone."
+      },
+      {
+        "id": "storm",
+        "name": "STORM",
+        "kind": "repo",
+        "url": "https://github.com/stanford-oval/storm",
+        "feed": null,
+        "topics": [
+          "deep-research"
+        ],
+        "tags": [
+          "open-source",
+          "writing"
+        ],
+        "why": "Perspective-guided research + article."
+      },
+      {
+        "id": "jina",
+        "name": "Jina DeepSearch",
+        "kind": "repo",
+        "url": "https://github.com/jina-ai/node-DeepResearch",
+        "feed": null,
+        "topics": [
+          "deep-research",
+          "agent-harness"
+        ],
+        "tags": [
+          "open-source"
+        ],
+        "why": "OSS deep-search agent."
       }
     ],
     "venues": [
@@ -1121,6 +1263,442 @@
           "books"
         ],
         "why": "Peer-reviewed open-access monographs."
+      }
+    ],
+    "tools": [
+      {
+        "id": "exa",
+        "name": "Exa",
+        "kind": "doc",
+        "url": "https://exa.ai/",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding",
+          "agent-harness"
+        ],
+        "tags": [
+          "search",
+          "api"
+        ],
+        "why": "Neural web search API."
+      },
+      {
+        "id": "tavily",
+        "name": "Tavily",
+        "kind": "doc",
+        "url": "https://tavily.com/",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding",
+          "agent-harness"
+        ],
+        "tags": [
+          "search",
+          "api"
+        ],
+        "why": "Search API for LLM agents."
+      },
+      {
+        "id": "brave-search",
+        "name": "Brave Search API",
+        "kind": "doc",
+        "url": "https://brave.com/search/api/",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "search",
+          "index"
+        ],
+        "why": "Independent web index."
+      },
+      {
+        "id": "searxng",
+        "name": "SearXNG",
+        "kind": "repo",
+        "url": "https://github.com/searxng/searxng",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "metasearch"
+        ],
+        "why": "Self-hosted metasearch."
+      },
+      {
+        "id": "serpapi",
+        "name": "SerpApi",
+        "kind": "doc",
+        "url": "https://serpapi.com/",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "serp"
+        ],
+        "why": "SERP scraping API."
+      },
+      {
+        "id": "semantic-scholar",
+        "name": "Semantic Scholar",
+        "kind": "doc",
+        "url": "https://www.semanticscholar.org/product/api",
+        "feed": null,
+        "topics": [
+          "deep-research",
+          "citation-integrity"
+        ],
+        "tags": [
+          "scholarly",
+          "citations"
+        ],
+        "why": "Scholarly index + citation API."
+      },
+      {
+        "id": "crossref",
+        "name": "Crossref",
+        "kind": "doc",
+        "url": "https://www.crossref.org/",
+        "feed": null,
+        "topics": [
+          "citation-integrity"
+        ],
+        "tags": [
+          "doi"
+        ],
+        "why": "DOI registry + metadata API."
+      },
+      {
+        "id": "europepmc",
+        "name": "Europe PMC",
+        "kind": "other",
+        "url": "https://europepmc.org/",
+        "feed": null,
+        "topics": [
+          "deep-research"
+        ],
+        "tags": [
+          "biomedical"
+        ],
+        "why": "Biomedical literature + API."
+      },
+      {
+        "id": "core",
+        "name": "CORE",
+        "kind": "other",
+        "url": "https://core.ac.uk/",
+        "feed": null,
+        "topics": [
+          "deep-research"
+        ],
+        "tags": [
+          "open-access"
+        ],
+        "why": "OA paper aggregator."
+      },
+      {
+        "id": "scite",
+        "name": "Scite",
+        "kind": "doc",
+        "url": "https://scite.ai/",
+        "feed": null,
+        "topics": [
+          "citation-integrity"
+        ],
+        "tags": [
+          "stance"
+        ],
+        "why": "Citation statements (support/refute)."
+      },
+      {
+        "id": "litmaps",
+        "name": "Litmaps",
+        "kind": "doc",
+        "url": "https://www.litmaps.com/",
+        "feed": null,
+        "topics": [
+          "citation-integrity"
+        ],
+        "tags": [
+          "citation-graph"
+        ],
+        "why": "Citation-graph exploration."
+      },
+      {
+        "id": "inciteful",
+        "name": "Inciteful",
+        "kind": "doc",
+        "url": "https://inciteful.xyz/",
+        "feed": null,
+        "topics": [
+          "citation-integrity"
+        ],
+        "tags": [
+          "citation-graph"
+        ],
+        "why": "Free citation-graph tool."
+      },
+      {
+        "id": "faiss",
+        "name": "FAISS",
+        "kind": "repo",
+        "url": "https://github.com/facebookresearch/faiss",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "vector"
+        ],
+        "why": "Vector similarity search."
+      },
+      {
+        "id": "qdrant",
+        "name": "Qdrant",
+        "kind": "repo",
+        "url": "https://github.com/qdrant/qdrant",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "vector-db"
+        ],
+        "why": "Vector DB for RAG."
+      },
+      {
+        "id": "chroma",
+        "name": "Chroma",
+        "kind": "repo",
+        "url": "https://github.com/chroma-core/chroma",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "vector-db"
+        ],
+        "why": "Embeddable vector store."
+      },
+      {
+        "id": "sentence-transformers",
+        "name": "sentence-transformers",
+        "kind": "repo",
+        "url": "https://github.com/UKPLab/sentence-transformers",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "embeddings"
+        ],
+        "why": "Dense text embeddings."
+      },
+      {
+        "id": "bm25s",
+        "name": "bm25s",
+        "kind": "repo",
+        "url": "https://github.com/xhluca/bm25s",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "bm25"
+        ],
+        "why": "Fast lexical BM25."
+      },
+      {
+        "id": "trafilatura",
+        "name": "Trafilatura",
+        "kind": "repo",
+        "url": "https://github.com/adbar/trafilatura",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "extraction"
+        ],
+        "why": "Main-text extraction."
+      },
+      {
+        "id": "readability",
+        "name": "Readability",
+        "kind": "repo",
+        "url": "https://github.com/mozilla/readability",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "extraction"
+        ],
+        "why": "Article extraction."
+      },
+      {
+        "id": "jina-reader",
+        "name": "Jina Reader",
+        "kind": "repo",
+        "url": "https://github.com/jina-ai/reader",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "markdown"
+        ],
+        "why": "URL -> LLM-ready markdown."
+      },
+      {
+        "id": "firecrawl",
+        "name": "Firecrawl",
+        "kind": "repo",
+        "url": "https://github.com/mendableai/firecrawl",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "crawl"
+        ],
+        "why": "Crawl + scrape for LLMs."
+      },
+      {
+        "id": "crawl4ai",
+        "name": "Crawl4AI",
+        "kind": "repo",
+        "url": "https://github.com/unclecode/crawl4ai",
+        "feed": null,
+        "topics": [
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "crawl"
+        ],
+        "why": "OSS LLM-friendly crawler."
+      },
+      {
+        "id": "rayyan",
+        "name": "Rayyan",
+        "kind": "doc",
+        "url": "https://www.rayyan.ai/",
+        "feed": null,
+        "topics": [
+          "evaluation-gates",
+          "citation-integrity"
+        ],
+        "tags": [
+          "screening"
+        ],
+        "why": "Systematic-review screening."
+      },
+      {
+        "id": "covidence",
+        "name": "Covidence",
+        "kind": "doc",
+        "url": "https://www.covidence.org/",
+        "feed": null,
+        "topics": [
+          "evaluation-gates",
+          "citation-integrity"
+        ],
+        "tags": [
+          "prisma"
+        ],
+        "why": "PRISMA systematic-review workflow."
+      },
+      {
+        "id": "asreview",
+        "name": "ASReview",
+        "kind": "repo",
+        "url": "https://github.com/asreview/asreview",
+        "feed": null,
+        "topics": [
+          "evaluation-gates"
+        ],
+        "tags": [
+          "active-learning"
+        ],
+        "why": "Active-learning screening."
+      },
+      {
+        "id": "gaia",
+        "name": "GAIA",
+        "kind": "other",
+        "url": "https://huggingface.co/datasets/gaia-benchmark/GAIA",
+        "feed": null,
+        "topics": [
+          "research-evaluation",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "benchmark"
+        ],
+        "why": "Multi-hop assistant benchmark."
+      },
+      {
+        "id": "browsecomp",
+        "name": "BrowseComp",
+        "kind": "doc",
+        "url": "https://openai.com/index/browsecomp/",
+        "feed": null,
+        "topics": [
+          "research-evaluation",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "browsing"
+        ],
+        "why": "Browsing-agent benchmark."
+      },
+      {
+        "id": "hle",
+        "name": "Humanity’s Last Exam",
+        "kind": "doc",
+        "url": "https://lastexam.ai/",
+        "feed": null,
+        "topics": [
+          "research-evaluation",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "knowledge"
+        ],
+        "why": "Frontier knowledge benchmark."
+      },
+      {
+        "id": "frames",
+        "name": "FRAMES",
+        "kind": "other",
+        "url": "https://huggingface.co/datasets/google/frames-benchmark",
+        "feed": null,
+        "topics": [
+          "research-evaluation",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "factuality"
+        ],
+        "why": "Retrieval + factuality benchmark."
+      },
+      {
+        "id": "deepresearch-bench",
+        "name": "DeepResearch Bench",
+        "kind": "repo",
+        "url": "https://github.com/Ayanami0730/deep_research_bench",
+        "feed": null,
+        "topics": [
+          "research-evaluation",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "report"
+        ],
+        "why": "Deep-research report benchmark."
       }
     ]
   }
