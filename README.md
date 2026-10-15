@@ -10,7 +10,7 @@
 > *Harness* = 让 LLM 智能体在**跨会话、长时程、有限上下文**下把任务做稳的**一整套外部化方法**
 > （上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 自我演化 · 工具/技能 · 变更治理 · 协作协议）。
 > 工具只做**分类/选择/生成/观察/排序**，绝不编造任务实质；所有循环产物先作为**提案**，由人确认。详见
-> [`harness_factory/README.md`](harness_factory/README.md) 与 [`introduction.md`](harness_factory/introduction.md)。
+> [`harness_factory/introduction.md`](harness_factory/introduction.md) 与 [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md)。
 >
 > **给 agent 的用法（两步：先配置，再提任务）· Two steps for an agent.** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读
 > `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘
@@ -31,14 +31,19 @@ seatbelts, and the maintenance manual.
 This repository holds two things:
 
 1. **A pattern library** — cross-domain harness patterns distilled so they survive removal of their
-   originating project (`core/`, `domains/`, `review/`, `sources/`).
+   originating project (`core/`, `domains/`, `review/`, `sources/`). Original projects appear only as
+   **Exemplar** footnotes, never as the definition — see [Generalization rule](#generalization-rule--泛化铁律).
 2. **The `harness` CLI** — a compiler that classifies a task, selects the modules it needs, emits a
    runnable harness scaffold, and **self-updates** its own knowledge base on a cadence.
 
+**Key stance.** A harness may improve *efficiency and continuity* — it may **never** buy those at the
+cost of *truthfulness or traceability*. Automated mechanisms may only **observe, record, and rank**;
+they must never fabricate or mutate substantive output to close a task.
+
 **Design stance.** The compiler only *classifies, selects, and emits* — it never fabricates task
-substance. Every derivation is logged in `.harness/manifest.json`. The refresh/evolution loop is
+substance (M0.4). Every derivation is logged in `.harness/manifest.json`. The refresh/evolution loop is
 *observe-only*: it audits, counts, and ranks, then writes proposals under `updates/` for a human to
-merge. See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/01-meta-principles.md).
+merge (M0.8). See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/01-meta-principles.md).
 
 ---
 
@@ -49,7 +54,7 @@ cd harness_factory
 
 # fastest path: set the config once (how to reference/use this repo as a skill), then give the task —
 # same turn or next. It reads harness_factory/SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
-PYTHONPATH=src python -m harness_factory derive --task "write a literature review with citations"
+PYTHONPATH=src python -m harness_factory derive --task "write a literature review with citations" --json
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
 harness check  --dir ./my-task
@@ -69,13 +74,17 @@ harness standard --domain deep-research plan brief    # gaps -> harness config (
 
 # profile + learn from a real project (observe-only, project -> factory)
 harness profile --project ./myproj --goal "…"
+harness derive  --task "…" --project ./myproj   # adapt the harness to the project
 harness learn   --task "…" --project ./myproj   # -> updates/cases.jsonl
 harness cases
 
 # self-update + intel + self-evolution (all human-gated, all reversible)
 harness refresh --provider all --intel   # tracked sources -> proposals + updates/INTEL.md
-harness sources                          # every tracked entity (labs, harnesses, venues, people, media)
+harness refresh-apply --accept <id>      # human gate -> proposals
+harness sources --group harnesses        # every tracked entity (labs, harnesses, venues, people, media)
+harness intel   --since 2026-01-01       # pull tracked feeds -> updates/INTEL.md (+ intel.jsonl)
 harness evolve                           # coverage/gap audit -> updates/EVOLUTION.md (proposals)
+harness evolve --dry-run                 # same, write nothing
 harness evolve-apply --accept <id|target>
 ```
 
@@ -92,9 +101,21 @@ RSS/YouTube feeds) and the optional LLM classifier (`HARNESS_LLM_*`) reach the n
 (`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`); each **target project** receives
 its generated files via `init --out` (or directly from the agent). In path mode the home is optional.
 
-> 中文速览：最灵活用法是**两步——先贴「配置」（如何引用与使用本工具），再给「任务」**（同一轮接着写，或下一轮再发均可），
-> 助手读 `harness_factory/SKILL.md` 自行推导并落盘 harness（免安装）；需要可复现时再用**路径调用 CLI** 的 L1 模式。
-> `profile/learn/cases` 让工厂**从项目中学习**；打包（`uv tool install`/PyPI）作为分发渠道**已取消**。
+**Requirement → harness, and mutual learning.** Module selection is driven by a data-driven **capability map**
+(`data/capabilities.json`): a requirement (task features) matches capabilities, which annotate the enabled
+modules — new requirements are added by editing JSON, not code. And the tool **learns from every project it
+configures**: `profile` describes a target project (observe-only), `learn` records a case, and `evolution` turns a
+capability that keeps recurring into a human-gated proposal. Projects teach the factory; the factory's next
+harness is better.
+
+**Sources & intel.** `data/sources.json` is the tracked-entity registry: **projects & labs** (OpenAI, Anthropic,
+Google DeepMind, Meta, Mistral, DeepSeek, Moonshot/Kimi, …), **vendor harnesses** (Agents SDK, Claude Code, MCP,
+Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (Nature/Science/NeurIPS/ICML/ICLR/ACL/arXiv), **people**
+(Karpathy, Ilya, LeCun, Hassabis, …), **self-media** (Substack/YouTube/newsletters), **libraries** (Project
+Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), and **tools** (search:
+Exa/Tavily/Brave/SearXNG; academic: Semantic Scholar/Crossref/Scite; retrieval: FAISS/Qdrant; crawl:
+Trafilatura/Jina; screening: Rayyan/ASReview; eval: GAIA/BrowseComp/HLE). Feeds are RSS/Atom; YouTube `@handle`
+pages are resolved to channel feeds on the fly — `refresh`/`intel` pull them as **proposals only**.
 
 ---
 
@@ -154,22 +175,76 @@ PYTHONPATH=harness_factory/src python -m harness_factory check  --dir <project>
 ## Layout · 结构
 
 ```
-harness_factory/          the project (start at its README)
-├── README.md             定位 · 结构 · 用法
+harness_factory/          the project — pattern library + `harness` CLI (start here)
 ├── SKILL.md              agent-native entry (cardinal rules + load-index + output contract)
-├── introduction.md        简介：是什么 · 心智模型 · Quickstart
-├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
-├── core/                  跨域通用主干模式（M0–M8）
-├── domains/               24 个学科门类 + general 兜底（每域一个 README；含 writing 写作域）
-├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
-├── sources/               提炼溯源表（模式 ← 一手材料）
-├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·rubrics·levers·watchlist·sources.json）+ templates/
-├── tests/                 标准库 unittest（无外部依赖）
-├── tasks/                 PLAN · PROGRESS · REFRESH · DISTRIBUTION
-└── _archive/              旧目录归档（docs/ external/ tools/ …，已移出版本控制）
+├── GUIDE.md              full guide: intro + command reference + 10 worked examples (bilingual)
+├── introduction.md       简介：是什么 · 心智模型 · Quickstart
+├── pyproject.toml        dev/CI convenience only (packaging cancelled as a channel)
+├── refresh.ps1           scheduler entry for the self-update loop
+├── install-skill.ps1     optional: copy repo-as-skill into a skills dir
+├── reference/            derivation-rules.md（规则表的 agent 可读镜像）
+├── src/harness_factory/  the tool: spec·derive·classify·capabilities·assemble·check·runtime·plugins·collect·curate·journal·extract·evolution·profile·learning·standard·registry·catalog·skill·cli
+│   ├── data/             modules · capabilities · domains · rubrics · levers · harnesses · watchlist · sources (.json)
+│   └── templates/        emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
+├── tests/                stdlib unittest (no external deps)
+├── tasks/                PLAN · PROGRESS · REFRESH · DISTRIBUTION
+├── updates/              cycle output (queue · REPORT · JOURNAL · INTEL · EVOLUTION · metrics · cases · profile · proposals)
+├── core/                 跨域通用主干（M0–M8），可移植到任何项目
+│   ├── 00-index.md                 核心索引 + 阅读顺序
+│   ├── 01-meta-principles.md       十条承重不变式（先读）
+│   ├── 02-context-engineering.md   上下文是有限资源
+│   ├── 03-long-running-agents.md   外部记忆 · 心跳 · 增量推进 · 续接
+│   ├── 04-verification-and-gates.md 完成定义 · 门禁分类 · 验证验证器
+│   ├── 05-provenance-and-integrity.md 来源分级 · 不确定词表 · 反伪造
+│   ├── 06-self-evolution.md        信号→审计→变异→日志 自演化引擎
+│   ├── 07-tools-and-skills.md      工具接口 · 最小工具集 · 技能渐进加载
+│   ├── 08-change-governance.md     单一来源 · 提交卫生 · 部署治理
+│   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
+├── domains/              24 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
+│   ├── deep-research/ research/ reading/ excellence/ knowledge-management/ data-science/ model-selection/ (meta + methods)
+│   ├── software-engineering/ devops/ engineering/ (engineering)
+│   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)
+│   ├── medicine/ (health)
+│   ├── economics-finance/ psychology/ social-science/ (social sciences)
+│   ├── law/ humanities/ education/ arts-design/ (law/humanities/education/arts)
+│   └── general/ (fallback，无独立 README)
+├── review/               文献综述 · harness 分类总览与索引 · 实践者/大师 playbook · 参考文献（R1–R79）
+└── _archive/             旧目录归档（docs/ external/ tools/ …，已移出版本控制）
 ```
 
-See [`harness_factory/README.md`](harness_factory/README.md) for the full documentation.
+## How to use this factory · 使用方式
+
+> New here? Read [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) — full intro, command reference, and ten worked examples (bilingual).
+> 初次使用请读 [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md)——完整介绍、命令速查与十个实例（中英对照）。
+
+1. **Orient** — read `core/01-meta-principles.md`. These ten invariants govern everything else.
+2. **Classify the task** — pick the domain in `domains/` that matches the *kind of work*, not the *topic*. A research repo that also ships a website still uses `research/` for its research loop and `devops/` for its build loop.
+3. **Assemble** — the domain file names which `core/*` modules it composes and in what order; apply them as an operating manual.
+4. **Gate** — run the domain's Definition-of-Done gates before claiming anything is done (`core/04`).
+5. **Evolve** — end every work session with the `core/06` loop: harvest what the session taught and route it back into the harness.
+
+**Agent-native workflow (recommended).** Instead of (or in addition to) driving the CLI yourself, set it up in
+**two steps**: paste the **configuration** once (how to reference and use this repo as a skill), then give the
+**task** — same turn or next (see [Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板)). The assistant
+reads [`harness_factory/SKILL.md`](harness_factory/SKILL.md), loads only the modules it needs via the load-index
+(`harness skill`), derives with `reference/derivation-rules.md` + the `data/*.json` catalogs, emits the output
+contract into the target project, and records provenance in `.harness/PROVENANCE.md`. It can also `profile`/`learn`
+the project so the factory keeps improving.
+
+---
+
+## Generalization rule · 泛化铁律
+
+> **A pattern earns a place here only if it survives removal of its originating project.**
+
+Concretely, when writing or extending a file here:
+
+- State the pattern as a **rule/invariant/recipe** in domain-neutral terms.
+- If a concrete detail is needed to make it vivid, label it **Exemplar** and name the source project — never let the exemplar become the definition.
+- Anything that only makes sense inside one project (a specific table name, a specific scripture index) is **not** a core pattern; it belongs in that project's local harness, and here at most as an exemplar footnote.
+- Prefer **named, checkable mechanisms** (a gate, a signal, a ledger schema) over vague advice.
+
+See [`harness_factory/sources/source-map.md`](harness_factory/sources/source-map.md) for exactly which upstream artifact each pattern was distilled from.
 
 ---
 
@@ -177,9 +252,10 @@ See [`harness_factory/README.md`](harness_factory/README.md) for the full docume
 
 | What you want | Where |
 |---|---|
-| Positioning, layout, usage | [`harness_factory/README.md`](harness_factory/README.md) |
 | **Use directly from an agent (L0)** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md), `harness_factory/reference/derivation-rules.md` |
 | **Copy-paste prompt templates** | [Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板) (in this file) |
+| Positioning, layout, usage | this file — [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
+| Full guide + worked examples | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |
 | Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | Core harness invariants | `harness_factory/core/01-meta-principles.md` |
 | Domain playbooks | `harness_factory/domains/*/README.md` |

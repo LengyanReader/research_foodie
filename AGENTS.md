@@ -17,8 +17,7 @@
 ## 2. 仓库地图 / Repository map
 
 ```
-harness_factory/          项目主体 —— agent harness 模式库 + `harness` CLI（先读其 README）
-  README.md               定位 · 结构 · 用法
+harness_factory/          项目主体 —— agent harness 模式库 + `harness` CLI（定位/用法见仓库根 README）
   GUIDE.md                项目指南与示例（中英对照）
   SKILL.md                agent 原生入口（硬规则 + 载入索引 + 输出契约）
   introduction.md         简介：是什么 · 心智模型 · Quickstart

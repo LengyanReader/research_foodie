@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "harness-factory"
 version = "0.1.0"
 description = "Inclusive harness compiler: derive and scaffold the agent harness any task needs."
-readme = "README.md"
+readme = { text = "Harness Factory — derive and scaffold the agent harness any task needs. See the repository root README.md.", content-type = "text/markdown" }
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "harness_factory" }]
