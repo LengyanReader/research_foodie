@@ -685,6 +685,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - [`README.md`](README.md) — positioning · structure · layout. · 定位与结构。
 - [`introduction.md`](introduction.md) — problem · mental model · design rationale. · 问题与心智模型。
 - [`SKILL.md`](SKILL.md) — agent-native entry (cardinal rules + output contract). · agent 入口。
+- [`PROMPTS.md`](PROMPTS.md) — copy-paste prompt templates (config + task lines). · 可复制的提示词模板。
 - `core/00-index.md` → `core/01-meta-principles.md` → M1–M8 — the ten invariants and modules. · 十条不变式与模块。
 - `domains/<id>/README.md` — per-discipline workflows. · 各学科工作流。
 - `review/harness-index.md` — unified harness lookup (generated). · 统一 harness 索引（自动生成）。

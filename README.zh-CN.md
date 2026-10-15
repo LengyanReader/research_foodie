@@ -80,6 +80,7 @@ harness evolve-apply --accept <id|target>
 harness_factory/          项目主体（先读其 README）
 ├── README.md             定位 · 结构 · 用法
 ├── SKILL.md              agent 入口（硬规则 + 加载索引 + 输出契约）
+├── PROMPTS.md            提示词模板（① 配置 + ② 任务句 + 域任务句，可复制）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
@@ -100,6 +101,7 @@ harness_factory/          项目主体（先读其 README）
 |---|---|
 | 定位、结构、用法 | [`harness_factory/README.md`](harness_factory/README.md) |
 | **agent 直接使用（L0）** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md)、`harness_factory/reference/derivation-rules.md` |
+| **可复制的提示词模板（配置 + 任务句）** | [`harness_factory/PROMPTS.md`](harness_factory/PROMPTS.md) |
 | 心智模型 + 快速上手 | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | 核心 harness 不变式 | `harness_factory/core/01-meta-principles.md` |
 | 各域 playbook | `harness_factory/domains/*/README.md` |

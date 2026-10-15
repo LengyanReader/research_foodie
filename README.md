@@ -100,6 +100,7 @@ its generated files via `init --out` (or directly from the agent). In path mode 
 harness_factory/          the project (start at its README)
 ├── README.md             定位 · 结构 · 用法
 ├── SKILL.md              agent-native entry (cardinal rules + load-index + output contract)
+├── PROMPTS.md            提示词模板（① 配置 + ② 任务句 + 域任务句，可复制）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
@@ -122,6 +123,7 @@ See [`harness_factory/README.md`](harness_factory/README.md) for the full docume
 |---|---|
 | Positioning, layout, usage | [`harness_factory/README.md`](harness_factory/README.md) |
 | **Use directly from an agent (L0)** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md), `harness_factory/reference/derivation-rules.md` |
+| **Copy-paste prompt templates (config + task)** | [`harness_factory/PROMPTS.md`](harness_factory/PROMPTS.md) |
 | Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | Core harness invariants | `harness_factory/core/01-meta-principles.md` |
 | Domain playbooks | `harness_factory/domains/*/README.md` |

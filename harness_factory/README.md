@@ -114,8 +114,9 @@ L0). In path mode the home is optional.
 ```
 harness_factory/
 ├── README.md                      ← 本文件：定位 · 结构 · 用法
-├── GUIDE.md                       项目指南 · Project Guide：介绍 + 命令速查 + 9 个实例（中英对照）
+├── GUIDE.md                       项目指南 · Project Guide：介绍 + 命令速查 + 10 个实例（中英对照）
 ├── SKILL.md                        agent-native entry (cardinal rules + load-index + contract)
+├── PROMPTS.md                      提示词模板（① 配置 + ② 任务句 + 域任务句，可复制）
 ├── introduction.md                简介：是什么 · 心智模型 · Quickstart
 ├── pyproject.toml                 dev/CI convenience only (packaging cancelled as a channel)
 ├── refresh.ps1                    scheduler entry for the self-update loop
@@ -164,7 +165,7 @@ harness_factory/
 ## How to use this factory · 使用方式
 
 > New here? Read [`GUIDE.md`](GUIDE.md) — full intro, command reference, and ten worked examples (bilingual).
-> 初次使用请读 [`GUIDE.md`](GUIDE.md)——完整介绍、命令速查与九个实例（中英对照）。
+> 初次使用请读 [`GUIDE.md`](GUIDE.md)——完整介绍、命令速查与十个实例（中英对照）。
 
 1. **Orient** — read `core/01-meta-principles.md`. These ten invariants govern everything else.
 2. **Classify the task** — pick the domain in `domains/` that matches the *kind of work*, not the *topic*. A research repo that also ships a website still uses `research/` for its research loop and `devops/` for its build loop.
@@ -172,11 +173,13 @@ harness_factory/
 4. **Gate** — run the domain's Definition-of-Done gates before claiming anything is done (`core/04`).
 5. **Evolve** — end every work session with the `core/06` loop: harvest what the session taught and route it back into the harness.
 
-**Agent-native workflow (recommended).** Instead of (or in addition to) driving the CLI yourself, point
-a coding assistant at this repo and give it a task goal. The assistant reads [`SKILL.md`](SKILL.md), loads
-only the modules it needs via the load-index (`harness skill`), derives with `reference/derivation-rules.md`
-+ the `data/*.json` catalogs, emits the output contract into the target project, and records provenance in
-`.harness/PROVENANCE.md`. It can also `profile`/`learn` the project so the factory keeps improving.
+**Agent-native workflow (recommended).** Instead of (or in addition to) driving the CLI yourself, set it up in
+**two steps**: paste the **configuration** once (how to reference and use this repo as a skill), then give the
+**task** — same turn or next. Copy-paste templates are in [`PROMPTS.md`](PROMPTS.md). The assistant reads
+[`SKILL.md`](SKILL.md), loads only the modules it needs via the load-index (`harness skill`), derives with
+`reference/derivation-rules.md` + the `data/*.json` catalogs, emits the output contract into the target project,
+and records provenance in `.harness/PROVENANCE.md`. It can also `profile`/`learn` the project so the factory keeps
+improving.
 
 ---
 

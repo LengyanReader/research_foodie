@@ -52,6 +52,8 @@ lets you reuse the same config for every task. · 配置（如何引用与使用
 
 助手会据此推导并落盘 harness（`AGENTS.md` + `tasks/*` + `.harness/*`）。
 
+> **可直接复制的模板 · Copy-paste template：** [`PROMPTS.md`](PROMPTS.md) —— ① 配置 + ② 任务句 + ③ 域任务句 + 存成模板/项目规则。
+
 **What the assistant must do (L0 checklist) · 助手应做的事：**
 
 1. **Read the entry** (`harness_factory/SKILL.md`) and follow the **load-index** below; load only what
