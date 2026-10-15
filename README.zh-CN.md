@@ -24,14 +24,14 @@
 
 ## 快速开始
 
-> **一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』
+> **一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』
 > 推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），
 > 最后跑 `check`；只提案、不编造任务内容。」
 
 ```bash
 cd harness_factory
 
-# 最灵活：把 vibe-coding 助手指向本仓库 + 任务目标，读 SKILL.md 自行推导（免安装）
+# 最灵活：把 vibe-coding 助手指向本仓库 + 任务目标，读 harness_factory/SKILL.md 自行推导（免安装）
 # 或走确定性路径（同样免安装）：
 PYTHONPATH=src python -m harness_factory derive --task "…" --json
 
@@ -39,6 +39,9 @@ PYTHONPATH=src python -m harness_factory derive --task "…" --json
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out 默认 ./<slug>
 harness check  --dir ./my-task
+harness gate   --dir ./my-task          # 运行时门禁：结构自检 + 执行产出的 check.py
+harness harvest --dir ./my-task         # 只读采集：向 <kb>/updates/signals.jsonl 追加一行信号
+harness plugins --validate              # 第三方域/模板插件（只读叠加 SSOT）
 
 # 面向 agent 的助手命令 + 项目画像/学习（观察式）
 harness skill                            # agent 加载索引；`harness skill M4` 打印某模块
@@ -62,7 +65,7 @@ harness evolve                           # 覆盖/缺口审计 → updates/EVOLU
 harness evolve-apply --accept <id|target>
 ```
 
-**消费层级。** **L0**——助手读 `SKILL.md` + `core/` + `data/*.json` 自行推导（最灵活、免安装）；
+**消费层级。** **L0**——助手读 `harness_factory/SKILL.md` + `core/` + `data/*.json` 自行推导（最灵活、免安装）；
 **L1**——不安装，直接路径调用 CLI（`PYTHONPATH=src python -m harness_factory …`，确定性）；
 **L2**——安装包，作为**分发渠道已取消**（理由见 `harness_factory/tasks/DISTRIBUTION.md` §8）。
 
@@ -79,7 +82,7 @@ harness_factory/          项目主体（先读其 README）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
-├── domains/               23 个学科门类 + general 兜底（每域一个 README；writing 域 README 待注册）
+├── domains/               24 个学科门类 + general 兜底（每域一个 README；含 writing 写作域）
 ├── review/                文献综述 · harness 分类总览与索引（catalog/index）
 ├── sources/               提炼溯源表（模式 ← 一手材料）
 ├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·rubrics·levers·watchlist·sources.json）+ templates/

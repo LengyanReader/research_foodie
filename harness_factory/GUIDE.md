@@ -14,10 +14,10 @@
 
 **一句话。** `harness-factory` 把「**任务**」编译成该任务所需的 **agent harness**（上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 工具/技能 · 变更治理 · 协作协议），并用一个**人类把关的自我更新循环**让这套知识库不被冻结。
 
-**一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+**一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
 **怎么用（三种）。**
-1. **L0 面向 agent（免安装）**：把 vibe-coding 助手指向本仓库 + 一句任务目标，它读 `SKILL.md` 自行推导并落盘 harness。
+1. **L0 面向 agent（免安装）**：把 vibe-coding 助手指向本仓库 + 一句任务目标，它读 `harness_factory/SKILL.md` 自行推导并落盘 harness。
 2. **L1 命令行（免安装）**：`PYTHONPATH=src python -m harness_factory derive --task "…"`。
 3. **L2 安装成包**：**已取消**（见 `tasks/DISTRIBUTION.md` §8）。
 
@@ -84,7 +84,7 @@ These describe *the kind of work*, not the topic. · 描述**工作的性质**�
 | `artifact` | `code` · `document` · `dataset` · `knowledge_base` · `plan` · `mixed` | what is produced · 产出物 |
 | `tool_surface` | `none` · `read` · `read_write` · `external` | how much the agent touches the world · 触达世界的程度 |
 | `collaboration` | `solo` · `human_review` · `multi_agent` | who else is involved · 协作形态 |
-| `domain` | 23 disciplines (below) · 23 个学科 | weak prior for defaults · 默认值的弱先验 |
+| `domain` | 24 disciplines (below) · 24 个学科 | weak prior for defaults · 默认值的弱先验 |
 
 ### 2.3 Modules M0–M8 · 核心模块
 
@@ -119,17 +119,17 @@ Requirements match **capabilities**, which *annotate* the enabled modules and ar
 
 ### 2.5 Domains · 学科门类
 
-Data-driven taxonomy of **23 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **23 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
+Data-driven taxonomy of **24 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **24 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
 
-> `domains/writing/README.md` is a **doc-level (L0) harness** not yet registered in `domains.json`/`rubrics.json`, so `--domain writing` is not selectable in the CLI yet. · `writing` 目前是**文档级（L0）harness**，尚未注册进 SSOT，CLI 暂不可选。
+> `domains/writing/README.md` is **registered** in `domains.json`/`rubrics.json` (faculty `humanities`), so `--domain writing` is selectable in the CLI. · `writing` 已注册进 SSOT（faculty `humanities`），CLI 可选 `--domain writing`。
 
-`deep-research` · `research` · `reading` · `excellence` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
+`deep-research` · `research` · `reading` · `writing` · `excellence` · `knowledge-management` · `data-science` · `devops` · `software-engineering` · `engineering` · `physics` · `chemistry` · `biology` · `earth-environment` · `mathematics` · `medicine` · `economics-finance` · `psychology` · `social-science` · `law` · `humanities` · `education` · `arts-design` · `model-selection` · `general`
 
 ### 2.6 Consumption modes · 消费形态
 
 | mode · 形态 | how · 方式 | install? |
 |---|---|---|
-| **L0** agent-native | point an assistant at this repo + a task goal; it reads `SKILL.md` + `core/` + `data/*.json` and derives itself · 把助手指向本仓库，它自读自推 | no · 免 |
+| **L0** agent-native | point an assistant at this repo + a task goal; it reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself · 把助手指向本仓库，它自读自推 | no · 免 |
 | **L1** CLI-from-path | `PYTHONPATH=<repo>/src python -m harness_factory …` | no · 免 |
 | **L2** installed package | **cancelled** as a channel · **已取消** | — |
 
@@ -154,7 +154,7 @@ Run the tests (stdlib `unittest`, no deps) · 跑测试：
 
 ```bash
 cd harness_factory
-PYTHONPATH=src python -m unittest discover -s tests     # 103 tests OK
+PYTHONPATH=src python -m unittest discover -s tests     # 128 tests OK
 ```
 
 ---
@@ -207,6 +207,9 @@ self-check: OK
 | `init --task … [--out D]` | Write the harness scaffold to `D`. | 把 harness 脚手架写入目录。 |
 | `explain --dir D` | Explain a generated manifest. | 解读已生成的 manifest。 |
 | `check --dir D` | Run the harness self-check (gate). | 运行自检门禁。 |
+| `gate --dir D` | Run the runtime gates (structural + executes the emitted `check.py`). | 运行运行时门禁（结构 + 执行产出的 `check.py`）。 |
+| `harvest --dir D [--root KB]` | Harvest observed signals → `<kb>/updates/signals.jsonl` (observe-only). | 采集观测信号（只读，只追加）。 |
+| `plugins [--validate]` | List/validate third-party domain & template plugins. | 列出/校验第三方域与模板插件。 |
 | `skill [name]` | Print the agent load-index, or one module. | 打印 agent 载入索引或单个模块。 |
 | `capabilities` | Show the capability map. | 显示能力映射表。 |
 | `profile --project P` | Scan a project (observe-only) → `PROFILE.md`. | 扫描项目（只读）→ 画像。 |
@@ -369,7 +372,7 @@ PYTHONPATH=src python -m unittest discover -s tests         # drift guard + all 
 
 ```text
 User  →  "Set up the agent harness for this repo; goal: on-device tennis out-of-bounds."
-Agent →  reads SKILL.md, runs (or reasons through) derive,
+Agent →  reads harness_factory/SKILL.md, runs (or reasons through) derive,
          emits AGENTS.md + tasks/* + .harness/*, fills PROVENANCE.md,
          runs .harness/check.py, then records a case via `learn`.
 ```
@@ -559,6 +562,40 @@ PYTHONPATH=src python -m harness_factory standard --domain deep-research plan br
 
 ---
 
+### Example 10 — Run the emitted harness; extend with plugins · 运行产出的 harness；用插件扩展
+
+**EN.** Two P3/P4 additions close the loop around an **emitted** harness. **Runtime hooks** turn the artifact into a runnable object: `harness gate` runs the structural self-check *and* executes the emitted `.harness/check.py` (hard gates decide the exit code; M2/M4/M6/M8 content gates are advisory reminders of what evidence is still owed — M0.3). `harness harvest` reads observable signals (domain, modules, gate outcomes, progress/ledger counts) plus any `.harness/signals.jsonl` the agent appended, and writes ONE observation line to `<kb>/updates/signals.jsonl` — **observe-only**, feeding the M5 evolution loop. **Plugins** extend the catalog without touching the SSOT: a `domain` plugin merges into the registry + rubrics (so `--domain <plugin-id>` becomes selectable) and may emit extra templates; a `template` plugin registers a reusable emitted file.
+
+**中文。** P3/P4 两项给**产出的** harness 补上闭环。**运行时钩子**把产物变成可运行对象：`harness gate` 既跑结构自检，又**执行**产出的 `.harness/check.py`（硬门决定退出码；M2/M4/M6/M8 内容门作为「还欠什么证据」的提示——M0.3）。`harness harvest` 采集可观测信号（域、模块、门禁结果、进度/账本行数）以及 agent 追加的 `.harness/signals.jsonl`，向 `<kb>/updates/signals.jsonl` 追加**一行**观测——**只读**，喂给 M5 演化闭环。**插件**在不改 SSOT 的前提下扩展目录：`domain` 插件并入注册表与评分表（`--domain <插件id>` 可选）并可额外产出模板；`template` 插件注册可复用的产出文件。
+
+```bash
+# Run the runtime gates over an emitted harness (exit 0 = mechanically sound)
+PYTHONPATH=src python -m harness_factory gate --dir ./my-task
+# Harvest observed signals (observe-only; writes only under <kb>/updates/)
+PYTHONPATH=src python -m harness_factory harvest --dir ./my-task --root ~/.harness
+# List/validate third-party plugins (HARNESS_PLUGINS_DIR, else <data>/plugins)
+PYTHONPATH=src python -m harness_factory plugins --validate
+```
+
+A minimal `domain` plugin (`plugins/<id>/plugin.json`):
+
+```json
+{
+  "id": "my-domain", "kind": "domain", "version": "0.1.0",
+  "title_en": "My Domain", "summary": "One line.", "faculty": "general",
+  "artifact": "document", "grounding": "preferred",
+  "signals": ["my trigger phrase"],
+  "extra_templates": ["my-appendix"],
+  "rubric": {"dimensions": [
+    {"dim": "clarity", "weight": 0.6}, {"dim": "rigor", "weight": 0.4}
+  ]}
+}
+```
+
+Validation is strict: the `id` must match the directory, vocabularies (`artifact`/`grounding`) are closed, rubric weights must sum to ~1, a `template` needs its `<name>.tmpl`, and a plugin may **not** shadow a built-in domain (it is reported and ignored). · 校验是严格的：`id` 必须等于目录名，`artifact`/`grounding` 取闭集，评分权重需合计约 1，模板需有 `.tmpl`，且插件**不得**遮蔽内置域（会被报告并忽略）。
+
+---
+
 ## 7. What it produces · 生成物
 
 ```text
@@ -632,10 +669,10 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P0 done** — pattern library. · 模式库。
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
-- **P1.8 done** — agent-native mode (`SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **23 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); and **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. **`writing` domain** added at doc level (pending SSOT registration). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（待注册）。
-- **P3** — runtime hooks (gate runner, signal harvest); optional SQLite event store. · 运行时钩子。
-- **P4** — plugin protocol for third-party domains/templates. · 第三方插件协议。
+- **P1.8 done** — agent-native mode (`harness_factory/SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
+- **P2 (in progress)** — **24 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit; and **`writing` domain** registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable. Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（已注册）。
+- **P3 done** — **runtime hooks**. `runtime.py`: a **gate runner** (`harness gate`) that runs the structural check + executes the emitted `.harness/check.py` (hard gates decide pass/fail; M2/M4/M6/M8 gates are advisory), and **signal harvest** (`harness harvest`, observe-only) that appends one observation to `<kb>/updates/signals.jsonl`. · 运行时钩子：门禁执行 + 信号采集。
+- **P4 done** — **plugin protocol**. `plugins.py`: read-only discovery of third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged into the registry + rubrics (never mutating the SSOT), strict validation, CLI `harness plugins`. · 第三方域/模板插件协议。
 
 ---
 

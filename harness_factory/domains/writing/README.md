@@ -4,7 +4,7 @@
 > claim→evidence pairing, a context pack, and a clarity checklist.
 > 针对论文/学术写作（尤其面向 big-pickle）：强制**引用优先**、**论点↔证据配对**、上下文包与清晰度清单。
 
-**Updated:** 2026-10-14
+**Updated:** 2026-10-15
 
 ## 中文速览
 写作的短板通常不在「润色」，而在**证据、结构、原创性**。本域用 harness 补足**系统性流程**：先定 thesis 与
@@ -26,8 +26,8 @@ M4 令每条 load-bearing claim 必须可溯源；M3 令「完成」= 通过校�
 ## Rubric · 评分表（humanities-aligned）
 `interpretation 0.25 · context 0.20 · evidence 0.20 · originality 0.15 · clarity 0.10 · rigor 0.10`
 
-> 该表与 `data/rubrics.json` 的 `humanities` 域一致。**当前经 `--domain humanities` 使用**（本域尚未作为
-> 独立 rubric 注册，见下「状态」）。
+> 本域已在 `data/rubrics.json` 注册独立 rubric（`writing`），数值与 `humanities` 一致；可经
+> `--domain writing` 直接使用（不再需要借道 `humanities`）。
 
 ## Pipeline · 流水线
 | layer · 层 | step · 步骤 | guarantee · 保证 | module |
@@ -46,15 +46,14 @@ M4 令每条 load-bearing claim 必须可溯源；M3 令「完成」= 通过校�
 
 ## Quick check · 快速自检
 ```bash
-# gaps -> harness configuration, scored against the humanities rubric
-harness standard --domain humanities plan <objective>
+# gaps -> harness configuration, scored against the writing rubric
+harness standard --domain writing plan <objective>
 ```
 
-## Status · 状态（pending registration）
-本域当前为**文档级（L0）harness**：`domains/writing/README.md` 已就绪，但**尚未注册**进
-`data/domains.json` 与 `data/rubrics.json`（SSOT），因此 `--domain writing` 暂不可选，需经
-`--domain humanities` 使用其 rubric。注册（新增 `domains.json` 条目 + 可选独立 rubric + 分类信号）是
-一个**待定决策**——保持 SSOT 单一来源，不静默改动。
+## Status · 状态（registered）
+本域已注册进 SSOT：`data/domains.json` 有 `writing` 条目（faculty `humanities`、artifact `document`、
+grounding `required`、20 条分类信号），`data/rubrics.json` 有独立 `writing` rubric。因此
+**`--domain writing` 可直接选择**，`standard --domain writing …` 可直接评分，分类器也能凭信号命中本域。
 
 ## See also
 `../humanities/README.md`（学术人文写作的通用流程）· `../deep-research/README.md`（证据获取）·

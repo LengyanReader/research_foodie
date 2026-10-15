@@ -22,20 +22,81 @@ available. Either way: **select and scaffold — never fabricate task substance*
 4. **Single source of truth; reviewable diffs (M0.5/M0.7).** Emit files, record the plan, don't silently
    mutate. Leave a provenance record.
 
-## Consumption modes · 消费形态
+## Using this repo as a skill · 把本仓库当作 skill 使用
 
-- **L0 — read & reason (no install).** Read this file, then load only what you need from the index below;
-  derive with `reference/derivation-rules.md` + the `data/*.json` catalogs, then emit the output contract.
-  > **One-liner to paste · 一句话指令词.** 「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
-- **L1 — call the CLI from the path (no install).**
-  ```bash
-  PYTHONPATH=<repo>/src python -m harness_factory derive --task "<goal>" --json
-  PYTHONPATH=<repo>/src python -m harness_factory init  --task "<goal>" --out <project>
-  # or profile/learn a project:
-  PYTHONPATH=<repo>/src python -m harness_factory profile --project <project> --goal "<goal>"
-  ```
-  `harness skill` prints the index below; `harness skill <name>` prints one module.
-- Packaging (`uv tool install`/PyPI) is **cancelled** as a channel — use L0/L1.
+The intended way to use this repo from a **vibe-coding assistant** (Claude Code, Cursor, Codex CLI,
+Gemini CLI, OpenCode, …) is to treat it as a **skill**: the assistant reads the rules + catalogs and
+does the derivation itself — **no install required (L0)**. Use the CLI (L1) when you need a
+deterministic, reproducible scaffold.
+
+### L0 — agent-native (read & reason, no install)
+
+**One-liner to paste · 一句话指令词（替换 `<目标>` 为你的具体目标后直接粘贴）：**
+
+> 「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容（M0.4）。」
+
+**A concrete example · 一个可直接粘贴的具体例子：**
+
+```
+把本仓库当 skill，读 harness_factory/SKILL.md，
+为我的任务『为现有 Python 项目补全类型注解与单元测试，保证可验证闭环』推导并落盘所需 harness
+（AGENTS.md + tasks/* + .harness/*，每条选择写入 .harness/manifest.json），
+最后跑 check；只提案、不编造任务内容（M0.4）。
+```
+
+**What the assistant must do (L0 checklist) · 助手应做的事：**
+
+1. **Read the entry** (`harness_factory/SKILL.md`) and follow the **load-index** below; load only what
+   the task needs (`reference/derivation-rules.md`, `core/*.md`, `data/*.json`, `domains/<name>/README.md`).
+2. **Classify** the goal into the 8-axis feature vector (rules-first; LLM only fills gaps). Match
+   against `data/capabilities.json`.
+3. **Derive** enabled modules (M0–M8) with reasons + parameters; record `source` and `why` for every
+   choice.
+4. **Emit** the **output contract** into the target project and fill `PROVENANCE.md` honestly.
+5. **Verify** by running the emitted `.harness/check.py` (or `harness check --dir <project>`).
+6. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
+
+**Variant prompts · 变体指令词（按场景替换）：**
+
+| 场景 | 指令词 |
+|---|---|
+| 新项目/新任务搭 harness | 「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md`+`tasks/*`+`.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造（M0.4）。」 |
+| 只想先看方案、不落盘 | 「读 `harness_factory/SKILL.md` 与 `reference/derivation-rules.md`，为『<目标>』推导 harness 方案（逐模块给出规则与理由、能力匹配），**先只出方案不写文件**。」 |
+| 拆解现有项目、学习其能力 | 「读 `harness_factory/SKILL.md`，用 `profile` 视角扫描 `<项目路径>`，产出 `PROFILE.md` 并把它作为一个 case 记录（observe-only）；只观察、不改动该项目。」 |
+| 按最高标准定目标 | 「读 `harness_factory/domains/excellence/standard-ladder.md`，为『<目标>』按域 rubric 定一个 R4 级 apex bar 并列出加权 gap 与补齐配置。」 |
+
+### L1 — CLI from path (deterministic, reproducible, no install)
+
+Use this when you want machine-verifiable output (same inputs → same scaffold). Run from the **repo root**:
+
+```bash
+# task -> harness plan (explainable: which rule/capability fired and why)
+PYTHONPATH=harness_factory/src python -m harness_factory derive --task "<goal>" --json
+
+# task -> harness scaffold on disk (every choice recorded in .harness/manifest.json)
+PYTHONPATH=harness_factory/src python -m harness_factory init --task "<goal>" --out <project>
+PYTHONPATH=harness_factory/src python -m harness_factory check --dir <project>
+
+# runtime hooks on an emitted harness: gate (structural + runs its check.py), harvest (observe-only)
+PYTHONPATH=harness_factory/src python -m harness_factory gate --dir <project>
+PYTHONPATH=harness_factory/src python -m harness_factory harvest --dir <project> --root <kb>
+
+# profile / learn a real project (observe-only, project -> factory)
+PYTHONPATH=harness_factory/src python -m harness_factory profile --project <project> --goal "<goal>"
+PYTHONPATH=harness_factory/src python -m harness_factory learn --project <project> --goal "<goal>"
+
+# agent load-index (same as the table below)
+PYTHONPATH=harness_factory/src python -m harness_factory skill          # whole index
+PYTHONPATH=harness_factory/src python -m harness_factory skill M4       # one module
+```
+
+Notes:
+- **Packaging is cancelled** as a distribution channel: there is **no** `uv tool install`/PyPI path.
+  Primary consumption = **L0 (agent-native skill)** and **L1 (CLI from path)**.
+- If the tool is nonetheless installed on `PATH`, the short form `harness …` works; L0/L1 assume no install.
+- **Optional global install.** `install-skill.ps1` copies `SKILL.md` + the knowledge modules + catalogs
+  into a skills directory (default `~/.agents/skills/harness-factory`) so a supported assistant can pick
+  the skill up globally. Repo-as-skill needs **no** install; this is only for a persistent, global setup.
 
 ## Load-index · 可按需加载
 
@@ -54,7 +115,7 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `M7` | `core/08-change-governance.md` | change governance |
 | `M8` | `core/09-collaboration-and-sessions.md` | collaboration & sessions |
 | catalogs | `src/harness_factory/data/{modules,capabilities,domains,harnesses,rubrics,levers}.json` | machine-readable truth |
-| domains | `domains/<name>/README.md` | 23 disciplines + `general` (faculty taxonomy); `writing/` is doc-level, pending registration |
+| domains | `domains/<name>/README.md` | 24 disciplines + `general` (faculty taxonomy), incl. `writing/` |
 
 ## How to configure a harness · 如何配置
 

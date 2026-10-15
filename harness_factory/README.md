@@ -13,11 +13,11 @@
 
 **本库的目标是「泛化」而非「记录」。** 每一条模式都从具体项目里提炼，但**写成与具体项目无关的形式**——任何「用 LLM 智能体做某类工作」的仓库都可直接套用。原项目只作为**出处示例（Exemplar）**标注，不构成定义。
 
-**结构。** `core/` 放**跨域通用**的 9 条主干模式；`domains/` 放各学科门类（20 个）的**域内专属**编排；`review/` 是对「AI harness」这一主题的**文献综述**与 `harness-index.md` 统一索引；`sources/` 是**提炼溯源表**（哪个模式来自哪份一手材料）。**完整介绍与实例见 [`GUIDE.md`](GUIDE.md)。**
+**结构。** `core/` 放**跨域通用**的 9 条主干模式；`domains/` 放各学科门类（24 个）的**域内专属**编排；`review/` 是对「AI harness」这一主题的**文献综述**与 `harness-index.md` 统一索引；`sources/` 是**提炼溯源表**（哪个模式来自哪份一手材料）。**完整介绍与实例见 [`GUIDE.md`](GUIDE.md)。**
 
 **怎么用。** 新任务先读 `core/01-meta-principles.md`；再按任务性质进入对应 `domains/*`；实现时把对应 `core/*` 文件当作**操作手册**逐条落实；收尾跑域内的验证门禁。
 
-> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
 ---
 
@@ -41,6 +41,9 @@ harness derive  --task "add unit tests to the parser" --json
 # task -> harness scaffold on disk (.harness/manifest.json records every choice)
 harness init    --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
 harness check   --dir ./my-task          # verify the emitted harness (gate)
+harness gate    --dir ./my-task          # runtime gates: structural + executes the emitted check.py
+harness harvest --dir ./my-task          # observe-only: append one signal line to <kb>/updates/signals.jsonl
+harness plugins --validate               # third-party domain/template plugins (read-only over the SSOT)
 
 # agent-native consumption (no install): point an assistant at this repo + a task goal,
 # or call the CLI from the path:
@@ -118,7 +121,7 @@ harness_factory/
 ├── refresh.ps1                    scheduler entry for the self-update loop
 ├── install-skill.ps1              optional: copy repo-as-skill into a skills dir
 ├── reference/derivation-rules.md  markdown mirror of the rule table (for L0 agents)
-├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·collect·curate·journal·extract·evolution·profile·learning·standard·registry·catalog·skill·cli
+├── src/harness_factory/           the tool: spec·derive·classify·capabilities·assemble·check·runtime·plugins·collect·curate·journal·extract·evolution·profile·learning·standard·registry·catalog·skill·cli
 │   ├── data/                      modules.json · capabilities.json · domains.json · rubrics.json · levers.json · harnesses.json · watchlist.json · sources.json
 │   └── templates/                 emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
 ├── tests/                         stdlib unittest (no deps)
@@ -135,7 +138,7 @@ harness_factory/
 │   ├── 07-tools-and-skills.md     工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md    单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/                       23 disciplines · 23 个学科门类（每域一个 README；+ `writing/` doc-level，待注册）
+├── domains/                       24 disciplines · 24 个学科门类（每域一个 README；含 `writing/` 写作域）
 │   ├── deep-research/ research/ reading/ excellence/ knowledge-management/ data-science/ model-selection/ (meta + methods)
 │   ├── software-engineering/ devops/ engineering/ (engineering)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)
@@ -160,7 +163,7 @@ harness_factory/
 
 ## How to use this factory · 使用方式
 
-> New here? Read [`GUIDE.md`](GUIDE.md) — full intro, command reference, and nine worked examples (bilingual).
+> New here? Read [`GUIDE.md`](GUIDE.md) — full intro, command reference, and ten worked examples (bilingual).
 > 初次使用请读 [`GUIDE.md`](GUIDE.md)——完整介绍、命令速查与九个实例（中英对照）。
 
 1. **Orient** — read `core/01-meta-principles.md`. These ten invariants govern everything else.

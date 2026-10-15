@@ -12,7 +12,7 @@
 > 工具只做**分类/选择/生成/观察/排序**，绝不编造任务实质；所有循环产物先作为**提案**，由人确认。详见
 > [`harness_factory/README.md`](harness_factory/README.md) 与 [`introduction.md`](harness_factory/introduction.md)。
 >
-> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `SKILL.md`，
+> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `harness_factory/SKILL.md`，
 > 为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入
 > `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
 
@@ -46,11 +46,14 @@ merge. See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/0
 cd harness_factory
 
 # fastest path: point your vibe-coding assistant at this repo + a task goal.
-# It reads SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
+# It reads harness_factory/SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
 PYTHONPATH=src python -m harness_factory derive --task "write a literature review with citations"
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
 harness check  --dir ./my-task
+harness gate   --dir ./my-task          # runtime gates: structural + runs the emitted check.py
+harness harvest --dir ./my-task         # observe-only: append a signal line to <kb>/updates/signals.jsonl
+harness plugins --validate              # third-party domain/template plugins (read-only over the SSOT)
 harness skill                            # agent load-index; `harness skill M4` prints a module
 harness capabilities                     # requirement -> capability -> modules map
 harness catalog --class deep-research    # unified harness catalog: list/search/filter
@@ -74,7 +77,7 @@ harness evolve                           # coverage/gap audit -> updates/EVOLUTI
 harness evolve-apply --accept <id|target>
 ```
 
-**Consumption modes.** L0 — an assistant reads `SKILL.md` + `core/` + `data/*.json` and derives itself
+**Consumption modes.** L0 — an assistant reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself
 (no install); L1 — run the CLI from the path (`PYTHONPATH=src python -m harness_factory …`);
 L2 — an installed package. **L2 (packaging) is cancelled as a distribution channel** — see
 [`harness_factory/tasks/DISTRIBUTION.md`](harness_factory/tasks/DISTRIBUTION.md) §8.
@@ -83,7 +86,7 @@ L2 — an installed package. **L2 (packaging) is cancelled as a distribution cha
 (`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`); each **target project** receives
 its generated files via `init --out` (or directly from the agent). In path mode the home is optional.
 
-> 中文速览：最灵活用法是**把 vibe-coding 助手指向本仓库 + 任务目标**，助手读 `SKILL.md` 自行推导并落盘
+> 中文速览：最灵活用法是**把 vibe-coding 助手指向本仓库 + 任务目标**，助手读 `harness_factory/SKILL.md` 自行推导并落盘
 > harness（免安装）；需要可复现时再用**路径调用 CLI** 的 L1 模式。`profile/learn/cases` 让工厂**从项目中学习**；
 > 打包（`uv tool install`/PyPI）作为分发渠道**已取消**。
 
@@ -98,7 +101,7 @@ harness_factory/          the project (start at its README)
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
-├── domains/               科研 / 知识管理 / 数据科学 / DevOps 四域编排
+├── domains/               24 个学科门类 + general 兜底（每域一个 README；含 writing 写作域）
 ├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
 ├── sources/               提炼溯源表（模式 ← 一手材料）
 ├── src/harness_factory/   工具源码 + data/（modules·capabilities·domains·harnesses·rubrics·levers·watchlist·sources.json）+ templates/

@@ -1,6 +1,6 @@
 # PLAN · Inclusive Harness Tool · 通用 harness 工具计划
 
-**Updated:** 2026-10-14 · **Status:** active · **Owner:** user + agent
+**Updated:** 2026-10-15 · **Status:** active · **Owner:** user + agent
 
 > Goal: turn `harness_factory/` from a pattern **library** into a working **harness compiler** — given any task, emit the harness that task needs.
 > 目标：把 `harness_factory/` 从模式**库**升级为可运行的**harness 编译器**——给定任意任务，产出该任务所需的 harness。
@@ -58,7 +58,7 @@ harness_factory/
     config.py      tool home / catalog / corpus / updates resolution; seed catalog
     data/
       modules.json   module catalog M0–M8 (id, titles, rule)
-      domains.json    domain catalog (23 disciplines + `general`; faculty taxonomy)
+      domains.json    domain catalog (24 disciplines + `general`; faculty taxonomy)
       harnesses.json  unified harness catalog (127 entries: class × kind × module-map × vendor)
       rubrics.json    per-domain weighted excellence rubric (`default` fallback)
       levers.json     rubric dimension -> modules (M0–M8) + catalog tool-kinds that close it
@@ -75,6 +75,8 @@ harness_factory/
     render.py      tiny {{key}} template engine (no deps)
     assemble.py    HarnessPlan -> files on disk
     check.py       validate an emitted harness against its manifest (gate)
+    runtime.py     runtime hooks: gate_report (structural + runs the emitted check.py); harvest/record_signals (observe-only)
+    plugins.py     third-party domain/template plugin discovery + validation (merged read-only over the SSOT)
     collect.py     refresh/intel: Candidate + file/llm/feed providers; RSS/Atom parse; YouTube resolve
     curate.py      refresh: audit / dedupe / score / trends (observe-only)
     journal.py     refresh: report / queue / proposal writers (append-only journal)
@@ -83,7 +85,7 @@ harness_factory/
     profile.py     project scan -> ProjectProfile (stacks/capabilities) + PROFILE.md (observe-only)
     learning.py    project cases: record / load / aggregate (project -> factory mutual learning)
     refresh.py     refresh: orchestrate signal->audit->proposal->journal; apply gate; watermark
-    cli.py         argparse: derive / init / explain / check / profile / skill / refresh / refresh-apply / sources / intel / evolve / evolve-apply / learn / cases / doctor / self-update
+    cli.py         argparse: derive / init / explain / check / gate / harvest / plugins / profile / skill / refresh / refresh-apply / sources / intel / evolve / evolve-apply / learn / cases / standard / catalog / doctor / self-update
     __main__.py    python -m harness_factory
     templates/     AGENTS.md, tasks/*, .harness/* (incl. PROVENANCE.md), check.py
   SKILL.md         agent-native entry point (cardinal rules + load-index + output contract)
@@ -147,10 +149,10 @@ better, and capabilities discovered in one project become reusable options for o
   - **Disciplines · 学科门类（~20）:** expand `domains/` from 4 to a faculty-level taxonomy — natural sciences (physics, chemistry, biology, earth-environment, mathematics), engineering (engineering, software-engineering, devops), health (medicine), social sciences (economics-finance, psychology, social-science), humanities (humanities), law, business/education/arts (education, arts-design). Each = `domains/<id>/README.md` + `domains.json` entry (artifact/grounding/signals). Adds no new rules — features stay compositional (M0.5).
   - **Harness index · harness 索引:** a unified, machine-readable catalog `data/harnesses.json` (127 entries; classes × kinds × core-module maps × source), cross-linked to `sources.json` by id; `catalog.py` + CLI `harness catalog` (list/search/filter/`--json`); generated `review/harness-index.md` with a drift-guard test. Prose taxonomy in `review/harness-catalog.md` stays as the explanation; the index is the lookup surface.
   - **Frontier standard · 最高标准棘轮 (done):** `excellence` domain + `standard-ladder.md`; per-domain weighted rubrics (`data/rubrics.json`, `default` fallback) and the gap→lever map (`data/levers.json`); executable ratchet `standard.py` + CLI `harness standard bar|score|audit|raise|plan|frontier` (refuses regressions); `stale_frontier` audit in `evolution.py`; applied reflexively in `self-standard.md` + `security-model.md`.
-  - **Writing domain · 写作域 (doc-level):** `domains/writing/README.md` — citation-first essay harness (thesis→outline→context pack→claim↔evidence→originality→clarity) with a humanities-aligned rubric. **Pending:** register in `domains.json`/`rubrics.json` so `--domain writing` becomes selectable.
+  - **Writing domain · 写作域 (done):** `domains/writing/README.md` + registered `writing` entry in `data/domains.json` (faculty `humanities`, artifact `document`, grounding `required`, 20 signals) and a weighted rubric in `data/rubrics.json` — citation-first essay harness (thesis→outline→context pack→claim↔evidence→originality→clarity). `--domain writing` is now selectable; `standard --domain writing` works; classification reaches it. · 写作域已注册。
   - **LLM-assisted discovery/classification hardening** and **feed/entity coverage expansion** — deferred to a later P2 slice.
-- **P3:** emitted-harness runtime hooks (gate runner, signal harvest).
-- **P4:** plugin protocol for new domains/templates.
+- **P3 (done):** emitted-harness runtime hooks. `runtime.py` — **gate runner** (`gate_report`, CLI `harness gate`): structural check + executes the emitted `.harness/check.py` as its own hook; hard gates decide pass/fail, module gates (M2/M4/M6/M8) are advisory. **Signal harvest** (`harvest`/`record_signals`, CLI `harness harvest`): observe-only, appends one observation to `<kb>/updates/signals.jsonl`.
+- **P4 (done):** plugin protocol for new domains/templates. `plugins.py` — read-only discovery from `HARNESS_PLUGINS_DIR` (or `<data>/plugins`); `domain` plugins merge into the registry + rubrics (`--domain <plugin-id>` becomes selectable) and may emit extra templates; `template` plugins register reusable emitted files. Strict validation + CLI `harness plugins`. SSOT catalogs are never mutated; a plugin may not shadow a built-in.
 
 ## Verification · 验证门（for this project)
 - `python -m unittest discover -s tests` passes.
