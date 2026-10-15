@@ -15,8 +15,8 @@
 > **给 agent 的用法（两步：先配置，再提任务）· Two steps for an agent.** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读
 > `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘
 > 所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
-> ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。详见
-> [`harness_factory/SKILL.md`](harness_factory/SKILL.md)。
+> ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。完整模板见下方
+> [「Agent prompt templates」](#agent-prompt-templates--给-agent-的提示词模板) 一节。
 
 ---
 
@@ -94,13 +94,65 @@ its generated files via `init --out` (or directly from the agent). In path mode 
 
 ---
 
+## Agent prompt templates · 给 agent 的提示词模板
+
+Set the tool up in **two steps**: paste the **configuration** once — it never changes, so keep it in a snippet or
+the project's rules file — then give the **task** each time, in the same turn or the next (attachments welcome).
+
+**Step 1 · Configuration (paste once, reusable)**
+
+```text
+Treat this repository as a skill: read harness_factory/SKILL.md, and load reference/derivation-rules.md,
+core/*.md, data/*.json, domains/<name>/README.md as needed. For any task I give you, derive and emit the
+required harness (AGENTS.md + tasks/* + .harness/*, recording every choice in .harness/manifest.json), then
+run `check`; propose only, never fabricate task substance (M0.4). If I've sent only the configuration with no
+task yet, acknowledge and wait — don't derive in advance.
+```
+
+**Step 2 · Task (same turn or next)**
+
+Just write the goal, or attach files / directories / links. Example:
+
+```text
+Add complete type annotations and unit tests to the existing Python project, with a verifiable closed loop.
+```
+
+**Variant task lines** (use after the configuration):
+
+| Situation | Task line |
+|---|---|
+| Set up a harness for a new project/task | "Derive and emit the required harness for «<goal>»." |
+| Want the plan only, no files | "Derive the harness plan for «<goal>» (per module: rule, reason, capability match) — plan only, write no files." |
+| Dissect an existing project and learn from it | "Scan <project path> from the `profile` angle; emit `PROFILE.md` and record it as a case (observe-only); observe only — don't change the project." |
+| Aim at the highest standard | "Using `domains/excellence/standard-ladder.md`, set an R4-level apex bar for «<goal>», list the weighted gaps and the config to close them." |
+
+**Domain task lines** (optional, after the configuration):
+
+- **writing** — "Build a writing harness with the writing domain: fix the thesis and outline first, force a
+  traceable citation for every claim (semantic-scholar / crossref / openalex), run an originality check and
+  verification after the first draft, then self-score against the `writing` rubric and ratchet the floor (no regressions)."
+- **excellence** — "Process <artifact> with the excellence domain's highest-standard ratchet: name a traceable top
+  bar (R4+, with sources), score against the domain rubric → audit the largest gap → improve → ratchet the achieved
+  score into a new floor (no regression without a human exemption), and re-check whether the bar has moved."
+
+**Save it · deterministic runs.** Keep Step 1 as an editor snippet or write it into the target project's rules file
+(`AGENTS.md`, `.cursor/rules`, `CLAUDE.md`, …) so it is always in force. Prefer a reproducible, machine-verifiable
+path? Use the CLI (L1, no install):
+
+```bash
+PYTHONPATH=harness_factory/src python -m harness_factory derive --task "<goal>"
+PYTHONPATH=harness_factory/src python -m harness_factory init   --task "<goal>" --out <project>
+PYTHONPATH=harness_factory/src python -m harness_factory check  --dir <project>
+```
+
+---
+
 ## Layout · 结构
 
 ```
 harness_factory/          the project (start at its README)
 ├── README.md             定位 · 结构 · 用法
 ├── SKILL.md              agent-native entry (cardinal rules + load-index + output contract)
-├── PROMPTS.md            提示词模板（① 配置 + ② 任务句 + 域任务句，可复制）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
@@ -123,7 +175,7 @@ See [`harness_factory/README.md`](harness_factory/README.md) for the full docume
 |---|---|
 | Positioning, layout, usage | [`harness_factory/README.md`](harness_factory/README.md) |
 | **Use directly from an agent (L0)** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md), `harness_factory/reference/derivation-rules.md` |
-| **Copy-paste prompt templates (config + task)** | [`harness_factory/PROMPTS.md`](harness_factory/PROMPTS.md) |
+| **Copy-paste prompt templates** | [Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板) (in this file) |
 | Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | Core harness invariants | `harness_factory/core/01-meta-principles.md` |
 | Domain playbooks | `harness_factory/domains/*/README.md` |

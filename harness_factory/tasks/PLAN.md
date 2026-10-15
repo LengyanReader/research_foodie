@@ -89,7 +89,6 @@ harness_factory/
     __main__.py    python -m harness_factory
     templates/     AGENTS.md, tasks/*, .harness/* (incl. PROVENANCE.md), check.py
   SKILL.md         agent-native entry point (cardinal rules + load-index + output contract)
-  PROMPTS.md       copy-paste prompt templates (① config + ② task lines + domain task lines)
   reference/       derivation-rules.md (markdown mirror of the rule table, for L0 agents)
   install-skill.ps1  copy repo-as-skill into a skills dir (optional global install)
   tests/           stdlib unittest (no deps)

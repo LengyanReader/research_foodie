@@ -52,7 +52,8 @@ lets you reuse the same config for every task. · 配置（如何引用与使用
 
 助手会据此推导并落盘 harness（`AGENTS.md` + `tasks/*` + `.harness/*`）。
 
-> **可直接复制的模板 · Copy-paste template：** [`PROMPTS.md`](PROMPTS.md) —— ① 配置 + ② 任务句 + ③ 域任务句 + 存成模板/项目规则。
+> **可直接复制的模板 · Copy-paste template：** 见仓库根 [`README.md`](../README.md) / [`README.zh-CN.md`](../README.zh-CN.md) 的
+> 「Agent prompt templates · 给 agent 的提示词模板」一节（① 配置 + ② 任务句 + 域任务句）。
 
 **What the assistant must do (L0 checklist) · 助手应做的事：**
 

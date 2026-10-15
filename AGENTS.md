@@ -21,7 +21,6 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   README.md               定位 · 结构 · 用法
   GUIDE.md                项目指南与示例（中英对照）
   SKILL.md                agent 原生入口（硬规则 + 载入索引 + 输出契约）
-  PROMPTS.md              提示词模板（① 配置 + ② 任务句 + 域任务句，可复制）
   introduction.md         简介：是什么 · 心智模型 · Quickstart
   core/                   跨域通用主干模式（M0–M9）
   domains/                学科门类编排（24 学科 + general 兜底；含 writing 写作域）

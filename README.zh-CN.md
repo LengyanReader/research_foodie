@@ -27,7 +27,7 @@
 > **给 vibe-coding 助手的用法（两步：先配置，再提任务）。** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读
 > `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并
 > 落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
-> ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。详见 [`harness_factory/SKILL.md`](harness_factory/SKILL.md)。
+> ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。完整模板见下方 [「给 agent 的提示词模板」](#给-agent-的提示词模板) 一节。
 
 ```bash
 cd harness_factory
@@ -74,13 +74,59 @@ harness evolve-apply --accept <id|target>
 （`%LOCALAPPDATA%\harness-factory`，可用 `HARNESS_HOME` 覆盖）；每个**目标项目**通过 `init --out`
 接收生成文件。路径/L0 模式下主目录是可选的。
 
+## 给 agent 的提示词模板
+
+分**两步**用起来：**配置**只贴一次——它固定不变，存成编辑器片段或写进项目规则文件即可；之后每次只给**任务**——
+同一轮接着写，或下一轮再发（也可直接附文件 / 目录 / 链接）。
+
+**① 配置（贴一次，可复用）**
+
+```text
+把本仓库当 skill 使用：读 harness_factory/SKILL.md，按需加载 reference/derivation-rules.md、core/*.md、
+data/*.json、domains/<名>/README.md。此后我给你的任务，请据此推导并落盘所需 harness（AGENTS.md +
+tasks/* + .harness/*，每条选择写入 .harness/manifest.json），最后跑 check；只提案、不编造任务内容（M0.4）。
+若我这条只发了配置、还没给任务，请确认收到并等待，不要提前推导。
+```
+
+**② 任务（同一轮接着写，或下一轮再发）**
+
+直接写目标，或附上文件 / 目录 / 链接。例：
+
+```text
+为现有 Python 项目补全类型注解与单元测试，保证可验证闭环。
+```
+
+**变体任务句**（接在配置之后）：
+
+| 场景 | 任务句 |
+|---|---|
+| 新项目 / 新任务搭 harness | 「为『<目标>』推导并落盘所需 harness。」 |
+| 只想先看方案、不落盘 | 「先为『<目标>』推导 harness 方案（逐模块给出规则与理由、能力匹配），**只出方案不写文件**。」 |
+| 拆解现有项目、学习其能力 | 「用 `profile` 视角扫描 `<项目路径>`，产出 `PROFILE.md` 并作为一个 case 记录（observe-only）；只观察、不改动该项目。」 |
+| 按最高标准定目标 | 「按 `domains/excellence/standard-ladder.md`，为『<目标>』定一个 R4 级 apex bar，列出加权 gap 与补齐配置。」 |
+
+**域任务句**（可选，接在配置之后）：
+
+- **writing 域** —— 「用 writing 域为我建写作 harness：先定 thesis 与 outline，每条 claim 强制配**可溯源**证据
+  （semantic-scholar / crossref / openalex），初稿后做 originality check 与校验，再按 `writing` rubric 自评并**棘轮固化**（不回退）。」
+- **excellence 域** —— 「用 excellence 域的最高标准棘轮处理 <产出物>：先指名一个**可溯源**的最高标杆（R4+，给出来源），
+  按本域 rubric 打分 → 审计最大差距 → 逐项提升 → 把达标分固化为**新下限**（未获人工豁免不得回退），并定期复核标杆是否前移。」
+
+**存起来 · 确定性运行。** 把 ① 配置存为编辑器片段，或写进目标项目的规则文件（`AGENTS.md`、`.cursor/rules`、
+`CLAUDE.md` 等）使其常驻；想要可复现、机器可验证的路径就用 CLI（L1，免安装）：
+
+```bash
+PYTHONPATH=harness_factory/src python -m harness_factory derive --task "<goal>"
+PYTHONPATH=harness_factory/src python -m harness_factory init   --task "<goal>" --out <project>
+PYTHONPATH=harness_factory/src python -m harness_factory check  --dir <project>
+```
+
 ## 结构
 
 ```
 harness_factory/          项目主体（先读其 README）
 ├── README.md             定位 · 结构 · 用法
 ├── SKILL.md              agent 入口（硬规则 + 加载索引 + 输出契约）
-├── PROMPTS.md            提示词模板（① 配置 + ② 任务句 + 域任务句，可复制）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
 ├── core/                  跨域通用主干模式（M0–M9）
@@ -101,7 +147,7 @@ harness_factory/          项目主体（先读其 README）
 |---|---|
 | 定位、结构、用法 | [`harness_factory/README.md`](harness_factory/README.md) |
 | **agent 直接使用（L0）** | [`harness_factory/SKILL.md`](harness_factory/SKILL.md)、`harness_factory/reference/derivation-rules.md` |
-| **可复制的提示词模板（配置 + 任务句）** | [`harness_factory/PROMPTS.md`](harness_factory/PROMPTS.md) |
+| **可复制的提示词模板（配置 + 任务句）** | [本文件「给 agent 的提示词模板」](#给-agent-的提示词模板) |
 | 心智模型 + 快速上手 | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | 核心 harness 不变式 | `harness_factory/core/01-meta-principles.md` |
 | 各域 playbook | `harness_factory/domains/*/README.md` |
