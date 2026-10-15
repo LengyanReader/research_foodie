@@ -17,7 +17,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Self-evolution**: `evolve` / `evolve-apply` — snapshot → audit → mutation-proposal → journal plus
   metrics (`updates/EVOLUTION.md`, `evolution.jsonl`, `metrics.jsonl`); discovery→registry proposals.
 - **Run watermark**: effective `since` persisted to `updates/state.json` so cycles only surface new items.
-- **Pattern library**: `core/` (M0–M9), `domains/` (research/knowledge-management/data-science/devops),
+- **Pattern library**: `core/` (M0–M8), `domains/` (research/knowledge-management/data-science/devops),
   `review/` (survey, catalog, playbooks, references), `sources/` (provenance map).
 - CI (GitHub Actions), `CHANGELOG.md`, `.gitattributes`.
 
