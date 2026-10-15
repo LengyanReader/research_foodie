@@ -61,11 +61,17 @@ LICENSE                   MIT License
 - **一手资料优先 / Primary sources first。** 校对与规划一律回到官方仓库、论文原文、官方文档，而非二手转述。
 - **成本敏感 / Cost-sensitive。** 默认选择开源/免费、本地可跑的工具；付费 API 仅在质量关键步骤使用（用户环境：本地 Win11 CPU + 可远程 GPU 平台）。
 
-## 6. 给 agent 的一句话指令词 / One-liner directive for an agent
+## 6. 给 agent 的指令词：先配置，再提任务 / Directive for an agent: configure first, then task
 
-> 「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness
-> （`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；
-> 只提案、不编造任务内容（M0.4）。」
+**Step 1 · 配置（先贴一次，可复用）。** 把「如何引用与使用本工具」作为固定配置，只贴一次（可存为模板或写进项目规则文件）：
 
-用它一句话触发 **L0（agent 原生，免安装）** 用法；需要确定性复现时走 **L1**：
+> 「把本仓库当 skill 使用：读 `harness_factory/SKILL.md`，按需加载 `reference/derivation-rules.md`、`core/*.md`、
+> `data/*.json`、`domains/<名>/README.md`。此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` +
+> `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容（M0.4）。
+> 若我这条只发了配置、还没给任务，请**确认收到并等待**，不要提前推导。」
+
+**Step 2 · 任务（同一轮接着写，或下一轮再发均可）。** 直接写目标，或直接附上文件/目录/链接，例如：
+「为现有 Python 项目补全类型注解与单元测试，保证可验证闭环。」
+
+这样配置一次、任务一句，输入更省事。用它触发 **L0（agent 原生，免安装）** 用法；需要确定性复现时走 **L1**：
 `PYTHONPATH=harness_factory/src python -m harness_factory derive --task "…"`。

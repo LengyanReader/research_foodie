@@ -24,14 +24,15 @@
 
 ## 快速开始
 
-> **一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』
-> 推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），
-> 最后跑 `check`；只提案、不编造任务内容。」
+> **给 vibe-coding 助手的用法（两步：先配置，再提任务）。** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读
+> `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并
+> 落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+> ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。详见 [`harness_factory/SKILL.md`](harness_factory/SKILL.md)。
 
 ```bash
 cd harness_factory
 
-# 最灵活：把 vibe-coding 助手指向本仓库 + 任务目标，读 harness_factory/SKILL.md 自行推导（免安装）
+# 最灵活：两步——先贴「配置」（如何引用与使用本工具），再给任务目标；读 harness_factory/SKILL.md 自行推导（免安装）
 # 或走确定性路径（同样免安装）：
 PYTHONPATH=src python -m harness_factory derive --task "…" --json
 

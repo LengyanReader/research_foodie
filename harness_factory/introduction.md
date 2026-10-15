@@ -17,9 +17,9 @@
 
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容，绝不自动改写正文，破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
-**怎么用。** 把 vibe-coding 助手指向本仓库 + 任务目标，它读 `SKILL.md` 自行推导并落盘 harness；或用 `harness init --task "…" --out <目录>` 在**任意目录**生成；`harness check` 校验；`harness profile/learn` 让它**从目标项目中学习**；`harness refresh/evolve` 定期抓取新前沿工作（只出提案）。
+**怎么用。** 分两步——先贴「配置」（如何引用与使用本工具），再给「任务」（同一轮或下一轮均可）；助手读 `SKILL.md` 自行推导并落盘 harness；或用 `harness init --task "…" --out <目录>` 在**任意目录**生成；`harness check` 校验；`harness profile/learn` 让它**从目标项目中学习**；`harness refresh/evolve` 定期抓取新前沿工作（只出提案）。
 
-**一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+**给 vibe-coding 助手的用法（两步：先配置，再提任务）。** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读 `SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
 
 ---
 
@@ -88,8 +88,8 @@ The library is *readable by humans*; the tool is *executable by agents*. `data/m
 ## 4. Quickstart · 快速上手
 
 ```bash
-# 0. Agent-native (L0): point a coding assistant at this repo + a task goal.
-#    It reads SKILL.md and derives/emits the harness itself — no install.
+# 0. Agent-native (L0), two steps: paste the config once (how to reference/use this tool),
+#    then give the task (same turn or next). It reads SKILL.md and derives/emits the harness itself — no install.
 #    Deterministic path (L1), no install either:
 PYTHONPATH=src python -m harness_factory derive --task "…" --json
 

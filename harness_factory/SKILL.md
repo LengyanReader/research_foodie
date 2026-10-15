@@ -31,18 +31,26 @@ deterministic, reproducible scaffold.
 
 ### L0 — agent-native (read & reason, no install)
 
-**One-liner to paste · 一句话指令词（替换 `<目标>` 为你的具体目标后直接粘贴）：**
+**Two steps — set the config once, then give the task · 两步——先配置一次，再给任务。**
+The **configuration** (how to reference and use this tool) never changes, so you paste it **once** — keep it in a
+template or the project's rules file. Each **task** is then a short, clean prompt, and you may also send the config
+alone first and the task in the **next turn** (or attach files/dirs/links directly). This keeps typing minimal and
+lets you reuse the same config for every task. · 配置（如何引用与使用本工具）固定不变，**贴一次**即可——可存为模板
+或写进项目规则文件；之后每个任务都是一句干净的短提示。也可以**先只发配置**，**下一轮再发任务**，或直接附上文件/目录/链接。
 
-> 「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容（M0.4）。」
+**Step 1 · 配置（先贴一次，可复用 · paste once, reusable）：**
 
-**A concrete example · 一个可直接粘贴的具体例子：**
+> 「把本仓库当 skill 使用：读 `harness_factory/SKILL.md`，按需加载 `reference/derivation-rules.md`、`core/*.md`、`data/*.json`、`domains/<名>/README.md`。此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容（M0.4）。若我这条只发了配置、还没给任务，请**确认收到并等待**，不要提前推导。」
+
+**Step 2 · 任务（同一轮接着写，或下一轮再发均可 · same turn or next turn）：**
+
+直接写目标，或直接附上文件 / 目录 / 链接。例：
 
 ```
-把本仓库当 skill，读 harness_factory/SKILL.md，
-为我的任务『为现有 Python 项目补全类型注解与单元测试，保证可验证闭环』推导并落盘所需 harness
-（AGENTS.md + tasks/* + .harness/*，每条选择写入 .harness/manifest.json），
-最后跑 check；只提案、不编造任务内容（M0.4）。
+为现有 Python 项目补全类型注解与单元测试，保证可验证闭环。
 ```
+
+助手会据此推导并落盘 harness（`AGENTS.md` + `tasks/*` + `.harness/*`）。
 
 **What the assistant must do (L0 checklist) · 助手应做的事：**
 
@@ -56,14 +64,14 @@ deterministic, reproducible scaffold.
 5. **Verify** by running the emitted `.harness/check.py` (or `harness check --dir <project>`).
 6. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
 
-**Variant prompts · 变体指令词（按场景替换）：**
+**Variant prompts · 变体指令词（在「配置」之后，按场景替换任务句）：**
 
-| 场景 | 指令词 |
+| 场景 | 任务句（接在 Step 1 配置之后） |
 |---|---|
-| 新项目/新任务搭 harness | 「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md`+`tasks/*`+`.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造（M0.4）。」 |
-| 只想先看方案、不落盘 | 「读 `harness_factory/SKILL.md` 与 `reference/derivation-rules.md`，为『<目标>』推导 harness 方案（逐模块给出规则与理由、能力匹配），**先只出方案不写文件**。」 |
-| 拆解现有项目、学习其能力 | 「读 `harness_factory/SKILL.md`，用 `profile` 视角扫描 `<项目路径>`，产出 `PROFILE.md` 并把它作为一个 case 记录（observe-only）；只观察、不改动该项目。」 |
-| 按最高标准定目标 | 「读 `harness_factory/domains/excellence/standard-ladder.md`，为『<目标>』按域 rubric 定一个 R4 级 apex bar 并列出加权 gap 与补齐配置。」 |
+| 新项目/新任务搭 harness | 「为『<目标>』推导并落盘所需 harness。」 |
+| 只想先看方案、不落盘 | 「先为『<目标>』推导 harness 方案（逐模块给出规则与理由、能力匹配），**只出方案不写文件**。」 |
+| 拆解现有项目、学习其能力 | 「用 `profile` 视角扫描 `<项目路径>`，产出 `PROFILE.md` 并作为一个 case 记录（observe-only）；只观察、不改动该项目。」 |
+| 按最高标准定目标 | 「按 `domains/excellence/standard-ladder.md`，为『<目标>』定一个 R4 级 apex bar，列出加权 gap 与补齐配置。」 |
 
 ### L1 — CLI from path (deterministic, reproducible, no install)
 

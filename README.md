@@ -12,9 +12,11 @@
 > 工具只做**分类/选择/生成/观察/排序**，绝不编造任务实质；所有循环产物先作为**提案**，由人确认。详见
 > [`harness_factory/README.md`](harness_factory/README.md) 与 [`introduction.md`](harness_factory/introduction.md)。
 >
-> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `harness_factory/SKILL.md`，
-> 为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入
-> `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+> **给 agent 的用法（两步：先配置，再提任务）· Two steps for an agent.** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读
+> `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘
+> 所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+> ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。详见
+> [`harness_factory/SKILL.md`](harness_factory/SKILL.md)。
 
 ---
 
@@ -45,8 +47,8 @@ merge. See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/0
 ```bash
 cd harness_factory
 
-# fastest path: point your vibe-coding assistant at this repo + a task goal.
-# It reads harness_factory/SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
+# fastest path: set the config once (how to reference/use this repo as a skill), then give the task —
+# same turn or next. It reads harness_factory/SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
 PYTHONPATH=src python -m harness_factory derive --task "write a literature review with citations"
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
@@ -86,9 +88,9 @@ L2 — an installed package. **L2 (packaging) is cancelled as a distribution cha
 (`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`); each **target project** receives
 its generated files via `init --out` (or directly from the agent). In path mode the home is optional.
 
-> 中文速览：最灵活用法是**把 vibe-coding 助手指向本仓库 + 任务目标**，助手读 `harness_factory/SKILL.md` 自行推导并落盘
-> harness（免安装）；需要可复现时再用**路径调用 CLI** 的 L1 模式。`profile/learn/cases` 让工厂**从项目中学习**；
-> 打包（`uv tool install`/PyPI）作为分发渠道**已取消**。
+> 中文速览：最灵活用法是**两步——先贴「配置」（如何引用与使用本工具），再给「任务」**（同一轮接着写，或下一轮再发均可），
+> 助手读 `harness_factory/SKILL.md` 自行推导并落盘 harness（免安装）；需要可复现时再用**路径调用 CLI** 的 L1 模式。
+> `profile/learn/cases` 让工厂**从项目中学习**；打包（`uv tool install`/PyPI）作为分发渠道**已取消**。
 
 ---
 

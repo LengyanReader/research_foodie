@@ -10,9 +10,9 @@
 写作的短板通常不在「润色」，而在**证据、结构、原创性**。本域用 harness 补足**系统性流程**：先定 thesis 与
 论证结构，再为每条 claim 强制配证据，最后按 rubric 自评并棘轮固化——而不是只做文字打磨。
 
-> **一句话指令词（贴给助手）· One-liner for an agent.**「用 writing 域为我建写作 harness：先定 thesis 与
+> **任务句（接在「配置」之后贴给助手）· Task line (paste after the config).**「用 writing 域为我建写作 harness：先定 thesis 与
 > outline，每条 claim 强制配**可溯源**证据（semantic-scholar / crossref / openalex），初稿后做
-> originality check 与校验，再按 humanities rubric 自评并**棘轮固化**（不回退）。」
+> originality check 与校验，再按 `writing` rubric 自评并**棘轮固化**（不回退）。」
 
 ## What this domain is for · 用途
 Turn "write an essay / a paper section" into a **gated pipeline**: interpretation → outline → evidence →

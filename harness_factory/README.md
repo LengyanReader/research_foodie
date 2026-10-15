@@ -17,7 +17,7 @@
 
 **怎么用。** 新任务先读 `core/01-meta-principles.md`；再按任务性质进入对应 `domains/*`；实现时把对应 `core/*` 文件当作**操作手册**逐条落实；收尾跑域内的验证门禁。
 
-> **一句话指令词（贴给任意 vibe-coding 助手）· One-liner for an agent.**「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+> **给 vibe-coding 助手的用法（两步：先配置，再提任务）· Two steps for an agent.** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读 `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
 
 ---
 
@@ -45,7 +45,7 @@ harness gate    --dir ./my-task          # runtime gates: structural + executes 
 harness harvest --dir ./my-task          # observe-only: append one signal line to <kb>/updates/signals.jsonl
 harness plugins --validate               # third-party domain/template plugins (read-only over the SSOT)
 
-# agent-native consumption (no install): point an assistant at this repo + a task goal,
+# agent-native consumption (no install): set the config once, then give the task (same turn or next),
 # or call the CLI from the path:
 PYTHONPATH=src python -m harness_factory derive --task "…" --json
 harness skill                            # print the agent load-index; `harness skill M4` prints a module

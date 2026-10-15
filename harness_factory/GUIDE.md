@@ -14,10 +14,10 @@
 
 **一句话。** `harness-factory` 把「**任务**」编译成该任务所需的 **agent harness**（上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 工具/技能 · 变更治理 · 协作协议），并用一个**人类把关的自我更新循环**让这套知识库不被冻结。
 
-**一句话指令词（贴给任意 vibe-coding 助手）。**「把本仓库当 skill，读 `harness_factory/SKILL.md`，为我的任务『<目标>』推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+**给 vibe-coding 助手的用法（两步：先配置，再提任务）。** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读 `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
 
 **怎么用（三种）。**
-1. **L0 面向 agent（免安装）**：把 vibe-coding 助手指向本仓库 + 一句任务目标，它读 `harness_factory/SKILL.md` 自行推导并落盘 harness。
+1. **L0 面向 agent（免安装）**：分两步——先贴「配置」（如何引用与使用本工具），再给「任务」（同一轮或下一轮均可）；助手读 `harness_factory/SKILL.md` 自行推导并落盘 harness。
 2. **L1 命令行（免安装）**：`PYTHONPATH=src python -m harness_factory derive --task "…"`。
 3. **L2 安装成包**：**已取消**（见 `tasks/DISTRIBUTION.md` §8）。
 
@@ -129,7 +129,7 @@ Data-driven taxonomy of **24 disciplines + `general` fallback**, grouped by facu
 
 | mode · 形态 | how · 方式 | install? |
 |---|---|---|
-| **L0** agent-native | point an assistant at this repo + a task goal; it reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself · 把助手指向本仓库，它自读自推 | no · 免 |
+| **L0** agent-native | set a config once, then give the task; it reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself · 先配置，再给任务，助手自读自推 | no · 免 |
 | **L1** CLI-from-path | `PYTHONPATH=<repo>/src python -m harness_factory …` | no · 免 |
 | **L2** installed package | **cancelled** as a channel · **已取消** | — |
 
@@ -366,15 +366,19 @@ PYTHONPATH=src python -m unittest discover -s tests         # drift guard + all 
 
 ### Example 4 — Agent-native (L0) workflow · 面向 agent 的用法
 
-**EN.** Instead of driving the CLI yourself, **point a coding assistant at this repository and give it a task goal.** The assistant reads [`SKILL.md`](SKILL.md) (cardinal rules + load-index + output contract), loads only the modules it needs, derives with `reference/derivation-rules.md` + `data/*.json`, emits the output contract, fills `PROVENANCE.md` honestly, and can `profile`/`learn` the project so the factory keeps improving.
+**EN.** Instead of driving the CLI yourself, **point a coding assistant at this repository and give it a task goal.** Set it up in **two steps**: paste the **configuration** once (how to reference and use this tool), then give the **task** — in the same turn or a later one (you may attach files/dirs too). The assistant reads [`SKILL.md`](SKILL.md) (cardinal rules + load-index + output contract), loads only the modules it needs, derives with `reference/derivation-rules.md` + `data/*.json`, emits the output contract, fills `PROVENANCE.md` honestly, and can `profile`/`learn` the project so the factory keeps improving.
 
-**中文。** 你也可以不自己敲命令：**把编码助手指向本仓库 + 一句任务目标**。助手读 [`SKILL.md`](SKILL.md)（核心规则 + 载入索引 + 输出契约），按需只载入需要的模块，用 `reference/derivation-rules.md` + `data/*.json` 推导，落盘输出契约，如实填写 `PROVENANCE.md`，并可 `profile`/`learn` 让工厂持续变好。
+**中文。** 你也可以不自己敲命令：**分两步——先贴「配置」（如何引用与使用本工具），再给「任务」**（同一轮接着写，或下一轮再发；也可直接附上文件/目录）。助手读 [`SKILL.md`](SKILL.md)（核心规则 + 载入索引 + 输出契约），按需只载入需要的模块，用 `reference/derivation-rules.md` + `data/*.json` 推导，落盘输出契约，如实填写 `PROVENANCE.md`，并可 `profile`/`learn` 让工厂持续变好。
 
 ```text
-User  →  "Set up the agent harness for this repo; goal: on-device tennis out-of-bounds."
-Agent →  reads harness_factory/SKILL.md, runs (or reasons through) derive,
-         emits AGENTS.md + tasks/* + .harness/*, fills PROVENANCE.md,
-         runs .harness/check.py, then records a case via `learn`.
+Step 1 · configuration (paste once, reusable)
+  User  →  "Treat this repo as a skill: read harness_factory/SKILL.md; for any task I give, derive and emit the
+            harness (AGENTS.md + tasks/* + .harness/*, record every choice in .harness/manifest.json), run `check`;
+            propose only, never fabricate task substance."
+Step 2 · task (same turn or next)
+  User  →  "Set up the agent harness for this repo; goal: on-device tennis out-of-bounds."
+  Agent →  reads SKILL.md, reasons through (or runs) `derive`, emits AGENTS.md + tasks/* + .harness/*,
+           fills PROVENANCE.md, runs .harness/check.py, then records a case via `learn`.
 ```
 
 The assistant-loadable index is live · 可实时打印索引：
