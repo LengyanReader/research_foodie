@@ -28,7 +28,7 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   reference/              derivation-rules.md（规则表的 agent 可读镜像）
   src/harness_factory/    工具源码 + data/*.json（SSOT）+ templates/
   tests/                  标准库 unittest（无外部依赖）
-  tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION
+  tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT
   updates/                循环产物（提案 · 情报 · 演化 · 案例；不入版本控制）
   _archive/               旧目录归档（docs/ external/ tools/ …，已移出版本控制）
 AGENTS.md                  本文件 · 工作区原则

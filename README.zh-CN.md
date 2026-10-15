@@ -161,7 +161,7 @@ harness_factory/          项目主体 —— 模式库 + `harness` CLI（从这
 │   ├── data/             modules · capabilities · domains · rubrics · levers · harnesses · watchlist · sources（.json）
 │   └── templates/        生成的 harness 文件（AGENTS.md · tasks/* · .harness/* 含 PROVENANCE.md）
 ├── tests/                标准库 unittest（无外部依赖）
-├── tasks/                PLAN · PROGRESS · REFRESH · DISTRIBUTION
+├── tasks/                PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT
 ├── updates/              循环产物（queue · REPORT · JOURNAL · INTEL · EVOLUTION · metrics · cases · profile · proposals）
 ├── core/                 跨域通用主干（M0–M8），可移植到任何项目
 │   ├── 00-index.md                 核心索引 + 阅读顺序
@@ -229,6 +229,7 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 | 各域 playbook | `harness_factory/domains/*/README.md` |
 | 文献与总览 | `harness_factory/review/` |
 | 计划与进度 | `harness_factory/tasks/PLAN.md`、`harness_factory/tasks/PROGRESS.md` |
+| 完整性与整合评估 | [`harness_factory/tasks/ASSESSMENT.md`](harness_factory/tasks/ASSESSMENT.md) |
 | 自我更新 + 演化 | `harness_factory/tasks/REFRESH.md`、`harness_factory/src/harness_factory/evolution.py` |
 
 MIT 许可 —— 见 [`LICENSE`](LICENSE)。English entry: [`README.md`](README.md)。

@@ -92,7 +92,7 @@ harness_factory/
   reference/       derivation-rules.md (markdown mirror of the rule table, for L0 agents)
   install-skill.ps1  copy repo-as-skill into a skills dir (optional global install)
   tests/           stdlib unittest (no deps)
-  tasks/           PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md
+  tasks/           PLAN.md · PROGRESS.md · REFRESH.md · DISTRIBUTION.md · ASSESSMENT.md
   updates/         cycle output (queue.jsonl · REPORT.md · JOURNAL.md · INTEL.md · EVOLUTION.md · metrics.jsonl · cases.jsonl · profile/ · proposals/)
 ```
 

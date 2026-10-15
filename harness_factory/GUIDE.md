@@ -688,6 +688,6 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - `core/00-index.md` → `core/01-meta-principles.md` → M1–M8 — the ten invariants and modules. · 十条不变式与模块。
 - `domains/<id>/README.md` — per-discipline workflows. · 各学科工作流。
 - `review/harness-index.md` — unified harness lookup (generated). · 统一 harness 索引（自动生成）。
-- `tasks/{PLAN.md,PROGRESS.md,REFRESH.md,DISTRIBUTION.md}` — roadmap, log, loop, packaging. · 路线/日志/循环/打包。
+- `tasks/{PLAN.md,PROGRESS.md,REFRESH.md,DISTRIBUTION.md,ASSESSMENT.md}` — roadmap, log, loop, packaging, completeness & integration review. · 路线/日志/循环/打包/完整性与整合评估。
 
 > **Generalization rule · 泛化铁律.** A pattern earns a place here only if it survives removal of its originating project. · 一条模式只有「去掉其来源项目后仍成立」才有资格留在这里。

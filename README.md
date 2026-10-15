@@ -187,7 +187,7 @@ harness_factory/          the project — pattern library + `harness` CLI (start
 │   ├── data/             modules · capabilities · domains · rubrics · levers · harnesses · watchlist · sources (.json)
 │   └── templates/        emitted harness files (AGENTS.md · tasks/* · .harness/* incl. PROVENANCE.md)
 ├── tests/                stdlib unittest (no external deps)
-├── tasks/                PLAN · PROGRESS · REFRESH · DISTRIBUTION
+├── tasks/                PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT
 ├── updates/              cycle output (queue · REPORT · JOURNAL · INTEL · EVOLUTION · metrics · cases · profile · proposals)
 ├── core/                 跨域通用主干（M0–M8），可移植到任何项目
 │   ├── 00-index.md                 核心索引 + 阅读顺序
@@ -261,6 +261,7 @@ See [`harness_factory/sources/source-map.md`](harness_factory/sources/source-map
 | Domain playbooks | `harness_factory/domains/*/README.md` |
 | Literature & catalog | `harness_factory/review/` |
 | Plans & progress | `harness_factory/tasks/PLAN.md`, `harness_factory/tasks/PROGRESS.md` |
+| Completeness & integration review | [`harness_factory/tasks/ASSESSMENT.md`](harness_factory/tasks/ASSESSMENT.md) |
 | Self-update + evolution | `harness_factory/tasks/REFRESH.md`, `harness_factory/src/harness_factory/evolution.py` |
 
 Licensed under MIT — see [`LICENSE`](LICENSE). 中文入口见 [`README.zh-CN.md`](README.zh-CN.md)。
