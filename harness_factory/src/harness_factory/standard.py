@@ -37,7 +37,18 @@ def _now() -> str:
 @lru_cache(maxsize=1)
 def rubrics() -> dict[str, dict[str, Any]]:
     with data_file("rubrics.json").open(encoding="utf-8") as fh:
-        return json.load(fh)
+        table = json.load(fh)
+    from . import plugins
+
+    for domain_id, rubric in plugins.rubric_entries().items():
+        table.setdefault(domain_id, rubric)
+    return table
+
+
+def clear_cache() -> None:
+    """Drop the ``lru_cache`` on ``rubrics``/``levers`` (after a plugin-path change)."""
+    rubrics.cache_clear()
+    levers.cache_clear()
 
 
 def rubric_for(domain: str) -> dict[str, Any]:

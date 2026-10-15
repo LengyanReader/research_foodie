@@ -923,5 +923,42 @@
         "weight": 0.1
       }
     ]
+  },
+  "writing": {
+    "title_en": "Essay/writing quality",
+    "title_zh": "写作质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "interpretation",
+        "zh": "阐释",
+        "weight": 0.25
+      },
+      {
+        "dim": "context",
+        "zh": "语境",
+        "weight": 0.2
+      },
+      {
+        "dim": "evidence",
+        "zh": "证据",
+        "weight": 0.2
+      },
+      {
+        "dim": "originality",
+        "zh": "原创",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.1
+      }
+    ]
   }
 }

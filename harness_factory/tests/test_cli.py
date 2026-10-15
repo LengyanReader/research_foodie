@@ -1,6 +1,7 @@
 import contextlib
 import io
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -75,6 +76,49 @@ class CliTest(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertIn("dry-run", out)
             self.assertFalse((Path(tmp) / "updates").exists())
+
+    def test_gate_passes_on_fresh_harness(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = str(Path(tmp) / "task")
+            run(["init", "--task", "add unit tests to the parser", "--out", out_dir])
+            code, out = run(["gate", "--dir", out_dir])
+            self.assertEqual(code, 0)
+            self.assertIn("PASS", out)
+
+    def test_gate_fails_without_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            code, out = run(["gate", "--dir", tmp])
+            self.assertEqual(code, 1)
+            self.assertIn("FAIL", out)
+
+    def test_harvest_writes_signals(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = str(Path(tmp) / "task")
+            run(["init", "--task", "add unit tests to the parser", "--out", out_dir])
+            kb = str(Path(tmp) / "kb")
+            code, out = run(["harvest", "--dir", out_dir, "--root", kb, "--json"])
+            self.assertEqual(code, 0)
+            bundle = json.loads(out)
+            self.assertTrue(bundle["gates"]["passed"])
+            self.assertTrue((Path(kb) / "updates" / "signals.jsonl").exists())
+
+    def test_plugins_empty_dir_validates(self):
+        from harness_factory import plugins
+
+        with tempfile.TemporaryDirectory() as tmp:
+            old = os.environ.get("HARNESS_PLUGINS_DIR")
+            os.environ["HARNESS_PLUGINS_DIR"] = tmp
+            plugins.clear_caches()
+            try:
+                code, out = run(["plugins", "--validate"])
+                self.assertEqual(code, 0)
+                self.assertIn("validation: OK", out)
+            finally:
+                if old is None:
+                    os.environ.pop("HARNESS_PLUGINS_DIR", None)
+                else:
+                    os.environ["HARNESS_PLUGINS_DIR"] = old
+                plugins.clear_caches()
 
 
 if __name__ == "__main__":

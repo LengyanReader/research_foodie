@@ -59,9 +59,31 @@ def modules() -> dict[str, dict[str, Any]]:
 
 
 @lru_cache(maxsize=1)
-def domains() -> dict[str, dict[str, Any]]:
-    """Domain catalog."""
+def builtin_domains() -> dict[str, dict[str, Any]]:
+    """The bundled domain catalog, *without* any plugins merged in."""
     return _load("domains.json")
+
+
+@lru_cache(maxsize=1)
+def domains() -> dict[str, dict[str, Any]]:
+    """Domain catalog: bundled SSOT + valid third-party ``domain`` plugins.
+
+    A plugin may never shadow a built-in id (``setdefault``); such a plugin is
+    reported by ``plugins.problems()`` and ignored here.
+    """
+    from . import plugins
+
+    merged = dict(builtin_domains())
+    for domain_id, meta in plugins.domain_entries().items():
+        merged.setdefault(domain_id, meta)
+    return merged
+
+
+def clear_caches() -> None:
+    """Drop the ``lru_cache`` on the catalogs (used after a plugin-path change)."""
+    modules.cache_clear()
+    builtin_domains.cache_clear()
+    domains.cache_clear()
 
 
 def module_ids() -> list[str]:

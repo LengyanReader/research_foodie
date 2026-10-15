@@ -8,7 +8,7 @@ from typing import Any
 
 from .capabilities import capabilities as _capabilities
 from .registry import domains as _domains
-from .render import render_template
+from .render import render, render_template
 from .spec import HarnessPlan
 
 # output path -> template file
@@ -161,9 +161,14 @@ def build_files(plan: HarnessPlan, extra: dict[str, str] | None = None) -> dict[
     ctx = _context(plan, params)
     ctx["profile_note"] = extra.get("profile_note", "")
 
+    from . import plugins
+
+    plugin_targets = plugins.domain_template_targets(plan.features.domain)
+
     names = _selected_files(plan)
     if extra.get("profile_md"):
-        names = sorted([*names, _PROFILE])
+        names = [*names, _PROFILE]
+    names = sorted({*names, *plugin_targets})
     plan.files = names
     ctx["files_list"] = "\n".join(f"- `{name}`" for name in names)
 
@@ -173,6 +178,13 @@ def build_files(plan: HarnessPlan, extra: dict[str, str] | None = None) -> dict[
             continue
         if name == _PROFILE:
             files[name] = extra["profile_md"]
+            continue
+        if name in plugin_targets:
+            try:
+                template_text = plugin_targets[name].read_text(encoding="utf-8")
+            except OSError:
+                continue
+            files[name] = render(template_text, ctx)
             continue
         files[name] = render_template(_TEMPLATE_MAP[name], ctx)
 

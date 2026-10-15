@@ -81,6 +81,29 @@ def build_parser() -> argparse.ArgumentParser:
     check_p = sub.add_parser("check", help="run a generated harness self-check")
     check_p.add_argument("--dir", default=".", help="directory containing .harness/manifest.json")
 
+    gate_p = sub.add_parser(
+        "gate", help="run an emitted harness's runtime gates (structural + emitted check.py)"
+    )
+    gate_p.add_argument("--dir", default=".", help="directory containing .harness/manifest.json")
+    gate_p.add_argument("--json", action="store_true")
+
+    harvest_p = sub.add_parser(
+        "harvest", help="harvest observed signals from an emitted harness (observe-only)"
+    )
+    harvest_p.add_argument("--dir", default=".", help="project directory to harvest")
+    harvest_p.add_argument(
+        "--root", "--data-dir", dest="root", default=None,
+        help="knowledge-base dir for updates/signals.jsonl (default: user home)",
+    )
+    harvest_p.add_argument("--no-write", action="store_true", help="report only; write nothing")
+    harvest_p.add_argument("--json", action="store_true")
+
+    plugins_p = sub.add_parser(
+        "plugins", help="list/validate third-party domain & template plugins"
+    )
+    plugins_p.add_argument("--validate", action="store_true", help="report validation problems (exit 1 on error)")
+    plugins_p.add_argument("--json", action="store_true")
+
     refresh_p = sub.add_parser(
         "refresh", help="pull new/leading sources (proposal only; never edits docs)"
     )
@@ -388,6 +411,67 @@ def _cmd_check(args: argparse.Namespace) -> int:
             print(f"  - {problem}", file=sys.stderr)
         return 1
     print("self-check: OK")
+    return 0
+
+
+def _cmd_gate(args: argparse.Namespace) -> int:
+    from .runtime import gate_report, render_gate_report
+
+    report = gate_report(args.dir)
+    if args.json:
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+    else:
+        print(render_gate_report(report))
+    return 0 if report["passed"] else 1
+
+
+def _cmd_harvest(args: argparse.Namespace) -> int:
+    from .runtime import harvest, record_signals, render_harvest
+
+    bundle = harvest(args.dir)
+    if not args.no_write:
+        if args.root:
+            kb_root = args.root
+        else:
+            from . import config
+
+            config.ensure_home()
+            kb_root = str(config.home())
+        bundle["recorded"] = str(record_signals(kb_root, bundle))
+    if args.json:
+        print(json.dumps(bundle, ensure_ascii=False, indent=2))
+    else:
+        print(render_harvest(bundle))
+    return 0
+
+
+def _cmd_plugins(args: argparse.Namespace) -> int:
+    from . import plugins
+
+    found = plugins.discover()
+    probs = plugins.problems()
+    dirs = [str(d) for d in plugins.plugin_dirs()]
+    if args.json:
+        payload = {
+            "dirs": dirs,
+            "plugins": [p.to_dict() for p in found],
+            "problems": probs,
+        }
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 1 if (args.validate and probs) else 0
+    print(f"plugin dirs: {', '.join(dirs)}")
+    if not found:
+        print("  (no plugins installed)")
+    for plugin in found:
+        mark = "ok" if not plugin.errors else "INVALID"
+        print(f"  [{plugin.kind:<8}] {plugin.id} v{plugin.version}  {mark}  {plugin.path}")
+    if args.validate:
+        if probs:
+            print("validation: FAILED")
+            for problem in probs:
+                print(f"  - {problem}")
+            return 1
+        print("validation: OK")
     return 0
 
 
@@ -883,6 +967,12 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_explain(args)
     if args.command == "check":
         return _cmd_check(args)
+    if args.command == "gate":
+        return _cmd_gate(args)
+    if args.command == "harvest":
+        return _cmd_harvest(args)
+    if args.command == "plugins":
+        return _cmd_plugins(args)
     if args.command == "refresh":
         return _cmd_refresh(args)
     if args.command == "refresh-apply":

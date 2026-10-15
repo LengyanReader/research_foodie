@@ -695,5 +695,46 @@
       "第一梯队",
       "顶尖"
     ]
+  },
+  "writing": {
+    "faculty": "humanities",
+    "title_en": "Writing / essay",
+    "name_zh": "写作域",
+    "summary": "Citation-first essay harness: thesis→outline→context pack→claim↔evidence→originality→clarity, with humanities-aligned rubric.",
+    "workflow": [
+      "L0 Parse thesis & audience & genre",
+      "L1 Build outline (thesis + arguments)",
+      "L2 Assemble context pack",
+      "L3 Claim→Evidence pairing (each claim must attach a source)",
+      "L4 Draft with citations anchored",
+      "L5 Originality check",
+      "L6 Verify (all claims traceable; gaps/contradictions flagged)",
+      "L7 Clarity pass (final)",
+      "L8 Final gate against rubric"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "essay",
+      "essays",
+      "writing",
+      "prose",
+      "argument",
+      "thesis",
+      "draft",
+      "claim-evidence",
+      "outline",
+      "context pack",
+      "originality check",
+      "clarity",
+      "academic writing",
+      "写作",
+      "议论文",
+      "论文写作",
+      "文章",
+      "论点",
+      "论据",
+      "claim→evidence"
+    ]
   }
 }
