@@ -3,7 +3,7 @@
 > **跨域提炼的 agent harness 模式库，外加一个把任务编译成所需 harness 的可执行工具。**
 > A generalizable library of agent-harness patterns, plus an executable compiler.
 
-**更新：** 2026-10-14 · **状态：** 活跃 · **许可：** MIT
+**更新：** 2026-10-15 · **状态：** 活跃 · **许可：** MIT
 
 ## 这是什么
 
@@ -70,6 +70,10 @@ harness evolve-apply --accept <id|target>
 **L1**——不安装，直接路径调用 CLI（`PYTHONPATH=src python -m harness_factory …`，确定性）；
 **L2**——安装包，作为**分发渠道已取消**（理由见 `harness_factory/tasks/DISTRIBUTION.md` §8）。
 
+**默认离线。** 全部命令（`derive`、`init`、`check`、`gate`、`harvest`、`profile`、`learn`、`cases`、`standard`、
+`catalog`、`plugins`、`skill`）均可离线运行；仅 `refresh`、`intel`（外部 RSS/YouTube 源）与可选 LLM 分类器
+（`HARNESS_LLM_*`）需要联网。
+
 **两个根。** **工具主目录**（目录库、语料、循环产物）位于用户空间
 （`%LOCALAPPDATA%\harness-factory`，可用 `HARNESS_HOME` 覆盖）；每个**目标项目**通过 `init --out`
 接收生成文件。路径/L0 模式下主目录是可选的。
@@ -129,7 +133,7 @@ harness_factory/          项目主体（先读其 README）
 ├── SKILL.md              agent 入口（硬规则 + 加载索引 + 输出契约）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
-├── core/                  跨域通用主干模式（M0–M9）
+├── core/                  跨域通用主干模式（M0–M8）
 ├── domains/               24 个学科门类 + general 兜底（每域一个 README；含 writing 写作域）
 ├── review/                文献综述 · harness 分类总览与索引（catalog/index）
 ├── sources/               提炼溯源表（模式 ← 一手材料）

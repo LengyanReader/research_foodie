@@ -26,7 +26,21 @@ jobs:
         working-directory: harness_factory
         env:
           PYTHONPATH: src
+        shell: bash
         run: |
           python -m harness_factory --version
           python -m harness_factory sources --json > /dev/null
           python -m harness_factory evolve --dry-run
+      - name: End-to-end smoke (init -> check -> gate -> harvest)
+        working-directory: harness_factory
+        env:
+          PYTHONPATH: src
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${{ runner.temp }}/hf-e2e"
+          python -m harness_factory init --task "add unit tests to the parser" --out "$OUT"
+          python -m harness_factory check --dir "$OUT"
+          python -m harness_factory gate --dir "$OUT"
+          python -m harness_factory harvest --dir "$OUT" --root "$OUT"
+          python -m harness_factory plugins --validate

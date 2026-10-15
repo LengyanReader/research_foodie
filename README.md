@@ -4,7 +4,7 @@
 > the harness any task needs.**
 > 跨域提炼的 **agent harness 模式库**，外加一个**把任务编译成所需 harness**的可执行工具。
 
-**Updated:** 2026-10-14 · **Status:** active · **License:** MIT
+**Updated:** 2026-10-15 · **Status:** active · **License:** MIT
 
 > 中文速览：本仓库现聚焦 **`harness_factory/`**——一个「agent harness」模式库 + `harness` CLI。
 > *Harness* = 让 LLM 智能体在**跨会话、长时程、有限上下文**下把任务做稳的**一整套外部化方法**
@@ -84,6 +84,10 @@ harness evolve-apply --accept <id|target>
 L2 — an installed package. **L2 (packaging) is cancelled as a distribution channel** — see
 [`harness_factory/tasks/DISTRIBUTION.md`](harness_factory/tasks/DISTRIBUTION.md) §8.
 
+**Offline by default.** Everything runs offline — `derive`, `init`, `check`, `gate`, `harvest`, `profile`, `learn`,
+`cases`, `standard`, `catalog`, `plugins`, and `skill` need no network. Only `refresh` and `intel` (external
+RSS/YouTube feeds) and the optional LLM classifier (`HARNESS_LLM_*`) reach the network.
+
 **Two roots.** The **tool home** (catalogs, corpus, cycle output) lives in user space
 (`%LOCALAPPDATA%\harness-factory`, overridable with `HARNESS_HOME`); each **target project** receives
 its generated files via `init --out` (or directly from the agent). In path mode the home is optional.
@@ -155,7 +159,7 @@ harness_factory/          the project (start at its README)
 ├── SKILL.md              agent-native entry (cardinal rules + load-index + output contract)
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── reference/             derivation-rules.md（规则表的 agent 可读镜像）
-├── core/                  跨域通用主干模式（M0–M9）
+├── core/                  跨域通用主干模式（M0–M8）
 ├── domains/               24 个学科门类 + general 兜底（每域一个 README；含 writing 写作域）
 ├── review/                文献综述 · harness 总览 · 实践者 playbook · 参考文献
 ├── sources/               提炼溯源表（模式 ← 一手材料）

@@ -665,6 +665,7 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     print(f"corpus dir  : {config.corpus_dir()}")
     print(f"updates dir : {config.updates_dir()}")
     print(f"llm         : {'configured' if llm.available() else 'not configured (rules only)'}")
+    print("network     : optional - everything runs offline except `refresh`/`intel` (feeds) and `llm`")
     print(f"seed        : added={seeded['added'] or 'none'} kept={seeded['kept'] or 'none'}")
     return 0
 
