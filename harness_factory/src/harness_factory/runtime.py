@@ -34,12 +34,12 @@ MANIFEST_REL = ".harness/manifest.json"
 CUSTOM_SIGNALS_REL = ".harness/signals.jsonl"
 SIGNALS_REL = "updates/signals.jsonl"
 
-# Enabled module -> (declared artifact, human label) that the harness must carry.
-_MODULE_ARTIFACTS: dict[str, tuple[str, str]] = {
-    "M2": (".harness/ledger.md", "ledger"),
-    "M4": (".harness/PROVENANCE.md", "provenance"),
-    "M6": (".harness/skills/README.md", "skills-index"),
-    "M8": (".harness/decisions.md", "decisions-log"),
+# Enabled module -> tuple of (declared artifact, human label) that the harness must carry.
+_MODULE_ARTIFACTS: dict[str, tuple[tuple[str, str], ...]] = {
+    "M2": ((".harness/ledger.md", "ledger"),),
+    "M4": ((".harness/PROVENANCE.md", "provenance"),),
+    "M6": ((".harness/skills/README.md", "skills-index"),),
+    "M8": ((".harness/decisions.md", "decisions-log"),),
 }
 
 
@@ -164,16 +164,27 @@ def gate_report(root: str | Path) -> dict[str, Any]:
     )
 
     enabled = _enabled_modules(manifest)
-    for module_id, (rel, label) in _MODULE_ARTIFACTS.items():
+    for module_id, artifacts in _MODULE_ARTIFACTS.items():
         if module_id not in enabled:
             continue
-        lines = _nonempty_lines(root / rel)
+        for rel, label in artifacts:
+            lines = _nonempty_lines(root / rel)
+            gates.append(
+                {
+                    "id": rel,
+                    "kind": "advisory",
+                    "status": "ok" if lines > 0 else "warn",
+                    "detail": f"{label}: {lines} non-empty line(s)",
+                }
+            )
+    if "M6" in enabled:
+        matches = sorted((root / ".harness" / "skills").glob("*/SKILL.md"))
         gates.append(
             {
-                "id": rel,
+                "id": ".harness/skills/*/SKILL.md",
                 "kind": "advisory",
-                "status": "ok" if lines > 0 else "warn",
-                "detail": f"{label}: {lines} non-empty line(s)",
+                "status": "ok" if matches else "warn",
+                "detail": f"portable-skill (Agent Skills format): {len(matches)} SKILL.md file(s)",
             }
         )
 

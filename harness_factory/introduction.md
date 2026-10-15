@@ -153,6 +153,7 @@ itself (most flexible, no install). **L1** — run the CLI from the path without
   .harness/check.py       standalone self-check (stdlib only)
   .harness/ledger.md      (if M2) append-only state
   .harness/skills/README.md (if M6) progressive skill index
+  .harness/skills/<name>/SKILL.md (if M6) portable Agent Skills (SKILL.md) skill
   .harness/decisions.md   (if M8) decision log
   .harness/PROFILE.md     (if --project) read-only scan of the target project
 ```
@@ -237,7 +238,7 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 - **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
 - **P1.7 done** — intel tracking (`data/sources.json`, 109 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
 - **P1.8 done** — agent-native mode (`SKILL.md`, `reference/derivation-rules.md`, `harness skill`) + project learning (`profile`/`learn`/`cases` + `missing_capability` audit) + capability mechanism (`data/capabilities.json`); packaging cancelled.
-- **P2 (disciplines + catalog + frontier standard)** — disciplines expanded to **24** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`, 127 entries), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. **Frontier standard** is now executable: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. The **writing** domain is registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable. Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
+- **P2 (disciplines + catalog + frontier standard)** — disciplines expanded to **24** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`, 133 entries), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. **Frontier standard** is now executable: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. The **writing** domain is registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable. **Agent Skills conformance**: emitted M6 skills use the portable `SKILL.md` format, and Hermes Agent + peers are tracked in the SSOT (see `CAPABILITIES.md` + `tasks/ASSESSMENT.md`). Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
 - **P3 done** — runtime hooks: `runtime.py` — **gate runner** (`harness gate`: structural check + executes the emitted `.harness/check.py`; hard gates decide the exit code, M2/M4/M6/M8 gates are advisory) and **signal harvest** (`harness harvest`, observe-only → `<kb>/updates/signals.jsonl`).
 - **P4 done** — plugin protocol: `plugins.py` — read-only third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged over the SSOT, strictly validated, CLI `harness plugins`.
 

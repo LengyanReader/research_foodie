@@ -26,10 +26,27 @@ _TEMPLATE_MAP = {
 
 _MANIFEST = ".harness/manifest.json"
 _PROFILE = ".harness/PROFILE.md"
+_SKILLS_DIR = ".harness/skills"
+_PORTABLE_SKILL_TEMPLATE = "skills_SKILL.md.tmpl"
 
 
 def _enabled(plan: HarnessPlan, module_id: str) -> bool:
     return any(m.module_id == module_id and m.enabled for m in plan.modules)
+
+
+def skill_name(plan: HarnessPlan) -> str:
+    """The Agent Skills ``name`` for the emitted harness (also its directory name).
+
+    Must be lowercase letters/digits/hyphens, no leading/trailing hyphen (Agent
+    Skills spec). Domain ids already satisfy this, so ``harness-<domain>`` is safe.
+    """
+    slug = "".join(c if (c.isalnum() or c == "-") else "-" for c in plan.features.domain.lower())
+    slug = slug.strip("-") or "general"
+    return f"harness-{slug}"[:64].rstrip("-")
+
+
+def skill_path(plan: HarnessPlan) -> str:
+    return f"{_SKILLS_DIR}/{skill_name(plan)}/SKILL.md"
 
 
 def _selected_files(plan: HarnessPlan) -> list[str]:
@@ -45,6 +62,7 @@ def _selected_files(plan: HarnessPlan) -> list[str]:
         names.append(".harness/ledger.md")
     if _enabled(plan, "M6"):
         names.append(".harness/skills/README.md")
+        names.append(skill_path(plan))
     if _enabled(plan, "M8"):
         names.append(".harness/decisions.md")
     names.append(_MANIFEST)
@@ -88,12 +106,22 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     if _enabled(plan, "M8"):
         soft_gates.append("- [ ] Reviewer approved the deliverable.")
 
+    skill = skill_name(plan)
+    skill_desc = (
+        f'Derived agent workflow for "{(plan.task.text or "").strip()[:60]}" '
+        f"(domain {f.domain}; modules {modules_line}). Load when resuming this "
+        "project's agent work to apply its context, memory, verification, and "
+        "governance rules."
+    )[:1024]
+
     return {
         "version": plan.version,
         "created": plan.created,
         "task_text": plan.task.text,
         "task_short": (plan.task.text or "").strip()[:80],
         "goal": plan.task.goal or "(state the goal in tasks/PLAN.md)",
+        "skill_name": skill,
+        "skill_description": skill_desc,
         "domain": f.domain,
         "domain_title": domain_meta.get("title_en", f.domain),
         "domain_zh": domain_meta.get("name_zh", ""),
@@ -185,6 +213,9 @@ def build_files(plan: HarnessPlan, extra: dict[str, str] | None = None) -> dict[
             except OSError:
                 continue
             files[name] = render(template_text, ctx)
+            continue
+        if name == skill_path(plan):
+            files[name] = render_template(_PORTABLE_SKILL_TEMPLATE, ctx)
             continue
         files[name] = render_template(_TEMPLATE_MAP[name], ctx)
 

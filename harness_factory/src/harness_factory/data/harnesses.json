@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-15",
   "note": "Unified, machine-readable harness catalog (SSOT). Classes x kinds x core-module maps x source. `tracked` cross-links an entry to data/sources.json by entity id. Prose explanation lives in review/harness-catalog.md; review/harness-index.md is generated from this file.",
   "licenses": "Sources are cited (paper/repo/docs). Pricing/benchmark numbers, where any, are directional.",
   "classes": [
@@ -383,14 +383,15 @@
         "M7",
         "M8"
       ],
-      "summary_en": "Open platform for software agents; sandboxed runtime.",
-      "summary_zh": "软件 agent 开放平台；沙箱运行时。",
+      "summary_en": "Open platform for software agents; sandboxed runtime; supports Agent Skills.",
+      "summary_zh": "软件 agent 开放平台；沙箱运行时；支持 Agent Skills。",
       "url": "https://github.com/All-Hands-AI/OpenHands",
-      "tracked": null,
+      "tracked": "openhands",
       "verified": true,
       "tags": [
         "sandbox",
-        "open-source"
+        "open-source",
+        "skills"
       ]
     },
     {
@@ -499,14 +500,15 @@
         "M6",
         "M7"
       ],
-      "summary_en": "Block's extensible open-source agent.",
-      "summary_zh": "Block 出品的可扩展开源 agent。",
+      "summary_en": "Block's extensible open-source agent (code + research/writing/automation); MCP client with Agent Skills.",
+      "summary_zh": "Block 出品的可扩展开源 agent（编码+研究/写作/自动化）；MCP 客户端，支持 Agent Skills。",
       "url": "https://github.com/block/goose",
-      "tracked": null,
+      "tracked": "goose",
       "verified": true,
       "tags": [
         "open-source",
-        "extensible"
+        "extensible",
+        "skills"
       ]
     },
     {
@@ -3129,6 +3131,151 @@
         "benchmark",
         "report",
         "deep-research"
+      ]
+    },
+    {
+      "id": "hermes-agent",
+      "name": "Hermes Agent",
+      "name_zh": "Hermes Agent",
+      "class": "self-evolution",
+      "kind": "skill-library",
+      "vendor": "Nous Research",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M5",
+        "M6",
+        "M8"
+      ],
+      "summary_en": "Self-improving personal agent: agent-curated memory, autonomous skill creation, portable SKILL.md, and a multi-platform gateway.",
+      "summary_zh": "自我改进的个人 agent：agent 自策展记忆、自主创建技能、可移植 SKILL.md、多平台网关。",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "tracked": "hermes-agent",
+      "verified": true,
+      "tags": [
+        "self-improving",
+        "memory",
+        "skills",
+        "mit"
+      ]
+    },
+    {
+      "id": "agentskills-standard",
+      "name": "Agent Skills standard",
+      "name_zh": "Agent Skills 标准",
+      "class": "skills-protocols",
+      "kind": "skills-ecosystem",
+      "vendor": "agentskills.io",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Open, portable skill format: a directory with SKILL.md (name + description frontmatter) loaded by progressive disclosure across many agent clients.",
+      "summary_zh": "开放可移植技能格式：含 SKILL.md（name+description 前言）的目录，按渐进披露在多客户端加载。",
+      "url": "https://agentskills.io/specification",
+      "tracked": "agentskills",
+      "verified": true,
+      "tags": [
+        "standard",
+        "skills",
+        "portable",
+        "progressive-disclosure"
+      ]
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "name_zh": "OpenClaw",
+      "class": "skills-protocols",
+      "kind": "skills-ecosystem",
+      "vendor": "OpenClaw",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M6",
+        "M8"
+      ],
+      "summary_en": "Local, open-source personal AI assistant; messaging-channel gateway plus Agent Skills.",
+      "summary_zh": "本地开源个人 AI 助手；消息渠道网关 + Agent Skills。",
+      "url": "https://github.com/openclaw/openclaw",
+      "tracked": "openclaw",
+      "verified": true,
+      "tags": [
+        "personal-agent",
+        "skills",
+        "channels"
+      ]
+    },
+    {
+      "id": "letta-code",
+      "name": "Letta Code",
+      "name_zh": "Letta Code",
+      "class": "memory",
+      "kind": "memory-system",
+      "vendor": "Letta",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M5"
+      ],
+      "summary_en": "Stateful agent harness on the Letta platform: git-backed memory that learns and self-improves the agent.",
+      "summary_zh": "Letta 平台上的有状态 agent harness：git 支撑的记忆，agent 借此学习与自我改进。",
+      "url": "https://github.com/letta-ai/letta",
+      "tracked": "letta",
+      "verified": true,
+      "tags": [
+        "stateful",
+        "memory",
+        "self-improving"
+      ]
+    },
+    {
+      "id": "pi-mono",
+      "name": "pi (pi-mono)",
+      "name_zh": "pi (pi-mono)",
+      "class": "coding",
+      "kind": "terminal-agent",
+      "vendor": "badlogic",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Minimal terminal coding harness; supports Agent Skills.",
+      "summary_zh": "极简终端编码 harness；支持 Agent Skills。",
+      "url": "https://github.com/badlogic/pi-mono",
+      "tracked": "pi-mono",
+      "verified": true,
+      "tags": [
+        "terminal",
+        "minimal",
+        "skills"
+      ]
+    },
+    {
+      "id": "hermit-file-first",
+      "name": "hermit (file-first)",
+      "name_zh": "hermit（文件优先）",
+      "class": "self-evolution",
+      "kind": "self-modifying",
+      "vendor": "benschrauwen",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M5",
+        "M7"
+      ],
+      "summary_en": "File-first runtime for self-improving autonomous apps: heartbeat daemon, telemetry, strategic review, git checkpoints, and a sandbox.",
+      "summary_zh": "自改进自治应用的文件优先运行时：心跳守护、遥测、战略复盘、git 检查点与沙箱。",
+      "url": "https://github.com/benschrauwen/hermit",
+      "tracked": "hermit-file-first",
+      "verified": true,
+      "tags": [
+        "self-improving",
+        "heartbeat",
+        "sandbox",
+        "git-checkpoints"
       ]
     }
   ]

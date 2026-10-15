@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-12 · 127 entries · 11 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-15 · 133 entries · 11 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -21,7 +21,7 @@ harness catalog claude-code           # detail one entry
 
 ---
 
-## Coding / software harnesses · 编码 harness  (11)
+## Coding / software harnesses · 编码 harness  (12)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -29,13 +29,14 @@ harness catalog claude-code           # detail one entry
 | `claude-code` | Claude Code · Claude Code | 终端编码 agent | M1, M6, M7 | https://docs.anthropic.com/en/docs/claude-code · tracked:anthropic-claude-code |
 | `codex-cli` | Codex CLI · Codex CLI | 终端编码 agent | M1, M6, M7 | https://github.com/openai/codex · tracked:openai-codex-cli |
 | `gemini-cli` | Gemini CLI · Gemini CLI | 终端编码 agent | M1, M6, M7 | https://github.com/google-gemini/gemini-cli · tracked:google-gemini-cli |
-| `openhands` | OpenHands · OpenHands | 终端编码 agent | M1, M6, M7, M8 | https://github.com/All-Hands-AI/OpenHands |
+| `openhands` | OpenHands · OpenHands | 终端编码 agent | M1, M6, M7, M8 | https://github.com/All-Hands-AI/OpenHands · tracked:openhands |
 | `swe-agent` | SWE-agent · SWE-agent | 终端编码 agent | M1, M6, M7 | https://github.com/SWE-agent/SWE-agent · tracked:swe-agent |
 | `aider` | Aider · Aider | 终端编码 agent | M1, M6, M7 | https://github.com/Aider-AI/aider |
 | `cline` | Cline · Cline | IDE 侧 agent | M1, M6, M7, M8 | https://github.com/cline/cline |
 | `roo-code` | Roo Code · Roo Code | IDE 侧 agent | M1, M6, M7 | https://github.com/RooCodeInc/Roo-Code |
-| `goose` | goose · goose | 终端编码 agent | M1, M6, M7 | https://github.com/block/goose |
+| `goose` | goose · goose | 终端编码 agent | M1, M6, M7 | https://github.com/block/goose · tracked:goose |
 | `crush` | crush · crush | 终端编码 agent | M1, M6, M7 | https://github.com/charmbracelet/crush |
+| `pi-mono` | pi (pi-mono) · pi (pi-mono) | 终端编码 agent | M1, M6 | https://github.com/badlogic/pi-mono · tracked:pi-mono |
 
 ## Orchestration frameworks / agent SDKs · 编排框架与 SDK  (11)
 
@@ -53,7 +54,7 @@ harness catalog claude-code           # detail one entry
 | `a2a` | Agent2Agent (A2A) · Agent2Agent (A2A) | 协议 | M7, M8 | https://github.com/a2aproject/A2A · tracked:google-a2a |
 | `dspy` | DSPy · DSPy | agent SDK / 框架 | M6 | https://github.com/stanfordnlp/dspy · tracked:dspy |
 
-## Self-evolution methods · 自我演化方法  (13)
+## Self-evolution methods · 自我演化方法  (15)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -70,8 +71,10 @@ harness catalog claude-code           # detail one entry
 | `reflexion` | Reflexion · Reflexion | 推理期自我修正 | M3, M5 | arXiv:2303.11366 (NeurIPS 2023) |
 | `self-refine` | Self-Refine · Self-Refine | 推理期自我修正 | M3 | arXiv:2303.17651 (NeurIPS 2023) |
 | `voyager` | Voyager · Voyager | 技能沉淀 | M5, M6 | arXiv:2305.16291 |
+| `hermes-agent` | Hermes Agent · Hermes Agent | 技能沉淀 | M2, M5, M6, M8 | https://github.com/NousResearch/hermes-agent · tracked:hermes-agent |
+| `hermit-file-first` | hermit (file-first) · hermit（文件优先） | 改自身脚手架 | M2, M5, M7 | https://github.com/benschrauwen/hermit · tracked:hermit-file-first |
 
-## Memory & persistence · 记忆与持久化  (4)
+## Memory & persistence · 记忆与持久化  (5)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -79,13 +82,16 @@ harness catalog claude-code           # detail one entry
 | `mem0` | Mem0 · Mem0 | 记忆系统 | M2, M4 | arXiv:2504.19413 |
 | `zep-graphiti` | Zep / Graphiti · Zep / Graphiti | 记忆系统 | M2, M4 | arXiv:2501.13956 |
 | `a-mem` | A-MEM · A-MEM | 记忆系统 | M2 | Xu et al. 2025 |
+| `letta-code` | Letta Code · Letta Code | 记忆系统 | M2, M5 | https://github.com/letta-ai/letta · tracked:letta |
 
-## Skills ecosystems & protocols · 技能生态与协议  (2)
+## Skills ecosystems & protocols · 技能生态与协议  (4)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
 | `anthropic-agent-skills` | Anthropic Agent Skills · Anthropic Agent Skills | 技能生态 | M1, M6 | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview |
 | `mcp` | Model Context Protocol (MCP) · 模型上下文协议 (MCP) | 协议 | M1, M6 | https://modelcontextprotocol.io · tracked:anthropic-mcp |
+| `agentskills-standard` | Agent Skills standard · Agent Skills 标准 | 技能生态 | M1, M6 | https://agentskills.io/specification · tracked:agentskills |
+| `openclaw` | OpenClaw · OpenClaw | 技能生态 | M2, M6, M8 | https://github.com/openclaw/openclaw · tracked:openclaw |
 
 ## Evaluation harnesses · 评测 harness  (11)
 

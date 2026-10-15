@@ -57,6 +57,7 @@ _HEAD: tuple[Skill, ...] = (
 
 _TAIL: tuple[Skill, ...] = (
     Skill("derivation-rules", "reference", "reference/derivation-rules.md", "Markdown mirror of the derive.py rule table (for L0)."),
+    Skill("capabilities", "overview", "CAPABILITIES.md", "Generated overview: purpose + every harness capability (requirement -> modules)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),
     Skill("harness-catalog", "review", "review/harness-catalog.md", "Prose taxonomy of harnesses & self-evolution methods."),
     Skill("harness-index", "review", "review/harness-index.md", "Generated lookup index of all cataloged harnesses."),

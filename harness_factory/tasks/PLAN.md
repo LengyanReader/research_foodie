@@ -59,7 +59,7 @@ harness_factory/
     data/
       modules.json   module catalog M0–M8 (id, titles, rule)
       domains.json    domain catalog (24 disciplines + `general`; faculty taxonomy)
-      harnesses.json  unified harness catalog (127 entries: class × kind × module-map × vendor)
+      harnesses.json  unified harness catalog (133 entries: class × kind × module-map × vendor)
       rubrics.json    per-domain weighted excellence rubric (`default` fallback)
       levers.json     rubric dimension -> modules (M0–M8) + catalog tool-kinds that close it
       watchlist.json  refresh topics + frontier probes (M5 signal source)
@@ -89,6 +89,7 @@ harness_factory/
     __main__.py    python -m harness_factory
     templates/     AGENTS.md, tasks/*, .harness/* (incl. PROVENANCE.md), check.py
   SKILL.md         agent-native entry point (cardinal rules + load-index + output contract)
+  CAPABILITIES.md  generated capability overview (purpose + every capability; `harness capabilities --write`)
   reference/       derivation-rules.md (markdown mirror of the rule table, for L0 agents)
   install-skill.ps1  copy repo-as-skill into a skills dir (optional global install)
   tests/           stdlib unittest (no deps)
@@ -147,7 +148,9 @@ better, and capabilities discovered in one project become reusable options for o
 - **P1.8 (done):** agent-native mode + project learning. Cancelled packaging as a distribution channel (PyPI/`uv tool install`); primary = agent-native skill (`SKILL.md` + `harness skill`) + CLI-from-path (L1). Data-driven **capability mechanism** (`capabilities.json`), **project profile** (`profile.py`), **mutual learning** (`learning.py` cases + `missing_capability` audit).
 - **P2 (active):** comprehensiveness + discoverability.
   - **Disciplines · 学科门类（~20）:** expand `domains/` from 4 to a faculty-level taxonomy — natural sciences (physics, chemistry, biology, earth-environment, mathematics), engineering (engineering, software-engineering, devops), health (medicine), social sciences (economics-finance, psychology, social-science), humanities (humanities), law, business/education/arts (education, arts-design). Each = `domains/<id>/README.md` + `domains.json` entry (artifact/grounding/signals). Adds no new rules — features stay compositional (M0.5).
-  - **Harness index · harness 索引:** a unified, machine-readable catalog `data/harnesses.json` (127 entries; classes × kinds × core-module maps × source), cross-linked to `sources.json` by id; `catalog.py` + CLI `harness catalog` (list/search/filter/`--json`); generated `review/harness-index.md` with a drift-guard test. Prose taxonomy in `review/harness-catalog.md` stays as the explanation; the index is the lookup surface.
+  - **Harness index · harness 索引:** a unified, machine-readable catalog `data/harnesses.json` (133 entries; classes × kinds × core-module maps × source), cross-linked to `sources.json` by id; `catalog.py` + CLI `harness catalog` (list/search/filter/`--json`); generated `review/harness-index.md` with a drift-guard test. Prose taxonomy in `review/harness-catalog.md` stays as the explanation; the index is the lookup surface.
+  - **Agent Skills conformance + ecosystem integration · 可移植技能与生态整合 (done, 2026-10-15):** M6 emits `.harness/skills/<name>/SKILL.md` in the open **Agent Skills** format; **Hermes Agent** + peers tracked in `data/sources.json`/`data/harnesses.json`; new capabilities **`sandboxed-execution`** + **`portable-skills`**; ecosystem subsection `review/harness-catalog.md` §5a. See `tasks/ASSESSMENT.md` §B for the review and B.6 for status.
+  - **Generated capability overview · 能力总览 (done, 2026-10-15):** `harness_factory/CAPABILITIES.md`, generated from `data/capabilities.json` + `modules.json` (`harness capabilities --write`; also refreshed by `harness catalog --write`), drift-guarded by a test — so it auto-evolves with the SSOT.
   - **Frontier standard · 最高标准棘轮 (done):** `excellence` domain + `standard-ladder.md`; per-domain weighted rubrics (`data/rubrics.json`, `default` fallback) and the gap→lever map (`data/levers.json`); executable ratchet `standard.py` + CLI `harness standard bar|score|audit|raise|plan|frontier` (refuses regressions); `stale_frontier` audit in `evolution.py`; applied reflexively in `self-standard.md` + `security-model.md`.
   - **Writing domain · 写作域 (done):** `domains/writing/README.md` + registered `writing` entry in `data/domains.json` (faculty `humanities`, artifact `document`, grounding `required`, 20 signals) and a weighted rubric in `data/rubrics.json` — citation-first essay harness (thesis→outline→context pack→claim↔evidence→originality→clarity). `--domain writing` is now selectable; `standard --domain writing` works; classification reaches it. · 写作域已注册。
   - **LLM-assisted discovery/classification hardening** and **feed/entity coverage expansion** — deferred to a later P2 slice.

@@ -182,6 +182,8 @@ def build_parser() -> argparse.ArgumentParser:
         "capabilities", help="list the capability map (requirement -> modules)"
     )
     cap_p.add_argument("--json", action="store_true")
+    cap_p.add_argument("--markdown", action="store_true", help="print the generated CAPABILITIES.md")
+    cap_p.add_argument("--write", action="store_true", help="write CAPABILITIES.md from the SSOT")
 
     profile_p = sub.add_parser(
         "profile", help="scan a target project -> PROFILE.md + capabilities (observe-only)"
@@ -790,6 +792,9 @@ def _cmd_catalog(args: argparse.Namespace) -> int:
     if args.write:
         path = catalog.write_index()
         print(f"wrote {path}")
+        from . import capabilities as cap_mod
+
+        print(f"wrote {cap_mod.write_doc()}")
         return 0
     if args.markdown:
         print(catalog.render_markdown(), end="")
@@ -838,7 +843,16 @@ def _cmd_catalog(args: argparse.Namespace) -> int:
 
 
 def _cmd_capabilities(args: argparse.Namespace) -> int:
+    from . import capabilities as cap_mod
     from .capabilities import capabilities
+
+    if getattr(args, "write", False):
+        path = cap_mod.write_doc()
+        print(f"wrote {path}")
+        return 0
+    if getattr(args, "markdown", False):
+        print(cap_mod.render_doc(), end="")
+        return 0
 
     caps = capabilities()
     if args.json:

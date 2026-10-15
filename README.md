@@ -179,6 +179,7 @@ harness_factory/          the project — pattern library + `harness` CLI (start
 ├── SKILL.md              agent-native entry (cardinal rules + load-index + output contract)
 ├── GUIDE.md              full guide: intro + command reference + 10 worked examples (bilingual)
 ├── introduction.md       简介：是什么 · 心智模型 · Quickstart
+├── CAPABILITIES.md       generated: purpose + every harness capability (do not edit; `harness capabilities --write`)
 ├── pyproject.toml        dev/CI convenience only (packaging cancelled as a channel)
 ├── refresh.ps1           scheduler entry for the self-update loop
 ├── install-skill.ps1     optional: copy repo-as-skill into a skills dir
@@ -256,6 +257,7 @@ See [`harness_factory/sources/source-map.md`](harness_factory/sources/source-map
 | **Copy-paste prompt templates** | [Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板) (in this file) |
 | Positioning, layout, usage | this file — [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | Full guide + worked examples | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |
+| **Harness capabilities overview (generated)** | [`harness_factory/CAPABILITIES.md`](harness_factory/CAPABILITIES.md) |
 | Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | Core harness invariants | `harness_factory/core/01-meta-principles.md` |
 | Domain playbooks | `harness_factory/domains/*/README.md` |

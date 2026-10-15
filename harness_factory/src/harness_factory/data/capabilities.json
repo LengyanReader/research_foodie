@@ -167,5 +167,40 @@
       "M8"
     ],
     "why": "Measure output against the best-known standard, ratchet up monotonically, and track the moving frontier (M0.3/M0.5/M0.10); never self-declare excellence."
+  },
+  "sandboxed-execution": {
+    "title_en": "Sandboxed / least-privilege execution",
+    "title_zh": "沙箱 / 最小权限执行",
+    "when": {
+      "any": [
+        {
+          "tool_surface": "external"
+        },
+        {
+          "stakes": "high"
+        }
+      ]
+    },
+    "modules": [
+      "M3",
+      "M6",
+      "M7"
+    ],
+    "why": "Anything that executes code or reaches the world declares an execution backend and a least-privilege posture (isolation, approval for irreversible acts) rather than running unconstrained (M0.4/M0.8)."
+  },
+  "portable-skills": {
+    "title_en": "Portable skills (Agent Skills format)",
+    "title_zh": "可移植技能（Agent Skills 格式）",
+    "when": {
+      "tool_surface": [
+        "read",
+        "read_write",
+        "external"
+      ]
+    },
+    "modules": [
+      "M6"
+    ],
+    "why": "Skills are emitted in the Agent Skills (SKILL.md) open format so the same skill loads in any compatible harness (agentskills.io), not just the one that generated it."
   }
 }

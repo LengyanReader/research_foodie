@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-15",
   "note": "Tracked entities for the intel/self-update loop. `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. YouTube channels are resolved to their RSS via `resolve: youtube`.",
   "topic_ids": [
     "agent-harness",
@@ -738,6 +738,173 @@
           "open-source"
         ],
         "why": "OSS deep-search agent."
+      },
+      {
+        "id": "hermes-agent",
+        "name": "Hermes Agent (Nous Research)",
+        "kind": "repo",
+        "url": "https://github.com/NousResearch/hermes-agent",
+        "feed": "https://github.com/NousResearch/hermes-agent/releases.atom",
+        "topics": [
+          "agent-harness",
+          "self-evolving-agents",
+          "agent-memory",
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "open-source",
+          "self-improving",
+          "memory",
+          "skills",
+          "nous"
+        ],
+        "why": "Self-improving personal agent: agent-curated memory, autonomous skill creation, portable SKILL.md, multi-platform gateway."
+      },
+      {
+        "id": "agentskills",
+        "name": "Agent Skills (SKILL.md) standard",
+        "kind": "doc",
+        "url": "https://agentskills.io/",
+        "feed": null,
+        "topics": [
+          "agent-skills-tools",
+          "agent-harness"
+        ],
+        "tags": [
+          "standard",
+          "skills",
+          "protocol",
+          "anthropic"
+        ],
+        "why": "Open standard for portable skills: a folder with SKILL.md (name+description frontmatter) loaded by progressive disclosure."
+      },
+      {
+        "id": "openclaw",
+        "name": "OpenClaw",
+        "kind": "repo",
+        "url": "https://github.com/openclaw/openclaw",
+        "feed": "https://github.com/openclaw/openclaw/releases.atom",
+        "topics": [
+          "agent-harness",
+          "agent-skills-tools",
+          "agent-memory"
+        ],
+        "tags": [
+          "open-source",
+          "personal-agent",
+          "skills"
+        ],
+        "why": "Local, open-source personal AI assistant; messaging channels + Agent Skills."
+      },
+      {
+        "id": "goose",
+        "name": "Goose (Block)",
+        "kind": "repo",
+        "url": "https://github.com/block/goose",
+        "feed": "https://github.com/block/goose/releases.atom",
+        "topics": [
+          "agent-harness",
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "open-source",
+          "coding-agent",
+          "mcp",
+          "skills"
+        ],
+        "why": "Extensible local agent (code + research/writing/automation); MCP client; Agent Skills."
+      },
+      {
+        "id": "openhands",
+        "name": "OpenHands",
+        "kind": "repo",
+        "url": "https://github.com/OpenHands/OpenHands",
+        "feed": "https://github.com/OpenHands/OpenHands/releases.atom",
+        "topics": [
+          "agent-harness",
+          "multi-agent-collaboration",
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "open-source",
+          "coding-agent",
+          "skills"
+        ],
+        "why": "Open platform for cloud coding agents; supports Agent Skills."
+      },
+      {
+        "id": "letta",
+        "name": "Letta",
+        "kind": "repo",
+        "url": "https://github.com/letta-ai/letta",
+        "feed": "https://github.com/letta-ai/letta/releases.atom",
+        "topics": [
+          "agent-memory",
+          "agent-harness",
+          "self-evolving-agents"
+        ],
+        "tags": [
+          "open-source",
+          "stateful",
+          "memory",
+          "skills"
+        ],
+        "why": "Platform for stateful agents: git-backed memory that learns and self-improves; Agent Skills."
+      },
+      {
+        "id": "pi-mono",
+        "name": "pi (pi-mono)",
+        "kind": "repo",
+        "url": "https://github.com/badlogic/pi-mono",
+        "feed": "https://github.com/badlogic/pi-mono/releases.atom",
+        "topics": [
+          "agent-harness",
+          "agent-skills-tools",
+          "context-engineering"
+        ],
+        "tags": [
+          "open-source",
+          "terminal-agent",
+          "skills"
+        ],
+        "why": "Minimal terminal coding harness; supports Agent Skills."
+      },
+      {
+        "id": "hermit-file-first",
+        "name": "hermit (benschrauwen)",
+        "kind": "repo",
+        "url": "https://github.com/benschrauwen/hermit",
+        "feed": "https://github.com/benschrauwen/hermit/releases.atom",
+        "topics": [
+          "self-evolving-agents",
+          "agent-harness",
+          "agent-memory"
+        ],
+        "tags": [
+          "open-source",
+          "self-improving",
+          "file-first",
+          "heartbeat"
+        ],
+        "why": "File-first runtime for self-improving autonomous apps: heartbeat daemon, telemetry, strategic review, git checkpoints, sandbox."
+      },
+      {
+        "id": "hermit-cashapp",
+        "name": "hermit (cashapp)",
+        "kind": "repo",
+        "url": "https://github.com/cashapp/hermit",
+        "feed": "https://github.com/cashapp/hermit/releases.atom",
+        "topics": [
+          "agent-harness",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "open-source",
+          "hermetic",
+          "tooling",
+          "reproducibility"
+        ],
+        "why": "Hermetic per-project toolchain manager; ships an AI-coding-agent skill for reproducible, pinned environments."
       }
     ],
     "venues": [

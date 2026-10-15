@@ -69,7 +69,7 @@ M0.1 Truth  ≻  M0.2 Trace  ≻  M0.3 Verify  ≻  M0.4 Observe-only
    ≻  M0.9 Reversible  ≻  M0.10 Evolvable
 ```
 
-When two rules conflict, the **lower-numbered** one wins; record the conflict and the resolution (M4, M9).
+When two rules conflict, the **lower-numbered** one wins; record the conflict and the resolution (M4, M8).
 
 ---
 

@@ -1,6 +1,8 @@
 ---
 name: harness-factory
 description: Derive and scaffold the agent harness a task needs. Point a vibe-coding assistant at this repository plus a task goal, and it selects the right modules (M0-M8), records why, and emits a runnable harness (AGENTS.md, tasks/, .harness/) into the target project. Also tracks AI-harness sources and learns from each project it configures. Use when setting up a new project/task's agent workflow, or when asked to "configure a harness", "set up agent scaffolding", "add context/verification/memory discipline", or "profile a project for an agent".
+license: MIT
+compatibility: Agent Skills (SKILL.md) format; no code execution required for L0 (read-and-reason); Python 3.11+ for L1 (CLI from path).
 ---
 
 # harness-factory · agent-native harness compiler
@@ -126,6 +128,7 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `M7` | `core/08-change-governance.md` | change governance |
 | `M8` | `core/09-collaboration-and-sessions.md` | collaboration & sessions |
 | catalogs | `src/harness_factory/data/{modules,capabilities,domains,harnesses,rubrics,levers}.json` | machine-readable truth |
+| capabilities | `CAPABILITIES.md` | purpose + each harness capability, generated from the SSOT |
 | domains | `domains/<name>/README.md` | 24 disciplines + `general` (faculty taxonomy), incl. `writing/` |
 
 ## How to configure a harness · 如何配置
@@ -141,8 +144,12 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 ```
 AGENTS.md · tasks/PLAN.md · tasks/PROGRESS.md
 .harness/{manifest.json, gates.md, PROVENANCE.md, check.py}
-+ ledger.md (M2) · skills/README.md (M6) · decisions.md (M8) · PROFILE.md (if a project was profiled)
++ ledger.md (M2) · skills/README.md + skills/<name>/SKILL.md (M6) · decisions.md (M8) · PROFILE.md (if a project was profiled)
 ```
+
+**Portable skills.** When M6 is enabled, the emitted `.harness/skills/<name>/SKILL.md` follows the
+[Agent Skills](https://agentskills.io/specification) open format (`name` + `description` frontmatter,
+progressive disclosure), so it loads in any compatible harness — not just the one that generated it.
 
 ## Mutual learning · 相互学习
 

@@ -8,6 +8,7 @@ from pathlib import Path
 from harness_factory import evolution, skill
 from harness_factory.assemble import build_files
 from harness_factory.capabilities import annotate, match
+from harness_factory.classify import classify
 from harness_factory.derive import derive
 from harness_factory.learning import aggregate, append_case, build_case, load_cases
 from harness_factory.profile import profile_project, render_profile_md
@@ -37,6 +38,18 @@ class CapabilitiesTest(unittest.TestCase):
         caps = {c["id"] for c in match(FeatureVector())}
         self.assertIn("baseline-discipline", caps)
         self.assertIn("verification-gate", caps)
+
+    def test_portable_skills_default(self):
+        # tool_surface defaults to read_write -> M6 skills are emitted portably.
+        caps = {c["id"] for c in match(FeatureVector())}
+        self.assertIn("portable-skills", caps)
+
+    def test_sandboxed_execution_needs_external_or_high_stakes(self):
+        self.assertNotIn("sandboxed-execution", {c["id"] for c in match(FeatureVector())})
+        external = {c["id"] for c in match(FeatureVector(tool_surface="external"))}
+        self.assertIn("sandboxed-execution", external)
+        risky = {c["id"] for c in match(FeatureVector(stakes="high"))}
+        self.assertIn("sandboxed-execution", risky)
 
     def test_high_stakes_and_long_horizon(self):
         f = FeatureVector(horizon="long_running", stakes="high")
@@ -95,6 +108,42 @@ class LearningTest(unittest.TestCase):
             agg = aggregate(cases)
             self.assertEqual(agg["cases"], 1)
             self.assertIn("has-tests", agg["project_capabilities"])
+
+
+class CapabilitiesDocTest(unittest.TestCase):
+    def test_generated_doc_matches_disk(self):
+        from harness_factory import capabilities as cap_mod
+
+        self.assertEqual(
+            cap_mod.render_doc(),
+            cap_mod.DOC_PATH.read_text(encoding="utf-8"),
+            "CAPABILITIES.md is stale; run `harness capabilities --write`",
+        )
+
+
+class PortableSkillTest(unittest.TestCase):
+    def test_emitted_skill_is_agent_skills_conformant(self):
+        from harness_factory import runtime
+        from harness_factory.assemble import skill_name, skill_path, write_harness
+
+        task = TaskSpec(text="automate a pipeline that calls an external api")
+        plan = derive(task, classify(task, overrides={"tool_surface": "external"}))
+        files = build_files(plan)
+        rel = skill_path(plan)
+        self.assertIn(rel, files)
+        self.assertTrue(rel.endswith("/SKILL.md"))
+        # directory name == frontmatter `name` (Agent Skills spec)
+        self.assertEqual(rel.split("/")[-2], skill_name(plan))
+        content = files[rel]
+        self.assertTrue(content.startswith("---\n"))
+        self.assertIn(f"\nname: {skill_name(plan)}\n", content)
+        self.assertNotIn("{{", content)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            write_harness(plan, tmp)
+            report = runtime.gate_report(tmp)
+            gates = {g["id"]: g for g in report["gates"]}
+            self.assertEqual(gates[".harness/skills/*/SKILL.md"]["status"], "ok")
 
 
 class MutualLearningTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 # Derivation rules · 推导规则（agent-readable mirror）
 
-**Updated:** 2026-10-12 · Mirrors `src/harness_factory/derive.py` + `data/capabilities.json`.
+**Updated:** 2026-10-15 · Mirrors `src/harness_factory/derive.py` + `data/capabilities.json`.
 **Purpose:** let a vibe-coding assistant (L0, no Python) derive a harness by reading rules, and let
 the CLI (L1) stay explainable. 若可用 CLI，优先 `PYTHONPATH=src python -m harness_factory derive --task "…" --json`。
 
@@ -64,8 +64,10 @@ they never enable a module the rule table did not. Current set:
 | `reproducible-experiments` | `domain ∈ {data-science, research}` AND `verifiability = high` | M3, M4, M5 |
 | `long-horizon-autonomy-control` | `horizon ≥ multi_session` AND `stakes = high` | M2, M3, M8 |
 | `frontier-standard` | `domain = excellence` OR (`verifiability = high` AND `horizon ≥ multi_session`) | M3, M5, M8 |
+| `sandboxed-execution` | `tool_surface = external` OR `stakes = high` | M3, M6, M7 |
+| `portable-skills` | `tool_surface ∈ {read, read_write, external}` | M6 |
 
-Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.)
+Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.) A generated, always-current rendering of this table lives in [`../CAPABILITIES.md`](../CAPABILITIES.md) (`harness capabilities`).
 
 ## 4. Output contract · 输出契约
 
@@ -81,8 +83,11 @@ tasks/PROGRESS.md             track-as-you-go
 .harness/check.py             self-check gate
 ```
 
-plus, conditionally: `.harness/ledger.md` (M2), `.harness/skills/README.md` (M6),
+plus, conditionally: `.harness/ledger.md` (M2), `.harness/skills/README.md` + `.harness/skills/<name>/SKILL.md` (M6),
 `.harness/decisions.md` (M8), `.harness/PROFILE.md` (when a project was profiled).
+
+The M6 skill (`<name>` = `harness-<domain>`) is emitted in the [Agent Skills](https://agentskills.io/specification)
+open format (`name` + `description` frontmatter, progressive disclosure) so it loads in any compatible harness.
 
 **Gate:** no unrendered placeholders; every file listed in the manifest exists; every load-bearing
 claim is sourced or marked `unverified`.

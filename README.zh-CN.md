@@ -153,6 +153,7 @@ harness_factory/          项目主体 —— 模式库 + `harness` CLI（从这
 ├── SKILL.md              agent 入口（硬规则 + 加载索引 + 输出契约）
 ├── GUIDE.md              项目指南：介绍 + 命令速查 + 10 个实例（中英对照）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
+├── CAPABILITIES.md       生成：目的 + 全部 harness 能力（勿手改；`harness capabilities --write`）
 ├── pyproject.toml        dev/CI 便利（打包作为渠道已取消）
 ├── refresh.ps1           自更新循环的调度入口
 ├── install-skill.ps1     可选：把「仓库即 skill」复制到 skills 目录
@@ -224,6 +225,7 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 | **可复制的提示词模板（配置 + 任务句）** | [本文件「给 agent 的提示词模板」](#给-agent-的提示词模板) |
 | 定位、结构、用法 | 本文件 —— [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | 完整指南 + 实例 | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |
+| **harness 能力总览（生成）** | [`harness_factory/CAPABILITIES.md`](harness_factory/CAPABILITIES.md) |
 | 心智模型 + 快速上手 | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | 核心 harness 不变式 | `harness_factory/core/01-meta-principles.md` |
 | 各域 playbook | `harness_factory/domains/*/README.md` |

@@ -175,9 +175,9 @@
       "note": "Modularity; small reversible diffs."
     },
     "security": {
-      "modules": ["M3"],
+      "modules": ["M3", "M6", "M7"],
       "kinds": ["safety-framework"],
-      "note": "Threat-model; least privilege."
+      "note": "Threat-model; least privilege; sandbox the execution surface (capability: sandboxed-execution)."
     },
     "docs": {
       "modules": ["M7"],

@@ -32,8 +32,8 @@
 | Self-evolution safety (admission/authority/scope/containment) | `review/harness-catalog.md` §8 (SAVER, Misevolution) | practitioner |
 | M6 Tools & skills (minimal toolset, progressive skills) | huayan `harness/tools.md`, `skills.md`; Anthropic Agent Skills posts; Openharness skill patterns | internal + practitioner |
 | M7 Change governance (SSOT, conventional commits, no unsolicited push) | Repo `AGENTS.md` §4; huayan `rules.md`; Fowler relocating rigor [18] | internal + practitioner |
-| M8 Human gate on destructive acts; autonomy slider | Karpathy "keep AI on a leash" / Iron Man suit [2]; Willison principle 1 [16]; huayan `compliance.md` | practitioner + internal |
-| M9 Collaboration & sessions (contracts, escalation, handoff) | Anthropic generator/evaluator + handoff [26]; Hashimoto six-stage adoption [21] | practitioner |
+| M0.8 Human gate on destructive acts; autonomy slider | Karpathy "keep AI on a leash" / Iron Man suit [2]; Willison principle 1 [16]; huayan `compliance.md` | practitioner + internal |
+| M8 Collaboration & sessions (contracts, escalation, handoff) | Anthropic generator/evaluator + handoff [26]; Hashimoto six-stage adoption [21] | practitioner |
 
 ---
 

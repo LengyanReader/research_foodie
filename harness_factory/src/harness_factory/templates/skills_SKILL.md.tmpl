@@ -1,0 +1,35 @@
+---
+name: {{ skill_name }}
+description: {{ skill_description }}
+---
+
+# {{ skill_name }} — task harness skill
+
+> Portable [Agent Skills](https://agentskills.io) skill emitted by **harness-factory**.
+> Load it whenever you resume this project's agent work: it carries the derived invariants,
+> gates, and the load-on-trigger index.
+
+**Derived for:** {{ task_short }}
+**Domain:** {{ domain_title }} (`{{ domain }}`) · **Modules:** {{ modules_line }}
+**Capabilities:** {{ capabilities_line }}
+
+## What this skill enforces
+
+{{ modules_table }}
+
+## How to use it
+
+1. Read `AGENTS.md` at the project root — it holds the load-bearing invariants (M0).
+2. Keep durable state in `tasks/PROGRESS.md` (and `.harness/ledger.md` when present); resume from it (M2).
+3. Obey the gates in `.harness/gates.md`; run `python .harness/check.py` before declaring done (M3).
+4. Load only the module you need (progressive disclosure — M1/M6); do not dump every doc into context.
+5. Log irreversible decisions in `.harness/decisions.md` when present (M8).
+
+## Gates
+
+{{ hard_gates }}
+{{ soft_gates }}
+
+## Index
+
+The load-on-trigger index lives in `.harness/skills/README.md`.

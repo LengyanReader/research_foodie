@@ -20,6 +20,7 @@
 harness_factory/          项目主体 —— agent harness 模式库 + `harness` CLI（定位/用法见仓库根 README）
   GUIDE.md                项目指南与示例（中英对照）
   SKILL.md                agent 原生入口（硬规则 + 载入索引 + 输出契约）
+  CAPABILITIES.md         生成的能力总览（目的 + 各 harness 能力；`harness capabilities --write`）
   introduction.md         简介：是什么 · 心智模型 · Quickstart
   core/                   跨域通用主干模式（M0–M8）
   domains/                学科门类编排（24 学科 + general 兜底；含 writing 写作域）
@@ -43,7 +44,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **128** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **132** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 

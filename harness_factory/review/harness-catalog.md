@@ -155,9 +155,26 @@ Evolution needs somewhere for experience to *live*. Memory systems differ along 
 | Thing | Idea | Source |
 |---|---|---|
 | **Anthropic Agent Skills** | A skill = directory with `SKILL.md` (YAML `name`+`description`); **progressive disclosure**: metadata always loaded, body on trigger, bundled files/scripts on demand | Anthropic docs + engineering post [24],[25] |
+| **Agent Skills (open standard)** | The vendor-neutral generalization: a folder with `SKILL.md` (`name` ≤64 chars, lowercase-hyphen; `description` ≤1024 chars), Discovery → Activation → Execution; shared by ~50 client harnesses | `agentskills.io/specification` [30] |
 | **Model Context Protocol (MCP)** | Standard protocol for exposing tools/resources to agents | (widely adopted; see `core/07-tools-and-skills.md`) |
 
 > **Pattern (M1,M6).** Metadata is the *index*; instructions are *procedural knowledge*; scripts are *executed, not read* (only output costs tokens). This is exactly OpenAI's `AGENTS.md`-as-map principle, generalized.
+
+### 5a. Self-improving agent runtimes · 自我改进 agent 运行时
+
+Turnkey runtimes that make "skills + memory as durable, **portable** state" concrete — the closest peers to Hermes, and the integration surface for this repo (see `tasks/ASSESSMENT.md` §B).
+
+| Runtime | Mechanism in one line | Portable skills | Source |
+|---|---|---|---|
+| **Hermes Agent** (Nous Research, MIT) | Self-improving personal agent: agent-curated memory, autonomous skill creation, multi-platform gateway | ✅ `SKILL.md` | [31] |
+| **OpenClaw** | Local, open-source personal assistant; messaging-channel gateway + skills | ✅ | [32] |
+| **Goose** (Block) | Extensible local agent (code + research/writing/automation); MCP client | ✅ | [33] |
+| **OpenHands** | Open platform for cloud coding agents; sandboxed runtime | ✅ | [34] |
+| **Letta / Letta Code** | Stateful agents: git-backed memory that learns and self-improves | ✅ | [35] |
+| **hermit** (benschrauwen) | File-first runtime for self-improving autonomous apps: heartbeat daemon, telemetry, strategic review, git checkpoints, sandbox | — | [36] |
+| **hermit** (cashapp) | Hermetic per-project toolchains; ships an AI-coding-agent skill | ✅ | [37] |
+
+> **Integration (M5,M6,M7).** Two capabilities were added to absorb these patterns: **`portable-skills`** (emit every harness skill in the Agent Skills `SKILL.md` format, so it loads in any of the ~50 client harnesses) and **`sandboxed-execution`** (declare an execution backend + least-privilege posture for anything that executes code or touches the world). Hermit's *file-first + heartbeat + sandbox* pattern informs the M2/M5 runtime hooks (`gate`/`harvest`).
 
 ---
 
@@ -237,5 +254,13 @@ When "experience becomes reusable state, past events become future causes."
 [27] "Memory in the LLM Era: Modular Architectures and Strategies in a Unified Framework," arXiv:2604.01707, 2026.
 [28] C. Packer *et al.*, "MemGPT: Towards LLMs as Operating Systems," arXiv:2310.08560, Oct. 2023.
 [29] A. Jimenez *et al.*, "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?," arXiv:2310.06770, 2023.
+[30] Agent Skills, "Specification," agentskills.io, accessed 2026-10-15. https://agentskills.io/specification
+[31] Nous Research, "Hermes Agent," GitHub, accessed 2026-10-15. https://github.com/NousResearch/hermes-agent (MIT): https://hermes-agent.org
+[32] OpenClaw, "OpenClaw," GitHub, accessed 2026-10-15. https://github.com/openclaw/openclaw
+[33] Block, "goose — an open source, extensible AI agent," GitHub, accessed 2026-10-15. https://github.com/block/goose
+[34] All Hands AI, "OpenHands," GitHub, accessed 2026-10-15. https://github.com/OpenHands/OpenHands
+[35] Letta, "Letta — Platform for stateful agents," GitHub, accessed 2026-10-15. https://github.com/letta-ai/letta
+[36] B. Schrauwen, "hermit — file-first runtime for self-improving autonomous apps," GitHub, accessed 2026-10-15. https://github.com/benschrauwen/hermit
+[37] Cash App, "hermit — hermetic toolchains," GitHub, accessed 2026-10-15. https://github.com/cashapp/hermit
 
 > **Pending-verification note.** The following were reported by an earlier research pass but were **not** independently re-verified here; do not cite as fact until checked: **Self-Harness** (reported arXiv:2606.09498), **STaR** (Zelikman et al.), **Constitutional AI** (Bai et al.), **Meta-Rewarding** (Wu et al.), **ARC-AGI-3 / ARC Prize 2025 IDs** (see `practitioner-playbook.md` note). MemGPT/Letta and SWE-bench IDs are well-established but were not re-fetched this session.

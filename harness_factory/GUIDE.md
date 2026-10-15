@@ -154,7 +154,7 @@ Run the tests (stdlib `unittest`, no deps) · 跑测试：
 
 ```bash
 cd harness_factory
-PYTHONPATH=src python -m unittest discover -s tests     # 128 tests OK
+PYTHONPATH=src python -m unittest discover -s tests     # 132 tests OK
 ```
 
 ---
@@ -191,6 +191,7 @@ harness written to C:\work\parser-task (9 files)
   + .harness/ledger.md
   + .harness/manifest.json
   + .harness/skills/README.md
+  + .harness/skills/harness-<domain>/SKILL.md
   + AGENTS.md
   + tasks/PLAN.md
   + tasks/PROGRESS.md
@@ -613,6 +614,7 @@ Validation is strict: the `id` must match the directory, vocabularies (`artifact
   .harness/check.py       standalone self-check (stdlib only) · 独立自检
   .harness/ledger.md      (if M2) append-only state · 追加式状态
   .harness/skills/README.md (if M6) progressive skill index · 技能渐进索引
+  .harness/skills/<name>/SKILL.md (if M6) portable Agent Skills skill · 可移植技能（Agent Skills）
   .harness/decisions.md   (if M8) decision log · 决策日志
   .harness/PROFILE.md     (if --project) read-only scan of the target project · 目标项目只读画像
 ```
@@ -674,7 +676,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
 - **P1.8 done** — agent-native mode (`harness_factory/SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **24 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 127 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit; and **`writing` domain** registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable. Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（已注册）。
+- **P2 (in progress)** — **24 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 133 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit; and **`writing` domain** registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable; **Agent Skills conformance** — M6 emits a portable `.harness/skills/<name>/SKILL.md`, **Hermes Agent** + peers are tracked in the SSOT, and a generated [`CAPABILITIES.md`](CAPABILITIES.md) documents every capability (see [`tasks/ASSESSMENT.md`](tasks/ASSESSMENT.md)). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（已注册）。
 - **P3 done** — **runtime hooks**. `runtime.py`: a **gate runner** (`harness gate`) that runs the structural check + executes the emitted `.harness/check.py` (hard gates decide pass/fail; M2/M4/M6/M8 gates are advisory), and **signal harvest** (`harness harvest`, observe-only) that appends one observation to `<kb>/updates/signals.jsonl`. · 运行时钩子：门禁执行 + 信号采集。
 - **P4 done** — **plugin protocol**. `plugins.py`: read-only discovery of third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged into the registry + rubrics (never mutating the SSOT), strict validation, CLI `harness plugins`. · 第三方域/模板插件协议。
 
