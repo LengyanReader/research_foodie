@@ -1,7 +1,8 @@
 # Capability ledger (task-local) · 任务本地能力台账
 
 > **Task-specific. Lives here, in this task/project — never flows out on its own.**
-> The *concretize* half of the bidirectional capability flow. See `reference/capability-flow.md`.
+> The *concretize* half of the bidirectional capability flow. See the harness-factory's
+> `reference/capability-flow.md` (or `harness skill capability-flow`).
 > 本文件是**任务本地**的能力台账：记录这次任务用到的能力**在这里如何具体落地**。它只属于本任务，
 > 不会自行回流；只有「通用化」的模式才以**提案**形式回流到 harness-factory 并交人类审批。
 
@@ -43,3 +44,5 @@ Files in this harness: {{ files_list }}
 
 - **Direction 1 (concretize):** this file stays here; enrich it as the task runs (append-only).
 - **Direction 2 (distill):** generalisable patterns go out **only** as proposals in `updates/` — a human reviews them before anything reaches `data/`, `core/`, `domains/`, or `templates/` (M0.4/M0.8).
+- **Path convention:** `SKILL.md`, `reference/*.md`, `core/*.md`, `data/*`, `updates/` above refer to the
+  **harness-factory that generated this harness** — not this project.

@@ -40,6 +40,22 @@ class EntryDocTest(unittest.TestCase):
         self.assertIn(ZH_MARKER, zh)
         self.assertIn(ZH_REVOKE, zh)
 
+    def test_no_doc_still_quotes_the_old_config(self):
+        """Every copy of the 'how to reference' text must be the standing version."""
+        old = ("把本仓库当 skill 使用", "Treat this repository as a skill")
+        skip = {"PROGRESS.md", "ASSESSMENT.md", "CHANGELOG.md"}
+        offenders = []
+        docs = [p for p in HARNESS.rglob("*.md") if p.name not in skip and "_archive" not in p.parts]
+        docs += [ROOT / "README.md", ROOT / "README.zh-CN.md", ROOT / "AGENTS.md"]
+        for path in docs:
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                continue
+            if any(s in text for s in old):
+                offenders.append(str(path.relative_to(ROOT)))
+        self.assertEqual(offenders, [], f"old config still quoted in: {offenders}")
+
 
 class EmittedHarnessTest(unittest.TestCase):
     def test_agents_md_carries_standing_reference(self):

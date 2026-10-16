@@ -19,7 +19,7 @@
 
 **怎么用。** 分两步——先贴「配置」（如何引用与使用本工具），再给「任务」（同一轮或下一轮均可）；助手读 `SKILL.md` 自行推导并落盘 harness；或用 `harness init --task "…" --out <目录>` 在**任意目录**生成；`harness check` 校验；`harness profile/learn` 让它**从目标项目中学习**；`harness refresh/evolve` 定期抓取新前沿工作（只出提案）。
 
-**给 vibe-coding 助手的用法（两步：先配置，再提任务）。** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读 `SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
+**给 vibe-coding 助手的用法（贴一次即常驻 · standing reference）。** ① **常驻引用**（贴一次，整个对话有效；写进项目规则文件可跨对话/子体）：「把本仓库当 harness 能力参考（常驻，直到我明确撤销）：先读 `SKILL.md`，按 `reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑 `reference/requirement-refinement.md`（R0–R5，等我确认）。推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），跑 `check`；只提案、不编造任务内容。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
 
 ---
 

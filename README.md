@@ -12,9 +12,9 @@
 > 工具只做**分类/选择/生成/观察/排序**，绝不编造任务实质；所有循环产物先作为**提案**，由人确认。详见
 > [`harness_factory/introduction.md`](harness_factory/introduction.md) 与 [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md)。
 >
-> **给 agent 的用法（两步：先配置，再提任务）· Two steps for an agent.** ① **配置**（贴一次，可复用）：「把本仓库当 skill 使用：读
-> `harness_factory/SKILL.md`，按需加载 `core/*.md`、`data/*.json`、`domains/<名>/README.md`；此后我给你的任务，请据此推导并落盘
-> 所需 harness（`AGENTS.md` + `tasks/*` + `.harness/*`，写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容。」
+> **给 agent 的用法（贴一次即常驻 · standing reference）· Two steps for an agent.** ① **常驻引用**（贴一次，整个对话有效；写进项目规则文件可跨对话/子体）：「把本仓库当 harness 能力参考（常驻，直到我明确撤销）：先读
+> `harness_factory/SKILL.md`，按 `reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑 `reference/requirement-refinement.md`
+> （R0–R5，等我确认）。推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），跑 `check`；只提案、不编造任务内容。」
 > ② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。完整模板见下方
 > [「Agent prompt templates」](#agent-prompt-templates--给-agent-的提示词模板) 一节。
 

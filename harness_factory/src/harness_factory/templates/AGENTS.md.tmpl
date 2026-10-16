@@ -70,9 +70,18 @@ Standing behaviour: before each substantive answer, check whether a capability a
 Never fabricate task substance (M0.4); truth/traceability outrank speed; irreversible acts need my explicit OK.
 ```
 
+Never fabricate task substance (M0.4); truth/traceability outrank speed; irreversible acts need my explicit OK.
+```
+
+> **Path convention · 路径约定.** References like `SKILL.md`, `reference/*.md`, `core/*.md`, `domains/*`, and
+> `harness …` point at the **harness-factory that generated this harness** — not this project. If it is not
+> checked out locally, ask for its path; `harness skill <name>` prints the same content. · 本文件里的
+> `SKILL.md`、`reference/*.md`、`core/*.md`、`domains/*` 指**生成本 harness 的 harness-factory**，不是本项目自身。
+
 ## Requirement refinement · 需求精炼
 
-Before executing, run the six-step protocol in `reference/requirement-refinement.md`:
+Before executing, run the six-step protocol in the harness-factory's `reference/requirement-refinement.md`
+(or `harness skill requirement-refinement`):
 **R0 restate → R1 elevate (propose stretch/moonshot) → R2 classify constraints (hard/soft/assumed) →
 R3 offer MVP · Elevated · Exploratory readings → R4 confirm with the human → R5 converge**.
 Do not begin work until the reading is explicitly confirmed; treat assumed constraints as open questions,
@@ -86,7 +95,8 @@ and assume an expert persona from the domain (persona changes method, never fact
   capability is realised here*, its evidence, gaps, and whether it looks generalisable.
 - **Distill (this task → factory):** at session end, propose generalisable patterns back via
   `harness learn` + `harness evolve` (writes only to `updates/`, gitignored). **Never edit the factory
-  catalogue from here**; a human approves. See `reference/capability-flow.md`.
+  catalogue from here**; a human approves. See the harness-factory's `reference/capability-flow.md`
+  (or `harness skill capability-flow`).
 
 > 具体化的留在本任务（`.harness/capabilities.local.md`）；通用化的只以**提案**回流，人类把关，绝不自动合并。
 
