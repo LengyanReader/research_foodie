@@ -84,6 +84,18 @@ def updates_dir() -> Path:
     return home() / "updates"
 
 
+def factory_root() -> Path | None:
+    """The harness_factory checkout that provides this code.
+
+    That is the directory containing ``SKILL.md`` (i.e. ``<checkout>/harness_factory``),
+    which is what an external task should reference.  Returns ``None`` when the
+    package was installed without the docs (a data-only copy), so callers can fall
+    back to an explicit placeholder instead of inventing a path.
+    """
+    candidate = Path(__file__).resolve().parents[2]
+    return candidate if (candidate / "SKILL.md").is_file() else None
+
+
 def seed_catalog(force: bool = False) -> dict[str, list[str]]:
     """Copy packaged ``data/*.json`` into :func:`catalog_dir`.
 

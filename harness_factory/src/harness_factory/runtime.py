@@ -188,6 +188,23 @@ def gate_report(root: str | Path) -> dict[str, Any]:
             }
         )
 
+    from . import pointer as _pointer
+
+    pinfo = _pointer.verify(root)
+    gates.append(
+        {
+            "id": _pointer.POINTER,
+            "kind": "advisory",
+            "status": "ok" if pinfo["ok"] else "warn",
+            "detail": (
+                f"factory reachable at {pinfo['factory']}"
+                + ("" if pinfo["standing_reference"] else "; no standing-reference block in rules file")
+                if pinfo["ok"]
+                else "; ".join(pinfo["problems"]) or "pointer unresolved"
+            ),
+        }
+    )
+
     hard = [g for g in gates if g["kind"] == "hard"]
     passed = all(g["status"] == "pass" for g in hard)
     return {"root": str(root), "passed": passed, "gates": gates}

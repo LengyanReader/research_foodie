@@ -148,6 +148,10 @@ Never fabricate task substance (M0.4); truth/traceability outrank speed (M0.1/M0
 > **Durable.** Paste the same block into the target project's rules file (`AGENTS.md`, `CLAUDE.md`, `.cursor/rules`, …)
 > and it survives a new conversation and spawned subagents. **Revoke:** "stop using harness_factory". Canonical
 > version: [`harness_factory/SKILL.md`](harness_factory/SKILL.md) §"PASTE THIS EXACT INSTRUCTION" — keep them in sync.
+>
+> **Pointer.** A generated harness records the *resolved* factory path in `.harness/pointer.json` and names it in the
+> emitted `AGENTS.md`, so a later session never has to be told the path again. Check it resolves with
+> `harness doctor --project .`; a `null` `harness_factory` means the factory was not on disk at generation time.
 
 **Step 2 · Task (same turn or next)**
 

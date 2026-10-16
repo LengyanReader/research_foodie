@@ -136,6 +136,8 @@ itself (most flexible, no install). **L1** — run the CLI from the path without
 
 **Exit codes:** `init`/`check` return non-zero if the self-check gate fails, so they compose in CI.
 
+**Finding the factory again.** `.harness/manifest.json` records the *decisions*; `.harness/pointer.json` records **where the factory is** (resolved absolute path + `SKILL.md`, the router, the refinement/flow docs). So a later conversation need not be told the path: read the pointer, or run `harness doctor --project <out>` to check it still resolves (the runtime gate reports it as *advisory*, since another machine may legitimately not have the checkout).
+
 ---
 
 ## 5. What it produces · 生成物
@@ -150,6 +152,7 @@ itself (most flexible, no install). **L1** — run the CLI from the path without
   .harness/manifest.json  the decision record: features, capabilities, modules, reasons, files
   .harness/gates.md       definition of done (hard/soft gates)
   .harness/PROVENANCE.md  derivation record (which rule/capability fired; mark unverified)
+  .harness/pointer.json   resolved path to this harness_factory checkout (how a later session finds it)
   .harness/check.py       standalone self-check (stdlib only)
   .harness/ledger.md      (if M2) append-only state
   .harness/skills/README.md (if M6) progressive skill index

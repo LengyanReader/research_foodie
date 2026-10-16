@@ -165,7 +165,12 @@ def build_parser() -> argparse.ArgumentParser:
     evolve_apply_p.add_argument("--root", "--data-dir", dest="root", default=None)
     evolve_apply_p.add_argument("--accept", nargs="+", required=True, help="proposal ids/targets")
 
-    sub.add_parser("doctor", help="show resolved paths, config, and LLM status")
+    doctor_p = sub.add_parser("doctor", help="show resolved paths, config, and LLM status")
+    doctor_p.add_argument(
+        "--project",
+        default=None,
+        help="also verify an emitted harness's .harness/pointer.json (default: current dir if present)",
+    )
 
     selfup_p = sub.add_parser(
         "self-update", help="refresh the tool's own catalog from packaged defaults"
@@ -650,7 +655,9 @@ def _cmd_refresh_apply(args: argparse.Namespace) -> int:
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
-    from . import config, llm
+    from pathlib import Path
+
+    from . import config, llm, pointer
 
     existed = config.home().exists()
     home = config.ensure_home()
@@ -666,9 +673,16 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     print(f"catalog dir : {config.catalog_dir()}  files={catalog_files}")
     print(f"corpus dir  : {config.corpus_dir()}")
     print(f"updates dir : {config.updates_dir()}")
+    root = config.factory_root()
+    print(f"factory     : {root if root else '(docs not on disk — data-only install)'}")
     print(f"llm         : {'configured' if llm.available() else 'not configured (rules only)'}")
     print("network     : optional - everything runs offline except `refresh`/`intel` (feeds) and `llm`")
     print(f"seed        : added={seeded['added'] or 'none'} kept={seeded['kept'] or 'none'}")
+
+    project = Path(args.project) if getattr(args, "project", None) else Path.cwd()
+    if getattr(args, "project", None) or (project / ".harness" / "pointer.json").is_file():
+        print()
+        print(pointer.render_verify(pointer.verify(project)))
     return 0
 
 

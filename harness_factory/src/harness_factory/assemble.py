@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .capabilities import capabilities as _capabilities
+from .config import factory_root as _factory_root
 from .registry import domains as _domains
 from .render import render, render_template
 from .spec import HarnessPlan
@@ -26,6 +27,7 @@ _TEMPLATE_MAP = {
 }
 
 _MANIFEST = ".harness/manifest.json"
+_POINTER = ".harness/pointer.json"
 _PROFILE = ".harness/PROFILE.md"
 _SKILLS_DIR = ".harness/skills"
 _PORTABLE_SKILL_TEMPLATE = "skills_SKILL.md.tmpl"
@@ -68,6 +70,7 @@ def _selected_files(plan: HarnessPlan) -> list[str]:
     if _enabled(plan, "M8"):
         names.append(".harness/decisions.md")
     names.append(_MANIFEST)
+    names.append(_POINTER)
     return sorted(names)
 
 
@@ -180,18 +183,30 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def build_files(plan: HarnessPlan, extra: dict[str, str] | None = None) -> dict[str, str]:
+def build_files(
+    plan: HarnessPlan,
+    extra: dict[str, str] | None = None,
+    factory_root: str | None = None,
+) -> dict[str, str]:
     """Return ``{relative_path: content}`` for the whole harness.
 
     ``extra`` may inject optional artifacts (e.g. ``{"profile_md": ...,
     "profile_note": ...}``), used when a project profile is attached.
+
+    ``factory_root`` pins the path recorded in ``.harness/pointer.json`` and in
+    ``AGENTS.md``; by default it is auto-detected (:func:`config.factory_root`).
     """
+    from . import plugins, pointer
+
     extra = extra or {}
     params = plan.params()
     ctx = _context(plan, params)
     ctx["profile_note"] = extra.get("profile_note", "")
 
-    from . import plugins
+    root = Path(factory_root) if factory_root else _factory_root()
+    if root is not None and not (root / "SKILL.md").is_file():
+        root = None  # pinned to a directory that is not a factory checkout
+    ctx["factory_root"] = root.as_posix() if root else "<harness_factory path>"
 
     plugin_targets = plugins.domain_template_targets(plan.features.domain)
 
@@ -205,6 +220,13 @@ def build_files(plan: HarnessPlan, extra: dict[str, str] | None = None) -> dict[
     files: dict[str, str] = {}
     for name in names:
         if name == _MANIFEST:
+            continue
+        if name == _POINTER:
+            files[name] = pointer.render(
+                pointer.build(
+                    str(root) if root else None, created=plan.created, version=plan.version
+                )
+            )
             continue
         if name == _PROFILE:
             files[name] = extra["profile_md"]
@@ -230,6 +252,7 @@ def write_harness(
     out_dir: str | Path,
     force: bool = False,
     extra: dict[str, str] | None = None,
+    factory_root: str | None = None,
 ) -> list[str]:
     """Write the harness to ``out_dir``; return the written paths.
 
@@ -237,7 +260,7 @@ def write_harness(
     tree untouched.
     """
     out = Path(out_dir)
-    files = build_files(plan, extra=extra)
+    files = build_files(plan, extra=extra, factory_root=factory_root)
 
     if not force:
         clashes = [name for name in files if (out / name).exists()]

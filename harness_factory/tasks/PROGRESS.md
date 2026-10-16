@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-10-16 — P6: make "mention the directory once" a **structural** guarantee (pointer + resolved path + self-check)
+- **Motivation.** A standing reference held only in *prose* is a promise, not a mechanism: it is lost on context compaction, not inherited by subagents, and useless if the path changes. The fix is structural — the emitted harness must be able to **find** its factory on its own.
+- **Resolved path instead of a placeholder.** `templates/AGENTS.md.tmpl` previously carried a literal `<harness_factory path>` that was never substituted. It now renders `{{ factory_root }}` (POSIX-normalised absolute path); when no checkout is reachable it falls back to the explicit placeholder — never an invented path.
+- **`.harness/pointer.json` (new, emitted).** New `src/harness_factory/pointer.py` + `config.factory_root()`; `assemble.build_files` emits the pointer (native-escaped JSON) and `write_harness` threads a `factory_root` override (used by tests). Payload: resolved `harness_factory`, `skill_md`, `entry_docs` (router / refinement / flow), `capabilities_local`, `how_to_use`, `revoke`. Null path ⇒ the factory was not on disk at generation time.
+- **Self-check.** `runtime.gate_report` gains an **advisory** gate (`.harness/pointer.json`) so `harness gate` reports reachability + whether the rules file carries the convention; `harness doctor --project <dir>` prints the same `pointer.verify()` result (`reachable: yes/no` + concrete problems). Advisory, not hard: another machine may legitimately not have the checkout.
+- **Verified.** `init` → 12 files incl. `.harness/pointer.json`; emitted `AGENTS.md` names the real path (no placeholder); broken pointer → reported honestly (`factory not reachable at … (SKILL.md missing)`); new `tests/test_pointer.py` (+11) covers emission, null/unreachable/missing cases, gate wiring and `doctor`. **152** tests OK.
+
+---
+
 ## 2026-10-16 — P5: frontier assimilation (ambition/agency) + capability router + bidirectional flow + standing reference
 - **Frontier assimilation — F. Rieseberg, *How to be more ambitious* (2026-10-13), verified by full fetch.** New `review/ambition-and-agency.md` maps its four axes (**Speed / Altitude / Depth / Range**) onto M0–M8 and names the gaps. Anchor refs added: Rieseberg `[R80]`, Locke & Latham goal-setting `[R81]/[R82]` (DOIs verified), J. Read `[R83]` (marked **commentary**).
 - **4 new capabilities** (`data/capabilities.json`; 13→**17**; data-only, no code): `ambition-elevation` (horizon ≥ session), `expert-instruments` (verifiability=high OR horizon ≥ multi_session), `cross-field-crew` (collaboration=multi_agent OR horizon=long_running), `bidirectional-capability-flow` (always). `CAPABILITIES.md` regenerated (`harness capabilities --write`); drift guard still green.

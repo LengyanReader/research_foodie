@@ -46,7 +46,7 @@
 - `harness learn` / `harness cases` — record / review learned project cases (project → factory learning).
 - `harness catalog [<id>] [--class/--kind/--module/--vendor/--tag/--search/--tracked/--markdown/--write/--json]` — unified harness catalog: list/search/filter; `--write` regenerates `review/harness-index.md`.
 - `harness standard [--store F] --domain D bar|score|audit|raise|plan|frontier <name>` — the frontier-standard ratchet over a per-domain weighted rubric (`data/rubrics.json`); `raise` refuses regressions (unless `--force`); `plan` maps gaps → modules + catalog tools (`data/levers.json`).
-- `harness doctor` / `harness self-update` — path/config/LLM status; re-seed the tool's own catalog (non-destructive).
+- `harness doctor [--project DIR]` / `harness self-update` — path/config/LLM status; with `--project`, verify the target's `.harness/pointer.json` resolves (and whether its rules file carries the standing reference); re-seed the tool's own catalog (non-destructive).
 - Deterministic rule engine over M0–M8 + capability map + 4 domains + general.
 - Optional LLM classifier (off by default; plugs in via env config).
 
@@ -83,6 +83,7 @@ harness_factory/
     skill.py       agent load-index: index / find / read (SKILL.md + core + data + domains)
     llm.py         OpenAI-compatible classify + discover + summarize (stdlib urllib), env-gated
     render.py      tiny {{key}} template engine (no deps)
+    pointer.py     the emitted .harness/pointer.json: build/verify a project's link back to this factory
     assemble.py    HarnessPlan -> files on disk
     check.py       validate an emitted harness against its manifest (gate)
     runtime.py     runtime hooks: gate_report (structural + runs the emitted check.py); harvest/record_signals (observe-only)
@@ -166,6 +167,7 @@ better, and capabilities discovered in one project become reusable options for o
   - **LLM-assisted discovery/classification hardening** and **feed/entity coverage expansion** — deferred to a later P2 slice.
 - **P3 (done):** emitted-harness runtime hooks. `runtime.py` — **gate runner** (`gate_report`, CLI `harness gate`): structural check + executes the emitted `.harness/check.py` as its own hook; hard gates decide pass/fail, module gates (M2/M4/M6/M8) are advisory. **Signal harvest** (`harvest`/`record_signals`, CLI `harness harvest`): observe-only, appends one observation to `<kb>/updates/signals.jsonl`.
 - **P4 (done):** plugin protocol for new domains/templates. `plugins.py` — read-only discovery from `HARNESS_PLUGINS_DIR` (or `<data>/plugins`); `domain` plugins merge into the registry + rubrics (`--domain <plugin-id>` becomes selectable) and may emit extra templates; `template` plugins register reusable emitted files. Strict validation + CLI `harness plugins`. SSOT catalogs are never mutated; a plugin may not shadow a built-in.
+- **P6 (done, 2026-10-16):** make "mention the directory once" a **structural** guarantee rather than prose. `config.factory_root()` resolves the checkout that provides the code; `pointer.py` builds/verifies the emitted `.harness/pointer.json`; `assemble.py` emits it and writes the **resolved** path into `AGENTS.md` (no `<harness_factory path>` placeholder left); `runtime.gate_report` adds an *advisory* `pointer-resolves` gate; `harness doctor --project <dir>` reports reachability. Tests `tests/test_pointer.py`. Also hardened **structure** (not just content) with `tests/test_docs_integrity.py`: no raw assistant/tool markup in shipped docs, balanced code fences in shipped docs *and* every emitted file.
 
 ## Verification · 验证门（for this project)
 - `python -m unittest discover -s tests` passes.

@@ -382,6 +382,8 @@ Step 2 · task (same turn or next)
            fills PROVENANCE.md, runs .harness/check.py, keeps task-local notes in .harness/capabilities.local.md.
 ```
 
+> **Pointer · 指针.** 生成的 harness 把**解析后的**工厂路径写进 `.harness/pointer.json`，并在 `AGENTS.md` 里直接写明 —— 新对话与子体**无需再报路径**；用 `harness doctor --project .` 自检可达性。A generated harness records the resolved factory path, so it never has to be re-stated. · 自检命令：`harness doctor --project <target>`（输出 `reachable: yes/no` 与具体问题）。
+
 The assistant-loadable index is live · 可实时打印索引：
 
 ```bash

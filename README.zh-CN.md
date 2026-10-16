@@ -122,6 +122,8 @@ RSS/Atom，YouTube `@handle` 页会即时解析为频道源——`refresh`/`inte
 ```
 
 > **持久化。** 把同一段写进目标项目的规则文件（`AGENTS.md`、`CLAUDE.md`、`.cursor/rules` 等），即可跨**新对话**与**子体**生效；同一段对话内，粘这一句就够。**撤销**：「停止使用 harness_factory」。权威版本见 [`harness_factory/SKILL.md`](harness_factory/SKILL.md) §"PASTE THIS EXACT INSTRUCTION"，两处保持一致。
+>
+> **指针。** 产物会在 `.harness/pointer.json` 里记下**解析后的**工厂绝对路径，并在生成的 `AGENTS.md` 中直接写出该路径 —— 后续对话无需再报路径。用 `harness doctor --project .` 自检是否仍然可达；若 `harness_factory` 为 `null`，说明生成时工厂不在磁盘上（请人工给出路径）。
 
 **② 任务（同一轮接着写，或下一轮再发）**
 
