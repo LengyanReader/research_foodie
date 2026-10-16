@@ -367,19 +367,73 @@ PYTHONPATH=src python -m unittest discover -s tests         # drift guard + all 
 
 ### Example 4 — Agent-native (L0) workflow · 面向 agent 的用法
 
-**EN.** Instead of driving the CLI yourself, **point a coding assistant at this repository and give it a task goal.** Set it up in **two steps**: paste the **configuration** once (how to reference and use this tool), then give the **task** — in the same turn or a later one (you may attach files/dirs too). The assistant reads [`SKILL.md`](SKILL.md) (cardinal rules + load-index + output contract), loads only the modules it needs, derives with `reference/derivation-rules.md` + `data/*.json`, emits the output contract, fills `PROVENANCE.md` honestly, and can `profile`/`learn` the project so the factory keeps improving.
+**EN.** Instead of driving the CLI yourself, **point a coding assistant at this repository and give it a task goal.** Set it up in **two steps**: paste the **configuration** once — it makes the factory a **standing reference** for the whole conversation (keep it in the project's rules file and it survives new conversations & subagents) — then give the **task**, in the same turn or a later one (attachments welcome). The assistant reads [`SKILL.md`](SKILL.md) (cardinal rules + load-index + output contract), **routes** via [`reference/capability-router.md`](reference/capability-router.md), loads only the modules it needs, derives with `reference/derivation-rules.md` + `data/*.json`, emits the output contract, fills `PROVENANCE.md` honestly, and can `profile`/`learn` the project so the factory keeps improving. It keeps the reference until you say to stop.
 
-**中文。** 你也可以不自己敲命令：**分两步——先贴「配置」（如何引用与使用本工具），再给「任务」**（同一轮接着写，或下一轮再发；也可直接附上文件/目录）。助手读 [`SKILL.md`](SKILL.md)（核心规则 + 载入索引 + 输出契约），按需只载入需要的模块，用 `reference/derivation-rules.md` + `data/*.json` 推导，落盘输出契约，如实填写 `PROVENANCE.md`，并可 `profile`/`learn` 让工厂持续变好。
+**中文。** 你也可以不自己敲命令：**分两步——先贴「配置」，再给「任务」**（同一轮接着写，或下一轮再发；也可直接附上文件/目录）。配置只贴一次，即让工厂成为**整段对话的常驻能力参考**（写进项目规则文件还可跨对话/子体生效，**除非你明确说停止**）。助手读 [`SKILL.md`](SKILL.md)（核心规则 + 载入索引 + 输出契约），先按 `reference/capability-router.md` **路由**，再按需载入，用 `reference/derivation-rules.md` + `data/*.json` 推导，落盘输出契约，如实填写 `PROVENANCE.md`，并可 `profile`/`learn` 让工厂持续变好；需求模糊时先走 `reference/requirement-refinement.md`（R0–R5，等你确认）。
 
 ```text
-Step 1 · configuration (paste once, reusable)
-  User  →  "Treat this repo as a skill: read harness_factory/SKILL.md; for any task I give, derive and emit the
-            harness (AGENTS.md + tasks/* + .harness/*, record every choice in .harness/manifest.json), run `check`;
-            propose only, never fabricate task substance."
+Step 1 · configuration (paste once — becomes a STANDING REFERENCE until revoked)
+  User  →  "STANDING REFERENCE (until I revoke it): use ./harness_factory as my harness capability reference.
+            Read SKILL.md first; route via reference/capability-router.md and load only the matched row's files;
+            if my ask is vague/under-aimed, run reference/requirement-refinement.md (R0-R5) and WAIT for my OK.
+            When deriving: emit AGENTS.md/tasks/PLAN.md/tasks/PROGRESS.md/.harness/*, run `check`, then keep the
+            task-local notes in .harness/capabilities.local.md and send only generalisable patterns back as proposals."
 Step 2 · task (same turn or next)
   User  →  "Set up the agent harness for this repo; goal: on-device tennis out-of-bounds."
-  Agent →  reads SKILL.md, reasons through (or runs) `derive`, emits AGENTS.md + tasks/* + .harness/*,
+  Agent →  reads SKILL.md, routes to the capabilities it needs, runs `derive`, emits AGENTS.md + tasks/* + .harness/*,
            fills PROVENANCE.md, runs .harness/check.py, then records a case via `learn`.
+```
+```
+
+Wait — "Accept interruption" note. Fine.
+
+Now introduction.md §9 edit + §10 bullet.
+
+Edit A: line 211-213 paragraph — append the new reference docs.
+
+old:
+```
+**Why.** The asset is the *knowledge + rules*, not the executable. The most flexible use is to let a
+vibe-coding assistant read the factory directly: point it at this repo + a task goal, and it derives and
+emits the harness itself. `SKILL.md` is the entry (cardinal rules + load-index + output contract);
+`reference/derivation-rules.md` is the agent-readable mirror of the rule table; `harness skill` prints the
+index. This removes install friction and works for any assistant (Claude Code / opencode / Cursor / …).
+```
+
+new: add paragraph after it:
+```
+**Standing reference & routing.** Paste once (`SKILL.md` §"PASTE THIS EXACT INSTRUCTION") and the factory stays
+active for the whole conversation. `reference/capability-router.md` maps *situation → capability → module → file*;
+`reference/requirement-refinement.md` (R0–R5) clarifies and elevates an under-aimed ask before anything is derived;
+`reference/capability-flow.md` defines the **bidirectional** loop — concretise a capability into the task's own
+`.harness/capabilities.local.md`, and send only generalisable patterns back as human-gated proposals.
+```
+
+And §10 add a bullet:
+```
+- **P5 done** — reference docs & bidirectional flow: `reference/capability-router.md` (situation→capability→module→file), `reference/requirement-refinement.md` (R0–R5 refine/elevate/confirm), `reference/capability-flow.md` (concretise ⇄ distill); emitted harness adds `.harness/capabilities.local.md`; 4 new capabilities (`ambition-elevation`, `expert-instruments`, `cross-field-crew`, `bidirectional-capability-flow`); new refs R80–R83 (`review/ambition-and-agency.md`); standing-reference convention in `SKILL.md` + both READMEs + emitted `AGENTS.md` (guarded by `tests/test_standing_reference.py`).
+```
+
+Wait: adding a bullet in the roadmap is fine.
+
+Let me do the edits.</think>
+
+<｜DSML｜ calls>
+<｜DSML｜ invoke name="edit">
+<｜DSML｜ parameter name="newString" string="true">**EN.** Instead of driving the CLI yourself, **point a coding assistant at this repository and give it a task goal.** Set it up in **two steps**: paste the **configuration** once — it makes the factory a **standing reference** for the whole conversation (and, if it lives in the project's rules file, beyond) — then give the **task** — in the same turn or a later one (you may attach files/dirs too). The assistant reads [`SKILL.md`](SKILL.md) (cardinal rules + load-index + output contract), routes via [`reference/capability-router.md`](reference/capability-router.md), loads only the modules it needs, derives with `reference/derivation-rules.md` + `data/*.json`, emits the output contract, fills `PROVENANCE.md` honestly, and can `profile`/`learn` the project so the factory keeps improving. It keeps using the factory until you say to stop.
+
+**中文。** 你也可以不自己敲命令：**分两步——先贴「配置」（它让本仓库成为整段对话的常驻引用），再给「任务」**（同一轮接着写，或下一轮再发；也可直接附上文件/目录）。助手读 [`SKILL.md`](SKILL.md)（核心规则 + 载入索引 + 输出契约），先按 `reference/capability-router.md` 路由、再按需只载入需要的模块，用 `reference/derivation-rules.md` + `data/*.json` 推导，落盘输出契约，如实填写 `PROVENANCE.md`，并可 `profile`/`learn` 让工厂持续变好；需求模糊时先走 `reference/requirement-refinement.md`（R0–R5，等你确认）。
+
+```text
+Step 1 · configuration (paste once — a STANDING REFERENCE until I revoke it)
+  User  →  "STANDING REFERENCE (until I revoke it): treat ./harness_factory as my harness capability reference.
+            Read SKILL.md first; route via reference/capability-router.md and load only the matched row's files;
+            if my ask is vague/under-aimed, run reference/requirement-refinement.md (R0-R5) and WAIT for my OK.
+            Keep it active until I say 'stop using harness_factory'."
+Step 2 · task (same turn or next)
+  User  →  "Set up the agent harness for this repo; goal: on-device tennis out-of-bounds."
+  Agent →  reads SKILL.md, routes (capability-router), derives, emits AGENTS.md + tasks/* + .harness/*,
+           fills PROVENANCE.md, runs .harness/check.py, keeps task-local notes in .harness/capabilities.local.md.
 ```
 
 The assistant-loadable index is live · 可实时打印索引：

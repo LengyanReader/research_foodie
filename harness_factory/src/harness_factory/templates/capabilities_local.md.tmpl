@@ -1,0 +1,45 @@
+# Capability ledger (task-local) · 任务本地能力台账
+
+> **Task-specific. Lives here, in this task/project — never flows out on its own.**
+> The *concretize* half of the bidirectional capability flow. See `reference/capability-flow.md`.
+> 本文件是**任务本地**的能力台账：记录这次任务用到的能力**在这里如何具体落地**。它只属于本任务，
+> 不会自行回流；只有「通用化」的模式才以**提案**形式回流到 harness-factory 并交人类审批。
+
+**Task:** {{ task_text }} · **Domain:** {{ domain }} · **By:** harness-factory {{ version }} on {{ created }}
+
+---
+
+## Capabilities that fired · 本次触发的能力
+
+| capability | rationale (generic) |
+|---|---|
+{{ capabilities_table }}
+
+## Concretization table · 具体化（由 agent 维护，append-only）
+
+> Fill one row per capability. `local realisation` = the concrete artefact/step/parameter **for this task**;
+> `evidence` = file/command/metric proving it is in place; `gap` = what is still missing and the cheapest next step.
+
+| capability | local realisation · 本地落地 | evidence · 证据 | gap · 缺口 | generalisable? |
+|---|---|---|---|---|
+| _(e.g. verification-gate)_ | _(e.g. `pytest -q` on the 3 CI jobs)_ | _(e.g. `.github/workflows/ci.yml`)_ | _(e.g. no perf gate)_ | no / maybe |
+
+## Distillation candidates · 待回流候选
+
+> Rows marked `maybe` above, once seen in ≥2 independent tasks, become **proposals** via
+> `harness learn` + `harness evolve` (observe-only, human-gated). Never edit the factory catalogue directly.
+
+| candidate | evidence (≥2 tasks?) | proposed change | status |
+|---|---|---|---|
+| _(pattern that may generalise)_ | _(task A, task B)_ | _(capability / module / doc)_ | proposed / needs-evidence |
+
+## Derivation trace · 推导依据
+
+{{ modules_reasons_table }}
+
+Files in this harness: {{ files_list }}
+
+## Boundaries · 边界
+
+- **Direction 1 (concretize):** this file stays here; enrich it as the task runs (append-only).
+- **Direction 2 (distill):** generalisable patterns go out **only** as proposals in `updates/` — a human reviews them before anything reaches `data/`, `core/`, `domains/`, or `templates/` (M0.4/M0.8).

@@ -113,6 +113,17 @@ R79. 张雪峰, 《你离考研成功,就差这本书》, 《从就业看专业�
 
 ---
 
+## D. Ambition, agency & goal-setting · 野心、主动性与目标设定
+
+*(New group; source for capabilities `ambition-elevation`, `expert-instruments`, `cross-field-crew`. See `ambition-and-agency.md`.)*
+
+R80. F. Rieseberg, "How to be more ambitious: A tutorial for humans with models," Oct. 13, 2026. [Online]. Available: https://felixrieseberg.com/how-to-be-more-ambitious-a-tutorial-for-humans-with-models/ (accessed 2026-10-16).
+R81. E. A. Locke, K. N. Shaw, L. M. Saari, and G. P. Latham, "Goal setting and task performance: 1969–1980," *Psychological Bulletin*, vol. 90, no. 1, pp. 125–152, 1981. DOI: 10.1037/0033-2909.90.1.125.
+R82. G. P. Latham and E. A. Locke, "Building a practically useful theory of goal setting and task motivation: A 35-year odyssey," *American Psychologist*, vol. 57, no. 9, pp. 705–717, 2002. DOI: 10.1037/0003-066X.57.9.705.
+R83. J. Read, "When Agents Ship, the PM Job Becomes Raising Ambition," Sep. 3, 2026. [Online]. Available: https://drjoshuaread.com/pm-job-raising-the-next-request/ (accessed 2026-10-16). **Commentary — treat claims as opinion.**
+
+---
+
 ## Verification status · 核验状态
 - **Verified this session (2026-10-12):** R1–R8, R10–R11, R13–R29 (arXiv/DOI/ACL resolved); R21 and R22 confirmed.
 - **Established but not re-fetched:** R28, R29.

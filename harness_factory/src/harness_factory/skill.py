@@ -56,7 +56,10 @@ _HEAD: tuple[Skill, ...] = (
 )
 
 _TAIL: tuple[Skill, ...] = (
+    Skill("capability-router", "reference", "reference/capability-router.md", "Start here: situation -> capability -> module -> file (external-task router)."),
     Skill("derivation-rules", "reference", "reference/derivation-rules.md", "Markdown mirror of the derive.py rule table (for L0)."),
+    Skill("requirement-refinement", "reference", "reference/requirement-refinement.md", "R0-R5: restate -> elevate -> classify -> offer -> confirm -> converge."),
+    Skill("capability-flow", "reference", "reference/capability-flow.md", "Bidirectional flow: concretize (task-local) <-> distill (factory, human-gated)."),
     Skill("capabilities", "overview", "CAPABILITIES.md", "Generated overview: purpose + every harness capability (requirement -> modules)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),
     Skill("harness-catalog", "review", "review/harness-catalog.md", "Prose taxonomy of harnesses & self-evolution methods."),

@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**13 capabilities · 9 modules (M0–M8)**
+**17 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -119,6 +119,30 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** tool_surface ∈ {read, read_write, external} (工具面)
 - **Modules · 关联模块:** M6
 - **Why · 理由:** Skills are emitted in the Agent Skills (SKILL.md) open format so the same skill loads in any compatible harness (agentskills.io), not just the one that generated it.
+
+### `ambition-elevation` — Ambition elevation (raise, then converge) · 野心提升（先拔高，再收敛）
+
+- **Fires when · 触发条件:** horizon ≥ session
+- **Modules · 关联模块:** M0, M3, M8
+- **Why · 理由:** Restate the ask at a higher altitude before executing: offer an Elevated (stretch) and a Moonshot reading of the goal, classify constraints as hard / soft / assumed, then converge to the smallest verifiable increment with explicit human confirmation (M0.3/M0.4/M0.8). See reference/requirement-refinement.md.
+
+### `expert-instruments` — Expert instruments (depth) · 专家级工具（深度）
+
+- **Fires when · 触发条件:** verifiability ∈ {high} (可验证性) OR horizon ≥ multi_session
+- **Modules · 关联模块:** M3, M4, M6
+- **Why · 理由:** Depth comes from insisting on the instruments the best practitioners in the field actually use (the real solver/DB/eval harness and the rawest data, not toy substitutes) and from an outside judge that can be run -- not the model grading itself (M0.2/M0.3).
+
+### `cross-field-crew` — Cross-field crew (range) · 跨领域班底（广度）
+
+- **Fires when · 触发条件:** collaboration ∈ {multi_agent} (协作) OR horizon ∈ {long_running} (时间跨度)
+- **Modules · 关联模块:** M6, M8
+- **Why · 理由:** Range comes from reframing nouns as verbs and convening a cognitively diverse crew (analyst / editor / red-team) to *do* the work the discipline does -- not to role-play a persona (M0.4/M8).
+
+### `bidirectional-capability-flow` — Bidirectional capability flow · 双向能力流
+
+- **Fires when · 触发条件:** always · 总是
+- **Modules · 关联模块:** M0, M5, M7
+- **Why · 理由:** Each harness also writes a task-local capability ledger (`.harness/capabilities.local.md`) and, at the end, proposes the generalizable patterns it found back to the factory catalog -- observe-only and human-gated (M0.4/M0.5/M0.10). See reference/capability-flow.md.
 
 ---
 

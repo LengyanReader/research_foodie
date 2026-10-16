@@ -1,8 +1,17 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-15
+**Updated:** 2026-10-16
 
 ---
+
+## 2026-10-16 — P5: frontier assimilation (ambition/agency) + capability router + bidirectional flow + standing reference
+- **Frontier assimilation — F. Rieseberg, *How to be more ambitious* (2026-10-13), verified by full fetch.** New `review/ambition-and-agency.md` maps its four axes (**Speed / Altitude / Depth / Range**) onto M0–M8 and names the gaps. Anchor refs added: Rieseberg `[R80]`, Locke & Latham goal-setting `[R81]/[R82]` (DOIs verified), J. Read `[R83]` (marked **commentary**).
+- **4 new capabilities** (`data/capabilities.json`; 13→**17**; data-only, no code): `ambition-elevation` (horizon ≥ session), `expert-instruments` (verifiability=high OR horizon ≥ multi_session), `cross-field-crew` (collaboration=multi_agent OR horizon=long_running), `bidirectional-capability-flow` (always). `CAPABILITIES.md` regenerated (`harness capabilities --write`); drift guard still green.
+- **3 new reference docs** (`reference/`): `capability-router.md` (*situation → capability → module → file* — the entry for external tasks), `requirement-refinement.md` (R0 restate → R1 elevate → R2 classify constraints → R3 offer MVP/Elevated/Exploratory → R4 confirm → R5 converge), `capability-flow.md` (bidirectional loop). Registered in `skill.py` `_TAIL`, `SKILL.md` load-index, root README doc maps, `AGENTS.md` map.
+- **Standing reference convention (per user, 2026-10-16).** `SKILL.md` §"PASTE THIS EXACT INSTRUCTION" rewritten: paste once → the factory stays active for the **whole conversation**; durable when pasted into the target's rules file (survives a new conversation + spawned subagents); revoked by saying **"stop using harness_factory"**. Updated consistently: root `README.md` / `README.zh-CN.md`, `GUIDE.md` (Example 4), `introduction.md` §9, workspace `AGENTS.md` §6.
+- **Bidirectional capability flow is now materialised in the emitted harness.** `templates/capabilities_local.md.tmpl` → `.harness/capabilities.local.md` (task-local ledger; wired in `assemble.py` `_TEMPLATE_MAP` + `_selected_files`); `templates/AGENTS.md.tmpl` emits **Standing reference** + **Requirement refinement** + **Bidirectional capability flow** sections; `templates/tasks_PLAN.md.tmpl` gains a *Confirmed reading (R0–R5)* block. Smoke: `init` → 11 files incl. `capabilities.local.md`, `check` OK.
+- **Fix (honesty).** Removed the non-existent "(M9 protocol)" label from `AGENTS.md.tmpl` — `core/` is **M0–M8** only (the new work is added as **capabilities + reference docs**, not new modules).
+- **Tests:** +3 (`tests/test_standing_reference.py`: entry / root READMEs / emitted AGENTS.md carry the convention) → **135** passing.
 
 ## 2026-10-15 — P1+P2+P3 implemented: portable skills, Hermes/peer integration, capability overview doc
 - **P1 — Agent Skills conformance (portable skills).** M6 now emits a spec-conformant skill at `.harness/skills/<name>/SKILL.md` (dir name = frontmatter `name`; `name` ≤64 lowercase-hyphen; `description` ≤1024), via new `templates/skills_SKILL.md.tmpl`; `assemble.py` gained `skill_name()`/`skill_path()` and emits the dynamic path; `templates/skills_README.md.tmpl` links it; `runtime.py` M6 advisory gate now also checks `skills/*/SKILL.md` (multi-artifact `_MODULE_ARTIFACTS`). The factory's own `harness_factory/SKILL.md` gained `license`+`compatibility` frontmatter (spec-valid). Spec: `agentskills.io/specification` (verified 2026-10-15).

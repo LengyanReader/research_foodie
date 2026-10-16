@@ -21,6 +21,7 @@ _TEMPLATE_MAP = {
     ".harness/ledger.md": "ledger.md.tmpl",
     ".harness/skills/README.md": "skills_README.md.tmpl",
     ".harness/decisions.md": "decisions.md.tmpl",
+    ".harness/capabilities.local.md": "capabilities_local.md.tmpl",
     ".harness/PROVENANCE.md": "PROVENANCE.md.tmpl",
 }
 
@@ -57,6 +58,7 @@ def _selected_files(plan: HarnessPlan) -> list[str]:
         ".harness/gates.md",
         ".harness/check.py",
         ".harness/PROVENANCE.md",
+        ".harness/capabilities.local.md",
     ]
     if _enabled(plan, "M2"):
         names.append(".harness/ledger.md")

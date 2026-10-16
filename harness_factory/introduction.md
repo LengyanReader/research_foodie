@@ -212,6 +212,13 @@ emits the harness itself. `SKILL.md` is the entry (cardinal rules + load-index +
 `reference/derivation-rules.md` is the agent-readable mirror of the rule table; `harness skill` prints the
 index. This removes install friction and works for any assistant (Claude Code / opencode / Cursor / …).
 
+**Standing reference & routing.** Paste once (`SKILL.md` §"PASTE THIS EXACT INSTRUCTION") and the factory stays
+active for the whole conversation, until explicitly revoked. `reference/capability-router.md` maps *situation →
+capability → module → file*; `reference/requirement-refinement.md` (R0–R5: restate → elevate → classify
+constraints → offer readings → confirm → converge) sharpens an under-aimed ask before anything is derived;
+`reference/capability-flow.md` defines the **bidirectional** loop — concretise a capability into the task's own
+`.harness/capabilities.local.md`, and send only generalisable patterns back as human-gated proposals.
+
 **Capability mechanism (requirement → harness).** Module selection is driven by a data-driven **capability
 map** (`data/capabilities.json`): a requirement (task features) matches capabilities, which *annotate* the
 enabled modules and are recorded in the manifest. New requirements are added by editing JSON, not code, so
@@ -241,5 +248,6 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 - **P2 (disciplines + catalog + frontier standard)** — disciplines expanded to **24** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`, 133 entries), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. **Frontier standard** is now executable: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. The **writing** domain is registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable. **Agent Skills conformance**: emitted M6 skills use the portable `SKILL.md` format, and Hermes Agent + peers are tracked in the SSOT (see `CAPABILITIES.md` + `tasks/ASSESSMENT.md`). Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
 - **P3 done** — runtime hooks: `runtime.py` — **gate runner** (`harness gate`: structural check + executes the emitted `.harness/check.py`; hard gates decide the exit code, M2/M4/M6/M8 gates are advisory) and **signal harvest** (`harness harvest`, observe-only → `<kb>/updates/signals.jsonl`).
 - **P4 done** — plugin protocol: `plugins.py` — read-only third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged over the SSOT, strictly validated, CLI `harness plugins`.
+- **P5 done** — frontier assimilation + bidirectional capability flow: distilled *ambition* sources into 4 new capabilities (`ambition-elevation`, `expert-instruments`, `cross-field-crew`, `bidirectional-capability-flow`) and three reference docs (`capability-router.md`, `requirement-refinement.md`, `capability-flow.md`); the emitted harness now carries a **task-local capability ledger** (`.harness/capabilities.local.md`); the standing-reference convention is documented in `SKILL.md` + both root READMEs and emitted into `AGENTS.md` (guarded by `tests/test_standing_reference.py`); review [`ambition-and-agency.md`](review/ambition-and-agency.md) + refs R80–R83.
 
 See `tasks/PLAN.md` (plan), `tasks/PROGRESS.md` (log), and `tasks/DISTRIBUTION.md` (packaging & tool-form evaluation).

@@ -3,7 +3,7 @@
 > 工作区原则 · Workspace principles for AI coding assistants and contributors.
 > Derived from conventions observed in sibling workspaces (`cookbooks`, `m_flow`) and adapted for this repository.
 
-**Updated:** 2026-10-15
+**Updated:** 2026-10-16
 
 ## 1. 语言政策 / Language policy
 
@@ -24,9 +24,10 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   introduction.md         简介：是什么 · 心智模型 · Quickstart
   core/                   跨域通用主干模式（M0–M8）
   domains/                学科门类编排（24 学科 + general 兜底；含 writing 写作域）
-  review/                 文献综述 · harness 目录与索引（catalog · index）
+  review/                 文献综述 · harness 目录与索引（catalog · index · ambition-and-agency）
   sources/                提炼溯源表（模式 ← 一手材料）
-  reference/              derivation-rules.md（规则表的 agent 可读镜像）
+  reference/              capability-router（情境→能力→模块→文件）· requirement-refinement（R0–R5 需求精炼与拔高）
+                          · capability-flow（双向：下放具体化 ⇄ 回流提炼）· derivation-rules（规则表的 agent 可读镜像）
   src/harness_factory/    工具源码 + data/*.json（SSOT）+ templates/
   tests/                  标准库 unittest（无外部依赖）
   tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT
@@ -44,7 +45,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **132** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **135** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 
@@ -63,12 +64,13 @@ LICENSE                   MIT License
 
 ## 6. 给 agent 的指令词：先配置，再提任务 / Directive for an agent: configure first, then task
 
-**Step 1 · 配置（先贴一次，可复用）。** 把「如何引用与使用本工具」作为固定配置，只贴一次（可存为模板或写进项目规则文件）：
+**Step 1 · 常驻引用（贴一次，整段对话有效；写进项目规则文件可跨对话与子体）。** 权威版本见 `harness_factory/SKILL.md`
+§"PASTE THIS EXACT INSTRUCTION"（含"停止使用"的撤销方式）；一句话版：
 
-> 「把本仓库当 skill 使用：读 `harness_factory/SKILL.md`，按需加载 `reference/derivation-rules.md`、`core/*.md`、
-> `data/*.json`、`domains/<名>/README.md`。此后我给你的任务，请据此推导并落盘所需 harness（`AGENTS.md` +
-> `tasks/*` + `.harness/*`，每条选择写入 `.harness/manifest.json`），最后跑 `check`；只提案、不编造任务内容（M0.4）。
-> 若我这条只发了配置、还没给任务，请**确认收到并等待**，不要提前推导。」
+> 「**常驻引用（直到我明确撤销）**：把本仓库当 harness 能力参考。先读 `harness_factory/SKILL.md`，按
+> `reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑 `reference/requirement-refinement.md`
+> （R0–R5，等我确认）。推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），
+> 最后跑 `check`；本地能力留在任务里，通用模式只以提案回流 `updates/`。**除非我说「停止使用 harness_factory」，一直沿用。**」
 
 **Step 2 · 任务（同一轮接着写，或下一轮再发均可）。** 直接写目标，或直接附上文件/目录/链接，例如：
 「为现有 Python 项目补全类型注解与单元测试，保证可验证闭环。」

@@ -50,6 +50,12 @@
       "name_zh": "多智能体协作",
       "queries": ["multi-agent collaboration LLM", "agent handoff protocols", "agent teams orchestration"],
       "keywords": ["multi-agent", "handoff", "collaboration", "protocol", "delegation"]
+    },
+    {
+      "id": "ambition-and-agency",
+      "name_zh": "野心与主动性",
+      "queries": ["raising ambition with AI agents", "requirement refinement and goal elevation LLM", "goal setting theory specific difficult goals"],
+      "keywords": ["ambition", "elevate", "stretch goal", "goal setting", "requirement refinement", "outside judge", "expert instrument"]
     }
   ],
   "frontier_probes": [

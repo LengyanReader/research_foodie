@@ -1,6 +1,6 @@
 # PLAN · Inclusive Harness Tool · 通用 harness 工具计划
 
-**Updated:** 2026-10-15 · **Status:** active · **Owner:** user + agent
+**Updated:** 2026-10-16 · **Status:** active · **Owner:** user + agent
 
 > Goal: turn `harness_factory/` from a pattern **library** into a working **harness compiler** — given any task, emit the harness that task needs.
 > 目标：把 `harness_factory/` 从模式**库**升级为可运行的**harness 编译器**——给定任意任务，产出该任务所需的 harness。
@@ -32,6 +32,16 @@
 - `harness evolve` / `harness evolve-apply` — self-evolution audit → mutation proposals → human gate.
 - `harness skill [<name>]` — print the agent load-index (or one module/doc) so a vibe-coding
   assistant pointed at this path can consume the factory as an agent-native skill (no install).
+- **Standing reference** (`SKILL.md` §"PASTE THIS EXACT INSTRUCTION"; mirrored in both root READMEs and the
+  workspace `AGENTS.md`) — paste once; active for the whole conversation; durable in the target's rules
+  file; revoked by "stop using harness_factory". The emitted `AGENTS.md` carries the same convention.
+- `reference/capability-router.md` — the entry for external tasks: *situation → capability → module → file*
+  (load only what the matched row names).
+- `reference/requirement-refinement.md` — R0–R5 (restate → elevate → classify constraints → offer
+  MVP/Elevated/Exploratory → confirm → converge) run **before** deriving, so an under-aimed ask is raised,
+  not tooled.
+- `reference/capability-flow.md` — the **bidirectional** loop: concretise a capability into the task's own
+  `.harness/capabilities.local.md`; distill only generalisable patterns back as human-gated proposals.
 - `harness profile --project DIR` — scan a target project → `PROFILE.md` + capabilities (observe-only).
 - `harness learn` / `harness cases` — record / review learned project cases (project → factory learning).
 - `harness catalog [<id>] [--class/--kind/--module/--vendor/--tag/--search/--tracked/--markdown/--write/--json]` — unified harness catalog: list/search/filter; `--write` regenerates `review/harness-index.md`.

@@ -202,5 +202,68 @@
       "M6"
     ],
     "why": "Skills are emitted in the Agent Skills (SKILL.md) open format so the same skill loads in any compatible harness (agentskills.io), not just the one that generated it."
+  },
+  "ambition-elevation": {
+    "title_en": "Ambition elevation (raise, then converge)",
+    "title_zh": "野心提升（先拔高，再收敛）",
+    "when": {
+      "min_horizon": "session"
+    },
+    "modules": [
+      "M0",
+      "M3",
+      "M8"
+    ],
+    "why": "Restate the ask at a higher altitude before executing: offer an Elevated (stretch) and a Moonshot reading of the goal, classify constraints as hard / soft / assumed, then converge to the smallest verifiable increment with explicit human confirmation (M0.3/M0.4/M0.8). See reference/requirement-refinement.md."
+  },
+  "expert-instruments": {
+    "title_en": "Expert instruments (depth)",
+    "title_zh": "专家级工具（深度）",
+    "when": {
+      "any": [
+        {
+          "verifiability": "high"
+        },
+        {
+          "min_horizon": "multi_session"
+        }
+      ]
+    },
+    "modules": [
+      "M3",
+      "M4",
+      "M6"
+    ],
+    "why": "Depth comes from insisting on the instruments the best practitioners in the field actually use (the real solver/DB/eval harness and the rawest data, not toy substitutes) and from an outside judge that can be run -- not the model grading itself (M0.2/M0.3)."
+  },
+  "cross-field-crew": {
+    "title_en": "Cross-field crew (range)",
+    "title_zh": "跨领域班底（广度）",
+    "when": {
+      "any": [
+        {
+          "collaboration": "multi_agent"
+        },
+        {
+          "horizon": "long_running"
+        }
+      ]
+    },
+    "modules": [
+      "M6",
+      "M8"
+    ],
+    "why": "Range comes from reframing nouns as verbs and convening a cognitively diverse crew (analyst / editor / red-team) to *do* the work the discipline does -- not to role-play a persona (M0.4/M8)."
+  },
+  "bidirectional-capability-flow": {
+    "title_en": "Bidirectional capability flow",
+    "title_zh": "双向能力流",
+    "when": {},
+    "modules": [
+      "M0",
+      "M5",
+      "M7"
+    ],
+    "why": "Each harness also writes a task-local capability ledger (`.harness/capabilities.local.md`) and, at the end, proposes the generalizable patterns it found back to the factory catalog -- observe-only and human-gated (M0.4/M0.5/M0.10). See reference/capability-flow.md."
   }
 }

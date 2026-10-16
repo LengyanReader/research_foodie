@@ -51,6 +51,45 @@
 
 > 真相优先；来源可溯；先验证再称完成；机器只观察、实质靠人决断；破坏性动作须人工确认。
 
+## Standing reference · 常驻引用
+
+> The user may open a conversation by pointing the assistant at a `harness_factory` directory (or an
+> ancestor). That makes it the harness-capability reference for the **whole conversation**, active until
+> the user says to stop. **Reference it, never dump it:** read `SKILL.md`, route via
+> `reference/capability-router.md`, load only the matched row's files, and **declare each use** (which
+> capability + which file). · 会话一开始提到 `harness_factory` 即成为**常驻能力参考**，除非用户明确说
+> 「停止使用」；先路由、再按需加载，绝不整包灌入上下文。
+
+```text
+STANDING REFERENCE (until I revoke it) — treat <harness_factory path> as my harness capability reference
+for this whole conversation.
+1. Read <path>/SKILL.md first; its load-index is authoritative.
+2. Route: read <path>/reference/capability-router.md and load ONLY the files the matching row names.
+3. If the ask is vague / under-aimed: run <path>/reference/requirement-refinement.md (R0-R5) and WAIT for my confirmation.
+Standing behaviour: before each substantive answer, check whether a capability applies; when you use one, declare which capability + which file. Keep it active until I say "stop using harness_factory".
+Never fabricate task substance (M0.4); truth/traceability outrank speed; irreversible acts need my explicit OK.
+```
+
+## Requirement refinement · 需求精炼
+
+Before executing, run the six-step protocol in `reference/requirement-refinement.md`:
+**R0 restate → R1 elevate (propose stretch/moonshot) → R2 classify constraints (hard/soft/assumed) →
+R3 offer MVP · Elevated · Exploratory readings → R4 confirm with the human → R5 converge**.
+Do not begin work until the reading is explicitly confirmed; treat assumed constraints as open questions,
+and assume an expert persona from the domain (persona changes method, never facts).
+
+> 先复述、再拔高、分类约束、给候选版本、**得到确认**后再动手；假定约束要转成待确认问题；人格只改方法不改事实。
+
+## Bidirectional capability flow · 双向能力流
+
+- **Concretize (factory → this task):** maintain `.harness/capabilities.local.md` — record *how each fired
+  capability is realised here*, its evidence, gaps, and whether it looks generalisable.
+- **Distill (this task → factory):** at session end, propose generalisable patterns back via
+  `harness learn` + `harness evolve` (writes only to `updates/`, gitignored). **Never edit the factory
+  catalogue from here**; a human approves. See `reference/capability-flow.md`.
+
+> 具体化的留在本任务（`.harness/capabilities.local.md`）；通用化的只以**提案**回流，人类把关，绝不自动合并。
+
 ## Workflow · 工作流
 
 {{ workflow_list }}
