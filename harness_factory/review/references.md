@@ -2,12 +2,12 @@
 
 > Consolidated IEEE-style reference list for the `harness_factory` review set.
 > `harness_factory` 综述集的合并 IEEE 参考文献。
-> **Access date for all online sources: 2026-10-12** (group **§E**, R84–R92: **2026-10-18**). Machine-readable BibTeX: `references.bib`.
+> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106: **2026-10-18**). Machine-readable BibTeX: `references.bib`.
 
 ---
 
 ## 中文速览
-本文件把三份综述文档（`harness-catalog.md`、`practitioner-playbook.md`、`masters-playbook.md`）的参考文献合并为**统一编号 R1–R79**，按主题分组。各文档正文仍保留**各自的局部编号**（避免大范围改写）；本表给出统一编号并注明局部对应。**引用即生命线**：凡未一手核验者，标注 `[unverified]`，不得当作事实引用。
+本文件把三份综述文档（`harness-catalog.md`、`practitioner-playbook.md`、`masters-playbook.md`）的参考文献合并为**统一编号 R1–R106**，按主题分组（`§E`–`§G` 为 2026-10 前沿与学科新增）。各文档正文仍保留**各自的局部编号**（避免大范围改写）；本表给出统一编号并注明局部对应。**引用即生命线**：凡未一手核验者，标注 `[unverified]`，不得当作事实引用。
 
 ---
 
@@ -140,7 +140,37 @@ R92. M. Zhuge *et al.*, "Agent-as-a-Judge: Evaluate Agents with Agents," arXiv:2
 
 ---
 
+## F. Workflow patterns — loops & graphs · 工作流模式（循环 / 图）
+
+*(New group (2026-10-18); source for capabilities `loop-discipline`, `graph-orchestration`. Analysis: `workflow-patterns-2026-10.md`.)*
+
+R93. Anthropic, "Building effective agents," Dec. 19, 2024. [Online]. Available: https://www.anthropic.com/engineering/building-effective-agents (accessed 2026-10-18).
+R94. S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao, "ReAct: Synergizing Reasoning and Acting in Language Models," arXiv:2210.03629, v3 (ICLR 2023). DOI: 10.48550/arXiv.2210.03629.
+R95. N. Shinn, F. Cassano, E. Berman, A. Gopinath, K. Narasimhan, and S. Yao, "Reflexion: Language Agents with Verbal Reinforcement Learning," arXiv:2303.11366, v4, Oct. 2023. DOI: 10.48550/arXiv.2303.11366.
+R96. Google, "Template agent workflows — sequential / loop / parallel; graph-based workflows (supersede template workflows in ADK 2.0)," Agent Development Kit (ADK) documentation. [Online]. Available: https://google.github.io/adk-docs/agents/workflow-agents/ (accessed 2026-10-18).
+R97. LangChain, "Persistence — checkpointers & stores," LangGraph documentation. [Online]. Available: https://docs.langchain.com/oss/python/langgraph/persistence (accessed 2026-10-18).
+
+---
+
+## G. Formal & empirical sciences — proofs · units · measurement · language · cognition · 形式与实证科学
+
+*(New group (2026-10-18); source for domains `logic`, `linguistics`, `cognitive-science` and capabilities `formal-verification`, `dimensional-analysis`, `empirical-measurement`. Analysis: `disciplines-crosswalk-2026-10.md`.)*
+
+R98. The mathlib Community, "The Lean mathematical library," arXiv:1910.09336, v2, Dec. 2019 (CPP 2020). DOI: 10.1145/3372885.3373824.
+R99. L. de Moura and S. Ullrich, "The Lean 4 Theorem Prover and Programming Language," in *Automated Deduction — CADE 28*, 2021, pp. 625–635. DOI: 10.1007/978-3-030-79876-5_37.
+R100. Open Logic Project, *An Open-Source, Collaborative Logic Text* (open textbook: syntax, semantics, proof theory, model theory, computability). [Online]. Available: https://openlogicproject.org/ (accessed 2026-10-18). CC-BY.
+R101. M.-C. de Marneffe, C. D. Manning, J. Nivre, and D. Zeman, "Universal Dependencies," *Computational Linguistics*, vol. 47, no. 2, pp. 255–308, 2021. DOI: 10.1162/coli_a_00402.
+R102. R. Artstein and M. Poesio, "Survey Article: Inter-Coder Agreement for Computational Linguistics," *Computational Linguistics*, vol. 34, no. 4, pp. 555–596, 2008. DOI: 10.1162/coli.07-034-R2.
+R103. M. R. Munafò *et al.*, "A manifesto for reproducible science," *Nature Human Behaviour*, vol. 1, art. 0021, Jan. 2017. DOI: 10.1038/s41562-016-0021.
+R104. E. Buckingham, "On Physically Similar Systems; Illustrations of the Use of Dimensional Equations," *Physical Review*, vol. 4, no. 4, pp. 345–376, Oct. 1914. DOI: 10.1103/PhysRev.4.345.
+R105. J. R. Anderson *et al.*, "An integrated theory of the mind," *Psychological Review*, vol. 111, no. 4, pp. 1036–1060, 2004. DOI: 10.1037/0033-295X.111.4.1036.
+R106. J. Woodcock, P. G. Larsen, J. Bicarregui, and J. Fitzgerald, "Formal methods: practice and experience," *ACM Computing Surveys*, vol. 41, no. 4, art. 19, Oct. 2009. DOI: 10.1145/1592434.1592436.
+
+---
+
 ## Verification status · 核验状态
+- **Verified this session (2026-10-18, §G):** R98 (arXiv abstract page), R103 (Nature page, full text) fetched in full; R99, R100, R101, R102, R104, R105, R106 confirmed from first-party landing pages / publisher records (title, authors, venue, year, DOI) via targeted search — treat the *bibliographic record* as verified, the *body text* as **listed, not deep-read**.
+- **Verified this session (2026-10-18, §F):** R93 (full page), R94, R95 (arXiv abstract pages), R96 (ADK docs page), R97 (LangGraph docs page) fetched in full.
 - **Verified this session (2026-10-18, §E):** R84, R85, R86 (page), R87, R90 and the arXiv abstract pages R88, R89, R92 fetched in full; R91 (OTel GenAI) confirmed from first-party results but the README fetch timed out — treat as *listed, not deep-read*.
 - **Verified this session (2026-10-12):** R1–R8, R10–R11, R13–R29 (arXiv/DOI/ACL resolved); R21 and R22 confirmed.
 - **Established but not re-fetched:** R28, R29.

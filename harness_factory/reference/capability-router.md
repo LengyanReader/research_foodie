@@ -45,9 +45,15 @@
 | Tools call the outside world / code executes · 触碰外部世界 | `tool-use`, `sandboxed-execution` | M6, M7 | [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md), [`core/08-change-governance.md`](../core/08-change-governance.md) |
 | Others are involved / stakes are high · 他人参与/高风险 | `human-review-gate`, `high-stakes-guardrails` | M3, M8 | [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |
 | Long, high-stakes autonomous run · 长时程高自主 | `long-horizon-autonomy-control` | M2, M3, M8 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |
+| An agent that acts in a loop (tools, retries, re-plan) · agent 循环 | `loop-discipline` | M2, M3, M6 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md) |
+| Branches, a pipeline, or several workers · 分支·流水线·多工作者 | `graph-orchestration` | M2, M8 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |
+| A formal claim: proof, derivation, model, checker · 形式证明类主张 | `formal-verification` | M3, M4, M6 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
+| Physical quantities with units, error, tolerance · 带单位与误差的物理量 | `dimensional-analysis` | M3, M6 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
+| An empirical claim: study, measurement, reliability · 实证主张 | `empirical-measurement` | M3, M4 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md) |
 | Picking a discipline to work in · 选学科门类 | — (route by *kind of work*) | — | [`domains/`](../domains) → `domains/<name>/README.md` |
 | Choosing a model/method · 选模型/选方法 | — | — | [`domains/model-selection/README.md`](../domains/model-selection/README.md) |
 | Want the capability list (capability → when it fires) · 反查能力 | `harness capabilities` | — | [`CAPABILITIES.md`](../CAPABILITIES.md) |
+| Want the whole landscape (modules · capabilities · domains · catalog · CLI) · 想要全景 | `harness map` | — | [`HARNESS-MAP.md`](../HARNESS-MAP.md) |
 | Want to learn from the work just done · 想反哺本仓库 | `bidirectional-capability-flow` | M0, M5, M7 | [`reference/capability-flow.md`](capability-flow.md) |
 
 ---

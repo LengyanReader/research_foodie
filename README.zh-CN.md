@@ -51,6 +51,7 @@ harness plugins --validate              # 第三方域/模板插件（只读叠�
 # 面向 agent 的助手命令 + 项目画像/学习（观察式）
 harness skill                            # agent 加载索引；`harness skill M4` 打印某模块
 harness capabilities                     # 需求 → 能力 → 模块 映射
+harness map                              # 全景总览 → HARNESS-MAP.md（生成）
 harness catalog --class deep-research    # 统一 harness 目录：列出/搜索/筛选
 harness profile --project ./myproj --goal "…"   # → updates/profile/<slug>.{json,md}
 harness derive  --task "…" --project ./myproj   # 让 harness 适配该项目
@@ -166,6 +167,7 @@ harness_factory/          项目主体 —— 模式库 + `harness` CLI（从这
 ├── GUIDE.md              项目指南：介绍 + 命令速查 + 10 个实例（中英对照）
 ├── introduction.md        简介：是什么 · 心智模型 · Quickstart
 ├── CAPABILITIES.md       生成：目的 + 全部 harness 能力（勿手改；`harness capabilities --write`）
+├── HARNESS-MAP.md        生成：一页看全项目 —— 模块 · 能力 · 学科域 · CLI（勿手改；`harness map --write`）
 ├── pyproject.toml        dev/CI 便利（打包作为渠道已取消）
 ├── refresh.ps1           自更新循环的调度入口
 ├── install-skill.ps1     可选：把「仓库即 skill」复制到 skills 目录
@@ -187,15 +189,16 @@ harness_factory/          项目主体 —— 模式库 + `harness` CLI（从这
 │   ├── 07-tools-and-skills.md      工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md     单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/              24 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
+├── domains/              27 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
 │   ├── deep-research/ research/ reading/ excellence/ knowledge-management/ data-science/ model-selection/ (meta + methods)
 │   ├── software-engineering/ devops/ engineering/ (engineering)
+│   ├── logic/ (formal sciences)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)
 │   ├── medicine/ (health)
-│   ├── economics-finance/ psychology/ social-science/ (social sciences)
-│   ├── law/ humanities/ education/ arts-design/ (law/humanities/education/arts)
+│   ├── economics-finance/ psychology/ cognitive-science/ social-science/ (social sciences)
+│   ├── law/ humanities/ linguistics/ education/ arts-design/ (law/humanities/education/arts)
 │   └── general/ (fallback，无独立 README)
-├── review/               文献综述 · harness 分类总览与索引 · 实践者/大师 playbook · 参考文献（R1–R79）
+├── review/               文献综述 · harness 分类总览与索引 · 实践者/大师 playbook · 参考文献（R1–R106）
 └── _archive/             旧目录归档（docs/ external/ tools/ …，已移出版本控制）
 ```
 
@@ -242,6 +245,7 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 | 定位、结构、用法 | 本文件 —— [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | 完整指南 + 实例 | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |
 | **harness 能力总览（生成）** | [`harness_factory/CAPABILITIES.md`](harness_factory/CAPABILITIES.md) |
+| **harness 全景地图（生成）** | [`harness_factory/HARNESS-MAP.md`](harness_factory/HARNESS-MAP.md) |
 | 心智模型 + 快速上手 | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | 核心 harness 不变式 | `harness_factory/core/01-meta-principles.md` |
 | 各域 playbook | `harness_factory/domains/*/README.md` |

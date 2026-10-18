@@ -61,10 +61,17 @@
 | `durable-execution` | Temporal "Durable AI" `[R90]` (journal/replay, idempotent side effects); METR time-horizon `[R89]` | practitioner + empirical |
 | `cost-budget-caps` | Willison "default hard budget caps" `[R85]` (hard, not soft) | practitioner |
 | `eval-driven-development` | Agent-as-a-Judge `[R92]` (step-level feedback); OpenTelemetry GenAI conventions `[R91]` (traced runs) | academic + standard |
+| `loop-discipline` | Anthropic "Building effective agents" `[R93]` (ground truth per step, stopping conditions); ReAct `[R94]`; Reflexion `[R95]`; ADK loop workflow `[R96]` | practitioner + academic |
+| `graph-orchestration` | Anthropic `[R93]` (orchestrator-workers, parallelization); ADK graph-based workflows `[R96]`; LangGraph checkpointers/stores `[R97]` | practitioner |
+| `formal-verification` | Mathlib `[R98]`; Lean 4 `[R99]`; Open Logic Project `[R100]` (proof theory / model theory / countermodels); Woodcock *et al.* `[R106]` (formal methods in practice) | academic + practitioner |
+| `dimensional-analysis` | Buckingham 1914 `[R104]` (dimensional equations / physically similar systems) | academic (foundational) |
+| `empirical-measurement` | Munafò *et al.* `[R103]` (pre-registration, effect sizes, power, analytic flexibility); Artstein & Poesio `[R102]` (inter-coder agreement); Anderson *et al.* `[R105]` (falsifiable cognitive model) | academic + practitioner |
 | `reference/requirement-refinement.md` (R0–R5 protocol) | Rieseberg [R80]; M8 escalation/handoff; `domains/deep-research/method.md` L0 "restate + confirm" | practitioner + internal |
 
 > Full analysis and the integration verdict: [`review/ambition-and-agency.md`](../review/ambition-and-agency.md). Refs R80–R83 live in [`review/references.md`](../review/references.md) (group D).
 > The 2026-10-18 frontier pass (context · security · durability · spend · evals) is distilled in [`review/frontier-2026-10.md`](../review/frontier-2026-10.md); refs R84–R92 live in group E.
+> The 2026-10-18 workflow pass (loops & graphs) is distilled in [`review/workflow-patterns-2026-10.md`](../review/workflow-patterns-2026-10.md); refs R93–R97 live in group F.
+> The 2026-10-18 disciplines pass (formal & empirical sciences) is distilled in [`review/disciplines-crosswalk-2026-10.md`](../review/disciplines-crosswalk-2026-10.md); refs R98–R106 live in group G.
 
 ---
 

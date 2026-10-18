@@ -116,3 +116,44 @@ class FrontierCapabilityTest(unittest.TestCase):
     def test_eval_driven_development_for_high_verifiability(self):
         self.assertNotIn("eval-driven-development", _active())
         self.assertIn("eval-driven-development", _active(verifiability="high"))
+
+
+class WorkflowPatternCapabilityTest(unittest.TestCase):
+    """Loop & graph engineering must fire only where the topology exists."""
+
+    def test_loop_discipline_for_agentic_write_loops(self):
+        self.assertIn("loop-discipline", _active())  # default surface is read_write
+        self.assertIn("loop-discipline", _active(horizon="multi_session"))
+        self.assertNotIn(
+            "loop-discipline", _active(horizon="one_shot", tool_surface="none")
+        )
+
+    def test_graph_orchestration_needs_branching_or_workers(self):
+        self.assertNotIn("graph-orchestration", _active())  # solo, session-long
+        self.assertIn("graph-orchestration", _active(collaboration="multi_agent"))
+        self.assertIn("graph-orchestration", _active(horizon="multi_session"))
+
+    def test_loop_and_graph_are_distinct(self):
+        self.assertIn("loop-discipline", _active(collaboration="multi_agent"))
+        self.assertNotIn("graph-orchestration", _active(horizon="session", tool_surface="read_write"))
+
+
+class DisciplineCapabilityTest(unittest.TestCase):
+    """The three evidence instruments fire only for the fields whose claims need them."""
+
+    def test_formal_verification_for_formal_claims(self):
+        self.assertNotIn("formal-verification", _active())
+        self.assertIn("formal-verification", _active(domain="logic"))
+        self.assertIn("formal-verification", _active(domain="mathematics"))
+        self.assertIn("formal-verification", _active(verifiability="high", artifact="code"))
+
+    def test_dimensional_analysis_for_physical_quantities(self):
+        self.assertNotIn("dimensional-analysis", _active())
+        self.assertIn("dimensional-analysis", _active(domain="physics"))
+        self.assertIn("dimensional-analysis", _active(domain="engineering"))
+
+    def test_empirical_measurement_for_empirical_claims(self):
+        self.assertNotIn("empirical-measurement", _active())
+        self.assertIn("empirical-measurement", _active(domain="cognitive-science"))
+        self.assertIn("empirical-measurement", _active(domain="medicine"))
+        self.assertNotIn("empirical-measurement", _active(domain="physics"))

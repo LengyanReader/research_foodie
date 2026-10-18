@@ -190,6 +190,13 @@ def build_parser() -> argparse.ArgumentParser:
     cap_p.add_argument("--markdown", action="store_true", help="print the generated CAPABILITIES.md")
     cap_p.add_argument("--write", action="store_true", help="write CAPABILITIES.md from the SSOT")
 
+    map_p = sub.add_parser(
+        "map", help="whole-factory overview (modules/capabilities/domains/CLI) -> HARNESS-MAP.md"
+    )
+    map_p.add_argument("--json", action="store_true", help="emit the headline counts as JSON")
+    map_p.add_argument("--markdown", action="store_true", help="print the generated HARNESS-MAP.md")
+    map_p.add_argument("--write", action="store_true", help="write HARNESS-MAP.md from the SSOT")
+
     profile_p = sub.add_parser(
         "profile", help="scan a target project -> PROFILE.md + capabilities (observe-only)"
     )
@@ -806,9 +813,10 @@ def _cmd_catalog(args: argparse.Namespace) -> int:
     if args.write:
         path = catalog.write_index()
         print(f"wrote {path}")
-        from . import capabilities as cap_mod
+        from . import capabilities as cap_mod, harness_map
 
         print(f"wrote {cap_mod.write_doc()}")
+        print(f"wrote {harness_map.write_doc()}")
         return 0
     if args.markdown:
         print(catalog.render_markdown(), end="")
@@ -877,6 +885,28 @@ def _cmd_capabilities(args: argparse.Namespace) -> int:
         print(f"{cid:<32} modules={modules}")
         print(f"  {meta.get('title_en', '')} / {meta.get('title_zh', '')}")
         print(f"  when: {json.dumps(meta.get('when', {}), ensure_ascii=False)}")
+    return 0
+
+
+def _cmd_map(args: argparse.Namespace) -> int:
+    from . import harness_map
+
+    if getattr(args, "write", False):
+        print(f"wrote {harness_map.write_doc()}")
+        return 0
+    if getattr(args, "markdown", False):
+        print(harness_map.render_doc(), end="")
+        return 0
+
+    counts = harness_map.summary()
+    if getattr(args, "json", False):
+        print(json.dumps(counts, ensure_ascii=False, indent=2))
+        return 0
+    for key, value in counts.items():
+        print(f"{key:<18} {value}")
+    print()
+    print("Markdown : harness map --markdown")
+    print("Regenerate: harness map --write  ·  (also) harness catalog --write")
     return 0
 
 
@@ -1022,6 +1052,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_skill(args)
     if args.command == "capabilities":
         return _cmd_capabilities(args)
+    if args.command == "map":
+        return _cmd_map(args)
     if args.command == "profile":
         return _cmd_profile(args)
     if args.command == "learn":

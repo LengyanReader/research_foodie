@@ -84,7 +84,7 @@ These describe *the kind of work*, not the topic. · 描述**工作的性质**�
 | `artifact` | `code` · `document` · `dataset` · `knowledge_base` · `plan` · `mixed` | what is produced · 产出物 |
 | `tool_surface` | `none` · `read` · `read_write` · `external` | how much the agent touches the world · 触达世界的程度 |
 | `collaboration` | `solo` · `human_review` · `multi_agent` | who else is involved · 协作形态 |
-| `domain` | 24 disciplines (below) · 24 个学科 | weak prior for defaults · 默认值的弱先验 |
+| `domain` | 27 disciplines (below) · 27 个学科 | weak prior for defaults · 默认值的弱先验 |
 
 ### 2.3 Modules M0–M8 · 核心模块
 
@@ -119,7 +119,7 @@ Requirements match **capabilities**, which *annotate* the enabled modules and ar
 
 ### 2.5 Domains · 学科门类
 
-Data-driven taxonomy of **24 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **24 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
+Data-driven taxonomy of **27 disciplines + `general` fallback**, grouped by faculty (each non-general domain has a `domains/<id>/README.md`). · **27 个学科 + `general` 兜底**，按 faculty 分组（每个非 general 域都有 `domains/<id>/README.md`）。
 
 > `domains/writing/README.md` is **registered** in `domains.json`/`rubrics.json` (faculty `humanities`), so `--domain writing` is selectable in the CLI. · `writing` 已注册进 SSOT（faculty `humanities`），CLI 可选 `--domain writing`。
 
@@ -213,6 +213,7 @@ self-check: OK
 | `plugins [--validate]` | List/validate third-party domain & template plugins. | 列出/校验第三方域与模板插件。 |
 | `skill [name]` | Print the agent load-index, or one module. | 打印 agent 载入索引或单个模块。 |
 | `capabilities` | Show the capability map. | 显示能力映射表。 |
+| `map [--json\|--markdown\|--write]` | Whole-factory overview → generated `HARNESS-MAP.md`. | 全景总览 → 生成 `HARNESS-MAP.md`。 |
 | `profile --project P` | Scan a project (observe-only) → `PROFILE.md`. | 扫描项目（只读）→ 画像。 |
 | `learn --task … --project P` | Record a case → `updates/cases.jsonl`. | 记录一个案例。 |
 | `cases` | Aggregate learned cases. | 聚合案例。 |
@@ -357,7 +358,7 @@ If the project repeatedly needs a capability not in `data/capabilities.json` (e.
 
 ```bash
 # edit src/harness_factory/data/harnesses.json (add the entry), then:
-PYTHONPATH=src python -m harness_factory catalog --write    # regenerate review/harness-index.md
+PYTHONPATH=src python -m harness_factory catalog --write    # regenerate review/harness-index.md + CAPABILITIES.md + HARNESS-MAP.md
 PYTHONPATH=src python -m unittest discover -s tests         # drift guard + all tests
 ```
 
@@ -678,7 +679,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests. · CLI 编译器。
 - **P1.5–P1.7 done** — self-update loop, cross-project home KB, intel tracking + self-evolution. · 自我更新/跨项目/情报/演化。
 - **P1.8 done** — agent-native mode (`harness_factory/SKILL.md`, `harness skill`), project learning (`profile`/`learn`/`cases`), capability mechanism; packaging cancelled. · 面向 agent + 项目学习 + 能力机制。
-- **P2 (in progress)** — **24 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 133 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit; and **`writing` domain** registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable; **Agent Skills conformance** — M6 emits a portable `.harness/skills/<name>/SKILL.md`, **Hermes Agent** + peers are tracked in the SSOT, and a generated [`CAPABILITIES.md`](CAPABILITIES.md) documents every capability (see [`tasks/ASSESSMENT.md`](tasks/ASSESSMENT.md)). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（已注册）。
+- **P2 (in progress)** — **27 disciplines** + faculty taxonomy; unified **harness catalog** (`data/harnesses.json`, 133 entries) + `catalog` CLI + generated `review/harness-index.md` (drift-guarded); **discovery/evaluation coverage** (`model-selection` domain, eval frameworks, discovery tools, registries/leaderboards/indices); **reading/acquisition coverage** (`reading` domain + 20 acquisition/parser/annotation/distillation tools + `libraries` sources); **deep-research coverage** (`deep-research` domain + `method.md` playbook + 43 research-agent/search/academic/retrieval/crawl/screening/eval tools + `tools` sources); **frontier-standard capability** (`excellence` domain + `standard-ladder.md` ratchet + `frontier-standard` capability) now **executable**: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit; and **`writing` domain** registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable; **Agent Skills conformance** — M6 emits a portable `.harness/skills/<name>/SKILL.md`, **Hermes Agent** + peers are tracked in the SSOT, and a generated [`CAPABILITIES.md`](CAPABILITIES.md) documents every capability (see [`tasks/ASSESSMENT.md`](tasks/ASSESSMENT.md)); a generated [`HARNESS-MAP.md`](HARNESS-MAP.md) draws the whole factory on one page (`harness map --write`, `modules · capabilities · domains · CLI · how to sync`). Remaining: LLM discovery/classification hardening; feed/entity expansion. · 学科扩展 + 目录统一 + 发现/评估 + 阅读/获取 + 深度调研 + 最高标准能力（可执行棘轮）+ 写作域（已注册）。
 - **P3 done** — **runtime hooks**. `runtime.py`: a **gate runner** (`harness gate`) that runs the structural check + executes the emitted `.harness/check.py` (hard gates decide pass/fail; M2/M4/M6/M8 gates are advisory), and **signal harvest** (`harness harvest`, observe-only) that appends one observation to `<kb>/updates/signals.jsonl`. · 运行时钩子：门禁执行 + 信号采集。
 - **P4 done** — **plugin protocol**. `plugins.py`: read-only discovery of third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged into the registry + rubrics (never mutating the SSOT), strict validation, CLI `harness plugins`. · 第三方域/模板插件协议。
 
@@ -692,6 +693,8 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - `core/00-index.md` → `core/01-meta-principles.md` → M1–M8 — the ten invariants and modules. · 十条不变式与模块。
 - `domains/<id>/README.md` — per-discipline workflows. · 各学科工作流。
 - `review/harness-index.md` — unified harness lookup (generated). · 统一 harness 索引（自动生成）。
+- [`HARNESS-MAP.md`](HARNESS-MAP.md) — the whole factory on one page: modules · capabilities · domains · catalog · CLI (generated). · 一页看全项目（自动生成）。
+- [`CAPABILITIES.md`](CAPABILITIES.md) — every capability, what it fires on and why (generated). · 能力清单（自动生成）。
 - `tasks/{PLAN.md,PROGRESS.md,REFRESH.md,DISTRIBUTION.md,ASSESSMENT.md}` — roadmap, log, loop, packaging, completeness & integration review. · 路线/日志/循环/打包/完整性与整合评估。
 
 > **Generalization rule · 泛化铁律.** A pattern earns a place here only if it survives removal of its originating project. · 一条模式只有「去掉其来源项目后仍成立」才有资格留在这里。

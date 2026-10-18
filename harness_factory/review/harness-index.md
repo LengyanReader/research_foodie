@@ -47,7 +47,7 @@ harness catalog claude-code           # detail one entry
 | `openai-swarm` | Swarm · Swarm | agent SDK / 框架 | M6, M8 | https://github.com/openai/swarm · tracked:openai-swarm |
 | `google-adk` | Agent Development Kit (ADK) · Agent Development Kit (ADK) | agent SDK / 框架 | M6, M7, M8 | https://github.com/google/adk-python · tracked:google-adk |
 | `smolagents` | smolagents · smolagents | agent SDK / 框架 | M6 | https://github.com/huggingface/smolagents |
-| `langgraph` | LangGraph · LangGraph | agent SDK / 框架 | M6, M7 | https://github.com/langchain-ai/langgraph · tracked:langchain |
+| `langgraph` | LangGraph · LangGraph | agent SDK / 框架 | M2, M6, M7, M8 | https://github.com/langchain-ai/langgraph · tracked:langchain |
 | `autogen` | AutoGen · AutoGen | agent SDK / 框架 | M6, M8 | https://github.com/microsoft/autogen · tracked:autogen |
 | `crewai` | CrewAI · CrewAI | agent SDK / 框架 | M6, M8 | https://github.com/crewAIInc/crewAI · tracked:crewai |
 | `llama-stack` | Llama Stack · Llama Stack | agent SDK / 框架 | M6, M7 | https://github.com/meta-llama/llama-stack · tracked:meta-llama-stack |

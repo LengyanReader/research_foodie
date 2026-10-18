@@ -10,6 +10,7 @@ DOMAINS_DIR = ROOT / "domains"
 
 FACULTIES = {
     "meta",
+    "formal-sciences",
     "natural-sciences",
     "engineering",
     "health",
@@ -67,6 +68,9 @@ class DomainsClassifyTest(unittest.TestCase):
             "prove the theorem with a formal proof": "mathematics",
             "close reading of an archive in philosophy": "humanities",
             "draft a contract under this jurisdiction": "law",
+            "prove the modal logic formula in this proof theory": "logic",
+            "annotate the treebank and measure inter-annotator agreement": "linguistics",
+            "run an fmri experiment on working memory": "cognitive-science",
         }
         for text, expected in cases.items():
             self.assertEqual(self._domain(text), expected, text)

@@ -81,7 +81,31 @@ _NO_TOOLS = ["no tools", "without tools", "offline", "不用工具", "离线"]
 _EXTERNAL_TOOLS = ["web", "search", "browse", "crawl", "api", "scrape", "联网", "检索", "爬"]
 _READ_ONLY = ["read only", "read-only", "只读"]
 
-_MULTI_AGENT = ["multi-agent", "multi agent", "多个 agent", "多智能体"]
+_MULTI_AGENT = [
+    "multi-agent",
+    "multi agent",
+    "multiple agents",
+    "several agents",
+    "specialist agents",
+    "worker agents",
+    "collaborating agents",
+    "agents collaborate",
+    "agents work together",
+    "agent team",
+    "agent-team",
+    "agent swarm",
+    "agent crew",
+    "agent graph",
+    "agent pipeline",
+    "agent collaboration",
+    "supervisor agent",
+    "orchestrator",
+    "sub-agent",
+    "subagent",
+    "多个 agent",
+    "多智能体",
+    "多 agent 协作",
+]
 _HUMAN_REVIEW = ["review", "reviewer", "team", "handoff", "评审", "复核", "同事", "交接"]
 
 

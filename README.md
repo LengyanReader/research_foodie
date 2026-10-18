@@ -63,6 +63,7 @@ harness harvest --dir ./my-task         # observe-only: append a signal line to 
 harness plugins --validate              # third-party domain/template plugins (read-only over the SSOT)
 harness skill                            # agent load-index; `harness skill M4` prints a module
 harness capabilities                     # requirement -> capability -> modules map
+harness map                              # whole-factory overview -> HARNESS-MAP.md (generated)
 harness catalog --class deep-research    # unified harness catalog: list/search/filter
 
 # frontier-standard ratchet: aim at the best-known bar (every domain has a rubric)
@@ -199,6 +200,7 @@ harness_factory/          the project — pattern library + `harness` CLI (start
 ├── GUIDE.md              full guide: intro + command reference + 10 worked examples (bilingual)
 ├── introduction.md       简介：是什么 · 心智模型 · Quickstart
 ├── CAPABILITIES.md       generated: purpose + every harness capability (do not edit; `harness capabilities --write`)
+├── HARNESS-MAP.md        generated: the whole factory on one page — modules · capabilities · domains · CLI (do not edit; `harness map --write`)
 ├── pyproject.toml        dev/CI convenience only (packaging cancelled as a channel)
 ├── refresh.ps1           scheduler entry for the self-update loop
 ├── install-skill.ps1     optional: copy repo-as-skill into a skills dir
@@ -220,15 +222,16 @@ harness_factory/          the project — pattern library + `harness` CLI (start
 │   ├── 07-tools-and-skills.md      工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md     单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/              24 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
+├── domains/              27 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
 │   ├── deep-research/ research/ reading/ excellence/ knowledge-management/ data-science/ model-selection/ (meta + methods)
 │   ├── software-engineering/ devops/ engineering/ (engineering)
+│   ├── logic/ (formal sciences)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)
 │   ├── medicine/ (health)
-│   ├── economics-finance/ psychology/ social-science/ (social sciences)
-│   ├── law/ humanities/ education/ arts-design/ (law/humanities/education/arts)
+│   ├── economics-finance/ psychology/ cognitive-science/ social-science/ (social sciences)
+│   ├── law/ humanities/ linguistics/ education/ arts-design/ (law/humanities/education/arts)
 │   └── general/ (fallback，无独立 README)
-├── review/               文献综述 · harness 分类总览与索引 · 实践者/大师 playbook · 参考文献（R1–R79）
+├── review/               文献综述 · harness 分类总览与索引 · 实践者/大师 playbook · 参考文献（R1–R106）
 └── _archive/             旧目录归档（docs/ external/ tools/ …，已移出版本控制）
 ```
 
@@ -281,6 +284,7 @@ See [`harness_factory/sources/source-map.md`](harness_factory/sources/source-map
 | Positioning, layout, usage | this file — [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | Full guide + worked examples | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |
 | **Harness capabilities overview (generated)** | [`harness_factory/CAPABILITIES.md`](harness_factory/CAPABILITIES.md) |
+| **Harness map (generated)** | [`harness_factory/HARNESS-MAP.md`](harness_factory/HARNESS-MAP.md) |
 | Mental model + quickstart | [`harness_factory/introduction.md`](harness_factory/introduction.md) |
 | Core harness invariants | `harness_factory/core/01-meta-principles.md` |
 | Domain playbooks | `harness_factory/domains/*/README.md` |

@@ -19,6 +19,8 @@ estimates*, not benchmarks.
 
 ### A.1 Measured surface (as of 2026-10-15)
 
+> **Later cycles moved these numbers.** As of **2026-10-18**: **27 capabilities** · **28 domains (27 disciplines + `general`) across 10 faculties** · **29 rubrics** · **23 CLI subcommands** · **173 tests**. The table below is the 2026-10-15 measurement and is kept as the snapshot it is.
+
 | Facet | Value | Source of truth |
 |---|---|---|
 | Tool source | 27 `.py`, 5,574 lines | `src/harness_factory/` |

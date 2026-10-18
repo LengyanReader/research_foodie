@@ -213,6 +213,7 @@ def render_doc() -> str:
         "",
         "- Rule table + feature vocab: [`reference/derivation-rules.md`](reference/derivation-rules.md).",
         "- Core modules M0–M8: [`core/00-index.md`](core/00-index.md).",
+        "- Whole-factory map (modules · capabilities · domains · CLI): [`HARNESS-MAP.md`](HARNESS-MAP.md).",
         "- Tool catalog: [`review/harness-index.md`](review/harness-index.md) (`harness catalog`).",
         "",
     ]

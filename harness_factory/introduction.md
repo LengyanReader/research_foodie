@@ -107,6 +107,7 @@ harness explain --dir C:\work\parser-task
 # 3b. Agent-native helpers + project profiling / learning (observe-only)
 harness skill                       # agent load-index; `harness skill M4` prints a module
 harness capabilities                # requirement -> capability -> modules map
+harness map                          # whole-factory overview -> HARNESS-MAP.md (generated)
 harness standard --domain deep-research bar brief --level R4 --name "SOTA report" --source https://…
 harness standard --domain deep-research score brief --set fidelity=2 --set coverage=3
 harness standard --domain deep-research audit brief   # gaps; `raise brief` ratchets the floor
@@ -252,5 +253,6 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 - **P3 done** — runtime hooks: `runtime.py` — **gate runner** (`harness gate`: structural check + executes the emitted `.harness/check.py`; hard gates decide the exit code, M2/M4/M6/M8 gates are advisory) and **signal harvest** (`harness harvest`, observe-only → `<kb>/updates/signals.jsonl`).
 - **P4 done** — plugin protocol: `plugins.py` — read-only third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged over the SSOT, strictly validated, CLI `harness plugins`.
 - **P5 done** — frontier assimilation + bidirectional capability flow: distilled *ambition* sources into 4 new capabilities (`ambition-elevation`, `expert-instruments`, `cross-field-crew`, `bidirectional-capability-flow`) and three reference docs (`capability-router.md`, `requirement-refinement.md`, `capability-flow.md`); the emitted harness now carries a **task-local capability ledger** (`.harness/capabilities.local.md`); the standing-reference convention is documented in `SKILL.md` + both root READMEs and emitted into `AGENTS.md` (guarded by `tests/test_standing_reference.py`); review [`ambition-and-agency.md`](review/ambition-and-agency.md) + refs R80–R83.
+- **Generated views** — [`CAPABILITIES.md`](CAPABILITIES.md) (per capability) and [`HARNESS-MAP.md`](HARNESS-MAP.md) (the whole factory on one page: modules · capabilities · domains · CLI · how to sync) are rendered from the SSOT (`harness capabilities --write` / `harness map --write`, also `harness catalog --write`) and drift-guarded.
 
 See `tasks/PLAN.md` (plan), `tasks/PROGRESS.md` (log), and `tasks/DISTRIBUTION.md` (packaging & tool-form evaluation).

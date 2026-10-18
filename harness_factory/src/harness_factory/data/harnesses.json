@@ -655,8 +655,10 @@
       "vendor": "LangChain",
       "ecosystem": "langchain",
       "maps_to": [
+        "M2",
         "M6",
-        "M7"
+        "M7",
+        "M8"
       ],
       "summary_en": "Graph/state-machine orchestration with checkpointing.",
       "summary_zh": "图/状态机编排，支持 checkpoint。",

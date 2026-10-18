@@ -24,8 +24,9 @@ Generators are optimistic and self-grading is biased. If the same context that p
 7. **The refinement loop.** Iterate: produce → evaluate against criteria → revise → re-evaluate, until the gate passes or the budget ends. Log each cycle.
 8. **Calibrate confidence.** Require the judge to state confidence and the evidence it used; track calibration over time.
 9. **Evidence over assertion (M0.4).** No mechanism may mark a task complete by rewriting output to *look* complete. Evidence is a first-class artifact.
+10. **Match the instrument to the claim.** Verify with the instrument that can *refute* it: a **machine-checked derivation** for formal results (proof assistant, checked model, SAT/SMT counterexample); **units, dimensional consistency and error propagation** for physical quantities; **effect sizes with intervals plus a reliability coefficient** for empirical measurements. Prose agreement is evidence for none of the three — reading it and nodding is not a gate.
 
-> **中文**：先定义完成；构建者≠评判者（新窗口、无写权限）；默认失败+证据门；硬门/软门分离；验证「验证器」；三态+弃权；精炼循环；置信度校准；证据 > 断言。
+> **中文**：先定义完成；构建者≠评判者（新窗口、无写权限）；默认失败+证据门；硬门/软门分离；验证「验证器」；三态+弃权；精炼循环；置信度校准；证据 > 断言；**按主张选仪器**——形式命题用机器可核验的推导（证明助手/模型检验/SAT 反例），物理量用量纲一致与误差传递，实证主张用效应量+区间+信度系数；「读一遍觉得对」不是门。
 
 ## Checklist
 - [ ] Acceptance test written before work began.
@@ -34,6 +35,7 @@ Generators are optimistic and self-grading is biased. If the same context that p
 - [ ] Hard vs soft gates labeled; soft gates human-gated.
 - [ ] The verifier itself is spot-checked against known cases.
 - [ ] Ambiguity can be marked `uncertain`/abstained, not forced to pass.
+- [ ] The instrument matches the claim (formal proof / units & error / effect size & reliability).
 
 ## Anti-patterns
 - **Self-grading in the same context.** Author's bias leaks into the verdict.
@@ -41,6 +43,7 @@ Generators are optimistic and self-grading is biased. If the same context that p
 - **All-green forever.** A gate that never fails (unverified verifier).
 - **Binary coercion.** Forcing pass/fail on genuinely ambiguous work.
 - **Rewriting to pass.** Mutating the artifact to satisfy the gate (M0.4).
+- **Unit-free numbers and p-only claims.** A quantity with no unit/error, or a result with a p-value and no effect size or reliability.
 
 ## See also
 `01-meta-principles.md` (M0.3, M0.1, M0.4) · `04-verification-and-gates.md` (this) compared with `06-self-evolution.md` (M5) · `09-collaboration-and-sessions.md` (M8).

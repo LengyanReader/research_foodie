@@ -736,5 +736,116 @@
       "论据",
       "claim→evidence"
     ]
+  },
+  "logic": {
+    "faculty": "formal-sciences",
+    "title_en": "Logic",
+    "name_zh": "逻辑域",
+    "summary": "Valid inference — explicit syntax, well-formed formulas, checked derivations, countermodels",
+    "workflow": [
+      "Fix the language: symbols, syntax, well-formed formulas",
+      "State axioms / assumptions and the target formula",
+      "Derive (proof) or evaluate (model) step by step",
+      "Check every rule application (gate)",
+      "Seek a countermodel / counterexample",
+      "Separate object-language result from meta-theory claim"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "logic",
+      "formal logic",
+      "mathematical logic",
+      "deduction",
+      "inference rule",
+      "syllogism",
+      "modal logic",
+      "predicate logic",
+      "propositional",
+      "satisfiability",
+      "proof theory",
+      "model theory",
+      "逻辑",
+      "演绎",
+      "推理规则",
+      "命题逻辑",
+      "谓词逻辑",
+      "模态逻辑",
+      "可满足性",
+      "形式逻辑"
+    ]
+  },
+  "linguistics": {
+    "faculty": "humanities",
+    "title_en": "Linguistics",
+    "name_zh": "语言域",
+    "summary": "Description and annotation of language data with explicit schemes and measured reliability",
+    "workflow": [
+      "Fix the object of study and the theoretical framework",
+      "Define the annotation scheme and its categories",
+      "Annotate a sample; measure inter-annotator agreement",
+      "Describe patterns with glossed examples and counts",
+      "Test the claim against counterexamples and typological variation",
+      "Write up with provenance for every cited form"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": [
+      "linguistics",
+      "syntax",
+      "morphology",
+      "phonology",
+      "semantics",
+      "pragmatics",
+      "treebank",
+      "part-of-speech",
+      "lemmatization",
+      "parsing",
+      "corpus linguistics",
+      "inter-annotator",
+      "gloss",
+      "grammar",
+      "语言学",
+      "句法",
+      "词法",
+      "音系",
+      "语义",
+      "语用",
+      "语料库",
+      "标注一致性"
+    ]
+  },
+  "cognitive-science": {
+    "faculty": "social-sciences",
+    "title_en": "Cognitive science",
+    "name_zh": "认知科学域",
+    "summary": "Model cognition with falsifiable constructs, measured in experiments and computational models",
+    "workflow": [
+      "State the construct and how it is operationalised",
+      "Fix the design: conditions, controls, sample size (power)",
+      "Collect or simulate data with an explicit model of the phenomenon",
+      "Analyse with effect sizes, intervals and model comparison",
+      "Replicate / stress-test the result",
+      "Write up with materials, data and code"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": [
+      "cognitive science",
+      "cognitive architecture",
+      "working memory",
+      "reaction time",
+      "eye tracking",
+      "eeg",
+      "fmri",
+      "psycholinguistics",
+      "认知科学",
+      "认知架构",
+      "工作记忆",
+      "反应时",
+      "眼动",
+      "脑电",
+      "认知建模"
+    ]
   }
 }

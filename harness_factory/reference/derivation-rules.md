@@ -75,8 +75,13 @@ they never enable a module the rule table did not. Current set:
 | `durable-execution` | `horizon ≥ multi_session` | M2, M3 |
 | `cost-budget-caps` | `tool_surface = external` OR `horizon ≥ multi_session` | M3, M7 |
 | `eval-driven-development` | `verifiability = high` OR `horizon ≥ multi_session` | M3, M5 |
+| `loop-discipline` | `tool_surface ∈ {read_write, external}` OR `horizon ≥ multi_session` | M2, M3, M6 |
+| `graph-orchestration` | `collaboration = multi_agent` OR `horizon ≥ multi_session` | M2, M8 |
+| `formal-verification` | `domain ∈ {mathematics, logic}` OR (`verifiability = high` AND `artifact = code`) | M3, M4, M6 |
+| `dimensional-analysis` | `domain ∈ {physics, engineering, chemistry, earth-environment}` | M3, M6 |
+| `empirical-measurement` | `domain ∈ {psychology, cognitive-science, medicine, economics-finance, social-science, education}` | M3, M4 |
 
-Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.) A generated, always-current rendering of this table lives in [`../CAPABILITIES.md`](../CAPABILITIES.md) (`harness capabilities`).
+Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.) A generated, always-current rendering of this table lives in [`../CAPABILITIES.md`](../CAPABILITIES.md) (`harness capabilities`); [`../HARNESS-MAP.md`](../HARNESS-MAP.md) (`harness map`) adds the whole factory — modules, domains, catalog classes, CLI and the sync procedure.
 
 ## 4. Output contract · 输出契约
 

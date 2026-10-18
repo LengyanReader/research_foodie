@@ -960,5 +960,101 @@
         "weight": 0.1
       }
     ]
+  },
+  "logic": {
+    "title_en": "Logical rigour",
+    "title_zh": "逻辑严谨度",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "validity",
+        "zh": "有效性",
+        "weight": 0.3
+      },
+      {
+        "dim": "explicitness",
+        "zh": "显式性",
+        "weight": 0.2
+      },
+      {
+        "dim": "rigor",
+        "zh": "严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "countermodel",
+        "zh": "反例",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.15
+      }
+    ]
+  },
+  "linguistics": {
+    "title_en": "Linguistic description quality",
+    "title_zh": "语言描写质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "coverage",
+        "zh": "覆盖",
+        "weight": 0.25
+      },
+      {
+        "dim": "reliability",
+        "zh": "一致性",
+        "weight": 0.25
+      },
+      {
+        "dim": "description",
+        "zh": "描写",
+        "weight": 0.2
+      },
+      {
+        "dim": "evidence",
+        "zh": "例证",
+        "weight": 0.2
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "cognitive-science": {
+    "title_en": "Cognitive-science quality",
+    "title_zh": "认知科学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "construct-validity",
+        "zh": "构念效度",
+        "weight": 0.25
+      },
+      {
+        "dim": "design",
+        "zh": "设计",
+        "weight": 0.25
+      },
+      {
+        "dim": "measurement",
+        "zh": "测量",
+        "weight": 0.2
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.2
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
   }
 }

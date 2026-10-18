@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**22 capabilities · 9 modules (M0–M8)**
+**27 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -174,6 +174,36 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Modules · 关联模块:** M3, M5
 - **Why · 理由:** Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4).
 
+### `loop-discipline` — Loop discipline (termination · budget · no-progress) · 循环纪律（终止 · 预算 · 无进展）
+
+- **Fires when · 触发条件:** tool_surface ∈ {read_write, external} (工具面) OR horizon ≥ multi_session
+- **Modules · 关联模块:** M2, M3, M6
+- **Why · 理由:** An agent is a loop over tools (ReAct): write the goal state that ends it, the step/turn budget, and the per-step ground-truth check BEFORE it runs -- and detect a repeating state/action so a stalled run stops instead of retrying blindly (M0.3/M0.7).
+
+### `graph-orchestration` — Graph orchestration (declared topology · typed state) · 图编排（显式拓扑 · 类型化状态）
+
+- **Fires when · 触发条件:** collaboration ∈ {multi_agent} (协作) OR horizon ≥ multi_session
+- **Modules · 关联模块:** M2, M8
+- **Why · 理由:** Multi-step or multi-worker work gets a DECLARED control graph -- typed shared state, explicit nodes and (conditional) edges, fan-out on a frozen input, explicit fan-in merge, one owner per shared value, a checkpoint per node -- instead of hoping an implicit prompt-driven flow stays on track (M0.5/M0.7).
+
+### `formal-verification` — Formal verification (machine-checked claims) · 形式验证（机器可核验）
+
+- **Fires when · 触发条件:** domain ∈ {mathematics, logic} (领域) OR (verifiability ∈ {high} (可验证性) and artifact ∈ {code} (产物))
+- **Modules · 关联模块:** M3, M4, M6
+- **Why · 理由:** For a formal claim, prose agreement is not evidence: state the language and axioms, push the derivation through a proof assistant or a checked model, keep the axiom base and every imported lemma as provenance, and treat an unclosed goal as UNFINISHED (M0.3) -- not as 'morally true'.
+
+### `dimensional-analysis` — Dimensional & numerical discipline · 量纲与数值纪律
+
+- **Fires when · 触发条件:** domain ∈ {physics, engineering, chemistry, earth-environment} (领域)
+- **Modules · 关联模块:** M3, M6
+- **Why · 理由:** A physical quantity carries units and error: check dimensional consistency before any arithmetic, carry units and uncertainty through every step, state the tolerance/convergence criterion up front, and pin the toolchain for numeric work (M0.3) -- a number without units or error bars is not a result.
+
+### `empirical-measurement` — Empirical measurement & inference · 实证测量与推断
+
+- **Fires when · 触发条件:** domain ∈ {psychology, cognitive-science, medicine, economics-finance, social-science, education} (领域)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** When the claim is empirical, pre-specify the design and the analysis before seeing the data, report effect sizes with intervals (not only p), control multiplicity, and show the measurement itself is reliable (inter-rater agreement / alpha / test-retest): pre-registered confirmation is a different claim from exploration, and 'significant' is not 'large'.
+
 ---
 
 ## Evolution · 演化
@@ -184,4 +214,5 @@ This document is **generated**, so it evolves with the project: add or tune a ca
 
 - Rule table + feature vocab: [`reference/derivation-rules.md`](reference/derivation-rules.md).
 - Core modules M0–M8: [`core/00-index.md`](core/00-index.md).
+- Whole-factory map (modules · capabilities · domains · CLI): [`HARNESS-MAP.md`](HARNESS-MAP.md).
 - Tool catalog: [`review/harness-index.md`](review/harness-index.md) (`harness catalog`).

@@ -174,7 +174,8 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `M8` | `core/09-collaboration-and-sessions.md` | collaboration & sessions |
 | catalogs | `src/harness_factory/data/{modules,capabilities,domains,harnesses,rubrics,levers}.json` | machine-readable truth |
 | capabilities | `CAPABILITIES.md` | purpose + each harness capability, generated from the SSOT |
-| domains | `domains/<name>/README.md` | 24 disciplines + `general` (faculty taxonomy), incl. `writing/` |
+| map | `HARNESS-MAP.md` | the whole factory on one page (modules · capabilities · domains · CLI) |
+| domains | `domains/<name>/README.md` | 27 disciplines + `general` (faculty taxonomy), incl. `writing/` |
 
 ## How to configure a harness · 如何配置
 
