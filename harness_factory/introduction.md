@@ -128,6 +128,8 @@ harness evolve                       # coverage/gap audit -> <home>/updates/EVOL
 harness evolve-apply --accept <id|target>    # human gate -> <home>/updates/accepted.json
 ```
 
+**The loadable reference set (L0).** `harness skill` lists it, and it is exactly what an emitted harness's `.harness/pointer.json` `entry_docs` points at: `SKILL.md`, `core/00-index.md`, `CAPABILITIES.md`, `HARNESS-MAP.md`, and `reference/` — capability-router · requirement-refinement · derivation-rules · capability-flow · evidence-instruments · methodology-map · outlet-map · cross-language. Read any one with `harness skill <name>`. · 可加载参考集：`harness skill` 与生成物 `pointer.json` 的 `entry_docs` 指向**同一套**（SKILL.md + core 索引 + 生成总览 + 8 份 `reference/`），逐份用 `harness skill <name>` 打开。
+
 **Consumption modes.** **L0** — the assistant reads `SKILL.md` + `core/` + `data/*.json` and derives
 itself (most flexible, no install). **L1** — run the CLI from the path without installing
 (`PYTHONPATH=src python -m harness_factory …`; deterministic). **L2** — an installed package; this is
