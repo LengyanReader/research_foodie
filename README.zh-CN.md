@@ -241,6 +241,10 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 | **定位任务所需的能力** | [`harness_factory/reference/capability-router.md`](harness_factory/reference/capability-router.md) |
 | **精炼模糊 / 偏小的需求** | [`harness_factory/reference/requirement-refinement.md`](harness_factory/reference/requirement-refinement.md) |
 | **双向能力流（任务 ⇄ 工厂）** | [`harness_factory/reference/capability-flow.md`](harness_factory/reference/capability-flow.md) |
+| **为某主张找到观测仪器** | [`harness_factory/reference/evidence-instruments.md`](harness_factory/reference/evidence-instruments.md) |
+| **确认某领域的方法论及其要求** | [`harness_factory/reference/methodology-map.md`](harness_factory/reference/methodology-map.md) |
+| **某领域去哪查（信息源 · 门户 · 媒体）** | [`harness_factory/reference/outlet-map.md`](harness_factory/reference/outlet-map.md) |
+| **跨语言交付保持意群保真（M4.10）** | [`harness_factory/reference/cross-language.md`](harness_factory/reference/cross-language.md) |
 | **可复制的提示词模板（配置 + 任务句）** | [本文件「给 agent 的提示词模板」](#给-agent-的提示词模板) |
 | 定位、结构、用法 | 本文件 —— [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | 完整指南 + 实例 | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |

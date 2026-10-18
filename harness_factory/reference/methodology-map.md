@@ -79,5 +79,7 @@ For **any** named method, M3.13 asks three questions — missing any one turns t
 
 - `core/04-verification-and-gates.md` — M3.13 (declare the method) and the checklist.
 - `reference/evidence-instruments.md` — the companion map (claim → instrument → tool → gate evidence; M3.10–M3.12).
+- `reference/outlet-map.md` — where to look per field (outlets · portals · media; P11).
+- `reference/cross-language.md` — carrying a claim across languages without changing its meaning (M4.10).
 - `reference/capability-router.md` — the situation → capability → file entry.
 - `review/integration-map-2026-10.md` — what is integrated, what is next, and what is deliberately out of scope.

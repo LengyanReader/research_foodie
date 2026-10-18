@@ -29,6 +29,8 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   sources/                提炼溯源表（模式 ← 一手材料）
   reference/              capability-router（情境→能力→模块→文件）· requirement-refinement（R0–R5 需求精炼与拔高）
                           · capability-flow（双向：下放具体化 ⇄ 回流提炼）· derivation-rules（规则表的 agent 可读镜像）
+                          · evidence-instruments（命题→仪器→门禁）· methodology-map（领域→方法论→要求）
+                          · outlet-map（领域→信息源/门户/媒体）· cross-language（意群对齐与回译互证）
   src/harness_factory/    工具源码 + data/*.json（SSOT）+ templates/
   tests/                  标准库 unittest（无外部依赖）
   tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT

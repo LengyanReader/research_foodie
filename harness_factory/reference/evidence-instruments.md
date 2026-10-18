@@ -140,6 +140,8 @@
 
 - `core/04-verification-and-gates.md` — M3.10–M3.13 and the gate checklist.
 - `reference/methodology-map.md` — field → methodology system → what the harness must enforce (M3.13).
+- `reference/outlet-map.md` — field → high-quality information outlets / portals / media (where to *look*; P11).
+- `reference/cross-language.md` — how to carry a claim across languages without changing its meaning (M4.10).
 - `domains/logic/README.md`, `domains/linguistics/README.md`, `domains/cognitive-science/README.md` — the domain workflows these instruments serve.
 - `domains/statistics/README.md`, `domains/geometry-topology/README.md` — the P10 domains.
 - `review/disciplines-crosswalk-2026-10.md`, `review/integration-map-2026-10.md` — why these disciplines/capabilities exist and what is deferred.

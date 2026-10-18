@@ -280,6 +280,10 @@ See [`harness_factory/sources/source-map.md`](harness_factory/sources/source-map
 | **Locate the capability a task needs** | [`harness_factory/reference/capability-router.md`](harness_factory/reference/capability-router.md) |
 | **Refine a vague / under-aimed ask** | [`harness_factory/reference/requirement-refinement.md`](harness_factory/reference/requirement-refinement.md) |
 | **Bidirectional capability flow (task ⇄ factory)** | [`harness_factory/reference/capability-flow.md`](harness_factory/reference/capability-flow.md) |
+| **Find the instrument for a claim** | [`harness_factory/reference/evidence-instruments.md`](harness_factory/reference/evidence-instruments.md) |
+| **Name a field's methodology + its demands** | [`harness_factory/reference/methodology-map.md`](harness_factory/reference/methodology-map.md) |
+| **Where to look in a field (outlets · portals · media)** | [`harness_factory/reference/outlet-map.md`](harness_factory/reference/outlet-map.md) |
+| **Keep a cross-language deliverable faithful (M4.10)** | [`harness_factory/reference/cross-language.md`](harness_factory/reference/cross-language.md) |
 | **Copy-paste prompt templates** | [Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板) (in this file) |
 | Positioning, layout, usage | this file — [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | Full guide + worked examples | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |
