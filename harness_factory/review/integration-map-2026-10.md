@@ -110,6 +110,8 @@ Status keys: **done** = in the SSOT with a gate · **next** = scoped, evidence a
 6. **Outlet re-verification** — the 22 `verified: false` outlets in `sources.json` were **listed, not confirmed** (automated check blocked 403/405); re-check via a browser on the next pass and, where an RSS exists, consider tracking a subset.
 7. **Cross-language worked example** — add one bilingual EN↔ZH worked example to `reference/cross-language.md` (source unit → rendering → back-translation diff) when a real artifact is available.
 
+**P11 is closed (2026-10-19).** The cues above are the inputs to the **next stage, `P12`**, now planned in `tasks/PLAN.md` §Milestones: *Slice 1* CI covers what it claims (end-to-end emitted-harness job + an opt-in network job) → items 5/6 are swept up here or in Slice 3; *Slice 2* M2 made concrete (a declared memory backend, clause M2.12) — the largest remaining structural gap; *Slice 3* P11 closeout → items **6** and **7**. Items 1–3 stay deferred with recorded reasons (a feature-vector affordance, per-database licence checks). The wrap-up verdict and the 2026-10-19 measured surface are in `tasks/ASSESSMENT.md` §A.5.
+
 ---
 
 ## See also · 另见

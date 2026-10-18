@@ -8,6 +8,8 @@
 > 等数十个 harness 已实现）——本仓库已用 `SKILL.md` 作 agent 入口并发射 `.harness/skills/`，对齐该标准即可让
 > 产出的 harness 跨 harness 通用。所有整合均按 **M0.4 提案 → 人工确认 → 落 SSOT**；P1/P2/P3 与能力总览
 > `CAPABILITIES.md` 已按用户指示落地（见 **B.6**）。
+>
+> **2026-10-19 收尾判断：本阶段可以收束。** 三项长期诉求（各领域**仪器 / 方法论** · **跨语言意群保真** · 各领域**信息源地图**）均已落入 SSOT 并有测试守护（见 **A.5**）；剩余缺口（自演化缺证据机制、M2 记忆仅规范、联网/LLM 路径未进 CI、手工计数漂移）**均为既有项、非回归**，转入下一阶段 **P12**（`tasks/PLAN.md`）。
 
 **Updated:** 2026-10-15 · **Scope:** `harness_factory/` · **Method:** measured against the repo's own SSOT
 (`data/*.json`) + first-party sources cited inline (all accessed **2026-10-15**). Scores are *self-assessed
@@ -71,6 +73,47 @@ honest but thin; the biggest *missing* capability is interoperability with the w
 - A trace/telemetry input that yields *proposal-only* prompt/skill mutations.
 - A declared execution posture (backend + isolation) in the emitted manifest.
 - CI covering the offline surface end-to-end, plus a gated, opt-in network job.
+
+### A.5 Stage wrap-up — can this stage close? (as of 2026-10-19)
+
+**Verdict: yes.** The stage that opened with the standing asks *"integrate each field's instruments and
+methodology systems"*, *"carry meaning across languages at the level of whole meaning units"* and *"map
+each field's high-quality information outlets"* is delivered end to end: every ask is in the SSOT
+(clauses **M3.10–M3.13** · **M4.10**), each backed by first-party sources (`[R107]`–`[R126]`), each with
+its own procedure doc **and** a guard that fails if it drifts. The gaps that remain are the *pre-existing*
+ones (A.3 items 2/4/5/6/7) — none is a regression from this stage, and none blocks using the factory today.
+
+| Facet | 2026-10-15 | **2026-10-19** | Source of truth |
+|---|---|---|---|
+| Tool source | 27 `.py`, 5,574 lines | **29 `.py`, 6,448 lines** | `src/harness_factory/` |
+| Capabilities | 13 | **29** | `data/capabilities.json` |
+| Domains / faculties | 25 / 9 | **30 / 10** | `data/domains.json` |
+| Rubrics | 26 | **31** | `data/rubrics.json` |
+| Harness catalog | 133 (11 × 33) | **183 (12 classes × 50 kinds)** | `data/harnesses.json` |
+| Evidence instruments | — | **new `instruments` class (27 + 23 rows)** | `data/harnesses.json` |
+| Field outlets | — | **68** (8th `sources` group) | `data/sources.json` |
+| Watchlist / source topics | 8 / 12 | **9 / 30** | `data/watchlist.json`, `data/sources.json` |
+| CLI | 22 | **23** | `python -m harness_factory --help` |
+| Docs | 56 `.md` | **74 `.md`** (29 domain READMEs) | `harness_factory/**` |
+| Tests / CI | 132 | **193** | `tests/`, `.github/workflows/ci.yml` |
+| References | — | **`[R1]`–`[R126]`** (groups A–K) | `review/references.md` |
+
+**Closed by this stage:** claim → instrument mapping (P9, **M3.10**); mathematics / statistics /
+computer-algebra instruments plus methodology systems (P10, **M3.11–M3.13**); cross-language
+meaning-unit fidelity (P11, **M4.10**); per-field information outlets (P11); and the pointer/usage chain
+that reaches all of it from *one instruction* (P6 · P11.1 · P11.2).
+
+**Still open — unchanged and ranked; this is the next stage's business:**
+
+1. **No evidence-driven self-evolution** (A.3 #2) — M5 is rules/proposals; nothing consumes execution traces.
+2. **M2 memory is spec-only** (A.3 #4) — a *declared memory backend* is not yet emitted, although the
+   precedent exists (the evidence instrument is emitted by `assemble._evidence_instrument()` since P9).
+3. **Network + LLM paths untested in CI** (A.3 #5) and **no full emitted-harness run in CI** (A.3 #7).
+4. **Hand-maintained counts drift** (A.3 #6) — mitigated by `harness catalog --write`, not eliminated.
+5. **P11 loose ends** — the 22 outlets the automated check could not reach (403/405) are recorded
+   `listed, not confirmed`; `reference/cross-language.md` still lacks a worked example.
+
+Items 1–4 are the *next* increments, not defects in what shipped. Planned as **P12** in `tasks/PLAN.md`.
 
 ---
 
