@@ -35,9 +35,11 @@ Produce an interpretation grounded in primary sources — historical, philosophi
 ## Discipline-specific risks · 领域特有风险
 - **Presentism / anachronism** — judging the past by present norms without saying so.
 - **Decontextualized quotation**.
-- **Edition / translation confusion**.
+- **Edition / translation confusion** — carrying a rendering as if it were the source text (M4.10: align by *meaning unit*; cite the original language, not only its translation).
 - **Reading into the text** what the argument needs.
 - **Stating an interpretation as a fact**.
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
-`../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md`.
+`../core/00-index.md` · `../reference/cross-language.md` · `../sources/source-map.md` · `../review/harness-catalog.md`.

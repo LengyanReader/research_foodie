@@ -106,5 +106,21 @@ class GuideStandingReferenceTest(unittest.TestCase):
         self.assertIn("stop using harness_factory", text)
 
 
+class LoadIndexWiringTest(unittest.TestCase):
+    """Every skill-index entry must resolve, and the shipped entry points must
+    name the new reference docs (so an L0 reader can find them without the CLI)."""
+
+    def test_every_index_path_exists(self):
+        from harness_factory import skill
+
+        missing = [entry.path for entry in skill.index() if not (HARNESS / entry.path).exists()]
+        self.assertEqual(missing, [])
+
+    def test_entry_docs_name_cross_language(self):
+        for name in ("SKILL.md", "core/05-provenance-and-integrity.md", "reference/capability-router.md"):
+            text = (HARNESS / name).read_text(encoding="utf-8")
+            self.assertIn("cross-language", text, f"{name} does not link the cross-language doc")
+
+
 if __name__ == "__main__":
     unittest.main()

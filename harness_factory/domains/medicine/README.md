@@ -42,5 +42,7 @@ Structure clinical reasoning so that evidence is graded, uncertainty is explicit
 - **Un-gated AI output** influencing care.
 - **PHI exposure** — privacy is a hard gate (M4/M7).
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md` · `../domains/biology/README.md`.

@@ -3,7 +3,7 @@
 > Which pattern came from which primary artifact. Keeps `core/` honest: every claimed pattern traces back.
 > 模式 ← 一手材料 的对照表。用于保证 `core/` 每条模式都可溯源。
 
-**Updated:** 2026-10-18 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18).
+**Updated:** 2026-10-19 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18, 2026-10-19).
 
 ---
 
@@ -27,6 +27,7 @@
 | M2 Long-running agents (resets, heartbeat, handoff) | Anthropic [26], [27]; OpenAI per-worktree observability [23] | practitioner |
 | M3 Verification gates; verify-the-verifier; separate builder/critic | Anthropic [26], [28]; Fowler guides/sensors [19]; Chollet refinement loop [14] | practitioner |
 | M4 Provenance & integrity; injection-safe design | Willison lethal trifecta [15], [16]; design patterns paper [17]; repo citation-verify | practitioner + internal |
+| M4.10 Meaning-unit fidelity across languages (align by sense group; corroborate; gloss, never silently substitute) | Translation-quality standards ISO 17100 `[R120]`, ISO 5060 `[R121]`; interchange format XLIFF 2.2 `[R123]`; comparative stylistics Vinay & Darbelnet `[R124]`; dynamic equivalence Nida & Taber `[R125]`; cohesion Halliday & Hasan `[R122]`; MQM `[R126]` | standard + academic |
 | M5 Self-evolution engine (signal→audit→mutation→journal) | gruel_cooking `harness/evolution.md` + `audit.py`; `_archive/docs/design/self-evolution-mechanism.md`; Hashimoto [21]; OpenAI garbage collection [23]; `review/harness-catalog.md` §3 (ADAS, Gödel Agent, SICA, DGM, FunSearch/AlphaEvolve, SEAL, Reflexion/Self-Refine, Voyager) | internal + practitioner |
 | M2 Externalized memory; M5 skill-library persistence | `review/harness-catalog.md` §4–3e (MemGPT/Letta, Mem0, Zep, A-MEM; Voyager skill library) | practitioner |
 | Self-evolution safety (admission/authority/scope/containment) | `review/harness-catalog.md` §8 (SAVER, Misevolution) | practitioner |
@@ -79,6 +80,7 @@
 > The 2026-10-18 disciplines pass (formal & empirical sciences) is distilled in [`review/disciplines-crosswalk-2026-10.md`](../review/disciplines-crosswalk-2026-10.md); refs R98-R106 live in group G.
 > The 2026-10-18 instruments pass (claim -> instrument -> tool -> gate) is mapped in [`reference/evidence-instruments.md`](../reference/evidence-instruments.md); standards refs R107-R110 live in group H, and the tools themselves are catalog entries (class `instruments`, 27 rows).
 > The 2026-10-18 mathematics/statistics + methodology pass (P10) adds `statistics` / `geometry-topology` domains, `statistical-inference` / `certified-computation` capabilities, 23 more `instruments` rows (class `instruments`, now 50), and the field→methodology map [`reference/methodology-map.md`](../reference/methodology-map.md); refs R111-R119 live in groups I-J. Scope/status board: [`review/integration-map-2026-10.md`](../review/integration-map-2026-10.md).
+> The 2026-10-19 cross-language pass (P11) adds the invariant **M4.10** in `core/05` and the procedure [`reference/cross-language.md`](../reference/cross-language.md); refs R120-R126 live in group K. It also adds the per-field information-outlet map (`reference/outlet-map.md`, group `outlets` in `sources.json`).
 
 ---
 

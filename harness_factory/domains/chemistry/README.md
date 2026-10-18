@@ -44,5 +44,7 @@ Move from a target molecule or transformation to an evidence-backed result — a
 - **Safety blind spots** — hazards and disposal omitted from the record.
 - **Non-reproducible "optimized" conditions**.
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md` · `../domains/biology/README.md`.

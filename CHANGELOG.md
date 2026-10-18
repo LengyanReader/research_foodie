@@ -6,6 +6,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Cross-language fidelity (M4.10)** — new invariant in `core/05`: when a claim moves into another
+  language, align by **meaning unit** (意群 / sense group / *translation unit*), **corroborate** by
+  back-translation / a target-language reader / a second-language source, preserve stance·scope·modality·
+  entity identity, and **gloss — never silently substitute**. New procedure `reference/cross-language.md`
+  (alignment · corroboration · term handling · bilingual deliverables · non-entries); sources R120–R126
+  (ISO 17100, ISO 5060, XLIFF 2.2, Halliday & Hasan, Vinay & Darbelnet, Nida & Taber, MQM). No
+  `cross-language` capability (no language axis in the feature vector → would not discriminate).
+- **Per-field information outlets** — new `outlets` group in `data/sources.json` (**68** curated
+  entries: portals · journals · preprint servers · databases/registries · repositories · media) keyed by
+  field via 17 new field `topic_ids`, each with `outlet_kind` + `why` + `not_for` + `verified` + `access`;
+  new `reference/outlet-map.md` (field → outlet → why / NOT-for). Live view: `harness sources --group
+  outlets`; 18 field domains link it. Verification honest: 46 URLs reachable (HEAD/GET 2026-10-19), 22
+  blocked (403/405) recorded `verified: false` + note (*listed, not confirmed*).
+- **Guards** — `tests/test_docs_integrity.py::LoadIndexWiringTest` (index paths resolve; entry docs link
+  the new reference) and `tests/test_sources.py::OutletDataTest` (outlet shape + every field covered).
 - **Harness compiler CLI** (`harness`): `derive` / `init` / `explain` / `check` — derive a task's
   feature vector (M0–M8 rules; optional LLM) and emit a runnable harness scaffold.
 - **Self-update loop** (M5): `refresh` / `refresh-apply` — collect → audit → rank → proposal → journal,

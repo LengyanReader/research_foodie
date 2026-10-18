@@ -5,7 +5,7 @@
 > and file to load. Load nothing else until a row fires. · 外部任务/项目引用本仓库时的**第一落点**：
 > 由「我的情境 / 我要补哪一环」快速定位到**能力 → 模块 → 文件**。没有命中就不要加载其它内容。
 
-**Updated:** 2026-10-18 · Load via `harness skill capability-router`. Machine-readable truth: `data/capabilities.json`, `data/modules.json`.
+**Updated:** 2026-10-19 · Load via `harness skill capability-router`. Machine-readable truth: `data/capabilities.json`, `data/modules.json`.
 
 ---
 
@@ -53,6 +53,8 @@
 | A statistical estimate / model / posterior · 统计估计与模型 | `statistical-inference` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md), [`domains/statistics/README.md`](../domains/statistics/README.md) |
 | A computed invariant: algebra, homology, knot, mesh · 计算得到的代数/拓扑量 | `certified-computation` | M3, M6 | [`reference/evidence-instruments.md`](evidence-instruments.md), [`domains/geometry-topology/README.md`](../domains/geometry-topology/README.md) |
 | A named method (PRISMA, DiD, grounded theory, DoE, design science…) · 套用某套方法论 | `verification-gate`, `traceable-sources` | M3, M4 | [`reference/methodology-map.md`](methodology-map.md) |
+| Text must cross languages (translate; bilingual report; EN↔ZH corroboration) · 跨语言搬运/双语交付 | `verification-gate`, `traceable-sources` | M3, M4 | [`reference/cross-language.md`](cross-language.md) |
+| Need to know *where to look* in a field · 想知道某领域去哪查 | `traceable-sources` | M4 | [`reference/outlet-map.md`](outlet-map.md) |
 | Unsure *what evidence would settle it* · 说不清用什么仪器 | `verification-gate`, `formal-verification`, `dimensional-analysis`, `empirical-measurement` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md) |
 | Picking a discipline to work in · 选学科门类 | — (route by *kind of work*) | — | [`domains/`](../domains) → `domains/<name>/README.md` |
 | Choosing a model/method · 选模型/选方法 | — | — | [`domains/model-selection/README.md`](../domains/model-selection/README.md) |
@@ -79,4 +81,6 @@ PYTHONPATH=src python -m harness_factory skill M3
 - [`reference/derivation-rules.md`](derivation-rules.md) — the rule table behind the router.
 - [`reference/evidence-instruments.md`](evidence-instruments.md) — claim type → instrument → catalogued tool → gate evidence (M3.10).
 - [`reference/methodology-map.md`](methodology-map.md) — field → methodology system → what the harness must enforce (M3.13).
+- [`reference/cross-language.md`](cross-language.md) — meaning-unit (意群) alignment, corroboration by back-translation, term handling (M4.10).
+- [`reference/outlet-map.md`](outlet-map.md) — field → high-quality information outlets / portals / media (`sources.json` `outlets`).
 - [`CAPABILITIES.md`](../CAPABILITIES.md) — every capability and when it fires.

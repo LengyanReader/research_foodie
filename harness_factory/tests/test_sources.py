@@ -6,6 +6,36 @@ from harness_factory.collect import iter_entities
 
 SOURCES = Path(__file__).resolve().parent.parent / "src" / "harness_factory" / "data" / "sources.json"
 KINDS = {"paper", "repo", "doc", "post", "video", "podcast", "newsletter", "other"}
+OUTLET_KINDS = {
+    "preprint",
+    "journal",
+    "publisher",
+    "index",
+    "database",
+    "repository",
+    "registry",
+    "portal",
+    "media",
+    "qa",
+}
+FIELDS = {
+    "physics",
+    "chemistry",
+    "biology",
+    "medicine",
+    "earth-environment",
+    "mathematics",
+    "statistics",
+    "computer-science",
+    "economics-finance",
+    "psychology",
+    "social-science",
+    "law",
+    "humanities",
+    "education",
+    "arts-design",
+    "linguistics",
+}
 
 
 class SourcesDataTest(unittest.TestCase):
@@ -14,7 +44,7 @@ class SourcesDataTest(unittest.TestCase):
         cls.data = json.loads(SOURCES.read_text(encoding="utf-8"))
 
     def test_groups_present(self):
-        for group in ("projects", "harnesses", "venues", "people", "media"):
+        for group in ("projects", "harnesses", "venues", "people", "media", "outlets"):
             self.assertIn(group, self.data["groups"])
             self.assertIsInstance(self.data["groups"][group], list)
 
@@ -52,6 +82,35 @@ class SourcesDataTest(unittest.TestCase):
         # Guard against accidental feed regressions (currently 47/59).
         self.assertGreaterEqual(tracked, 40)
         self.assertLessEqual(tracked, total)
+
+
+class OutletDataTest(unittest.TestCase):
+    """The `outlets` group is the per-field information landscape (reference,
+    not the AI intel feed). Guard its shape and its field coverage."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.data = json.loads(SOURCES.read_text(encoding="utf-8"))
+        cls.outlets = cls.data["groups"]["outlets"]
+
+    def test_group_is_substantial(self):
+        self.assertGreaterEqual(len(self.outlets), 40)
+
+    def test_outlet_fields_wellformed(self):
+        for o in self.outlets:
+            oid = o["id"]
+            self.assertIn(o["outlet_kind"], OUTLET_KINDS, oid)
+            self.assertIsInstance(o.get("verified"), bool, oid)
+            self.assertEqual(o.get("access"), "2026-10-19", oid)
+            self.assertTrue(o.get("why"), f"no why for {oid}")
+            if not o["verified"]:
+                self.assertTrue(o.get("note"), f"{oid} not verified but carries no note")
+
+    def test_outlets_cover_every_field(self):
+        covered: set[str] = set()
+        for o in self.outlets:
+            covered |= set(o.get("topics", []))
+        self.assertEqual(FIELDS - covered, set())
 
 
 if __name__ == "__main__":

@@ -191,6 +191,8 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `capability-flow` | `reference/capability-flow.md` | Bidirectional flow: concretize (task-local) <-> distill (factory, human-gated). |
 | `evidence-instruments` | `reference/evidence-instruments.md` | M3.10 made concrete: claim type -> instrument -> catalogued tool -> gate evidence. |
 | `methodology-map` | `reference/methodology-map.md` | M3.13 made concrete: field -> methodology system -> what the harness must enforce. |
+| `cross-language` | `reference/cross-language.md` | M4.10 made concrete: meaning-unit alignment, corroboration by back-translation, term handling (not word-for-word). |
+| `outlet-map` | `reference/outlet-map.md` | Field -> high-quality information outlets / portals / media, with what each is NOT for (sources.json `outlets`). |
 | `capabilities` | `CAPABILITIES.md` | Generated overview: purpose + every harness capability (requirement -> modules). |
 | `reference` | `review/references.md` | Source-grounded reference list. |
 | `harness-catalog` | `review/harness-catalog.md` | Prose taxonomy of harnesses & self-evolution methods. |
@@ -216,7 +218,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `data/rubrics.json` | per-domain excellence bar | `harness standard` |
 | `data/levers.json` | gap → modules/tools | `harness standard plan` |
 | `data/watchlist.json` | M5 frontier probes | `updates/REPORT.md` |
-| `data/sources.json` | tracked entities + feeds | `updates/INTEL.md` |
+| `data/sources.json` | tracked entities + feeds + per-field `outlets` | `updates/INTEL.md` |
 
 ## 10 · Keeping this current · 如何保持同步
 

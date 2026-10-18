@@ -50,5 +50,7 @@ Concrete tools for L2–L3 (catalog ids; full map: `../reference/evidence-instru
 - **Undeclared precision/bound** (approximations presented as exact).
 - **Representation confusion** (a triangulation's invariant reported as the space's).
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../mathematics/README.md` (proof, algebra) · `../logic/README.md` (machine checking) · `../core/04-verification-and-gates.md` (M3.12) · `../reference/evidence-instruments.md` · `../review/integration-map-2026-10.md`.

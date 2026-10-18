@@ -110,7 +110,9 @@ lets you reuse the same config for every task. · 配置（如何引用与使用
    empirical ⇒ effect size + interval + reliability; M3.11 statistics ⇒ frame + convergence + interval;
    M3.12 computed invariants ⇒ exact/certified + independent re-derivation). When the work follows a
    **named method**, declare its **protocol, assumptions and reporting standard** first
-   (`reference/methodology-map.md` — M3.13).
+   (`reference/methodology-map.md` — M3.13). When a deliverable **crosses languages**, carry it by
+   **meaning unit** (意群) and corroborate by back-translation — never pass a word-for-word rendering off
+   as faithful (`reference/cross-language.md` — M4.10).
 7. **Close the loop** (`reference/capability-flow.md`): keep task-local capability notes in
    `.harness/capabilities.local.md`; propose only generalisable patterns back (`updates/`, human-gated).
 8. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
@@ -170,6 +172,8 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `capability-flow` | `reference/capability-flow.md` | bidirectional flow: concretize (task-local) ⇄ distill (factory, human-gated) |
 | `evidence-instruments` | `reference/evidence-instruments.md` | M3.10 concrete: claim type → instrument → catalogued tool → gate evidence |
 | `methodology-map` | `reference/methodology-map.md` | M3.13 concrete: field → methodology system → what the harness must enforce |
+| `cross-language` | `reference/cross-language.md` | M4.10 concrete: align by meaning unit, corroborate by back-translation, term handling (not word-for-word) |
+| `outlet-map` | `reference/outlet-map.md` | field ⇒ high-quality information outlets / portals / media, with what each is NOT for |
 | `derivation-rules` | `reference/derivation-rules.md` | the rule table + feature vocab + capability map + output contract |
 | `M0` | `core/01-meta-principles.md` | meta-principles |
 | `M1` | `core/02-context-engineering.md` | context engineering |

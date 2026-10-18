@@ -1,7 +1,7 @@
 # Domain · Linguistics · 语言域
 > Wiring `core/` modules into language description and annotation: an explicit scheme, measured agreement, and every cited form traceable.
 > 把 `core/` 模块接线成语言描写与标注流程：方案显式、一致性可测、每个引例可溯源。
-**Updated:** 2026-10-18
+**Updated:** 2026-10-19
 
 ---
 
@@ -39,6 +39,9 @@ Make a claim about language (*this construction behaves like X*, *this corpus sh
 - **Rights gate** — the corpus licence and consent must permit the use claimed.
 - Full map: `../reference/evidence-instruments.md#linguistic-data`.
 
+## Cross-language discipline · 跨语言纪律
+This domain *studies* language data; when a deliverable must **cross languages** (translation, bilingual write-up, EN↔ZH corroboration), the invariant is **M4.10**: align by **meaning unit** (意群), corroborate by back-translation or a second-language reader, and gloss untranslatable terms — never pass a word-for-word rendering off as faithful. Procedure: `../reference/cross-language.md`.
+
 ## Discipline-specific risks · 领域特有风险
 - **Scheme drift** (categories reinterpreted mid-annotation without a version bump).
 - **Single annotator as ground truth** (no reliability measure reported).
@@ -46,5 +49,7 @@ Make a claim about language (*this construction behaves like X*, *this corpus sh
 - **One-language overgeneralisation** (claims from English data stated as universal).
 - **Framework reification** (treating UD-style analyses as theory-neutral facts).
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
-`../reading/README.md` (close reading of texts) · `../humanities/README.md` · `../core/00-index.md` · `../sources/source-map.md` · `../review/disciplines-crosswalk-2026-10.md`.
+`../reading/README.md` (close reading of texts) · `../humanities/README.md` · `../reference/cross-language.md` (M4.10) · `../core/00-index.md` · `../sources/source-map.md` · `../review/disciplines-crosswalk-2026-10.md`.

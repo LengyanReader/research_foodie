@@ -46,7 +46,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **184** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **189** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 

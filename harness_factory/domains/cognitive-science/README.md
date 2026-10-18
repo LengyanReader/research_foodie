@@ -48,5 +48,7 @@ Turn a claim about cognition (*this manipulation affects working memory*) into s
 - **Equivalent models** (a fitted model claimed without comparing alternatives).
 - **Analytic flexibility** (many pipelines; only the significant one reported).
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../psychology/README.md` · `../medicine/README.md` · `../core/00-index.md` · `../sources/source-map.md` · `../review/disciplines-crosswalk-2026-10.md`.

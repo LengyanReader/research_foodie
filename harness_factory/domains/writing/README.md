@@ -55,6 +55,9 @@ harness standard --domain writing plan <objective>
 grounding `required`、20 条分类信号），`data/rubrics.json` 有独立 `writing` rubric。因此
 **`--domain writing` 可直接选择**，`standard --domain writing …` 可直接评分，分类器也能凭信号命中本域。
 
+## Cross-language writing · 跨语言写作
+When the same deliverable is written in two languages (English master + Chinese executive summary, or vice versa), the discipline is **M4.10**: produce **two coordinated renderings of one meaning**, compress by omission and never by distortion, carry the same citations/identifiers, and handle untranslatable terms by gloss rather than substitution. Procedure: `../../reference/cross-language.md`.
+
 ## See also
 `../humanities/README.md`（学术人文写作的通用流程）· `../deep-research/README.md`（证据获取）·
 `../excellence/README.md`（同样用棘轮固化质量）· `../../core/05-provenance-and-integrity.md`（M4）。

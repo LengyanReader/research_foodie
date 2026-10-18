@@ -39,5 +39,7 @@ Move from a theoretical question to a defensible account of social phenomena —
 - **Unreflexive researcher influence**.
 - **Ethics / consent / anonymization** failures.
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md` · `../domains/psychology/README.md`.

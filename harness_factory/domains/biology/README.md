@@ -45,5 +45,7 @@ Answer a biological question with reproducible evidence — a protocol result, a
 - **Reference-version drift** making results irreproducible.
 - **Over-generalizing** from one cell line / cohort / ecosystem.
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md` · `../domains/medicine/README.md` · `../domains/data-science/README.md`.

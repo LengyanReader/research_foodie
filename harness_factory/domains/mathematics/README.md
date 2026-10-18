@@ -52,5 +52,7 @@ Concrete tools for L2–L3 (catalog ids; full map: `../reference/evidence-instru
 - **Applying a theorem whose hypotheses are unmet**.
 - **Ignoring degenerate/boundary cases**.
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md`.

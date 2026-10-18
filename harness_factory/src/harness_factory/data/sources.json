@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-15",
-  "note": "Tracked entities for the intel/self-update loop. `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. YouTube channels are resolved to their RSS via `resolve: youtube`.",
+  "updated": "2026-10-19",
+  "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`.",
   "topic_ids": [
     "agent-harness",
     "self-evolving-agents",
@@ -14,7 +14,24 @@
     "retrieval-grounding",
     "research-evaluation",
     "citation-integrity",
-    "ambition-and-agency"
+    "ambition-and-agency",
+    "scholarly-infrastructure",
+    "physics",
+    "chemistry",
+    "biology",
+    "medicine",
+    "earth-environment",
+    "mathematics",
+    "statistics",
+    "computer-science",
+    "economics-finance",
+    "psychology",
+    "social-science",
+    "law",
+    "humanities",
+    "education",
+    "arts-design",
+    "linguistics"
   ],
   "groups": {
     "projects": [
@@ -1867,6 +1884,1341 @@
           "report"
         ],
         "why": "Deep-research report benchmark."
+      }
+    ],
+    "outlets": [
+      {
+        "id": "arxiv",
+        "name": "arXiv",
+        "kind": "paper",
+        "outlet_kind": "preprint",
+        "url": "https://arxiv.org/",
+        "feed": null,
+        "topics": [
+          "physics",
+          "mathematics",
+          "statistics",
+          "computer-science",
+          "economics-finance",
+          "biology"
+        ],
+        "tags": [
+          "preprint",
+          "cross-field"
+        ],
+        "why": "Canonical multi-field preprint server (math, physics, CS, statistics, q-bio, econ).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Not peer-reviewed and versioned; cite the published version when one exists."
+      },
+      {
+        "id": "doaj",
+        "name": "DOAJ — Directory of Open Access Journals",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://doaj.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "open-access",
+          "directory"
+        ],
+        "why": "Curated directory of vetted open-access journals across fields.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Inclusion is a quality floor, not a ranking; still appraise the article.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "orcid",
+        "name": "ORCID",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://orcid.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "identifier",
+          "authors"
+        ],
+        "why": "Researcher identifier registry; disambiguates authors across venues.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Identity only — it asserts nothing about the work."
+      },
+      {
+        "id": "zenodo",
+        "name": "Zenodo",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://zenodo.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "repository",
+          "doi",
+          "cern"
+        ],
+        "why": "CERN-operated general-purpose repository; assigns DOIs to data, code and papers.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "A deposit is not a review — judge the artifact on its own evidence."
+      },
+      {
+        "id": "datadryad",
+        "name": "Dryad",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://datadryad.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "data",
+          "curated"
+        ],
+        "why": "Curated repository for research data underlying published papers.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Coverage is uneven by field; not a general archive."
+      },
+      {
+        "id": "retraction-watch",
+        "name": "Retraction Watch",
+        "kind": "newsletter",
+        "outlet_kind": "media",
+        "url": "https://retractionwatch.com/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "integrity",
+          "retractions"
+        ],
+        "why": "Tracks retractions and research-integrity cases; the database is the citable part.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "News/commentary; verify each case against the notice itself."
+      },
+      {
+        "id": "google-scholar",
+        "name": "Google Scholar",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://scholar.google.com/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "index",
+          "caution"
+        ],
+        "why": "Broad scholarly index across languages and fields; useful for coverage.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Uncurated — mixes predatory venues, duplicates and grey literature; never treat a hit as peer review."
+      },
+      {
+        "id": "nasa-ads",
+        "name": "NASA ADS",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://ui.adsabs.harvard.edu/",
+        "feed": null,
+        "topics": [
+          "physics"
+        ],
+        "tags": [
+          "astronomy",
+          "astrophysics"
+        ],
+        "why": "Astronomy/astrophysics literature and data system (NASA).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Strongest in astro; weaker elsewhere."
+      },
+      {
+        "id": "inspire-hep",
+        "name": "INSPIRE-HEP",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://inspirehep.net/",
+        "feed": null,
+        "topics": [
+          "physics"
+        ],
+        "tags": [
+          "high-energy",
+          "curated"
+        ],
+        "why": "Curated high-energy-physics literature and author database.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "HEP-only scope."
+      },
+      {
+        "id": "aps-journals",
+        "name": "APS Journals",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://journals.aps.org/",
+        "feed": null,
+        "topics": [
+          "physics"
+        ],
+        "tags": [
+          "journals",
+          "peer-review"
+        ],
+        "why": "American Physical Society journals (Physical Review family, PRL).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Subscription-gated in part; some open access."
+      },
+      {
+        "id": "iopscience",
+        "name": "IOPscience",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://iopscience.iop.org/",
+        "feed": null,
+        "topics": [
+          "physics"
+        ],
+        "tags": [
+          "journals"
+        ],
+        "why": "Institute of Physics publishing platform (peer-reviewed physics).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Mixed access; check the licence per article."
+      },
+      {
+        "id": "aip-publishing",
+        "name": "AIP Publishing",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://pubs.aip.org/",
+        "feed": null,
+        "topics": [
+          "physics"
+        ],
+        "tags": [
+          "journals"
+        ],
+        "why": "American Institute of Physics journals (applied/physical sciences).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "pubchem",
+        "name": "PubChem",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/",
+        "feed": null,
+        "topics": [
+          "chemistry",
+          "biology"
+        ],
+        "tags": [
+          "compounds",
+          "bioassay"
+        ],
+        "why": "NIH chemical database: structures, properties, bioactivity.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Aggregates depositor data — trace each fact to its depositor record."
+      },
+      {
+        "id": "chemrxiv",
+        "name": "ChemRxiv",
+        "kind": "paper",
+        "outlet_kind": "preprint",
+        "url": "https://chemrxiv.org/",
+        "feed": null,
+        "topics": [
+          "chemistry"
+        ],
+        "tags": [
+          "preprint"
+        ],
+        "why": "Chemistry preprint server (ACS/RSC/GDCh-backed).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Preprints; not peer-reviewed — check for the published version.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "cas-common-chemistry",
+        "name": "CAS Common Chemistry",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://commonchemistry.cas.org/",
+        "feed": null,
+        "topics": [
+          "chemistry"
+        ],
+        "tags": [
+          "registry",
+          "cas"
+        ],
+        "why": "Open subset of the CAS Registry of chemical substances.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Subset only; the full registry is proprietary."
+      },
+      {
+        "id": "ncbi",
+        "name": "NCBI",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://www.ncbi.nlm.nih.gov/",
+        "feed": null,
+        "topics": [
+          "biology",
+          "medicine"
+        ],
+        "tags": [
+          "genbank",
+          "portal"
+        ],
+        "why": "US National Center for Biotechnology Information; portal to GenBank, PubMed, GEO and more.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Portal — each resource has its own currency and licence."
+      },
+      {
+        "id": "biorxiv",
+        "name": "bioRxiv",
+        "kind": "paper",
+        "outlet_kind": "preprint",
+        "url": "https://www.biorxiv.org/",
+        "feed": null,
+        "topics": [
+          "biology"
+        ],
+        "tags": [
+          "preprint"
+        ],
+        "why": "Life-science preprint server (CSHL).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Preprints; screening is minimal — appraise and check publication status."
+      },
+      {
+        "id": "ensembl",
+        "name": "Ensembl",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://www.ensembl.org/",
+        "feed": null,
+        "topics": [
+          "biology"
+        ],
+        "tags": [
+          "genome",
+          "annotation"
+        ],
+        "why": "Genome browser and annotation database (EMBL-EBI/Wellcome Sanger).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Release-versioned — cite the release used."
+      },
+      {
+        "id": "geo",
+        "name": "GEO — Gene Expression Omnibus",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://www.ncbi.nlm.nih.gov/geo/",
+        "feed": null,
+        "topics": [
+          "biology"
+        ],
+        "tags": [
+          "expression",
+          "datasets"
+        ],
+        "why": "NCBI archive of gene-expression datasets.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Depositor-submitted; check the study design before reuse."
+      },
+      {
+        "id": "pubmed",
+        "name": "PubMed",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/",
+        "feed": null,
+        "topics": [
+          "medicine",
+          "biology"
+        ],
+        "tags": [
+          "biomedical",
+          "index"
+        ],
+        "why": "US National Library of Medicine index of biomedical literature (MEDLINE).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Index, not full text; an abstract is not the study."
+      },
+      {
+        "id": "pmc",
+        "name": "PubMed Central",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://pmc.ncbi.nlm.nih.gov/",
+        "feed": null,
+        "topics": [
+          "medicine",
+          "biology"
+        ],
+        "tags": [
+          "full-text",
+          "open-access"
+        ],
+        "why": "Free full-text archive of biomedical literature (NIH).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Coverage is partial; the licence varies by article."
+      },
+      {
+        "id": "cochrane",
+        "name": "Cochrane Library",
+        "kind": "paper",
+        "outlet_kind": "database",
+        "url": "https://www.cochranelibrary.com/",
+        "feed": null,
+        "topics": [
+          "medicine"
+        ],
+        "tags": [
+          "systematic-review",
+          "grade"
+        ],
+        "why": "Systematic reviews and meta-analyses of health interventions; GRADE-graded.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "clinicaltrials",
+        "name": "ClinicalTrials.gov",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://clinicaltrials.gov/",
+        "feed": null,
+        "topics": [
+          "medicine"
+        ],
+        "tags": [
+          "trials",
+          "registry"
+        ],
+        "why": "US registry of clinical trials; results often posted here first.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Registration/self-reported results — reconcile with the publication."
+      },
+      {
+        "id": "who",
+        "name": "World Health Organization",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.who.int/",
+        "feed": null,
+        "topics": [
+          "medicine"
+        ],
+        "tags": [
+          "guidance",
+          "global-health"
+        ],
+        "why": "WHO guidance, statistics and global-health data.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Guidance documents are normative statements, not primary trials."
+      },
+      {
+        "id": "cdc",
+        "name": "US CDC",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.cdc.gov/",
+        "feed": null,
+        "topics": [
+          "medicine"
+        ],
+        "tags": [
+          "public-health"
+        ],
+        "why": "US Centers for Disease Control: surveillance, guidance, data.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "medrxiv",
+        "name": "medRxiv",
+        "kind": "paper",
+        "outlet_kind": "preprint",
+        "url": "https://www.medrxiv.org/",
+        "feed": null,
+        "topics": [
+          "medicine"
+        ],
+        "tags": [
+          "preprint"
+        ],
+        "why": "Health-sciences preprint server (BMJ/Yale/CSHL).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Preprints: screened but not peer-reviewed — never cite as settled clinical evidence."
+      },
+      {
+        "id": "usgs",
+        "name": "USGS",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.usgs.gov/",
+        "feed": null,
+        "topics": [
+          "earth-environment"
+        ],
+        "tags": [
+          "geoscience",
+          "data"
+        ],
+        "why": "US Geological Survey: earth-science data, maps and publications.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "National scope; check version/date of datasets."
+      },
+      {
+        "id": "nasa-earthdata",
+        "name": "NASA Earthdata",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.earthdata.nasa.gov/",
+        "feed": null,
+        "topics": [
+          "earth-environment"
+        ],
+        "tags": [
+          "remote-sensing",
+          "data"
+        ],
+        "why": "NASA Earth-observation data and tools.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked; use the data portals (Earthdata Login).",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "noaa",
+        "name": "NOAA",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.noaa.gov/",
+        "feed": null,
+        "topics": [
+          "earth-environment"
+        ],
+        "tags": [
+          "ocean",
+          "atmosphere",
+          "climate"
+        ],
+        "why": "US National Oceanic and Atmospheric Administration: climate, ocean and weather data.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "copernicus-cds",
+        "name": "Copernicus Climate Data Store",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://cds.climate.copernicus.eu/",
+        "feed": null,
+        "topics": [
+          "earth-environment"
+        ],
+        "tags": [
+          "reanalysis",
+          "climate"
+        ],
+        "why": "EU Copernicus climate reanalysis and projections (ERA5 et al.).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Reanalysis is a model product — respect its uncertainty."
+      },
+      {
+        "id": "zbmath",
+        "name": "zbMATH Open",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://zbmath.org/",
+        "feed": null,
+        "topics": [
+          "mathematics",
+          "statistics"
+        ],
+        "tags": [
+          "reviews",
+          "index"
+        ],
+        "why": "Comprehensive reviewed index of mathematical literature (now open).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "mathscinet",
+        "name": "MathSciNet",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://mathscinet.ams.org/",
+        "feed": null,
+        "topics": [
+          "mathematics"
+        ],
+        "tags": [
+          "reviews",
+          "ams"
+        ],
+        "why": "American Mathematical Society reviews database (Mathematical Reviews).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Subscription-gated."
+      },
+      {
+        "id": "project-euclid",
+        "name": "Project Euclid",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://projecteuclid.org/",
+        "feed": null,
+        "topics": [
+          "mathematics",
+          "statistics"
+        ],
+        "tags": [
+          "journals",
+          "open-access"
+        ],
+        "why": "Mathematics and statistics journal platform (open access core).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Coverage is selective, not a full index."
+      },
+      {
+        "id": "cross-validated",
+        "name": "Cross Validated",
+        "kind": "other",
+        "outlet_kind": "qa",
+        "url": "https://stats.stackexchange.com/",
+        "feed": null,
+        "topics": [
+          "statistics"
+        ],
+        "tags": [
+          "qa",
+          "community"
+        ],
+        "why": "Statistics Q&A community; good for finding the canonical reference.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Community answers are not citable — follow them to the primary source."
+      },
+      {
+        "id": "dblp",
+        "name": "dblp",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://dblp.org/",
+        "feed": null,
+        "topics": [
+          "computer-science"
+        ],
+        "tags": [
+          "bibliography",
+          "curated"
+        ],
+        "why": "Curated computer-science bibliography (author/venue metadata).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Bibliographic metadata only — no full text or quality judgement."
+      },
+      {
+        "id": "acm-dl",
+        "name": "ACM Digital Library",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://dl.acm.org/",
+        "feed": null,
+        "topics": [
+          "computer-science"
+        ],
+        "tags": [
+          "journals",
+          "proceedings"
+        ],
+        "why": "ACM journals and conference proceedings (peer-reviewed CS).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "ieee-xplore",
+        "name": "IEEE Xplore",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://ieeexplore.ieee.org/",
+        "feed": null,
+        "topics": [
+          "computer-science"
+        ],
+        "tags": [
+          "journals",
+          "standards"
+        ],
+        "why": "IEEE journals, conference papers and standards.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Mixed quality across venues; check the specific venue."
+      },
+      {
+        "id": "jmlr",
+        "name": "Journal of Machine Learning Research",
+        "kind": "paper",
+        "outlet_kind": "journal",
+        "url": "https://jmlr.org/",
+        "feed": null,
+        "topics": [
+          "computer-science",
+          "statistics"
+        ],
+        "tags": [
+          "machine-learning",
+          "open-access"
+        ],
+        "why": "Diamond open-access ML journal with rigorous reviewing.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "ML scope only."
+      },
+      {
+        "id": "repec",
+        "name": "RePEc",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://repec.org/",
+        "feed": null,
+        "topics": [
+          "economics-finance"
+        ],
+        "tags": [
+          "bibliography",
+          "working-papers"
+        ],
+        "why": "Volunteer-built index of economics research (papers, articles, software).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check did not complete (transport) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "nber",
+        "name": "NBER",
+        "kind": "paper",
+        "outlet_kind": "portal",
+        "url": "https://www.nber.org/",
+        "feed": null,
+        "topics": [
+          "economics-finance"
+        ],
+        "tags": [
+          "working-papers"
+        ],
+        "why": "US National Bureau of Economic Research working papers.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Working papers are pre-publication — check the final version."
+      },
+      {
+        "id": "ssrn",
+        "name": "SSRN",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.ssrn.com/",
+        "feed": null,
+        "topics": [
+          "economics-finance",
+          "law",
+          "social-science"
+        ],
+        "tags": [
+          "preprint",
+          "caution"
+        ],
+        "why": "Large preprint/postprint repository across economics, law and social science.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403); and preprints are not peer-reviewed — verify status.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "fred",
+        "name": "FRED",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://fred.stlouisfed.org/",
+        "feed": null,
+        "topics": [
+          "economics-finance"
+        ],
+        "tags": [
+          "time-series",
+          "macro"
+        ],
+        "why": "Federal Reserve Economic Data: sourced macroeconomic time series.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Series are aggregates — trace to the originating agency release."
+      },
+      {
+        "id": "worldbank-data",
+        "name": "World Bank Open Data",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://data.worldbank.org/",
+        "feed": null,
+        "topics": [
+          "economics-finance",
+          "social-science"
+        ],
+        "tags": [
+          "indicators",
+          "development"
+        ],
+        "why": "World Bank development indicators and datasets.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Estimates and model-based for some series — read the metadata."
+      },
+      {
+        "id": "imf",
+        "name": "International Monetary Fund",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.imf.org/",
+        "feed": null,
+        "topics": [
+          "economics-finance"
+        ],
+        "tags": [
+          "macro",
+          "data"
+        ],
+        "why": "IMF macro data, forecasts and surveillance publications.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Forecasts are projections; label them as such.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "oecd",
+        "name": "OECD",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.oecd.org/",
+        "feed": null,
+        "topics": [
+          "economics-finance",
+          "education",
+          "social-science"
+        ],
+        "tags": [
+          "statistics",
+          "policy"
+        ],
+        "why": "OECD statistics, policy analysis and education data.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "psycnet",
+        "name": "APA PsycNet",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://psycnet.apa.org/",
+        "feed": null,
+        "topics": [
+          "psychology"
+        ],
+        "tags": [
+          "abstracts",
+          "apa"
+        ],
+        "why": "American Psychological Association index of psychology literature.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked; subscriptions gate full text.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "psyarxiv",
+        "name": "PsyArXiv",
+        "kind": "paper",
+        "outlet_kind": "preprint",
+        "url": "https://osf.io/preprints/psyarxiv",
+        "feed": null,
+        "topics": [
+          "psychology"
+        ],
+        "tags": [
+          "preprint"
+        ],
+        "why": "Psychology preprint server hosted on OSF.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Preprints; not peer-reviewed — appraise and check publication status."
+      },
+      {
+        "id": "icpsr",
+        "name": "ICPSR",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.icpsr.umich.edu/",
+        "feed": null,
+        "topics": [
+          "social-science"
+        ],
+        "tags": [
+          "data",
+          "archive"
+        ],
+        "why": "University of Michigan social-science data archive.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Access tiers vary by membership."
+      },
+      {
+        "id": "pew",
+        "name": "Pew Research Center",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.pewresearch.org/",
+        "feed": null,
+        "topics": [
+          "social-science"
+        ],
+        "tags": [
+          "survey",
+          "public-opinion"
+        ],
+        "why": "Non-partisan survey research on social trends and public opinion.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Reports, not raw data (datasets are separately released) — cite the report."
+      },
+      {
+        "id": "ourworldindata",
+        "name": "Our World in Data",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://ourworldindata.org/",
+        "feed": null,
+        "topics": [
+          "social-science",
+          "economics-finance",
+          "earth-environment"
+        ],
+        "tags": [
+          "data",
+          "visualisation"
+        ],
+        "why": "Curated, sourced long-run data and visual essays.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "A secondary curator — always follow through to the underlying dataset."
+      },
+      {
+        "id": "eur-lex",
+        "name": "EUR-Lex",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://eur-lex.europa.eu/",
+        "feed": null,
+        "topics": [
+          "law"
+        ],
+        "tags": [
+          "legislation",
+          "eu"
+        ],
+        "why": "Official EU law portal (treaties, legislation, case law).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Authoritative for EU law; check consolidation/version dates."
+      },
+      {
+        "id": "courtlistener",
+        "name": "CourtListener",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://www.courtlistener.com/",
+        "feed": null,
+        "topics": [
+          "law"
+        ],
+        "tags": [
+          "case-law",
+          "us"
+        ],
+        "why": "Free Law Project's US case-law and docket database.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked; unofficial copies — verify against the official reporter.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "cornell-lii",
+        "name": "Cornell Legal Information Institute",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.law.cornell.edu/",
+        "feed": null,
+        "topics": [
+          "law"
+        ],
+        "tags": [
+          "codes",
+          "encyclopedia"
+        ],
+        "why": "Free legal encyclopedia and codes (Wex, US Code, CFR).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Educational summaries — verify against the official text."
+      },
+      {
+        "id": "worldlii",
+        "name": "WorldLII",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.worldlii.org/",
+        "feed": null,
+        "topics": [
+          "law"
+        ],
+        "tags": [
+          "global",
+          "case-law"
+        ],
+        "why": "Global network of free legal-information institutes.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "jstor",
+        "name": "JSTOR",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.jstor.org/",
+        "feed": null,
+        "topics": [
+          "humanities",
+          "social-science"
+        ],
+        "tags": [
+          "journals",
+          "books"
+        ],
+        "why": "Digitised scholarly journals and books across the humanities and social sciences.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Access is largely gated; some open collections."
+      },
+      {
+        "id": "project-muse",
+        "name": "Project MUSE",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://muse.jhu.edu/",
+        "feed": null,
+        "topics": [
+          "humanities",
+          "social-science"
+        ],
+        "tags": [
+          "journals",
+          "books"
+        ],
+        "why": "University-press journals and books (humanities/social sciences).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Subscription-gated."
+      },
+      {
+        "id": "seop",
+        "name": "Stanford Encyclopedia of Philosophy",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://plato.stanford.edu/",
+        "feed": null,
+        "topics": [
+          "humanities"
+        ],
+        "tags": [
+          "philosophy",
+          "peer-reviewed"
+        ],
+        "why": "Peer-reviewed, continuously updated reference encyclopedia of philosophy.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "A reference work — cite the entry/version, and follow it to primary texts."
+      },
+      {
+        "id": "philpapers",
+        "name": "PhilPapers",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://philpapers.org/",
+        "feed": null,
+        "topics": [
+          "humanities"
+        ],
+        "tags": [
+          "philosophy",
+          "bibliography"
+        ],
+        "why": "Comprehensive philosophy bibliography and repository.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "gallica",
+        "name": "Gallica",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://gallica.bnf.fr/",
+        "feed": null,
+        "topics": [
+          "humanities"
+        ],
+        "tags": [
+          "digitised",
+          "bnf"
+        ],
+        "why": "Bibliothèque nationale de France digital library (books, manuscripts, images).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked; OCR quality varies by item.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "perseus",
+        "name": "Perseus Digital Library",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.perseus.tufts.edu/",
+        "feed": null,
+        "topics": [
+          "humanities"
+        ],
+        "tags": [
+          "classics",
+          "texts"
+        ],
+        "why": "Classical Greek and Latin texts with translations and tools.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Editions are dated — record the edition used."
+      },
+      {
+        "id": "dpla",
+        "name": "Digital Public Library of America",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://dp.la/",
+        "feed": null,
+        "topics": [
+          "humanities",
+          "arts-design"
+        ],
+        "tags": [
+          "aggregator",
+          "digitised"
+        ],
+        "why": "US aggregator of digitised library, museum and archive collections.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Aggregation layer — cite the holding institution, not the aggregator.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "europeana",
+        "name": "Europeana",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.europeana.eu/",
+        "feed": null,
+        "topics": [
+          "humanities",
+          "arts-design"
+        ],
+        "tags": [
+          "aggregator",
+          "cultural-heritage"
+        ],
+        "why": "EU aggregator of cultural-heritage collections.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Aggregation layer — cite the holding institution; rights vary per item.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "glottolog",
+        "name": "Glottolog",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://glottolog.org/",
+        "feed": null,
+        "topics": [
+          "linguistics"
+        ],
+        "tags": [
+          "languages",
+          "catalogue"
+        ],
+        "why": "Catalogue of the world's languages and language families (curated).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Bibliographic/classification resource, not primary language data."
+      },
+      {
+        "id": "wals",
+        "name": "WALS Online",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://wals.info/",
+        "feed": null,
+        "topics": [
+          "linguistics"
+        ],
+        "tags": [
+          "typology",
+          "features"
+        ],
+        "why": "World Atlas of Language Structures: typological features across languages.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Feature coding is the editors' analysis — check the source chapter."
+      },
+      {
+        "id": "eric",
+        "name": "ERIC",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://eric.ed.gov/",
+        "feed": null,
+        "topics": [
+          "education"
+        ],
+        "tags": [
+          "education",
+          "index"
+        ],
+        "why": "US Institute of Education Sciences index of education research.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Index and grey literature mix — check the source type."
+      },
+      {
+        "id": "wwc",
+        "name": "What Works Clearinghouse",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://ies.ed.gov/wwc/",
+        "feed": null,
+        "topics": [
+          "education"
+        ],
+        "tags": [
+          "evidence-review",
+          "standards"
+        ],
+        "why": "US evidence reviews of education interventions against explicit standards.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Reviews, not primary studies.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "met-museum",
+        "name": "The Metropolitan Museum of Art",
+        "kind": "post",
+        "outlet_kind": "portal",
+        "url": "https://www.metmuseum.org/",
+        "feed": null,
+        "topics": [
+          "arts-design"
+        ],
+        "tags": [
+          "museum",
+          "open-access"
+        ],
+        "why": "Met museum collection with open-access images and metadata (CC0 where noted).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Automated check blocked (403); cite the object record and its rights statement.",
+        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+      },
+      {
+        "id": "quanta",
+        "name": "Quanta Magazine",
+        "kind": "newsletter",
+        "outlet_kind": "media",
+        "url": "https://www.quantamagazine.org/",
+        "feed": null,
+        "topics": [
+          "physics",
+          "mathematics",
+          "biology"
+        ],
+        "tags": [
+          "journalism",
+          "explainer"
+        ],
+        "why": "High-quality science journalism on math, physics, biology and CS.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Secondary reporting — always follow through to the primary paper."
       }
     ]
   }

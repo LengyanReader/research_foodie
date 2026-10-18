@@ -63,6 +63,8 @@ _TAIL: tuple[Skill, ...] = (
     Skill("capability-flow", "reference", "reference/capability-flow.md", "Bidirectional flow: concretize (task-local) <-> distill (factory, human-gated)."),
     Skill("evidence-instruments", "reference", "reference/evidence-instruments.md", "M3.10 made concrete: claim type -> instrument -> catalogued tool -> gate evidence."),
     Skill("methodology-map", "reference", "reference/methodology-map.md", "M3.13 made concrete: field -> methodology system -> what the harness must enforce."),
+    Skill("cross-language", "reference", "reference/cross-language.md", "M4.10 made concrete: meaning-unit alignment, corroboration by back-translation, term handling (not word-for-word)."),
+    Skill("outlet-map", "reference", "reference/outlet-map.md", "Field -> high-quality information outlets / portals / media, with what each is NOT for (sources.json `outlets`)."),
     Skill("capabilities", "overview", "CAPABILITIES.md", "Generated overview: purpose + every harness capability (requirement -> modules)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),
     Skill("harness-catalog", "review", "review/harness-catalog.md", "Prose taxonomy of harnesses & self-evolution methods."),

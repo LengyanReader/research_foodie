@@ -281,7 +281,7 @@ def render_doc() -> str:
     add("| `data/rubrics.json` | per-domain excellence bar | `harness standard` |")
     add("| `data/levers.json` | gap → modules/tools | `harness standard plan` |")
     add("| `data/watchlist.json` | M5 frontier probes | `updates/REPORT.md` |")
-    add("| `data/sources.json` | tracked entities + feeds | `updates/INTEL.md` |")
+    add("| `data/sources.json` | tracked entities + feeds + per-field `outlets` | `updates/INTEL.md` |")
     add("")
     add("## 10 · Keeping this current · 如何保持同步")
     add("")

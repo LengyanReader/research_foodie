@@ -54,5 +54,7 @@ Concrete tools for L2–L4 (catalog ids; full map: `../reference/evidence-instru
 - **Exploration sold as confirmation** (the hypothesis that survived the data is reported as if pre-specified).
 - **Causal language from observational fit** ("predicts" rewritten as "causes").
 
+**Information outlets · 信息源**：本领域的高质量门户 / 期刊 / 预印本 / 数据库 / 媒体见 `../reference/outlet-map.md`（机器可读：`data/sources.json` 的 `outlets` 组；`harness sources --group outlets` 查看）。
+
 ## See also
 `../mathematics/README.md` (exact derivation) · `../core/04-verification-and-gates.md` (M3.11) · `../reference/evidence-instruments.md` · `../reference/methodology-map.md` · `../review/integration-map-2026-10.md`.

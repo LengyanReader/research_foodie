@@ -2,12 +2,12 @@
 
 > Consolidated IEEE-style reference list for the `harness_factory` review set.
 > `harness_factory` 综述集的合并 IEEE 参考文献。
-> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106, **§H**, R107–R110: **2026-10-18**). Machine-readable BibTeX: `references.bib`.
+> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106, **§H**, R107–R110, **§I**–**§J**, R111–R119: **2026-10-18**; group **§K**, R120–R126: **2026-10-19**). Machine-readable BibTeX: `references.bib`.
 
 ---
 
 ## 中文速览
-本文件把三份综述文档（`harness-catalog.md`、`practitioner-playbook.md`、`masters-playbook.md`）的参考文献合并为**统一编号 R1–R106**，按主题分组（`§E`–`§G` 为 2026-10 前沿与学科新增）。各文档正文仍保留**各自的局部编号**（避免大范围改写）；本表给出统一编号并注明局部对应。**引用即生命线**：凡未一手核验者，标注 `[unverified]`，不得当作事实引用。
+本文件把三份综述文档（`harness-catalog.md`、`practitioner-playbook.md`、`masters-playbook.md`）的参考文献合并为**统一编号 R1–R126**，按主题分组（`§E`–`§G` 为 2026-10 前沿与学科新增，`§H`–`§K` 为 2026-10 测量/统计/方法论/跨语言保真新增）。各文档正文仍保留**各自的局部编号**（避免大范围改写）；本表给出统一编号并注明局部对应。**引用即生命线**：凡未一手核验者，标注 `[unverified]`，不得当作事实引用。
 
 ---
 
@@ -188,6 +188,15 @@ R106. J. Woodcock, P. G. Larsen, J. Bicarregui, and J. Fitzgerald, "Formal metho
 - R117. K. F. Schulz, D. G. Altman, and D. Moher, *CONSORT 2010 Statement: updated guidelines for reporting parallel group randomised trials*, *BMJ*, vol. 340, p. c332, 2010. DOI: 10.1136/bmj.c332. (bibliographic record this session)
 - R118. A. R. Hevner, S. T. March, J. Park, and S. Ram, *Design Science in Information Systems Research*, *MIS Quarterly*, vol. 28, no. 1, pp. 75–105, Mar. 2004. DOI: 10.2307/25148625.
 - R119. B. G. Glaser and A. L. Strauss, *The Discovery of Grounded Theory: Strategies for Qualitative Research*. Chicago, IL: Aldine, 1967. (bibliographic record this session)
+
+## K. Cross-language fidelity & translation quality · 跨语言保真与翻译质量
+- R120. ISO, *ISO 17100:2015 — Translation services: Requirements for translation services*, 2015. [Online]. Available: https://www.iso.org/standard/59149.html (access date 2026-10-19). (first-party ISO record; abstract page)
+- R121. ISO, *ISO 5060:2024 — Translation services: Evaluation of translation output*, 2024. [Online]. Available: https://www.iso.org/standard/80701.html (access date 2026-10-19). (first-party ISO record; abstract page)
+- R122. M. A. K. Halliday and R. Hasan, *Cohesion in English*. London: Longman, 1976 (Routledge reissue). DOI: 10.4324/9781315836010. (bibliographic record this session; publisher record confirmed)
+- R123. OASIS, *XLIFF Version 2.2*, OASIS Committee Specification 01, 2025. [Online]. Available: https://docs.oasis-open.org/xliff/xliff-core/v2.2/cs01/xliff-core-v2.2-cs01-part1.html (access date 2026-10-19). (standard landing page fetched this session)
+- R124. J.-P. Vinay and J. Darbelnet, *Comparative Stylistics of French and English: A Methodology for Translation* (J. C. Sager and M.-J. Hamel, trans.), Benjamins Translation Library 11. Amsterdam: John Benjamins, 1995. DOI: 10.1075/btl.11. (publisher record confirmed)
+- R125. E. A. Nida and C. R. Taber, *The Theory and Practice of Translation*. Leiden: Brill, 1969. (bibliographic record this session)
+- R126. A. Lommel *et al.* / MQM Council, *Multidimensional Quality Metrics (MQM) Framework*. [Online]. Available: https://www.themqm.org/ (access date 2026-10-19). (first-party framework site fetched; aligned with ISO 5060)
 
 ---
 
