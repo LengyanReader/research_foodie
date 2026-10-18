@@ -265,5 +265,104 @@
       "M7"
     ],
     "why": "Each harness also writes a task-local capability ledger (`.harness/capabilities.local.md`) and, at the end, proposes the generalizable patterns it found back to the factory catalog -- observe-only and human-gated (M0.4/M0.5/M0.10). See reference/capability-flow.md."
+  },
+  "context-budget-policy": {
+    "title_en": "Context budget policy",
+    "title_zh": "上下文预算纪律",
+    "when": {
+      "any": [
+        {
+          "min_horizon": "session"
+        },
+        {
+          "tool_surface": [
+            "read",
+            "read_write",
+            "external"
+          ]
+        }
+      ]
+    },
+    "modules": [
+      "M1",
+      "M2"
+    ],
+    "why": "Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks (\"context rot\"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6)."
+  },
+  "untrusted-content-discipline": {
+    "title_en": "Untrusted-content discipline",
+    "title_zh": "不可信内容纪律",
+    "when": {
+      "any": [
+        {
+          "tool_surface": "external"
+        },
+        {
+          "artifact": [
+            "document",
+            "knowledge_base"
+          ]
+        },
+        {
+          "grounding": "required"
+        }
+      ]
+    },
+    "modules": [
+      "M4",
+      "M6",
+      "M7"
+    ],
+    "why": "Retrieved bytes -- web pages, files, tool output, even tool descriptions -- are untrusted data, never instructions (M0.1/M0.4). Keep trusted instructions and untrusted data in separate regions, break at least one leg of the lethal trifecta (private data + untrusted content + egress channel), and enforce least authority at the call site."
+  },
+  "durable-execution": {
+    "title_en": "Durable execution",
+    "title_zh": "持久执行",
+    "when": {
+      "min_horizon": "multi_session"
+    },
+    "modules": [
+      "M2",
+      "M3"
+    ],
+    "why": "Work that outlives a process must journal each step and replay, not re-run: record the durable log, make every side effect idempotent, and treat human approval as recorded state -- a checkpoint alone is not exactly-once (M0.3/M0.7)."
+  },
+  "cost-budget-caps": {
+    "title_en": "Cost budget caps",
+    "title_zh": "成本预算上限",
+    "when": {
+      "any": [
+        {
+          "tool_surface": "external"
+        },
+        {
+          "min_horizon": "multi_session"
+        }
+      ]
+    },
+    "modules": [
+      "M3",
+      "M7"
+    ],
+    "why": "An unattended loop can incinerate a budget, so set a HARD cap on calls/tokens/spend and halt rather than warn (M0.3/M0.8): choose the number up front, and make uncapped operation an explicit opt-in."
+  },
+  "eval-driven-development": {
+    "title_en": "Eval-driven development",
+    "title_zh": "评测驱动开发",
+    "when": {
+      "any": [
+        {
+          "verifiability": "high"
+        },
+        {
+          "min_horizon": "multi_session"
+        }
+      ]
+    },
+    "modules": [
+      "M3",
+      "M5"
+    ],
+    "why": "Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4)."
   }
 }

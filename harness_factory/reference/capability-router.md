@@ -5,7 +5,7 @@
 > and file to load. Load nothing else until a row fires. · 外部任务/项目引用本仓库时的**第一落点**：
 > 由「我的情境 / 我要补哪一环」快速定位到**能力 → 模块 → 文件**。没有命中就不要加载其它内容。
 
-**Updated:** 2026-10-16 · Load via `harness skill capability-router`. Machine-readable truth: `data/capabilities.json`, `data/modules.json`.
+**Updated:** 2026-10-18 · Load via `harness skill capability-router`. Machine-readable truth: `data/capabilities.json`, `data/modules.json`.
 
 ---
 
@@ -33,7 +33,12 @@
 | An ask that is vague, under-specified, or under-aimed · 需求模糊/偏小 | `ambition-elevation` | M0, M3, M8 | [`reference/requirement-refinement.md`](requirement-refinement.md) |
 | Any task at all (the floor) · 任何任务的底线 | `baseline-discipline`, `verification-gate` | M0, M1, M3, M7 | [`core/01-meta-principles.md`](../core/01-meta-principles.md), [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md) |
 | Work that will span sessions / be resumed · 跨会话、需续接 | `resumable-memory`, `self-improving-loop` | M2, M5 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/06-self-evolution.md`](../core/06-self-evolution.md) |
+| Long context / tool output floods the window · 上下文膨胀 | `context-budget-policy` | M1, M2 | [`core/02-context-engineering.md`](../core/02-context-engineering.md), [`core/03-long-running-agents.md`](../core/03-long-running-agents.md) |
+| Work must survive a crash and resume exactly · 需抗崩溃续跑 | `durable-execution` | M2, M3 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md) |
 | Claims/citations/Facts must be traceable · 结论要可溯 | `traceable-sources` | M4 | [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md) |
+| Untrusted docs / tool output / MCP servers · 接触不可信内容 | `untrusted-content-discipline` | M4, M6, M7 | [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
+| Runs where nobody watches the spend · 无人值守的花费 | `cost-budget-caps` | M3, M7 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/08-change-governance.md`](../core/08-change-governance.md) |
+| Changes to the harness must be re-scored · 需回归评测 | `eval-driven-development` | M3, M5 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/06-self-evolution.md`](../core/06-self-evolution.md) |
 | The result must match the best in the field · 要对标最高标准 | `frontier-standard` | M3, M5, M8 | [`domains/excellence/standard-ladder.md`](../domains/excellence/standard-ladder.md) |
 | Shallow output / toy methods / self-grading · 结果太浅、自评自证 | `expert-instruments` | M3, M4, M6 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
 | Need perspectives from other fields; several workers · 要跨领域视角/多体 | `cross-field-crew` | M6, M8 | [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |

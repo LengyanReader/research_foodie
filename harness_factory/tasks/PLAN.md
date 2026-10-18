@@ -1,6 +1,6 @@
 # PLAN · Inclusive Harness Tool · 通用 harness 工具计划
 
-**Updated:** 2026-10-16 · **Status:** active · **Owner:** user + agent
+**Updated:** 2026-10-18 · **Status:** active · **Owner:** user + agent
 
 > Goal: turn `harness_factory/` from a pattern **library** into a working **harness compiler** — given any task, emit the harness that task needs.
 > 目标：把 `harness_factory/` 从模式**库**升级为可运行的**harness 编译器**——给定任意任务，产出该任务所需的 harness。
@@ -167,6 +167,7 @@ better, and capabilities discovered in one project become reusable options for o
   - **LLM-assisted discovery/classification hardening** and **feed/entity coverage expansion** — deferred to a later P2 slice.
 - **P3 (done):** emitted-harness runtime hooks. `runtime.py` — **gate runner** (`gate_report`, CLI `harness gate`): structural check + executes the emitted `.harness/check.py` as its own hook; hard gates decide pass/fail, module gates (M2/M4/M6/M8) are advisory. **Signal harvest** (`harvest`/`record_signals`, CLI `harness harvest`): observe-only, appends one observation to `<kb>/updates/signals.jsonl`.
 - **P4 (done):** plugin protocol for new domains/templates. `plugins.py` — read-only discovery from `HARNESS_PLUGINS_DIR` (or `<data>/plugins`); `domain` plugins merge into the registry + rubrics (`--domain <plugin-id>` becomes selectable) and may emit extra templates; `template` plugins register reusable emitted files. Strict validation + CLI `harness plugins`. SSOT catalogs are never mutated; a plugin may not shadow a built-in.
+- **P7 (done, 2026-10-18):** frontier capability refresh — distil 2026 frontier work into the capability SSOT. Verified primary sources (`review/references.md` §E, R84–R92): context rot (Chroma R84), lethal trifecta + OWASP *Top 10 for Agentic Applications 2026* `ASI01–ASI10` (R42, R86), MCP security best practices (R87), CaMeL (R88), durable execution (Temporal R90 + METR R89), hard budget caps (Willison R85), step-level evaluation (R92) + OpenTelemetry GenAI conventions (R91). **5 new capabilities** — `context-budget-policy`, `untrusted-content-discipline`, `durable-execution`, `cost-budget-caps`, `eval-driven-development` (**17 → 22**, data-only) — with distinct triggers, plus router rows, a provenance row per capability, and the distillation `review/frontier-2026-10.md`. Deliberate non-additions recorded (agent identity, A2A, OTel status). Run `PYTHONPATH=src python -m harness_factory capabilities --write`.
 - **P6 (done, 2026-10-16):** make "mention the directory once" a **structural** guarantee rather than prose. `config.factory_root()` resolves the checkout that provides the code; `pointer.py` builds/verifies the emitted `.harness/pointer.json`; `assemble.py` emits it and writes the **resolved** path into `AGENTS.md` (no `<harness_factory path>` placeholder left); `runtime.gate_report` adds an *advisory* `pointer-resolves` gate; `harness doctor --project <dir>` reports reachability. Tests `tests/test_pointer.py`. Also hardened **structure** (not just content) with `tests/test_docs_integrity.py`: no raw assistant/tool markup in shipped docs, balanced code fences in shipped docs *and* every emitted file.
 
 ## Verification · 验证门（for this project)

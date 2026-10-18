@@ -1,6 +1,16 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-16
+**Updated:** 2026-10-18
+
+---
+
+## 2026-10-18 — P7: frontier refresh into the capability SSOT (17 → 22)
+- **Motivation.** The capability map is the *data-driven* middle layer between a requirement and modules (`capabilities.py`; `data/capabilities.json`). It had absorbed practitioner playbooks but not the 2025–26 frontier consensus on **context as a finite budget**, **untrusted content as data-not-instructions**, **durable execution**, **hard spend caps**, and **trajectory-level evaluation**. A library that is *referenced* must stay current (`tasks/REFRESH.md`).
+- **Method (plan-first; citations are the lifeline).** Each candidate was (1) probed, (2) **fetched as a primary source** (arXiv abs page / official docs / standards body), (3) diffed against `core/`, `review/`, and the 17 existing capabilities before any addition, then (4) written to the SSOT. Aggregator blogs were read for orientation, never cited.
+- **Verified refs (new group E, R84–R92).** Context Rot (Chroma R84); Willison "hard budget caps" (R85); OWASP Top 10 for Agentic Applications 2026, `ASI01–ASI10` (R86); MCP Security Best Practices (R87); CaMeL (R88); METR long-task time horizon (R89); Temporal *Durable AI* (R90); OpenTelemetry GenAI conventions (R91 — *listed*, README fetch timed out); Agent-as-a-Judge (R92). Pre-existing: lethal trifecta (R42), Anthropic context engineering (R52).
+- **5 new capabilities (data-only).** `context-budget-policy` (M1,M2); `untrusted-content-discipline` (M4,M6,M7); `durable-execution` (M2,M3); `cost-budget-caps` (M3,M7); `eval-driven-development` (M3,M5). Each has a **distinct trigger** and does **not** fire on a plain local `read_write` coding task (`untrusted-content-discipline` keys on `grounding=required`, not the default `preferred`) — a capability that never discriminates is documentation, not a mechanism.
+- **Docs + provenance.** New distillation `review/frontier-2026-10.md` (bilingual: converged signals, new-capability table, per-capability notes, deliberate non-adoptions, verification status, next-cycle cues); `review/references.md` §E + `references.bib` group E; `sources/source-map.md` capability rows; router rows in `reference/capability-router.md`; `reference/derivation-rules.md` capability table brought up to date (was 13, now 22). Regenerated `CAPABILITIES.md` (**22 capabilities · 9 modules**).
+- **Verified.** `PYTHONPATH=src python -m harness_factory capabilities --write` → `CAPABILITIES.md`; ...tests below.
 
 ---
 

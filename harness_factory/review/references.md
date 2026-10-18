@@ -2,7 +2,7 @@
 
 > Consolidated IEEE-style reference list for the `harness_factory` review set.
 > `harness_factory` 综述集的合并 IEEE 参考文献。
-> **Access date for all online sources: 2026-10-12.** Machine-readable BibTeX: `references.bib`.
+> **Access date for all online sources: 2026-10-12** (group **§E**, R84–R92: **2026-10-18**). Machine-readable BibTeX: `references.bib`.
 
 ---
 
@@ -124,7 +124,24 @@ R83. J. Read, "When Agents Ship, the PM Job Becomes Raising Ambition," Sep. 3, 2
 
 ---
 
+## E. Frontier — context · security · durability · spend · evals · 前沿
+
+*(New group (2026-10-18); source for capabilities `context-budget-policy`, `untrusted-content-discipline`, `durable-execution`, `cost-budget-caps`, `eval-driven-development`. Analysis: `frontier-2026-10.md`.)*
+
+R84. K. Hong, A. Troynikov, and J. Huber, "Context Rot: How Increasing Input Tokens Impacts LLM Performance," Chroma technical report, Jul. 14, 2025. [Online]. Available: https://research.trychroma.com/context-rot (accessed 2026-10-18).
+R85. S. Willison, "We're going to need default hard budget caps on pretty much everything," Oct. 3, 2026. [Online]. Available: https://simonwillison.net/2026/Oct/3/default-hard-budget-caps/ (accessed 2026-10-18).
+R86. OWASP GenAI Security Project (Agentic Security Initiative), "OWASP Top 10 for Agentic Applications for 2026" (ASI01–ASI10), Dec. 9, 2025. [Online]. Available: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/ (accessed 2026-10-18).
+R87. Model Context Protocol, "Security Best Practices" (spec, 2026-07-28 version). [Online]. Available: https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices (accessed 2026-10-18).
+R88. E. Debenedetti, I. Shumailov, T. Fan, J. Hayes, N. Carlini, D. Fabian, C. Kern, C. Shi, A. Terzis, and F. Tramèr, "Defeating Prompt Injections by Design" (CaMeL), arXiv:2503.18813, Mar. 2025 (v2 Jun. 2025).
+R89. T. Kwa *et al.*, "Measuring AI Ability to Complete Long Software Tasks," arXiv:2503.14499, NeurIPS 2025 (v4, Jul. 2026).
+R90. Temporal, "Durable AI" documentation. [Online]. Available: https://docs.temporal.io/ai (accessed 2026-10-18).
+R91. OpenTelemetry, "Semantic Conventions for Generative AI (GenAI)" repository — `open-telemetry/semantic-conventions-genai` (created May 5, 2026; status *Development*). [Online]. Available: https://github.com/open-telemetry/semantic-conventions-genai (accessed 2026-10-18).
+R92. M. Zhuge *et al.*, "Agent-as-a-Judge: Evaluate Agents with Agents," arXiv:2410.10934, Oct. 2024.
+
+---
+
 ## Verification status · 核验状态
+- **Verified this session (2026-10-18, §E):** R84, R85, R86 (page), R87, R90 and the arXiv abstract pages R88, R89, R92 fetched in full; R91 (OTel GenAI) confirmed from first-party results but the README fetch timed out — treat as *listed, not deep-read*.
 - **Verified this session (2026-10-12):** R1–R8, R10–R11, R13–R29 (arXiv/DOI/ACL resolved); R21 and R22 confirmed.
 - **Established but not re-fetched:** R28, R29.
 - **`[unverified]` — do not cite as fact:** R41 ARC IDs; and the pending list in §A (Self-Harness, STaR, Constitutional AI, Meta-Rewarding).

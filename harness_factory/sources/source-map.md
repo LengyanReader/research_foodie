@@ -3,7 +3,7 @@
 > Which pattern came from which primary artifact. Keeps `core/` honest: every claimed pattern traces back.
 > 模式 ← 一手材料 的对照表。用于保证 `core/` 每条模式都可溯源。
 
-**Updated:** 2026-10-16 · All URLs retrieved 2026-10-12 (new rows: 2026-10-16).
+**Updated:** 2026-10-18 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18).
 
 ---
 
@@ -56,9 +56,15 @@
 | `expert-instruments` (Depth) | Rieseberg [R80] (real instruments, outside judge, raw data); Anthropic builder/critic + default-FAIL [26], [28]; Chollet refinement loop [14] | practitioner |
 | `cross-field-crew` (Range) | Rieseberg [R80]; Anthropic generator/evaluator [26]; Hashimoto six-stage adoption [21] | practitioner |
 | `bidirectional-capability-flow` | repo `AGENTS.md` §5 workflow principles; `reference/capability-flow.md`; M5 self-evolution engine | internal |
+| `context-budget-policy` | Chroma "Context Rot" `[R84]` (recall degrades with input length); Anthropic "Effective context engineering" `[R52]` (compaction/notes/subagents) | empirical + practitioner |
+| `untrusted-content-discipline` | Willison lethal trifecta `[R42]`; OWASP Top 10 for Agentic Applications 2026 `[R86]` (ASI01–ASI10); MCP Security Best Practices `[R87]`; CaMeL `[R88]` | practitioner + standard + academic |
+| `durable-execution` | Temporal "Durable AI" `[R90]` (journal/replay, idempotent side effects); METR time-horizon `[R89]` | practitioner + empirical |
+| `cost-budget-caps` | Willison "default hard budget caps" `[R85]` (hard, not soft) | practitioner |
+| `eval-driven-development` | Agent-as-a-Judge `[R92]` (step-level feedback); OpenTelemetry GenAI conventions `[R91]` (traced runs) | academic + standard |
 | `reference/requirement-refinement.md` (R0–R5 protocol) | Rieseberg [R80]; M8 escalation/handoff; `domains/deep-research/method.md` L0 "restate + confirm" | practitioner + internal |
 
 > Full analysis and the integration verdict: [`review/ambition-and-agency.md`](../review/ambition-and-agency.md). Refs R80–R83 live in [`review/references.md`](../review/references.md) (group D).
+> The 2026-10-18 frontier pass (context · security · durability · spend · evals) is distilled in [`review/frontier-2026-10.md`](../review/frontier-2026-10.md); refs R84–R92 live in group E.
 
 ---
 

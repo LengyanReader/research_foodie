@@ -1,6 +1,6 @@
 # Derivation rules · 推导规则（agent-readable mirror）
 
-**Updated:** 2026-10-15 · Mirrors `src/harness_factory/derive.py` + `data/capabilities.json`.
+**Updated:** 2026-10-18 · Mirrors `src/harness_factory/derive.py` + `data/capabilities.json`.
 **Purpose:** let a vibe-coding assistant (L0, no Python) derive a harness by reading rules, and let
 the CLI (L1) stay explainable. 若可用 CLI，优先 `PYTHONPATH=src python -m harness_factory derive --task "…" --json`。
 
@@ -66,6 +66,15 @@ they never enable a module the rule table did not. Current set:
 | `frontier-standard` | `domain = excellence` OR (`verifiability = high` AND `horizon ≥ multi_session`) | M3, M5, M8 |
 | `sandboxed-execution` | `tool_surface = external` OR `stakes = high` | M3, M6, M7 |
 | `portable-skills` | `tool_surface ∈ {read, read_write, external}` | M6 |
+| `ambition-elevation` | `horizon ≥ session` | M0, M3, M8 |
+| `expert-instruments` | `verifiability = high` OR `horizon ≥ multi_session` | M3, M4, M6 |
+| `cross-field-crew` | `collaboration = multi_agent` OR `horizon = long_running` | M6, M8 |
+| `bidirectional-capability-flow` | always | M0, M5, M7 |
+| `context-budget-policy` | `horizon ≥ session` OR `tool_surface ∈ {read, read_write, external}` | M1, M2 |
+| `untrusted-content-discipline` | `tool_surface = external` OR `artifact ∈ {document, knowledge_base}` OR `grounding = required` | M4, M6, M7 |
+| `durable-execution` | `horizon ≥ multi_session` | M2, M3 |
+| `cost-budget-caps` | `tool_surface = external` OR `horizon ≥ multi_session` | M3, M7 |
+| `eval-driven-development` | `verifiability = high` OR `horizon ≥ multi_session` | M3, M5 |
 
 Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.) A generated, always-current rendering of this table lives in [`../CAPABILITIES.md`](../CAPABILITIES.md) (`harness capabilities`).
 

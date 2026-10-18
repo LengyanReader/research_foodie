@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**17 capabilities · 9 modules (M0–M8)**
+**22 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -143,6 +143,36 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** always · 总是
 - **Modules · 关联模块:** M0, M5, M7
 - **Why · 理由:** Each harness also writes a task-local capability ledger (`.harness/capabilities.local.md`) and, at the end, proposes the generalizable patterns it found back to the factory catalog -- observe-only and human-gated (M0.4/M0.5/M0.10). See reference/capability-flow.md.
+
+### `context-budget-policy` — Context budget policy · 上下文预算纪律
+
+- **Fires when · 触发条件:** horizon ≥ session OR tool_surface ∈ {read, read_write, external} (工具面)
+- **Modules · 关联模块:** M1, M2
+- **Why · 理由:** Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks ("context rot"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6).
+
+### `untrusted-content-discipline` — Untrusted-content discipline · 不可信内容纪律
+
+- **Fires when · 触发条件:** tool_surface ∈ {external} (工具面) OR artifact ∈ {document, knowledge_base} (产物) OR grounding ∈ {required} (来源要求)
+- **Modules · 关联模块:** M4, M6, M7
+- **Why · 理由:** Retrieved bytes -- web pages, files, tool output, even tool descriptions -- are untrusted data, never instructions (M0.1/M0.4). Keep trusted instructions and untrusted data in separate regions, break at least one leg of the lethal trifecta (private data + untrusted content + egress channel), and enforce least authority at the call site.
+
+### `durable-execution` — Durable execution · 持久执行
+
+- **Fires when · 触发条件:** horizon ≥ multi_session
+- **Modules · 关联模块:** M2, M3
+- **Why · 理由:** Work that outlives a process must journal each step and replay, not re-run: record the durable log, make every side effect idempotent, and treat human approval as recorded state -- a checkpoint alone is not exactly-once (M0.3/M0.7).
+
+### `cost-budget-caps` — Cost budget caps · 成本预算上限
+
+- **Fires when · 触发条件:** tool_surface ∈ {external} (工具面) OR horizon ≥ multi_session
+- **Modules · 关联模块:** M3, M7
+- **Why · 理由:** An unattended loop can incinerate a budget, so set a HARD cap on calls/tokens/spend and halt rather than warn (M0.3/M0.8): choose the number up front, and make uncapped operation an explicit opt-in.
+
+### `eval-driven-development` — Eval-driven development · 评测驱动开发
+
+- **Fires when · 触发条件:** verifiability ∈ {high} (可验证性) OR horizon ≥ multi_session
+- **Modules · 关联模块:** M3, M5
+- **Why · 理由:** Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4).
 
 ---
 
