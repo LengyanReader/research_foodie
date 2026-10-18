@@ -80,6 +80,8 @@ they never enable a module the rule table did not. Current set:
 | `formal-verification` | `domain ∈ {mathematics, logic}` OR (`verifiability = high` AND `artifact = code`) | M3, M4, M6 |
 | `dimensional-analysis` | `domain ∈ {physics, engineering, chemistry, earth-environment}` | M3, M6 |
 | `empirical-measurement` | `domain ∈ {psychology, cognitive-science, medicine, economics-finance, social-science, education}` | M3, M4 |
+| `statistical-inference` | `domain = statistics` | M3, M4 |
+| `certified-computation` | `domain = geometry-topology` | M3, M6 |
 
 Add a requirement by editing the JSON, not code. (`frontier-standard` = the highest-standard ratchet: measure against the best-known bar, raise monotonically, track the moving frontier — `domains/excellence/`.) A generated, always-current rendering of this table lives in [`../CAPABILITIES.md`](../CAPABILITIES.md) (`harness capabilities`); [`../HARNESS-MAP.md`](../HARNESS-MAP.md) (`harness map`) adds the whole factory — modules, domains, catalog classes, CLI and the sync procedure.
 

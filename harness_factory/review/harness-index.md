@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-18 · 160 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-18 · 183 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -209,7 +209,7 @@ harness catalog claude-code           # detail one entry
 | `frames` | FRAMES · FRAMES | 调研质量评测 | M3 | https://huggingface.co/datasets/google/frames-benchmark · tracked:frames |
 | `deepresearch-bench` | DeepResearch Bench · DeepResearch Bench | 调研质量评测 | M3 | https://github.com/Ayanami0730/deep_research_bench · tracked:deepresearch-bench |
 
-## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (27)
+## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (50)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -240,6 +240,29 @@ harness catalog claude-code           # detail one entry
 | `stan` | Stan · Stan | 统计建模工具 | M3 | https://mc-stan.org/ |
 | `snakemake` | Snakemake · Snakemake | 可复现流水线引擎 | M2, M4, M6 | https://snakemake.readthedocs.io/ |
 | `nextflow` | Nextflow · Nextflow | 可复现流水线引擎 | M2, M4, M6 | https://www.nextflow.io/ |
+| `sagemath` | SageMath · SageMath | 计算机代数系统 | M3, M6 | https://www.sagemath.org/ |
+| `singular` | Singular · Singular | 计算机代数系统 | M3, M6 | https://www.singular.uni-kl.de/ |
+| `macaulay2` | Macaulay2 · Macaulay2 | 计算机代数系统 | M3, M6 | https://macaulay2.com/ |
+| `gap` | GAP · GAP | 计算机代数系统 | M3, M6 | https://www.gap-system.org/ |
+| `pari-gp` | PARI/GP · PARI/GP | 计算机代数系统 | M3, M6 | https://pari.math.u-bordeaux.fr/ |
+| `oscar` | OSCAR · OSCAR | 计算机代数系统 | M3, M6 | https://www.oscar-system.org/ |
+| `sympy` | SymPy · SymPy | 计算机代数系统 | M3, M6 | https://www.sympy.org/ |
+| `cadical` | CaDiCaL · CaDiCaL | SAT 求解器 | M3, M6 | https://github.com/arminbiere/cadical |
+| `mathcomp` | Mathematical Components · Mathematical Components | 形式化数学库 | M3, M4, M6 | https://math-comp.github.io/ |
+| `metamath` | Metamath · Metamath | 证明助手（交互式定理证明器） | M3, M4 | https://us.metamath.org/ |
+| `cgal` | CGAL · CGAL | 计算几何/拓扑工具 | M3, M6 | https://www.cgal.org/ |
+| `gudhi` | GUDHI · GUDHI | 计算几何/拓扑工具 | M3, M6 | https://gudhi.inria.fr/ |
+| `regina` | Regina · Regina | 计算几何/拓扑工具 | M3, M6 | https://regina-normal.github.io/ |
+| `snappy` | SnapPy · SnapPy | 计算几何/拓扑工具 | M3, M6 | https://snappy.computop.org/ |
+| `polymake` | polymake · polymake | 计算几何/拓扑工具 | M3, M6 | https://polymake.org/ |
+| `r-project` | R · R | 统计建模工具 | M3, M4 | https://www.r-project.org/ |
+| `pymc` | PyMC · PyMC | 统计建模工具 | M3, M4 | https://www.pymc.io/ |
+| `numpyro` | NumPyro · NumPyro | 统计建模工具 | M3, M4 | https://num.pyro.ai/ |
+| `arviz` | ArviZ · ArviZ | 统计建模工具 | M3, M4 | https://python.arviz.org/ |
+| `brms` | brms · brms | 统计建模工具 | M3, M4 | https://paulbuerkner.com/software/ |
+| `r-inla` | R-INLA · R-INLA | 统计建模工具 | M3, M4 | https://www.r-inla.org/ |
+| `emcee` | emcee · emcee | 统计建模工具 | M3, M4 | https://emcee.readthedocs.io/ |
+| `dowhy` | DoWhy · DoWhy | 因果推断工具 | M3, M4 | https://www.pywhy.org/dowhy/ |
 
 ---
 

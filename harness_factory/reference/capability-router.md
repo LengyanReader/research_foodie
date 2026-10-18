@@ -50,6 +50,9 @@
 | A formal claim: proof, derivation, model, checker · 形式证明类主张 | `formal-verification` | M3, M4, M6 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
 | Physical quantities with units, error, tolerance · 带单位与误差的物理量 | `dimensional-analysis` | M3, M6 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
 | An empirical claim: study, measurement, reliability · 实证主张 | `empirical-measurement` | M3, M4 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md) |
+| A statistical estimate / model / posterior · 统计估计与模型 | `statistical-inference` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md), [`domains/statistics/README.md`](../domains/statistics/README.md) |
+| A computed invariant: algebra, homology, knot, mesh · 计算得到的代数/拓扑量 | `certified-computation` | M3, M6 | [`reference/evidence-instruments.md`](evidence-instruments.md), [`domains/geometry-topology/README.md`](../domains/geometry-topology/README.md) |
+| A named method (PRISMA, DiD, grounded theory, DoE, design science…) · 套用某套方法论 | `verification-gate`, `traceable-sources` | M3, M4 | [`reference/methodology-map.md`](methodology-map.md) |
 | Unsure *what evidence would settle it* · 说不清用什么仪器 | `verification-gate`, `formal-verification`, `dimensional-analysis`, `empirical-measurement` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md) |
 | Picking a discipline to work in · 选学科门类 | — (route by *kind of work*) | — | [`domains/`](../domains) → `domains/<name>/README.md` |
 | Choosing a model/method · 选模型/选方法 | — | — | [`domains/model-selection/README.md`](../domains/model-selection/README.md) |
@@ -75,4 +78,5 @@ PYTHONPATH=src python -m harness_factory skill M3
 - [`SKILL.md`](../SKILL.md) — the entry point and load-index (read first).
 - [`reference/derivation-rules.md`](derivation-rules.md) — the rule table behind the router.
 - [`reference/evidence-instruments.md`](evidence-instruments.md) — claim type → instrument → catalogued tool → gate evidence (M3.10).
+- [`reference/methodology-map.md`](methodology-map.md) — field → methodology system → what the harness must enforce (M3.13).
 - [`CAPABILITIES.md`](../CAPABILITIES.md) — every capability and when it fires.

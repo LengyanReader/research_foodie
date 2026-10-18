@@ -126,6 +126,23 @@ _INSTRUMENTS: tuple[tuple[str, str, str, str], ...] = (
         "and a reliability estimate for the measure (PsychoPy / jsPsych, lme4 / statsmodels / Stan, OSF)",
         "empirical-claims",
     ),
+    (
+        "statistical-inference",
+        "declared frame + convergence + interval",
+        "the inferential frame named (frequentist / Bayesian), the model & priors stated, **convergence "
+        "diagnostics** (R-hat / ESS -- not an eyeballed trace), and an interval / credible interval rather "
+        "than a point or a p-value (R / PyMC / NumPyro / ArviZ / brms / Stan)",
+        "statistical-estimates--causal-claims",
+    ),
+    (
+        "certified-computation",
+        "exact or certified computation, independently re-derived",
+        "the algorithm and version recorded, the result computed under **exact or certified arithmetic** "
+        "(degeneracies handled, not floating-point noise), and **independently re-derived** or shown "
+        "invariant under a perturbation (SageMath / Singular / Macaulay2 / GAP / PARI/GP / OSCAR / SymPy, "
+        "CGAL / GUDHI / Regina / SnapPy / polymake)",
+        "certified-computation",
+    ),
 )
 
 

@@ -346,6 +346,26 @@
       "id": "workflow-engine",
       "en": "Reproducible pipeline engine",
       "zh": "可复现流水线引擎"
+    },
+    {
+      "id": "computer-algebra-system",
+      "en": "Computer algebra system",
+      "zh": "计算机代数系统"
+    },
+    {
+      "id": "sat-solver",
+      "en": "SAT solver",
+      "zh": "SAT 求解器"
+    },
+    {
+      "id": "geometry-topology-toolkit",
+      "en": "Computational geometry / topology toolkit",
+      "zh": "计算几何/拓扑工具"
+    },
+    {
+      "id": "causal-inference-toolkit",
+      "en": "Causal inference toolkit",
+      "zh": "因果推断工具"
     }
   ],
   "harnesses": [
@@ -3958,6 +3978,518 @@
       "tags": [
         "provenance",
         "containers"
+      ]
+    },
+    {
+      "id": "sagemath",
+      "name": "SageMath",
+      "name_zh": "SageMath",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "SageMath project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Open-source CAS built on Python; unifies SymPy, GAP, PARI/GP, Singular and more.",
+      "summary_zh": "基于 Python 的开源代数系统；整合 SymPy、GAP、PARI/GP、Singular 等。",
+      "url": "https://www.sagemath.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "algebra",
+        "number-theory",
+        "python"
+      ]
+    },
+    {
+      "id": "singular",
+      "name": "Singular",
+      "name_zh": "Singular",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "TU Kaiserslautern",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "CAS for polynomial computations: commutative/non-commutative algebra and algebraic geometry.",
+      "summary_zh": "面向多项式计算的代数系统：交换/非交换代数与代数几何。",
+      "url": "https://www.singular.uni-kl.de/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "polynomial",
+        "algebraic-geometry"
+      ]
+    },
+    {
+      "id": "macaulay2",
+      "name": "Macaulay2",
+      "name_zh": "Macaulay2",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "Macaulay2 Council",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "System for research in algebraic geometry and commutative algebra (Groebner bases, resolutions).",
+      "summary_zh": "面向代数几何与交换代数的系统（Gröbner 基、自由分解等）。",
+      "url": "https://macaulay2.com/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "groebner",
+        "homological-algebra"
+      ]
+    },
+    {
+      "id": "gap",
+      "name": "GAP",
+      "name_zh": "GAP",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "The GAP Group",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "System for computational discrete algebra, with emphasis on computational group theory.",
+      "summary_zh": "计算离散代数系统，尤重计算群论。",
+      "url": "https://www.gap-system.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "group-theory",
+        "discrete-algebra"
+      ]
+    },
+    {
+      "id": "pari-gp",
+      "name": "PARI/GP",
+      "name_zh": "PARI/GP",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "INRIA",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "CAS optimised for fast computations in number theory.",
+      "summary_zh": "面向数论快速计算的代数系统。",
+      "url": "https://pari.math.u-bordeaux.fr/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "number-theory"
+      ]
+    },
+    {
+      "id": "oscar",
+      "name": "OSCAR",
+      "name_zh": "OSCAR",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "OSCAR project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Julia-based CAS combining GAP, Singular and polymake for algebra, geometry and number theory.",
+      "summary_zh": "基于 Julia 的代数系统，整合 GAP、Singular 与 polymake，覆盖代数、几何、数论。",
+      "url": "https://www.oscar-system.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "julia",
+        "algebra",
+        "geometry"
+      ]
+    },
+    {
+      "id": "sympy",
+      "name": "SymPy",
+      "name_zh": "SymPy",
+      "class": "instruments",
+      "kind": "computer-algebra-system",
+      "vendor": "SymPy Development Team",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Pure-Python library for symbolic mathematics; importable, scriptable, no external deps.",
+      "summary_zh": "纯 Python 符号计算库；可导入、可脚本化、无外部依赖。",
+      "url": "https://www.sympy.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "python",
+        "symbolic"
+      ]
+    },
+    {
+      "id": "cadical",
+      "name": "CaDiCaL",
+      "name_zh": "CaDiCaL",
+      "class": "instruments",
+      "kind": "sat-solver",
+      "vendor": "Armin Biere",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Modern CDCL SAT solver, compact and easy to modify; good for incremental use.",
+      "summary_zh": "现代 CDCL SAT 求解器，紧凑易改，适合增量求解。",
+      "url": "https://github.com/arminbiere/cadical",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "sat",
+        "cdcl"
+      ]
+    },
+    {
+      "id": "mathcomp",
+      "name": "Mathematical Components",
+      "name_zh": "Mathematical Components",
+      "class": "instruments",
+      "kind": "proof-library",
+      "vendor": "Mathematical Components team",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Coq/Rocq library of formalised mathematics (four-colour theorem, odd order theorem).",
+      "summary_zh": "Coq/Rocq 形式化数学库（四色定理、奇阶定理等）。",
+      "url": "https://math-comp.github.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "rocq",
+        "algebra",
+        "formalised-math"
+      ]
+    },
+    {
+      "id": "metamath",
+      "name": "Metamath",
+      "name_zh": "Metamath",
+      "class": "instruments",
+      "kind": "proof-assistant",
+      "vendor": "Metamath project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Minimal, flexible proof language with a tiny verifier; proof database checked step by step.",
+      "summary_zh": "极简而灵活的证明语言与极小验证器；证明库逐步校验。",
+      "url": "https://us.metamath.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "proof-verifier",
+        "set-theory"
+      ]
+    },
+    {
+      "id": "cgal",
+      "name": "CGAL",
+      "name_zh": "CGAL",
+      "class": "instruments",
+      "kind": "geometry-topology-toolkit",
+      "vendor": "CGAL project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "C++ library of efficient, reliable geometric algorithms (exact predicates, triangulations).",
+      "summary_zh": "高效可靠几何算法的 C++ 库（精确谓词、三角剖分等）。",
+      "url": "https://www.cgal.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "cpp",
+        "exact-arithmetic",
+        "triangulation"
+      ]
+    },
+    {
+      "id": "gudhi",
+      "name": "GUDHI",
+      "name_zh": "GUDHI",
+      "class": "instruments",
+      "kind": "geometry-topology-toolkit",
+      "vendor": "Inria",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "C++/Python library for computational topology and topological data analysis (persistent homology).",
+      "summary_zh": "计算拓扑与拓扑数据分析的 C++/Python 库（持续同调等）。",
+      "url": "https://gudhi.inria.fr/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "persistent-homology",
+        "tda"
+      ]
+    },
+    {
+      "id": "regina",
+      "name": "Regina",
+      "name_zh": "Regina",
+      "class": "instruments",
+      "kind": "geometry-topology-toolkit",
+      "vendor": "Benjamin Burton et al.",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Software for low-dimensional topology: 3/4-manifold triangulations, knots, normal surfaces.",
+      "summary_zh": "低维拓扑软件：3/4 维流形三角剖分、纽结、正规曲面。",
+      "url": "https://regina-normal.github.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "low-dimensional-topology",
+        "knots"
+      ]
+    },
+    {
+      "id": "snappy",
+      "name": "SnapPy",
+      "name_zh": "SnapPy",
+      "class": "instruments",
+      "kind": "geometry-topology-toolkit",
+      "vendor": "SnapPy developers",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Studies the topology and hyperbolic geometry of 3-manifolds (SnapPea).",
+      "summary_zh": "研究三维流形的拓扑与双曲几何（SnapPea）。",
+      "url": "https://snappy.computop.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "3-manifolds",
+        "hyperbolic"
+      ]
+    },
+    {
+      "id": "polymake",
+      "name": "polymake",
+      "name_zh": "polymake",
+      "class": "instruments",
+      "kind": "geometry-topology-toolkit",
+      "vendor": "polymake project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Research software for polyhedral geometry: polytopes, polyhedra, fans, simplicial complexes.",
+      "summary_zh": "多面体几何研究软件：多胞形、多面体、扇、单纯复形。",
+      "url": "https://polymake.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "polyhedral",
+        "combinatorics"
+      ]
+    },
+    {
+      "id": "r-project",
+      "name": "R",
+      "name_zh": "R",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "The R Foundation",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Free environment for statistical computing and graphics; the reference for applied statistics.",
+      "summary_zh": "统计计算与图形的自由环境；应用统计的事实参照。",
+      "url": "https://www.r-project.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "statistics",
+        "scripting"
+      ]
+    },
+    {
+      "id": "pymc",
+      "name": "PyMC",
+      "name_zh": "PyMC",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "PyMC Developers",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Probabilistic programming in Python: Bayesian models fitted by MCMC and variational inference.",
+      "summary_zh": "Python 概率编程：以 MCMC 与变分推断拟合贝叶斯模型。",
+      "url": "https://www.pymc.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "bayesian",
+        "mcmc",
+        "python"
+      ]
+    },
+    {
+      "id": "numpyro",
+      "name": "NumPyro",
+      "name_zh": "NumPyro",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "NumPyro developers",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Bayesian inference on JAX: fast gradient-based MCMC and variational inference.",
+      "summary_zh": "基于 JAX 的贝叶斯推断：快速梯度 MCMC 与变分推断。",
+      "url": "https://num.pyro.ai/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "bayesian",
+        "jax"
+      ]
+    },
+    {
+      "id": "arviz",
+      "name": "ArviZ",
+      "name_zh": "ArviZ",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "ArviZ developers",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Exploratory analysis of Bayesian models: diagnostics (R-hat, ESS), comparison, visualisation.",
+      "summary_zh": "贝叶斯模型探索性分析：诊断（R-hat、ESS）、比较与可视化。",
+      "url": "https://python.arviz.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "diagnostics",
+        "bayesian"
+      ]
+    },
+    {
+      "id": "brms",
+      "name": "brms",
+      "name_zh": "brms",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "Paul-Christian Buerkner",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "R package fitting Bayesian multilevel models via Stan with lme4-style formula syntax.",
+      "summary_zh": "R 包：以 Stan 拟合贝叶斯多层模型，采用 lme4 风格公式语法。",
+      "url": "https://paulbuerkner.com/software/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "bayesian",
+        "multilevel",
+        "r"
+      ]
+    },
+    {
+      "id": "r-inla",
+      "name": "R-INLA",
+      "name_zh": "R-INLA",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "INLA project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Fast approximate Bayesian inference for latent Gaussian models (integrated nested Laplace).",
+      "summary_zh": "潜高斯模型的快速近似贝叶斯推断（集成嵌套拉普拉斯）。",
+      "url": "https://www.r-inla.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "bayesian",
+        "latent-gaussian"
+      ]
+    },
+    {
+      "id": "emcee",
+      "name": "emcee",
+      "name_zh": "emcee",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "emcee developers",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Pure-Python affine-invariant ensemble MCMC sampler ('the MCMC Hammer').",
+      "summary_zh": "纯 Python 仿射不变集合 MCMC 采样器（“MCMC 之锤”）。",
+      "url": "https://emcee.readthedocs.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "mcmc",
+        "python"
+      ]
+    },
+    {
+      "id": "dowhy",
+      "name": "DoWhy",
+      "name_zh": "DoWhy",
+      "class": "instruments",
+      "kind": "causal-inference-toolkit",
+      "vendor": "PyWhy",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Python library for causal inference: model, identify, estimate, refute -- assumptions first-class.",
+      "summary_zh": "Python 因果推断库：建模·辨识·估计·反驳——假设是主角。",
+      "url": "https://www.pywhy.org/dowhy/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "causal-inference",
+        "identification"
       ]
     }
   ]

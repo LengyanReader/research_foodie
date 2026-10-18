@@ -1,7 +1,7 @@
 # Domain · Mathematics · 数学域
 > Wiring `core/` modules into a proof-checked derivation with explicit assumptions.
 > 把 `core/` 模块接线成「可逐步校验、假设显式」的数学论证流程。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 
@@ -31,6 +31,19 @@ Reach a result — a theorem, a proof, a computation — that a skeptical reader
 - **M4** — every quoted theorem carries its source and a precondition check.
 - **M6** — when computation is used (CAS/numeric), pin versions and cross-check.
 - **M7** — the write-up is reviewable; sharing a claim as proven is governed.
+
+## Instruments · 仪器
+Concrete tools for L2–L3 (catalog ids; full map: `../reference/evidence-instruments.md#certified-computation`):
+- **Proof assistant** — `lean4` (+ `mathlib`) · `rocq` (+ `mathcomp`) · `isabelle` · `agda`; `metamath` for a minimal, step-checkable verifier.
+- **Computer algebra** — `sagemath` · `singular` · `macaulay2` (commutative algebra / algebraic geometry) · `gap` (groups) · `pari-gp` (number theory) · `oscar` · `sympy`.
+- **SAT / SMT for finite cases** — `cadical` (SAT) · `z3` · `cvc5` (SMT); an encoded instance settles the *instance*, not the general theorem.
+- **Geometry & topology** — `cgal` · `gudhi` · `regina` · `snappy` · `polymake` (deepened in `../geometry-topology/README.md`).
+- **Gate evidence** — a compiled proof with **no placeholder left**, or a computed value under **exact/certified arithmetic** that is **independently re-derived** (M3.12). An unchecked CAS/SAT output is a conjecture.
+
+## Methodology · 方法论
+- **Proof methodology** — state the language, axioms and the target; check the derivation; attempt a counterexample; keep object-level results separate from meta-theory claims.
+- **Computation is not proof** — a CAS/SAT result is evidence for an *instance*; a general claim still needs a derivation (M3.12).
+- Full map: `../reference/methodology-map.md` (M3.13).
 
 ## Discipline-specific risks · 领域特有风险
 - **Hidden / unstated assumptions**.

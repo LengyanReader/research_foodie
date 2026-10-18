@@ -1056,5 +1056,74 @@
         "weight": 0.1
       }
     ]
+  },
+  "statistics": {
+    "title_en": "Statistical quality",
+    "title_zh": "统计质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "validity",
+        "zh": "有效性",
+        "weight": 0.25
+      },
+      {
+        "dim": "uncertainty",
+        "zh": "不确定性",
+        "weight": 0.2
+      },
+      {
+        "dim": "assumptions",
+        "zh": "假设",
+        "weight": 0.15
+      },
+      {
+        "dim": "diagnostics",
+        "zh": "诊断",
+        "weight": 0.15
+      },
+      {
+        "dim": "reproducibility",
+        "zh": "可复现",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "geometry-topology": {
+    "title_en": "Geometric & topological quality",
+    "title_zh": "几何与拓扑质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "correctness",
+        "zh": "正确性",
+        "weight": 0.3
+      },
+      {
+        "dim": "invariance",
+        "zh": "不变量",
+        "weight": 0.2
+      },
+      {
+        "dim": "robustness",
+        "zh": "稳健",
+        "weight": 0.2
+      },
+      {
+        "dim": "generality",
+        "zh": "普适",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.15
+      }
+    ]
   }
 }

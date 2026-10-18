@@ -3,23 +3,23 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 27 capabilities · 28 domains · 160 catalog entries · 23 CLI subcommands**
+**9 modules (M0–M8) · 29 capabilities · 30 domains · 183 catalog entries · 23 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、27 条能力（capability，任务特征 → 模块）、28 个学科域、160 条工具目录、23 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
+这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、29 条能力（capability，任务特征 → 模块）、30 个学科域、183 条工具目录、23 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
 
 ## 0 · At a glance · 一览
 
 | surface · 面 | count | SSOT | view |
 |---|---|---|---|
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
-| Capabilities | 27 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
-| Domains | 28 (27 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
-| Tool catalog | 160 (12 classes × 46 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
-| Rubrics | 29 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
+| Capabilities | 29 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
+| Domains | 30 (29 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
+| Tool catalog | 183 (12 classes × 50 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
+| Rubrics | 31 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
 | CLI subcommands | 23 | `src/harness_factory/cli.py` | §7 below |
 | Emitted templates | 11 | `src/harness_factory/templates/` | §8 below |
@@ -65,7 +65,7 @@
 | M7 | Change governance · 变更治理 | Single source of truth; reviewable diffs; no unsolicited destructive acts | `core/08-change-governance.md` |
 | M8 | Collaboration & sessions · 协作与会话 | Explicit contracts; escalate decisions; hand off with state | `core/09-collaboration-and-sessions.md` |
 
-## 4 · Capabilities · 能力（27）
+## 4 · Capabilities · 能力（29）
 
 A capability is a *reusable requirement*: it fires when the task's feature vector matches its `when`, then **annotates** the already-enabled modules with why they matter (M0.4). Trigger renderer shared with `CAPABILITIES.md`; full text (fires-when + why) there.
 
@@ -98,17 +98,19 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | `formal-verification` | M3, M4, M6 | domain ∈ {mathematics, logic} (领域) OR (verifiability ∈ {high} (可验证性) and artifact ∈ {code} (产物)) |
 | `dimensional-analysis` | M3, M6 | domain ∈ {physics, engineering, chemistry, earth-environment} (领域) |
 | `empirical-measurement` | M3, M4 | domain ∈ {psychology, cognitive-science, medicine, economics-finance, social-science, education} (领域) |
+| `statistical-inference` | M3, M4 | domain ∈ {statistics} (领域) |
+| `certified-computation` | M3, M6 | domain ∈ {geometry-topology} (领域) |
 
 ## 5 · Domains · 学科域
 
-28 domains across 10 faculties (`general` is the always-available fallback). Each domain is a *workflow + signals + artifact* hint; it adds no rule (M0.5).
+30 domains across 10 faculties (`general` is the always-available fallback). Each domain is a *workflow + signals + artifact* hint; it adds no rule (M0.5).
 
 | faculty | domains |
 |---|---|
 | arts · 艺术 | `arts-design` |
 | education · 教育 | `education` |
 | engineering · 工程 | `data-science`, `devops`, `engineering`, `model-selection`, `software-engineering` |
-| formal-sciences · 形式科学 | `logic` |
+| formal-sciences · 形式科学 | `geometry-topology`, `logic`, `statistics` |
 | health · 健康 | `medicine` |
 | humanities · 人文学科 | `humanities`, `linguistics`, `reading`, `writing` |
 | law · 法学 | `law` |
@@ -116,7 +118,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | natural-sciences · 自然科学 | `biology`, `chemistry`, `earth-environment`, `mathematics`, `physics` |
 | social-sciences · 社会科学 | `cognitive-science`, `economics-finance`, `psychology`, `social-science` |
 
-## 6 · Tool catalog · 工具目录（160）
+## 6 · Tool catalog · 工具目录（183）
 
 `data/harnesses.json` indexes third-party agent harnesses, frameworks, protocols, evaluation tools and safety work, each mapped to the modules it exercises. Lookup with `harness catalog`.
 
@@ -133,7 +135,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | discovery · Discovery / evidence & model search | 5 |
 | reading · Reading, acquisition & distillation | 20 |
 | deep-research · Deep research — search, retrieval & synthesis | 43 |
-| instruments · Scientific & formal instruments (evidence tools) | 27 |
+| instruments · Scientific & formal instruments (evidence tools) | 50 |
 
 ## 7 · CLI surface · 命令行（23 subcommands）
 
@@ -188,10 +190,12 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `requirement-refinement` | `reference/requirement-refinement.md` | R0-R5: restate -> elevate -> classify -> offer -> confirm -> converge. |
 | `capability-flow` | `reference/capability-flow.md` | Bidirectional flow: concretize (task-local) <-> distill (factory, human-gated). |
 | `evidence-instruments` | `reference/evidence-instruments.md` | M3.10 made concrete: claim type -> instrument -> catalogued tool -> gate evidence. |
+| `methodology-map` | `reference/methodology-map.md` | M3.13 made concrete: field -> methodology system -> what the harness must enforce. |
 | `capabilities` | `CAPABILITIES.md` | Generated overview: purpose + every harness capability (requirement -> modules). |
 | `reference` | `review/references.md` | Source-grounded reference list. |
 | `harness-catalog` | `review/harness-catalog.md` | Prose taxonomy of harnesses & self-evolution methods. |
 | `harness-index` | `review/harness-index.md` | Generated lookup index of all cataloged harnesses. |
+| `integration-map` | `review/integration-map-2026-10.md` | Scope/status roadmap: what is integrated, next, and deliberately out of scope. |
 | `survey` | `review/ai-harness-survey.md` | AI harness survey. |
 | `source-map` | `sources/source-map.md` | Where every claim comes from. |
 | `modules.json` | `src/harness_factory/data/modules.json` | Machine-readable module catalog. |

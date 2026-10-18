@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**27 capabilities · 9 modules (M0–M8)**
+**29 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -203,6 +203,18 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** domain ∈ {psychology, cognitive-science, medicine, economics-finance, social-science, education} (领域)
 - **Modules · 关联模块:** M3, M4
 - **Why · 理由:** When the claim is empirical, pre-specify the design and the analysis before seeing the data, report effect sizes with intervals (not only p), control multiplicity, and show the measurement itself is reliable (inter-rater agreement / alpha / test-retest): pre-registered confirmation is a different claim from exploration, and 'significant' is not 'large'.
+
+### `statistical-inference` — Statistical inference (frame, convergence, interval) · 统计推断（框架·收敛·区间）
+
+- **Fires when · 触发条件:** domain ∈ {statistics} (领域)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** A statistical claim is a claim about a model, not about the data: name the inferential frame (frequentist or Bayesian), state the likelihood/priors and the assumptions they encode, check the computation converged (R-hat and effective sample size for MCMC, not eyeballed traces), and report the estimate as an interval -- a p-value or a point estimate alone is not the result (M3.11).
+
+### `certified-computation` — Certified computation (exact or independently re-derived) · 可核验计算（精确或独立重算）
+
+- **Fires when · 触发条件:** domain ∈ {geometry-topology} (领域)
+- **Modules · 关联模块:** M3, M6
+- **Why · 理由:** A computed invariant (a Groebner basis, a homology group, a knot polynomial, a triangulation's property) is a claim resting on an algorithm: run it under exact or certified arithmetic (or a recorded precision), handle degeneracies rather than inheriting floating-point noise, and re-derive the result independently or on a perturbed input -- an unchecked CAS/solver output is a conjecture (M3.12).
 
 ---
 

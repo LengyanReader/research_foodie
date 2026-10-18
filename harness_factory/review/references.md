@@ -176,8 +176,24 @@ R106. J. Woodcock, P. G. Larsen, J. Bicarregui, and J. Fitzgerald, "Formal metho
 
 ---
 
+## I. Statistics & certified computation · 统计与可核验计算
+- R111. A. Gelman, A. Vehtari, D. Simpson, C. C. Margossian, B. Carpenter, Y. Yao, L. Kennedy, J. Gabry, P.-C. Bürkner, and M. Modrák, *Bayesian Workflow*, arXiv:2011.01808 [stat.ME], 2020. DOI: 10.48550/arXiv.2011.01808. [Online]. Available: https://arxiv.org/abs/2011.01808 (accessed 2026-10-18).
+- R112. A. Vehtari, A. Gelman, D. Simpson, B. Carpenter, and P.-C. Bürkner, *Rank-normalization, folding, and localization: An improved R̂ for assessing convergence of MCMC*, arXiv:1903.08008 [stat.CO], 2021. DOI: 10.48550/arXiv.1903.08008. [Online]. Available: https://arxiv.org/abs/1903.08008 (accessed 2026-10-18).
+- R113. B. Carpenter, A. Gelman, M. D. Hoffman, D. Lee, B. Goodrich, M. Betancourt, M. Brubaker, J. Guo, P. Li, and A. Riddell, *Stan: A Probabilistic Programming Language*, *Journal of Statistical Software*, vol. 76, no. 1, pp. 1–32, 2017. DOI: 10.18637/jss.v076.i01.
+- R114. IEEE, *IEEE Standard for Interval Arithmetic*, IEEE Std 1788-2015, 2015. DOI: 10.1109/IEEESTD.2015.7140721. (bibliographic record this session)
+
+## J. Methodology systems · 方法论体系
+- R115. M. J. Page, J. E. McKenzie, P. M. Bossuyt, *et al.*, *The PRISMA 2020 statement: an updated guideline for reporting systematic reviews*, *BMJ*, vol. 372, p. n71, 2021. DOI: 10.1136/bmj.n71. Also: EQUATOR Network record (accessed 2026-10-18).
+- R116. GRADE Working Group, *GRADE Handbook: Handbook for grading the quality of evidence and the strength of recommendations*, 2013. [Online]. Available: https://gdt.gradepro.org/app/handbook/handbook.html (bibliographic record this session).
+- R117. K. F. Schulz, D. G. Altman, and D. Moher, *CONSORT 2010 Statement: updated guidelines for reporting parallel group randomised trials*, *BMJ*, vol. 340, p. c332, 2010. DOI: 10.1136/bmj.c332. (bibliographic record this session)
+- R118. A. R. Hevner, S. T. March, J. Park, and S. Ram, *Design Science in Information Systems Research*, *MIS Quarterly*, vol. 28, no. 1, pp. 75–105, Mar. 2004. DOI: 10.2307/25148625.
+- R119. B. G. Glaser and A. L. Strauss, *The Discovery of Grounded Theory: Strategies for Qualitative Research*. Chicago, IL: Aldine, 1967. (bibliographic record this session)
+
+---
+
 ## Verification status · 核验状态
-- **Verified this session (2026-10-18, §H):** R108 read in full (document number, version B, change number, date, scope text, public-access statement); R107 verified from the BIPM JCGM publications record (GUM 9th-printing DOI **plus** a 2026 amendment listing) — *as of 2026-10*; R109 landing page fetched (navigation only, brochure PDF not read); R110 landing page listed. The 27 `instruments` catalog entries were checked against first-party pages; `jspsych` is the one entry recorded `verified: false`. See `reference/evidence-instruments.md` §Verification status.
+- **Verified this session (2026-10-18, §I–§J, P10):** R111 and R112 fetched as arXiv abstract pages; R113 (Stan) confirmed via the R-hat appendix bibliography (`10.18637/jss.v076.i01`); R115 (PRISMA 2020) confirmed from the EQUATOR record (`10.1136/bmj.n71`); R118 (Hevner 2004) confirmed at the MIS Quarterly publisher record (vol. 28, no. 1, pp. 75–105). R114 (IEEE 1788-2015), R116 (GRADE), R117 (CONSORT 2010), R119 (Glaser & Strauss 1967) are recorded at the **bibliographic record** level — *listed, not deep-read* this session.
+- **Verified this session (2026-10-18, §H):** R108 read in full (document number, version B, change number, date, scope text, public-access statement); R107 verified from the BIPM JCGM publications record (GUM 9th-printing DOI **plus** a 2026 amendment listing) — *as of 2026-10*; R109 landing page fetched (navigation only, brochure PDF not read); R110 landing page listed. The P9 `instruments` catalog entries were checked against first-party pages; `jspsych` is the one entry recorded `verified: false`. The 23 new P10 `instruments` entries were likewise checked against their first-party project pages. See `reference/evidence-instruments.md` §Verification status.
 - **Verified this session (2026-10-18, §G):** R98 (arXiv abstract page), R103 (Nature page, full text) fetched in full; R99, R100, R101, R102, R104, R105, R106 confirmed from first-party landing pages / publisher records (title, authors, venue, year, DOI) via targeted search — treat the *bibliographic record* as verified, the *body text* as **listed, not deep-read**.
 - **Verified this session (2026-10-18, §F):** R93 (full page), R94, R95 (arXiv abstract pages), R96 (ADK docs page), R97 (LangGraph docs page) fetched in full.
 - **Verified this session (2026-10-18, §E):** R84, R85, R86 (page), R87, R90 and the arXiv abstract pages R88, R89, R92 fetched in full; R91 (OTel GenAI) confirmed from first-party results but the README fetch timed out — treat as *listed, not deep-read*.

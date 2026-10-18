@@ -157,3 +157,20 @@ class DisciplineCapabilityTest(unittest.TestCase):
         self.assertIn("empirical-measurement", _active(domain="cognitive-science"))
         self.assertIn("empirical-measurement", _active(domain="medicine"))
         self.assertNotIn("empirical-measurement", _active(domain="physics"))
+
+
+class MathStatsCapabilityTest(unittest.TestCase):
+    """P10: statistics and certified computation fire only on their own fields."""
+
+    def test_statistical_inference_only_for_statistics(self):
+        self.assertNotIn("statistical-inference", _active())
+        self.assertIn("statistical-inference", _active(domain="statistics"))
+        # the empirical domains keep their own instrument, not this one
+        self.assertNotIn("statistical-inference", _active(domain="data-science"))
+        self.assertNotIn("statistical-inference", _active(domain="psychology"))
+
+    def test_certified_computation_only_for_geometry_topology(self):
+        self.assertNotIn("certified-computation", _active())
+        self.assertIn("certified-computation", _active(domain="geometry-topology"))
+        # mathematics keeps formal-verification; the clause M3.12 covers its computations
+        self.assertNotIn("certified-computation", _active(domain="mathematics"))

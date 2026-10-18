@@ -34,10 +34,15 @@ Produce an argument a skeptical reader can replay step by step in a *fixed* lang
 
 ## Instruments · 仪器
 Concrete tools for L3–L4 (catalog ids; full map: `../reference/evidence-instruments.md#formal-claims`):
-- **Proof assistant** — `lean4` (+ `mathlib`) · `rocq` · `isabelle` · `agda`; `dafny` when the claim is about *code*.
-- **Automation backend** — `z3` · `cvc5` (SMT). A remaining placeholder (`sorry` / `Admitted` / `postulate`) voids the gate.
+- **Proof assistant** — `lean4` (+ `mathlib`) · `rocq` · `isabelle` · `agda`; `metamath` for a minimal, step-by-step verifier; `dafny` when the claim is about *code*.
+- **Automation backend** — `z3` · `cvc5` (SMT) · `cadical` (SAT) for finite/combinatorial cases. A remaining placeholder (`sorry` / `Admitted` / `postulate`) voids the gate.
 - **Behaviour over all executions** — `tla-plus` · `alloy`; report the explored bound, since "no counterexample in scope N" is the claim.
 - **Gate evidence** — the compiled proof or checker output **plus** the toolchain version.
+
+## Methodology · 方法论
+- **Deductive methodology** — fix the language and rules; one licensed rule per step; search for a countermodel before claiming validity; separate object-language result from meta-theory.
+- **Automated reasoning is an instrument, not an oracle** — a SAT/SMT verdict is bounded evidence for the encoded instance (M3.10, M3.12).
+- Full map: `../reference/methodology-map.md` (M3.13).
 
 ## Discipline-specific risks · 领域特有风险
 - **Object language / meta-language confusion** (using "⊢" and "⊨" interchangeably).

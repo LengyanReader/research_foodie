@@ -6,13 +6,13 @@
 > **命题类型 → 仪器 → 目录中的工具 → 门禁必须看到的证据**。凡是超出「我读到过」的断言，都按本表选仪器。
 > Same paths as every factory doc — these are **the harness-factory's** files, not your project's.
 
-**Updated:** 2026-10-18 · Load via `harness skill evidence-instruments`. Machine-readable truth: `data/harnesses.json` (class `instruments`). Sources: `review/references.md` §G–§H.
+**Updated:** 2026-10-18 · Load via `harness skill evidence-instruments`. Machine-readable truth: `data/harnesses.json` (class `instruments`, 50 entries / 17 kinds). Sources: `review/references.md` §G–§J.
 
 ---
 
 ## 中文速览
 
-三类命题要三样东西：**形式命题**（定义、定理、协议性质、程序正确性）靠**机器检查的推导**；**物理量**靠**单位 + 传播的不确定度**；**经验命题**（心理/认知/医学/社科/教育/经济）靠**效应量 + 区间 + 可靠性**，且分析须**先注册**。语言类数据另加**标注者一致性**与**许可/知情同意**。仪器目录（27 件，12 个工具族）是本仓库 SSOT 的一部分；**声明仪器就是声明可反驳性**——说不出仪器，就等于没验证。
+三类命题要三样东西：**形式命题**（定义、定理、协议性质、程序正确性）靠**机器检查的推导**；**物理量**靠**单位 + 传播的不确定度**；**经验命题**（心理/认知/医学/社科/教育/经济）靠**效应量 + 区间 + 可靠性**，且分析须**先注册**。语言类数据另加**标注者一致性**与**许可/知情同意**。此外：**计算得到的量**（代数标准形、同调群、纽结多项式）要么精确/带界地算、要么独立重算；**统计估计**要声明框架与模型、报收敛诊断、给区间；**套用某套方法论**要给出协议、假设与报告规范（M3.13）。仪器目录（50 件，17 个工具族）是本仓库 SSOT 的一部分；**声明仪器就是声明可反驳性**——说不出仪器，就等于没验证。
 
 ---
 
@@ -34,12 +34,16 @@
 | Definition / theorem / algebraic identity · 定义、定理、恒等式 | Machine-checked derivation · 机器检查的推导 | `lean4`, `mathlib`, `rocq`, `isabelle`, `agda` | A compiled proof (no `sorry`/`Admitted`/`postulate` left), toolchain version recorded |
 | Protocol / concurrent-design property (safety, liveness) · 协议与并发性质 | Specification + model check · 规约与模型检验 | `tla-plus`, `alloy` | An explored state space: bounded scope, invariant, counterexample or exhaustion statement |
 | Program correctness / spec conformance · 程序正确性 | Verification-aware language + SMT · 验证语言 + SMT | `dafny`, `z3`, `cvc5` | Verified obligations, or the failing obligation quoted with the solver version |
+| Combinatorial search / satisfiability · 可满足性与组合搜索 | SAT solver · SAT 求解器 | `cadical` | The instance encoded (cnf/DRAT), the solved/unknown verdict, and the model or proof log |
+| Algebraic / geometric / topological computation · 代数·几何·拓扑计算 | Computer algebra / geometry-topology toolkit · 代数系统与几何拓扑工具 | `sagemath`, `singular`, `macaulay2`, `gap`, `pari-gp`, `oscar`, `sympy`, `cgal`, `gudhi`, `regina`, `snappy`, `polymake` | Exact (or certified-precision) result, degeneracies handled, and an **independent re-derivation** / perturbed-input invariance check |
 | Physical quantity, formula, simulation result · 物理量、公式、仿真 | Units + propagated uncertainty · 单位与传播不确定度 | `pint`, `uncertainties` | Dimensionally consistent expression **and** a stated uncertainty budget (coverage factor `k`) |
 | Simulation credibility · 仿真可信度 | V&V / credibility assessment · 校核验证与可信度评估 | *(standard, not tool)* `[R108]` | Verification + validation + sensitivity/UQ assessment recorded, or explicitly waived |
 | Molecular structure / property · 分子结构与性质 | Cheminformatics toolkit · 化学信息学工具 | `rdkit` | Canonical structure (identifier + provenance of the coordinates), tool version |
 | Structure / sequence identity · 结构与序列同一性 | Accession-backed reference database · 带登录号的数据库 | `rcsb-pdb`, `uniprot`, `biopython` | Accession id, release/version, and reviewed-vs-unreviewed status quoted |
 | Token/word/morphology/parse annotation · 分词、形态、句法标注 | Corpus resource + agreement statistics · 语料资源与一致性统计 | `universal-dependencies`, `inception`, `elan` | Guideline version **and** inter-annotator agreement (κ/α) on a held-out double-annotated sample |
 | Behavioural/cognitive measurement · 行为与认知测量 | Experiment runtime + preregistration + model · 实验运行时 + 预注册 + 模型 | `psychopy`, `jspsych`, `osf`, `statsmodels`, `lme4`, `stan` | Pre-registered primary analysis (or a declared deviation), effect size **with interval**, reliability estimate |
+| Statistical estimate / posterior · 统计估计与后验 | Declared frame + diagnostics + interval · 声明框架 + 收敛诊断 + 区间 | `r-project`, `pymc`, `numpyro`, `arviz`, `brms`, `r-inla`, `emcee`, `stan` | Declared frame (frequentist/Bayesian), stated model & priors, convergence (R-hat/ESS), and an interval - not a point or a p-value |
+| Causal effect claim · 因果效应主张 | Identification strategy + falsification · 识别策略与证伪 | `dowhy` | The identification assumption stated, plus placebo / sensitivity / refutation checks |
 | Numerical result from a multi-step pipeline · 多步流水线结果 | Reproducible pipeline engine · 可复现流水线 | `snakemake`, `nextflow` | Re-runnable pipeline + per-step provenance (versions, containers, inputs→outputs) |
 
 ---
@@ -51,7 +55,28 @@
 
 **Gate.** (1) The proof compiles under a **recorded toolchain version**; (2) no placeholder (`sorry`, `Admitted`, `postulate`, `assume`) remains — a placeholder turns a proof into a conjecture; (3) the *statement*, not just the proof, is reviewed by a human (a machine cannot check that you formalised the right thing); (4) model checking reports its **bound**: "no counterexample within scope N" is the claim, not "correct".
 
-> Programme-level reference: `[R106]` (formal methods in practice — where proofs paid off and where they did not), `[R98]`/`[R99]` (mathlib / Lean 4).
+> Programme-level reference: `[R106]` (formal methods in practice — where proofs paid off and where they did not), `[R98]`/`[R99]` (mathlib / Lean 4). Algebra and automated reasoning deepen this row: a computer algebra system (`sagemath`, `singular`, `macaulay2`, `gap`, `pari-gp`, `oscar`, `sympy`) computes over exact polynomials and groups, and a SAT solver (`cadical`) settles an encoded combinatorial instance — neither is a proof, so an **unchecked CAS/solver output is a conjecture** until re-derived (M3.12).
+
+## Certified computation · 可核验计算
+
+**When:** the claim is a value produced by an *algorithm* over an exact structure — an algebraic normal form, a group order, a homology group, a knot polynomial, a triangulation's invariant.
+**Instrument:** a computer algebra system (`sagemath`, `singular`, `macaulay2`, `gap`, `pari-gp`, `oscar`, `sympy`) or a geometry/topology toolkit (`cgal`, `gudhi`, `regina`, `snappy`, `polymake`).
+
+**Gate.** (1) The algorithm and its version are recorded; (2) the computation runs under **exact or certified arithmetic**, or reports a stated precision/bound; (3) **degeneracies are handled explicitly** — a geometric predicate that flips under floating-point noise invalidates the invariant; (4) the result is **independently re-derived** (a second tool, a hand-checkable special case, or invariance under a small perturbation). An invariant that changes when you nudge the input was never an invariant. `[R114]` (interval arithmetic) is the numeric-precision reference.
+
+## Statistical estimates & causal claims · 统计估计与因果主张
+
+**When:** the deliverable carries an estimate, a posterior, or a causal statement.
+**Instrument:** a statistics/Bayesian toolkit (`r-project`, `pymc`, `numpyro`, `arviz`, `brms`, `r-inla`, `emcee`, `stan`) for the estimate; a causal toolkit (`dowhy`) for the effect. Background: `[R111]` (Bayesian workflow), `[R112]` (rank-normalised R-hat).
+
+**Gate.** (1) The **inferential frame** is declared (frequentist or Bayesian), and for Bayesian work the **priors and likelihood** are stated; (2) the computation **converged** — R-hat and effective sample size reported, not a trace eyeballed; (3) the answer is an **interval / credible interval**, never a bare point or p-value; (4) a **causal** claim names its identification assumption *and* runs a falsification/sensitivity check (placebo, refutation) — "the regression coefficient was significant" is not a causal identification. `[R111]` notes the workflow is *iterative*: model checking and prior sensitivity are part of the claim, not a footnote.
+
+## Methodology · 方法论
+
+**When:** the work follows (or claims to follow) a named field method — a systematic review, a causal-identification design, a qualitative coding, a design-science study, a DoE.
+**Instrument:** none is a tool; the evidence is the **method's own artefacts**. Canonical demands and what the harness must enforce are mapped in `reference/methodology-map.md` (M3.13).
+
+**Gate.** (1) The **protocol/registration** exists where the method has one (PRISMA `[R115]` protocol, pre-registration, registered report); (2) the method's **assumptions** are stated and checked (identification strategy, saturation, factorial randomisation); (3) the field's **reporting standard** is followed (CONSORT `[R117]`, GRADE `[R116]` for certainty of evidence); (4) the deliverable says which parts were *exploratory* vs *confirmatory*. A method name is not a method.
 
 ## Physical quantities · 物理量
 
@@ -96,22 +121,26 @@
 
 ## Deliberate non-entries · 有意不收录
 
-- **A `standard` kind for GUM/SI/NASA-STD-7009/V&V 20.** Standards are *norms*, not instruments; they live as references (`[R107]`–`[R110]`) and as gate text, so they cannot be "installed" and silently satisfied.
-- **Standalone statistics courses/packages beyond the four above.** `pingouin`, `JASP`, `PyMC` etc. are interchangeable implementations of the same instrument; adding each would inflate the catalog without discriminating.
+- **A `standard` kind for GUM/SI/NASA-STD-7009/V&V 20.** Standards are *norms*, not instruments; they live as references (`[R107]`–`[R110]`, `[R114]`–`[R117]`) and as gate text, so they cannot be "installed" and silently satisfied. The same holds for **methodology protocols** (PRISMA/GRADE/CONSORT): they are enforced by M3.13 + `reference/methodology-map.md`, not by a catalog entry.
+- **Standalone statistics courses/packages beyond the eight above.** `pingouin`, `JASP`, `cmdstanpy`/`cmdstanr`, `pyro` etc. are interchangeable implementations of the same instrument; adding each would inflate the catalog without discriminating. (P10 did add the *distinct* frames now covered — Python probabilistic programming, JAX, R multilevel, approximate-Bayesian, ensemble MCMC — not more of the same.)
 - **`proof-search` / `autoformalisation` services.** Techniques inside the formal row, not separate instruments — they change *how* a proof is found, not *what* counts as evidence.
 - **A general "AI annotator" entry.** LLM annotation is a *risk* to agreement, covered by the linguistic gate above; cataloguing a model would suggest the model is the measurement.
+- **A `geometry-topology` series duplicated under `mathematics`.** The toolkits (`cgal`, `gudhi`, `regina`, `snappy`, `polymake`) are catalogued once, under their own kind; the mathematics README points at them rather than re-listing.
 
 ## Verification status · 核实状态
 
-- **Verified this session (2026-10-18):** every catalog entry carries `verified`; all 27 `instruments` entries were checked against the first-party project page except `jspsych` (`verified: false` — `www.jspsych.org` answered with a client-side redirect stub; the library itself is well known, but this session did not read its documentation).
-- **Standards:** `[R108]` (NASA-STD-7009B) read in full (scope text + public availability); `[R107]` (JCGM 100:2008 GUM) verified from the BIPM publications record, including **Amendment 1: 2026** (nonlinearity in measurement models, DOI `10.59161/PPDI3267`) — *as of 2026-10*; `[R109]` (SI brochure) landing page fetched, brochure PDF not read; `[R110]` (COS registered reports) landing page listed.
-- **Body text not deep-read:** the tool documentation of the 26 verified entries was **not** read in full — the entries are verified at the *project/landing page* level (identity, ownership, purpose), which is what the catalog asserts. Re-verify before relying on a specific API claim.
+- **Verified this session (2026-10-18, P10):** all 23 new `instruments` entries were checked against their first-party project pages — `sagemath`, `singular`, `macaulay2`, `gap`, `pari-gp`, `oscar`, `sympy`, `cadical`, `mathcomp`, `metamath`, `cgal`, `gudhi`, `regina`, `snappy`, `polymake`, `r-project`, `pymc`, `numpyro`, `arviz`, `brms`, `r-inla`, `emcee`, `dowhy` (all `verified: true`). `jspsych` remains the only entry with `verified: false`.
+- **Verified this session (2026-10-18, P9):** all 27 P9 `instruments` entries were checked against the first-party project page except `jspsych`.
+- **Standards & method sources:** `[R108]` (NASA-STD-7009B) read in full; `[R107]` (GUM) verified from the BIPM record incl. **Amendment 1: 2026** (`10.59161/PPDI3267`) — *as of 2026-10*; `[R111]`/`[R112]` (arXiv abstract pages) fetched; `[R113]` (Stan) confirmed via the R-hat appendix bibliography (`10.18637/jss.v076.i01`); `[R115]` (PRISMA 2020) confirmed from the EQUATOR record (`10.1136/bmj.n71`); `[R114]` (IEEE 1788-2015), `[R116]` (GRADE), `[R117]` (CONSORT 2010), `[R118]` (Hevner 2004), `[R119]` (Glaser & Strauss 1967) are recorded at the **bibliographic record** level — *listed, not deep-read* this session.
+- **Body text not deep-read:** the tool documentation of the verified entries was **not** read in full — the entries are verified at the *project/landing page* level (identity, ownership, purpose), which is what the catalog asserts. Re-verify before relying on a specific API claim.
 
 ---
 
 ## See also · 另见
 
-- `core/04-verification-and-gates.md` — M3.10 and the gate checklist.
+- `core/04-verification-and-gates.md` — M3.10–M3.13 and the gate checklist.
+- `reference/methodology-map.md` — field → methodology system → what the harness must enforce (M3.13).
 - `domains/logic/README.md`, `domains/linguistics/README.md`, `domains/cognitive-science/README.md` — the domain workflows these instruments serve.
-- `review/disciplines-crosswalk-2026-10.md` — why these disciplines and capabilities exist.
-- `review/harness-index.md` — generated index of all 160 catalogued entries.
+- `domains/statistics/README.md`, `domains/geometry-topology/README.md` — the P10 domains.
+- `review/disciplines-crosswalk-2026-10.md`, `review/integration-map-2026-10.md` — why these disciplines/capabilities exist and what is deferred.
+- `review/harness-index.md` — generated index of all 183 catalogued entries.

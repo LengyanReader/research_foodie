@@ -77,6 +77,16 @@ class InstrumentCatalogTest(unittest.TestCase):
                          "universal-dependencies", "psychopy", "osf", "lme4", "stan", "snakemake"):
             self.assertIn(expected, ids)
 
+    def test_algebra_topology_and_bayesian_instruments_are_present(self):
+        """P10: the mathematics/statistics instrument depth (M3.11/M3.12)."""
+        ids = {e["id"] for e in items() if e["class"] == "instruments"}
+        for expected in ("sagemath", "singular", "macaulay2", "gap", "pari-gp", "oscar",
+                         "sympy", "cadical", "mathcomp", "metamath",
+                         "cgal", "gudhi", "regina", "snappy", "polymake",
+                         "r-project", "pymc", "numpyro", "arviz", "brms", "r-inla",
+                         "emcee", "dowhy"):
+            self.assertIn(expected, ids)
+
 
 class CatalogIndexDriftTest(unittest.TestCase):
     def test_index_doc_matches_generated(self):

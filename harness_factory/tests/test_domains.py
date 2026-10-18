@@ -71,6 +71,8 @@ class DomainsClassifyTest(unittest.TestCase):
             "prove the modal logic formula in this proof theory": "logic",
             "annotate the treebank and measure inter-annotator agreement": "linguistics",
             "run an fmri experiment on working memory": "cognitive-science",
+            "fit a bayesian hierarchical model and report the credible interval": "statistics",
+            "compute the persistent homology of this point cloud": "geometry-topology",
         }
         for text, expected in cases.items():
             self.assertEqual(self._domain(text), expected, text)

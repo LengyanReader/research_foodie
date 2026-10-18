@@ -95,6 +95,13 @@ Shared invariants the crosswalk surfaced (all already carried by M0–M8, now na
 > `physics`/`chemistry`/`biology` READMEs. Remaining for a later cycle: **spectra/crystallography**
 > evidence (MassBank, ICSD/COD) was not catalogued; **probabilistic parsing** tooling was not catalogued;
 > and the multiverse/registered-report gates are stated in prose, not machine-checked.
+>
+> **Status (2026-10-18, P10):** the **mathematics & statistics** branch of this crosswalk was deepened —
+> `statistics` + `geometry-topology` domains, `statistical-inference` + `certified-computation`
+> capabilities (clauses M3.11/M3.12), and 23 new `instruments` (CAS/SAT/geometry-topology/Bayesian/causal).
+> The **methodology systems** of every field here are now mapped in `reference/methodology-map.md` (clause
+> M3.13). Live scope board + next cues: `review/integration-map-2026-10.md` (P11 candidates:
+> spectra/crystallography, probabilistic parsing, multiverse gates, **qualitative rigour**).
 
 - **Physics/engineering depth**: SI-brochure-level unit rules and error-propagation practice (`GUM`); simulation validation & verification (V&V) vocabulary.
 - **Chemistry/biology**: structural evidence (spectra, crystallography) and sequence provenance — the next crosswalk family.

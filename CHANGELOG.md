@@ -36,6 +36,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
   **`reference/evidence-instruments.md`** (claim type → instrument → catalogued tool → gate evidence, with
   deliberate non-entries) and an **Evidence instrument** stanza in the emitted `AGENTS.md` so every generated
   harness states what would settle its claim; sources R107–R110.
+- **Mathematics, statistics & methodology systems (P10)**: 2 new domains — `statistics` and
+  `geometry-topology` (faculty `formal-sciences`) — with rubrics; 2 new capabilities
+  `statistical-inference` (frame · convergence · interval) and `certified-computation`
+  (exact/certified + independent re-derivation), grounded in the new clauses **M3.11**/**M3.12**;
+  **23 new `instruments`** rows (catalog 160 → 183; kinds 46 → 50 — computer-algebra-system, sat-solver,
+  geometry-topology-toolkit, causal-inference-toolkit) covering SageMath/Singular/Macaulay2/GAP/PARI-GP/OSCAR/SymPy,
+  CaDiCaL, mathcomp/Metamath, CGAL/GUDHI/Regina/SnapPy/polymake, R/PyMC/NumPyro/ArviZ/brms/R-INLA/emcee and
+  DoWhy; the **methodology layer** — `reference/methodology-map.md` (field → methodology system → what the
+  harness must enforce) plus clause **M3.13** (declare the method and its assumptions; *no* `methodology-fit`
+  capability, by design); and the scope roadmap `review/integration-map-2026-10.md`; sources R111–R119.
 - **Pattern library**: `core/` (M0–M8), `domains/` (research/knowledge-management/data-science/devops),
   `review/` (survey, catalog, playbooks, references), `sources/` (provenance map).
 - CI (GitHub Actions), `CHANGELOG.md`, `.gitattributes`.
