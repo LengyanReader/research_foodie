@@ -25,6 +25,7 @@ from harness_factory.runtime import gate_report
 from harness_factory.spec import TaskSpec
 
 POINTER = ".harness/pointer.json"
+HARNESS = Path(__file__).resolve().parent.parent  # .../harness_factory
 
 
 def _plan(**overrides):
@@ -47,6 +48,30 @@ class PointerEmissionTest(unittest.TestCase):
         self.assertEqual(data["harness_factory"], str(expected))
         self.assertTrue(Path(data["skill_md"]).is_file())
         self.assertTrue(Path(data["entry_docs"]["reference/capability-router.md"]).is_file())
+
+    def test_entry_docs_cover_the_whole_load_index(self):
+        """The pointer must locate every loadable entry doc, not a frozen subset.
+
+        Derived-from-index means an agent that follows the pointer can use the
+        *whole* capability reference (routers + the field/instrument/outlet maps).
+        """
+        from harness_factory import pointer as _pointer, skill
+
+        loadable = {e.path for e in skill.index() if e.group in {"overview", "reference"}}
+        self.assertEqual(loadable - set(_pointer.ENTRY_DOCS), set())
+        missing = [p for p in _pointer.ENTRY_DOCS if not (HARNESS / p).is_file()]
+        self.assertEqual(missing, [])
+
+    def test_pointer_lists_the_field_reference_docs(self):
+        data = json.loads(build_files(_plan())[POINTER])
+        for rel in (
+            "reference/evidence-instruments.md",
+            "reference/methodology-map.md",
+            "reference/cross-language.md",
+            "reference/outlet-map.md",
+        ):
+            self.assertIn(rel, data["entry_docs"])
+            self.assertTrue(Path(data["entry_docs"][rel]).is_file())
 
     def test_pointer_is_null_when_no_checkout_is_reachable(self):
         with tempfile.TemporaryDirectory() as tmp:

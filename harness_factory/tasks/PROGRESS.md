@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-10-19 — P11.1: pointer covers the whole capability reference · 指针覆盖全部可加载参考 + 链接完整性门
+- **Trigger (standing check).** 「确保对该项目路径的指向可以充分使用该项目能力」——凡 agent 会跟随的**路径指向**，都必须能到达**整套**能力参考，而不是一个冻结的子集。
+- **Found (defect).** `.harness/pointer.json`（`pointer.ENTRY_DOCS`）**硬编码 4 份**入口文档（SKILL.md、capability-router、requirement-refinement、capability-flow）。因此仅凭指针，生成的 harness **无法发现** `derivation-rules`、`evidence-instruments`、`methodology-map`、`cross-language`、`outlet-map`。静态清单正是 M0.5 禁止的漂移形态。
+- **Fix.** `ENTRY_DOCS` 改为**由 skill 索引派生**（`overview` + `reference` 两组）→ **12** 份，与 `harness skill` 不再可能漂移；`pointer.verify` 逐一校验其存在。`how_to_use` 与生成的 `AGENTS.md` 指针段同步改为陈述「完整可加载集」。
+- **Also.** 新增**文档链接完整性门**：shipped 文档中每条相对 markdown 链接都必须可解析（加门前审计为 **0** 处坏链）；`skill.py` 中 sources.json 的描述补上 `outlets` 组。
+- **Guards & views.** `test_pointer.py`（+2：entry_docs ⊇ 可加载集；四份领域参考文档在列）、`test_docs_integrity.py::DocLinkIntegrityTest`（+1）。重生成 `HARNESS-MAP.md`（skill 索引描述已变）。**192 用例通过。**
+
+---
+
 ## 2026-10-19 — P11: cross-language meaning-unit fidelity · 跨语言意群保真 + per-field information outlets · 各领域信息源地图
 - **Question (two standing asks).** (1) Support **accurate multilingual communication at the level of whole meaning units (意群 / 语义内涵)** — mutual corroboration across languages, **not** word-for-word translation. (2) **Survey and organise each field's high-quality information outlets / portals / media.**
 - **Method (asks 1 & 2).** For ask 1, bare primary sources confirmed this session (new group K, `[R120]`–`[R126]`): ISO 17100:2015 and ISO 5060:2024 (first-party ISO records); OASIS XLIFF 2.2 CS01 (standard page fetched); Vinay & Darbelnet 1995, Benjamins BTL 11, DOI `10.1075/btl.11` (publisher record); Halliday & Hasan 1976, DOI `10.4324/9781315836010` (publisher record); Nida & Taber 1969 (bibliographic); MQM Council (`themqm.org`, aligned with ISO 5060). For ask 2, all 68 outlet URLs were **reachability-checked** with `collect.verify_url` (HEAD/GET, 2026-10-19): **46 reachable**, **22 blocked** (403/405/transport — large sites' bot protection) and therefore recorded `verified: false` + a `note` (**listed, not confirmed this session**). No claim is smoothed over.

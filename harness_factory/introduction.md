@@ -137,7 +137,7 @@ itself (most flexible, no install). **L1** — run the CLI from the path without
 
 **Exit codes:** `init`/`check` return non-zero if the self-check gate fails, so they compose in CI.
 
-**Finding the factory again.** `.harness/manifest.json` records the *decisions*; `.harness/pointer.json` records **where the factory is** (resolved absolute path + `SKILL.md`, the router, the refinement/flow docs). So a later conversation need not be told the path: read the pointer, or run `harness doctor --project <out>` to check it still resolves (the runtime gate reports it as *advisory*, since another machine may legitimately not have the checkout).
+**Finding the factory again.** `.harness/manifest.json` records the *decisions*; `.harness/pointer.json` records **where the factory is** (resolved absolute path + the full loadable entry set: `SKILL.md`, the router, refinement/flow, the instrument/methodology/outlet maps, cross-language, derivation rules). So a later conversation need not be told the path: read the pointer, or run `harness doctor --project <out>` to check it still resolves (the runtime gate reports it as *advisory*, since another machine may legitimately not have the checkout). The pointer's `entry_docs` is **derived from the skill index**, so it cannot drift from `harness skill`.
 
 ---
 

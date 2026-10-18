@@ -204,7 +204,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `capabilities.json` | `src/harness_factory/data/capabilities.json` | Requirement->capability->modules map. |
 | `domains.json` | `src/harness_factory/data/domains.json` | Machine-readable discipline/domain catalog. |
 | `harnesses.json` | `src/harness_factory/data/harnesses.json` | Unified harness catalog (SSOT for the index). |
-| `sources.json` | `src/harness_factory/data/sources.json` | Tracked entities + feeds. |
+| `sources.json` | `src/harness_factory/data/sources.json` | Tracked entities + feeds + per-field `outlets`. |
 | `watchlist.json` | `src/harness_factory/data/watchlist.json` | Refresh topics + frontier probes. |
 
 ## 9 · Data sources → views · SSOT 与生成视图

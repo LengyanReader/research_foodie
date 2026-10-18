@@ -9,6 +9,7 @@ known strings did NOT catch either.  These tests check *structure* instead.
 
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -33,6 +34,9 @@ LEAK_MARKERS = (
     "<|tool",
     "parameter name=",
 )
+
+_FENCE = re.compile(r"```.*?```", re.S)
+_LINK = re.compile(r"\]\(([^)\s]+)\)")
 
 
 def _shipped_files(include_logs: bool = True) -> list[Path]:
@@ -120,6 +124,30 @@ class LoadIndexWiringTest(unittest.TestCase):
         for name in ("SKILL.md", "core/05-provenance-and-integrity.md", "reference/capability-router.md"):
             text = (HARNESS / name).read_text(encoding="utf-8")
             self.assertIn("cross-language", text, f"{name} does not link the cross-language doc")
+
+
+class DocLinkIntegrityTest(unittest.TestCase):
+    """Every relative markdown link in a shipped doc must resolve, so a pointer an
+    agent reads actually leads to a file (a dead pointer wastes a capability)."""
+
+    def test_relative_links_resolve(self):
+        offenders = []
+        for path in _shipped_files():
+            text = _read(path)
+            if text is None:
+                continue
+            body = _FENCE.sub("", text)
+            for raw in _LINK.findall(body):
+                if raw.startswith(("http://", "https://", "mailto:", "#")):
+                    continue
+                target = raw.split("#", 1)[0]
+                # Skip placeholders and runtime-generated paths (absent in a fresh checkout).
+                if not target or target.startswith(("<", "updates/", ".harness/")):
+                    continue
+                candidates = [path.parent / target, HARNESS / target, ROOT / target]
+                if not any(c.exists() for c in candidates):
+                    offenders.append(f"{path.relative_to(ROOT)} -> {raw}")
+        self.assertEqual(offenders, [], f"unresolved relative links: {offenders}")
 
 
 if __name__ == "__main__":

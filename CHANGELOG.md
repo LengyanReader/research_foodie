@@ -65,4 +65,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
   `review/` (survey, catalog, playbooks, references), `sources/` (provenance map).
 - CI (GitHub Actions), `CHANGELOG.md`, `.gitattributes`.
 
+### Fixed
+- **Pointer coverage (P11.1)** — `.harness/pointer.json` hard-coded only **4** entry docs, so an emitted
+  harness could not reach `derivation-rules`, `evidence-instruments`, `methodology-map`, `cross-language`
+  or `outlet-map` by pointer alone. `pointer.ENTRY_DOCS` is now **derived from the skill index**
+  (the `overview` + `reference` groups; 4 → 12 docs) so it can never drift from `harness skill`, and
+  `pointer.verify` checks them all (plus the emitted `AGENTS.md` pointer block states the full set).
+- **Doc link integrity** — new guard: every relative markdown link in a shipped doc must resolve
+  (an audit found 0 broken before the guard was added).
+
 [Unreleased]: https://github.com/LengyanReader/research_foodie/commits/main

@@ -22,15 +22,18 @@ import json
 from pathlib import Path
 from typing import Any
 
+from harness_factory import skill as _skill
+
 POINTER = ".harness/pointer.json"
 REVOKE = "stop using harness_factory"
 
-#: Docs an agent must be able to reach, relative to the factory root.
-ENTRY_DOCS = (
-    "SKILL.md",
-    "reference/capability-router.md",
-    "reference/requirement-refinement.md",
-    "reference/capability-flow.md",
+#: Docs an agent must be able to reach, relative to the factory root.  Derived
+#: from the skill index (the ``overview`` + ``reference`` groups) so the pointer
+#: can never drift from the load-index: if a doc is loadable via ``harness
+#: skill``, the pointer also locates it by absolute path.  This is what lets an
+#: emitted harness use the *whole* capability reference, not a frozen subset.
+ENTRY_DOCS: tuple[str, ...] = tuple(
+    entry.path for entry in _skill.index() if entry.group in {"overview", "reference"}
 )
 #: Project rules files scanned for the standing-reference block.
 RULES_FILES = ("AGENTS.md", "CLAUDE.md", ".cursor/rules/harness-factory.mdc")
@@ -53,7 +56,9 @@ def build(factory_root: str | None, *, created: str, version: str) -> dict:
         "how_to_use": (
             "Read skill_md first; route via entry_docs['reference/capability-router.md'] and load "
             "ONLY the files the matching row names; for a vague/under-aimed ask run "
-            "entry_docs['reference/requirement-refinement.md'] (R0-R5) and wait for confirmation."
+            "entry_docs['reference/requirement-refinement.md'] (R0-R5) and wait for confirmation. "
+            "The remaining entry_docs are the full loadable set (field->instrument->outlet maps, "
+            "cross-language, derivation rules; same as `harness skill`)."
         ),
         "revoke": REVOKE,
         "note": (

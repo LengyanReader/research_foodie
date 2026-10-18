@@ -81,8 +81,10 @@ Standing behaviour: before each substantive answer, check whether a capability a
 Never fabricate task substance (M0.4); truth/traceability outrank speed; irreversible acts need my explicit OK.
 ```
 
-> **Pointer · 指针.** `.harness/pointer.json` records the **resolved** factory path (and `/SKILL.md`,
-> the router, and the refinement/flow docs) so a later session never has to be told the path again.
+> **Pointer · 指针.** `.harness/pointer.json` records the **resolved** factory path and its **full
+> loadable entry set** — `SKILL.md`, the router, refinement/flow, the instrument/methodology/outlet
+> maps, cross-language, and the derivation rules (the same set as `harness skill`) — so a later
+> session never has to be told the path again, and no capability reference is out of reach.
 > Verify it with `harness doctor --project .`; a `null` path means the factory was not reachable when
 > this harness was generated — then just ask the user for it. · 该文件记下工厂的**绝对路径**，新会话无需再被告知。
 

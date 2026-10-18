@@ -76,7 +76,7 @@ _TAIL: tuple[Skill, ...] = (
     Skill("capabilities.json", "catalogs", "src/harness_factory/data/capabilities.json", "Requirement->capability->modules map."),
     Skill("domains.json", "catalogs", "src/harness_factory/data/domains.json", "Machine-readable discipline/domain catalog."),
     Skill("harnesses.json", "catalogs", "src/harness_factory/data/harnesses.json", "Unified harness catalog (SSOT for the index)."),
-    Skill("sources.json", "catalogs", "src/harness_factory/data/sources.json", "Tracked entities + feeds."),
+    Skill("sources.json", "catalogs", "src/harness_factory/data/sources.json", "Tracked entities + feeds + per-field `outlets`."),
     Skill("watchlist.json", "catalogs", "src/harness_factory/data/watchlist.json", "Refresh topics + frontier probes."),
 )
 
