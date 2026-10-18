@@ -40,6 +40,26 @@ class EntryDocTest(unittest.TestCase):
         self.assertIn(ZH_MARKER, zh)
         self.assertIn(ZH_REVOKE, zh)
 
+    def test_readmes_carry_the_usage_map(self):
+        """'用法' lives in the READMEs: they must name the reference docs that turn a
+        situation into a practice, plus the revocation phrase — so usage is findable
+        without the CLI (and cannot silently lose a doc)."""
+        refs = (
+            "reference/capability-router.md",
+            "reference/evidence-instruments.md",
+            "reference/methodology-map.md",
+            "reference/outlet-map.md",
+            "reference/cross-language.md",
+        )
+        for path, revoke in (
+            (ROOT / "README.md", EN_REVOKE),
+            (ROOT / "README.zh-CN.md", ZH_REVOKE),
+        ):
+            text = path.read_text(encoding="utf-8")
+            for ref in refs:
+                self.assertIn(ref, text, f"{path.name} does not link {ref}")
+            self.assertIn(revoke, text)
+
     def test_no_doc_still_quotes_the_old_config(self):
         """Every copy of the 'how to reference' text must be the standing version."""
         old = ("把本仓库当 skill 使用", "Treat this repository as a skill")

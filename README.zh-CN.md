@@ -219,6 +219,23 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 `reference/derivation-rules.md` + `data/*.json` 目录推导，把输出契约落到目标项目，并把溯源写入
 `.harness/PROVENANCE.md`；它还能 `profile`/`learn` 该项目，让工厂持续改进。
 
+**一句指令词，能力即常驻上下文中。** 先贴一次**配置**（见[「给 agent 的提示词模板」](#给-agent-的提示词模板) 第 1 步）——工厂即成为整段对话的
+**常驻引用**。此后每次只给**一句任务**，助手会**自动**用上与之匹配的能力（并声明用了哪项能力、哪份文件）；任何时候说
+**「停止使用 harness_factory」**即撤销。无需逐次重述，开关始终在用户手里。
+
+**五条用法。** 常驻之后，下面这五份文件把「情境」变成「做法」——只加载命中的那一条（M0.6）：
+
+| 情境 | 读哪份 | 用法一句话 |
+|---|---|---|
+| 不知该用哪些能力 | [`capability-router`](harness_factory/reference/capability-router.md) | 按情境命中一行 → 只读该行文件；都不命中就只读 `SKILL.md` + `core/01-meta-principles.md`。 |
+| 要断言某命题 | [`evidence-instruments`](harness_factory/reference/evidence-instruments.md) | 先命名命题 → 选仪器 → 写明仪器极限；「我跑过了」不算证据，**产物**才算。 |
+| 要套用某个命名方法 | [`methodology-map`](harness_factory/reference/methodology-map.md) | 方法 = 协议 + 假设 + 报告规范三件套；`status = later` 的行是清单，不是机器门禁。 |
+| 要知道某领域去哪查 | [`outlet-map`](harness_factory/reference/outlet-map.md) | 一手登记库/数据库 → 权威索引 → 预印本 → 媒体；引用前先读 `NOT for` 列。 |
+| 要跨语言搬运 | [`cross-language`](harness_factory/reference/cross-language.md) | 按意群切分、整段搬运、回译互证、术语加注——绝不逐字对译。 |
+
+> 五条共通两点：规则位于**不变量层**（M3.10–M3.13 · M4.10）而非做成能力——它们几乎对一切任务都会触发，做成能力就不判别；
+> 以及每条信息源都写明「**不适合**用来做什么」，让来源可被评估而非被信任。
+
 ## 泛化铁律
 
 > **一条模式只有在其原项目被移除后仍然成立，才有资格留在这里。**

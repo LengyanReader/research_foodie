@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-19 — P11.2: usage lives in the README · 用法集中到 README
+- **Ask.** 「用法放在 readme 文档即可」；并明确机制：用户给**一句指令词** → 能力**常驻上下文** → 后续**随需求自动**使用相关 harness 能力 → 用户**随时可撤销**。
+- **Change.** 在 `README.md` / `README.zh-CN.md` 的 **How to use this factory · 使用方式** 中补：①「一句指令词 → 常驻 → 随需自动用 → 随时说『停止使用 harness_factory』撤销」的生命周期；②**五条用法表**（情境 → 读哪份 → 用法一句话），指向 `capability-router` · `evidence-instruments` · `methodology-map` · `outlet-map` · `cross-language`。常驻粘贴块与撤销句本已在同文件「给 agent 的提示词模板」中，两处现互相呼应。
+- **No new file.** 按指示不新增 `reference/usage.md`——用法归 README；`reference/` 五份仍各保留自己的 **How to use · 用法**（细节），README 给**总入口**。
+- **Guard.** `test_standing_reference.py::test_readmes_carry_the_usage_map`（两份 README 必须列全五份参考文档 + 撤销句）。**193 用例通过。**
+
+---
+
 ## 2026-10-19 — P11.1: pointer covers the whole capability reference · 指针覆盖全部可加载参考 + 链接完整性门
 - **Trigger (standing check).** 「确保对该项目路径的指向可以充分使用该项目能力」——凡 agent 会跟随的**路径指向**，都必须能到达**整套**能力参考，而不是一个冻结的子集。
 - **Found (defect).** `.harness/pointer.json`（`pointer.ENTRY_DOCS`）**硬编码 4 份**入口文档（SKILL.md、capability-router、requirement-refinement、capability-flow）。因此仅凭指针，生成的 harness **无法发现** `derivation-rules`、`evidence-instruments`、`methodology-map`、`cross-language`、`outlet-map`。静态清单正是 M0.5 禁止的漂移形态。

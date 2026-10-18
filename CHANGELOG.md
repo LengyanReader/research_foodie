@@ -6,6 +6,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Usage in the README** — the five usage rules (router · evidence instruments · methodology · outlets ·
+  cross-language) now live in the root READMEs' *How to use this factory* section, beside the
+  one-instruction standing reference and its revocation, so "how to use" is findable without the CLI.
+  Guarded: each README must name all five reference docs + the revoke phrase.
 - **Cross-language fidelity (M4.10)** — new invariant in `core/05`: when a claim moves into another
   language, align by **meaning unit** (意群 / sense group / *translation unit*), **corroborate** by
   back-translation / a target-language reader / a second-language source, preserve stance·scope·modality·

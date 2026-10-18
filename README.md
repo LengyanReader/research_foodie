@@ -254,6 +254,28 @@ reads [`harness_factory/SKILL.md`](harness_factory/SKILL.md), loads only the mod
 contract into the target project, and records provenance in `.harness/PROVENANCE.md`. It can also `profile`/`learn`
 the project so the factory keeps improving.
 
+**One instruction, then it lives in the context.** Paste the configuration once (Step 1 in
+[Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板)) — the factory becomes a **standing
+reference** for the whole conversation. From then on each task is a plain sentence, and the assistant
+**auto-applies** whichever capability matches it (declaring which capability + which file); say
+**"stop using harness_factory"** at any time to revoke it. Nothing has to be re-explained per task, and the
+off-switch stays with the user.
+
+**The five usage rules · 五条用法.** Once the reference is resident, these are the files that turn a
+situation into the right practice — load only the one the situation matches (M0.6):
+
+| Situation · 情境 | Load · 读哪份 | The rule in one line · 用法一句话 |
+|---|---|---|
+| Unsure which capabilities apply · 不知该用哪些能力 | [`capability-router`](harness_factory/reference/capability-router.md) | Match one situation row → load only that row's files; if none match, read `SKILL.md` + `core/01-meta-principles.md`. |
+| About to assert something · 要断言某命题 | [`evidence-instruments`](harness_factory/reference/evidence-instruments.md) | Name the claim, pick the instrument, state its limits — "I ran it" is not evidence; the artefact is. |
+| Naming a method · 要套用某个命名方法 | [`methodology-map`](harness_factory/reference/methodology-map.md) | A method = protocol + assumptions + reporting standard; `status = later` rows are checklists, not machine gates. |
+| Need to know where to look · 要知道某领域去哪查 | [`outlet-map`](harness_factory/reference/outlet-map.md) | First-party registry/database → reviewed index → preprint → media; read the `NOT for` column before citing. |
+| Text crosses languages · 要跨语言搬运 | [`cross-language`](harness_factory/reference/cross-language.md) | Align by meaning unit, carry each unit whole, corroborate by back-translation, gloss terms — never word-for-word. |
+
+> Two things hold across all five: the rules live in the **invariant layer** (M3.10–M3.13 · M4.10) rather than
+> as capabilities — they fire on nearly everything, so a capability would not discriminate; and every outlet
+> states what it is **not** for, so a source can be appraised instead of trusted.
+
 ---
 
 ## Generalization rule · 泛化铁律
