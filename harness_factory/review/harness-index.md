@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-15 · 133 entries · 11 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-18 · 160 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -208,6 +208,38 @@ harness catalog claude-code           # detail one entry
 | `hle` | Humanity’s Last Exam · Humanity’s Last Exam | 调研质量评测 | M3 | https://lastexam.ai/ · tracked:hle |
 | `frames` | FRAMES · FRAMES | 调研质量评测 | M3 | https://huggingface.co/datasets/google/frames-benchmark · tracked:frames |
 | `deepresearch-bench` | DeepResearch Bench · DeepResearch Bench | 调研质量评测 | M3 | https://github.com/Ayanami0730/deep_research_bench · tracked:deepresearch-bench |
+
+## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (27)
+
+| id | name | kind | core modules | source |
+|---|---|---|---|---|
+| `lean4` | Lean 4 · Lean 4 | 证明助手（交互式定理证明器） | M3, M4, M6 | https://lean-lang.org/ |
+| `mathlib` | mathlib4 · mathlib4 | 形式化数学库 | M3, M4 | https://github.com/leanprover-community/mathlib4 |
+| `rocq` | The Rocq Prover · Rocq 证明器（原 Coq） | 证明助手（交互式定理证明器） | M3, M4, M6 | https://rocq-prover.org/ |
+| `isabelle` | Isabelle · Isabelle | 证明助手（交互式定理证明器） | M3, M4, M6 | https://isabelle.in.tum.de/ |
+| `agda` | Agda · Agda | 证明助手（交互式定理证明器） | M3, M4, M6 | https://agda.readthedocs.io/ |
+| `dafny` | Dafny · Dafny | 证明助手（交互式定理证明器） | M3, M4, M6 | https://dafny.org/ |
+| `z3` | Z3 · Z3 | SMT 求解器 | M3, M6 | https://github.com/Z3Prover/z3 |
+| `cvc5` | cvc5 · cvc5 | SMT 求解器 | M3, M6 | https://cvc5.github.io/ |
+| `tla-plus` | TLA+ · TLA+ | 模型检验与规约分析器 | M2, M3, M6 | https://lamport.azurewebsites.net/tla/tla.html |
+| `alloy` | Alloy · Alloy | 模型检验与规约分析器 | M2, M3, M6 | https://alloytools.org/ |
+| `pint` | Pint · Pint | 量纲与不确定度库 | M3, M6 | https://pint.readthedocs.io/ |
+| `uncertainties` | uncertainties · uncertainties | 量纲与不确定度库 | M3, M6 | https://pypi.org/project/uncertainties/ |
+| `rdkit` | RDKit · RDKit | 化学与生物信息工具包 | M3, M4, M6 | https://www.rdkit.org/ |
+| `biopython` | Biopython · Biopython | 化学与生物信息工具包 | M3, M4, M6 | https://biopython.org/ |
+| `rcsb-pdb` | RCSB PDB · RCSB PDB | 生物大分子参考数据库 | M3, M4 | https://www.rcsb.org/ |
+| `uniprot` | UniProt · UniProt | 生物大分子参考数据库 | M3, M4 | https://www.uniprot.org/ |
+| `universal-dependencies` | Universal Dependencies · Universal Dependencies | 语料库与树库资源 | M1, M4, M6 | https://universaldependencies.org/ |
+| `inception` | INCEpTION · INCEpTION | 标注平台 | M3, M4, M8 | https://inception-project.github.io/ |
+| `elan` | ELAN · ELAN | 标注平台 | M3, M4, M8 | https://archive.mpi.nl/tla/elan |
+| `psychopy` | PsychoPy · PsychoPy | 实验运行时与范式构建器 | M3, M6 | https://psychopy.org/ |
+| `jspsych` | jsPsych · jsPsych | 实验运行时与范式构建器 | M3, M6 | https://www.jspsych.org/ |
+| `osf` | OSF (Open Science Framework) · OSF 开放科学框架 | 预注册归档与服务 | M3, M7 | https://osf.io/ |
+| `statsmodels` | statsmodels · statsmodels | 统计建模工具 | M3 | https://www.statsmodels.org/ |
+| `lme4` | lme4 · lme4 | 统计建模工具 | M3 | https://cran.r-project.org/package=lme4 |
+| `stan` | Stan · Stan | 统计建模工具 | M3 | https://mc-stan.org/ |
+| `snakemake` | Snakemake · Snakemake | 可复现流水线引擎 | M2, M4, M6 | https://snakemake.readthedocs.io/ |
+| `nextflow` | Nextflow · Nextflow | 可复现流水线引擎 | M2, M4, M6 | https://www.nextflow.io/ |
 
 ---
 

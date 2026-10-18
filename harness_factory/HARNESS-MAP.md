@@ -3,13 +3,13 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 27 capabilities · 28 domains · 133 catalog entries · 23 CLI subcommands**
+**9 modules (M0–M8) · 27 capabilities · 28 domains · 160 catalog entries · 23 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、27 条能力（capability，任务特征 → 模块）、28 个学科域、133 条工具目录、23 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
+这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、27 条能力（capability，任务特征 → 模块）、28 个学科域、160 条工具目录、23 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
 
 ## 0 · At a glance · 一览
 
@@ -18,7 +18,7 @@
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
 | Capabilities | 27 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
 | Domains | 28 (27 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
-| Tool catalog | 133 (11 classes × 33 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
+| Tool catalog | 160 (12 classes × 46 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
 | Rubrics | 29 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
 | CLI subcommands | 23 | `src/harness_factory/cli.py` | §7 below |
@@ -116,7 +116,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | natural-sciences · 自然科学 | `biology`, `chemistry`, `earth-environment`, `mathematics`, `physics` |
 | social-sciences · 社会科学 | `cognitive-science`, `economics-finance`, `psychology`, `social-science` |
 
-## 6 · Tool catalog · 工具目录（133）
+## 6 · Tool catalog · 工具目录（160）
 
 `data/harnesses.json` indexes third-party agent harnesses, frameworks, protocols, evaluation tools and safety work, each mapped to the modules it exercises. Lookup with `harness catalog`.
 
@@ -133,6 +133,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | discovery · Discovery / evidence & model search | 5 |
 | reading · Reading, acquisition & distillation | 20 |
 | deep-research · Deep research — search, retrieval & synthesis | 43 |
+| instruments · Scientific & formal instruments (evidence tools) | 27 |
 
 ## 7 · CLI surface · 命令行（23 subcommands）
 
@@ -186,6 +187,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `derivation-rules` | `reference/derivation-rules.md` | Markdown mirror of the derive.py rule table (for L0). |
 | `requirement-refinement` | `reference/requirement-refinement.md` | R0-R5: restate -> elevate -> classify -> offer -> confirm -> converge. |
 | `capability-flow` | `reference/capability-flow.md` | Bidirectional flow: concretize (task-local) <-> distill (factory, human-gated). |
+| `evidence-instruments` | `reference/evidence-instruments.md` | M3.10 made concrete: claim type -> instrument -> catalogued tool -> gate evidence. |
 | `capabilities` | `CAPABILITIES.md` | Generated overview: purpose + every harness capability (requirement -> modules). |
 | `reference` | `review/references.md` | Source-grounded reference list. |
 | `harness-catalog` | `review/harness-catalog.md` | Prose taxonomy of harnesses & self-evolution methods. |

@@ -66,12 +66,14 @@
 | `formal-verification` | Mathlib `[R98]`; Lean 4 `[R99]`; Open Logic Project `[R100]` (proof theory / model theory / countermodels); Woodcock *et al.* `[R106]` (formal methods in practice) | academic + practitioner |
 | `dimensional-analysis` | Buckingham 1914 `[R104]` (dimensional equations / physically similar systems) | academic (foundational) |
 | `empirical-measurement` | Munafò *et al.* `[R103]` (pre-registration, effect sizes, power, analytic flexibility); Artstein & Poesio `[R102]` (inter-coder agreement); Anderson *et al.* `[R105]` (falsifiable cognitive model) | academic + practitioner |
+| Evidence instrument map (M3.10) | JCGM 100:2008 GUM `[R107]` (uncertainty budget, coverage factor, 2026 nonlinearity amendment); NASA-STD-7009B `[R108]` (verification / validation / credibility + sensitivity analysis); SI brochure `[R109]` (units); COS Registered Reports `[R110]` (pre-registration); Artstein & Poesio `[R102]` (agreement); first-party project pages of the 27 `instruments` catalog entries | standard + practitioner |
 | `reference/requirement-refinement.md` (R0–R5 protocol) | Rieseberg [R80]; M8 escalation/handoff; `domains/deep-research/method.md` L0 "restate + confirm" | practitioner + internal |
 
 > Full analysis and the integration verdict: [`review/ambition-and-agency.md`](../review/ambition-and-agency.md). Refs R80–R83 live in [`review/references.md`](../review/references.md) (group D).
 > The 2026-10-18 frontier pass (context · security · durability · spend · evals) is distilled in [`review/frontier-2026-10.md`](../review/frontier-2026-10.md); refs R84–R92 live in group E.
 > The 2026-10-18 workflow pass (loops & graphs) is distilled in [`review/workflow-patterns-2026-10.md`](../review/workflow-patterns-2026-10.md); refs R93–R97 live in group F.
-> The 2026-10-18 disciplines pass (formal & empirical sciences) is distilled in [`review/disciplines-crosswalk-2026-10.md`](../review/disciplines-crosswalk-2026-10.md); refs R98–R106 live in group G.
+> The 2026-10-18 disciplines pass (formal & empirical sciences) is distilled in [`review/disciplines-crosswalk-2026-10.md`](../review/disciplines-crosswalk-2026-10.md); refs R98-R106 live in group G.
+> The 2026-10-18 instruments pass (claim -> instrument -> tool -> gate) is mapped in [`reference/evidence-instruments.md`](../reference/evidence-instruments.md); standards refs R107-R110 live in group H, and the tools themselves are catalog entries (class `instruments`, 27 rows).
 
 ---
 

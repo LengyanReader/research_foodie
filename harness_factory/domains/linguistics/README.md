@@ -32,6 +32,13 @@ Make a claim about language (*this construction behaves like X*, *this corpus sh
 - **M6** — taggers, parsers and alignment tools are instruments: pinned versions, reported accuracy.
 - **M7** — licensing, consent and speaker de-identification are release gates, not footnotes.
 
+## Instruments · 仪器
+- **Scheme & data** — `universal-dependencies` (guideline version + treebank release + validators).
+- **Annotation** — `inception` (multi-layer, knowledge-base linking) · `elan` (tiered, time-aligned audio/video).
+- **Agreement gate** — report κ/α on a double-annotated sample (`[R102]`); a model annotator is an *instrument with its own reliability*, not an oracle ("agrees with itself" ≠ agreement).
+- **Rights gate** — the corpus licence and consent must permit the use claimed.
+- Full map: `../reference/evidence-instruments.md#linguistic-data`.
+
 ## Discipline-specific risks · 领域特有风险
 - **Scheme drift** (categories reinterpreted mid-annotation without a version bump).
 - **Single annotator as ground truth** (no reliability measure reported).

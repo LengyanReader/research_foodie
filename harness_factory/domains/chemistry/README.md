@@ -1,7 +1,7 @@
 # Domain · Chemistry · 化学域
 > Wiring `core/` modules into a reaction- and structure-grounded synthesis workflow with safety gates.
 > 把 `core/` 模块接线成「以反应与结构为据、带安全门」的化学流程。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 
@@ -31,6 +31,12 @@ Move from a target molecule or transformation to an evidence-backed result — a
 - **M4** — claim ↔ spectrum ↔ condition ledger; mark unverified intermediates.
 - **M6** — instruments/computation stack pinned and fail-loud (e.g. Gaussian, RDKit).
 - **M7** — protocols are reviewable; no auto-sharing of hazardous procedures outside the gate.
+
+## Instruments · 仪器
+- **Structure & property** — `rdkit` (canonical identifiers, substructure search, descriptors) with the toolkit version recorded.
+- **Accession-backed records** — `rcsb-pdb` (experimental vs computed structures) · `uniprot` (sequence, reviewed / unreviewed); quote the database release.
+- **Gate evidence** — canonical id **+** accession **+** version; a compound *name* alone is not an identification.
+- Full map: `../reference/evidence-instruments.md#chemical--biological-claims`.
 
 ## Discipline-specific risks · 领域特有风险
 - **Structure misassignment** from a single technique.

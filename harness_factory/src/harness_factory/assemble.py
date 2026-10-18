@@ -74,6 +74,61 @@ def _selected_files(plan: HarnessPlan) -> list[str]:
     return sorted(names)
 
 
+def _evidence_instrument(plan: HarnessPlan) -> str:
+    """Name the instrument this harness must use (M3.10 · match the instrument to the claim).
+
+    Derived from the matched capabilities, so an emitted harness states *what evidence would
+    settle its claim* before any work starts -- instead of discovering at the end that the
+    "proof" was an opinion or the "result" had no interval.
+    """
+    caps = set(plan.capabilities)
+    lines = [
+        f"- **{family}** — {detail} (`reference/evidence-instruments.md#{anchor}`)."
+        for cid, family, detail, anchor in _INSTRUMENTS
+        if cid in caps
+    ]
+    if not lines and ({"reproducible-experiments", "eval-driven-development"} & caps):
+        lines.append(
+            "- **re-runnable pipeline + frozen golden cases** — the check reproduces the result from "
+            "recorded inputs and versions, and the evaluation set is frozen *before* the change "
+            "(`reference/evidence-instruments.md#computational-provenance`)."
+        )
+    if not lines:
+        lines.append(
+            "- **observed evidence for the artefact** — name the concrete artefact the claim rests on "
+            "(test run, log, metric, source + access date) *before* claiming done; a claim with no "
+            "named instrument is unverified (M3.1, M3.10)."
+        )
+    return "\n".join(lines)
+
+
+# capability -> (instrument family, what the gate must observe, anchor in the instrument map)
+_INSTRUMENTS: tuple[tuple[str, str, str, str], ...] = (
+    (
+        "formal-verification",
+        "machine-checked derivation",
+        "a compiled proof (Lean 4 / Rocq / Isabelle / Agda), a verified obligation (Dafny / Z3), or an "
+        "explored state space (TLA+ / Alloy) — with the toolchain version recorded and **no placeholder "
+        "left** (`sorry`, `Admitted`, `postulate`)",
+        "formal-claims",
+    ),
+    (
+        "dimensional-analysis",
+        "units + propagated uncertainty",
+        "every quantity carries its unit and an uncertainty with a stated coverage factor (Pint / "
+        "uncertainties, GUM) — **no unit-free numbers**",
+        "physical-quantities",
+    ),
+    (
+        "empirical-measurement",
+        "effect size + interval + reliability",
+        "a pre-registered primary analysis (or a declared deviation), an effect size **with an interval**, "
+        "and a reliability estimate for the measure (PsychoPy / jsPsych, lme4 / statsmodels / Stan, OSF)",
+        "empirical-claims",
+    ),
+)
+
+
 def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     f = plan.features
     domain_meta = _domains().get(f.domain, _domains().get("general", {}))
@@ -95,6 +150,7 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
         cap_rows.append(f"| {cid} | {title} — {meta.get('why', '')} |")
     capabilities_table = "\n".join(cap_rows) or "| _(none matched)_ | |"
     capabilities_line = ", ".join(plan.capabilities) or "(none)"
+    evidence_instrument = _evidence_instrument(plan)
     workflow = domain_meta.get("workflow", [])
     workflow_list = "\n".join(f"{i + 1}. {step}" for i, step in enumerate(workflow))
 
@@ -149,6 +205,7 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
         "modules_reasons_table": modules_reasons_table,
         "capabilities_line": capabilities_line,
         "capabilities_table": capabilities_table,
+        "evidence_instrument": evidence_instrument,
         "profile_note": "",
         "workflow_list": workflow_list,
         "gate_strictness": gates_strict,

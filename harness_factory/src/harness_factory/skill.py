@@ -61,6 +61,7 @@ _TAIL: tuple[Skill, ...] = (
     Skill("derivation-rules", "reference", "reference/derivation-rules.md", "Markdown mirror of the derive.py rule table (for L0)."),
     Skill("requirement-refinement", "reference", "reference/requirement-refinement.md", "R0-R5: restate -> elevate -> classify -> offer -> confirm -> converge."),
     Skill("capability-flow", "reference", "reference/capability-flow.md", "Bidirectional flow: concretize (task-local) <-> distill (factory, human-gated)."),
+    Skill("evidence-instruments", "reference", "reference/evidence-instruments.md", "M3.10 made concrete: claim type -> instrument -> catalogued tool -> gate evidence."),
     Skill("capabilities", "overview", "CAPABILITIES.md", "Generated overview: purpose + every harness capability (requirement -> modules)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),
     Skill("harness-catalog", "review", "review/harness-catalog.md", "Prose taxonomy of harnesses & self-evolution methods."),

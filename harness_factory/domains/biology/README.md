@@ -1,7 +1,7 @@
 # Domain · Biology / life sciences · 生物学生命科学域
 > Wiring `core/` modules into a protocol-, sequence- and evidence-grounded life-science workflow.
 > 把 `core/` 模块接线成「以方案、序列与证据为据」的生命科学流程。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 
@@ -31,6 +31,12 @@ Answer a biological question with reproducible evidence — a protocol result, a
 - **M4** — sample ↔ read ↔ reference ↔ version ledger; flag unverified annotation.
 - **M6** — bioinformatics stack pinned (aligner/annotator versions recorded).
 - **M7** — releases (data, code) are governed; ethics/IRB constraints enforced.
+
+## Instruments · 仪器
+- **Sequence / structure I/O** — `biopython`; **reference records** — `uniprot` (protein sequence, reviewed status) · `rcsb-pdb` (structures, experimental vs computed).
+- **Pipeline provenance** — `snakemake` / `nextflow` record inputs, versions and containers per step, so a dataset claim is re-runnable.
+- **Gate evidence** — accession + release + reviewed status + tool version; a name or a figure is not a record.
+- Full map: `../reference/evidence-instruments.md#chemical--biological-claims`.
 
 ## Discipline-specific risks · 领域特有风险
 - **Batch effects** mistaken for biology.

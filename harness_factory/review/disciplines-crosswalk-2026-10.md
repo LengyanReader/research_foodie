@@ -89,6 +89,13 @@ Shared invariants the crosswalk surfaced (all already carried by M0–M8, now na
 
 ## 8 · Next-cycle cues · 下轮线索
 
+> **Status (2026-10-18, P9):** every cue below was addressed in the *evidence-instruments* pass —
+> catalogue class `instruments` (27 entries), `reference/evidence-instruments.md`, the emitted
+> *Evidence instrument* stanza, and instrument sections in the `logic`/`linguistics`/`cognitive-science`/
+> `physics`/`chemistry`/`biology` READMEs. Remaining for a later cycle: **spectra/crystallography**
+> evidence (MassBank, ICSD/COD) was not catalogued; **probabilistic parsing** tooling was not catalogued;
+> and the multiverse/registered-report gates are stated in prose, not machine-checked.
+
 - **Physics/engineering depth**: SI-brochure-level unit rules and error-propagation practice (`GUM`); simulation validation & verification (V&V) vocabulary.
 - **Chemistry/biology**: structural evidence (spectra, crystallography) and sequence provenance — the next crosswalk family.
 - **Logic**: proof-assistant interop beyond Lean (Coq/Rocq, Isabelle, Agda) as instruments in the catalog.

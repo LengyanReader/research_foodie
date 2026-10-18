@@ -1,7 +1,7 @@
 # M3 · Verification & Gates · 验证与门禁
 > Deciding "done" — with evidence, not feelings.
 > 判定「完成」——靠证据，不靠感觉。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 
@@ -24,7 +24,7 @@ Generators are optimistic and self-grading is biased. If the same context that p
 7. **The refinement loop.** Iterate: produce → evaluate against criteria → revise → re-evaluate, until the gate passes or the budget ends. Log each cycle.
 8. **Calibrate confidence.** Require the judge to state confidence and the evidence it used; track calibration over time.
 9. **Evidence over assertion (M0.4).** No mechanism may mark a task complete by rewriting output to *look* complete. Evidence is a first-class artifact.
-10. **Match the instrument to the claim.** Verify with the instrument that can *refute* it: a **machine-checked derivation** for formal results (proof assistant, checked model, SAT/SMT counterexample); **units, dimensional consistency and error propagation** for physical quantities; **effect sizes with intervals plus a reliability coefficient** for empirical measurements. Prose agreement is evidence for none of the three — reading it and nodding is not a gate.
+10. **Match the instrument to the claim.** Verify with the instrument that can *refute* it: a **machine-checked derivation** for formal results (proof assistant, checked model, SAT/SMT counterexample); **units, dimensional consistency and error propagation** for physical quantities; **effect sizes with intervals plus a reliability coefficient** for empirical measurements. Prose agreement is evidence for none of the three - reading it and nodding is not a gate. The concrete **claim → instrument → catalogued tool → gate evidence** map is `reference/evidence-instruments.md`; an emitted harness states its own instrument in the *Evidence instrument* section of `AGENTS.md`.
 
 > **中文**：先定义完成；构建者≠评判者（新窗口、无写权限）；默认失败+证据门；硬门/软门分离；验证「验证器」；三态+弃权；精炼循环；置信度校准；证据 > 断言；**按主张选仪器**——形式命题用机器可核验的推导（证明助手/模型检验/SAT 反例），物理量用量纲一致与误差传递，实证主张用效应量+区间+信度系数；「读一遍觉得对」不是门。
 

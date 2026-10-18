@@ -1,7 +1,7 @@
 # M2 · Long-Running Agents · 长时程 agent
 > Work that spans more sessions than fit in one context window.
 > 跨越多个会话、超出单个上下文窗口的工作。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 

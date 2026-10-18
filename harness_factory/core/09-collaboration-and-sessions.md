@@ -1,7 +1,7 @@
 # M8 · Collaboration & Sessions · 协作与会话
 > Agents working alongside humans and other agents — explicit contracts, escalation, handoff with state.
 > agent 与人类及其他 agent 协同——显式契约、逐级升级、带状态交接。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 

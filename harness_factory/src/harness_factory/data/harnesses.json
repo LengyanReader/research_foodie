@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-15",
-  "note": "Unified, machine-readable harness catalog (SSOT). Classes x kinds x core-module maps x source. `tracked` cross-links an entry to data/sources.json by entity id. Prose explanation lives in review/harness-catalog.md; review/harness-index.md is generated from this file.",
+  "updated": "2026-10-18",
+  "note": "Unified, machine-readable harness catalog (SSOT). Classes x kinds x core-module maps x source. `tracked` cross-links an entry to data/sources.json by entity id. Prose explanation lives in review/harness-catalog.md; review/harness-index.md is generated from this file. The `instruments` class carries the scientific/formal evidence tools the discipline capabilities (formal-verification / dimensional-analysis / empirical-measurement) name; the claim->instrument map is reference/evidence-instruments.md.",
   "licenses": "Sources are cited (paper/repo/docs). Pricing/benchmark numbers, where any, are directional.",
   "classes": [
     {
@@ -100,6 +100,16 @@
       "zh": "深度调研·检索与综合",
       "maps_to": [
         "M1",
+        "M3",
+        "M4",
+        "M6"
+      ]
+    },
+    {
+      "id": "instruments",
+      "en": "Scientific & formal instruments (evidence tools)",
+      "zh": "科学仪器与形式工具（证据工具）",
+      "maps_to": [
         "M3",
         "M4",
         "M6"
@@ -271,6 +281,71 @@
       "id": "research-eval",
       "en": "Research-quality benchmark",
       "zh": "调研质量评测"
+    },
+    {
+      "id": "proof-assistant",
+      "en": "Proof assistant (interactive theorem prover)",
+      "zh": "证明助手（交互式定理证明器）"
+    },
+    {
+      "id": "proof-library",
+      "en": "Formalised mathematics library",
+      "zh": "形式化数学库"
+    },
+    {
+      "id": "smt-solver",
+      "en": "SMT solver",
+      "zh": "SMT 求解器"
+    },
+    {
+      "id": "model-checker",
+      "en": "Model checker / specification analyzer",
+      "zh": "模型检验与规约分析器"
+    },
+    {
+      "id": "units-uncertainty",
+      "en": "Units & uncertainty library",
+      "zh": "量纲与不确定度库"
+    },
+    {
+      "id": "chem-bio-toolkit",
+      "en": "Chemistry / bioinformatics toolkit",
+      "zh": "化学与生物信息工具包"
+    },
+    {
+      "id": "bio-database",
+      "en": "Biomolecular reference database",
+      "zh": "生物大分子参考数据库"
+    },
+    {
+      "id": "corpus-resource",
+      "en": "Corpus / treebank resource",
+      "zh": "语料库与树库资源"
+    },
+    {
+      "id": "annotation-platform",
+      "en": "Annotation platform",
+      "zh": "标注平台"
+    },
+    {
+      "id": "experiment-runtime",
+      "en": "Experiment runtime / task builder",
+      "zh": "实验运行时与范式构建器"
+    },
+    {
+      "id": "prereg-archive",
+      "en": "Pre-registration archive / service",
+      "zh": "预注册归档与服务"
+    },
+    {
+      "id": "stats-toolkit",
+      "en": "Statistical modelling toolkit",
+      "zh": "统计建模工具"
+    },
+    {
+      "id": "workflow-engine",
+      "en": "Reproducible pipeline engine",
+      "zh": "可复现流水线引擎"
     }
   ],
   "harnesses": [
@@ -3278,6 +3353,611 @@
         "heartbeat",
         "sandbox",
         "git-checkpoints"
+      ]
+    },
+    {
+      "id": "lean4",
+      "name": "Lean 4",
+      "name_zh": "Lean 4",
+      "class": "instruments",
+      "kind": "proof-assistant",
+      "vendor": "Lean FRO",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Theorem prover and programming language with a small trusted kernel; tactic-based automation.",
+      "summary_zh": "定理证明器兼编程语言；可信内核小；以 tactic 做证明自动化。",
+      "url": "https://lean-lang.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "proof-assistant",
+        "dependent-types"
+      ]
+    },
+    {
+      "id": "mathlib",
+      "name": "mathlib4",
+      "name_zh": "mathlib4",
+      "class": "instruments",
+      "kind": "proof-library",
+      "vendor": "Lean community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Community mathematical library for Lean 4; the substrate formalised mathematics builds on.",
+      "summary_zh": "Lean 4 社区数学库；形式化数学的主要底座。",
+      "url": "https://github.com/leanprover-community/mathlib4",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "library",
+        "mathematics"
+      ]
+    },
+    {
+      "id": "rocq",
+      "name": "The Rocq Prover",
+      "name_zh": "Rocq 证明器（原 Coq）",
+      "class": "instruments",
+      "kind": "proof-assistant",
+      "vendor": "Inria",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Interactive theorem prover (formerly Coq); ACM Software System Award; mature proof libraries.",
+      "summary_zh": "交互式定理证明器（原 Coq）；获 ACM 软件系统奖；证明库成熟。",
+      "url": "https://rocq-prover.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "proof-assistant",
+        "dependent-types"
+      ]
+    },
+    {
+      "id": "isabelle",
+      "name": "Isabelle",
+      "name_zh": "Isabelle",
+      "class": "instruments",
+      "kind": "proof-assistant",
+      "vendor": "TU Munich / Cambridge",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Generic proof assistant (Isabelle/HOL) with strong automation; Archive of Formal Proofs.",
+      "summary_zh": "通用证明助手（Isabelle/HOL），自动化程度高；配套 Archive of Formal Proofs。",
+      "url": "https://isabelle.in.tum.de/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "proof-assistant",
+        "hol"
+      ]
+    },
+    {
+      "id": "agda",
+      "name": "Agda",
+      "name_zh": "Agda",
+      "class": "instruments",
+      "kind": "proof-assistant",
+      "vendor": "Chalmers",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Dependently typed language and interactive theorem prover: proofs are programs.",
+      "summary_zh": "依赖类型语言与交互式定理证明器：证明即程序。",
+      "url": "https://agda.readthedocs.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "proof-assistant",
+        "dependent-types"
+      ]
+    },
+    {
+      "id": "dafny",
+      "name": "Dafny",
+      "name_zh": "Dafny",
+      "class": "instruments",
+      "kind": "proof-assistant",
+      "vendor": "Microsoft Research",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Verification-aware language: specifications and proofs discharged by an SMT backend; compiles to C#/Java/Go/Python.",
+      "summary_zh": "验证感知语言：规格与证明交给 SMT 后端自动检查；可编译到 C#/Java/Go/Python。",
+      "url": "https://dafny.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "program-verification",
+        "smt-backend"
+      ]
+    },
+    {
+      "id": "z3",
+      "name": "Z3",
+      "name_zh": "Z3",
+      "class": "instruments",
+      "kind": "smt-solver",
+      "vendor": "Microsoft Research",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "SMT solver widely used as the automation backend of verifiers and proof tooling.",
+      "summary_zh": "SMT 求解器；常作为验证器与证明工具链的自动化后端。",
+      "url": "https://github.com/Z3Prover/z3",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "smt",
+        "automation"
+      ]
+    },
+    {
+      "id": "cvc5",
+      "name": "cvc5",
+      "name_zh": "cvc5",
+      "class": "instruments",
+      "kind": "smt-solver",
+      "vendor": "Stanford / University of Iowa",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Open-source SMT solver; successor of CVC4, usable as a tool or a library.",
+      "summary_zh": "开源 SMT 求解器；CVC4 的后继，可作独立工具或库调用。",
+      "url": "https://cvc5.github.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "smt",
+        "automation"
+      ]
+    },
+    {
+      "id": "tla-plus",
+      "name": "TLA+",
+      "name_zh": "TLA+",
+      "class": "instruments",
+      "kind": "model-checker",
+      "vendor": "TLA+ Foundation",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Specification language (set theory + temporal logic) and the TLC model checker for concurrent designs.",
+      "summary_zh": "规约语言（集合论 + 时序逻辑）与 TLC 模型检验器，用于并发/分布式设计。",
+      "url": "https://lamport.azurewebsites.net/tla/tla.html",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "temporal-logic",
+        "model-checking"
+      ]
+    },
+    {
+      "id": "alloy",
+      "name": "Alloy",
+      "name_zh": "Alloy",
+      "class": "instruments",
+      "kind": "model-checker",
+      "vendor": "AlloyTools (MIT)",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Relational modelling language with bounded model finding (Kodkod); Alloy 6 adds mutable state and temporal logic.",
+      "summary_zh": "关系建模语言与有界模型查找（Kodkod）；Alloy 6 加入可变状态与时序逻辑。",
+      "url": "https://alloytools.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "model-finding",
+        "relational"
+      ]
+    },
+    {
+      "id": "pint",
+      "name": "Pint",
+      "name_zh": "Pint",
+      "class": "instruments",
+      "kind": "units-uncertainty",
+      "vendor": "Pint community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Python physical-quantity library: define, convert and check units so dimensional errors surface at runtime.",
+      "summary_zh": "Python 物理量库：定义、换算并在运行时暴露量纲错误。",
+      "url": "https://pint.readthedocs.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "units",
+        "python"
+      ]
+    },
+    {
+      "id": "uncertainties",
+      "name": "uncertainties",
+      "name_zh": "uncertainties",
+      "class": "instruments",
+      "kind": "units-uncertainty",
+      "vendor": "E. O. L. Lebigot",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Numbers with uncertainties ('x ± u'): automatic first-order error propagation and derivatives (GUM-style).",
+      "summary_zh": "带不确定度的数值（x ± u）：自动一阶误差传播与求导（GUM 风格）。",
+      "url": "https://pypi.org/project/uncertainties/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "uncertainty",
+        "gum"
+      ]
+    },
+    {
+      "id": "rdkit",
+      "name": "RDKit",
+      "name_zh": "RDKit",
+      "class": "instruments",
+      "kind": "chem-bio-toolkit",
+      "vendor": "RDKit community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Open-source cheminformatics: molecule parsing, canonicalisation, substructure search, descriptors.",
+      "summary_zh": "开源化学信息学：分子解析、规范化、子结构检索与描述符计算。",
+      "url": "https://www.rdkit.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "cheminformatics",
+        "descriptors"
+      ]
+    },
+    {
+      "id": "biopython",
+      "name": "Biopython",
+      "name_zh": "Biopython",
+      "class": "instruments",
+      "kind": "chem-bio-toolkit",
+      "vendor": "Biopython project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Python toolkit for sequence/structure I/O (Bio.SeqIO, Bio.PDB) and BLAST/Entrez access.",
+      "summary_zh": "Python 序列与结构 I/O 工具包（Bio.SeqIO、Bio.PDB）及 BLAST/Entrez 接口。",
+      "url": "https://biopython.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "bioinformatics",
+        "python"
+      ]
+    },
+    {
+      "id": "rcsb-pdb",
+      "name": "RCSB PDB",
+      "name_zh": "RCSB PDB",
+      "class": "instruments",
+      "kind": "bio-database",
+      "vendor": "RCSB / wwPDB",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Primary archive of experimentally determined biomolecular structures (plus computed models); citable accession ids.",
+      "summary_zh": "实验测定生物大分子结构的主归档（含计算模型）；条目有可引用编号。",
+      "url": "https://www.rcsb.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "structure",
+        "accession"
+      ]
+    },
+    {
+      "id": "uniprot",
+      "name": "UniProt",
+      "name_zh": "UniProt",
+      "class": "instruments",
+      "kind": "bio-database",
+      "vendor": "UniProt Consortium",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Curated protein sequence and function resource; accessions carry reviewed/unreviewed status.",
+      "summary_zh": "人工审编的蛋白序列与功能资源；登录号带审编状态。",
+      "url": "https://www.uniprot.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "sequence",
+        "curation"
+      ]
+    },
+    {
+      "id": "universal-dependencies",
+      "name": "Universal Dependencies",
+      "name_zh": "Universal Dependencies",
+      "class": "instruments",
+      "kind": "corpus-resource",
+      "vendor": "UD community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Cross-linguistically consistent treebank annotation scheme, with released treebanks and validators.",
+      "summary_zh": "跨语言一致的树库标注规范，并发布树库与校验工具。",
+      "url": "https://universaldependencies.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "treebank",
+        "annotation-scheme"
+      ]
+    },
+    {
+      "id": "inception",
+      "name": "INCEpTION",
+      "name_zh": "INCEpTION",
+      "class": "instruments",
+      "kind": "annotation-platform",
+      "vendor": "UKP Lab, TU Darmstadt",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M8"
+      ],
+      "summary_en": "Web annotation platform: multi-layer annotation, knowledge-base linking, machine-assisted suggestions.",
+      "summary_zh": "Web 标注平台：多层标注、知识库链接、机器辅助建议。",
+      "url": "https://inception-project.github.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "annotation",
+        "human-review"
+      ]
+    },
+    {
+      "id": "elan",
+      "name": "ELAN",
+      "name_zh": "ELAN",
+      "class": "instruments",
+      "kind": "annotation-platform",
+      "vendor": "Max Planck Institute (The Language Archive)",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M8"
+      ],
+      "summary_en": "Annotation tool for audio/video recordings: tiered, time-aligned transcription stored as EAF/XML.",
+      "summary_zh": "音视频标注工具：分层、时间对齐的转写，保存为 EAF/XML。",
+      "url": "https://archive.mpi.nl/tla/elan",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "annotation",
+        "transcription"
+      ]
+    },
+    {
+      "id": "psychopy",
+      "name": "PsychoPy",
+      "name_zh": "PsychoPy",
+      "class": "instruments",
+      "kind": "experiment-runtime",
+      "vendor": "Open Science Tools",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Experiment builder/runtime for behavioural studies (Builder GUI + Python); Pavlovia runs studies online.",
+      "summary_zh": "行为实验的构建与运行时（Builder 图形界面 + Python）；Pavlovia 支持在线实验。",
+      "url": "https://psychopy.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "experiment",
+        "timing"
+      ]
+    },
+    {
+      "id": "jspsych",
+      "name": "jsPsych",
+      "name_zh": "jsPsych",
+      "class": "instruments",
+      "kind": "experiment-runtime",
+      "vendor": "jsPsych community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "JavaScript library for browser-based behavioural experiments.",
+      "summary_zh": "用于浏览器行为实验的 JavaScript 库。",
+      "url": "https://www.jspsych.org/",
+      "tracked": "",
+      "verified": false,
+      "tags": [
+        "experiment",
+        "browser"
+      ]
+    },
+    {
+      "id": "osf",
+      "name": "OSF (Open Science Framework)",
+      "name_zh": "OSF 开放科学框架",
+      "class": "instruments",
+      "kind": "prereg-archive",
+      "vendor": "Center for Open Science",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M7"
+      ],
+      "summary_en": "Registration/preregistration and project archive; hosts the registered-reports infrastructure.",
+      "summary_zh": "注册/预注册与项目归档平台；承载注册报告（registered reports）流程。",
+      "url": "https://osf.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "preregistration",
+        "registered-report"
+      ]
+    },
+    {
+      "id": "statsmodels",
+      "name": "statsmodels",
+      "name_zh": "statsmodels",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "statsmodels community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Python statistical modelling: linear/mixed models, diagnostics, multiple-comparison tooling, intervals.",
+      "summary_zh": "Python 统计建模：线性/混合模型、诊断、多重比较工具与区间估计。",
+      "url": "https://www.statsmodels.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "statistics",
+        "intervals"
+      ]
+    },
+    {
+      "id": "lme4",
+      "name": "lme4",
+      "name_zh": "lme4",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "Bates et al. (CRAN)",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "R mixed-effects models (lmer/glmer): the default for clustered behavioural and longitudinal data.",
+      "summary_zh": "R 混合效应模型（lmer/glmer）：集群化行为与纵向数据的常用默认。",
+      "url": "https://cran.r-project.org/package=lme4",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "statistics",
+        "mixed-models"
+      ]
+    },
+    {
+      "id": "stan",
+      "name": "Stan",
+      "name_zh": "Stan",
+      "class": "instruments",
+      "kind": "stats-toolkit",
+      "vendor": "Stan Development Team",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Probabilistic programming for Bayesian models (MCMC/HMC); reports intervals and posterior checks.",
+      "summary_zh": "贝叶斯建模的概率编程语言（MCMC/HMC）；输出区间与后验检验。",
+      "url": "https://mc-stan.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "bayesian",
+        "intervals"
+      ]
+    },
+    {
+      "id": "snakemake",
+      "name": "Snakemake",
+      "name_zh": "Snakemake",
+      "class": "instruments",
+      "kind": "workflow-engine",
+      "vendor": "Snakemake community",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Python-based workflow management for reproducible, scalable analyses with per-rule provenance.",
+      "summary_zh": "基于 Python 的工作流管理：可复现、可扩展的分析流程与逐规则溯源。",
+      "url": "https://snakemake.readthedocs.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "provenance",
+        "reproducibility"
+      ]
+    },
+    {
+      "id": "nextflow",
+      "name": "Nextflow",
+      "name_zh": "Nextflow",
+      "class": "instruments",
+      "kind": "workflow-engine",
+      "vendor": "Seqera",
+      "ecosystem": "open",
+      "maps_to": [
+        "M2",
+        "M4",
+        "M6"
+      ],
+      "summary_en": "Dataflow DSL for portable scalable pipelines: containers, resume/caching, native data lineage.",
+      "summary_zh": "可移植可扩展流水线的数据流 DSL：容器、断点续跑/缓存、原生数据血缘。",
+      "url": "https://www.nextflow.io/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "provenance",
+        "containers"
       ]
     }
   ]

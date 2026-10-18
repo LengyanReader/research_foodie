@@ -33,6 +33,13 @@ Turn a claim about cognition (*this manipulation affects working memory*) into s
 - **M6** — cognitive models and neural measures are instruments: fit, identify, and compare them.
 - **M7** — human-subjects ethics, consent and de-identification gate release.
 
+## Instruments · 仪器
+- **Task runtime** — `psychopy` (lab timing) · `jspsych` (browser studies).
+- **Pre-registration gate** — `osf` / registered reports; a deviation from the registered analysis is declared and dated.
+- **Modelling** — `lme4` (clustered / longitudinal) · `statsmodels` · `stan` (full-Bayesian intervals); where analytic choices are arbitrary, report the multiverse / sensitivity spread.
+- **Gate evidence** — effect size **with an interval** + a reliability estimate for the measure; a bare p-value fails the gate (`[R103]`).
+- Full map: `../reference/evidence-instruments.md#empirical-claims`.
+
 ## Discipline-specific risks · 领域特有风险
 - **Construct–task gap** (the task measures something else).
 - **HARKing** (hypotheses stated after the results are known).

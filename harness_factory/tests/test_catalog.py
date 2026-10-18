@@ -54,6 +54,30 @@ class CatalogDataTest(unittest.TestCase):
         self.assertTrue(all(e["tracked"] for e in tracked))
 
 
+class InstrumentCatalogTest(unittest.TestCase):
+    """`instruments` carries the evidence tools the discipline capabilities name (M3.10)."""
+
+    def test_instruments_class_is_populated(self):
+        rows = [e for e in items() if e["class"] == "instruments"]
+        self.assertGreaterEqual(len(rows), 20)
+        self.assertGreaterEqual(len({e["kind"] for e in rows}), 8)
+
+    def test_every_instrument_has_url_module_and_verified_flag(self):
+        for e in (e for e in items() if e["class"] == "instruments"):
+            with self.subTest(e["id"]):
+                self.assertTrue(e.get("url"), e["id"])
+                self.assertTrue(e.get("maps_to"), e["id"])
+                self.assertTrue({"M3", "M4"} & set(e["maps_to"]), f"{e['id']}: instruments must carry evidence-bearing modules")
+                self.assertIsInstance(e.get("verified"), bool)
+
+    def test_formal_and_empirical_instruments_are_present(self):
+        ids = {e["id"] for e in items() if e["class"] == "instruments"}
+        for expected in ("lean4", "rocq", "isabelle", "agda", "dafny", "z3", "tla-plus",
+                         "pint", "uncertainties", "rdkit", "rcsb-pdb", "uniprot",
+                         "universal-dependencies", "psychopy", "osf", "lme4", "stan", "snakemake"):
+            self.assertIn(expected, ids)
+
+
 class CatalogIndexDriftTest(unittest.TestCase):
     def test_index_doc_matches_generated(self):
         self.assertTrue(INDEX_DOC.exists(), "run `harness catalog --write`")

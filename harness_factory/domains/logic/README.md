@@ -32,6 +32,13 @@ Produce an argument a skeptical reader can replay step by step in a *fixed* lang
 - **M6** — proof assistant / SMT / countermodel search are tools: pin versions and record the check.
 - **M7** — "this is proven" is a governance claim; it is published only with the checked artifact.
 
+## Instruments · 仪器
+Concrete tools for L3–L4 (catalog ids; full map: `../reference/evidence-instruments.md#formal-claims`):
+- **Proof assistant** — `lean4` (+ `mathlib`) · `rocq` · `isabelle` · `agda`; `dafny` when the claim is about *code*.
+- **Automation backend** — `z3` · `cvc5` (SMT). A remaining placeholder (`sorry` / `Admitted` / `postulate`) voids the gate.
+- **Behaviour over all executions** — `tla-plus` · `alloy`; report the explored bound, since "no counterexample in scope N" is the claim.
+- **Gate evidence** — the compiled proof or checker output **plus** the toolchain version.
+
 ## Discipline-specific risks · 领域特有风险
 - **Object language / meta-language confusion** (using "⊢" and "⊨" interchangeably).
 - **Rule applied outside its side conditions** (discharging a hypothesis that is still live).

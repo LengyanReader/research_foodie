@@ -28,6 +28,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
   `cognitive-science` — each with a rubric, plus 3 cross-cutting capabilities `formal-verification`,
   `dimensional-analysis`, `empirical-measurement` sharing one new clause **M3.10** (match the instrument
   to the claim: machine-checked derivation / units & error / effect size & reliability); sources R98–R106.
+- **Evidence instruments**: a new catalog class **`instruments`** (13 kinds, **27 entries**, catalog 133 → 160)
+  for the tools those capabilities name — proof assistants (Lean 4/mathlib/Rocq/Isabelle/Agda/Dafny), solvers
+  and checkers (Z3/cvc5/TLA+/Alloy), units & uncertainty (Pint/uncertainties), chemistry & biology
+  (RDKit/Biopython/RCSB PDB/UniProt), language (Universal Dependencies/INCEpTION/ELAN), empirical work
+  (PsychoPy/jsPsych/OSF/statsmodels/lme4/Stan) and pipelines (Snakemake/Nextflow) — plus
+  **`reference/evidence-instruments.md`** (claim type → instrument → catalogued tool → gate evidence, with
+  deliberate non-entries) and an **Evidence instrument** stanza in the emitted `AGENTS.md` so every generated
+  harness states what would settle its claim; sources R107–R110.
 - **Pattern library**: `core/` (M0–M8), `domains/` (research/knowledge-management/data-science/devops),
   `review/` (survey, catalog, playbooks, references), `sources/` (provenance map).
 - CI (GitHub Actions), `CHANGELOG.md`, `.gitattributes`.

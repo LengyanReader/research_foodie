@@ -104,7 +104,10 @@ lets you reuse the same config for every task. · 配置（如何引用与使用
 4. **Derive** enabled modules (M0–M8) with reasons + parameters; record `source` and `why` for every
    choice.
 5. **Emit** the **output contract** into the target project and fill `PROVENANCE.md` honestly.
-6. **Verify** by running the emitted `.harness/check.py` (or `harness check --dir <project>`).
+6. **Verify** by running the emitted `.harness/check.py` (or `harness check --dir <project>`). When a
+   deliverable asserts more than "I read it somewhere", name its **instrument** first
+   (`reference/evidence-instruments.md` — M3.10: formal ⇒ machine-checked, physical ⇒ units + uncertainty,
+   empirical ⇒ effect size + interval + reliability).
 7. **Close the loop** (`reference/capability-flow.md`): keep task-local capability notes in
    `.harness/capabilities.local.md`; propose only generalisable patterns back (`updates/`, human-gated).
 8. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
@@ -162,6 +165,7 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `capability-router` | `reference/capability-router.md` | **start here** — situation → capability → module → file |
 | `requirement-refinement` | `reference/requirement-refinement.md` | R0–R5: restate → elevate → classify → offer → confirm → converge |
 | `capability-flow` | `reference/capability-flow.md` | bidirectional flow: concretize (task-local) ⇄ distill (factory, human-gated) |
+| `evidence-instruments` | `reference/evidence-instruments.md` | M3.10 concrete: claim type → instrument → catalogued tool → gate evidence |
 | `derivation-rules` | `reference/derivation-rules.md` | the rule table + feature vocab + capability map + output contract |
 | `M0` | `core/01-meta-principles.md` | meta-principles |
 | `M1` | `core/02-context-engineering.md` | context engineering |

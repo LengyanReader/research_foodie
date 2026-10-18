@@ -2,7 +2,7 @@
 
 > Consolidated IEEE-style reference list for the `harness_factory` review set.
 > `harness_factory` 综述集的合并 IEEE 参考文献。
-> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106: **2026-10-18**). Machine-readable BibTeX: `references.bib`.
+> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106, **§H**, R107–R110: **2026-10-18**). Machine-readable BibTeX: `references.bib`.
 
 ---
 
@@ -168,7 +168,16 @@ R106. J. Woodcock, P. G. Larsen, J. Bicarregui, and J. Fitzgerald, "Formal metho
 
 ---
 
+## H. Measurement & instrument standards · 测量与仪器规范
+- R107. JCGM, *JCGM 100:2008 — Evaluation of measurement data: Guide to the expression of uncertainty in measurement (GUM)*, 1st ed., Sep. 2008. DOI: 10.59161/JCGM100-2008E. — **Amendment 1: 2026** (nonlinearity in measurement models), JCGM 100:2008/Amd.1:2026, DOI: 10.59161/PPDI3267. [Online]. Available: https://www.bipm.org/en/committees/jc/jcgm/publications (accessed 2026-10-18).
+- R108. NASA, *NASA-STD-7009B — Standard for Models and Simulations*, Office of the Chief Engineer, Mar. 5, 2024 (NASA Endorsed Standard; public). [Online]. Available: https://standards.nasa.gov/standard/nasa/nasa-std-7009 (accessed 2026-10-18).
+- R109. BIPM, *The International System of Units (SI)*, 9th ed., 2019. [Online]. Available: https://www.bipm.org/en/publications/si-brochure (accessed 2026-10-18).
+- R110. Center for Open Science, *Registered Reports* (study pre-registration and review workflow). [Online]. Available: https://www.cos.io/initiatives/registered-reports (accessed 2026-10-18).
+
+---
+
 ## Verification status · 核验状态
+- **Verified this session (2026-10-18, §H):** R108 read in full (document number, version B, change number, date, scope text, public-access statement); R107 verified from the BIPM JCGM publications record (GUM 9th-printing DOI **plus** a 2026 amendment listing) — *as of 2026-10*; R109 landing page fetched (navigation only, brochure PDF not read); R110 landing page listed. The 27 `instruments` catalog entries were checked against first-party pages; `jspsych` is the one entry recorded `verified: false`. See `reference/evidence-instruments.md` §Verification status.
 - **Verified this session (2026-10-18, §G):** R98 (arXiv abstract page), R103 (Nature page, full text) fetched in full; R99, R100, R101, R102, R104, R105, R106 confirmed from first-party landing pages / publisher records (title, authors, venue, year, DOI) via targeted search — treat the *bibliographic record* as verified, the *body text* as **listed, not deep-read**.
 - **Verified this session (2026-10-18, §F):** R93 (full page), R94, R95 (arXiv abstract pages), R96 (ADK docs page), R97 (LangGraph docs page) fetched in full.
 - **Verified this session (2026-10-18, §E):** R84, R85, R86 (page), R87, R90 and the arXiv abstract pages R88, R89, R92 fetched in full; R91 (OTel GenAI) confirmed from first-party results but the README fetch timed out — treat as *listed, not deep-read*.

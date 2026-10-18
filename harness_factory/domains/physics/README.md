@@ -1,7 +1,7 @@
 # Domain · Physics · 物理学域
 > Wiring `core/` modules into a measurement-grounded, unit-checked physics workflow.
 > 把 `core/` 模块接线成「以测量为据、量纲自洽」的物理学流程。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-18
 
 ---
 
@@ -31,6 +31,12 @@ Turn a physical question into a reproducible result — a measurement, a simulat
 - **M4** — the spine: data → reduction → figure, each with provenance; uncertainties explicit.
 - **M6** — acquisition/analysis stack: minimal, pinned versions, fail-loud.
 - **M7** — results are reviewable diffs; publishing a claim is a governed act.
+
+## Instruments · 仪器
+- **Units & dimension discipline** — `pint`; **uncertainty propagation** — `uncertainties` (first order), with the GUM (`[R107]`) defining how a budget is combined and reported (coverage factor `k`).
+- **Simulation credibility** — declare whether V&V was performed and what it covered (`[R108]`), plus a sensitivity / UQ assessment.
+- **Gate evidence** — dimensionally consistent expressions **and** a stated uncertainty budget; no unit-free numbers, no "value ± nothing".
+- Full map: `../reference/evidence-instruments.md#physical-quantities`.
 
 ## Discipline-specific risks · 领域特有风险
 - **Unit / dimensional slips** silently change the answer — gate on units.
