@@ -954,5 +954,42 @@
       "曲面重建",
       "多面体"
     ]
+  },
+  "digital-humanities": {
+    "faculty": "humanities",
+    "title_en": "Digital humanities",
+    "name_zh": "数字人文域",
+    "summary": "Machine-readable cultural heritage: encode, canonicalise, publish with provenance",
+    "workflow": [
+      "Frame the corpus question & the edition",
+      "Secure the witness (facsimile, transcription, rights)",
+      "Transcribe & annotate to a declared scheme",
+      "Resolve entities (persons, places, dates)",
+      "Encode to a standard (TEI / IIIF / CIDOC-CRM / Dublin Core)",
+      "Publish with the apparatus & the schema version"
+    ],
+    "artifact": "dataset",
+    "grounding": "required",
+    "signals": [
+      "digital humanities",
+      "digital-humanities",
+      "digital edition",
+      "critical edition",
+      "scholarly editing",
+      "historical corpus",
+      "gazetteer",
+      "epigraphy",
+      "palaeography",
+      "prosopography",
+      "iiif",
+      "cidoc-crm",
+      "text encoding initiative",
+      "htr",
+      "数字人文",
+      "古籍",
+      "方志",
+      "碑刻",
+      "写本"
+    ]
   }
 }

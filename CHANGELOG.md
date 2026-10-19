@@ -6,6 +6,34 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Knowledge engineering & digital humanities (P14)** — the ask was a *class*: how to build, maintain,
+  manage and evolve a knowledge base / graph / ontology, and what digital-humanities work adds. Grounded in
+  a **full primary-source read** (关书朋 · 何宇佳 · 张英聘, 《文献与数据学报》 **8(3): 56–72**, Sep 2026, open
+  publisher PDF; the printed DOI does **not** resolve and is recorded as printed-only) crosswalked against
+  **normative first-party standards** (RDF 1.1, OWL 2, SKOS, SHACL, PROV-O, CIDOC-CRM, IIIF, DCMI Terms,
+  Getty TGN, EAD3, TEI P5 → **§M, R136–R154**). The 11-mechanism crosswalk found **9 covered / 1 partial /
+  2 real gaps**, so the round landed **4 clauses** — **M3.14** (a gate trades *precision*, not coverage:
+  report recall beside precision — the case moves relation precision 88.79% → 97.67% while recall moves only
+  83.05% → 83.42%), **M4.11** (ontology as a contract: types, relation directions and identity rules declared
+  *before* extraction; an untypeable candidate is a defect to record), **M4.12** (one canonical identity per
+  entity: aliases recorded, authorities reused, undecidable merges escalated to a human — never averaged),
+  **M4.13** (bound the answer by the evidence: every named assertion carries a pointer, and "the sources are
+  silent" is a complete answer) — **4 capabilities** (`ontology-as-contract`, `entity-resolution`,
+  `evidence-bounded-generation`, `schema-evolution`) with router + provenance rows and guard tests, the
+  **`digital-humanities` domain** (31st; faculty `humanities`, artifact `dataset`) with its weighted rubric,
+  **13 `instruments` under 6 new kinds** (ontology toolkits, graph stores, KG construction, entity
+  resolution, gazetteers, HTR), and **7 outlets** for standards/authorities. **Deliberate non-additions
+  recorded:** no KG-retrieval capability, no `knowledge-engineering` domain, and **no `encoding-standard`
+  instrument kind** — TEI/CIDOC/Dublin Core/EAD3/IIIF are norms, so they stay references. Crosswalk +
+  verdicts: `review/knowledge-and-dh-crosswalk-2026-10.md`; domain: `domains/digital-humanities/README.md`.
+- **P12 closeout — two negative results kept honest** — the 22 `verified: false` outlets were re-checked with
+  a browser UA: **3 answered** (NOAA, APA PsycNet, CourtListener) and were flipped, while **19 remain
+  host-blocked** and stay `verified: false` with their reason (the re-check is done; the flags are the
+  result). The roundup's 17 uncited figures were cleared against the papers' own HTML: **16 confirmed
+  verbatim**, **2 readings corrected in kind** (the 4.1×–39× range is the *TQ-cost gain* column, and
+  41.1→53.3 is the **avg@5** metric), and **1 stays `unverified`** because `2610.20563` has no reachable
+  HTML full text. A bounded 8-week backfill (Pass A) mapped 90 papers → 68 (75.6%); the archive carries no
+  top-pick labels, so **Pass B is not worth its cost yet**.
 - **Agent-harness frontier sourcing pass (group §L)** — the Oct 12–18 *Top AI Papers of the Week*
   roundup was entered through **primary records, not summaries**: nine arXiv preprints (R127–R135 in
   `review/references.md` §L + `references.bib`) recorded at **abstract level only** — one batched arXiv

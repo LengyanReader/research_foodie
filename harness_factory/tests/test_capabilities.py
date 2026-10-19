@@ -240,6 +240,52 @@ class TriggerCoverageTest(unittest.TestCase):
                 self.assertIn("traceable-sources", _active(artifact=artifact))
 
 
+class KnowledgeEngineeringCapabilityTest(unittest.TestCase):
+    """P14: a knowledge base is a different *artifact*, and each of these fires on it.
+
+    The four clauses behind them are M3.14 and M4.11-M4.13; the case that produced
+    them is `review/knowledge-and-dh-crosswalk-2026-10.md`. Each test pins both the
+    trigger it must fire on and the quiet vector it must stay off, so a later edit
+    cannot widen it into the general floor.
+    """
+
+    QUIET = TriggerCoverageTest.QUIET
+
+    def test_ontology_as_contract_fires_on_a_knowledge_base(self):
+        self.assertNotIn("ontology-as-contract", _active(**self.QUIET))
+        self.assertIn(
+            "ontology-as-contract", _active(**{**self.QUIET, "artifact": "knowledge_base"})
+        )
+        self.assertIn("ontology-as-contract", _active(domain="knowledge-management"))
+        self.assertIn("ontology-as-contract", _active(domain="digital-humanities"))
+
+    def test_entity_resolution_fires_where_records_may_denote_one_entity(self):
+        self.assertNotIn("entity-resolution", _active(**self.QUIET))
+        self.assertIn(
+            "entity-resolution", _active(**{**self.QUIET, "artifact": "knowledge_base"})
+        )
+        self.assertIn("entity-resolution", _active(domain="digital-humanities"))
+        # the interpretive humanities domain counts too: prosopography is close reading
+        self.assertIn("entity-resolution", _active(domain="humanities"))
+
+    def test_evidence_bounded_generation_is_about_answers_over_a_knowledge_base(self):
+        self.assertNotIn("evidence-bounded-generation", _active(**self.QUIET))
+        self.assertIn(
+            "evidence-bounded-generation", _active(**{**self.QUIET, "artifact": "knowledge_base"})
+        )
+        self.assertIn("evidence-bounded-generation", _active(domain="knowledge-management"))
+        # it is not the generic documentary case: grounding alone does not fire it
+        self.assertNotIn("evidence-bounded-generation", _active(grounding="required"))
+
+    def test_schema_evolution_fires_where_a_schema_outlives_the_round(self):
+        self.assertNotIn("schema-evolution", _active(**self.QUIET))
+        self.assertIn(
+            "schema-evolution", _active(**{**self.QUIET, "artifact": "knowledge_base"})
+        )
+        self.assertIn("schema-evolution", _active(domain="digital-humanities"))
+        self.assertIn("schema-evolution", _active(domain="knowledge-management"))
+
+
 class MathStatsCapabilityTest(unittest.TestCase):
     """P10: statistics and certified computation fire only on their own fields."""
 

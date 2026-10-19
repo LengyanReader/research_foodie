@@ -119,7 +119,7 @@ National survey agencies and Copernicus data services.
 |---|---|---|---|
 | ✔ [USGS](https://www.usgs.gov/) | portal | US Geological Survey: earth-science data, maps and publications. | National scope; check version/date of datasets. |
 | ○ [NASA Earthdata](https://www.earthdata.nasa.gov/) | portal | NASA Earth-observation data and tools. | Automated check blocked; use the data portals (Earthdata Login). |
-| ○ [NOAA](https://www.noaa.gov/) | portal | US National Oceanic and Atmospheric Administration: climate, ocean and weather data. | Automated check blocked (403) — listed, not confirmed this session. |
+| ✔ [NOAA](https://www.noaa.gov/) | portal | US National Oceanic and Atmospheric Administration: climate, ocean and weather data. | Cite the specific dataset/station and its version, not the portal. |
 | ✔ [Copernicus Climate Data Store](https://cds.climate.copernicus.eu/) | database | EU Copernicus climate reanalysis and projections (ERA5 et al.). | Reanalysis is a model product — respect its uncertainty. |
 
 ---
@@ -172,7 +172,7 @@ Abstract indexes, preprints, data archives and survey research.
 
 | Outlet | kind | why it is high-quality | NOT for |
 |---|---|---|---|
-| ○ [APA PsycNet](https://psycnet.apa.org/) | index | American Psychological Association index of psychology literature. | Automated check blocked; subscriptions gate full text. |
+| ✔ [APA PsycNet](https://psycnet.apa.org/) | index | American Psychological Association index of psychology literature. | Subscriptions gate full text; cite through the DOI/record. |
 | ✔ [PsyArXiv](https://osf.io/preprints/psyarxiv) | preprint | Psychology preprint server hosted on OSF. | Preprints; not peer-reviewed — appraise and check publication status. |
 | ✔ [ICPSR](https://www.icpsr.umich.edu/) | repository | University of Michigan social-science data archive. | Access tiers vary by membership. |
 | ✔ [Pew Research Center](https://www.pewresearch.org/) | portal | Non-partisan survey research on social trends and public opinion. | Reports, not raw data (datasets are separately released) — cite the report. |
@@ -187,7 +187,7 @@ Official portals and free case-law databases — verify against the official rep
 | Outlet | kind | why it is high-quality | NOT for |
 |---|---|---|---|
 | ✔ [EUR-Lex](https://eur-lex.europa.eu/) | portal | Official EU law portal (treaties, legislation, case law). | Authoritative for EU law; check consolidation/version dates. |
-| ○ [CourtListener](https://www.courtlistener.com/) | database | Free Law Project's US case-law and docket database. | Automated check blocked; unofficial copies — verify against the official reporter. |
+| ✔ [CourtListener](https://www.courtlistener.com/) | database | Free Law Project's US case-law and docket database. | Unofficial copies — verify against the official reporter. |
 | ✔ [Cornell Legal Information Institute](https://www.law.cornell.edu/) | portal | Free legal encyclopedia and codes (Wex, US Code, CFR). | Educational summaries — verify against the official text. |
 | ○ [WorldLII](https://www.worldlii.org/) | portal | Global network of free legal-information institutes. | Automated check blocked (403) — listed, not confirmed this session. |
 
@@ -207,6 +207,22 @@ Digitised journals, reference works and cultural-heritage collections.
 | ✔ [Perseus Digital Library](https://www.perseus.tufts.edu/) | repository | Classical Greek and Latin texts with translations and tools. | Editions are dated — record the edition used. |
 | ○ [Digital Public Library of America](https://dp.la/) | portal | US aggregator of digitised library, museum and archive collections. | Aggregation layer — cite the holding institution, not the aggregator. |
 | ○ [Europeana](https://www.europeana.eu/) | portal | EU aggregator of cultural-heritage collections. | Aggregation layer — cite the holding institution; rights vary per item. |
+
+---
+
+## Knowledge & cultural-heritage infrastructure · 知识与文化遗产基础设施
+
+Standards, authorities and vocabulary services — the *first-party norms* a knowledge base, an edition or a heritage record is built against (added 2026-10-19; cf. `domains/digital-humanities/README.md`, `review/knowledge-and-dh-crosswalk-2026-10.md`).
+
+| Outlet | kind | why it is high-quality | NOT for |
+|---|---|---|---|
+| ✔ [W3C specifications](https://www.w3.org/TR/) | registry | The normative Recommendations themselves (RDF, OWL, SKOS, SHACL, PROV-O). | Terse and precise — read the primer for orientation. |
+| ✔ [IIIF specifications](https://iiif.io/api/) | registry | Image/Presentation APIs for publishing digitised cultural heritage interoperably. | Defines the model, not a content repository. |
+| ✔ [CIDOC-CRM](https://www.cidoc-crm.org/) | registry | ICOM's event-centric ontology for cultural heritage and museum documentation. | Heavy for a small collection; a flat Dublin Core record often suffices. |
+| ✔ [Library of Congress standards](https://www.loc.gov/standards/) | registry | Maintains the archival/bibliographic encodings (EAD3, MARC, METS). | Library-centric; for research data prefer Dublin Core/DataCite. |
+| ✔ [Getty vocabularies (AAT, TGN, ULAN)](https://www.getty.edu/research/tools/vocabularies/) | database | Authoritative controlled vocabularies with stable ids for places, agents, concepts. | Western/art-historical weighting; not a global gazetteer. |
+| ✔ [Text Encoding Initiative Consortium](https://tei-c.org/) | registry | Publishes TEI P5, the XML standard for critical editions and transcribed text. | Encoding-heavy; a plain corpus may want a lighter schema. |
+| ✔ [Wikidata data model](https://www.wikidata.org/wiki/Wikidata:Data_model) | database | Item/property/statement model with qualifiers, references and ranks — per-statement provenance in practice. | Crowd-edited; reconcile *against* it, do not quote it as ground truth. |
 
 ---
 

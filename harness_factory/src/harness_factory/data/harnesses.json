@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18",
+  "updated": "2026-10-19",
   "note": "Unified, machine-readable harness catalog (SSOT). Classes x kinds x core-module maps x source. `tracked` cross-links an entry to data/sources.json by entity id. Prose explanation lives in review/harness-catalog.md; review/harness-index.md is generated from this file. The `instruments` class carries the scientific/formal evidence tools the discipline capabilities (formal-verification / dimensional-analysis / empirical-measurement) name; the claim->instrument map is reference/evidence-instruments.md.",
   "licenses": "Sources are cited (paper/repo/docs). Pricing/benchmark numbers, where any, are directional.",
   "classes": [
@@ -366,6 +366,36 @@
       "id": "causal-inference-toolkit",
       "en": "Causal inference toolkit",
       "zh": "因果推断工具"
+    },
+    {
+      "id": "ontology-toolkit",
+      "en": "Ontology editor / RDF toolkit",
+      "zh": "本体编辑器 / RDF 工具"
+    },
+    {
+      "id": "graph-database",
+      "en": "Graph database / triple store",
+      "zh": "图数据库 / 三元组库"
+    },
+    {
+      "id": "kg-construction",
+      "en": "Knowledge-graph construction",
+      "zh": "知识图谱构建"
+    },
+    {
+      "id": "entity-resolution",
+      "en": "Entity resolution / record linkage",
+      "zh": "实体归一 / 记录链接"
+    },
+    {
+      "id": "gazetteer",
+      "en": "Gazetteer / place-name authority",
+      "zh": "地名权威表"
+    },
+    {
+      "id": "htr-toolkit",
+      "en": "Handwritten-text recognition",
+      "zh": "手写文本识别"
     }
   ],
   "harnesses": [
@@ -4491,6 +4521,292 @@
         "causal-inference",
         "identification"
       ]
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "protege",
+      "name": "Protege",
+      "name_zh": "Protégé",
+      "kind": "ontology-toolkit",
+      "vendor": "Stanford BMIR",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "ontology",
+        "owl"
+      ],
+      "summary_en": "Reference open-source OWL editor with reasoner integration; ontology authoring and maintenance.",
+      "summary_zh": "权威开源 OWL 编辑器；接推理机，做本体编写与维护。",
+      "url": "https://protegeproject.github.io/protege/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "rdflib",
+      "name": "RDFLib",
+      "name_zh": "RDFLib",
+      "kind": "ontology-toolkit",
+      "vendor": "RDFLib",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "ontology",
+        "rdf",
+        "python"
+      ],
+      "summary_en": "Python library for RDF/OWL/SHACL: parse, query (SPARQL) and validate a graph in-process.",
+      "summary_zh": "Python 的 RDF/OWL/SHACL 库：进程内解析、SPARQL 查询与校验。",
+      "url": "https://rdflib.readthedocs.io/en/stable/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "apache-jena",
+      "name": "Apache Jena",
+      "name_zh": "Apache Jena",
+      "kind": "ontology-toolkit",
+      "vendor": "Apache",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "ontology",
+        "rdf",
+        "shacl"
+      ],
+      "summary_en": "Java RDF framework with SHACL validation and inference; the reference triple-store toolchain.",
+      "summary_zh": "Java 的 RDF 框架，含 SHACL 校验与推理；三元组库的标准工具链。",
+      "url": "https://jena.apache.org/documentation/shacl/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "mixed",
+      "tracked": "",
+      "verified": true,
+      "id": "neo4j",
+      "name": "Neo4j",
+      "name_zh": "Neo4j",
+      "kind": "graph-database",
+      "vendor": "Neo4j",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "graph-store",
+        "cypher"
+      ],
+      "summary_en": "Property-graph database with the Cypher query language; the usual store behind a served KG.",
+      "summary_zh": "属性图数据库与 Cypher 查询语言；已建知识图谱常用的存储后端。",
+      "url": "https://neo4j.com/docs/cypher-manual/current/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "microsoft-graphrag",
+      "name": "Microsoft GraphRAG",
+      "name_zh": "Microsoft GraphRAG",
+      "kind": "kg-construction",
+      "vendor": "Microsoft",
+      "maps_to": [
+        "M3",
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "kg-construction",
+        "rag"
+      ],
+      "summary_en": "Reference pipeline that builds an entity/relationship graph from text, clusters it and answers over community summaries.",
+      "summary_zh": "从文本建实体—关系图、聚类、以社区摘要作答的参考实现。",
+      "url": "https://github.com/microsoft/graphrag"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "openrefine",
+      "name": "OpenRefine",
+      "name_zh": "OpenRefine",
+      "kind": "entity-resolution",
+      "vendor": "OpenRefine",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "entity-resolution",
+        "reconciliation"
+      ],
+      "summary_en": "Data-cleaning workbench whose reconciliation API maps messy values to canonical authority ids.",
+      "summary_zh": "数据清洗工作台；其 reconciliation 协议把脏值映射到权威 ID。",
+      "url": "https://openrefine.org/docs/technical-reference/reconciliation-api"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "splink",
+      "name": "Splink",
+      "name_zh": "Splink",
+      "kind": "entity-resolution",
+      "vendor": "UK Ministry of Justice",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "entity-resolution",
+        "record-linkage"
+      ],
+      "summary_en": "Probabilistic record linkage at scale (Fellegi-Sunter) with tunable match thresholds.",
+      "summary_zh": "大规模概率式记录链接（Fellegi–Sunter），阈值可调。",
+      "url": "https://moj-analytical-services.github.io/splink/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "dedupe",
+      "name": "Dedupe",
+      "name_zh": "Dedupe",
+      "kind": "entity-resolution",
+      "vendor": "Dedupe.io",
+      "maps_to": [
+        "M4",
+        "M6"
+      ],
+      "tags": [
+        "entity-resolution",
+        "dedup"
+      ],
+      "summary_en": "Interactive deduplication library: labels a few pairs, learns a matcher, applies it to the rest.",
+      "summary_zh": "交互式去重库：人工标注少量样本，学习匹配器后批量应用。",
+      "url": "https://docs.dedupe.io/en/latest/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "pleiades",
+      "name": "Pleiades",
+      "name_zh": "Pleiades",
+      "kind": "gazetteer",
+      "vendor": "ISAW, New York University",
+      "maps_to": [
+        "M4"
+      ],
+      "tags": [
+        "gazetteer",
+        "ancient-world"
+      ],
+      "summary_en": "Citable, versioned gazetteer of the ancient world: stable URIs and recorded name variants.",
+      "summary_zh": "可引用、带版本的古代世界地名表：稳定 URI 与异名记录。",
+      "url": "https://pleiades.stoa.org/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "geonames",
+      "name": "GeoNames",
+      "name_zh": "GeoNames",
+      "kind": "gazetteer",
+      "vendor": "GeoNames",
+      "maps_to": [
+        "M4"
+      ],
+      "tags": [
+        "gazetteer",
+        "place-names"
+      ],
+      "summary_en": "Place-name authority with stable geonameIds, hierarchies and reverse-geocoding APIs.",
+      "summary_zh": "地名权威库：稳定 geonameId、层级关系与反向地理编码 API。",
+      "url": "https://www.geonames.org/export/web-services.html"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "getty-tgn",
+      "name": "Getty TGN",
+      "name_zh": "盖蒂地名表 TGN",
+      "kind": "gazetteer",
+      "vendor": "Getty Research Institute",
+      "maps_to": [
+        "M4"
+      ],
+      "tags": [
+        "gazetteer",
+        "vocabulary"
+      ],
+      "summary_en": "Thesaurus of Geographic Names: controlled vocabulary with place types, hierarchy and stable ids.",
+      "summary_zh": "盖蒂地名表：受控词表，含地物类型、层级与稳定 ID。",
+      "url": "https://www.getty.edu/research/tools/vocabularies/tgn/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "transkribus",
+      "name": "Transkribus",
+      "name_zh": "Transkribus",
+      "kind": "htr-toolkit",
+      "vendor": "READ-COOP SCE",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "tags": [
+        "htr",
+        "historical-documents"
+      ],
+      "summary_en": "Handwritten-text recognition platform for historical documents; train or reuse public models.",
+      "summary_zh": "历史文献手写识别平台；可训练或复用公开模型。",
+      "url": "https://www.transkribus.org/"
+    },
+    {
+      "class": "instruments",
+      "ecosystem": "open",
+      "tracked": "",
+      "verified": true,
+      "id": "escriptorium",
+      "name": "eScriptorium",
+      "name_zh": "eScriptorium",
+      "kind": "htr-toolkit",
+      "vendor": "eScriptorium",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "tags": [
+        "htr",
+        "transcription"
+      ],
+      "summary_en": "Open-source HTR and transcription platform built on Kraken; layout + text in one workflow.",
+      "summary_zh": "基于 Kraken 的开源 HTR 与转写平台；版面与文本一体。",
+      "url": "https://escriptorium.readthedocs.io/en/latest/"
     }
   ]
 }

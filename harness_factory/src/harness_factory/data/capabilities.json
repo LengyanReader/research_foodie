@@ -494,5 +494,101 @@
       "M6"
     ],
     "why": "A computed invariant (a Groebner basis, a homology group, a knot polynomial, a triangulation's property) is a claim resting on an algorithm: run it under exact or certified arithmetic (or a recorded precision), handle degeneracies rather than inheriting floating-point noise, and re-derive the result independently or on a perturbed input -- an unchecked CAS/solver output is a conjecture (M3.12)."
+  },
+  "ontology-as-contract": {
+    "title_en": "Ontology as contract",
+    "title_zh": "本体即契约",
+    "when": {
+      "any": [
+        {
+          "domain": [
+            "knowledge-management",
+            "digital-humanities"
+          ]
+        },
+        {
+          "artifact": [
+            "knowledge_base"
+          ]
+        }
+      ]
+    },
+    "modules": [
+      "M3",
+      "M4"
+    ],
+    "why": "A knowledge base is only as trustworthy as the schema it was built against. Declare the entity types, relation directions and allowed values *before* extraction, then let every acceptance check decide against that schema: a candidate that cannot be typed is a defect to record, not a finding to keep. The schema is the gate (M3); its version is part of the artifact (M4.11)."
+  },
+  "entity-resolution": {
+    "title_en": "Entity resolution with recorded aliases",
+    "title_zh": "实体归一（别名留痕）",
+    "when": {
+      "any": [
+        {
+          "domain": [
+            "knowledge-management",
+            "digital-humanities",
+            "humanities"
+          ]
+        },
+        {
+          "artifact": [
+            "knowledge_base"
+          ]
+        }
+      ]
+    },
+    "modules": [
+      "M4"
+    ],
+    "why": "One canonical id per entity, aliases recorded as aliases against that id, and never a merge that invents a claim the source did not make (M0.4). Same name / different entity is the normal case in historical and biographical material: when the evidence cannot decide a merge, the pair goes to a human gate rather than being averaged into one record (M4.12)."
+  },
+  "evidence-bounded-generation": {
+    "title_en": "Evidence-bounded generation",
+    "title_zh": "输出侧证据约束",
+    "when": {
+      "any": [
+        {
+          "artifact": [
+            "knowledge_base"
+          ]
+        },
+        {
+          "domain": [
+            "knowledge-management",
+            "digital-humanities"
+          ]
+        }
+      ]
+    },
+    "modules": [
+      "M3",
+      "M4"
+    ],
+    "why": "Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4). When a system answers *about* a corpus or a knowledge base, every named assertion (person, place, date, number, relation) carries a pointer into the evidence, and \"the sources do not support an answer\" is a complete, acceptable output. External-knowledge completion is the failure this bars: an answer that is fluent, plausible and nowhere in the material (M4.13)."
+  },
+  "schema-evolution": {
+    "title_en": "Versioned schema evolution",
+    "title_zh": "模式演化（版本化迁移）",
+    "when": {
+      "any": [
+        {
+          "domain": [
+            "knowledge-management",
+            "digital-humanities"
+          ]
+        },
+        {
+          "artifact": [
+            "knowledge_base"
+          ]
+        }
+      ]
+    },
+    "modules": [
+      "M4",
+      "M7"
+    ],
+    "why": "A knowledge base outlives the ontology it was born with. Treat a schema change as a migration: a declared version, a re-validation of the affected slice, and a record of which schema version each assertion was extracted under; deprecate terms by redirect rather than deletion so old ids stay resolvable. Change governance (M7) applied to meaning, not only to code; evolution is where a knowledge base silently becomes two."
   }
 }

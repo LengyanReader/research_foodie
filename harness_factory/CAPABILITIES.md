@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**29 capabilities · 9 modules (M0–M8)**
+**33 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -215,6 +215,30 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** domain ∈ {geometry-topology} (领域)
 - **Modules · 关联模块:** M3, M6
 - **Why · 理由:** A computed invariant (a Groebner basis, a homology group, a knot polynomial, a triangulation's property) is a claim resting on an algorithm: run it under exact or certified arithmetic (or a recorded precision), handle degeneracies rather than inheriting floating-point noise, and re-derive the result independently or on a perturbed input -- an unchecked CAS/solver output is a conjecture (M3.12).
+
+### `ontology-as-contract` — Ontology as contract · 本体即契约
+
+- **Fires when · 触发条件:** domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** A knowledge base is only as trustworthy as the schema it was built against. Declare the entity types, relation directions and allowed values *before* extraction, then let every acceptance check decide against that schema: a candidate that cannot be typed is a defect to record, not a finding to keep. The schema is the gate (M3); its version is part of the artifact (M4.11).
+
+### `entity-resolution` — Entity resolution with recorded aliases · 实体归一（别名留痕）
+
+- **Fires when · 触发条件:** domain ∈ {knowledge-management, digital-humanities, humanities} (领域) OR artifact ∈ {knowledge_base} (产物)
+- **Modules · 关联模块:** M4
+- **Why · 理由:** One canonical id per entity, aliases recorded as aliases against that id, and never a merge that invents a claim the source did not make (M0.4). Same name / different entity is the normal case in historical and biographical material: when the evidence cannot decide a merge, the pair goes to a human gate rather than being averaged into one record (M4.12).
+
+### `evidence-bounded-generation` — Evidence-bounded generation · 输出侧证据约束
+
+- **Fires when · 触发条件:** artifact ∈ {knowledge_base} (产物) OR domain ∈ {knowledge-management, digital-humanities} (领域)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4). When a system answers *about* a corpus or a knowledge base, every named assertion (person, place, date, number, relation) carries a pointer into the evidence, and "the sources do not support an answer" is a complete, acceptable output. External-knowledge completion is the failure this bars: an answer that is fluent, plausible and nowhere in the material (M4.13).
+
+### `schema-evolution` — Versioned schema evolution · 模式演化（版本化迁移）
+
+- **Fires when · 触发条件:** domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物)
+- **Modules · 关联模块:** M4, M7
+- **Why · 理由:** A knowledge base outlives the ontology it was born with. Treat a schema change as a migration: a declared version, a re-validation of the affected slice, and a record of which schema version each assertion was extracted under; deprecate terms by redirect rather than deletion so old ids stay resolvable. Change governance (M7) applied to meaning, not only to code; evolution is where a knowledge base silently becomes two.
 
 ---
 

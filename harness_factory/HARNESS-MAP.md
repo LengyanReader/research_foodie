@@ -3,23 +3,23 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 29 capabilities · 30 domains · 183 catalog entries · 24 CLI subcommands**
+**9 modules (M0–M8) · 33 capabilities · 31 domains · 196 catalog entries · 24 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、29 条能力（capability，任务特征 → 模块）、30 个学科域、183 条工具目录、24 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
+这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、33 条能力（capability，任务特征 → 模块）、31 个学科域、196 条工具目录、24 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
 
 ## 0 · At a glance · 一览
 
 | surface · 面 | count | SSOT | view |
 |---|---|---|---|
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
-| Capabilities | 29 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
-| Domains | 30 (29 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
-| Tool catalog | 183 (12 classes × 50 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
-| Rubrics | 31 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
+| Capabilities | 33 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
+| Domains | 31 (30 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
+| Tool catalog | 196 (12 classes × 56 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
+| Rubrics | 32 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
 | CLI subcommands | 24 | `src/harness_factory/cli.py` | §7 below |
 | Emitted templates | 11 | `src/harness_factory/templates/` | §8 below |
@@ -65,7 +65,7 @@
 | M7 | Change governance · 变更治理 | Single source of truth; reviewable diffs; no unsolicited destructive acts | `core/08-change-governance.md` |
 | M8 | Collaboration & sessions · 协作与会话 | Explicit contracts; escalate decisions; hand off with state | `core/09-collaboration-and-sessions.md` |
 
-## 4 · Capabilities · 能力（29）
+## 4 · Capabilities · 能力（33）
 
 A capability is a *reusable requirement*: it fires when the task's feature vector matches its `when`, then **annotates** the already-enabled modules with why they matter (M0.4). Trigger renderer shared with `CAPABILITIES.md`; full text (fires-when + why) there.
 
@@ -100,10 +100,14 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | `empirical-measurement` | M3, M4 | domain ∈ {psychology, cognitive-science, medicine, economics-finance, social-science, education} (领域) |
 | `statistical-inference` | M3, M4 | domain ∈ {statistics} (领域) |
 | `certified-computation` | M3, M6 | domain ∈ {geometry-topology} (领域) |
+| `ontology-as-contract` | M3, M4 | domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物) |
+| `entity-resolution` | M4 | domain ∈ {knowledge-management, digital-humanities, humanities} (领域) OR artifact ∈ {knowledge_base} (产物) |
+| `evidence-bounded-generation` | M3, M4 | artifact ∈ {knowledge_base} (产物) OR domain ∈ {knowledge-management, digital-humanities} (领域) |
+| `schema-evolution` | M4, M7 | domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物) |
 
 ## 5 · Domains · 学科域
 
-30 domains across 10 faculties (`general` is the always-available fallback). Each domain is a *workflow + signals + artifact* hint; it adds no rule (M0.5).
+31 domains across 10 faculties (`general` is the always-available fallback). Each domain is a *workflow + signals + artifact* hint; it adds no rule (M0.5).
 
 | faculty | domains |
 |---|---|
@@ -112,13 +116,13 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | engineering · 工程 | `data-science`, `devops`, `engineering`, `model-selection`, `software-engineering` |
 | formal-sciences · 形式科学 | `geometry-topology`, `logic`, `statistics` |
 | health · 健康 | `medicine` |
-| humanities · 人文学科 | `humanities`, `linguistics`, `reading`, `writing` |
+| humanities · 人文学科 | `digital-humanities`, `humanities`, `linguistics`, `reading`, `writing` |
 | law · 法学 | `law` |
 | meta · 元 | `deep-research`, `excellence`, `general`, `knowledge-management`, `research` |
 | natural-sciences · 自然科学 | `biology`, `chemistry`, `earth-environment`, `mathematics`, `physics` |
 | social-sciences · 社会科学 | `cognitive-science`, `economics-finance`, `psychology`, `social-science` |
 
-## 6 · Tool catalog · 工具目录（183）
+## 6 · Tool catalog · 工具目录（196）
 
 `data/harnesses.json` indexes third-party agent harnesses, frameworks, protocols, evaluation tools and safety work, each mapped to the modules it exercises. Lookup with `harness catalog`.
 
@@ -135,7 +139,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | discovery · Discovery / evidence & model search | 5 |
 | reading · Reading, acquisition & distillation | 20 |
 | deep-research · Deep research — search, retrieval & synthesis | 43 |
-| instruments · Scientific & formal instruments (evidence tools) | 50 |
+| instruments · Scientific & formal instruments (evidence tools) | 63 |
 
 ## 7 · CLI surface · 命令行（24 subcommands）
 

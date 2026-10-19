@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-10-19 — 知识工程与数字人文：本体即契约 · 实体归一 · 输出侧证据约束 · 模式演化（P12 余项 + P14 全部落地）· Knowledge engineering & DH
+
+- **Ask.** 「请剩余未做的放入后续计划，下一次再来完成」+「数字人文，以及涉及知识库/知识图谱/知识本体的开发维护管理演化 的 harness 能力，做深入检索、调研、梳理并整合」。即：**一次会话内既清 P12 余项，又完成 P14 的整轮。**
+- **一手来源先过门（不是二手转述）.** Case 1 = 关书朋 · 何宇佳 · 张英聘《智能体驱动的方志人物知识图谱构建与检索增强生成问答研究》，《文献与数据学报》**8(3): 56–072, 2026-09**。**出版方开放 PDF 已下载通读**（无付费墙）：`wxysjxb.ajcass.com`；印在刊物上的 DOI `10.31193/SSAP.J.ISSN.2096-6695.2026.03.05` **在 doi.org 不可解析 → 标为「仅印刷」**。表1 四阶段提示词、表2 的 P/R/F1、表3 的三机制对照、8 类实体本体、检索权重（α=0.25 / β=0.08 / γ=0.10）**均已读到**，不再依赖公众号版（其正文可读但三张表是图片）。
+- **一处自我更正（重要）.** 先前把「核验令精确率 **88.79%→97.67%**」读成「组合成本/召回同涨」；读原文后更正为：**该数字是关系抽取的精确率**，而**召回率仅 83.05%→83.42%**（实体识别的 P 92.55%→98.05%，R 88.25%→88.03%）。这正是**「门禁只买精确率，不买覆盖率」**的实证 → 落成条款 **M3.14**。同类更正两处：4.1×–39× 是 **TQ 成本增益**列（非「组合成本」）；41.1→53.3 是 **avg@5** 指标。
+- **Crosswalk（P14.2）.** 案例 11 个机制逐条对照既有条款：**9 已覆盖 · 1 部分 · 2 缺口**（`review/knowledge-and-dh-crosswalk-2026-10.md`，含三条固定判据与可比对象表——**诚实标注**：只有 Case 1 通读，GraphRAG 仅读其项目 README，LongHarness/HTR 仅元数据 → **不给判词**，转 P14.4）。
+- **Landed（改动分层，全部可核验）.** 数据层：4 条条款（**M3.14** · **M4.11** · **M4.12** · **M4.13**）+ 4 个能力（`ontology-as-contract` · `entity-resolution` · `evidence-bounded-generation` · `schema-evolution`）+ 域 **`digital-humanities`**（第 31 个；faculty `humanities`、artifact `dataset`、grounding `required`）+ 其加权 rubric + **13 件仪器 / 6 个新 kind** + **7 个 outlet**。文档层：`domains/digital-humanities/README.md`、`reference/capability-router.md` 4 行、`reference/evidence-instruments.md` 5 行 + 计数 50/17 → 63/23、`reference/methodology-map.md` 4 行、`sources/source-map.md` 5 行、`reference/outlet-map.md` 新节 + 3 处 ○→✔、`review/references.md` **§M（R136–R154）** + `references.bib` 同步。
+- **P12 余项（全部关闭，含两处负结果）.** P12.4：用浏览器 UA 重核 22 个 `verified: false` outlet → **3 个翻真**（NOAA / APA PsycNet / CourtListener，caveat 改写为内容提示），**19 个仍被主机拦截**（403/412/429/SSL）→ 保持 `verified: false` 并留 `note`；**核查已完成，标记即诚实结果**。P12.6：周报 17 处未核数字 → **16 处在该文自有 HTML 全文逐字确认**，另一篇 `2610.20563` **无可达 HTML 全文** → 其 VLIW 周期数**保持 unverified**。P12.7：有界 8 周 Pass A → 9 帖 / 90 篇 / 68 篇映射 = **75.6% 命中率**；档案页 HTML 与 JSON **无 top-pick 标签** → 只能关键词映射，故 Pass B 暂不值其成本。
+- **Deliberate non-additions（记录，非疏漏，M0.5）.** 不新增 KG 检索能力（已被 `context-budget-policy` + 检索仪器覆盖）· 不新增 `knowledge-engineering` 域（`knowledge-management` 已占，图谱细则应落**条款**而非域）· 不新增 `prosopography` 域（是 DH 的一道工序）· **不设 `encoding-standard` 仪器 kind**——TEI/CIDOC/Dublin Core/EAD3/IIIF 是**规范**不是仪器，故留作参考文献与域门禁文本（**地名表则不同**：可查询的权威表，照 `uniprot` 例入册）· CBDB 与 ISAD(G) **不引**（本环境反复 403，不可达即不引）。
+- **Verified.** `harness cycle audit` → **OK · 10 cycles · 17 roadmap items · 33 capabilities · 31 domains · 24 clauses anchored · 154 references · 0 hard · 4 gaps→已由 4 个 guard 测试消除**；`python -m unittest discover -s tests` → **233 例通过**（229 + 新增 4 个能力 guard）；`catalog --write` + `map --write` 重生成（`CAPABILITIES.md` · `HARNESS-MAP.md` · `harness-index.md`）；EOL 归一。
+
+---
+
 ## 2026-10-19 — Plan parked: the P12 remainder + a new P14 round for domain-harness case studies · 计划落库：P12 余项 + 新增 P14 轮次
 - **Ask.** 「请剩余未做的放入后续计划，下一次再来完成」，并给出一篇论文链接（`mp.weixin.qq.com/s/zzsWOP6g2a9w2Q_y9d6aSQ`），要求「类似这种 harness 能力…深入调研探究和梳理，也可以制定规划，下次一并完成」——即：**这轮只排计划**，深读留到下次。
 - **读到的（不是猜的）.** 该链接是中文期刊论文（关书朋 · 何宇佳 · 张英聘，《文献与数据学报》2026 年第 3 期）。公众号版**正文全文可读**（2026-10-19 抓取），但 **表1 四阶段提示词全文 / 表2 P/R/F1 评估表 / 表3 三机制对照** 与图 1–5 都渲染成**图片**，正文里没有可机读数值 → 该文自述的一切数字一律 `unverified`；卷/期/页码/DOI 亦未确认。

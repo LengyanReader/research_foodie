@@ -123,4 +123,4 @@ Status keys: **done** = in the SSOT with a gate · **next** = scoped, evidence a
 - `reference/outlet-map.md` — the per-field information-outlet map (P11).
 - `reference/evidence-instruments.md` — the claim → instrument map (M3.10–M3.12).
 - `review/disciplines-crosswalk-2026-10.md` — §G (formal & empirical sciences) and §8 (P9 status note).
-- `CAPABILITIES.md` / `HARNESS-MAP.md` — generated views of the current SSOT (29 capabilities · 30 domains · 183 catalog entries).
+- `CAPABILITIES.md` / `HARNESS-MAP.md` — generated views of the current SSOT (33 capabilities · 31 domains · 196 catalog entries).

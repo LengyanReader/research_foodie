@@ -1125,5 +1125,42 @@
         "weight": 0.15
       }
     ]
+  },
+  "digital-humanities": {
+    "title_en": "Digital-humanities encoding quality",
+    "title_zh": "数字人文编码质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "fidelity",
+        "zh": "保真",
+        "weight": 0.25
+      },
+      {
+        "dim": "coverage",
+        "zh": "覆盖",
+        "weight": 0.2
+      },
+      {
+        "dim": "structure",
+        "zh": "标准编码",
+        "weight": 0.2
+      },
+      {
+        "dim": "provenance",
+        "zh": "溯源",
+        "weight": 0.15
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      },
+      {
+        "dim": "sustainability",
+        "zh": "可持续",
+        "weight": 0.1
+      }
+    ]
   }
 }

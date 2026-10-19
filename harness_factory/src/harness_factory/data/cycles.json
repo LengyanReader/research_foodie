@@ -107,7 +107,10 @@
       "status": "done",
       "title_en": "Standing reference made structural, and the capability router",
       "title_zh": "常驻引用结构化 + 能力路由",
-      "sources_groups": ["C", "D"],
+      "sources_groups": [
+        "C",
+        "D"
+      ],
       "slices": [
         "config.factory_root() resolves the checkout that provides the code",
         "pointer.py builds/verifies the emitted .harness/pointer.json; assemble.py writes the resolved path (no placeholder)",
@@ -133,7 +136,9 @@
       "status": "done",
       "title_en": "Frontier capability refresh (2026): context, security, durability, spend, evals",
       "title_zh": "前沿能力刷新：上下文 · 安全 · 持久执行 · 预算 · 评测",
-      "sources_groups": ["E"],
+      "sources_groups": [
+        "E"
+      ],
       "slices": [
         "distilled 2026 frontier work into the capability SSOT (data-only: 17 -> 22)",
         "context-budget-policy (context rot), untrusted-content-discipline (lethal trifecta / OWASP ASI01-ASI10)",
@@ -150,7 +155,17 @@
         ],
         "domains": [],
         "clauses": [],
-        "references": ["R84", "R85", "R86", "R87", "R88", "R89", "R90", "R91", "R92"],
+        "references": [
+          "R84",
+          "R85",
+          "R86",
+          "R87",
+          "R88",
+          "R89",
+          "R90",
+          "R91",
+          "R92"
+        ],
         "catalog_delta": 0
       }
     },
@@ -160,7 +175,10 @@
       "status": "done",
       "title_en": "Workflow shape (loops, graphs) and formal + empirical disciplines",
       "title_zh": "工作流形状（循环/图）+ 形式与经验学科",
-      "sources_groups": ["F", "G"],
+      "sources_groups": [
+        "F",
+        "G"
+      ],
       "slices": [
         "loop-discipline + graph-orchestration with the loop contract, declared control graph and topology clauses",
         "3 domains: logic (new faculty formal-sciences), linguistics, cognitive-science (README + rubric each)",
@@ -176,8 +194,17 @@
           "dimensional-analysis",
           "empirical-measurement"
         ],
-        "domains": ["logic", "linguistics", "cognitive-science"],
-        "clauses": ["M2.10", "M2.11", "M8.10", "M3.10"],
+        "domains": [
+          "logic",
+          "linguistics",
+          "cognitive-science"
+        ],
+        "clauses": [
+          "M2.10",
+          "M2.11",
+          "M8.10",
+          "M3.10"
+        ],
         "references": [
           "R93",
           "R94",
@@ -203,7 +230,9 @@
       "status": "done",
       "title_en": "Evidence instruments made concrete: catalog, claim map, emitted default",
       "title_zh": "证据仪器做实：目录 · 声明→仪器映射 · 生成默认",
-      "sources_groups": ["H"],
+      "sources_groups": [
+        "H"
+      ],
       "slices": [
         "new `instruments` class in data/harnesses.json - 13 kinds, 27 entries (catalog 133 -> 160)",
         "reference/evidence-instruments.md: claim type -> instrument -> tool -> gate evidence, wired into the load index",
@@ -214,7 +243,12 @@
         "capabilities": [],
         "domains": [],
         "clauses": [],
-        "references": ["R107", "R108", "R109", "R110"],
+        "references": [
+          "R107",
+          "R108",
+          "R109",
+          "R110"
+        ],
         "catalog_delta": 27,
         "instruments_delta": 27
       }
@@ -225,7 +259,10 @@
       "status": "done",
       "title_en": "Mathematics, statistics and methodology systems",
       "title_zh": "数学 · 统计 · 方法论体系",
-      "sources_groups": ["I", "J"],
+      "sources_groups": [
+        "I",
+        "J"
+      ],
       "slices": [
         "2 domains: statistics, geometry-topology (faculty formal-sciences; README + rubric each)",
         "2 capabilities: statistical-inference, certified-computation",
@@ -234,10 +271,30 @@
         "review/integration-map-2026-10.md: the status board (done/next/later) with discriminating criteria"
       ],
       "added": {
-        "capabilities": ["statistical-inference", "certified-computation"],
-        "domains": ["statistics", "geometry-topology"],
-        "clauses": ["M3.11", "M3.12", "M3.13"],
-        "references": ["R111", "R112", "R113", "R114", "R115", "R116", "R117", "R118", "R119"],
+        "capabilities": [
+          "statistical-inference",
+          "certified-computation"
+        ],
+        "domains": [
+          "statistics",
+          "geometry-topology"
+        ],
+        "clauses": [
+          "M3.11",
+          "M3.12",
+          "M3.13"
+        ],
+        "references": [
+          "R111",
+          "R112",
+          "R113",
+          "R114",
+          "R115",
+          "R116",
+          "R117",
+          "R118",
+          "R119"
+        ],
         "catalog_delta": 23,
         "instruments_delta": 23
       }
@@ -248,7 +305,9 @@
       "status": "done",
       "title_en": "Cross-language meaning units and per-field information outlets",
       "title_zh": "跨语言意群保真 + 各领域信息源地图",
-      "sources_groups": ["K"],
+      "sources_groups": [
+        "K"
+      ],
       "slices": [
         "clause M4.10 (meaning-unit fidelity) + reference/cross-language.md",
         "`outlets` group in data/sources.json - 68 curated, reachability-checked outlets keyed by field",
@@ -258,8 +317,18 @@
       "added": {
         "capabilities": [],
         "domains": [],
-        "clauses": ["M4.10"],
-        "references": ["R120", "R121", "R122", "R123", "R124", "R125", "R126"],
+        "clauses": [
+          "M4.10"
+        ],
+        "references": [
+          "R120",
+          "R121",
+          "R122",
+          "R123",
+          "R124",
+          "R125",
+          "R126"
+        ],
         "catalog_delta": 0,
         "outlets_delta": 68
       }
@@ -267,7 +336,7 @@
     {
       "id": "P12",
       "date": "2026-10-19",
-      "status": "active",
+      "status": "done",
       "title_en": "Evidence-driven loop, CI hardening, P11 closeout",
       "title_zh": "证据驱动循环 · CI 硬化 · P11 收尾",
       "slices": [
@@ -275,14 +344,26 @@
         "Slice 3a (done, roadmap P12.5) - one real EN<->ZH worked example in reference/cross-language.md 7; it found two dropped units and one fused claim in the three Chinese standing-reference renderings, corrected in place",
         "Slice 1 (done, roadmap P12.1/P12.2) - CI: `cycle audit` + `doctor --project` appended to the emitted-harness job on both OSes; opt-in `network` job behind `workflow_dispatch` (refresh --provider feed --verify --dry-run + intel)",
         "Slice 2 (done, roadmap P12.3) - M2 made concrete: clause M2.12 + the emitted Memory stanza (assemble._memory_stanza) + a guard test",
-        "Slice 3b (open) - re-verify the 22 unconfirmed outlets",
-        "Slice 4 (open, roadmap P12.6/P12.7) - sourcing: clear the 17 roundup-only numbers from the PDFs; bounded 8-week backfill Pass A"
+        "Slice 3b (done, roadmap P12.4) - re-verified the 22 unconfirmed outlets with a browser UA: 3 now answer, 19 remain host-blocked",
+        "Slice 4 (done, roadmap P12.6/P12.7) - sourcing: 16/17 roundup-only figures confirmed in the papers' own HTML; bounded 8-week backfill Pass A (75.6% hit rate)"
       ],
       "added": {
         "capabilities": [],
         "domains": [],
-        "clauses": ["M2.12"],
-        "references": ["R127", "R128", "R129", "R130", "R131", "R132", "R133", "R134", "R135"],
+        "clauses": [
+          "M2.12"
+        ],
+        "references": [
+          "R127",
+          "R128",
+          "R129",
+          "R130",
+          "R131",
+          "R132",
+          "R133",
+          "R134",
+          "R135"
+        ],
         "catalog_delta": 0
       }
     },
@@ -301,7 +382,9 @@
       "added": {
         "capabilities": [],
         "domains": [],
-        "clauses": ["M5.10"],
+        "clauses": [
+          "M5.10"
+        ],
         "references": [],
         "catalog_delta": 0
       }
@@ -309,21 +392,55 @@
     {
       "id": "P14",
       "date": "2026-10-19",
-      "status": "planned",
-      "title_en": "Domain-harness case studies: agent-built knowledge bases behind an evidence gate",
-      "title_zh": "领域 harness 案例研究：以证据门禁约束的智能体建库",
-      "note": "Opened 2026-10-19 on the user's ask to study harness patterns of the kind shown by 关书朋, 何宇佳, 张英聘, '智能体驱动的方志人物知识图谱构建与检索增强生成问答研究' (《文献与数据学报》2026 年第 3 期). Planned; `added` stays empty until Slice 3 decides what discriminates. Case 1 is the gazetteer paper; the round is deliberately about a *class* of source (published real-world domain harnesses), not that one paper.",
+      "status": "done",
+      "title_en": "Knowledge engineering & digital humanities: ontology as a contract, entity identity, evidence-bounded output, schema evolution",
+      "title_zh": "知识工程与数字人文：本体即契约 · 实体归一 · 输出侧证据约束 · 模式演化",
+      "note": "Opened 2026-10-19 on the user's ask to research and integrate the harness capabilities behind 数字人文 and knowledge-base / knowledge-graph / knowledge-ontology development, maintenance, management and evolution. Case 1 (the gazetteer person-graph paper, 关书朋 et al., 《文献与数据学报》8(3):56-72, 2026-09) was read in full from the publisher's open PDF; its 11 mechanisms were crosswalked against the existing clause set (review/knowledge-and-dh-crosswalk-2026-10.md). 9 mechanisms were already covered, 2 were gaps and 1 partial - so the round landed 4 clauses, 4 capabilities, 1 domain, 13 instruments and 7 outlets, and recorded what it deliberately did NOT add. The round is about a *class* of source (published real-world domain harnesses), not one paper.",
       "slices": [
-        "P14.1 - verify the primary source and read what the web rendering only shows as images (stage prompts, the P/R/F1 table, the mechanism comparison)",
-        "P14.2 - mechanism-by-mechanism crosswalk against existing clauses/capabilities, with a coverage verdict per mechanism",
-        "P14.3 - land only what discriminates (proposal-first, M0.4) and record the non-additions"
+        "P14.1 (done) - verify the primary source and read what the web rendering only shows as images (stage prompts, the P/R/F1 table, the mechanism comparison)",
+        "P14.2 (done) - mechanism-by-mechanism crosswalk against existing clauses/capabilities, with a coverage verdict per mechanism",
+        "P14.3 (done) - land only what discriminates (proposal-first, M0.4) and record the non-additions",
+        "P14.4 (open) - score 3-5 published domain harnesses on the three fixed criteria (bodies not read this round)"
       ],
       "added": {
-        "capabilities": [],
-        "domains": [],
-        "clauses": [],
-        "references": [],
-        "catalog_delta": 0
+        "capabilities": [
+          "ontology-as-contract",
+          "entity-resolution",
+          "evidence-bounded-generation",
+          "schema-evolution"
+        ],
+        "domains": [
+          "digital-humanities"
+        ],
+        "clauses": [
+          "M3.14",
+          "M4.11",
+          "M4.12",
+          "M4.13"
+        ],
+        "references": [
+          "R136",
+          "R137",
+          "R138",
+          "R139",
+          "R140",
+          "R141",
+          "R142",
+          "R143",
+          "R144",
+          "R145",
+          "R146",
+          "R147",
+          "R148",
+          "R149",
+          "R150",
+          "R151",
+          "R152",
+          "R153",
+          "R154"
+        ],
+        "catalog_delta": 13,
+        "outlets_delta": 7
       }
     }
   ],
@@ -357,30 +474,30 @@
     },
     {
       "id": "P12.4",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "review/integration-map-2026-10.md 3 #6",
       "title_en": "Re-verify the 22 unconfirmed outlets",
       "reason": "22 outlets are recorded `verified: false` because the automated check was blocked (403/405); they were listed, not confirmed",
-      "revisit_when": "P12 Slice 3"
+      "done_in": "P12 Slice 3b (re-checked with a browser UA 2026-10-19: NOAA, APA PsycNet, CourtListener now answer 200 and were flipped to `verified: true`; the remaining 19 hosts still block the checker, so they stay recorded `verified: false` - the check is done, the flags are the honest result)"
     },
     {
       "id": "P12.6",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "updates/2026-10-19-paper-roundup-proposal.md §5",
       "title_en": "Clear the 17 roundup-only numbers and affiliations from the PDFs",
       "reason": "the roundup's own summaries carry 12 numbers and 5 institutional attributions that its papers' abstracts do not; the repo's rule is that an unread claim is `unverified`, so the group L rows cannot be cited for them until the PDFs are opened",
-      "revisit_when": "P12 Slice 4 (sourcing) - or immediately if any group L row is about to be cited for one of those numbers"
+      "done_in": "P12 Slice 4a (arXiv HTML full text: 16 of 17 roundup-only figures confirmed verbatim; #5 2610.20563 has no reachable HTML full text and stays unverified; 2 readings corrected in kind - the 4.1x-39x range is the TQ-cost gain column, and 41.1->53.3 is the avg@5 metric)"
     },
     {
       "id": "P12.7",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "updates/2026-10-19-paper-roundup-proposal.md §9",
       "title_en": "Bounded backfill: 8 weeks of the roundup into a searchable inventory",
       "reason": "recent weeks are on-axis (the Oct 5-11 top pick was 'Harness Learning'), but the publication's archive goes back years and older items are likelier superseded - so the value is a bounded inventory, not full history",
-      "revisit_when": "P12 Slice 4 (sourcing); Pass B (deep verification of recurring, clause-mapping items) only if Pass A shows a hit rate worth the cost"
+      "done_in": "P12 Slice 4b (Pass A bounded backfill: 9 posts / 90 papers / 68 mapped = 75.6% hit rate; the archive carries no top-pick labels in HTML or JSON, so the inventory is keyword-mapped, not label-trained)"
     },
     {
       "id": "P12.5",
@@ -447,30 +564,39 @@
     },
     {
       "id": "P14.1",
-      "status": "planned",
+      "status": "done",
       "cycle": "P14",
       "source": "user-provided article (mp.weixin.qq.com/s/zzsWOP6g2a9w2Q_y9d6aSQ), 2026-10-19",
       "title_en": "Verify the primary source and read what the web rendering hides",
       "reason": "the WeChat page renders the stage prompts (表1), the three-stage evaluation table (表2) and the mechanism comparison (表3) as images, so every number quoted from it is currently unverifiable; the journal record (《文献与数据学报》2026 no. 3, volume/pages) also has to be confirmed before the paper can be entered as a reference",
-      "revisit_when": "P14 Slice 1"
+      "done_in": "P14 (primary source reached in full: 《文献与数据学报》8(3):56-72, Sep 2026, open publisher PDF at wxysjxb.ajcass.com; the printed DOI does not resolve)"
     },
     {
       "id": "P14.2",
-      "status": "planned",
+      "status": "done",
       "cycle": "P14",
       "source": "user ask 2026-10-19: study harness capabilities of this kind",
       "title_en": "Crosswalk each mechanism against the existing clause set, with a coverage verdict",
       "reason": "the paper's four-stage extraction (identify -> triple -> constraint gate -> normalise), its use of 原文 as a first-class entity, and its evidence-bounded answer rules look like they map onto M0.2/M0.3, M3 and M4 - but a mapping that only restates what the library already says is not worth a row, so each mechanism needs an explicit covered / partially / gap verdict",
-      "revisit_when": "P14 Slice 2"
+      "done_in": "P14 (review/knowledge-and-dh-crosswalk-2026-10.md section 2: 11 mechanisms -> 9 covered / 1 partial / 2 gaps)"
     },
     {
       "id": "P14.3",
-      "status": "planned",
+      "status": "done",
       "cycle": "P14",
       "source": "user ask 2026-10-19: survey and plan, complete next session",
       "title_en": "Land only the discriminating outcome, and record the non-additions",
       "reason": "candidate outcomes are a clause on evidence-tagged output (every named assertion carries its pointer, or the answer declares insufficiency), a digital-humanities domain assembly, or a worked example like the M4.10 precedent; M0.5 says pick at most what the coverage verdicts justify, and record the rest as considered-and-declined",
-      "revisit_when": "P14 Slice 3, after P14.2 has verdicts"
+      "done_in": "P14 (landed in the P14 cycle's `added` block; the non-additions are recorded in review/knowledge-and-dh-crosswalk-2026-10.md section 5)"
+    },
+    {
+      "id": "P14.4",
+      "status": "planned",
+      "cycle": "P14",
+      "source": "review/knowledge-and-dh-crosswalk-2026-10.md section 3 (honest limit)",
+      "title_en": "Score 3-5 published domain harnesses on the three fixed criteria",
+      "reason": "the crosswalk's comparables row for GraphRAG rests on its own README and rows for LongHarness / the HTR pipelines are metadata-only, because only Case 1 was read in full; a harness-vs-harness survey means opening the PDFs and scoring each on (1) schema declared before extraction, (2) entity identity handled, (3) output evidence-bounded and coverage reported",
+      "revisit_when": "a bounded reading slice can open the full texts of the candidate comparables"
     }
   ]
 }

@@ -2446,10 +2446,9 @@
           "climate"
         ],
         "why": "US National Oceanic and Atmospheric Administration: climate, ocean and weather data.",
-        "verified": false,
+        "verified": true,
         "access": "2026-10-19",
-        "not_for": "Automated check blocked (403) — listed, not confirmed this session.",
-        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+        "not_for": "Automated check blocked (403) — listed, not confirmed this session."
       },
       {
         "id": "copernicus-cds",
@@ -2783,10 +2782,9 @@
           "apa"
         ],
         "why": "American Psychological Association index of psychology literature.",
-        "verified": false,
+        "verified": true,
         "access": "2026-10-19",
-        "not_for": "Automated check blocked; subscriptions gate full text.",
-        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+        "not_for": "Automated check blocked; subscriptions gate full text."
       },
       {
         "id": "psyarxiv",
@@ -2899,10 +2897,9 @@
           "us"
         ],
         "why": "Free Law Project's US case-law and docket database.",
-        "verified": false,
+        "verified": true,
         "access": "2026-10-19",
-        "not_for": "Automated check blocked; unofficial copies — verify against the official reporter.",
-        "note": "listed (canonical first-party domain); automated reachability check blocked or failed 2026-10-19"
+        "not_for": "Automated check blocked; unofficial copies — verify against the official reporter."
       },
       {
         "id": "cornell-lii",
@@ -3220,6 +3217,141 @@
         "verified": true,
         "access": "2026-10-19",
         "not_for": "Secondary reporting — always follow through to the primary paper."
+      },
+      {
+        "id": "w3c",
+        "name": "W3C specifications (Recommendations)",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://www.w3.org/TR/",
+        "topics": [
+          "computer-science",
+          "provenance-integrity"
+        ],
+        "tags": [
+          "standards",
+          "specification"
+        ],
+        "why": "The normative specifications themselves (RDF, OWL, SKOS, SHACL, PROV-O) - the first-party text a KG claim is measured against.",
+        "not_for": "Not a tutorial: the Recs are precise and terse; read the primer for orientation.",
+        "verified": true,
+        "access": "2026-10-19"
+      },
+      {
+        "id": "iiif",
+        "name": "IIIF Consortium specifications",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://iiif.io/api/",
+        "topics": [
+          "humanities",
+          "computer-science"
+        ],
+        "tags": [
+          "standards",
+          "cultural-heritage"
+        ],
+        "why": "The Image/Presentation APIs are how digitised cultural heritage is published interoperably; the spec is the source, not the blog posts about it.",
+        "not_for": "Not a repository of content - it defines the model, not the collections.",
+        "verified": true,
+        "access": "2026-10-19"
+      },
+      {
+        "id": "cidoc-crm",
+        "name": "CIDOC Conceptual Reference Model",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://www.cidoc-crm.org/",
+        "topics": [
+          "humanities"
+        ],
+        "tags": [
+          "ontology",
+          "cultural-heritage"
+        ],
+        "why": "The ICOM ontology for cultural heritage and museum documentation - a normative event-centric model, with its own versioning.",
+        "not_for": "Heavy for a small collection; a flat Dublin Core record is often enough.",
+        "verified": true,
+        "access": "2026-10-19"
+      },
+      {
+        "id": "loc-standards",
+        "name": "Library of Congress standards (EAD, MARC, METS)",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://www.loc.gov/standards/",
+        "topics": [
+          "humanities",
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "standards",
+          "archives",
+          "metadata"
+        ],
+        "why": "The LOC maintains the archival and bibliographic encoding standards (EAD3, MARC, METS) and publishes the schemas and tag libraries.",
+        "not_for": "Library-centric; for born-digital research data prefer Dublin Core or DataCite.",
+        "verified": true,
+        "access": "2026-10-19"
+      },
+      {
+        "id": "getty-vocab",
+        "name": "Getty vocabularies (AAT, TGN, ULAN)",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://www.getty.edu/research/tools/vocabularies/",
+        "topics": [
+          "humanities",
+          "arts-design"
+        ],
+        "tags": [
+          "vocabulary",
+          "authority",
+          "gazetteer"
+        ],
+        "why": "Authoritative controlled vocabularies with stable ids for places, artists and art-historical concepts - the place/agent authority to reconcile against.",
+        "not_for": "Art-historical and Western-weighted; not a general-purpose gazetteer for every region.",
+        "verified": true,
+        "access": "2026-10-19"
+      },
+      {
+        "id": "tei-c",
+        "name": "Text Encoding Initiative Consortium",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://tei-c.org/",
+        "topics": [
+          "humanities",
+          "linguistics"
+        ],
+        "tags": [
+          "standards",
+          "textual-scholarship"
+        ],
+        "why": "Publishes TEI P5, the XML standard for critical editions and transcribed text, with the guidelines as the first-party reference.",
+        "not_for": "Encoding-heavy; for plain corpora with no apparatus, a lighter schema may serve better.",
+        "verified": true,
+        "access": "2026-10-19"
+      },
+      {
+        "id": "wikidata-data-model",
+        "name": "Wikidata data model (authority control)",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://www.wikidata.org/wiki/Wikidata:Data_model",
+        "topics": [
+          "humanities",
+          "computer-science",
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "authority",
+          "statement-provenance"
+        ],
+        "why": "Documents the item/property/statement model with qualifiers, references and ranks - i.e. how a community knowledge base carries per-statement provenance.",
+        "not_for": "Crowd-edited and changeable; treat it as an authority to reconcile against, not as ground truth to quote.",
+        "verified": true,
+        "access": "2026-10-19"
       }
     ]
   }

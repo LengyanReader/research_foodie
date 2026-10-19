@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-18 · 183 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-19 · 196 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -209,7 +209,7 @@ harness catalog claude-code           # detail one entry
 | `frames` | FRAMES · FRAMES | 调研质量评测 | M3 | https://huggingface.co/datasets/google/frames-benchmark · tracked:frames |
 | `deepresearch-bench` | DeepResearch Bench · DeepResearch Bench | 调研质量评测 | M3 | https://github.com/Ayanami0730/deep_research_bench · tracked:deepresearch-bench |
 
-## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (50)
+## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (63)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -263,6 +263,19 @@ harness catalog claude-code           # detail one entry
 | `r-inla` | R-INLA · R-INLA | 统计建模工具 | M3, M4 | https://www.r-inla.org/ |
 | `emcee` | emcee · emcee | 统计建模工具 | M3, M4 | https://emcee.readthedocs.io/ |
 | `dowhy` | DoWhy · DoWhy | 因果推断工具 | M3, M4 | https://www.pywhy.org/dowhy/ |
+| `protege` | Protege · Protégé | 本体编辑器 / RDF 工具 | M4, M6 | https://protegeproject.github.io/protege/ |
+| `rdflib` | RDFLib · RDFLib | 本体编辑器 / RDF 工具 | M4, M6 | https://rdflib.readthedocs.io/en/stable/ |
+| `apache-jena` | Apache Jena · Apache Jena | 本体编辑器 / RDF 工具 | M4, M6 | https://jena.apache.org/documentation/shacl/ |
+| `neo4j` | Neo4j · Neo4j | 图数据库 / 三元组库 | M4, M6 | https://neo4j.com/docs/cypher-manual/current/ |
+| `microsoft-graphrag` | Microsoft GraphRAG · Microsoft GraphRAG | 知识图谱构建 | M3, M4, M6 | https://github.com/microsoft/graphrag |
+| `openrefine` | OpenRefine · OpenRefine | 实体归一 / 记录链接 | M4, M6 | https://openrefine.org/docs/technical-reference/reconciliation-api |
+| `splink` | Splink · Splink | 实体归一 / 记录链接 | M4, M6 | https://moj-analytical-services.github.io/splink/ |
+| `dedupe` | Dedupe · Dedupe | 实体归一 / 记录链接 | M4, M6 | https://docs.dedupe.io/en/latest/ |
+| `pleiades` | Pleiades · Pleiades | 地名权威表 | M4 | https://pleiades.stoa.org/ |
+| `geonames` | GeoNames · GeoNames | 地名权威表 | M4 | https://www.geonames.org/export/web-services.html |
+| `getty-tgn` | Getty TGN · 盖蒂地名表 TGN | 地名权威表 | M4 | https://www.getty.edu/research/tools/vocabularies/tgn/ |
+| `transkribus` | Transkribus · Transkribus | 手写文本识别 | M3, M4 | https://www.transkribus.org/ |
+| `escriptorium` | eScriptorium · eScriptorium | 手写文本识别 | M3, M4 | https://escriptorium.readthedocs.io/en/latest/ |
 
 ---
 
