@@ -172,6 +172,11 @@ A deferral is a **decision**, and it has three fields:
 
 `harness cycle roadmap` prints them. The audit fails a deferral that is missing `reason` or `revisit_when` — a deferral with no trigger is indistinguishable from a thing that was forgotten.
 
+**Closing one.** When a roadmap item ships, its `status` becomes `done` and it records `done_in`
+(e.g. `"P12 (reference/cross-language.md §7)"`); the trigger is then no longer required — a closed item
+is not a deferral. The audit enforces that shape: open work must say *why* and *when*, closed work must
+say *where* (P12 made this distinction when P12.5 shipped).
+
 ---
 
 ## 8. Close the round

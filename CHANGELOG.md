@@ -6,6 +6,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **First round driven by the mechanism itself (P12, partial)** — the audit's 12 soft gaps were consumed,
+  not restated: router rows for `portable-skills` and `reproducible-experiments` (capabilities that
+  existed but were unreachable from the entry table), and `tests/test_capabilities.py::TriggerCoverageTest`
+  (10 guards, each pinning a capability's declared trigger *and* the quiet vector it must not fire on).
+  `harness cycle audit` now reports **0 hard problems and 0 gaps**.
+- **M4.10 worked example** — `reference/cross-language.md` §7 carries a real EN↔ZH pair (the
+  standing-reference block) through unit segmentation, a **rejected** first-pass drift hypothesis
+  (widening the unit dissolved it), and two **real** defects: units 4 (declare the capability + file) and
+  8 (M0.4 · M0.1/M0.2 · irreversible acts) were missing from all three Chinese renderings, and
+  「只提案、不编造任务内容」 fused two units into a claim the English master does not make. Fixed in
+  `AGENTS.md` §6, `GUIDE.md` and `introduction.md`; the master is untouched.
 - **Capability rounds as a mechanism (M5.10)** - new SSOT `data/cycles.json`: 9 recorded rounds
   (`baseline` -> `P13`, git-verified `added` ids), the **definition-of-done as data** (7 axes with
   hard/soft severity) and **11 roadmap items**, each carrying a `reason`, a `revisit_when` trigger and a
@@ -81,6 +92,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Pattern library**: `core/` (M0–M8), `domains/` (research/knowledge-management/data-science/devops),
   `review/` (survey, catalog, playbooks, references), `sources/` (provenance map).
 - CI (GitHub Actions), `CHANGELOG.md`, `.gitattributes`.
+
+### Changed
+- **A closed roadmap item records `done_in`, not a revisit trigger** — a `done` entry is no longer a
+  deferral, so `cycle.audit()` now requires `reason` + `revisit_when` only while the item is open and
+  `done_in` once it ships; `harness cycle roadmap` renders `done in …`.
 
 ### Fixed
 - **Pointer coverage (P11.1)** — `.harness/pointer.json` hard-coded only **4** entry docs, so an emitted

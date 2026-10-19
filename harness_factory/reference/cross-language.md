@@ -26,7 +26,7 @@
 2. **Carry each unit whole**, then re-split if the target needs it — recording any merge or split. See §2.
 3. **Prove the carry.** Round-trip, a target-language reader, or a second-language source — pick at least one and run it. See §3.
 4. **Handle terms explicitly**, with a gloss and a term table. See §4.
-5. **For a bilingual deliverable**, produce two coordinated renderings of one meaning (master + executive rendering). See §5.
+5. **For a bilingual deliverable**, produce two coordinated renderings of one meaning (master + executive rendering). See §5; §7 walks a real pair end to end.
 
 > Rule of thumb: **translation is a claim about meaning, so it is governed by M4, not by M2.** The question is never "do the words line up?" but "does the carried claim still say what the source said, in the source's own scope?"
 
@@ -95,6 +95,65 @@ This is the step word-for-word translation eliminates. Corroboration is **indepe
 - **Not "translation memory as authority".** A memory/tool match is a *candidate* rendering, not a verified one. It still passes §3.
 - **Not a demand for stylistic identity.** The two languages need not read alike; they must *claim* alike.
 - **Not the same as the field of linguistics.** `domains/linguistics/` studies language data with annotation schemes and measured agreement; this doc is a *transmission* discipline that any domain can hit (M0.5 — one home per concept).
+
+---
+
+## 7. Worked example — one real pair, two defects, one pass · 实例
+
+The unit is the **standing-reference block** (`SKILL.md` §"PASTE THIS EXACT INSTRUCTION"), the English
+master; its short Chinese renderings live in `AGENTS.md` §6, `GUIDE.md` §"给 vibe-coding 助手的用法"
+and `introduction.md`. This is not a textbook pair — it is a live contract that decides how the factory
+behaves in every conversation, so a dropped clause is a behaviour change, not a style choice.
+
+**Step 1 — segment the master into units.** Eight propositions (the path `./harness_factory` is a
+placeholder carried verbatim, not a proposition of its own):
+
+| # | Master unit (abridged) | Obligation it creates |
+|---|---|---|
+| 1 | "Read `SKILL.md` first (its load-index is authoritative)." | load order |
+| 2 | "Route by situation … load ONLY the files the matching row names." | minimal loading |
+| 3 | "If my ask is vague … run requirement-refinement … and WAIT." | refine before work |
+| 4 | "When you use one, **declare which capability and which file you used**." | auditability of capability use |
+| 5 | "Keep it active until I say 'stop using harness_factory'." | revoke condition |
+| 6 | "emit only `AGENTS.md`, `tasks/*`, `.harness/*` … run `check`." | derivation contract |
+| 7 | "send only generalisable patterns back as proposals … never edit `data|core|domains|templates`." | feedback channel |
+| 8 | "Never fabricate task substance (M0.4); truth/traceability outrank speed (M0.1/M0.2); **irreversible acts need my explicit OK**." | floor invariants |
+
+**Step 2 — the first hypothesis was wrong (recorded as a pass).** Comparing unit 5, the rendering read
+「只有你明确说停止才停」— "only when you *explicitly* say stop", which adds a modality the header unit
+lacks. Widening the unit to the master's own standing-behaviour sentence ("Keep it active until I say
+'stop using harness_factory'") dissolves the difference: the English body already requires an utterance.
+**Verdict: no defect** — the unit boundary was wrong, not the translation. This is the §1 test doing its
+job, and it is why a first-pass "drift" must be re-tested before it is "fixed".
+
+**Step 3 — the real defects.** Mapping units 1–8 against the three Chinese renderings:
+
+| Unit | Status in the three renderings (as found in P12) |
+|---|---|
+| 1, 2, 3, 6, 7 | carried |
+| 4 (declare the capability + file) | **missing in all three** — a reader who pastes the Chinese line never learns to declare |
+| 5 (revoke) | carried |
+| 8 (M0.4 / M0.1–M0.2 / irreversible acts) | **missing**; two guides kept only the fragment 「不编造任务内容」, the AGENTS.md line kept none |
+
+And one **merge defect**: the guides compressed units 7+8 into 「只提案、不编造任务内容」. Read alone,
+「只提案」 = "only propose" — which, attached to the preceding derivation sentence, reads as *produce
+nothing but proposals*, i.e. the opposite of the master's "emit the harness, then send patterns back".
+Two propositions were fused and the fused form **adds a claim the master lacks** (§5).
+
+**Step 4 — corroborate by back-translation.** Rendering the found Chinese back into English yields:
+*"Derive the harness … then only propose, do not fabricate task content."* The master says *"emit …, run
+`check`, and send only generalisable patterns back"*. The diff touches **scope** (may I emit at all?),
+so under §3.1 it is a defect, not a compression.
+
+**Step 5 — disposition.** Master unchanged (it is the authority, and pasted verbatim by users). The three
+renderings were corrected in the same round: unit 4 added verbatim as 「用了就声明用了哪个能力、哪个文件」,
+unit 8 added as 「不编造任务内容（M0.4）；真实与可溯源优先于速度（M0.1/M0.2）；不可逆动作须我明确同意」, and
+the fused clause split back into unit 7 (「只以提案回流 `updates/`（不直接改 `data|core|domains|templates`）」)
+plus unit 8. Recorded here because a fix without the mapping is unreviewable.
+
+**What the example is for.** Both defects are invisible to a sentence-level read and to any MT metric:
+every individual Chinese sentence is well-formed and "sounds right". Only the **unit table** and the
+**back-translation diff** expose that two obligations were dropped and one claim was invented.
 
 ---
 

@@ -159,6 +159,87 @@ class DisciplineCapabilityTest(unittest.TestCase):
         self.assertNotIn("empirical-measurement", _active(domain="physics"))
 
 
+class TriggerCoverageTest(unittest.TestCase):
+    """P12: every capability left unguarded by the first `harness cycle audit`.
+
+    The audit's *guard* axis asks a plain question - does any test name this
+    capability? - because the failure it stands for is "the capability never
+    fires and nobody notices". These ten were the answer to that worklist; each
+    test pins the declared trigger *and* the quiet vector it must not fire on,
+    so a later edit to `when` cannot widen a capability silently.
+    """
+
+    # A deliberately quiet task: only the undiscriminating floor fires here.
+    QUIET = dict(
+        horizon="one_shot",
+        verifiability="low",
+        stakes="low",
+        grounding="off",
+        artifact="code",
+        tool_surface="none",
+        collaboration="solo",
+        domain="general",
+    )
+
+    def test_ambition_elevation_fires_from_a_single_session_up(self):
+        self.assertNotIn("ambition-elevation", _active(**self.QUIET))
+        self.assertIn("ambition-elevation", _active(horizon="session"))
+
+    def test_bidirectional_capability_flow_is_always_available(self):
+        # declared with an empty `when`: the flow applies to the work itself
+        self.assertIn("bidirectional-capability-flow", _active(**self.QUIET))
+
+    def test_cross_field_crew_needs_workers_or_a_long_run(self):
+        self.assertNotIn("cross-field-crew", _active(**self.QUIET))
+        self.assertIn("cross-field-crew", _active(collaboration="multi_agent"))
+        self.assertIn("cross-field-crew", _active(horizon="long_running"))
+
+    def test_expert_instruments_fire_when_claims_are_checkable_or_long(self):
+        self.assertNotIn("expert-instruments", _active(**self.QUIET))
+        self.assertIn("expert-instruments", _active(verifiability="high"))
+        self.assertIn("expert-instruments", _active(horizon="multi_session"))
+
+    def test_frontier_standard_needs_the_excellence_domain_or_a_high_bar(self):
+        self.assertNotIn("frontier-standard", _active(**{**self.QUIET, "verifiability": "high"}))
+        self.assertIn("frontier-standard", _active(domain="excellence"))
+        self.assertIn(
+            "frontier-standard", _active(verifiability="high", horizon="multi_session")
+        )
+
+    def test_reproducible_experiments_only_for_data_science_and_research(self):
+        self.assertNotIn("reproducible-experiments", _active(verifiability="high"))
+        self.assertNotIn("reproducible-experiments", _active(domain="data-science"))
+        self.assertIn(
+            "reproducible-experiments", _active(domain="data-science", verifiability="high")
+        )
+        self.assertIn("reproducible-experiments", _active(domain="research", verifiability="high"))
+        # statistics keeps its own instrument instead
+        self.assertNotIn(
+            "reproducible-experiments", _active(domain="statistics", verifiability="high")
+        )
+
+    def test_resumable_memory_from_a_single_session_up(self):
+        self.assertNotIn("resumable-memory", _active(**self.QUIET))
+        self.assertIn("resumable-memory", _active(horizon="session"))
+
+    def test_self_improving_loop_only_across_sessions(self):
+        self.assertNotIn("self-improving-loop", _active(horizon="session"))
+        self.assertIn("self-improving-loop", _active(horizon="multi_session"))
+
+    def test_tool_use_whenever_a_tool_surface_is_open(self):
+        self.assertNotIn("tool-use", _active(**self.QUIET))
+        for surface in ("read", "read_write", "external"):
+            with self.subTest(tool_surface=surface):
+                self.assertIn("tool-use", _active(tool_surface=surface))
+
+    def test_traceable_sources_when_grounding_matters_or_docs_are_produced(self):
+        self.assertNotIn("traceable-sources", _active(**self.QUIET))
+        self.assertIn("traceable-sources", _active(grounding="required"))
+        for artifact in ("document", "dataset", "knowledge_base"):
+            with self.subTest(artifact=artifact):
+                self.assertIn("traceable-sources", _active(artifact=artifact))
+
+
 class MathStatsCapabilityTest(unittest.TestCase):
     """P10: statistics and certified computation fire only on their own fields."""
 

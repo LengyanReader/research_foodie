@@ -4,6 +4,21 @@
 
 ---
 
+## 2026-10-19 — P12 (partial): the first worklist consumed · 首张工作单被消化
+- **Ask.** 「更新一轮，我看看效果」——用 P13 的机制本身跑一轮，检验「缺口面 → 工作单 → 收口」是否闭环。
+- **Input (what the mechanism said).** `harness cycle audit` → 0 硬问题、**12 条软缺口**：10 条「无测试提到该能力」+ 2 条「路由表从不指向该能力」（`portable-skills`、`reproducible-experiments`）。工作单来自 P13 自己的审计，不是另起需求。
+- **Slice 0（收口软缺口）.**
+  - 路由：补 `reproducible-experiments`（实证分析要他人可复跑）与 `portable-skills`（能力本身要跨 harness 携带）两行——两者此前存在但**入口表不可达**。
+  - 门禁：新增 `tests/test_capabilities.py::TriggerCoverageTest`（10 例），每个能力同时钉住**声明触发**与**必须不触发的安静向量**；不是「名字出现即算」，而是「该能力确实会被激活、且不会被悄悄放宽」。
+  - 结果：**审计软缺口 12 → 0**。
+- **Slice 3a（roadmap P12.5，M4.10 从「说到」到「做到」）.** `reference/cross-language.md` 新增 **§7 实例**：以本仓库的**常驻引用块**为母本，切 8 个意群 → 对照三份中文短版 → 回译比对。它做了三件事：(1) 先把一个**看似漂移**的撤销条件（「明确说停止」vs "revoke"）通过**放宽意群**判为**无问题**——单位边界错，不是译文错；(2) 找出**两处真缺陷**：意群 4（用了能力要声明能力与文件）与意群 8（M0.4 · M0.1/M0.2 · 不可逆动作须明确同意）在三份中文渲染中**全部缺失**；(3) 指出「只提案、不编造任务内容」把两个意群**熔成一句**，读起来反而**多出母本没有的主张**（"只提案" 可读成「只准提案、不准产出」）。
+  - 处置：母本不动（它是权威且被逐字粘贴）；修正 `AGENTS.md` §6、`GUIDE.md`、`introduction.md` 三处渲染，并按意群重新拆分该融合句。
+- **机制自身也被修正（自举）.** 收口 roadmap 条目时发现审计把 `done` 条目仍当「延后」要求 `revisit_when`。按语义改为：**未完成**必须给理由 + 重访条件；**已完成**只需记 `done_in`（落在哪一轮、哪一节）。同时 `harness cycle roadmap` 渲染 `done in …`。
+- **Result.** `harness cycle audit` → **OK**（0 硬问题、**0 软缺口**）；**220 例通过**（+10 触发门禁、+1 roadmap 落点守卫）。
+- **Guard.** `TriggerCoverageTest` 覆盖上一轮审计点名的全部 10 个能力；`test_roadmap_says_where_a_done_item_landed` 守住 `done_in` 的可见性。
+
+---
+
 ## 2026-10-19 — P13: the capability round as a mechanism · 能力轮次机制化
 - **Ask.** 每一轮能力拓展 / 深化 / 更新 / 演化都需要一套**机制性**的 harness 能力系统，以支撑能力集的**永续增强**；没有就建立。
 - **Non-redundancy check first (M0.5).** 已有三套相邻机制：`refresh`（情报实体）、`evolve`（对实体的变异提议）、`capability-flow`（单次任务的双向流动）。缺的是**能力集自身的轮次**——谁登记、何谓完成、被有意不做的事去哪。故新增第四套，而不是改前三套。

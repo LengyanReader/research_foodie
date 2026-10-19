@@ -123,6 +123,13 @@ class CycleRenderTest(unittest.TestCase):
             self.assertIn(item["id"], text)
             self.assertIn(item["reason"][:40], text)
 
+    def test_roadmap_says_where_a_done_item_landed(self):
+        text = cycle.render_roadmap()
+        done = [i for i in cycle.roadmap() if i.get("status") == "done" and i.get("done_in")]
+        self.assertTrue(done, "a closed roadmap item should record where it landed")
+        for item in done:
+            self.assertIn(f"done in {item['done_in']}", text)
+
     def test_audit_render_is_honest_about_severity(self):
         text = cycle.render_audit(cycle.audit(), show_gaps=5)
         self.assertIn("## Problems (hard)", text)

@@ -267,13 +267,15 @@
     {
       "id": "P12",
       "date": "2026-10-19",
-      "status": "planned",
+      "status": "active",
       "title_en": "Evidence-driven loop, CI hardening, P11 closeout",
       "title_zh": "证据驱动循环 · CI 硬化 · P11 收尾",
       "slices": [
-        "CI: end-to-end emitted-harness job on both OSes; opt-in network job (workflow_dispatch only)",
-        "M2 made concrete: declared memory backend + resume protocol (clause M2.12 + emitted stanza)",
-        "P11 closeout: re-verify the 22 unconfirmed outlets; one real EN<->ZH worked example in reference/cross-language.md"
+        "Slice 0 (done) - consume the first `harness cycle audit`: router rows for `portable-skills` and `reproducible-experiments`; explicit trigger guards for the 10 unnamed capabilities (tests/test_capabilities.py::TriggerCoverageTest); audit gaps 12 -> 0",
+        "Slice 3a (done, roadmap P12.5) - one real EN<->ZH worked example in reference/cross-language.md 7; it found two dropped units and one fused claim in the three Chinese standing-reference renderings, corrected in place",
+        "Slice 1 (open) - CI: end-to-end emitted-harness job on both OSes; opt-in network job (workflow_dispatch only)",
+        "Slice 2 (open) - M2 made concrete: declared memory backend + resume protocol (clause M2.12 + emitted stanza)",
+        "Slice 3b (open) - re-verify the 22 unconfirmed outlets"
       ],
       "added": {
         "capabilities": [],
@@ -343,12 +345,12 @@
     },
     {
       "id": "P12.5",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "review/integration-map-2026-10.md 3 #7",
       "title_en": "One real EN<->ZH worked example (M4.10)",
       "reason": "M4.10 is stated in prose but never shown; a worked instance makes the procedure checkable",
-      "revisit_when": "P12 Slice 3"
+      "done_in": "P12 (reference/cross-language.md 7)"
     },
     {
       "id": "D1",

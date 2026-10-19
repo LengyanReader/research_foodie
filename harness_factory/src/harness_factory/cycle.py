@@ -328,7 +328,7 @@ def audit() -> dict[str, Any]:
                 f"{', '.join(sorted(ids))} - that is a consolidation (M0.5), not an addition"
             )
 
-    # 4 - roadmap integrity (a deferral must carry a reason and a trigger)
+    # 4 - roadmap integrity (open work must say why *and* when; closed work says where)
     rseen: set[str] = set()
     for item in roadmap():
         rid = item.get("id")
@@ -344,7 +344,12 @@ def audit() -> dict[str, Any]:
             problems.append(f"roadmap {rid}: status {item.get('status')!r} not in {ROADMAP_STATUSES}")
         if not item.get("reason"):
             problems.append(f"roadmap {rid}: no reason recorded (a deferral must say why)")
-        if not item.get("revisit_when"):
+        if item.get("status") == "done":
+            if not (item.get("done_in") or item.get("revisit_when")):
+                problems.append(
+                    f"roadmap {rid}: marked done but records neither `done_in` nor a follow-up trigger"
+                )
+        elif not item.get("revisit_when"):
             problems.append(f"roadmap {rid}: no revisit trigger recorded (a deferral must say when)")
 
     # 5 - gaps: missing wiring for what already exists (soft, the next-cycle input)
@@ -462,10 +467,13 @@ def render_roadmap() -> str:
     out.append("| id | status | cycle | source | item | reason | revisit when |")
     out.append("|---|---|---|---|---|---|---|")
     for item in roadmap():
+        trigger = item.get("revisit_when") or (
+            f"done in {item['done_in']}" if item.get("done_in") else ""
+        )
         out.append(
             f"| {item.get('id')} | {item.get('status')} | {item.get('cycle') or '-'} "
             f"| {item.get('source', '')} | {item.get('title_en', '')} "
-            f"| {item.get('reason', '')} | {item.get('revisit_when', '')} |"
+            f"| {item.get('reason', '')} | {trigger} |"
         )
     return "\n".join(out) + "\n"
 
