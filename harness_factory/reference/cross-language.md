@@ -105,8 +105,9 @@ master; its short Chinese renderings live in `AGENTS.md` §6, `GUIDE.md` §"给 
 and `introduction.md`. This is not a textbook pair — it is a live contract that decides how the factory
 behaves in every conversation, so a dropped clause is a behaviour change, not a style choice.
 
-**Step 1 — segment the master into units.** Eight propositions (the path `./harness_factory` is a
-placeholder carried verbatim, not a proposition of its own):
+**Step 1 — segment the master into units.** Eight propositions (the path is a **parameter**, not a
+proposition: the master marks it with 「把 `./harness_factory` 换成真实路径」, the renderings with
+`<HF>` — see the note on marking it below):
 
 | # | Master unit (abridged) | Obligation it creates |
 |---|---|---|
@@ -115,7 +116,7 @@ placeholder carried verbatim, not a proposition of its own):
 | 3 | "If my ask is vague … run requirement-refinement … and WAIT." | refine before work |
 | 4 | "When you use one, **declare which capability and which file you used**." | auditability of capability use |
 | 5 | "Keep it active until I say 'stop using harness_factory'." | revoke condition |
-| 6 | "emit only `AGENTS.md`, `tasks/*`, `.harness/*` … run `check`." | derivation contract |
+| 6 | "emit only `AGENTS.md`, `tasks/*`, `.harness/*` … run `harness check --dir <output>`." | derivation contract |
 | 7 | "send only generalisable patterns back as proposals … never edit `data|core|domains|templates`." | feedback channel |
 | 8 | "Never fabricate task substance (M0.4); truth/traceability outrank speed (M0.1/M0.2); **irreversible acts need my explicit OK**." | floor invariants |
 
@@ -160,6 +161,16 @@ was written rather than from where it is read. A fidelity gate now pins the comp
 name `harness check --dir`, and must not use factory-relative paths that a reader in a target project
 cannot resolve. **The lesson generalises: enumerate renderings from the reader's entry points, not from
 the writer's edits.**
+
+**The path is not a unit — but it must be marked as a parameter.** A reader *clones this repo somewhere*,
+so `./harness_factory` is an assumption, not a fact. The master handles it with an instruction outside the
+block (「把 `./harness_factory` 换成真实路径」); the renderings now carry the same parameter inline as
+**`<HF>`** = the real path of the cloned `harness_factory/` directory, plus the no-install check form
+(`PYTHONPATH=<HF>/src python -m harness_factory check --dir <output>`). Under §5 this is *not* a claim the
+master lacks — it is the same obligation (unit 1: where to read from) made explicit. The failure mode it
+removes is mechanical: an unmarked repo-relative path silently resolves to nothing when the clone lives
+elsewhere. `QuickStartFidelityTest` pins the parameter in all eight renderings and rejects the bare
+`./harness_factory` form.
 
 **What the example is for.** Both defects are invisible to a sentence-level read and to any MT metric:
 every individual Chinese sentence is well-formed and "sounds right". Only the **unit table** and the

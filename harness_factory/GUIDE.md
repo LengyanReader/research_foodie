@@ -14,7 +14,7 @@
 
 **一句话。** `harness-factory` 把「**任务**」编译成该任务所需的 **agent harness**（上下文工程 · 外部记忆 · 验证门禁 · 来源考证 · 工具/技能 · 变更治理 · 协作协议），并用一个**人类把关的自我更新循环**让这套知识库不被冻结。
 
-**给 vibe-coding 助手的用法（贴一次即常驻 · standing reference）。** ① **常驻引用**（贴一次，整个对话有效；写进项目规则文件可跨对话/子体）：「把本仓库当 harness 能力参考（常驻，直到我说「停止使用 harness_factory」撤销）：先读 `harness_factory/SKILL.md`，按 `harness_factory/reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑 `harness_factory/reference/requirement-refinement.md`（R0–R5，等我确认）。每次实质回答前先查有无适用能力，用了就声明用了哪个能力、哪个文件。推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），跑 `harness check --dir <产物目录>`；本地能力留在任务里，通用模式只以提案回流 `updates/`（不直接改 `data|core|domains|templates`）。不编造任务内容（M0.4）；真实与可溯源优先于速度（M0.1/M0.2）；不可逆动作须我明确同意。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
+**给 vibe-coding 助手的用法（贴一次即常驻 · standing reference）。** ① **常驻引用**（贴一次，整个对话有效；写进项目规则文件可跨对话/子体）：「把本仓库当 harness 能力参考（常驻，直到我说「停止使用 harness_factory」撤销）。**先替换路径参数**：`<HF>` = 本仓库克隆后 `harness_factory/` 目录的真实路径（如 `~/src/research_foodie/harness_factory`）。先读 `<HF>/SKILL.md`，按 `<HF>/reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑 `<HF>/reference/requirement-refinement.md`（R0–R5，等我确认）。每次实质回答前先查有无适用能力，用了就声明用了哪个能力、哪个文件。推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），跑 `harness check --dir <产物目录>`（未安装时用 `PYTHONPATH=<HF>/src python -m harness_factory check --dir <产物目录>`）；本地能力留在任务里，通用模式只以提案回流 `updates/`（不直接改 `data|core|domains|templates`）。不编造任务内容（M0.4）；真实与可溯源优先于速度（M0.1/M0.2）；不可逆动作须我明确同意。」② **任务**（同一轮接着写，或下一轮再发）：直接写目标，或直接附上文件/目录。
 
 **怎么用（三种）。**
 1. **L0 面向 agent（免安装）**：分两步——先贴「配置」（如何引用与使用本工具），再给「任务」（同一轮或下一轮均可）；助手读 `harness_factory/SKILL.md` 自行推导并落盘 harness。

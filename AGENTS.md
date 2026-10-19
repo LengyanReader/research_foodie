@@ -71,11 +71,13 @@ LICENSE                   MIT License
 **Step 1 · 常驻引用（贴一次，整段对话有效；写进项目规则文件可跨对话与子体）。** 权威版本见 `harness_factory/SKILL.md`
 §"PASTE THIS EXACT INSTRUCTION"（含"停止使用"的撤销方式）；一句话版：
 
-> 「**常驻引用（直到我明确撤销）**：把本仓库当 harness 能力参考。先读 `harness_factory/SKILL.md`，按
-> `harness_factory/reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑
-> `harness_factory/reference/requirement-refinement.md`（R0–R5，等我确认）。**每次实质回答前先查有无适用能力；用了就声明用了
+> 「**常驻引用（直到我说「停止使用 harness_factory」撤销）**：把本仓库当 harness 能力参考。**先替换路径参数**：
+> `<HF>` = 本仓库克隆后 `harness_factory/` 目录的真实路径（如 `~/src/research_foodie/harness_factory`）。先读 `<HF>/SKILL.md`，按
+> `<HF>/reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑
+> `<HF>/reference/requirement-refinement.md`（R0–R5，等我确认）。**每次实质回答前先查有无适用能力；用了就声明用了
 > 哪个能力、哪个文件。** 推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），
-> 最后跑 `harness check --dir <产物目录>`；本地能力留在任务里，通用模式**只以提案**回流 `updates/`（不直接改
+> 最后跑 `harness check --dir <产物目录>`（未安装时用 `PYTHONPATH=<HF>/src python -m harness_factory check --dir <产物目录>`）；
+> 本地能力留在任务里，通用模式**只以提案**回流 `updates/`（不直接改
 > `data|core|domains|templates`）。**不编造任务内容（M0.4）；真实与可溯源优先于速度（M0.1/M0.2）；不可逆动作须我明确同意。**
 > **除非我说「停止使用 harness_factory」，一直沿用。**」
 

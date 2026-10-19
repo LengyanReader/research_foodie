@@ -19,11 +19,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
   `AGENTS.md` §6, `GUIDE.md` and `introduction.md`; the master is untouched.
 - **Quick-start fidelity gate** — the first sweep fixed "the guides" but missed the **READMEs**, the two
   copies users actually paste; a user pasting the block back exposed it. Both READMEs now carry units 4,
-  5 and 8, name `harness check --dir <output>`, and resolve their paths from the target project's root
-  (`harness_factory/...`, as the master does). New guard
-  `tests/test_standing_reference.py::QuickStartFidelityTest` (5 cases) pins every compressed rendering,
-  so this cannot silently regress; §7 records the miss and the rule it yields (enumerate renderings from
-  the reader's entry points, not the writer's edits).
+  5 and 8 and name `harness check --dir <output>`. New guard
+  `tests/test_standing_reference.py::QuickStartFidelityTest` (5 cases) pins every copy, so this cannot
+  silently regress; §7 records the miss and the rule it yields (enumerate renderings from the reader's
+  entry points, not the writer's edits).
+- **Path parameter in every paste block** — the block assumed the factory sits at `./harness_factory`, but
+  the repo is cloned wherever the reader wants it. All eight renderings (`README` ×2, both README
+  templates, `AGENTS.md`, `GUIDE.md`, `introduction.md`, `SKILL.md`) now mark the location as a parameter
+  to fill — `<HF>` = the real path of the cloned `harness_factory/` directory, e.g.
+  `~/src/research_foodie/harness_factory` — and give the no-install check form
+  (`PYTHONPATH=<HF>/src python -m harness_factory check --dir <output>`); `check` is no longer named bare.
+  The master keeps its own wording (「把 `./harness_factory` 换成真实路径」) and now cross-references `<HF>`,
+  so the two conventions are one. `QuickStartFidelityTest` rejects the unmarked `./harness_factory` form.
 - **Capability rounds as a mechanism (M5.10)** - new SSOT `data/cycles.json`: 9 recorded rounds
   (`baseline` -> `P13`, git-verified `added` ids), the **definition-of-done as data** (7 axes with
   hard/soft severity) and **11 roadmap items**, each carrying a `reason`, a `revisit_when` trigger and a

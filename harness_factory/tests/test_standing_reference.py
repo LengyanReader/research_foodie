@@ -78,60 +78,78 @@ class EntryDocTest(unittest.TestCase):
 
 
 class QuickStartFidelityTest(unittest.TestCase):
-    """The *compressed* paste block must keep the four load-bearing units.
+    """Every paste-ready rendering must keep the four load-bearing units *and* take a path parameter.
 
     P12's M4.10 worked example found that short renderings had dropped the
     *declare-what-you-used* duty and the floor invariants (M0.4 / M0.1-M0.2 /
     irreversible acts) - and then missed the READMEs, which are the copies users
-    actually paste. This gate exists because that pass was scoped to "the
-    guides": every copy of the compressed form must carry all four units, must
-    name paths that resolve from the *target project's* root (``harness_factory/...``),
-    and must name the check command concretely.
+    actually paste. A later user question exposed a second failure mode: the block
+    assumed the factory sits at ``./harness_factory``, but a reader clones this
+    repo anywhere, so its location must be a *parameter* (``<HF>``), not an
+    assumption. Both gates are pinned here.
 
-    Each assertion is scoped to the block itself (``①`` .. ``②``, or the AGENTS.md
-    blockquote) - the surrounding docs legitimately say ``reference/…`` because a
-    reader already inside the factory resolves it there.
+    Each assertion is scoped to the block itself (``①`` .. ``②``, the AGENTS.md
+    blockquote, or a fenced ``text`` template) - the surrounding docs legitimately
+    say ``reference/…``, because a reader already inside the factory resolves it there.
     """
 
-    BLOCKS = {
-        ROOT / "README.md": ("①", "②"),
-        ROOT / "README.zh-CN.md": ("①", "②"),
-        ROOT / "AGENTS.md": ("> 「**常驻引用", "」"),
-        HARNESS / "GUIDE.md": ("①", "②"),
-        HARNESS / "introduction.md": ("①", "②"),
-    }
+    # (file, start marker, end marker, path-parameter marker): the five compressed copies,
+    # the two full templates, and the authoritative SKILL.md block.
+    BLOCKS = (
+        (ROOT / "README.md", "①", "②", "<HF>"),
+        (ROOT / "README.zh-CN.md", "①", "②", "<HF>"),
+        (ROOT / "AGENTS.md", "> 「**常驻引用", "\n\n**Step 2 · 任务", "<HF>"),
+        (HARNESS / "GUIDE.md", "①", "②", "<HF>"),
+        (HARNESS / "introduction.md", "①", "②", "<HF>"),
+        (ROOT / "README.md", "STANDING REFERENCE (until I revoke it)", "```", "<HF>"),
+        (ROOT / "README.zh-CN.md", "常驻引用（直到我说", "```", "<HF>"),
+        (HARNESS / "SKILL.md", "> **Single source of truth", "\n\n- **Durable form", "换成真实路径"),
+    )
+    COMPRESSED = 5  # the first five entries
+    ENGLISH = (5, 7)  # the two full templates written in English, plus SKILL.md
 
-    def _block(self, path: Path) -> str:
-        start, end = self.BLOCKS[path]
+    def _block(self, entry) -> str:
+        path, start, end = entry[0], entry[1], entry[2]
         text = path.read_text(encoding="utf-8")
         i = text.index(start)
         return text[i : text.index(end, i + len(start))]
 
-    def test_every_quick_start_carries_the_four_units(self):
-        for path in self.BLOCKS:
-            block = self._block(path)
+    def test_every_rendering_takes_a_path_parameter(self):
+        """The factory is cloned somewhere; the block must ask for that location."""
+        for entry in self.BLOCKS:
+            path, marker = entry[0], entry[3]
+            block = self._block(entry)
             name = path.as_posix()
-            self.assertIn("harness_factory/reference/capability-router.md", block, name)
+            self.assertIn(marker, block, name)
+            self.assertIn("harness check --dir", block, name)
+            if marker == "<HF>":
+                self.assertNotIn("`./harness_factory", block, name)
+                self.assertNotIn("`harness_factory/SKILL.md`", block, name)
+
+    def test_every_compressed_rendering_carries_the_four_units(self):
+        for entry in self.BLOCKS[: self.COMPRESSED]:
+            block = self._block(entry)
+            name = entry[0].as_posix()
+            self.assertIn("<HF>/reference/capability-router.md", block, name)
             self.assertIn("用了就声明", block, name)  # unit 4: capability + file
             self.assertIn("不编造任务内容", block, name)  # unit 8: M0.4
             self.assertIn("不可逆动作", block, name)  # unit 8: the human gate
             self.assertIn("停止使用 harness_factory", block, name)  # unit 5: revoke
 
-    def test_every_quick_start_names_a_runnable_check(self):
-        for path in self.BLOCKS:
-            self.assertIn("harness check --dir", self._block(path), path.as_posix())
+    def test_the_english_renderings_keep_the_same_three_units(self):
+        for i in self.ENGLISH:
+            entry = self.BLOCKS[i]
+            block = self._block(entry)
+            name = entry[0].as_posix()
+            self.assertIn("declare which capability", block, name)  # unit 4
+            self.assertIn("Never fabricate", block, name)  # unit 8: M0.4
+            self.assertIn("irreversible acts", block, name)  # unit 8: the human gate
+            self.assertIn("stop using harness_factory", block, name)  # unit 5: revoke
 
-    def test_no_quick_start_reintroduces_the_fused_clause(self):
+    def test_no_compressed_rendering_reintroduces_the_fused_clause(self):
         """「只提案、不编造任务内容」 fused two units and read as *produce nothing*."""
-        for path in self.BLOCKS:
-            self.assertNotIn("只提案、不编造", self._block(path), path.as_posix())
-
-    def test_no_quick_start_uses_factory_relative_paths(self):
-        """A block pasted into a target project cannot resolve ``reference/...``."""
-        for path in self.BLOCKS:
-            self.assertNotIn(
-                "按 `reference/capability-router.md`", self._block(path), path.as_posix()
-            )
+        for entry in self.BLOCKS[: self.COMPRESSED]:
+            self.assertNotIn("只提案、不编造", self._block(entry), entry[0].as_posix())
 
     def test_the_named_paths_exist(self):
         for rel in (
