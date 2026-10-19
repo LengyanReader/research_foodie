@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-10-19 — Sourcing pass: can a weekly roundup be a first-party source? · 一周刊能否作一手来源
+- **Ask.** 用户给出同一期 AI 周报的两条链接（自有域名 + X 文章）：(1) 评其论文**能否用作本仓库的一手来源**；(2) 评「**每周跟随**」是否可行；(3) 评「**回溯梳理**」此前一段是否必要。判据（用户选定）：**作一手来源 = 须能回到一手并经核验；二手转述一律不引**。
+- **Entry points first.** 两条链接经 ID 反查确认为**同一内容**（`id=221016675`，`post_date=2026-10-18T16:39:01Z`，canonical `…/p/top-ai-papers-of-the-week-f5e`）。取数路径实测：`*.substack.com` 与 `x.com` **被拦**；出版物**自有域名**（`/feed`、`/api/v1/archive`，**分页实测可用**：`offset=23` 仍返 2026-07 条目）、`api.fxtwitter.com`、`export.arxiv.org` **可达**。周报本身是**二次索引**，按本仓库规则**不可引**，只作检索入口。
+- **Verification (10/10).** 一次 `id_list` 批量核验：十条全部为 arXiv 预印本，ID/标题/作者/日期一致，**无幻影条目**；版本：LoGRA `v2`，其余 `v1`。处置：**7 采纳**、**2 背景**（#1 量子电路——方法同向但学科轴偏离；#3 推理模式切换——轴正交）、**1 有意不采用**（#9 LoGRA：训练期优化，非 harness 轴；按 M0.5 记录理由与「若日后出现训练预算类能力再评估」，**不预占位**）。
+- **Correction (self-reported).** 对话里先说「12 处待核」，逐条点算后为 **17 处 = 12 数字 + 5 机构归属**——少算已更正，且在提案 §5 明写。未核前一律 `unverified`。
+- **Defect found in our own data.** `groups.media` 的既有 `nlpnews` 条目 `url/feed` 指向**被拦域名** `nlpnews.substack.com`；该刊现居自有域名（同一性线索：RSS 的 owner/webMaster 为 `nlpnews@substack.com`、频道标题 "AI Newsletter"）。提议**修既有条目而非新增**（M0.5；`outlets` 组亦按「不与 `media` 重复」的既有非收录条款不新增）。
+- **Q1 weekly follow — yes, reuse not build.** 落地该修复后，周报即成为 `sources.json` 追踪实体，`harness refresh --provider feed` 自动纳入候选；**两级门禁**：Tier 1 元数据机械核（一次批量请求，全部条目）→ Tier 2 深度核验（仅映射到既有 clause/capability 者，**每周上限 3 篇**）。产出**只到候选 + 提案**，且**不引入「周报可引」**。诚实边界：本环境**无定时任务**，所谓每周 = 每周一次由人/会话触发。
+- **Q2 backfill — bounded, not full history.** 证据：上一期（Oct 5–11）榜首即 **"Harness Learning"**，再上一期榜首 **"Context Language Models"**；该刊另一条线 *AI Agents Weekly* 2026-08/09 标题已含 *Harness Evolution Papers*、*FrontierHarness Eval* → 近期确实同轴。方案：**有界 8 周** Pass A（`/api/v1/archive` 建清单，仅作检索底账）+ Pass B（仅核「可映射既有模式」且「跨周重复出现」者，约 80 条中 10–20 条）；**明确拒绝全史**（成本 ≫ 价值、更早条目更易被取代）。
+- **Deliverable.** `updates/2026-10-19-paper-roundup-proposal.md`：9 条参考文献行（R127–R135，§L 新组）· 7 条 `source-map` 行 · 17 项 PDF 核验清单 · 2 处 outlet 改动（1 修 1 显式不新增）· LoGRA 不采用记录 · 周更机制 · 落地清单。
+- **Scope discipline.** 本轮**只出提案**，未改 `data|core|domains|templates`；因未动 SSOT，**无需** `catalog --write`，测试维持 **225**。
+
+---
+
 ## 2026-10-19 — P12 (partial): the first worklist consumed · 首张工作单被消化
 - **Ask.** 「更新一轮，我看看效果」——用 P13 的机制本身跑一轮，检验「缺口面 → 工作单 → 收口」是否闭环。
 - **Input (what the mechanism said).** `harness cycle audit` → 0 硬问题、**12 条软缺口**：10 条「无测试提到该能力」+ 2 条「路由表从不指向该能力」（`portable-skills`、`reproducible-experiments`）。工作单来自 P13 自己的审计，不是另起需求。
