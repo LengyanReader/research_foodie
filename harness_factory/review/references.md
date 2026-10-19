@@ -2,12 +2,12 @@
 
 > Consolidated IEEE-style reference list for the `harness_factory` review set.
 > `harness_factory` 综述集的合并 IEEE 参考文献。
-> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106, **§H**, R107–R110, **§I**–**§J**, R111–R119: **2026-10-18**; group **§K**, R120–R126: **2026-10-19**). Machine-readable BibTeX: `references.bib`.
+> **Access date for all online sources: 2026-10-12** (groups **§E**, R84–R92, **§F**, R93–R97, **§G**, R98–R106, **§H**, R107–R110, **§I**–**§J**, R111–R119: **2026-10-18**; groups **§K**, R120–R126, and **§L**, R127–R135: **2026-10-19**). Machine-readable BibTeX: `references.bib`.
 
 ---
 
 ## 中文速览
-本文件把三份综述文档（`harness-catalog.md`、`practitioner-playbook.md`、`masters-playbook.md`）的参考文献合并为**统一编号 R1–R126**，按主题分组（`§E`–`§G` 为 2026-10 前沿与学科新增，`§H`–`§K` 为 2026-10 测量/统计/方法论/跨语言保真新增）。各文档正文仍保留**各自的局部编号**（避免大范围改写）；本表给出统一编号并注明局部对应。**引用即生命线**：凡未一手核验者，标注 `[unverified]`，不得当作事实引用。
+本文件把三份综述文档（`harness-catalog.md`、`practitioner-playbook.md`、`masters-playbook.md`）的参考文献合并为**统一编号 R1–R135**，按主题分组（`§E`–`§G` 为 2026-10 前沿与学科新增，`§H`–`§K` 为 2026-10 测量/统计/方法论/跨语言保真新增，`§L` 为 2026-10 agent-harness 前沿新增）。各文档正文仍保留**各自的局部编号**（避免大范围改写）；本表给出统一编号并注明局部对应。**引用即生命线**：凡未一手核验者，标注 `[unverified]`，不得当作事实引用。
 
 ---
 
@@ -198,9 +198,26 @@ R106. J. Woodcock, P. G. Larsen, J. Bicarregui, and J. Fitzgerald, "Formal metho
 - R125. E. A. Nida and C. R. Taber, *The Theory and Practice of Translation*. Leiden: Brill, 1969. (bibliographic record this session)
 - R126. A. Lommel *et al.* / MQM Council, *Multidimensional Quality Metrics (MQM) Framework*. [Online]. Available: https://www.themqm.org/ (access date 2026-10-19). (first-party framework site fetched; aligned with ISO 5060)
 
+## L. Agent-harness frontier (2026-10) · agent harness 前沿
+
+*(New group (2026-10-19); source for the capability mapping in `sources/source-map.md` §Capability additions. Entered from the "Top AI Papers of the Week" roundup (Oct 12–18, 2026) at `https://nlp.elvissaravia.com/p/top-ai-papers-of-the-week-f5e` — a **second-hand index**, used for retrieval only and never cited. All ten items were checked against the arXiv API (`id_list`, single batch) on 2026-10-19: id · title · authors · date agree; **abstract-level verified only** — no PDF was opened this session, so numbers and affiliations that appear in the roundup summaries are **not** carried into the rows below.)*
+
+- R127. A. Gu, A. H. Kemeny, S. F. Yelin, and M. D. Lukin, *Discovering state-of-the-art quantum circuits with large language models*, arXiv:2610.22367v1 [quant-ph], Oct. 15, 2026. [Online]. Available: https://arxiv.org/abs/2610.22367 (access date 2026-10-19). (preprint — background only: the discovery loop is on-axis, the domain is not)
+- R128. S. Huang *et al.*, *LongHarness: Advancing Agentic Reasoning over 100M-Token Corpora via Stateful Evidence Management*, arXiv:2610.13075v1 [cs.AI], Oct. 9, 2026. [Online]. Available: https://arxiv.org/abs/2610.13075 (access date 2026-10-19). (preprint)
+- R129. J. Zou *et al.*, *Hybrid Reasoning Agents*, arXiv:2610.18861v1 [cs.CL], Oct. 13, 2026. [Online]. Available: https://arxiv.org/abs/2610.18861 (access date 2026-10-19). (preprint — background only: reasoning-mode switching is orthogonal to harness orchestration)
+- R130. R. Xu *et al.*, *Harness^2: Recursive Agent Harnessing for an Open World*, arXiv:2610.14224v1 [cs.AI], Oct. 9, 2026. [Online]. Available: https://arxiv.org/abs/2610.14224 (access date 2026-10-19). (preprint)
+- R131. S. Tan *et al.*, *Scaling Discovery Requires Forgetting*, arXiv:2610.20563v1 [cs.AI], Oct. 14, 2026. [Online]. Available: https://arxiv.org/abs/2610.20563 (access date 2026-10-19). (preprint)
+- R132. Y. Xiao *et al.*, *Recurrent Harness for Agentic Continual Learning*, arXiv:2610.12668v1 [cs.LG], Oct. 8, 2026. [Online]. Available: https://arxiv.org/abs/2610.12668 (access date 2026-10-19). (preprint)
+- R133. R. T. Lange *et al.*, *The Agentic Scientist: Orchestrating Coding Agents for Automated Scientific (Co-)Discovery*, arXiv:2610.18933v1 [cs.AI], Oct. 13, 2026. [Online]. Available: https://arxiv.org/abs/2610.18933 (access date 2026-10-19). (preprint)
+- R134. V. Shah *et al.*, *GitSwarm: Decentralized Compounding Inference*, arXiv:2610.04862v1 [cs.AI], Oct. 4, 2026. [Online]. Available: https://arxiv.org/abs/2610.04862 (access date 2026-10-19). (preprint)
+- R135. S. Yu *et al.*, *AutoEnvScaling: Automating the Data Flywheel with Terminal Agents*, arXiv:2610.14163v1 [cs.SE], Oct. 9, 2026. [Online]. Available: https://arxiv.org/abs/2610.14163 (access date 2026-10-19). (preprint; project page https://aka.ms/autoenvscaling-page)
+
+**Not entered (deliberate non-addition, M0.5).** `arXiv:2610.06647v2` (LoGRA, low-rank gradient sketches) is a **training-time** optimisation method; it maps to no `core/` clause without overreach, so it is recorded here as considered-and-declined rather than listed. Re-evaluate only if the library ever gains a training-budget capability.
+
 ---
 
 ## Verification status · 核验状态
+- **Verified this session (2026-10-19, §L):** all ten roundup items resolved through the arXiv API in **one batch `id_list` query** — id, title, author list, primary category and submission date agree in every case (`v1` throughout except LoGRA `v2`); **zero phantom entries**. This is **abstract-level verification**: no PDF was opened, so any number or institutional attribution that appears only in the roundup's own summary remains **`[unverified]`** and is excluded from the rows above (the enumerated checklist lives in `updates/2026-10-19-paper-roundup-proposal.md` §5, a loop product outside version control).
 - **Verified this session (2026-10-18, §I–§J, P10):** R111 and R112 fetched as arXiv abstract pages; R113 (Stan) confirmed via the R-hat appendix bibliography (`10.18637/jss.v076.i01`); R115 (PRISMA 2020) confirmed from the EQUATOR record (`10.1136/bmj.n71`); R118 (Hevner 2004) confirmed at the MIS Quarterly publisher record (vol. 28, no. 1, pp. 75–105). R114 (IEEE 1788-2015), R116 (GRADE), R117 (CONSORT 2010), R119 (Glaser & Strauss 1967) are recorded at the **bibliographic record** level — *listed, not deep-read* this session.
 - **Verified this session (2026-10-18, §H):** R108 read in full (document number, version B, change number, date, scope text, public-access statement); R107 verified from the BIPM JCGM publications record (GUM 9th-printing DOI **plus** a 2026 amendment listing) — *as of 2026-10*; R109 landing page fetched (navigation only, brochure PDF not read); R110 landing page listed. The P9 `instruments` catalog entries were checked against first-party pages; `jspsych` is the one entry recorded `verified: false`. The 23 new P10 `instruments` entries were likewise checked against their first-party project pages. See `reference/evidence-instruments.md` §Verification status.
 - **Verified this session (2026-10-18, §G):** R98 (arXiv abstract page), R103 (Nature page, full text) fetched in full; R99, R100, R101, R102, R104, R105, R106 confirmed from first-party landing pages / publisher records (title, authors, venue, year, DOI) via targeted search — treat the *bibliographic record* as verified, the *body text* as **listed, not deep-read**.

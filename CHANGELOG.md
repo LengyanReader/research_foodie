@@ -6,6 +6,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Agent-harness frontier sourcing pass (group §L)** — the Oct 12–18 *Top AI Papers of the Week*
+  roundup was entered through **primary records, not summaries**: nine arXiv preprints (R127–R135 in
+  `review/references.md` §L + `references.bib`) recorded at **abstract level only** — one batched arXiv
+  `id_list` query, id · title · authors · date agree in every case, zero phantom entries — with the
+  roundup's own numbers and institutional attributions left **`[unverified]`** instead of carried across.
+  Seven `sources/source-map.md` rows map them to **existing** capabilities (no new capability, no new
+  clause); one item (LoGRA, `arXiv:2610.06647v2`) is recorded as **considered and declined** rather than
+  listed. Same pass: the tracked entity `nlpnews` was repointed off a host this environment blocks
+  (`*.substack.com` → the publication's own domain, whose paginated archive API also answers), the outlet
+  map gained a retrieval-route rule plus an explicit **non-entry** for aggregator digests, and
+  `harness refresh --provider feed` now ingests the feed end-to-end (20/20 accepted, **no new code** —
+  the weekly loop rides the existing `refresh` callback). `references.bib`'s stale header count
+  (`R1–R79` → `R1–R135`) was corrected in passing.
 - **First round driven by the mechanism itself (P12, partial)** — the audit's 12 soft gaps were consumed,
   not restated: router rows for `portable-skills` and `reproducible-experiments` (capabilities that
   existed but were unreachable from the entry table), and `tests/test_capabilities.py::TriggerCoverageTest`

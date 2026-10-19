@@ -31,6 +31,8 @@
 4. Pair with `reference/evidence-instruments.md`: this map says *where*, that doc says *with what instrument and gate*.
 5. When the outlet's language differs from the deliverable's, apply `reference/cross-language.md` (M4.10) — align by meaning unit, corroborate, gloss terms.
 
+**Retrieval routes when the canonical domain is unreachable · 规范域不可达时的取数路径.** Some hosts are blocked from some environments (measured 2026-10-19: `*.substack.com` and `x.com`). Three routes normally still answer: a publication's **own domain** (including its `/feed`, and for Substack-hosted publications the paginated `/api/v1/archive`), the article mirror at `api.fxtwitter.com/<user>/status/<id>` for the X form, and the field's first-party API (e.g. the arXiv `id_list` batch endpoint). A mirror or aggregator remains **discovery only** — always cite through to the primary artifact. Per-entity reachability notes live in `data/sources.json`.
+
 **Verification · 核验.** `✔` = the outlet URL answered an automated HEAD/GET (2026-10-19). `○` = canonical
 first-party domain, but the automated check was blocked (403/405) or did not complete; these are recorded
 **listed, not confirmed this session** and carry a `note` in `data/sources.json`. The `why` text is the
@@ -257,6 +259,7 @@ Secondary explainers — always follow through to the primary paper.
 - **AI-generated content farms and undisclosed-LLM blogs** — no accountable author or editorial standard.
 - **Paywalled indexes without a public record of scope** (a URL alone cannot be appraised).
 - **Duplication of `venues`/`media`** (AI/ML journals and media already tracked there) and of `libraries` (public-domain corpora).
+- **Aggregator digests as outlets** — a curated "top papers of the week" newsletter (e.g. `nlp.elvissaravia.com`) is **discovery only**, and the publication is already tracked in the `media` group; listing it here again would duplicate and would launder a second-hand index into a citable outlet. Enter individual papers through their own primary record (preprint/publisher).
 - **A machine-translation metric as a fidelity gate** — see `reference/cross-language.md` §6 (BLEU/COMET rank candidates; they do not certify meaning).
 
 ---

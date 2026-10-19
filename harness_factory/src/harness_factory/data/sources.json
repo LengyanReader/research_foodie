@@ -1230,10 +1230,10 @@
     "media": [
       {
         "id": "nlpnews",
-        "name": "NLP News",
+        "name": "AI Newsletter (Elvis Saravia / DAIR.AI)",
         "kind": "newsletter",
-        "url": "https://nlpnews.substack.com/",
-        "feed": "https://nlpnews.substack.com/feed",
+        "url": "https://nlp.elvissaravia.com/",
+        "feed": "https://nlp.elvissaravia.com/feed",
         "topics": [
           "context-engineering",
           "provenance-integrity",
@@ -1242,7 +1242,8 @@
         "tags": [
           "newsletter"
         ],
-        "why": "Curated NLP/LLM research digest."
+        "why": "Curated weekly research digest — 'Top AI Papers of the Week' and 'AI Agents Weekly'.",
+        "note": "Repointed off the *.substack.com form, which is unreachable from our environment; the custom domain serves RSS plus a paginated /api/v1/archive. Same publication as the former nlpnews.substack.com: its feed reports webMaster nlpnews@substack.com, author/copyright 'elvis' (DAIR.AI) and channel title 'AI Newsletter' (checked 2026-10-19). The old page could not be diffed because *.substack.com is blocked here."
       },
       {
         "id": "data-science-weekly",

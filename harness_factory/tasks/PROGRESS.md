@@ -4,6 +4,22 @@
 
 ---
 
+## 2026-10-19 — Sourcing pass landed: roundup → group L, outlet repaired · 溯源落地：周报入 §L + outlet 修复
+- **Ask.** 「按照你建议的下一步做吧」——把上一轮提案落成实际改动（涉 `data/*.json`，须 `catalog --write` + 全量测试）。
+- **Landed（5 个文件）.**
+  - `review/references.md`：新开 **§L**（**R127–R135**，9 条 arXiv 预印本）+ 文首取数说明 + 「§L 核验」条目——明写 **abstract-level only / no PDF opened**，把「未核者不引」写进文件本身。
+  - `review/references.bib`：同步 9 条 `@misc`；顺手更正头部过期值 `R1–R79` → `R1–R135`。
+  - `sources/source-map.md`：§Capability additions 增 **7 行**，全部映射到**既有** capability（`context-budget-policy` · `self-improving-loop` · `resumable-memory` · `graph-orchestration` · `traceable-sources` · `durable-execution` · `reproducible-experiments`/`eval-driven-development`）——**不新增能力、不改子句**。
+  - `data/sources.json`：修**既有** `nlpnews`（url/feed → 自有域名 + `note` 记同一性判据），**不新增实体**（M0.5）。
+  - `reference/outlet-map.md`：§How to use 增「规范域不可达时的取数路径」；§Deliberate non-entries 增「聚合摘要不作 outlet」——把「不新增」写成显式非收录，而不是默默略过。
+- **Verified end-to-end（用仓库自己的工具，不是文本推断）.** 造一份仅含该实体的探针 `sources.json`，跑 `refresh --provider feed --verify --dry-run` → **collected=20 · accepted=20 · rejected=0**，hot topics 命中 `context-engineering / provenance-integrity / agent-harness`。即：周更机制由**既有** `refresh` 回调驱动，**不需要新代码**（上一轮 §8 的「复用而非新建」由此得到实证）。
+- **Regenerated.** `catalog --write` + `map --write` 产出与 HEAD **逐字节一致**（未新增 outlet/能力，故 `CAPABILITIES.md` · `HARNESS-MAP.md` · `harness-index.md` 无实质变化）；CRLF 已归一，工作树无 EOL 噪声。
+- **Result.** **225 例通过**（`python -m unittest discover -s tests`）。
+- **Deliberate non-addition（记录，非疏漏）.** 落地后全量扫描仍指向被封域名的有 **5 处**（3 个人物 `x.com` 主页 + `jack-clark` 的 `importai.substack.com` url/feed）。**不修、也不加「禁止 substack feed」的守卫**：该可达性是**环境事实**而非模型性质（把环境约束编码进测试就是把环境写死），且 Import AI 的规范地址就是该 subdomain——**未查到自有域名就不臆造**。可达性仍由 `refresh --verify` 承担。详见 `updates/2026-10-19-paper-roundup-proposal.md` §6.4。
+- **Still open.** §5 的 **17 处** PDF 数字/机构归属核验属**独立一轮**（成本独立）；有界回溯 Pass A（8 周清单）未启动。
+
+---
+
 ## 2026-10-19 — Sourcing pass: can a weekly roundup be a first-party source? · 一周刊能否作一手来源
 - **Ask.** 用户给出同一期 AI 周报的两条链接（自有域名 + X 文章）：(1) 评其论文**能否用作本仓库的一手来源**；(2) 评「**每周跟随**」是否可行；(3) 评「**回溯梳理**」此前一段是否必要。判据（用户选定）：**作一手来源 = 须能回到一手并经核验；二手转述一律不引**。
 - **Entry points first.** 两条链接经 ID 反查确认为**同一内容**（`id=221016675`，`post_date=2026-10-18T16:39:01Z`，canonical `…/p/top-ai-papers-of-the-week-f5e`）。取数路径实测：`*.substack.com` 与 `x.com` **被拦**；出版物**自有域名**（`/feed`、`/api/v1/archive`，**分页实测可用**：`offset=23` 仍返 2026-07 条目）、`api.fxtwitter.com`、`export.arxiv.org` **可达**。周报本身是**二次索引**，按本仓库规则**不可引**，只作检索入口。

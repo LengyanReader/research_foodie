@@ -80,6 +80,13 @@
 | `certified-computation` | IEEE 1788-2015 interval arithmetic `[R114]` (certified-precision arithmetic); the CAS / geometry-topology instrument catalog (`sagemath`…`polymake`) | standard + practitioner |
 | Evidence instrument map (M3.10) | JCGM 100:2008 GUM `[R107]` (uncertainty budget, coverage factor, 2026 nonlinearity amendment); NASA-STD-7009B `[R108]` (verification / validation / credibility + sensitivity analysis); SI brochure `[R109]` (units); COS Registered Reports `[R110]` (pre-registration); Artstein & Poesio `[R102]` (agreement); first-party project pages of the 27 `instruments` catalog entries | standard + practitioner |
 | `reference/requirement-refinement.md` (R0–R5 protocol) | Rieseberg [R80]; M8 escalation/handoff; `domains/deep-research/method.md` L0 "restate + confirm" | practitioner + internal |
+| `context-budget-policy` (further source) | LongHarness — stateful evidence management over 100M-token corpora `[R128]` (M0.6 smallest high-signal set; just-in-time retrieval over preloading) | preprint |
+| `self-improving-loop` (further source) | Harness² — recursive harness that proposes/probes/composes its own next harness, selecting contrastively **without a ground-truth verifier** `[R130]` (M5.10 round mechanism; M3 gate) | preprint |
+| `context-budget-policy` — anti-anchoring | Scaling Discovery Requires Forgetting `[R131]` (deliberate forgetting to escape an anchoring hypothesis; ties to reset-vs-compaction) | preprint |
+| `resumable-memory` (further source) | ReHarness — recurrent harness for agentic continual learning `[R132]` (state is revised *backwards* as later evidence arrives) | preprint |
+| `graph-orchestration` (further source) | The Agentic Scientist — orchestrating coding agents for discovery `[R133]` (M2.10 loop contract; M2.11/M8.10 declared topology) | preprint |
+| `traceable-sources` / `durable-execution` (further source) | GitSwarm — commit-level provenance and compounding inference `[R134]` (M4 claim ledger; M8 reviewable diffs) | preprint |
+| `reproducible-experiments` / `eval-driven-development` (further source) | AutoEnvScaling — terminal agents automating the environment/data flywheel `[R135]` (M3.10 match the instrument to the claim) | preprint |
 
 > Full analysis and the integration verdict: [`review/ambition-and-agency.md`](../review/ambition-and-agency.md). Refs R80–R83 live in [`review/references.md`](../review/references.md) (group D).
 > The 2026-10-18 frontier pass (context · security · durability · spend · evals) is distilled in [`review/frontier-2026-10.md`](../review/frontier-2026-10.md); refs R84–R92 live in group E.
@@ -88,6 +95,7 @@
 > The 2026-10-18 instruments pass (claim -> instrument -> tool -> gate) is mapped in [`reference/evidence-instruments.md`](../reference/evidence-instruments.md); standards refs R107-R110 live in group H, and the tools themselves are catalog entries (class `instruments`, 27 rows).
 > The 2026-10-18 mathematics/statistics + methodology pass (P10) adds `statistics` / `geometry-topology` domains, `statistical-inference` / `certified-computation` capabilities, 23 more `instruments` rows (class `instruments`, now 50), and the field→methodology map [`reference/methodology-map.md`](../reference/methodology-map.md); refs R111-R119 live in groups I-J. Scope/status board: [`review/integration-map-2026-10.md`](../review/integration-map-2026-10.md).
 > The 2026-10-19 cross-language pass (P11) adds the invariant **M4.10** in `core/05` and the procedure [`reference/cross-language.md`](../reference/cross-language.md); refs R120-R126 live in group K. It also adds the per-field information-outlet map (`reference/outlet-map.md`, group `outlets` in `sources.json`).
+> The 2026-10-19 agent-harness frontier rows above are entered from the *Top AI Papers of the Week* roundup (Oct 12–18, 2026); refs R127-R135 live in group L. The roundup is a **second-hand index — retrieval only, never cited**: all ten items were verified at abstract level through a single arXiv API `id_list` batch (id · title · authors · date agree; no phantom entries), and the roundup-only numbers/affiliations still to clear are enumerated outside version control in `updates/2026-10-19-paper-roundup-proposal.md` §5. One item (LoGRA, `arXiv:2610.06647v2`) is recorded there as **considered and declined**, not listed.
 
 ---
 
