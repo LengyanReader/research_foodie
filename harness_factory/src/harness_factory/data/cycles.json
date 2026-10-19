@@ -304,6 +304,26 @@
         "references": [],
         "catalog_delta": 0
       }
+    },
+    {
+      "id": "P14",
+      "date": "2026-10-19",
+      "status": "planned",
+      "title_en": "Domain-harness case studies: agent-built knowledge bases behind an evidence gate",
+      "title_zh": "领域 harness 案例研究：以证据门禁约束的智能体建库",
+      "note": "Opened 2026-10-19 on the user's ask to study harness patterns of the kind shown by 关书朋, 何宇佳, 张英聘, '智能体驱动的方志人物知识图谱构建与检索增强生成问答研究' (《文献与数据学报》2026 年第 3 期). Planned; `added` stays empty until Slice 3 decides what discriminates. Case 1 is the gazetteer paper; the round is deliberately about a *class* of source (published real-world domain harnesses), not that one paper.",
+      "slices": [
+        "P14.1 - verify the primary source and read what the web rendering only shows as images (stage prompts, the P/R/F1 table, the mechanism comparison)",
+        "P14.2 - mechanism-by-mechanism crosswalk against existing clauses/capabilities, with a coverage verdict per mechanism",
+        "P14.3 - land only what discriminates (proposal-first, M0.4) and record the non-additions"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -342,6 +362,24 @@
       "title_en": "Re-verify the 22 unconfirmed outlets",
       "reason": "22 outlets are recorded `verified: false` because the automated check was blocked (403/405); they were listed, not confirmed",
       "revisit_when": "P12 Slice 3"
+    },
+    {
+      "id": "P12.6",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "updates/2026-10-19-paper-roundup-proposal.md §5",
+      "title_en": "Clear the 17 roundup-only numbers and affiliations from the PDFs",
+      "reason": "the roundup's own summaries carry 12 numbers and 5 institutional attributions that its papers' abstracts do not; the repo's rule is that an unread claim is `unverified`, so the group L rows cannot be cited for them until the PDFs are opened",
+      "revisit_when": "P12 Slice 4 (sourcing) - or immediately if any group L row is about to be cited for one of those numbers"
+    },
+    {
+      "id": "P12.7",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "updates/2026-10-19-paper-roundup-proposal.md §9",
+      "title_en": "Bounded backfill: 8 weeks of the roundup into a searchable inventory",
+      "reason": "recent weeks are on-axis (the Oct 5-11 top pick was 'Harness Learning'), but the publication's archive goes back years and older items are likelier superseded - so the value is a bounded inventory, not full history",
+      "revisit_when": "P12 Slice 4 (sourcing); Pass B (deep verification of recurring, clause-mapping items) only if Pass A shows a hit rate worth the cost"
     },
     {
       "id": "P12.5",
@@ -405,6 +443,33 @@
       "title_en": "`jspsych` re-verification",
       "reason": "the single `verified: false` instrument entry; the landing page needs a re-check on the next instrument pass",
       "revisit_when": "the next instrument verification pass"
+    },
+    {
+      "id": "P14.1",
+      "status": "planned",
+      "cycle": "P14",
+      "source": "user-provided article (mp.weixin.qq.com/s/zzsWOP6g2a9w2Q_y9d6aSQ), 2026-10-19",
+      "title_en": "Verify the primary source and read what the web rendering hides",
+      "reason": "the WeChat page renders the stage prompts (表1), the three-stage evaluation table (表2) and the mechanism comparison (表3) as images, so every number quoted from it is currently unverifiable; the journal record (《文献与数据学报》2026 no. 3, volume/pages) also has to be confirmed before the paper can be entered as a reference",
+      "revisit_when": "P14 Slice 1"
+    },
+    {
+      "id": "P14.2",
+      "status": "planned",
+      "cycle": "P14",
+      "source": "user ask 2026-10-19: study harness capabilities of this kind",
+      "title_en": "Crosswalk each mechanism against the existing clause set, with a coverage verdict",
+      "reason": "the paper's four-stage extraction (identify -> triple -> constraint gate -> normalise), its use of 原文 as a first-class entity, and its evidence-bounded answer rules look like they map onto M0.2/M0.3, M3 and M4 - but a mapping that only restates what the library already says is not worth a row, so each mechanism needs an explicit covered / partially / gap verdict",
+      "revisit_when": "P14 Slice 2"
+    },
+    {
+      "id": "P14.3",
+      "status": "planned",
+      "cycle": "P14",
+      "source": "user ask 2026-10-19: survey and plan, complete next session",
+      "title_en": "Land only the discriminating outcome, and record the non-additions",
+      "reason": "candidate outcomes are a clause on evidence-tagged output (every named assertion carries its pointer, or the answer declares insufficiency), a digital-humanities domain assembly, or a worked example like the M4.10 precedent; M0.5 says pick at most what the coverage verdicts justify, and record the rest as considered-and-declined",
+      "revisit_when": "P14 Slice 3, after P14.2 has verdicts"
     }
   ]
 }
