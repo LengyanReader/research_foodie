@@ -49,7 +49,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **220** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **225** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 
@@ -71,12 +71,13 @@ LICENSE                   MIT License
 **Step 1 · 常驻引用（贴一次，整段对话有效；写进项目规则文件可跨对话与子体）。** 权威版本见 `harness_factory/SKILL.md`
 §"PASTE THIS EXACT INSTRUCTION"（含"停止使用"的撤销方式）；一句话版：
 
-> 「**常驻引用（直到我撤销）**：把本仓库当 harness 能力参考。先读 `harness_factory/SKILL.md`，按
-> `reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑 `reference/requirement-refinement.md`
-> （R0–R5，等我确认）。**每次实质回答前先查有无适用能力；用了就声明用了哪个能力、哪个文件。** 推导 harness 时产出
-> `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），最后跑 `check`；本地能力留在任务里，
-> 通用模式**只以提案**回流 `updates/`（不直接改 `data|core|domains|templates`）。**不编造任务内容（M0.4）；真实与可溯源
-> 优先于速度（M0.1/M0.2）；不可逆动作须我明确同意。** **除非我说「停止使用 harness_factory」，一直沿用。**」
+> 「**常驻引用（直到我明确撤销）**：把本仓库当 harness 能力参考。先读 `harness_factory/SKILL.md`，按
+> `harness_factory/reference/capability-router.md` 路由、只加载命中行点名的文件；需求模糊/偏小时先跑
+> `harness_factory/reference/requirement-refinement.md`（R0–R5，等我确认）。**每次实质回答前先查有无适用能力；用了就声明用了
+> 哪个能力、哪个文件。** 推导 harness 时产出 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `.harness/capabilities.local.md`），
+> 最后跑 `harness check --dir <产物目录>`；本地能力留在任务里，通用模式**只以提案**回流 `updates/`（不直接改
+> `data|core|domains|templates`）。**不编造任务内容（M0.4）；真实与可溯源优先于速度（M0.1/M0.2）；不可逆动作须我明确同意。**
+> **除非我说「停止使用 harness_factory」，一直沿用。**」
 
 **Step 2 · 任务（同一轮接着写，或下一轮再发均可）。** 直接写目标，或直接附上文件/目录/链接，例如：
 「为现有 Python 项目补全类型注解与单元测试，保证可验证闭环。」

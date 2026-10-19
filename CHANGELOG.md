@@ -14,9 +14,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **M4.10 worked example** — `reference/cross-language.md` §7 carries a real EN↔ZH pair (the
   standing-reference block) through unit segmentation, a **rejected** first-pass drift hypothesis
   (widening the unit dissolved it), and two **real** defects: units 4 (declare the capability + file) and
-  8 (M0.4 · M0.1/M0.2 · irreversible acts) were missing from all three Chinese renderings, and
+  8 (M0.4 · M0.1/M0.2 · irreversible acts) were missing from the compressed Chinese renderings, and
   「只提案、不编造任务内容」 fused two units into a claim the English master does not make. Fixed in
   `AGENTS.md` §6, `GUIDE.md` and `introduction.md`; the master is untouched.
+- **Quick-start fidelity gate** — the first sweep fixed "the guides" but missed the **READMEs**, the two
+  copies users actually paste; a user pasting the block back exposed it. Both READMEs now carry units 4,
+  5 and 8, name `harness check --dir <output>`, and resolve their paths from the target project's root
+  (`harness_factory/...`, as the master does). New guard
+  `tests/test_standing_reference.py::QuickStartFidelityTest` (5 cases) pins every compressed rendering,
+  so this cannot silently regress; §7 records the miss and the rule it yields (enumerate renderings from
+  the reader's entry points, not the writer's edits).
 - **Capability rounds as a mechanism (M5.10)** - new SSOT `data/cycles.json`: 9 recorded rounds
   (`baseline` -> `P13`, git-verified `added` ids), the **definition-of-done as data** (7 axes with
   hard/soft severity) and **11 roadmap items**, each carrying a `reason`, a `revisit_when` trigger and a

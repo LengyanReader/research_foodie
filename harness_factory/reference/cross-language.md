@@ -126,12 +126,12 @@ lacks. Widening the unit to the master's own standing-behaviour sentence ("Keep 
 **Verdict: no defect** — the unit boundary was wrong, not the translation. This is the §1 test doing its
 job, and it is why a first-pass "drift" must be re-tested before it is "fixed".
 
-**Step 3 — the real defects.** Mapping units 1–8 against the three Chinese renderings:
+**Step 3 — the real defects.** Mapping units 1–8 against the compressed Chinese renderings:
 
-| Unit | Status in the three renderings (as found in P12) |
+| Unit | Status in the renderings (as found in P12) |
 |---|---|
 | 1, 2, 3, 6, 7 | carried |
-| 4 (declare the capability + file) | **missing in all three** — a reader who pastes the Chinese line never learns to declare |
+| 4 (declare the capability + file) | **missing in every compressed rendering** — a reader who pastes the Chinese line never learns to declare |
 | 5 (revoke) | carried |
 | 8 (M0.4 / M0.1–M0.2 / irreversible acts) | **missing**; two guides kept only the fragment 「不编造任务内容」, the AGENTS.md line kept none |
 
@@ -145,11 +145,21 @@ Two propositions were fused and the fused form **adds a claim the master lacks**
 `check`, and send only generalisable patterns back"*. The diff touches **scope** (may I emit at all?),
 so under §3.1 it is a defect, not a compression.
 
-**Step 5 — disposition.** Master unchanged (it is the authority, and pasted verbatim by users). The three
-renderings were corrected in the same round: unit 4 added verbatim as 「用了就声明用了哪个能力、哪个文件」,
+**Step 5 — disposition.** Master unchanged (it is the authority, and pasted verbatim by users). The
+compressed renderings were corrected in the same round: unit 4 added verbatim as 「用了就声明用了哪个能力、哪个文件」,
 unit 8 added as 「不编造任务内容（M0.4）；真实与可溯源优先于速度（M0.1/M0.2）；不可逆动作须我明确同意」, and
 the fused clause split back into unit 7 (「只以提案回流 `updates/`（不直接改 `data|core|domains|templates`）」)
 plus unit 8. Recorded here because a fix without the mapping is unreviewable.
+
+**A miss in the first pass, kept in the record.** The first sweep was scoped to "the guides" and fixed
+three files (`GUIDE.md`, `introduction.md`, `AGENTS.md`). The user then pasted the block back from the
+**READMEs** — the two copies the quick-start actually hands to a user — and both still carried the two
+defects. The unit table was right; the *file set* was wrong, because it was derived from where the block
+was written rather than from where it is read. A fidelity gate now pins the compressed form
+(`tests/test_standing_reference.py::QuickStartFidelityTest`): each copy must carry units 4, 5 and 8, must
+name `harness check --dir`, and must not use factory-relative paths that a reader in a target project
+cannot resolve. **The lesson generalises: enumerate renderings from the reader's entry points, not from
+the writer's edits.**
 
 **What the example is for.** Both defects are invisible to a sentence-level read and to any MT metric:
 every individual Chinese sentence is well-formed and "sounds right". Only the **unit table** and the

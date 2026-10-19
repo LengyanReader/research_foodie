@@ -11,11 +11,13 @@
   - 路由：补 `reproducible-experiments`（实证分析要他人可复跑）与 `portable-skills`（能力本身要跨 harness 携带）两行——两者此前存在但**入口表不可达**。
   - 门禁：新增 `tests/test_capabilities.py::TriggerCoverageTest`（10 例），每个能力同时钉住**声明触发**与**必须不触发的安静向量**；不是「名字出现即算」，而是「该能力确实会被激活、且不会被悄悄放宽」。
   - 结果：**审计软缺口 12 → 0**。
-- **Slice 3a（roadmap P12.5，M4.10 从「说到」到「做到」）.** `reference/cross-language.md` 新增 **§7 实例**：以本仓库的**常驻引用块**为母本，切 8 个意群 → 对照三份中文短版 → 回译比对。它做了三件事：(1) 先把一个**看似漂移**的撤销条件（「明确说停止」vs "revoke"）通过**放宽意群**判为**无问题**——单位边界错，不是译文错；(2) 找出**两处真缺陷**：意群 4（用了能力要声明能力与文件）与意群 8（M0.4 · M0.1/M0.2 · 不可逆动作须明确同意）在三份中文渲染中**全部缺失**；(3) 指出「只提案、不编造任务内容」把两个意群**熔成一句**，读起来反而**多出母本没有的主张**（"只提案" 可读成「只准提案、不准产出」）。
-  - 处置：母本不动（它是权威且被逐字粘贴）；修正 `AGENTS.md` §6、`GUIDE.md`、`introduction.md` 三处渲染，并按意群重新拆分该融合句。
+- **Slice 3a（roadmap P12.5，M4.10 从「说到」到「做到」）.** `reference/cross-language.md` 新增 **§7 实例**：以本仓库的**常驻引用块**为母本，切 8 个意群 → 对照压缩版中文渲染 → 回译比对。它做了三件事：(1) 先把一个**看似漂移**的撤销条件（「明确说停止」vs "revoke"）通过**放宽意群**判为**无问题**——单位边界错，不是译文错；(2) 找出**两处真缺陷**：意群 4（用了能力要声明能力与文件）与意群 8（M0.4 · M0.1/M0.2 · 不可逆动作须明确同意）在压缩渲染中**全部缺失**；(3) 指出「只提案、不编造任务内容」把两个意群**熔成一句**，读起来反而**多出母本没有的主张**（"只提案" 可读成「只准提案、不准产出」）。
+  - 处置：母本不动（它是权威且被逐字粘贴）；修正 `AGENTS.md` §6、`GUIDE.md`、`introduction.md`，并按意群重新拆分该融合句。
+- **Slice 3a 补漏（用户把块贴回来才暴露）.** 第一遍把范围定成「guides」，**漏了两份 README**——恰恰是「快速开始」真正交给用户复制的那两份。用户贴回后即验证：三份指南已修、两份 README 仍是旧文。补齐后**五处渲染**一致，并解决三个可用性缺陷：(1) 路径基准不一致（首句 `harness_factory/SKILL.md`，后两句 `reference/…`）——粘贴到目标项目里后者解析不到，按母本统一为 `harness_factory/…`；(2) 「跑 `check`」含混——`harness check --dir <产物目录>` 与产物内 `.harness/check.py` 是两个东西，现写明前者；(3) 块内未给**撤销原语**——补「直到我说「停止使用 harness_factory」撤销」，使块自足。
+  - 实测（非文本推断）：`init` 12 个产物恰为 `AGENTS.md` + `tasks/*` + `.harness/*`（含 `capabilities.local.md`），`harness check --dir` 退出 0；三条路径全部存在。
 - **机制自身也被修正（自举）.** 收口 roadmap 条目时发现审计把 `done` 条目仍当「延后」要求 `revisit_when`。按语义改为：**未完成**必须给理由 + 重访条件；**已完成**只需记 `done_in`（落在哪一轮、哪一节）。同时 `harness cycle roadmap` 渲染 `done in …`。
-- **Result.** `harness cycle audit` → **OK**（0 硬问题、**0 软缺口**）；**220 例通过**（+10 触发门禁、+1 roadmap 落点守卫）。
-- **Guard.** `TriggerCoverageTest` 覆盖上一轮审计点名的全部 10 个能力；`test_roadmap_says_where_a_done_item_landed` 守住 `done_in` 的可见性。
+- **Result.** `harness cycle audit` → **OK**（0 硬问题、**0 软缺口**）；**225 例通过**（+10 触发门禁、+1 roadmap 落点守卫、+5 快速开始保真门禁）。
+- **Guard.** `TriggerCoverageTest` 覆盖上一轮审计点名的全部 10 个能力；`test_roadmap_says_where_a_done_item_landed` 守住 `done_in` 的可见性；`QuickStartFidelityTest` 按**块**（而非整文件）断言每份压缩渲染都含意群 4/5/8、可运行的 `check` 命令、且无 `reference/…` 工厂内相对路径——修法与教训同时被钉住。
 
 ---
 
