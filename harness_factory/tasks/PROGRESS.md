@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-10-19 — P13: the capability round as a mechanism · 能力轮次机制化
+- **Ask.** 每一轮能力拓展 / 深化 / 更新 / 演化都需要一套**机制性**的 harness 能力系统，以支撑能力集的**永续增强**；没有就建立。
+- **Non-redundancy check first (M0.5).** 已有三套相邻机制：`refresh`（情报实体）、`evolve`（对实体的变异提议）、`capability-flow`（单次任务的双向流动）。缺的是**能力集自身的轮次**——谁登记、何谓完成、被有意不做的事去哪。故新增第四套，而不是改前三套。
+- **Built.** `data/cycles.json`（SSOT：9 轮 `baseline`→`P13`、**七轴完成定义（带 hard/soft 标志）**、11 条 roadmap）· `cycle.py`（audit，硬/软分离）· CLI `harness cycle [list|show|audit|roadmap|dod]` · 子句 **M5.10**（`core/06`）· `reference/capability-cycle.md` · `tests/test_cycle.py`（16 例）。
+- **Mechanism, not prose.** 完成定义是**数据**而非散文：`audit` 把「登记 / 判别力 / 子句锚定」当**硬问题**，「门禁 / 溯源 / 路由 / 可达」当**软缺口**；**软缺口列表就是下一轮的工作单**——这是「永续」的机制部分。
+- **First audit run found real defects.** `M2.10`、`M2.11`、`M3.10`、`M8.10` 在综述/路由文档中被引用，却从未在 `core/` 锚定（`M2.11` 还被误标进 `core/09`）。本轮全部锚定并更正标签，同时补齐 `sources/source-map.md` 的 M2.10/M2.11、M3.10–M3.13、M5.10、M8.10 溯源行。
+- **Result.** `harness cycle audit` → **OK**（0 硬问题）；**14 条软缺口**（缺门禁测试 / 缺路由行的既有能力）成为 P12 的具体工作单。**209 例通过。**
+- **Guard.** `tests/test_cycle.py::CycleDoDTest::test_no_hard_problems` 让机制**自门禁**：幻影 id、未锚定子句、引擎无法求值的 `when` 谓词、无理由/无重访条件的延后，任一出现即 CI 失败。
+
 ## 2026-10-19 — P11.2: usage lives in the README · 用法集中到 README
 - **Ask.** 「用法放在 readme 文档即可」；并明确机制：用户给**一句指令词** → 能力**常驻上下文** → 后续**随需求自动**使用相关 harness 能力 → 用户**随时可撤销**。
 - **Change.** 在 `README.md` / `README.zh-CN.md` 的 **How to use this factory · 使用方式** 中补：①「一句指令词 → 常驻 → 随需自动用 → 随时说『停止使用 harness_factory』撤销」的生命周期；②**五条用法表**（情境 → 读哪份 → 用法一句话），指向 `capability-router` · `evidence-instruments` · `methodology-map` · `outlet-map` · `cross-language`。常驻粘贴块与撤销句本已在同文件「给 agent 的提示词模板」中，两处现互相呼应。

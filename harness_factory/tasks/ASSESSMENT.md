@@ -115,6 +115,12 @@ that reaches all of it from *one instruction* (P6 · P11.1 · P11.2).
 
 Items 1–4 are the *next* increments, not defects in what shipped. Planned as **P12** in `tasks/PLAN.md`.
 
+> **Update (2026-10-19, P13).** A *round* mechanism now exists — `data/cycles.json` + `harness cycle audit`,
+> clause **M5.10** — so capability growth is recorded, audited against a definition-of-done, and every
+> deferral carries a reason and a revisit trigger. That does **not** close A.3 #2: a round still ranks from
+> recorded gaps and human asks, not from execution traces. #4, #5 and #7 remain P12's business, and the
+> audit's soft gap list (14 items as of this date) is now their concrete worklist.
+
 ---
 
 ## Part B · External-harness integration review (Hermes Agent & peers)

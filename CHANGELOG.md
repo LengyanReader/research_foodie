@@ -6,6 +6,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Capability rounds as a mechanism (M5.10)** - new SSOT `data/cycles.json`: 9 recorded rounds
+  (`baseline` -> `P13`, git-verified `added` ids), the **definition-of-done as data** (7 axes with
+  hard/soft severity) and **11 roadmap items**, each carrying a `reason`, a `revisit_when` trigger and a
+  `source`. `cycle.py` + CLI `harness cycle [list|show|audit|roadmap|dod]`: `audit` separates **hard
+  problems** (phantom ids, clauses not anchored in their own module, `when` predicates the engine cannot
+  evaluate, deferrals without a reason or trigger) from the **soft gap surface** (missing router rows,
+  guards, provenance) - the gap list is the next round's worklist. New clause **M5.10** in `core/06`
+  (a round is recorded, audited and closed; a deferral is a decision, not an omission); procedure
+  `reference/capability-cycle.md`; guard `tests/test_cycle.py` (16 cases).
+- **Clause anchoring repair** - `M2.10`, `M2.11`, `M3.10` and `M8.10` were cited across review/router docs
+  but never anchored in `core/` (and `M2.11` was mislabelled inside `core/09`); all four are now anchored
+  in their own module, and `sources/source-map.md` gained rows for M2.10/M2.11, M3.10-M3.13, M5.10 and
+  M8.10.
 - **Usage in the README** — the five usage rules (router · evidence instruments · methodology · outlets ·
   cross-language) now live in the root READMEs' *How to use this factory* section, beside the
   one-instruction standing reference and its revocation, so "how to use" is findable without the CLI.

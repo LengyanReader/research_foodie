@@ -174,6 +174,7 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `methodology-map` | `reference/methodology-map.md` | M3.13 concrete: field → methodology system → what the harness must enforce |
 | `cross-language` | `reference/cross-language.md` | M4.10 concrete: align by meaning unit, corroborate by back-translation, term handling (not word-for-word) |
 | `outlet-map` | `reference/outlet-map.md` | field ⇒ high-quality information outlets / portals / media, with what each is NOT for |
+| `capability-cycle` | `reference/capability-cycle.md` | M5.10 concrete: how a capability round is sourced, sliced, audited and recorded |
 | `derivation-rules` | `reference/derivation-rules.md` | the rule table + feature vocab + capability map + output contract |
 | `M0` | `core/01-meta-principles.md` | meta-principles |
 | `M1` | `core/02-context-engineering.md` | context engineering |

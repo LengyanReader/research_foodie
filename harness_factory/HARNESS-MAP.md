@@ -3,13 +3,13 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 29 capabilities · 30 domains · 183 catalog entries · 23 CLI subcommands**
+**9 modules (M0–M8) · 29 capabilities · 30 domains · 183 catalog entries · 24 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、29 条能力（capability，任务特征 → 模块）、30 个学科域、183 条工具目录、23 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
+这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、29 条能力（capability，任务特征 → 模块）、30 个学科域、183 条工具目录、24 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
 
 ## 0 · At a glance · 一览
 
@@ -21,7 +21,7 @@
 | Tool catalog | 183 (12 classes × 50 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
 | Rubrics | 31 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
-| CLI subcommands | 23 | `src/harness_factory/cli.py` | §7 below |
+| CLI subcommands | 24 | `src/harness_factory/cli.py` | §7 below |
 | Emitted templates | 11 | `src/harness_factory/templates/` | §8 below |
 
 ## 1 · The map · 全景
@@ -137,7 +137,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | deep-research · Deep research — search, retrieval & synthesis | 43 |
 | instruments · Scientific & formal instruments (evidence tools) | 50 |
 
-## 7 · CLI surface · 命令行（23 subcommands）
+## 7 · CLI surface · 命令行（24 subcommands）
 
 `PYTHONPATH=<harness_factory>/src python -m harness_factory <cmd>` (or the installed `harness`).
 
@@ -166,6 +166,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | `cases` | show aggregated learned project cases |
 | `standard` | frontier-standard ratchet: name the bar, score, audit, raise (domains/excellence) |
 | `catalog` | unified harness catalog: list / search / filter (data/harnesses.json) |
+| `cycle` | capability-expansion cycles: registry / roadmap / definition-of-done audit |
 
 ## 8 · Entry points & load order · 入口与加载顺序
 
@@ -193,6 +194,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `methodology-map` | `reference/methodology-map.md` | M3.13 made concrete: field -> methodology system -> what the harness must enforce. |
 | `cross-language` | `reference/cross-language.md` | M4.10 made concrete: meaning-unit alignment, corroboration by back-translation, term handling (not word-for-word). |
 | `outlet-map` | `reference/outlet-map.md` | Field -> high-quality information outlets / portals / media, with what each is NOT for (sources.json `outlets`). |
+| `capability-cycle` | `reference/capability-cycle.md` | M5.10 made concrete: how a capability round is sourced, sliced, audited and recorded (data/cycles.json). |
 | `capabilities` | `CAPABILITIES.md` | Generated overview: purpose + every harness capability (requirement -> modules). |
 | `reference` | `review/references.md` | Source-grounded reference list. |
 | `harness-catalog` | `review/harness-catalog.md` | Prose taxonomy of harnesses & self-evolution methods. |
@@ -206,6 +208,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `harnesses.json` | `src/harness_factory/data/harnesses.json` | Unified harness catalog (SSOT for the index). |
 | `sources.json` | `src/harness_factory/data/sources.json` | Tracked entities + feeds + per-field `outlets`. |
 | `watchlist.json` | `src/harness_factory/data/watchlist.json` | Refresh topics + frontier probes. |
+| `cycles.json` | `src/harness_factory/data/cycles.json` | Capability-expansion cycles: rounds, definition-of-done, roadmap/deferrals. |
 
 ## 9 · Data sources → views · SSOT 与生成视图
 
@@ -219,6 +222,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `data/levers.json` | gap → modules/tools | `harness standard plan` |
 | `data/watchlist.json` | M5 frontier probes | `updates/REPORT.md` |
 | `data/sources.json` | tracked entities + feeds + per-field `outlets` | `updates/INTEL.md` |
+| `data/cycles.json` | capability rounds + definition-of-done + roadmap | `harness cycle` |
 
 ## 10 · Keeping this current · 如何保持同步
 

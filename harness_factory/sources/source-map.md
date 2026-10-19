@@ -25,16 +25,23 @@
 | M0.7 Resumable / idempotent | March-of-nines reliability engineering (Karpathy) [5]; Anthropic handoff [26] | practitioner |
 | M1 Context engineering (compaction, notes, subagents) | Anthropic [25]; OpenAI progressive disclosure / AGENTS.md-as-map [23] | practitioner |
 | M2 Long-running agents (resets, heartbeat, handoff) | Anthropic [26], [27]; OpenAI per-worktree observability [23] | practitioner |
+| M2.10 Loop contract (goal state, budget, per-step ground-truth check, no-progress stop); M2.11 declared control graph | Anthropic *Building effective agents* `[R93]`; ReAct `[R94]`; Reflexion `[R95]`; ADK graph workflows `[R96]` | practitioner |
 | M3 Verification gates; verify-the-verifier; separate builder/critic | Anthropic [26], [28]; Fowler guides/sensors [19]; Chollet refinement loop [14] | practitioner |
+| M3.10 Match the instrument to the claim | GUM + 2026 amendment `[R107]`; NASA-STD-7009B `[R108]`; SI brochure `[R109]`; Registered Reports `[R110]` | standard |
+| M3.11 Declare the inferential frame; M3.12 certify the computation; M3.13 declare the method and its assumptions | Bayesian workflow `[R111]`; rank-normalised R-hat `[R112]`; plus the methodology systems in `[R113]`–`[R119]` | academic + standard |
 | M4 Provenance & integrity; injection-safe design | Willison lethal trifecta [15], [16]; design patterns paper [17]; repo citation-verify | practitioner + internal |
 | M4.10 Meaning-unit fidelity across languages (align by sense group; corroborate; gloss, never silently substitute) | Translation-quality standards ISO 17100 `[R120]`, ISO 5060 `[R121]`; interchange format XLIFF 2.2 `[R123]`; comparative stylistics Vinay & Darbelnet `[R124]`; dynamic equivalence Nida & Taber `[R125]`; cohesion Halliday & Hasan `[R122]`; MQM `[R126]` | standard + academic |
 | M5 Self-evolution engine (signal→audit→mutation→journal) | gruel_cooking `harness/evolution.md` + `audit.py`; `_archive/docs/design/self-evolution-mechanism.md`; Hashimoto [21]; OpenAI garbage collection [23]; `review/harness-catalog.md` §3 (ADAS, Gödel Agent, SICA, DGM, FunSearch/AlphaEvolve, SEAL, Reflexion/Self-Refine, Voyager) | internal + practitioner |
+| M5.10 The capability round is a mechanism (registry · definition-of-done · deferral with a revisit trigger) | Repo practice: the P-cycles in `tasks/PLAN.md`, `data/cycles.json`, `review/integration-map-2026-10.md`; staged self-improvement (Promote/Register/Deepen/Fission/Archive/Consolidate) above | internal |
 | M2 Externalized memory; M5 skill-library persistence | `review/harness-catalog.md` §4–3e (MemGPT/Letta, Mem0, Zep, A-MEM; Voyager skill library) | practitioner |
 | Self-evolution safety (admission/authority/scope/containment) | `review/harness-catalog.md` §8 (SAVER, Misevolution) | practitioner |
 | M6 Tools & skills (minimal toolset, progressive skills) | huayan `harness/tools.md`, `skills.md`; Anthropic Agent Skills posts; Openharness skill patterns | internal + practitioner |
 | M7 Change governance (SSOT, conventional commits, no unsolicited push) | Repo `AGENTS.md` §4; huayan `rules.md`; Fowler relocating rigor [18] | internal + practitioner |
 | M0.8 Human gate on destructive acts; autonomy slider | Karpathy "keep AI on a leash" / Iron Man suit [2]; Willison principle 1 [16]; huayan `compliance.md` | practitioner + internal |
+| M0.9 Changes visible and reversible | Repo `AGENTS.md` §4 (conventional commits, no unsolicited push, diff-reviewable); Fowler relocating rigor [18] | internal + practitioner |
+| M0.10 The harness evolves | `_archive/docs/design/self-evolution-mechanism.md`; Hashimoto [21]; `review/harness-catalog.md` §3; this repo's own recorded rounds (`data/cycles.json`) | internal + practitioner |
 | M8 Collaboration & sessions (contracts, escalation, handoff) | Anthropic generator/evaluator + handoff [26]; Hashimoto six-stage adoption [21] | practitioner |
+| M8.10 Declare the topology (who runs when, shared state, ownership) | ADK graph workflows `[R96]`; LangGraph persistence `[R97]` | practitioner |
 
 ---
 

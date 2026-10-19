@@ -282,6 +282,7 @@ def render_doc() -> str:
     add("| `data/levers.json` | gap → modules/tools | `harness standard plan` |")
     add("| `data/watchlist.json` | M5 frontier probes | `updates/REPORT.md` |")
     add("| `data/sources.json` | tracked entities + feeds + per-field `outlets` | `updates/INTEL.md` |")
+    add("| `data/cycles.json` | capability rounds + definition-of-done + roadmap | `harness cycle` |")
     add("")
     add("## 10 · Keeping this current · 如何保持同步")
     add("")

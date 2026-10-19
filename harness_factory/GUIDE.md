@@ -693,7 +693,7 @@ Priority chain (higher wins on conflict) · 优先级链（冲突时高者胜）
 - [`SKILL.md`](SKILL.md) — agent-native entry (cardinal rules + output contract). · agent 入口。
 - Root [`../README.md`](../README.md) / [`../README.zh-CN.md`](../README.zh-CN.md) — positioning · structure · layout + copy-paste agent prompt templates. · 定位、结构、用法与可复制的提示词模板。
 - `core/00-index.md` → `core/01-meta-principles.md` → M1–M8 — the ten invariants and modules. · 十条不变式与模块。
-- `reference/*.md` — the loadable reference set: capability-router · requirement-refinement · derivation-rules · capability-flow · evidence-instruments · methodology-map · outlet-map · cross-language (list via `harness skill`). · 可加载的参考集。
+- `reference/*.md` — the loadable reference set: capability-router · requirement-refinement · derivation-rules · capability-flow · evidence-instruments · methodology-map · outlet-map · cross-language · capability-cycle (list via `harness skill`). · 可加载的参考集。
 - `domains/<id>/README.md` — per-discipline workflows. · 各学科工作流。
 - `review/harness-index.md` — unified harness lookup (generated). · 统一 harness 索引（自动生成）。
 - [`HARNESS-MAP.md`](HARNESS-MAP.md) — the whole factory on one page: modules · capabilities · domains · catalog · CLI (generated). · 一页看全项目（自动生成）。

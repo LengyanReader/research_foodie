@@ -65,6 +65,7 @@ _TAIL: tuple[Skill, ...] = (
     Skill("methodology-map", "reference", "reference/methodology-map.md", "M3.13 made concrete: field -> methodology system -> what the harness must enforce."),
     Skill("cross-language", "reference", "reference/cross-language.md", "M4.10 made concrete: meaning-unit alignment, corroboration by back-translation, term handling (not word-for-word)."),
     Skill("outlet-map", "reference", "reference/outlet-map.md", "Field -> high-quality information outlets / portals / media, with what each is NOT for (sources.json `outlets`)."),
+    Skill("capability-cycle", "reference", "reference/capability-cycle.md", "M5.10 made concrete: how a capability round is sourced, sliced, audited and recorded (data/cycles.json)."),
     Skill("capabilities", "overview", "CAPABILITIES.md", "Generated overview: purpose + every harness capability (requirement -> modules)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),
     Skill("harness-catalog", "review", "review/harness-catalog.md", "Prose taxonomy of harnesses & self-evolution methods."),
@@ -78,6 +79,7 @@ _TAIL: tuple[Skill, ...] = (
     Skill("harnesses.json", "catalogs", "src/harness_factory/data/harnesses.json", "Unified harness catalog (SSOT for the index)."),
     Skill("sources.json", "catalogs", "src/harness_factory/data/sources.json", "Tracked entities + feeds + per-field `outlets`."),
     Skill("watchlist.json", "catalogs", "src/harness_factory/data/watchlist.json", "Refresh topics + frontier probes."),
+    Skill("cycles.json", "catalogs", "src/harness_factory/data/cycles.json", "Capability-expansion cycles: rounds, definition-of-done, roadmap/deferrals."),
 )
 
 _INDEX: tuple[Skill, ...] = _HEAD + _domain_skills() + _TAIL

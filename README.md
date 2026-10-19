@@ -271,8 +271,9 @@ situation into the right practice — load only the one the situation matches (M
 | Naming a method · 要套用某个命名方法 | [`methodology-map`](harness_factory/reference/methodology-map.md) | A method = protocol + assumptions + reporting standard; `status = later` rows are checklists, not machine gates. |
 | Need to know where to look · 要知道某领域去哪查 | [`outlet-map`](harness_factory/reference/outlet-map.md) | First-party registry/database → reviewed index → preprint → media; read the `NOT for` column before citing. |
 | Text crosses languages · 要跨语言搬运 | [`cross-language`](harness_factory/reference/cross-language.md) | Align by meaning unit, carry each unit whole, corroborate by back-translation, gloss terms — never word-for-word. |
+| Growing the capability set · 要扩展能力集 | [`capability-cycle`](harness_factory/reference/capability-cycle.md) | A round = gap surface → rank → 2–4 slices → the seven-axis definition-of-done (`harness cycle audit`) → record in `data/cycles.json`; defer with a reason and a revisit trigger.
 
-> Two things hold across all five: the rules live in the **invariant layer** (M3.10–M3.13 · M4.10) rather than
+> Two things hold across all six: the rules live in the **invariant layer** (M3.10–M3.13 · M4.10 · M5.10) rather than
 > as capabilities — they fire on nearly everything, so a capability would not discriminate; and every outlet
 > states what it is **not** for, so a source can be appraised instead of trusted.
 
@@ -306,6 +307,7 @@ See [`harness_factory/sources/source-map.md`](harness_factory/sources/source-map
 | **Name a field's methodology + its demands** | [`harness_factory/reference/methodology-map.md`](harness_factory/reference/methodology-map.md) |
 | **Where to look in a field (outlets · portals · media)** | [`harness_factory/reference/outlet-map.md`](harness_factory/reference/outlet-map.md) |
 | **Keep a cross-language deliverable faithful (M4.10)** | [`harness_factory/reference/cross-language.md`](harness_factory/reference/cross-language.md) |
+| **Run a capability round (M5.10)** | [`harness_factory/reference/capability-cycle.md`](harness_factory/reference/capability-cycle.md) |
 | **Copy-paste prompt templates** | [Agent prompt templates](#agent-prompt-templates--给-agent-的提示词模板) (in this file) |
 | Positioning, layout, usage | this file — [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | Full guide + worked examples | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |

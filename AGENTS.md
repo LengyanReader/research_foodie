@@ -31,6 +31,7 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
                           · capability-flow（双向：下放具体化 ⇄ 回流提炼）· derivation-rules（规则表的 agent 可读镜像）
                           · evidence-instruments（命题→仪器→门禁）· methodology-map（领域→方法论→要求）
                           · outlet-map（领域→信息源/门户/媒体）· cross-language（意群对齐与回译互证）
+                          · capability-cycle（能力轮次：缺口面→切片→完成定义→登记）
   src/harness_factory/    工具源码 + data/*.json（SSOT）+ templates/
   tests/                  标准库 unittest（无外部依赖）
   tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT
@@ -48,7 +49,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **193** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **209** 用例，`python -m unittest discover -s tests`）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 

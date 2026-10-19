@@ -24,7 +24,7 @@ Multi-party work fails at the seams: unstated assumptions, ambiguous ownership, 
 7. **Conflict resolution by priority chain.** When instructions collide, apply the M0 priority order (Truth ≻ Trace ≻ Verify ≻ …) and **record the conflict and resolution** (M4, append-only).
 8. **Keep decision authority human.** Automate orchestration and throughput; humans own substance and values (M0.4, M0.8).
 9. **Shared ledger.** One canonical record of decisions, so all parties see the same state (M0.5).
-10. **Declare the topology.** When more than one role or agent runs, write down *who runs when*, *what shared state each touches* and *who owns each shared value* (M2.11) — topology in prose before prompts, so the run can be inspected, resumed and re-assigned rather than only "prompted".
+10. **Declare the topology (M8.10).** When more than one role or agent runs, write down *who runs when*, *what shared state each touches* and *who owns each shared value* — topology in prose before prompts, so the run can be inspected, resumed and re-assigned rather than only "prompted".
 
 > **中文**：开工前显式契约（目标/验收/边界/预算/归属）；角色分离（生成者≠评判者，driver/navigator）；升级路径（不可逆、指令冲突、超范围、高风险低置信→停下问）；提问预算；带状态交接；子 agent 契约（窄任务+严格格式+受限上下文）；冲突按 M0 优先级链裁决并记录；人类掌握实质决断；共享决策台账；**先画拓扑再写提示词**（谁在何时运行 · 各自触及哪些共享状态 · 谁拥有哪个共享值）。
 

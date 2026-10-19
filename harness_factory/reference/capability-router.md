@@ -55,6 +55,7 @@
 | A named method (PRISMA, DiD, grounded theory, DoE, design science…) · 套用某套方法论 | `verification-gate`, `traceable-sources` | M3, M4 | [`reference/methodology-map.md`](methodology-map.md) |
 | Text must cross languages (translate; bilingual report; EN↔ZH corroboration) · 跨语言搬运/双语交付 | `verification-gate`, `traceable-sources` | M3, M4 | [`reference/cross-language.md`](cross-language.md) |
 | Need to know *where to look* in a field · 想知道某领域去哪查 | `traceable-sources` | M4 | [`reference/outlet-map.md`](outlet-map.md) |
+| Growing the capability set (a round) · 要扩展或深化能力集 | `self-improving-loop` | M5, M7 | [`reference/capability-cycle.md`](capability-cycle.md), `harness cycle audit` |
 | Unsure *what evidence would settle it* · 说不清用什么仪器 | `verification-gate`, `formal-verification`, `dimensional-analysis`, `empirical-measurement` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md) |
 | Picking a discipline to work in · 选学科门类 | — (route by *kind of work*) | — | [`domains/`](../domains) → `domains/<name>/README.md` |
 | Choosing a model/method · 选模型/选方法 | — | — | [`domains/model-selection/README.md`](../domains/model-selection/README.md) |

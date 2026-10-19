@@ -1,0 +1,408 @@
+{
+  "updated": "2026-10-19",
+  "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
+  "definition_of_done": [
+    {
+      "key": "registered",
+      "hard": true,
+      "check": "every id in a cycle's `added.capabilities` / `added.domains` / `added.references` exists in the live SSOT (`data/*.json`, `review/references.md`), and every `added.clauses` label is anchored in its own module"
+    },
+    {
+      "key": "discriminator",
+      "hard": true,
+      "check": "the trigger is one the engine can actually evaluate (`any` / `min_horizon` / a feature axis / `domain`; an undeclared predicate would silently never fire), and the capability is not a duplicate registration (same `when`, `modules` and title = consolidate, don't add)"
+    },
+    {
+      "key": "clause",
+      "hard": true,
+      "check": "the capability's module clauses are real: each claimed `M<k>.<n>` label is anchored in that module's `core/` doc (`M2` -> `core/03`, ...), either as a heading or inside a bold clause title"
+    },
+    {
+      "key": "guard",
+      "hard": false,
+      "check": "a stdlib unittest under `tests/` fails if the wiring is removed (the capability or clause is mentioned there)"
+    },
+    {
+      "key": "provenance",
+      "hard": false,
+      "check": "`sources/source-map.md` maps the clause to a first-party source (arXiv ID / DOI / official repo or doc)"
+    },
+    {
+      "key": "router",
+      "hard": false,
+      "check": "`reference/capability-router.md` routes an intent to the capability, so a reader can find it from a situation"
+    },
+    {
+      "key": "reachable",
+      "hard": false,
+      "check": "the doc that owns the pattern is listed by `harness skill` (the load index), so one instruction reaches it"
+    }
+  ],
+  "cycles": [
+    {
+      "id": "baseline",
+      "date": "2026-10-15",
+      "status": "done",
+      "title_en": "Baseline: pattern library, compiler, self-update loop, intel + evolution, agent-native mode",
+      "title_zh": "基线：模式库 · 编译器 · 自更新循环 · 情报与演化 · agent 原生模式",
+      "note": "P0-P5 collapsed. Recorded coarsely from the SSOT as of 2026-10-15 (git: 85142f7). Not recorded while it ran.",
+      "slices": [
+        "core/ + domains/ + review/ + sources/ pattern library, and the CLI (derive/init/explain/check)",
+        "self-update loop (M5): refresh/refresh-apply, watchlist, curate, journal",
+        "intel tracking + self-evolution: sources.json, feed collection, evolution.py, proposal gate",
+        "agent-native mode: SKILL.md + `harness skill`, capabilities.json, profile.py, mutual learning",
+        "plugin protocol, user-home KB (`HARNESS_HOME`), early disciplines and the unified harness catalog"
+      ],
+      "added": {
+        "capabilities": [
+          "baseline-discipline",
+          "verification-gate",
+          "resumable-memory",
+          "traceable-sources",
+          "self-improving-loop",
+          "tool-use",
+          "human-review-gate",
+          "high-stakes-guardrails",
+          "reproducible-experiments",
+          "long-horizon-autonomy-control",
+          "frontier-standard",
+          "sandboxed-execution",
+          "portable-skills"
+        ],
+        "domains": [
+          "general",
+          "research",
+          "deep-research",
+          "knowledge-management",
+          "data-science",
+          "software-engineering",
+          "devops",
+          "engineering",
+          "physics",
+          "chemistry",
+          "biology",
+          "earth-environment",
+          "mathematics",
+          "medicine",
+          "economics-finance",
+          "psychology",
+          "social-science",
+          "law",
+          "humanities",
+          "education",
+          "arts-design",
+          "model-selection",
+          "reading",
+          "excellence",
+          "writing"
+        ],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 133
+      }
+    },
+    {
+      "id": "P6",
+      "date": "2026-10-16",
+      "status": "done",
+      "title_en": "Standing reference made structural, and the capability router",
+      "title_zh": "常驻引用结构化 + 能力路由",
+      "sources_groups": ["C", "D"],
+      "slices": [
+        "config.factory_root() resolves the checkout that provides the code",
+        "pointer.py builds/verifies the emitted .harness/pointer.json; assemble.py writes the resolved path (no placeholder)",
+        "runtime.gate_report adds the advisory `pointer-resolves` gate",
+        "reference/capability-router.md: situation -> capability -> modules -> files"
+      ],
+      "added": {
+        "capabilities": [
+          "ambition-elevation",
+          "expert-instruments",
+          "cross-field-crew",
+          "bidirectional-capability-flow"
+        ],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0
+      }
+    },
+    {
+      "id": "P7",
+      "date": "2026-10-18",
+      "status": "done",
+      "title_en": "Frontier capability refresh (2026): context, security, durability, spend, evals",
+      "title_zh": "前沿能力刷新：上下文 · 安全 · 持久执行 · 预算 · 评测",
+      "sources_groups": ["E"],
+      "slices": [
+        "distilled 2026 frontier work into the capability SSOT (data-only: 17 -> 22)",
+        "context-budget-policy (context rot), untrusted-content-discipline (lethal trifecta / OWASP ASI01-ASI10)",
+        "durable-execution (Temporal + METR), cost-budget-caps (hard caps), eval-driven-development (step-level evals + OTel GenAI)",
+        "router rows + a provenance row per capability; review/frontier-2026-10.md"
+      ],
+      "added": {
+        "capabilities": [
+          "context-budget-policy",
+          "untrusted-content-discipline",
+          "durable-execution",
+          "cost-budget-caps",
+          "eval-driven-development"
+        ],
+        "domains": [],
+        "clauses": [],
+        "references": ["R84", "R85", "R86", "R87", "R88", "R89", "R90", "R91", "R92"],
+        "catalog_delta": 0
+      }
+    },
+    {
+      "id": "P8",
+      "date": "2026-10-18",
+      "status": "done",
+      "title_en": "Workflow shape (loops, graphs) and formal + empirical disciplines",
+      "title_zh": "工作流形状（循环/图）+ 形式与经验学科",
+      "sources_groups": ["F", "G"],
+      "slices": [
+        "loop-discipline + graph-orchestration with the loop contract, declared control graph and topology clauses",
+        "3 domains: logic (new faculty formal-sciences), linguistics, cognitive-science (README + rubric each)",
+        "3 evidence-instrument capabilities: formal-verification, dimensional-analysis, empirical-measurement",
+        "generated whole-factory map (harness map / HARNESS-MAP.md) on the same pass",
+        "review/workflow-patterns-2026-10.md + review/disciplines-crosswalk-2026-10.md (with non-additions)"
+      ],
+      "added": {
+        "capabilities": [
+          "loop-discipline",
+          "graph-orchestration",
+          "formal-verification",
+          "dimensional-analysis",
+          "empirical-measurement"
+        ],
+        "domains": ["logic", "linguistics", "cognitive-science"],
+        "clauses": ["M2.10", "M2.11", "M8.10", "M3.10"],
+        "references": [
+          "R93",
+          "R94",
+          "R95",
+          "R96",
+          "R97",
+          "R98",
+          "R99",
+          "R100",
+          "R101",
+          "R102",
+          "R103",
+          "R104",
+          "R105",
+          "R106"
+        ],
+        "catalog_delta": 0
+      }
+    },
+    {
+      "id": "P9",
+      "date": "2026-10-18",
+      "status": "done",
+      "title_en": "Evidence instruments made concrete: catalog, claim map, emitted default",
+      "title_zh": "证据仪器做实：目录 · 声明→仪器映射 · 生成默认",
+      "sources_groups": ["H"],
+      "slices": [
+        "new `instruments` class in data/harnesses.json - 13 kinds, 27 entries (catalog 133 -> 160)",
+        "reference/evidence-instruments.md: claim type -> instrument -> tool -> gate evidence, wired into the load index",
+        "templates/AGENTS.md.tmpl gains an Evidence instrument stanza derived by assemble._evidence_instrument()",
+        "concrete instrument lines added to the logic/linguistics/cognitive-science/physics/chemistry/biology READMEs"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": ["R107", "R108", "R109", "R110"],
+        "catalog_delta": 27,
+        "instruments_delta": 27
+      }
+    },
+    {
+      "id": "P10",
+      "date": "2026-10-19",
+      "status": "done",
+      "title_en": "Mathematics, statistics and methodology systems",
+      "title_zh": "数学 · 统计 · 方法论体系",
+      "sources_groups": ["I", "J"],
+      "slices": [
+        "2 domains: statistics, geometry-topology (faculty formal-sciences; README + rubric each)",
+        "2 capabilities: statistical-inference, certified-computation",
+        "23 new instruments / 4 new kinds (CAS, SAT solver, geometry-topology, causal inference); catalog 160 -> 183",
+        "reference/methodology-map.md (field -> methodology system -> canonical source -> what it demands -> who enforces it)",
+        "review/integration-map-2026-10.md: the status board (done/next/later) with discriminating criteria"
+      ],
+      "added": {
+        "capabilities": ["statistical-inference", "certified-computation"],
+        "domains": ["statistics", "geometry-topology"],
+        "clauses": ["M3.11", "M3.12", "M3.13"],
+        "references": ["R111", "R112", "R113", "R114", "R115", "R116", "R117", "R118", "R119"],
+        "catalog_delta": 23,
+        "instruments_delta": 23
+      }
+    },
+    {
+      "id": "P11",
+      "date": "2026-10-19",
+      "status": "done",
+      "title_en": "Cross-language meaning units and per-field information outlets",
+      "title_zh": "跨语言意群保真 + 各领域信息源地图",
+      "sources_groups": ["K"],
+      "slices": [
+        "clause M4.10 (meaning-unit fidelity) + reference/cross-language.md",
+        "`outlets` group in data/sources.json - 68 curated, reachability-checked outlets keyed by field",
+        "reference/outlet-map.md (field -> outlets -> why high-quality / not-for) + field README pointers",
+        "follow-ups: P11.1 pointer entry_docs derived from the skill index (4 -> 12), P11.2 usage rules in the root READMEs"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": ["M4.10"],
+        "references": ["R120", "R121", "R122", "R123", "R124", "R125", "R126"],
+        "catalog_delta": 0,
+        "outlets_delta": 68
+      }
+    },
+    {
+      "id": "P12",
+      "date": "2026-10-19",
+      "status": "planned",
+      "title_en": "Evidence-driven loop, CI hardening, P11 closeout",
+      "title_zh": "证据驱动循环 · CI 硬化 · P11 收尾",
+      "slices": [
+        "CI: end-to-end emitted-harness job on both OSes; opt-in network job (workflow_dispatch only)",
+        "M2 made concrete: declared memory backend + resume protocol (clause M2.12 + emitted stanza)",
+        "P11 closeout: re-verify the 22 unconfirmed outlets; one real EN<->ZH worked example in reference/cross-language.md"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0
+      }
+    },
+    {
+      "id": "P13",
+      "date": "2026-10-19",
+      "status": "done",
+      "title_en": "The capability cycle as a mechanism: registry, definition-of-done, gap surface",
+      "title_zh": "能力循环机制化：注册表 · 完成定义 · 缺口面",
+      "slices": [
+        "data/cycles.json - the SSOT cycle registry (this file) + the definition-of-done as data",
+        "cycle.py + CLI `harness cycle` / `cycle show` / `cycle audit` / `cycle roadmap`",
+        "clause M5.10 in core/06 (the round contract) + reference/capability-cycle.md (the procedure)",
+        "first audit run: anchor the unlabelled clauses M2.10, M2.11, M3.10 and re-label M8.10"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": ["M5.10"],
+        "references": [],
+        "catalog_delta": 0
+      }
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "P12.1",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "ASSESSMENT A.3 #7",
+      "title_en": "End-to-end emitted-harness job in CI",
+      "reason": "CI claims coverage it does not run: nothing executes init -> check -> gate -> harvest -> pointer verify",
+      "revisit_when": "P12 Slice 1"
+    },
+    {
+      "id": "P12.2",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "ASSESSMENT A.3 #5",
+      "title_en": "Opt-in network job (refresh / intel)",
+      "reason": "the network paths are untested by design offline, so they are never exercised at all",
+      "revisit_when": "P12 Slice 1"
+    },
+    {
+      "id": "P12.3",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "ASSESSMENT A.3 #4",
+      "title_en": "Memory made concrete: declared backend + resume protocol",
+      "reason": "M2 externalizes memory as a rule, but no backend posture is emitted (the evidence-instrument stanza is the precedent)",
+      "revisit_when": "P12 Slice 2"
+    },
+    {
+      "id": "P12.4",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "review/integration-map-2026-10.md 3 #6",
+      "title_en": "Re-verify the 22 unconfirmed outlets",
+      "reason": "22 outlets are recorded `verified: false` because the automated check was blocked (403/405); they were listed, not confirmed",
+      "revisit_when": "P12 Slice 3"
+    },
+    {
+      "id": "P12.5",
+      "status": "planned",
+      "cycle": "P12",
+      "source": "review/integration-map-2026-10.md 3 #7",
+      "title_en": "One real EN<->ZH worked example (M4.10)",
+      "reason": "M4.10 is stated in prose but never shown; a worked instance makes the procedure checkable",
+      "revisit_when": "P12 Slice 3"
+    },
+    {
+      "id": "D1",
+      "status": "deferred",
+      "cycle": null,
+      "source": "ASSESSMENT A.3 #2",
+      "title_en": "Trace-driven self-evolution",
+      "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code",
+      "revisit_when": "a design doc exists naming the trace schema, the holdout, and the rollback path"
+    },
+    {
+      "id": "D2",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/integration-map-2026-10.md 3 #3",
+      "title_en": "Spectra / crystallography instruments",
+      "reason": "each database needs its licence and API verified before it can be catalogued honestly (per-database, not one decision)",
+      "revisit_when": "a cycle verifies the licence + API for at least one such database"
+    },
+    {
+      "id": "D3",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/integration-map-2026-10.md 3 #1-2",
+      "title_en": "A `qualitative-rigour` capability",
+      "reason": "the clearest recorded capability gap, but the 8-axis feature vector has no interpretive/qualitative axis, so it could not discriminate (it would double-fire)",
+      "revisit_when": "the feature vector gains an affordance that distinguishes qualitative designs"
+    },
+    {
+      "id": "D4",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/integration-map-2026-10.md 1e",
+      "title_en": "Outlet feeds in the intel loop",
+      "reason": "outlets are a reference surface by design (where to look), not an intel input (what changed); wiring them into refresh would blur that split",
+      "revisit_when": "a cycle decides outlets are an intel input and accepts the extra collection cost"
+    },
+    {
+      "id": "D5",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/integration-map-2026-10.md 3 #4",
+      "title_en": "Domain-methodology sections for medicine / social-science / education / law / humanities",
+      "reason": "only worth adding where a domain names a field-specific trap the methodology map does not already cover; otherwise it is duplication (M0.5)",
+      "revisit_when": "a domain README can name a trap the map lacks"
+    },
+    {
+      "id": "D6",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/integration-map-2026-10.md 3 #5",
+      "title_en": "`jspsych` re-verification",
+      "reason": "the single `verified: false` instrument entry; the landing page needs a re-check on the next instrument pass",
+      "revisit_when": "the next instrument verification pass"
+    }
+  ]
+}

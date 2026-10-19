@@ -112,6 +112,8 @@ Status keys: **done** = in the SSOT with a gate · **next** = scoped, evidence a
 
 **P11 is closed (2026-10-19).** The cues above are the inputs to the **next stage, `P12`**, now planned in `tasks/PLAN.md` §Milestones: *Slice 1* CI covers what it claims (end-to-end emitted-harness job + an opt-in network job) → items 5/6 are swept up here or in Slice 3; *Slice 2* M2 made concrete (a declared memory backend, clause M2.12) — the largest remaining structural gap; *Slice 3* P11 closeout → items **6** and **7**. Items 1–3 stay deferred with recorded reasons (a feature-vector affordance, per-database licence checks). The wrap-up verdict and the 2026-10-19 measured surface are in `tasks/ASSESSMENT.md` §A.5.
 
+**P13 (2026-10-19) built the round mechanism** (`data/cycles.json`, `harness cycle audit`, clause **M5.10**). Its first audit turned the prose cues above into a concrete worklist: four clauses that were cited but never anchored in `core/` (`M2.10`, `M2.11`, `M3.10`, `M8.10` — the last three of which are items 3–5 of this list's family) were repaired in P13, and the remaining **soft gaps** (capabilities with no guard test or no router row) are now enumerated mechanically by `harness cycle audit` instead of living as prose reminders. The deferred items 1–3 are now **recorded** in the registry as D3/D2/D4, each with a reason and a revisit trigger.
+
 ---
 
 ## See also · 另见

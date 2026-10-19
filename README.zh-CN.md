@@ -232,8 +232,9 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 | 要套用某个命名方法 | [`methodology-map`](harness_factory/reference/methodology-map.md) | 方法 = 协议 + 假设 + 报告规范三件套；`status = later` 的行是清单，不是机器门禁。 |
 | 要知道某领域去哪查 | [`outlet-map`](harness_factory/reference/outlet-map.md) | 一手登记库/数据库 → 权威索引 → 预印本 → 媒体；引用前先读 `NOT for` 列。 |
 | 要跨语言搬运 | [`cross-language`](harness_factory/reference/cross-language.md) | 按意群切分、整段搬运、回译互证、术语加注——绝不逐字对译。 |
+| 要扩展能力集 | [`capability-cycle`](harness_factory/reference/capability-cycle.md) | 一轮 = 读缺口面 → 排序 → 2–4 个切片 → 过七轴完成定义（`harness cycle audit`）→ 登记 `data/cycles.json`；不做的事写理由 + 重访条件。 |
 
-> 五条共通两点：规则位于**不变量层**（M3.10–M3.13 · M4.10）而非做成能力——它们几乎对一切任务都会触发，做成能力就不判别；
+> 六条共通两点：规则位于**不变量层**（M3.10–M3.13 · M4.10 · M5.10）而非做成能力——它们几乎对一切任务都会触发，做成能力就不判别；
 > 以及每条信息源都写明「**不适合**用来做什么」，让来源可被评估而非被信任。
 
 ## 泛化铁律
@@ -262,6 +263,7 @@ skill），之后每次只给**任务**（同一轮或下一轮）——见 [「
 | **确认某领域的方法论及其要求** | [`harness_factory/reference/methodology-map.md`](harness_factory/reference/methodology-map.md) |
 | **某领域去哪查（信息源 · 门户 · 媒体）** | [`harness_factory/reference/outlet-map.md`](harness_factory/reference/outlet-map.md) |
 | **跨语言交付保持意群保真（M4.10）** | [`harness_factory/reference/cross-language.md`](harness_factory/reference/cross-language.md) |
+| **跑一轮能力拓展 / 深化（M5.10）** | [`harness_factory/reference/capability-cycle.md`](harness_factory/reference/capability-cycle.md) |
 | **可复制的提示词模板（配置 + 任务句）** | [本文件「给 agent 的提示词模板」](#给-agent-的提示词模板) |
 | 定位、结构、用法 | 本文件 —— [`README.md`](README.md) / [`README.zh-CN.md`](README.zh-CN.md) |
 | 完整指南 + 实例 | [`harness_factory/GUIDE.md`](harness_factory/GUIDE.md) |

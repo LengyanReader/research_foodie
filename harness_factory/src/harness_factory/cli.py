@@ -286,6 +286,24 @@ def build_parser() -> argparse.ArgumentParser:
     catalog_p.add_argument("--write", action="store_true", help="write review/harness-index.md")
     catalog_p.add_argument("--json", action="store_true")
 
+    cycle_p = sub.add_parser(
+        "cycle",
+        help="capability-expansion cycles: registry / roadmap / definition-of-done audit",
+    )
+    cycle_p.add_argument("--json", action="store_true", help="emit JSON")
+    cyc_sub = cycle_p.add_subparsers(dest="action")
+    for _name, _help in (
+        ("list", "list the recorded cycles (default)"),
+        ("roadmap", "planned work and deliberate non-additions"),
+        ("audit", "check the definition-of-done against the live SSOT"),
+        ("dod", "print the definition-of-done (the bar a capability must clear)"),
+    ):
+        _child = cyc_sub.add_parser(_name, help=_help)
+        _child.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
+    cyc_show = cyc_sub.add_parser("show", help="show one cycle in detail")
+    cyc_show.add_argument("id")
+    cyc_show.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
+
     return parser
 
 
@@ -910,6 +928,56 @@ def _cmd_map(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_cycle(args: argparse.Namespace) -> int:
+    from . import cycle as cycle_mod
+
+    action = getattr(args, "action", None) or "list"
+    want_json = bool(getattr(args, "json", False))
+
+    if action == "show":
+        cid = getattr(args, "id", None)
+        cycle = cycle_mod.by_id(cid) if cid else None
+        if cycle is None:
+            print(f"error: unknown cycle '{cid}' (run `harness cycle list`)", file=sys.stderr)
+            return 2
+        if want_json:
+            print(json.dumps(cycle, ensure_ascii=False, indent=2))
+        else:
+            print(cycle_mod.render_detail(cid), end="")
+        return 0
+
+    if action == "audit":
+        result = cycle_mod.audit()
+        if want_json:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        else:
+            print(cycle_mod.render_audit(result), end="")
+        return 0 if result["ok"] else 1
+
+    if action == "roadmap":
+        if want_json:
+            print(json.dumps(cycle_mod.roadmap(), ensure_ascii=False, indent=2))
+        else:
+            print(cycle_mod.render_roadmap(), end="")
+        return 0
+
+    if action == "dod":
+        dod = cycle_mod.definition_of_done()
+        if want_json:
+            print(json.dumps(dod, ensure_ascii=False, indent=2))
+        else:
+            for entry in dod:
+                severity = "hard" if entry.get("hard") else "soft"
+                print(f"[{severity}] {entry.get('key')}: {entry.get('check')}")
+        return 0
+
+    if want_json:
+        print(json.dumps(cycle_mod.cycles(), ensure_ascii=False, indent=2))
+    else:
+        print(cycle_mod.render_index(), end="")
+    return 0
+
+
 def _cmd_standard(args: argparse.Namespace) -> int:
     from . import standard
 
@@ -1062,6 +1130,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_cases(args)
     if args.command == "catalog":
         return _cmd_catalog(args)
+    if args.command == "cycle":
+        return _cmd_cycle(args)
     if args.command == "standard":
         return _cmd_standard(args)
     return 1
