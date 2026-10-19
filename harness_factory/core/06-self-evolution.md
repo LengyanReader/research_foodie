@@ -1,7 +1,7 @@
 # M5 · Self-Evolution · 自演化
 > Making the harness improve itself — signal → audit → mutation → journal, human-gated.
 > 让 harness 自我改进——信号 → 审计 → 变异 → 日志，人类把关。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-20
 
 ---
 
@@ -9,6 +9,8 @@
 一个不能从失败中学习的 harness 会以同样方式反复失败（M0.10）。M5 定义**受控的自我改进回路**：**信号**（真实运行中的失败/低效）→ **审计**（可否泛化？是否一次性？）→ **变异**（受控地改动 harness 自身）→ **日志**（可回滚、可归因）。变异类型：Promote / Register / Deepen / Fission / Archive / Consolidate。**全部人类把关**（M0.8）；用留出集衡量是否真变好；警惕**误演化**（reward hacking、目标漂移）。AI 侧的对应工作谱系（Self-Refine/Reflexion、ADAS、Gödel Agent、FunSearch/AlphaEvolve/OpenEvolve、SEAL、Voyager）见 `review/harness-catalog.md` §3。上游：M0.10、M0.4。下游：M7（变更治理）。
 
 **循环层面另有契约（M5.10）**：一次能力拓展 / 深化 / 更新 / 演化即一个**轮次**，须登记于 `data/cycles.json`，并按**完成定义**（子句 · 判别力 · 门禁 · 溯源 · 路由 · 可达）逐项过关；**有意不做**的事须登记为带**理由**与**重访触发条件**的路线图条目。`harness cycle audit` 同时报告**硬问题**与剩余**缺口面**——后者就是下一轮的输入，故循环可持续而非偶发。过程见 `reference/capability-cycle.md`。
+
+**自知之明的契约（M5.11）**：回路假定 harness 知道自己**缺什么**，而这本身是个主张。三件产物：**自我模型**（每条能力指向能证伪它的证据——守卫测试 / 已交付文件 / 实测运行）、**缺口登记册**（`cycle audit` 的机械面 **+** 带理由与重访触发的路线图条目）、以及每轮一次的**反证检查**（挑一个自称的强项，故意去打碎它）。依据是不对称：自我报告便宜且不可靠，外部检验昂贵但决定性——无外部反馈的自我纠错甚至会变差（`arXiv:2310.01798`），校准很差（`arXiv:1706.04599`），模型只掌握部分知识边界（`arXiv:2207.05221`/`2305.18153`）。**探索有界**：留出集、预算、书面停止条件；**新颖不等于价值**，未覆盖方向只能作为候选，仍须过本轮完成定义。前沿的「自我改进 agent」细读之下都是**搜索 + 一个可信的评估器**——所以钱要花在评估与溯源上。
 
 ---
 
@@ -50,6 +52,8 @@ The loop above governs one **mutation**. A **round** (a cycle) governs many at o
 
 10. **The round is a mechanism, not a habit (M5.10).** Every capability round is recorded in `data/cycles.json` and must clear the **definition-of-done** before it is marked done: a **clause** (which invariant it answers to), a **discriminator** (a trigger the engine can actually evaluate — not a predicate it silently ignores), a **guard** (a test that fails if the wiring is removed), **provenance** (a first-party source in `sources/source-map.md`), a **router row** (findable from a *situation*, not only from its own name) and **reachability** (listed by `harness skill`, so one instruction reaches it). A round that adds a capability without these is not done, however good the prose is. What is deliberately **not** added becomes a `roadmap` entry with a **reason** and a **revisit trigger** — a deferral is a decision, not an omission. `harness cycle audit` reports the hard problems *and* the remaining **gap surface** (missing router rows, provenance rows, guards; clauses referenced but never anchored in their own module), and that surface is the seed of the next round. The round stays **proposal-first**: it ranks candidates and drafts slices; humans accept them (M0.4, M0.8). A round is **closed**, never "in progress forever": `active` is a state, not a resting place.
 
+11. **Know your own edges (M5.11).** The loop above assumes the harness can tell *what it is missing*; that is a separate claim and needs its own discipline. Three artefacts: (a) a **self-model** — what the harness covers, each claim paired with the evidence that supports it (a guard test, a shipped file, a measured run), never a self-attributed strength; (b) a **gap register** in two halves — the `cycle audit` surface (mechanical: missing rows, guards, provenance) *and* the roadmap entries that record uncovered directions with a reason and a revisit trigger (M5.10); (c) a **disconfirming check** — once per round, pick a claimed strength and try to *falsify* it, not confirm it. The reason is an asymmetry, not modesty: self-report is cheap and unreliable while an external check is decisive. Verbalised confidence is poorly calibrated `[R202]`, and a model asked to correct itself with no external feedback often makes the answer worse `[R201]`; models hold only a partial map of what they know `[R203]`, `[R204]`, and introspection recovers some facts about themselves, not all `[R205]`. So a self-attributed strength is admissible only with an external check, and disagreement between self-assessment and check routes to the check (sampling agreement is a cheap *router* signal, not a verdict `[R207]`). Exploration is **bounded**: a holdout, a budget, a written stop condition, and the rule that novelty is not value — an uncovered direction is a **candidate**, and adoption still clears this round's definition-of-done (M5.10). Open-ended search works by keeping diversity rather than chasing one optimum `[R208]`, `[R209]`, and a direction is interesting when it yields learnable structure, not when it is merely unfamiliar `[R210]`, `[R211]`; which question deserves the next unit of budget is a decision, not a hunch `[R217]`. The frontier's "self-improving agents" are, read closely, **search plus a trusted evaluator** `[R212]`, `[R213]`, `[R214]` — so the investment belongs in evaluation and provenance (M3, M4), not in introspection. Full treatment: [`../review/self-model-and-gap-seeking-2026-10.md`](../review/self-model-and-gap-seeking-2026-10.md).
+
 ## Checklist
 - [ ] Signals come from real runs, not speculation.
 - [ ] Each mutation passes an audit (pattern? generalizes? M0-consistent?).
@@ -57,6 +61,8 @@ The loop above governs one **mutation**. A **round** (a cycle) governs many at o
 - [ ] Improvement is measured on a holdout, not the tuning set.
 - [ ] Substantive mutations are human-gated.
 - [ ] The round is in `data/cycles.json` and passes `harness cycle audit`; its non-additions carry a reason and a revisit trigger (M5.10).
+- [ ] Each claimed strength names its evidence, and one of them was **attacked** this round rather than confirmed (M5.11).
+- [ ] Exploration is bounded (holdout, budget, stop condition) and no self-report was accepted as a sign-off (M5.11).
 
 ## Anti-patterns
 - **Unbounded self-modification.** The harness rewrites itself with no audit or gate.
@@ -66,6 +72,9 @@ The loop above governs one **mutation**. A **round** (a cycle) governs many at o
 - **Capability without safety.** Raising power while relaxing containment.
 - **Round without closure.** A cycle opens, produces good prose, and is never marked done or audited — so the same gap is rediscovered next time.
 - **Silent deferral.** A capability that was deliberately *not* added is dropped without a reason or a revisit trigger, and the decision evaporates.
+- **Self-report as sign-off.** "The harness handles X" because a doc says so; no guard, no run, no external check (M5.11).
+- **Novelty-as-value.** Adopting a direction because it is uncovered rather than because it would change an outcome (M5.11).
+- **Unbounded exploration.** Probing new scope with no budget, holdout or stop condition — the acquisition of capability the harness cannot verify.
 
 ## See also
-`01-meta-principles.md` (M0.10, M0.4, M0.8) · `../review/harness-catalog.md` §3, §8 · `08-change-governance.md` (M7) · `04-verification-and-gates.md` (M3) · `../reference/capability-cycle.md` (how to run a round; `harness cycle`).
+`01-meta-principles.md` (M0.10, M0.4, M0.8) · `../review/harness-catalog.md` §3, §8 · `08-change-governance.md` (M7) · `04-verification-and-gates.md` (M3) · `../reference/capability-cycle.md` (how to run a round; `harness cycle`) · `../review/self-model-and-gap-seeking-2026-10.md` (M5.11 — self-model, gap register, bounded exploration).

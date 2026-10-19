@@ -6,13 +6,13 @@
 > **命题类型 → 仪器 → 目录中的工具 → 门禁必须看到的证据**。凡是超出「我读到过」的断言，都按本表选仪器。
 > Same paths as every factory doc — these are **the harness-factory's** files, not your project's.
 
-**Updated:** 2026-10-19 · Load via `harness skill evidence-instruments`. Machine-readable truth: `data/harnesses.json` (class `instruments`, 63 entries / 23 kinds). Sources: `review/references.md` §G–§J (formal & empirical instruments) and §M (knowledge-engineering & digital-humanities instruments).
+**Updated:** 2026-10-20 · Load via `harness skill evidence-instruments`. Machine-readable truth: `data/harnesses.json` (class `instruments`, 68 entries / 25 kinds). Sources: `review/references.md` §G–§J (formal & empirical instruments), §M (knowledge-engineering & digital-humanities instruments) and §N–§P (reasoners, prose instruments).
 
 ---
 
 ## 中文速览
 
-三类命题要三样东西：**形式命题**（定义、定理、协议性质、程序正确性）靠**机器检查的推导**；**物理量**靠**单位 + 传播的不确定度**；**经验命题**（心理/认知/医学/社科/教育/经济）靠**效应量 + 区间 + 可靠性**，且分析须**先注册**。语言类数据另加**标注者一致性**与**许可/知情同意**。此外：**计算得到的量**（代数标准形、同调群、纽结多项式）要么精确/带界地算、要么独立重算；**统计估计**要声明框架与模型、报收敛诊断、给区间；**套用某套方法论**要给出协议、假设与报告规范（M3.13）。仪器目录（63 件，23 个工具族）是本仓库 SSOT 的一部分；**声明仪器就是声明可反驳性**——说不出仪器，就等于没验证。
+三类命题要三样东西：**形式命题**（定义、定理、协议性质、程序正确性）靠**机器检查的推导**；**物理量**靠**单位 + 传播的不确定度**；**经验命题**（心理/认知/医学/社科/教育/经济）靠**效应量 + 区间 + 可靠性**，且分析须**先注册**。语言类数据另加**标注者一致性**与**许可/知情同意**。此外：**计算得到的量**（代数标准形、同调群、纽结多项式）要么精确/带界地算、要么独立重算；**统计估计**要声明框架与模型、报收敛诊断、给区间；**套用某套方法论**要给出协议、假设与报告规范（M3.13）。仪器目录（68 件，25 个工具族）是本仓库 SSOT 的一部分；**声明仪器就是声明可反驳性**——说不出仪器，就等于没验证。
 
 ---
 
@@ -47,8 +47,10 @@
 | Numerical result from a multi-step pipeline · 多步流水线结果 | Reproducible pipeline engine · 可复现流水线 | `snakemake`, `nextflow` | Re-runnable pipeline + per-step provenance (versions, containers, inputs→outputs) |
 | Concept / entity identity across records · 概念·实体同一性 | Authority + alias vocabulary + merge rule · 权威表 + 别名词表 + 合并规则 | `openrefine`, `splink`, `dedupe`, `pleiades`, `geonames`, `getty-tgn` | One canonical id per entity, its **recorded aliases**, and the merge decisions with reasons — undecidable pairs escalated, never averaged (`[R139]`, `[R145]`, `[R150]`) |
 | Schema conformance of a graph · 图谱与模式一致 | Ontology + constraint shapes · 本体 + 约束形状 | `protege`, `rdflib`, `apache-jena` | The **declared ontology version** plus a machine-checkable validation report (SHACL shapes pass/fail per assertion) (`[R137]`–`[R140]`) |
+| Entailment / consistency of an ontology · 本体的蕴含与一致性 | Description-logic reasoner · 描述逻辑推理机 | `hermit`, `elk` | The entailment, or the **inconsistency witness** (unsatisfiable class / clash), with the reasoner version; a reasoner *decides* and does not *extract* (`[R166]`, `[R167]`) |
 | An assertion grounded in a corpus · 断言在语料中有据 | Graph construction + provenance model · 图谱构建 + 溯源模型 | `microsoft-graphrag`, `neo4j` | Each named assertion resolves to a source span or record id, or is recorded as a defect; ungrounded candidates are not kept (`[R141]`, `[R148]`) |
 | Historical text transcribed from an image · 图版转写 | HTR engine + model record · 手写识别引擎 + 模型记录 | `transkribus`, `escriptorium` | The transcription, the model id/version used, and a stated or measured character-error rate (`[R153]`, `[R154]`) |
+| Prose is readable and in the right register · 文字可读、语域正确 | Declared style linter + readability *alarm* · 声明的风格 linter + 可读性*警报* | `vale`, `languagetool`, `textstat` | A clean run of the **declared** rules (never "taste"), plus a term-consistency check and a punctuation standard for the language; a readability score is a drift alarm, **not** an approval, and a reader still judges the result (`[R192]`–`[R200]`) |
 
 ---
 

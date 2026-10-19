@@ -9,14 +9,14 @@
 > 任务落到某学科时「去哪查、从哪取一手证据」。它是 `data/sources.json` 的 `outlets` 组与
 > `reference/evidence-instruments.md` 的配套。**不是排行榜，也不求穷尽**：每条都写明「为何高质量」与「不适合用来做什么」。
 
-**Updated:** 2026-10-19 · Load via `harness skill outlet-map` · live view: `harness sources --group outlets` · machine-readable: `data/sources.json`. Verification: `review/references.md` §K is unrelated (that is the cross-language pass); outlet provenance is each entry's own first-party URL.
+**Updated:** 2026-10-20 · Load via `harness skill outlet-map` · live view: `harness sources --group outlets` · machine-readable: `data/sources.json`. Verification: `review/references.md` §K is unrelated (that is the cross-language pass); outlet provenance is each entry's own first-party URL. The itemised survey behind the 2026-10 discovery additions is `review/scholarly-channels-2026-10.md`.
 
 ---
 
 ## 中文速览
 
 **先看领域，再看来源类型。** 表按**学科门类**分组，每行给：**信息源（一键直达）· 类型 · 为何可信 · 不适合用来做什么**。
-`✔` = 本次自动可达性检查（HEAD/GET，2026-10-19）通过；`○` = 规范一手域名已知，但自动检查被反爬拦截（403/405），**列为「已知，未在本次确认」**。
+`✔` = 本次自动可达性检查（GET，2026-10-19–20）通过；`○` = 规范一手域名已知，但自动检查被反爬/机器人门阻挡（403/405/429/SSL/Anubis），**列为「已知，未在本次确认」**。
 用法：① 按领域找到对应小节；② 优先预印本服务器/权威索引定位文献，再到登记库/数据仓储取数据；③ **永远回到一手来源**——聚合器/媒体只用来发现，不用来引用；④ 与 `reference/evidence-instruments.md` 配合，确定「用什么仪器观察该主张」；⑤ 跨语言搬运时按 `reference/cross-language.md` 的意群对齐与回译互证执行（M4.10）。
 
 **与既有分组的关系。** `sources.json` 的 `venues`/`media` 组记录 **AI/ML 赛道**的期刊与媒体；本 `outlets` 组补的是**各学科门类**的信息源，二者不重复。`libraries` 组（Gutenberg、HathiTrust 等）覆盖公共领域文本，与本组的学术门户互补。
@@ -53,6 +53,53 @@ Fields in every discipline depend on the same registries, repositories and integ
 | ✔ [Dryad](https://datadryad.org/) | repository | Curated repository for research data underlying published papers. | Coverage is uneven by field; not a general archive. |
 | ✔ [Retraction Watch](https://retractionwatch.com/) | media | Tracks retractions and research-integrity cases; the database is the citable part. | News/commentary; verify each case against the notice itself. |
 | ✔ [Google Scholar](https://scholar.google.com/) | index | Broad scholarly index across languages and fields; useful for coverage. | Uncurated — mixes predatory venues, duplicates and grey literature; never treat a hit as peer review. |
+
+---
+
+## Scholarly discovery & citation infrastructure · 学术检索与引用基础设施
+
+The layer that sits *above* a field index: it finds **identifiers**, it does not produce evidence (added 2026-10-20; survey in `review/scholarly-channels-2026-10.md`). Cross-field services already registered elsewhere are **not duplicated here** — `semantic-scholar`, `crossref`, `core`, `scite` and `europepmc` live in the `tools` group, `openalex` in `projects`; use those records for the API endpoints. The rows below are the channels that had no registry entry.
+
+| Outlet | kind | why it is high-quality | NOT for |
+|---|---|---|---|
+| ✔ [OpenAIRE](https://www.openaire.eu/) | portal | EC-funded open-science graph linking publications, datasets and CRIS metadata across European repositories. | Graph metadata, not the artefacts — follow each record to the depositing repository or publisher. |
+| ○ [DataCite](https://datacite.org/) | registry | DOI registration agency for datasets, software and preprints; the identifier layer for research data. | Identity and persistence only — no quality signal. Landing unreachable here (SSL/502); `api.datacite.org/dois` answered 200. |
+| ○ [ROR](https://ror.org/) | registry | Open registry of stable identifiers for research organisations; disambiguates affiliations. | Organisation identity only — no statement about merit. Landing behind a 429 bot checkpoint; `api.ror.org/organizations` answered 200. |
+| ○ [BASE](https://www.base-search.net/) | index | Large open-access meta-index harvested from institutional and subject repositories (Bielefeld UL). | Aggregation layer — cite the depositing repository; coverage is repository-dependent. Bot-gated landing here; the search API needs IP registration. |
+| ✔ [Connected Papers](https://www.connectedpapers.com/) | index | Builds a citation-similarity graph from one seed paper; good for finding adjacent literatures. | Discovery only, no public API, and similarity is not relevance — verify every node against its own record. |
+| ✔ [ResearchRabbit](https://www.researchrabbit.ai/) | index | Citation-network exploration and alerts over public metadata. | Discovery only; client-rendered with no public API, so nothing here is scriptable or reproducible. |
+| ✔ [OpenReview](https://openreview.net/) | portal | Publishes submissions, reviews and decisions for venues that review in the open (ICLR and others). | Reviews are opinions, not findings; the accepted paper is the citable artefact. `/notes` is challenge-gated, so paper search is not scriptable here. |
+| ✔ [PubPeer](https://pubpeer.com/) | qa | Post-publication comment threads on specific papers — a signal that an integrity question exists. | Anonymous threads are **leads**, not evidence: cite the published notice or the article, never the thread. |
+
+---
+
+## Multilingual & regional scholarship · 多语种与区域学术
+
+English-language indexes systematically under-cover scholarship published in Chinese, Japanese, Korean, French, Spanish and Portuguese. These are the first-party regional platforms that fill that gap (added 2026-10-20); they are **not** interchangeable with a field index.
+
+| Outlet | kind | why it is high-quality | NOT for |
+|---|---|---|---|
+| ✔ [SciELO](https://www.scielo.org/) | repository | Open-access network of Latin-American, Iberian and African journals with full text. | Regional scope; quality is per-journal — appraise the journal and the article. |
+| ✔ [Redalyc](https://www.redalyc.org/) | repository | Ibero-American open-access journal platform (UAEMex). | Largely Spanish/Portuguese; not a substitute for a field index. |
+| ○ [HAL Open Science](https://hal.science/) | repository | French national multidisciplinary open repository; strong for French-language scholarship. | A deposit is not a review — check whether a published version exists. Landing intermittently bot-gated; `api.archives-ouvertes.fr/search/` answered 200. |
+| ✔ [CiNii Research](https://cir.nii.ac.jp/) | index | National Institute of Informatics index of Japanese-language articles, books and data. | Index metadata only; effective retrieval needs Japanese-language queries. |
+| ✔ [J-STAGE](https://www.jstage.jst.go.jp/) | publisher | JST platform hosting Japanese sci-tech society journals. | Mixed access and language; society-run titles vary — appraise the specific journal. |
+| ✔ [CNKI](https://www.cnki.net/) | portal | China National Knowledge Infrastructure: the dominant index for Chinese-language journals and theses. | Licensed/paywalled full text; coverage is opaque — corroborate important claims. |
+| ✔ [Wanfang Data](https://www.wanfangdata.com.cn/) | portal | Chinese journals, dissertations and standards (ISTIC-affiliated). | Paywalled; a second Chinese index, not an independent verification of CNKI. |
+| ✔ [EThOS](https://ethos.bl.uk/) | repository | UK doctoral theses, now on a Hyku-based platform after the British Library outage. | Theses are examined, not peer-reviewed articles — check for a published paper. |
+
+---
+
+## Publishers of record & proceedings · 版本记录与会议论文集
+
+The version of record for a claim, when the field sections above point to an index. Field-specific publishers already appear in their own sections; AI/ML **venue** indices (NeurIPS, ACL, ICML, ICLR, TMLR) are tracked in the `venues` group and are deliberately not duplicated here.
+
+| Outlet | kind | why it is high-quality | NOT for |
+|---|---|---|---|
+| ✔ [PMLR](https://proceedings.mlr.press/) | publisher | Free, citable proceedings for ICML, AISTATS and other ML conferences. | ML scope only; a proceedings paper is not a journal article. |
+| ✔ [SpringerLink](https://link.springer.com/) | publisher | Springer Nature journals and books — the version of record for a large share of STM literature. | Largely subscription-gated; the landing page is not the article's evidence. |
+| ✔ [Cambridge Core](https://www.cambridge.org/core) | publisher | Cambridge University Press journals and books, strong in the humanities and social sciences. | Largely gated; check the licence per article. |
+| ✔ [PLOS](https://plos.org/) | publisher | Open-access publisher with a full search API (`api.plos.org/search`), usable from a script. | PLOS ONE is broad and volume-driven — appraise the specific article, not the brand. |
 
 ---
 
@@ -277,6 +324,10 @@ Secondary explainers — always follow through to the primary paper.
 - **Duplication of `venues`/`media`** (AI/ML journals and media already tracked there) and of `libraries` (public-domain corpora).
 - **Aggregator digests as outlets** — a curated "top papers of the week" newsletter (e.g. `nlp.elvissaravia.com`) is **discovery only**, and the publication is already tracked in the `media` group; listing it here again would duplicate and would launder a second-hand index into a citable outlet. Enter individual papers through their own primary record (preprint/publisher).
 - **A machine-translation metric as a fidelity gate** — see `reference/cross-language.md` §6 (BLEU/COMET rank candidates; they do not certify meaning).
+- **AI/ML venue indices as outlets** (NeurIPS, ACL, ICML, ICLR, TMLR) — they already live in the `venues` group; listing them again here would duplicate the registry and blur the *field-conference* with the *field-outlet*.
+- **High-volume OA mega-publishers as single outlets** (MDPI, Frontiers, and similar) — this is a **granularity** decision, not a verdict on quality: their titles differ too much for one row to appraise, so cite the specific journal's indexing and the article itself.
+- **LLM literature assistants with no auditable record** (Elicit, Consensus, SciSpace and similar) — their answer is not reproducible, not versioned and not accountable to an author; use them as a lead generator only, and never as the cited channel.
+- **A search-hit count as evidence** — "N results on Google Scholar" measures an index, not the literature; citation counts from any aggregator are index artefacts that differ by source (if used at all, name the source and the date).
 
 ---
 
@@ -288,3 +339,4 @@ Secondary explainers — always follow through to the primary paper.
 - `reference/cross-language.md` — meaning-unit alignment for cross-language work (M4.10).
 - `sources/source-map.md` — how each shipped pattern/outlet set traces to primary sources.
 - `review/integration-map-2026-10.md` — scope/status board (what P11 integrated).
+- `review/scholarly-channels-2026-10.md` — the 2026-10 survey: ~95 channels with observed HTTP statuses, first-party-vs-aggregator marks, and the seven no-laundering rules.

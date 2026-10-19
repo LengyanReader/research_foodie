@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**33 capabilities · 9 modules (M0–M8)**
+**35 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -239,6 +239,18 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物)
 - **Modules · 关联模块:** M4, M7
 - **Why · 理由:** A knowledge base outlives the ontology it was born with. Treat a schema change as a migration: a declared version, a re-validation of the affected slice, and a record of which schema version each assertion was extracted under; deprecate terms by redirect rather than deletion so old ids stay resolvable. Change governance (M7) applied to meaning, not only to code; evolution is where a knowledge base silently becomes two.
+
+### `gap-seeking` — Self-model and gap-seeking · 自我模型与缺口探测
+
+- **Fires when · 触发条件:** horizon ∈ {multi_session} (时间跨度)
+- **Modules · 关联模块:** M5
+- **Why · 理由:** A system that cannot name what it does not cover rediscovers the same gap every round; self-attributed strength is testimony, not evidence, so a claimed capability needs an external check and an uncovered direction needs a bounded, budgeted probe.
+
+### `prose-polish` — Prose polish: write for the reader · 文字润色：为读者而写
+
+- **Fires when · 触发条件:** artifact ∈ {document} (产物)
+- **Modules · 关联模块:** M4
+- **Why · 理由:** Model prose fails readers while staying factually true (hedge stacking, stock phrases, list-ification, wrong register, translationese), so readability and register need a gate separate from truth: mechanical checks may reject, never approve, and a reader decides whether it sounds human.
 
 ---
 

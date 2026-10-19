@@ -286,6 +286,41 @@ class KnowledgeEngineeringCapabilityTest(unittest.TestCase):
         self.assertIn("schema-evolution", _active(domain="knowledge-management"))
 
 
+class ReaderAndSelfModelCapabilityTest(unittest.TestCase):
+    """P15: the reader gate and the self-model.
+
+    Two clauses carry this round: **M4.14** (write for the reader) and **M5.11**
+    (know your own edges). Each test pins the trigger it must fire on and the
+    quiet vector it must stay off, so neither can widen into the general floor —
+    a prose gate that fires on every task would be ignored, and a self-model that
+    fires within a single session would be a step, not a round.
+    """
+
+    QUIET = TriggerCoverageTest.QUIET
+
+    def test_prose_polish_fires_on_a_document_and_not_on_code(self):
+        self.assertNotIn("prose-polish", _active(**self.QUIET))
+        self.assertIn("prose-polish", _active(**{**self.QUIET, "artifact": "document"}))
+        # a code artifact is not polished by this gate
+        self.assertNotIn("prose-polish", _active(artifact="code"))
+
+    def test_prose_polish_is_not_a_verification_gate(self):
+        # high verifiability must not be read as "the prose is therefore fine"
+        self.assertNotIn("prose-polish", _active(verifiability="high"))
+        # and it is not the traceability floor: sourcing alone does not fire it
+        self.assertNotIn("prose-polish", _active(grounding="required"))
+
+    def test_gap_seeking_fires_across_sessions_only(self):
+        self.assertNotIn("gap-seeking", _active(**self.QUIET))
+        self.assertNotIn("gap-seeking", _active(horizon="session"))
+        self.assertIn("gap-seeking", _active(horizon="multi_session"))
+
+    def test_gap_seeking_sits_beside_the_evolution_loop(self):
+        # it is a companion of self-improving-loop, never a replacement for it
+        self.assertIn("self-improving-loop", _active(horizon="multi_session"))
+        self.assertIn("gap-seeking", _active(horizon="multi_session"))
+
+
 class MathStatsCapabilityTest(unittest.TestCase):
     """P10: statistics and certified computation fire only on their own fields."""
 

@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-19 · 196 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-19 · 201 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -209,7 +209,7 @@ harness catalog claude-code           # detail one entry
 | `frames` | FRAMES · FRAMES | 调研质量评测 | M3 | https://huggingface.co/datasets/google/frames-benchmark · tracked:frames |
 | `deepresearch-bench` | DeepResearch Bench · DeepResearch Bench | 调研质量评测 | M3 | https://github.com/Ayanami0730/deep_research_bench · tracked:deepresearch-bench |
 
-## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (63)
+## Scientific & formal instruments (evidence tools) · 科学仪器与形式工具（证据工具）  (68)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -276,6 +276,11 @@ harness catalog claude-code           # detail one entry
 | `getty-tgn` | Getty TGN · 盖蒂地名表 TGN | 地名权威表 | M4 | https://www.getty.edu/research/tools/vocabularies/tgn/ |
 | `transkribus` | Transkribus · Transkribus | 手写文本识别 | M3, M4 | https://www.transkribus.org/ |
 | `escriptorium` | eScriptorium · eScriptorium | 手写文本识别 | M3, M4 | https://escriptorium.readthedocs.io/en/latest/ |
+| `vale` | Vale · Vale | prose-linter | M3, M4 | https://vale.sh/ |
+| `languagetool` | LanguageTool · LanguageTool | prose-linter | M3, M4 | https://languagetool.org/ |
+| `textstat` | textstat · textstat | readability-metric | M4 | https://github.com/textstat/textstat |
+| `hermit` | HermiT · HermiT | 本体编辑器 / RDF 工具 | M3, M4 | http://www.hermit-reasoner.com/ |
+| `elk` | ELK · ELK | 本体编辑器 / RDF 工具 | M3, M4 | https://github.com/liveontologies/elk-reasoner |
 
 ---
 

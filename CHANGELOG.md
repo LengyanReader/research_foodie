@@ -6,7 +6,35 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
-- **Knowledge engineering & digital humanities (P14)** — the ask was a *class*: how to build, maintain,
+- **Depth round (P15) - KG canon · training boundary · scholarly channels · language polish · self-model.** Five
+  surveys, two new invariants and the first round to *state what the library does not cover*.
+  - **Knowledge graphs (`review/knowledge-graph-patterns-2026-10.md`, §N R155-R170).** A layered stack (data model >
+    schema > vocabulary > constraints > query > provenance > reasoning) with the failure mode named - *layer confusion* -
+    the classic method narrowed to **competency questions first** (Ontology Development 101; METHONTOLOGY/NeOn/OntoClean
+    named but not re-read), and "knowledge feature" split into four different things: embeddings *rank*, GNNs *learn
+    structure*, reasoners *decide*, OBDA *maps*. Frontier (generative construction, GraphRAG, agentic maintenance) did not
+    repeal **identity** or **evidence**. Instruments `hermit`, `elk` (entailment can be refuted, not asserted).
+  - **Training (`review/training-methodology-coverage-2026-10.md`, §O R171-R191).** Every family graded *in axis /
+    adjacent / out of scope* against a stated criterion. Verdict: the stack is surveyed, the library covers the
+    **boundary**. A `training-*` capability is refused because the feature vector cannot distinguish "train" from "use",
+    so it would be a predicate the engine silently ignores (M5.10); recorded with a revisit trigger.
+  - **Channels (`review/scholarly-channels-2026-10.md`, +20 outlets).** ~95 channels with observed statuses,
+    first-party-vs-aggregator marks and seven no-laundering rules; OpenAIRE, DataCite, ROR, BASE, Connected Papers,
+    ResearchRabbit, OpenReview, PubPeer, SciELO, Redalyc, HAL, CiNii, J-STAGE, CNKI, Wanfang, EThOS, PMLR, SpringerLink,
+    Cambridge Core, PLOS. No duplicate ids: Semantic Scholar/Crossref/CORE/scite live in `tools`, OpenAlex in `projects`,
+    AI/ML venue indices in `venues` - surfaced in prose, not re-registered.
+  - **Language polish - clause M4.14 (`core/05`) + capability `prose-polish`** (`review/language-polish-2026-10.md`, §P
+    R192-R200). A gate separate from truth: a machine may **reject** (declared house style, term consistency, punctuation
+    per GB/T 15834-2011) and only a reader may **approve**; a readability score is a drift alarm, never a pass mark.
+    Chinese failure modes named (欧化句式/翻译腔, 四字格堆砌, 的的不休, 全半角混用, 繁简不等价). Instruments `vale`,
+    `languagetool`, `textstat` (+ kinds `prose-linter`, `readability-metric`).
+  - **Self-model - clause M5.11 (`core/06`) + capability `gap-seeking`** (`review/self-model-and-gap-seeking-2026-10.md`,
+    §Q R201-R218). Self-report is testimony; an external check is evidence. Three artefacts: an evidence-backed
+    self-model, a two-halved gap register, and one **disconfirming** check per round. Exploration is bounded (holdout,
+    budget, stop condition) and novelty is not value.
+  - **Counts.** 33 > **35** capabilities · 24 > **26** clauses · 63 > **68** instruments (23 > 25 kinds) · 75 > **95**
+    outlets · R154 > **R218**. **237 tests** (233 + 4 guards). `cycle audit`: 0 hard, 0 gaps.
+- **Knowledge engineering & digital humanities (P14)** - the ask was a *class*: how to build, maintain,
   manage and evolve a knowledge base / graph / ontology, and what digital-humanities work adds. Grounded in
   a **full primary-source read** (关书朋 · 何宇佳 · 张英聘, 《文献与数据学报》 **8(3): 56–72**, Sep 2026, open
   publisher PDF; the printed DOI does **not** resolve and is recorded as printed-only) crosswalked against

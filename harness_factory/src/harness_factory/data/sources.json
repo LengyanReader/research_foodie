@@ -3352,6 +3352,408 @@
         "not_for": "Crowd-edited and changeable; treat it as an authority to reconcile against, not as ground truth to quote.",
         "verified": true,
         "access": "2026-10-19"
+      },
+      {
+        "id": "openaire",
+        "name": "OpenAIRE",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://www.openaire.eu/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "discovery",
+          "open-science"
+        ],
+        "why": "EC-funded open-science graph: publications, datasets and CRIS metadata across European repositories.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Graph metadata, not the artifacts; follow each record to the depositing repository or publisher."
+      },
+      {
+        "id": "datacite",
+        "name": "DataCite",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://datacite.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "provenance-integrity"
+        ],
+        "tags": [
+          "identifier",
+          "registry"
+        ],
+        "why": "DOI registration agency for datasets, software and preprints; the identifier layer for research data.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Asserts identity and persistence only - it says nothing about the quality of the artefact.",
+        "note": "Landing page failed TLS from this host (SSL EOF) and http returned 502 on both 2026-10-19 and 2026-10-20; api.datacite.org/dois answered 200 - the service is live, the landing page was not reachable here."
+      },
+      {
+        "id": "ror",
+        "name": "Research Organization Registry (ROR)",
+        "kind": "other",
+        "outlet_kind": "registry",
+        "url": "https://ror.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "identifier",
+          "registry"
+        ],
+        "why": "Open registry of stable identifiers for research organisations; disambiguates affiliations.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Organisation identity only - no statement about merit or output.",
+        "note": "Landing page returned 429 (Vercel bot checkpoint) on 2026-10-19 and 2026-10-20; api.ror.org/organizations answered 200 with real records."
+      },
+      {
+        "id": "base",
+        "name": "BASE",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://www.base-search.net/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "discovery",
+          "open-access"
+        ],
+        "why": "Large open-access meta-index harvested from institutional and subject repositories (Bielefeld UL).",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "Aggregation layer - always cite the depositing repository; coverage is repository-dependent.",
+        "note": "Landing page answered 200 but with an Anubis bot-gate body on both 2026-10-19 and 2026-10-20; the search API requires IP registration."
+      },
+      {
+        "id": "connected-papers",
+        "name": "Connected Papers",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://www.connectedpapers.com/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "research-evaluation"
+        ],
+        "tags": [
+          "discovery",
+          "citation-graph"
+        ],
+        "why": "Builds a citation-similarity graph from one seed paper; useful for finding adjacent literatures.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Discovery only, no public API, and similarity is not relevance - verify every node against its own record."
+      },
+      {
+        "id": "researchrabbit",
+        "name": "ResearchRabbit",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://www.researchrabbit.ai/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "discovery",
+          "citation-graph"
+        ],
+        "why": "Citation-network exploration and alerts over public metadata.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Discovery only; a client-rendered app with no public API, so nothing here is reproducible from a script."
+      },
+      {
+        "id": "pubpeer",
+        "name": "PubPeer",
+        "kind": "post",
+        "outlet_kind": "qa",
+        "url": "https://pubpeer.com/",
+        "feed": null,
+        "topics": [
+          "citation-integrity",
+          "provenance-integrity"
+        ],
+        "tags": [
+          "peer-review",
+          "integrity"
+        ],
+        "why": "Post-publication comment threads on specific papers; a signal that an integrity question exists.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Anonymous comment threads are leads, not evidence - cite the published notice or the article, never the thread."
+      },
+      {
+        "id": "openreview",
+        "name": "OpenReview",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://openreview.net/",
+        "feed": null,
+        "topics": [
+          "evaluation-gates",
+          "computer-science"
+        ],
+        "tags": [
+          "peer-review",
+          "conference"
+        ],
+        "why": "Publishes submissions, reviews and decisions for venues that review in the open (ICLR and others).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Reviews are opinions, not findings; the accepted paper is the citable artefact.",
+        "note": "Landing 200; api2 /groups answered 200 but /notes returned a 403 challenge, so paper search is not scriptable from here."
+      },
+      {
+        "id": "scielo",
+        "name": "SciELO",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.scielo.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "humanities",
+          "social-science"
+        ],
+        "tags": [
+          "open-access",
+          "multilingual"
+        ],
+        "why": "Network of open-access Latin-American, Iberian and African journals with full text.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Regional scope; quality is per-journal - appraise the journal and the article."
+      },
+      {
+        "id": "redalyc",
+        "name": "Redalyc",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.redalyc.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "social-science",
+          "humanities"
+        ],
+        "tags": [
+          "open-access",
+          "multilingual"
+        ],
+        "why": "Ibero-American open-access journal platform (UAEMex).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Regional and largely Spanish/Portuguese; not a substitute for a field index."
+      },
+      {
+        "id": "hal",
+        "name": "HAL Open Science",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://hal.science/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "humanities"
+        ],
+        "tags": [
+          "open-access",
+          "multilingual"
+        ],
+        "why": "French national multidisciplinary open repository; strong for French-language scholarship.",
+        "verified": false,
+        "access": "2026-10-19",
+        "not_for": "A deposit is not a review - check whether a published version exists.",
+        "note": "Landing intermittently served an Anubis bot gate (2026-10-20) although it answered on 2026-10-19; the search API api.archives-ouvertes.fr/search/ answered 200."
+      },
+      {
+        "id": "cinii",
+        "name": "CiNii Research",
+        "kind": "other",
+        "outlet_kind": "index",
+        "url": "https://cir.nii.ac.jp/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "humanities",
+          "social-science"
+        ],
+        "tags": [
+          "index",
+          "multilingual"
+        ],
+        "why": "National Institute of Informatics index of Japanese-language articles, books and data.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Index metadata only; Japanese-language retrieval is required to use it well."
+      },
+      {
+        "id": "j-stage",
+        "name": "J-STAGE",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://www.jstage.jst.go.jp/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "publisher",
+          "multilingual"
+        ],
+        "why": "Japan Science and Technology Agency platform hosting Japanese sci-tech society journals.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Mixed access and mixed language; many journals are society-run - appraise the specific title."
+      },
+      {
+        "id": "cnki",
+        "name": "CNKI",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://www.cnki.net/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "humanities",
+          "social-science"
+        ],
+        "tags": [
+          "portal",
+          "multilingual"
+        ],
+        "why": "China National Knowledge Infrastructure: the dominant index for Chinese-language journals and theses.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Full text is licensed and paywalled; coverage and censorship are opaque - corroborate important claims."
+      },
+      {
+        "id": "wanfang",
+        "name": "Wanfang Data",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://www.wanfangdata.com.cn/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "medicine"
+        ],
+        "tags": [
+          "portal",
+          "multilingual"
+        ],
+        "why": "Chinese journals, dissertations and standards (ISTIC-affiliated).",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Paywalled full text; a second Chinese index, not an independent verification of CNKI."
+      },
+      {
+        "id": "ethos",
+        "name": "EThOS",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://ethos.bl.uk/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "education"
+        ],
+        "tags": [
+          "repository",
+          "theses"
+        ],
+        "why": "UK doctoral theses, now delivered on a Hyku-based platform after the British Library outage.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Theses are examined but not peer-reviewed articles; check for a published paper."
+      },
+      {
+        "id": "pmlr",
+        "name": "Proceedings of Machine Learning Research",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://proceedings.mlr.press/",
+        "feed": null,
+        "topics": [
+          "computer-science",
+          "statistics"
+        ],
+        "tags": [
+          "publisher",
+          "proceedings"
+        ],
+        "why": "Free, citable proceedings for ICML, AISTATS and other ML conferences.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "ML scope only; a proceedings paper is not a journal article."
+      },
+      {
+        "id": "springerlink",
+        "name": "SpringerLink",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://link.springer.com/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure"
+        ],
+        "tags": [
+          "publisher"
+        ],
+        "why": "Springer Nature journals and books - the version of record for a large share of STM literature.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Largely subscription-gated; the landing page is not the article's evidence."
+      },
+      {
+        "id": "cambridge-core",
+        "name": "Cambridge Core",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://www.cambridge.org/core",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "humanities"
+        ],
+        "tags": [
+          "publisher"
+        ],
+        "why": "Cambridge University Press journals and books, strong in humanities and social sciences.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "Largely gated; check the licence per article."
+      },
+      {
+        "id": "plos",
+        "name": "PLOS",
+        "kind": "paper",
+        "outlet_kind": "publisher",
+        "url": "https://plos.org/",
+        "feed": null,
+        "topics": [
+          "scholarly-infrastructure",
+          "biology",
+          "medicine"
+        ],
+        "tags": [
+          "publisher",
+          "open-access"
+        ],
+        "why": "Open-access publisher with a full search API (api.plos.org/search), usable from a script.",
+        "verified": true,
+        "access": "2026-10-19",
+        "not_for": "PLOS ONE is broad and volume-driven - appraise the specific article, not the brand."
       }
     ]
   }

@@ -1,6 +1,20 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-19
+**Updated:** 2026-10-20
+
+---
+
+## 2026-10-20 · 纵深轮 P15：图谱经典 · 训练边界 · 学术渠道 · 语言润色门 · 自我模型
+
+- **Ask（五项，一轮一 `added` 块，M5.10）。** ① 收尾前轮未完成项，并系统梳理**知识图谱/本体/知识特征**的经典·前沿·管理演化模式；② 确认**模型训练方法论**的覆盖度；③ 补齐**高质量论文/发表渠道**；④ 把**语言润色（人读得下去的文体）**做成一等能力；⑤ 给 harness 一个**自我模型、缺口意识与有界探索**规则。
+- **P15.1 图谱经典（`review/knowledge-graph-patterns-2026-10.md`）。** 以**分层**为主线（数据模型→模式/本体→词表对齐→约束→查询→溯源→推理），点明最常见 bug 是**层级混淆**；经典方法只认**能力问题先行**（Ontology Development 101 已取到 PDF；METHONTOLOGY/NeOn/OntoClean 为书/论文，**未重读**，只作谱系）；把「知识特征」拆成四件不同的事——嵌入（RotatE/ComplEx/ConvE）**排序**、GNN（R-GCN/CompGCN）学结构、推理机（HermiT/ELK）**判定**、OBDA（Ontop）映射；前沿（生成式构建 R149、GraphRAG R148、agentic 维护）**没有取消**两条硬约束：**身份**与**证据**。参考 **§N（R155–R170）**；新增仪器 `hermit`/`elk`（蕴含/一致性可被判**反驳**）。**不新增子句**：仪器选择已由 M3.10 管，新开 `knowledge-feature` 子句只是换名词重复它（M0.5 记录）。
+- **P15.2 训练边界（`review/training-methodology-coverage-2026-10.md`）。** 逐族分级为**在轴内 / 相邻 / 不在轴内**，判据先写明；结论：**栈被梳理了，库覆盖的是「边界」而非「栈」**。卡点不是工作量，而是特征向量**无法区分「训练一个模型」与「使用一个模型」**，故 `training-*` 会是引擎静默忽略的谓词（正是 M5.10 点名的失败）→ 记为**带重访触发条件的有意不新增**（若将来加入 `model_role: consume|adapt|produce`）。参考 **§O（R171–R191）**，**摘要级核验**，不依赖任何 PDF 内数字。两行重点：**评估在轴内**（HELM/LiveBench 是对过拟合与污染的设计回应）、**谄媚是 harness 可见的缺陷**。
+- **P15.3 学术渠道（`review/scholarly-channels-2026-10.md`）。** ~95 个渠道逐条记录**实测 HTTP 状态**、一手/聚合标记与**七条「不得洗白」规则**；落地 **20 个 outlet** + `outlet-map.md` 三个新节（检索与引用基础设施 · 多语种与区域学术 · 版本记录与论文集）。**无重复 id**：Semantic Scholar/Crossref/CORE/scite/Europe PMC 在 `tools`、OpenAlex 在 `projects`、AI/ML 会议索引属 `venues`——**只在正文点名，不重复登记**。Google Scholar 的 `verified: true` 于 **2026-10-20 复测确认**（真实结果页；此前的「被拦」记录已过期）。
+- **P15.4 语言润色门（M4.14 + `prose-polish` + `review/language-polish-2026-10.md`）。** 先给**病灶命名**（对冲堆叠/套话/列表化/假平衡/总结的总结/语域错位/翻译腔）；门禁**非对称**：机械项只可**否决**（房规 linter、术语一致、标点按 GB/T 15834-2011、数字与标识符照录），**只有读者可放行**；可读性分数只作**漂移警报**。中文点名的病灶：**欧化句式/翻译腔 · 四字格堆砌 · 的的不休 · 全半角混用 · 繁简不等价**（按翻译处理）。仪器 `vale`/`languagetool`/`textstat`，新增 2 个 kind（`prose-linter`、`readability-metric`）。参考 **§P（R192–R200）**；ISO 标准与经典文体书（403/付费墙/503）**明确不登记**，不作证据。
+- **P15.5 自我模型（M5.11 + `gap-seeking` + `review/self-model-and-gap-seeking-2026-10.md`）。** 支点是不对称：**自我报告是证词，外部检验才是证据**；三件产物=带证据的**自我模型**、两半的**缺口登记册**（`cycle audit` 机械面 + 带理由/重访触发的路线图）、每轮一次的**反证检查**。依据：无外部反馈的自我纠错会**变差**（R201）、校准差（R202）、知识边界只部分可知（R203–R205）；探索**有界**（留出集/预算/停止条件），**新颖不等于价值**（R208–R211、R216），问题选择用**信息期望价值**（R217）；前沿「自我改进」实为**搜索+可信评估器**（R212–R214）。参考 **§Q（R201–R218）**。
+- **Verified.** `harness cycle audit` → **OK · 11 cycles · 22 roadmap items · 35 capabilities · 26 clauses anchored · 154→218 references · 0 hard · 0 gaps**；`python -m unittest discover -s tests` → **237**（233 + 4 guard：`ReaderAndSelfModelCapabilityTest`）；`catalog --write` + `map --write` 重生成；EOL LF。
+- **仍开放（有意，M0.4）.** **P14.4**：按三条固定标准评 3–5 个已发表领域 harness——本轮做的是**经典梳理**，不是论文精读，故不冒充完成。
+- **诚实边界.** ① arXiv 全部经一次 `id_list` 批量解析（id/标题/作者/日期一致），属**摘要级**；② 6 个我原以为正确的 arXiv id 实为**别的论文**（如「TransE」解析到 LHCb 物理），已用标题检索改正——**核验救了错误**；③ ISO/经典文体书/元认知经典**未读**，只列名。
 
 ---
 

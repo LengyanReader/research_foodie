@@ -61,7 +61,9 @@
 | A schema/ontology that will outlive this round · 模式要跨轮演化 | `schema-evolution` | M4, M7 | [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md), [`core/08-change-governance.md`](../core/08-change-governance.md) |
 | Encoding historical / cultural-heritage material to a standard · 史料·文化遗产编码 | `traceable-sources`, `ontology-as-contract` | M4 | [`domains/digital-humanities/README.md`](../domains/digital-humanities/README.md), [`reference/outlet-map.md`](outlet-map.md) |
 | Need to know *where to look* in a field · 想知道某领域去哪查 | `traceable-sources` | M4 | [`reference/outlet-map.md`](outlet-map.md) |
+| The draft is true but reads like a machine wrote it; wrong register · 内容对但读不下去/语域不对 | `prose-polish` | M4 | [`review/language-polish-2026-10.md`](../review/language-polish-2026-10.md), [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md) |
 | Growing the capability set (a round) · 要扩展或深化能力集 | `self-improving-loop` | M5, M7 | [`reference/capability-cycle.md`](capability-cycle.md), `harness cycle audit` |
+| "We're strong at X" — and nobody has tried to break it · 自评说很强，但没人试过打碎它 | `gap-seeking`, `self-improving-loop` | M5 | [`review/self-model-and-gap-seeking-2026-10.md`](../review/self-model-and-gap-seeking-2026-10.md), [`core/06-self-evolution.md`](../core/06-self-evolution.md) |
 | Unsure *what evidence would settle it* · 说不清用什么仪器 | `verification-gate`, `formal-verification`, `dimensional-analysis`, `empirical-measurement` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md) |
 | Picking a discipline to work in · 选学科门类 | — (route by *kind of work*) | — | [`domains/`](../domains) → `domains/<name>/README.md` |
 | Choosing a model/method · 选模型/选方法 | — | — | [`domains/model-selection/README.md`](../domains/model-selection/README.md) |

@@ -590,5 +590,27 @@
       "M7"
     ],
     "why": "A knowledge base outlives the ontology it was born with. Treat a schema change as a migration: a declared version, a re-validation of the affected slice, and a record of which schema version each assertion was extracted under; deprecate terms by redirect rather than deletion so old ids stay resolvable. Change governance (M7) applied to meaning, not only to code; evolution is where a knowledge base silently becomes two."
+  },
+  "gap-seeking": {
+    "title_en": "Self-model and gap-seeking",
+    "title_zh": "自我模型与缺口探测",
+    "when": {
+      "horizon": "multi_session"
+    },
+    "modules": [
+      "M5"
+    ],
+    "why": "A system that cannot name what it does not cover rediscovers the same gap every round; self-attributed strength is testimony, not evidence, so a claimed capability needs an external check and an uncovered direction needs a bounded, budgeted probe."
+  },
+  "prose-polish": {
+    "title_en": "Prose polish: write for the reader",
+    "title_zh": "文字润色：为读者而写",
+    "when": {
+      "artifact": "document"
+    },
+    "modules": [
+      "M4"
+    ],
+    "why": "Model prose fails readers while staying factually true (hedge stacking, stock phrases, list-ification, wrong register, translationese), so readability and register need a gate separate from truth: mechanical checks may reject, never approve, and a reader decides whether it sounds human."
   }
 }

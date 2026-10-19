@@ -396,6 +396,12 @@
       "id": "htr-toolkit",
       "en": "Handwritten-text recognition",
       "zh": "手写文本识别"
+    },
+    {
+      "id": "prose-linter"
+    },
+    {
+      "id": "readability-metric"
     }
   ],
   "harnesses": [
@@ -4807,6 +4813,120 @@
       "summary_en": "Open-source HTR and transcription platform built on Kraken; layout + text in one workflow.",
       "summary_zh": "基于 Kraken 的开源 HTR 与转写平台；版面与文本一体。",
       "url": "https://escriptorium.readthedocs.io/en/latest/"
+    },
+    {
+      "id": "vale",
+      "name": "Vale",
+      "name_zh": "Vale",
+      "class": "instruments",
+      "kind": "prose-linter",
+      "vendor": "Vale contributors",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Rule-based prose linter with configurable, style-guide-driven rules; enforces a declared house style instead of taste.",
+      "summary_zh": "规则驱动的文稿 linter，可用房规（style guide）配置；以声明的风格规则取代个人口味。",
+      "url": "https://vale.sh/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "prose",
+        "lint",
+        "style-guide"
+      ]
+    },
+    {
+      "id": "languagetool",
+      "name": "LanguageTool",
+      "name_zh": "LanguageTool",
+      "class": "instruments",
+      "kind": "prose-linter",
+      "vendor": "LanguageTooler GmbH",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Open-source grammar and style checker for many languages, Chinese included; catches agreement, punctuation and usage errors.",
+      "summary_zh": "开源语法与风格检查器，支持多语种（含中文）；可查搭配、标点与用法错误。",
+      "url": "https://languagetool.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "prose",
+        "grammar",
+        "multilingual"
+      ]
+    },
+    {
+      "id": "textstat",
+      "name": "textstat",
+      "name_zh": "textstat",
+      "class": "instruments",
+      "kind": "readability-metric",
+      "vendor": "textstat contributors",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4"
+      ],
+      "summary_en": "Readability metrics (Flesch-Kincaid, SMOG, Dale-Chall and others) as a drift alarm - advisory, never a pass mark.",
+      "summary_zh": "可读性指标（Flesch-Kincaid、SMOG、Dale-Chall 等），只作漂移警报——仅供参考，绝不作通过标准。",
+      "url": "https://github.com/textstat/textstat",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "readability",
+        "metric",
+        "advisory"
+      ]
+    },
+    {
+      "id": "hermit",
+      "name": "HermiT",
+      "name_zh": "HermiT",
+      "class": "instruments",
+      "kind": "ontology-toolkit",
+      "vendor": "University of Oxford, Information Systems Group",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "OWL 2 DL reasoner; decides entailment and finds inconsistency, so an ontology claim can be refuted rather than asserted.",
+      "summary_zh": "OWL 2 DL 推理机；判定蕴含并发现不一致，使本体主张可被反驳而非仅被宣称。",
+      "url": "http://www.hermit-reasoner.com/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "ontology",
+        "reasoner",
+        "description-logic"
+      ]
+    },
+    {
+      "id": "elk",
+      "name": "ELK",
+      "name_zh": "ELK",
+      "class": "instruments",
+      "kind": "ontology-toolkit",
+      "vendor": "Live Ontologies Project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "Consequence-based OWL 2 EL reasoner; fast classification for large terminologies where full DL is intractable.",
+      "summary_zh": "基于后承的 OWL 2 EL 推理机；面向大规模术语体系，在完整 DL 不可行时仍可快速分类。",
+      "url": "https://github.com/liveontologies/elk-reasoner",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "ontology",
+        "reasoner",
+        "owl-el"
+      ]
     }
   ]
 }

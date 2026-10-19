@@ -3,7 +3,7 @@
 > Which pattern came from which primary artifact. Keeps `core/` honest: every claimed pattern traces back.
 > 模式 ← 一手材料 的对照表。用于保证 `core/` 每条模式都可溯源。
 
-**Updated:** 2026-10-19 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18, 2026-10-19).
+**Updated:** 2026-10-20 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18, 2026-10-19, 2026-10-20).
 
 ---
 
@@ -85,6 +85,8 @@
 | `entity-resolution` | SKOS `[R139]` (preferred/alternate labels); Getty TGN `[R145]`; entity-resolution survey `[R150]`; case study `[R136]` (实体规范化 must not merge same-name persons) | standard + academic + internal |
 | `evidence-bounded-generation` | PROV-O `[R141]`; GraphRAG `[R148]`; KG quality dimensions `[R152]`; case study `[R136]` (every accepted triple carries its 原文) | standard + academic + internal |
 | `schema-evolution` | KG evolution survey `[R151]`; repo change governance M7 (`core/08-change-governance.md`) | academic + internal |
+| `prose-polish` | plain-language guidance `[R192]`; GB/T 15834-2011 `[R193]` (punctuation); readability as drift alarm `[R194]`; text-simplification survey `[R195]`; self-refinement needs an external criterion `[R198]` | standard + practitioner + academic |
+| `gap-seeking` | unassisted self-correction fails `[R201]`; calibration `[R202]`; partial self-knowledge `[R203]`, `[R204]`, `[R205]`; quality-diversity `[R208]`, `[R209]`, `[R210]`; Goodhart taxonomy `[R216]` | academic |
 | Evidence instrument map (M3.10) | JCGM 100:2008 GUM `[R107]` (uncertainty budget, coverage factor, 2026 nonlinearity amendment); NASA-STD-7009B `[R108]` (verification / validation / credibility + sensitivity analysis); SI brochure `[R109]` (units); COS Registered Reports `[R110]` (pre-registration); Artstein & Poesio `[R102]` (agreement); first-party project pages of the 27 `instruments` catalog entries | standard + practitioner |
 | `reference/requirement-refinement.md` (R0–R5 protocol) | Rieseberg [R80]; M8 escalation/handoff; `domains/deep-research/method.md` L0 "restate + confirm" | practitioner + internal |
 | `context-budget-policy` (further source) | LongHarness — stateful evidence management over 100M-token corpora `[R128]` (M0.6 smallest high-signal set; just-in-time retrieval over preloading) | preprint |
@@ -103,6 +105,7 @@
 > The 2026-10-18 mathematics/statistics + methodology pass (P10) adds `statistics` / `geometry-topology` domains, `statistical-inference` / `certified-computation` capabilities, 23 more `instruments` rows (class `instruments`, now 50), and the field→methodology map [`reference/methodology-map.md`](../reference/methodology-map.md); refs R111-R119 live in groups I-J. Scope/status board: [`review/integration-map-2026-10.md`](../review/integration-map-2026-10.md).
 > The 2026-10-19 cross-language pass (P11) adds the invariant **M4.10** in `core/05` and the procedure [`reference/cross-language.md`](../reference/cross-language.md); refs R120-R126 live in group K. It also adds the per-field information-outlet map (`reference/outlet-map.md`, group `outlets` in `sources.json`).
 > The 2026-10-19 agent-harness frontier rows above are entered from the *Top AI Papers of the Week* roundup (Oct 12–18, 2026); refs R127-R135 live in group L. The roundup is a **second-hand index — retrieval only, never cited**: all ten items were verified at abstract level through a single arXiv API `id_list` batch (id · title · authors · date agree; no phantom entries), and the roundup-only numbers/affiliations still to clear are enumerated outside version control in `updates/2026-10-19-paper-roundup-proposal.md` §5. One item (LoGRA, `arXiv:2610.06647v2`) is recorded there as **considered and declined**, not listed.
+> The 2026-10-20 depth pass (P15) adds invariants **M4.14** (`core/05`, reader gate) and **M5.11** (`core/06`, self-model / gap-seeking), capabilities `prose-polish` and `gap-seeking`, five `instruments` rows (`vale`, `languagetool`, `textstat`, `hermit`, `elk`) and 20 `outlets` rows; refs R155-R218 live in groups N-Q. Four surveys back it: [`review/knowledge-graph-patterns-2026-10.md`](../review/knowledge-graph-patterns-2026-10.md), [`review/training-methodology-coverage-2026-10.md`](../review/training-methodology-coverage-2026-10.md), [`review/language-polish-2026-10.md`](../review/language-polish-2026-10.md), [`review/self-model-and-gap-seeking-2026-10.md`](../review/self-model-and-gap-seeking-2026-10.md); the outlet survey is [`review/scholarly-channels-2026-10.md`](../review/scholarly-channels-2026-10.md). All rows in groups N-Q were resolved in one arXiv `id_list` batch plus direct fetches on 2026-10-20 — **abstract-level** verification for arXiv, full-page for standards and tools; ISO standards and the classic style/metacognition books are deliberately **not entered** (403 + paywall, or no first-party record).
 
 ---
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -442,6 +442,100 @@
         "catalog_delta": 13,
         "outlets_delta": 7
       }
+    },
+    {
+      "id": "P15",
+      "date": "2026-10-19",
+      "status": "done",
+      "title_en": "Depth round: the KG/ontology canon, the training boundary, scholarly channels, language polish, and a self-model",
+      "title_zh": "纵深轮：图谱/本体经典、训练边界、学术渠道、语言润色、自我模型",
+      "note": "Opened 2026-10-19 on a five-part ask: (1) finish the outstanding work and survey the classic / frontier / management-and-evolution patterns for knowledge graphs, ontologies and knowledge features; (2) confirm the model-training methodology coverage; (3) complete the high-quality publication/discovery channels; (4) treat language polish (prose a human can actually read) as a first-class capability; (5) give the harness an explicit self-model, gap awareness and a bounded way to explore new directions. Closed 2026-10-20: four survey docs + the outlet survey landed, two clauses (M4.14, M5.11), two capabilities, five instruments and twenty outlets registered; P14.4 remains open on purpose (it needs full-text reads of 3-5 harness papers, which this round did not do).",
+      "slices": [
+        "P15.1 - the knowledge-graph / ontology / knowledge-feature canon: classic (W3C stack, ontology-engineering methodologies), frontier (generative KG construction, GraphRAG, KG+LLM), and management/evolution/quality, with what a harness must enforce",
+        "P15.2 - the model-training stack surveyed and the harness boundary stated explicitly (in axis / adjacent / out of scope, with a criterion)",
+        "P15.3 - scholarly discovery & citation channels completed, with the aggregator-is-discovery-only rule written where a reader looks",
+        "P15.4 - language polish as a gate: readability, register, idiomaticity; what is mechanically checkable vs what needs a reader",
+        "P15.5 - self-model, gap awareness and bounded exploration: an explicit self-model artefact, a disconfirming check, and an exploration rule"
+      ],
+      "added": {
+        "capabilities": [
+          "prose-polish",
+          "gap-seeking"
+        ],
+        "domains": [],
+        "clauses": [
+          "M4.14",
+          "M5.11"
+        ],
+        "references": [
+          "R155",
+          "R156",
+          "R157",
+          "R158",
+          "R159",
+          "R160",
+          "R161",
+          "R162",
+          "R163",
+          "R164",
+          "R165",
+          "R166",
+          "R167",
+          "R168",
+          "R169",
+          "R170",
+          "R171",
+          "R172",
+          "R173",
+          "R174",
+          "R175",
+          "R176",
+          "R177",
+          "R178",
+          "R179",
+          "R180",
+          "R181",
+          "R182",
+          "R183",
+          "R184",
+          "R185",
+          "R186",
+          "R187",
+          "R188",
+          "R189",
+          "R190",
+          "R191",
+          "R192",
+          "R193",
+          "R194",
+          "R195",
+          "R196",
+          "R197",
+          "R198",
+          "R199",
+          "R200",
+          "R201",
+          "R202",
+          "R203",
+          "R204",
+          "R205",
+          "R206",
+          "R207",
+          "R208",
+          "R209",
+          "R210",
+          "R211",
+          "R212",
+          "R213",
+          "R214",
+          "R215",
+          "R216",
+          "R217",
+          "R218"
+        ],
+        "catalog_delta": 5,
+        "outlets_delta": 20
+      }
     }
   ],
   "roadmap": [
@@ -597,6 +691,56 @@
       "title_en": "Score 3-5 published domain harnesses on the three fixed criteria",
       "reason": "the crosswalk's comparables row for GraphRAG rests on its own README and rows for LongHarness / the HTR pipelines are metadata-only, because only Case 1 was read in full; a harness-vs-harness survey means opening the PDFs and scoring each on (1) schema declared before extraction, (2) entity identity handled, (3) output evidence-bounded and coverage reported",
       "revisit_when": "a bounded reading slice can open the full texts of the candidate comparables"
+    },
+    {
+      "id": "P15.1",
+      "status": "done",
+      "cycle": "P15",
+      "source": "user ask 2026-10-19 (KG / ontology / knowledge-feature patterns); review/knowledge-and-dh-crosswalk-2026-10.md section 3",
+      "title_en": "The knowledge-graph, ontology and knowledge-feature pattern canon (classic · frontier · management/evolution)",
+      "reason": "the previous round landed clauses from ONE case study; the field's own canons (the W3C normative stack, ontology-engineering methodologies, KG embeddings/completion, generative KG construction, KG evolution and quality) were never systematically surveyed, so the library cannot say what it is missing - and P14.4's 'three fixed criteria' survey needs a source base before it can score anything",
+      "revisit_when": "done in P15 Slice 1 (review/knowledge-graph-patterns-2026-10.md: layered stack, competency questions, the four 'knowledge feature' families, frontier unchanged on identity + evidence; refs R155-R170; instruments hermit/elk; no new clause on purpose)",
+      "done_in": "P15"
+    },
+    {
+      "id": "P15.2",
+      "status": "done",
+      "cycle": "P15",
+      "source": "user ask 2026-10-19 (confirm the training-methodology coverage)",
+      "title_en": "Model-training methodology: a coverage assessment and an explicit boundary",
+      "reason": "the library harnesses models rather than training them, but that boundary has never been stated against the actual training stack (pretraining -> SFT -> preference optimisation -> reasoning RL -> post-training for agents), so a user cannot tell whether a training question is in scope, adjacent, or where to send it",
+      "revisit_when": "done in P15 Slice 2 (review/training-methodology-coverage-2026-10.md: every family graded in-axis / adjacent / out-of-scope; the boundary stated; no training-* capability - no feature affordance, revisit if a model_role axis is added)",
+      "done_in": "P15"
+    },
+    {
+      "id": "P15.3",
+      "status": "done",
+      "cycle": "P15",
+      "source": "user ask 2026-10-19 (publication channels)",
+      "title_en": "Scholarly discovery and citation channels: complete the information landscape",
+      "reason": "the outlet map covers per-field first-party sources but the cross-field discovery layer (Semantic Scholar, OpenAlex, Crossref, CORE, BASE, ACL Anthology, OpenReview, publishers of record) is only partly present, and the repo's own rule - an aggregator is discovery, never the cited source - is not written where a reader looks",
+      "revisit_when": "done in P15 Slice 3 (review/scholarly-channels-2026-10.md + 20 outlets and three outlet-map sections; no duplicate ids - Semantic Scholar/Crossref/CORE/scite stay in tools, OpenAlex in projects, venue indices in venues)",
+      "done_in": "P15"
+    },
+    {
+      "id": "P15.4",
+      "status": "done",
+      "cycle": "P15",
+      "source": "user ask 2026-10-19 (language polish / readability)",
+      "title_en": "Language polish: a gate for prose a human can read",
+      "reason": "model-generated prose is frequently unpleasant to read and mis-registered for its audience, and nothing in the library names that failure or separates what is mechanically checkable (house style, stock phrases, term consistency, punctuation) from what needs a reader",
+      "revisit_when": "done in P15 Slice 4 (clause M4.14 in core/05 + capability `prose-polish` + review/language-polish-2026-10.md; instruments vale/languagetool/textstat; a reader approves, a machine only rejects)",
+      "done_in": "P15"
+    },
+    {
+      "id": "P15.5",
+      "status": "done",
+      "cycle": "P15",
+      "source": "user ask 2026-10-19 (self-awareness / proactive exploration)",
+      "title_en": "Self-model and gap-seeking: knowing what the harness has not covered",
+      "reason": "gap detection today is a side-effect of `cycle audit`, self-attributed strength has no disconfirming check, and there is no artefact stating the library's own limits in a form a user can act on - nor a bounded rule for exploring an uncovered direction without self-deception",
+      "revisit_when": "done in P15 Slice 5 (clause M5.11 in core/06 + capability `gap-seeking` + review/self-model-and-gap-seeking-2026-10.md; evidence-backed self-model, two-halved gap register, one disconfirming check per round)",
+      "done_in": "P15"
     }
   ]
 }
