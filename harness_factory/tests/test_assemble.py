@@ -52,6 +52,35 @@ class EvidenceInstrumentTest(unittest.TestCase):
                 self.assertIn("- **", self._section(domain=domain))
 
 
+class MemoryStanzaTest(unittest.TestCase):
+    """M2.12: a harness with memory enabled must name its backend and its resume protocol."""
+
+    def _section(self, text="keep the registry current over several sessions", **overrides):
+        plan = _plan(text=text, **overrides)
+        doc = build_files(plan)["AGENTS.md"]
+        if "## Memory" not in doc:
+            self.fail("emitted harness has no Memory stanza")
+        return doc[doc.index("## Memory"):doc.index("## Files in this harness")]
+
+    def test_multi_session_plan_declares_backend_and_resume(self):
+        section = self._section(horizon="multi_session")
+        self.assertIn("**Backend**", section)
+        self.assertIn("Resume protocol", section)
+        self.assertIn("M2.12", section)
+
+    def test_knowledge_base_plan_treats_the_index_as_a_cache(self):
+        section = self._section(horizon="multi_session", artifact="knowledge_base")
+        self.assertIn("rebuildable cache", section)
+
+    def test_document_plan_uses_repo_files(self):
+        section = self._section(horizon="multi_session", artifact="document")
+        self.assertIn("files in the repo", section)
+
+    def test_one_shot_plan_omits_the_stanza(self):
+        plan = _plan(horizon="one_shot", domain="general", verifiability="medium", artifact="document")
+        self.assertNotIn("## Memory", build_files(plan)["AGENTS.md"])
+
+
 class AssembleTest(unittest.TestCase):
     def test_build_files_has_no_placeholders(self):
         files = build_files(_plan())

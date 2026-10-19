@@ -146,6 +146,61 @@ _INSTRUMENTS: tuple[tuple[str, str, str, str], ...] = (
 )
 
 
+def _memory_stanza(plan: HarnessPlan) -> str:
+    """Declare *where* state lives and *how a cold process reads it back* (M2.12).
+
+    M2.1 says state must be externalised; M2.12 says an externalised state with no declared
+    backend and no resume protocol is discovered during recovery — the worst time to discover
+    it. Mirrors :func:`_evidence_instrument`: the emitted harness states its posture up front.
+    """
+    if not _enabled(plan, "M2"):
+        return ""
+    caps = set(plan.capabilities)
+    f = plan.features
+
+    if f.artifact == "knowledge_base":
+        backend = (
+            "**the catalogue plus the source records** — the durable state is the artefact itself "
+            "(source records, their ids, the claim ledger); any index, vector or graph store is a "
+            "**rebuildable cache**, so the rebuild command and its inputs are recorded beside it"
+        )
+    else:
+        backend = (
+            "**files in the repo** — `tasks/PLAN.md`, `tasks/PROGRESS.md`, `.harness/ledger.md`, "
+            "`.harness/decisions.md`; the working tree is the store, not a service"
+        )
+
+    lines = [
+        f"- **Backend** — {backend}.",
+        "- **Durability & cost** — state that must survive an interruption is written on the increment "
+        "that produced it, never batched to the end; state that is cheap to recompute may stay in the "
+        "window. Say which is which.",
+        "- **Write granularity** — one checkpoint per verified increment (M2.2); append-only where the "
+        "reader only ever appends.",
+        "- **Resume protocol** — a cold session reads, in order: `.harness/manifest.json` → the last "
+        "entry of `tasks/PROGRESS.md` → `.harness/ledger.md` → the open items in `tasks/PLAN.md`, then "
+        "**states what it believes is done and what is next before acting**.",
+    ]
+    if "resumable-memory" in caps or f.horizon in ("multi_session", "long_running"):
+        lines.append(
+            "- **Handoff over log-replay** — resume from the handoff (`goal · done · blocked · next · "
+            "sources`), not by rebuilding context from the whole log."
+        )
+    if "traceable-sources" in caps:
+        lines.append(
+            "- **Provenance is part of the memory** — a fact without its source and access date is not "
+            "durable state; keep the pointer with the fact (M4.4) so a resume never re-derives "
+            "provenance from memory."
+        )
+    blockquote = (
+        "> **M2.12 — declare the memory backend.** \"We persist state\" is not a design. *Where* it "
+        "lives, *what reading it costs*, and *how a cold process reads it back* is. Name the backend "
+        "and the resume protocol before the work starts. · 说清状态存在哪里、读取多贵、冷启动按什么顺序"
+        "读回来；未声明的后端只会在恢复时才被发现，而那是发现它的最坏时刻。"
+    )
+    return "\n".join(["## Memory · 记忆", "", *lines, "", blockquote])
+
+
 def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     f = plan.features
     domain_meta = _domains().get(f.domain, _domains().get("general", {}))
@@ -223,6 +278,7 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
         "capabilities_line": capabilities_line,
         "capabilities_table": capabilities_table,
         "evidence_instrument": evidence_instrument,
+        "memory_stanza": _memory_stanza(plan),
         "profile_note": "",
         "workflow_list": workflow_list,
         "gate_strictness": gates_strict,

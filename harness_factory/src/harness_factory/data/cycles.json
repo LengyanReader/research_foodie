@@ -273,15 +273,16 @@
       "slices": [
         "Slice 0 (done) - consume the first `harness cycle audit`: router rows for `portable-skills` and `reproducible-experiments`; explicit trigger guards for the 10 unnamed capabilities (tests/test_capabilities.py::TriggerCoverageTest); audit gaps 12 -> 0",
         "Slice 3a (done, roadmap P12.5) - one real EN<->ZH worked example in reference/cross-language.md 7; it found two dropped units and one fused claim in the three Chinese standing-reference renderings, corrected in place",
-        "Slice 1 (open) - CI: end-to-end emitted-harness job on both OSes; opt-in network job (workflow_dispatch only)",
-        "Slice 2 (open) - M2 made concrete: declared memory backend + resume protocol (clause M2.12 + emitted stanza)",
-        "Slice 3b (open) - re-verify the 22 unconfirmed outlets"
+        "Slice 1 (done, roadmap P12.1/P12.2) - CI: `cycle audit` + `doctor --project` appended to the emitted-harness job on both OSes; opt-in `network` job behind `workflow_dispatch` (refresh --provider feed --verify --dry-run + intel)",
+        "Slice 2 (done, roadmap P12.3) - M2 made concrete: clause M2.12 + the emitted Memory stanza (assemble._memory_stanza) + a guard test",
+        "Slice 3b (open) - re-verify the 22 unconfirmed outlets",
+        "Slice 4 (open, roadmap P12.6/P12.7) - sourcing: clear the 17 roundup-only numbers from the PDFs; bounded 8-week backfill Pass A"
       ],
       "added": {
         "capabilities": [],
         "domains": [],
-        "clauses": [],
-        "references": [],
+        "clauses": ["M2.12"],
+        "references": ["R127", "R128", "R129", "R130", "R131", "R132", "R133", "R134", "R135"],
         "catalog_delta": 0
       }
     },
@@ -329,30 +330,30 @@
   "roadmap": [
     {
       "id": "P12.1",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "ASSESSMENT A.3 #7",
       "title_en": "End-to-end emitted-harness job in CI",
       "reason": "CI claims coverage it does not run: nothing executes init -> check -> gate -> harvest -> pointer verify",
-      "revisit_when": "P12 Slice 1"
+      "done_in": "P12 Slice 1 (.github/workflows/ci.yml: init -> check -> gate -> harvest -> doctor --project, on linux + windows)"
     },
     {
       "id": "P12.2",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "ASSESSMENT A.3 #5",
       "title_en": "Opt-in network job (refresh / intel)",
       "reason": "the network paths are untested by design offline, so they are never exercised at all",
-      "revisit_when": "P12 Slice 1"
+      "done_in": "P12 Slice 1 (.github/workflows/ci.yml: the `network` job, if: workflow_dispatch, continue-on-error)"
     },
     {
       "id": "P12.3",
-      "status": "planned",
+      "status": "done",
       "cycle": "P12",
       "source": "ASSESSMENT A.3 #4",
       "title_en": "Memory made concrete: declared backend + resume protocol",
       "reason": "M2 externalizes memory as a rule, but no backend posture is emitted (the evidence-instrument stanza is the precedent)",
-      "revisit_when": "P12 Slice 2"
+      "done_in": "P12 Slice 2 (clause M2.12 in core/03 + assemble._memory_stanza emitted as `## Memory` + tests/test_assemble.py::MemoryStanzaTest)"
     },
     {
       "id": "P12.4",

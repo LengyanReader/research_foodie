@@ -3,6 +3,8 @@ name: ci
 on:
   push:
   pull_request:
+  # The network job at the bottom is opt-in: a human dispatches it, an ordinary push never pays for it.
+  workflow_dispatch:
 
 jobs:
   test:
@@ -22,6 +24,11 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m unittest discover -s tests -v
+      - name: Cycle audit (the factory's own definition-of-done, offline)
+        working-directory: harness_factory
+        env:
+          PYTHONPATH: src
+        run: python -m harness_factory cycle audit
       - name: CLI smoke
         working-directory: harness_factory
         env:
@@ -31,7 +38,7 @@ jobs:
           python -m harness_factory --version
           python -m harness_factory sources --json > /dev/null
           python -m harness_factory evolve --dry-run
-      - name: End-to-end smoke (init -> check -> gate -> harvest)
+      - name: End-to-end emitted harness (init -> check -> gate -> harvest -> doctor)
         working-directory: harness_factory
         env:
           PYTHONPATH: src
@@ -43,4 +50,27 @@ jobs:
           python -m harness_factory check --dir "$OUT"
           python -m harness_factory gate --dir "$OUT"
           python -m harness_factory harvest --dir "$OUT" --root "$OUT"
+          python -m harness_factory doctor --project "$OUT"
           python -m harness_factory plugins --validate
+
+  network:
+    # The network paths are untestable offline by design, so nothing exercised them at all.
+    # This job is dispatched by hand, and it never fails the build: it reports reachability.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh from the tracked feeds (collect + score + HEAD-check, write nothing)
+        working-directory: harness_factory
+        env:
+          PYTHONPATH: src
+        run: python -m harness_factory refresh --provider feed --verify --dry-run --max-items 30
+      - name: Intel from the same feeds
+        working-directory: harness_factory
+        env:
+          PYTHONPATH: src
+        run: python -m harness_factory intel

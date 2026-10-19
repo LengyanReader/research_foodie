@@ -26,6 +26,7 @@
 | M1 Context engineering (compaction, notes, subagents) | Anthropic [25]; OpenAI progressive disclosure / AGENTS.md-as-map [23] | practitioner |
 | M2 Long-running agents (resets, heartbeat, handoff) | Anthropic [26], [27]; OpenAI per-worktree observability [23] | practitioner |
 | M2.10 Loop contract (goal state, budget, per-step ground-truth check, no-progress stop); M2.11 declared control graph | Anthropic *Building effective agents* `[R93]`; ReAct `[R94]`; Reflexion `[R95]`; ADK graph workflows `[R96]` | practitioner |
+| M2.12 Declared memory backend + resume protocol | Each memory system declares its own store: MemGPT/Letta, Mem0, Zep/Graphiti (bitemporal graph over Neo4j), A-MEM — `data/harnesses.json` class `memory`, official repos (`github.com/letta-ai/letta`, `github.com/mem0ai/mem0`, `github.com/getzep/graphiti`) | docs + repos |
 | M3 Verification gates; verify-the-verifier; separate builder/critic | Anthropic [26], [28]; Fowler guides/sensors [19]; Chollet refinement loop [14] | practitioner |
 | M3.10 Match the instrument to the claim | GUM + 2026 amendment `[R107]`; NASA-STD-7009B `[R108]`; SI brochure `[R109]`; Registered Reports `[R110]` | standard |
 | M3.11 Declare the inferential frame; M3.12 certify the computation; M3.13 declare the method and its assumptions | Bayesian workflow `[R111]`; rank-normalised R-hat `[R112]`; plus the methodology systems in `[R113]`–`[R119]` | academic + standard |

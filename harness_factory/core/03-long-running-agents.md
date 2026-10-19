@@ -1,7 +1,7 @@
 # M2 · Long-Running Agents · 长时程 agent
 > Work that spans more sessions than fit in one context window.
 > 跨越多个会话、超出单个上下文窗口的工作。
-**Updated:** 2026-10-18
+**Updated:** 2026-10-19
 
 ---
 
@@ -26,8 +26,9 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 9. **Artifact registry.** Keep one canonical list of produced artifacts (paths + hashes). Prevents "where did that file go?" and enables integrity checks (M4).
 10. **Loop contract (M2.10), written before the loop runs.** State the *goal state* that ends the loop, the *step/turn budget* (8), and the *per-step ground-truth check* (a tool result, a test, a metric) that tells the loop whether it actually advanced. Then **detect no-progress** — the same state/action repeating, a gate that never flips — and stop rather than retry blindly. An agent is a loop over tools (ReAct/Reflexion): without these three, the failure mode is a confident hang.
 11. **Declared control graph (M2.11).** When the work has branches or more than one worker, write the topology down instead of hoping an implicit prompt-driven flow stays on track: **typed shared state**, explicit **nodes** and (conditional) **edges**, **fan-out** on a frozen input, an explicit **fan-in merge**, one **owner** per shared value (M8), and a **checkpoint per node** so a run can resume, rewind or be cancelled. Deterministic control beats emergent control (see `harnesses.json`: LangGraph, ADK graph workflows, AutoGen, CrewAI).
+12. **Declared memory backend + resume protocol (M2.12).** "We externalise state" is not a design. Name the **backend** (repo files; a database; a vector or graph store; a hosted memory service), its **durability and read cost**, the **write granularity** (one checkpoint per verified increment), and the **resume protocol**: the ordered list of files/steps a cold process reads first, what it does when the backend is unreachable, and what it must state before acting. The cheapest store that survives the interruption wins; anything derivable from the ledger is a cache, not a source of truth (M2.9, M0.5).
 
-> **中文**：状态外部化（计划/进度/台账/决策）；一次一增量并落盘；冷启动可续接；步骤幂等（计算与提交分离）；agent 自维护交接文档；重置 vs 压缩要显式选择并记录；心跳/进度；预算超限即检查点停；人工件登记表；**循环契约**（先写终止目标态 + 步数预算 + 每步真值校验，并检测「无进展」即停）；**显式控制图**（类型化共享状态 · 节点/条件边 · 冻结输入扇出 · 显式扇入合并 · 每共享值单一属主 · 逐节点检查点，可恢复/回滚/取消）。
+> **中文**：状态外部化（计划/进度/台账/决策）；一次一增量并落盘；冷启动可续接；步骤幂等（计算与提交分离）；agent 自维护交接文档；重置 vs 压缩要显式选择并记录；心跳/进度；预算超限即检查点停；人工件登记表；**循环契约**（先写终止目标态 + 步数预算 + 每步真值校验，并检测「无进展」即停）；**显式控制图**（类型化共享状态 · 节点/条件边 · 冻结输入扇出 · 显式扇入合并 · 每共享值单一属主 · 逐节点检查点，可恢复/回滚/取消）；**显式记忆后端 + 恢复协议**（存哪里 · 多贵 · 一次增量一检查点 · 冷启动按序读回，可推导者皆为缓存）。
 
 ## Checklist
 - [ ] A cold process can resume the task from on-disk state alone.
@@ -38,6 +39,8 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 - [ ] The loop's termination condition, step budget and per-step ground-truth check are written down.
 - [ ] A repeating state/action stops the run instead of retrying blindly.
 - [ ] Multi-step/multi-worker work has a declared topology with one owner per shared state (M8).
+- [ ] The memory backend, its read cost and the resume protocol are written down, and a cold session follows them (M2.12).
+- [ ] Anything the ledger already implies is treated as a rebuildable cache, not a second source of truth (M2.12, M0.5).
 
 ## Anti-patterns
 - **In-memory-only state.** Progress lost on interruption.
@@ -47,6 +50,8 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 - **Silent stall.** A dead run with no heartbeat.
 - **Loop with no exit condition.** Unbounded retries with no budget and no stall detection.
 - **Implicit topology.** Control flow discovered by the prompt, so branches and parallel work are neither reproducible nor resumable.
+- **Undeclared memory backend.** Recovery discovers the storage design — and its cost — at the worst possible moment.
+- **Cache and ledger both editable.** Two writable copies of one fact means the drift is already scheduled (M0.5).
 
 ## See also
 `01-meta-principles.md` (M0.7, M0.5) · `02-context-engineering.md` (M1) · `04-verification-and-gates.md` (M3) · `09-collaboration-and-sessions.md` (M8).
