@@ -642,5 +642,20 @@
       "M5"
     ],
     "why": "A harness grows by accretion and never shrinks, so module count starts reading as capability. Retention is not contribution: presence during success does not show causation, and model, artifact and harness effects are confounded. The place of a module is decided by a single-unit ablation against the per-task median over ablations, reported on two axes (performance and token cost) and evaluated on a held-out ladder; removing a unit can raise cost, and an all-pruned baseline that still scores is a statement about task coverage."
+  },
+  "model-portfolio-discipline": {
+    "title_en": "Model portfolio: choose per stage, measure on your own task",
+    "title_zh": "模型组合：按阶段选型，在自己的任务上测量",
+    "when": {
+      "domain": [
+        "model-selection"
+      ]
+    },
+    "modules": [
+      "M3",
+      "M4",
+      "M7"
+    ],
+    "why": "A model choice is a measurement, not a rank. Vendor tables compare different models at different effort levels, an alias silently moves to a new snapshot, and a safety policy can re-route the request to another model, so a leaderboard position does not transfer to your task. Declare the requirements matrix (quality, latency, cost, licence, privacy), pick a portfolio per stage rather than one model for the whole job, run a minimal fit-for-task evaluation on your own hold-out at a declared effort, and pass a hard decision gate with requested/served model ids, versions and effort settings recorded (M4.17). A tie goes to the cheaper tier; a change of tier or effort re-opens the evaluation."
   }
 }

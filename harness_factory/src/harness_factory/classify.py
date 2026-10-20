@@ -197,6 +197,33 @@ _GROUND_REQUIRED = [
 ]
 _GROUND_OFF = ["no external knowledge", "without external knowledge", "不用外部知识", "不要引用"]
 
+# Selection intent. The model-selection domain's own signals are exact phrases
+# ("model selection", "选型"), and generic neighbours outvote them: a task that
+# says "选一个模型 … 做一个评测" scores 模型+评测 for data-science and only one
+# exact phrase for model-selection, so the domain was effectively unreachable
+# from text (P19). These cues name a *choice* rather than a comparison, and an
+# explicit choice outranks the domain default - the same rule P18 applied to
+# artifact and grounding cues. "模型对比"/"model comparison" is deliberately not
+# a cue: that is also how an ablation or a literature review is described.
+_SELECTION_CUES = [
+    "which model",
+    "choose a model",
+    "choose between models",
+    "pick a model",
+    "select a model",
+    "model choice",
+    "model selection",
+    "选一个模型",
+    "选个模型",
+    "选模型",
+    "挑一个模型",
+    "挑模型",
+    "哪个模型",
+    "用哪个模型",
+    "选型",
+    "模型选型",
+]
+
 _SIG_RES: dict[str, re.Pattern[str]] = {}
 
 
@@ -223,6 +250,11 @@ def _has(text: str, keywords: list[str]) -> bool:
 
 
 def _guess_domain(text: str) -> str:
+    # An explicit choice of model outranks the domain default: generic
+    # neighbours (data-science carries "model"/"模型"/"eval"/"评测") otherwise
+    # outvote the selection domain's exact phrases by count.
+    if _has(text, _SELECTION_CUES):
+        return "model-selection"
     best, best_score = "general", 0
     for name, meta in _domains().items():
         if name == "general":

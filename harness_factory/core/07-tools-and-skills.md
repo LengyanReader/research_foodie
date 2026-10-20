@@ -1,7 +1,7 @@
 # M6 · Tools & Skills · 工具与技能
 > Interfaces to capability — minimal toolsets, progressive skills, fail-loud.
 > 能力的接口——最小工具集、渐进式技能、失败要响。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-20
 
 ---
 
@@ -25,8 +25,9 @@ More tools do not mean more capability. Each tool adds context cost, selection a
 8. **Untrusted output handling (M4).** Tool/web output is data, not instruction; fence it and never let it widen permissions.
 9. **Least privilege per tool.** Grant each tool only the access it needs. Do not pair untrusted-read with secrets and outbound send.
 10. **Human gate on side effects (M0.8).** Tools that spend, publish, delete, or contact people require an explicit human decision.
+11. **Exposure is not authorization — and "sandbox" is a claim about a backend.** A capability switch, an allowlist, or an `is_enabled` callback decides what the model can *see*; it does not authorize the arguments the model invents or the resource it names. OpenAI's Agents SDK says this outright: those callbacks "cannot authorize a model-generated argument or resource selection", and a remote MCP server must authorize its own protected operations `[R242]`. So authorization belongs *inside* the tool, on the concrete argument — not in the prompt, not in the visible-tool list. The same literalism applies to isolation: a session or a backend named "sandbox" does not by itself guarantee OS-level confinement `[R241]`, and a snapshot persists only the workspace root, not every path the run was granted `[R241]`. State the mechanism (container, VM, user account, policy), what it does not cover, and which paths are durable versus runtime-only; an unqualified "sandboxed" in a design doc is a claim with no test behind it (M0.4).
 
-> **中文**：最小工具集；偏向正确的错误；失败要响不要静默；幂等+可观测；强类型 schema；技能渐进加载（索引先行）；技能=可复用方法、版本化；不可信输出隔离；每工具最小权限；副作用须人类门。
+> **中文**：最小工具集；偏向正确的错误；失败要响不要静默；幂等+可观测；强类型 schema；技能渐进加载（索引先行）；技能=可复用方法、版本化；不可信输出隔离；每工具最小权限；副作用须人类门；**「能看到」不等于「被授权」**——能力开关/白名单/`is_enabled` 只决定模型看得见什么，不授权它自拟的实参或自选的资源，远程 MCP 服务器须自行授权受保护操作，授权要落在工具内部的具体实参上；**「沙箱」是对后端的断言**——会话本身不保证 OS 级隔离，快照只存工作区根目录而非全部被授权路径，须写明隔离机制、不覆盖什么、哪些路径持久、哪些只是运行时。
 
 ## Checklist
 - [ ] The toolset is minimal and non-overlapping.
@@ -35,6 +36,8 @@ More tools do not mean more capability. Each tool adds context cost, selection a
 - [ ] Skills load progressively from a small registry.
 - [ ] Side-effecting tools are idempotent or human-gated.
 - [ ] Untrusted tool output cannot widen permissions (M4).
+- [ ] Each tool authorizes its concrete arguments, not just its presence in the visible toolset.
+- [ ] Any "sandbox" claim names the isolation mechanism, its limits, and the durable-vs-runtime paths.
 
 ## Anti-patterns
 - **Tool sprawl.** Many near-duplicate tools; selection becomes a coin flip.
@@ -42,6 +45,8 @@ More tools do not mean more capability. Each tool adds context cost, selection a
 - **Load-everything skills.** All skills pasted up front (blows M1's budget).
 - **Schema-less handoff.** Free-text tool IO that cannot be validated.
 - **Privilege bloat.** One tool with broad read + secrets + outbound.
+- **Exposure as authorization.** Treating the visible-tool list as the security boundary; it gates what the model can see, not what it may do with an argument it chose.
+- **Sandbox as a word.** Promising isolation without naming the mechanism, the resources it does not cover, or which paths survive a snapshot.
 
 ## See also
 `01-meta-principles.md` (M0.6, M0.2) · `02-context-engineering.md` (M1) · `05-provenance-and-integrity.md` (M4) · `06-self-evolution.md` (M5).

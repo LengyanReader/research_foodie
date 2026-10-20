@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**37 capabilities · 9 modules (M0–M8)**
+**38 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -263,6 +263,12 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** horizon ∈ {multi_session} (时间跨度) and verifiability ∈ {high} (可验证性)
 - **Modules · 关联模块:** M3, M5
 - **Why · 理由:** A harness grows by accretion and never shrinks, so module count starts reading as capability. Retention is not contribution: presence during success does not show causation, and model, artifact and harness effects are confounded. The place of a module is decided by a single-unit ablation against the per-task median over ablations, reported on two axes (performance and token cost) and evaluated on a held-out ladder; removing a unit can raise cost, and an all-pruned baseline that still scores is a statement about task coverage.
+
+### `model-portfolio-discipline` — Model portfolio: choose per stage, measure on your own task · 模型组合：按阶段选型，在自己的任务上测量
+
+- **Fires when · 触发条件:** domain ∈ {model-selection} (领域)
+- **Modules · 关联模块:** M3, M4, M7
+- **Why · 理由:** A model choice is a measurement, not a rank. Vendor tables compare different models at different effort levels, an alias silently moves to a new snapshot, and a safety policy can re-route the request to another model, so a leaderboard position does not transfer to your task. Declare the requirements matrix (quality, latency, cost, licence, privacy), pick a portfolio per stage rather than one model for the whole job, run a minimal fit-for-task evaluation on your own hold-out at a declared effort, and pass a hard decision gate with requested/served model ids, versions and effort settings recorded (M4.17). A tie goes to the cheaper tier; a change of tier or effort re-opens the evaluation.
 
 ---
 

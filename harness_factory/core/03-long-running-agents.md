@@ -1,7 +1,7 @@
 # M2 · Long-Running Agents · 长时程 agent
 > Work that spans more sessions than fit in one context window.
 > 跨越多个会话、超出单个上下文窗口的工作。
-**Updated:** 2026-10-19
+**Updated:** 2026-10-20
 
 ---
 
@@ -27,8 +27,9 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 10. **Loop contract (M2.10), written before the loop runs.** State the *goal state* that ends the loop, the *step/turn budget* (8), and the *per-step ground-truth check* (a tool result, a test, a metric) that tells the loop whether it actually advanced. Then **detect no-progress** — the same state/action repeating, a gate that never flips — and stop rather than retry blindly. An agent is a loop over tools (ReAct/Reflexion): without these three, the failure mode is a confident hang.
 11. **Declared control graph (M2.11).** When the work has branches or more than one worker, write the topology down instead of hoping an implicit prompt-driven flow stays on track: **typed shared state**, explicit **nodes** and (conditional) **edges**, **fan-out** on a frozen input, an explicit **fan-in merge**, one **owner** per shared value (M8), and a **checkpoint per node** so a run can resume, rewind or be cancelled. Deterministic control beats emergent control (see `harnesses.json`: LangGraph, ADK graph workflows, AutoGen, CrewAI).
 12. **Declared memory backend + resume protocol (M2.12).** "We externalise state" is not a design. Name the **backend** (repo files; a database; a vector or graph store; a hosted memory service), its **durability and read cost**, the **write granularity** (one checkpoint per verified increment), and the **resume protocol**: the ordered list of files/steps a cold process reads first, what it does when the backend is unreachable, and what it must state before acting. The cheapest store that survives the interruption wins; anything derivable from the ledger is a cache, not a source of truth (M2.9, M0.5).
+13. **Effort is a budget line, not a quality setting (M2.13).** Vendors now sell reasoning as a dial — low/medium/high/xhigh/max, or a thinking-token budget — and the dial is priced. On Claude Opus 5.5 the *default* (medium) effort was reported to match Opus 5 at max effort for roughly a fifth of the cost, and an external evaluator reported that low effort matched its higher settings on half the output `[R239]`. Two failures follow. **Max-effort-by-default** spends the budget where no gate can see it, and it also destroys comparison: the same release's benchmark table compares one model at xhigh effort against another at high effort, which is a statement about settings, not about models `[R239]`. **Set effort per stage, against the gate** (M3): spend it where a check can reject the output, keep it low where the work is mechanical, and record the effort beside the model id so the run can be reproduced (M4.17). The cost curve is not linear either — cached input on the same model costs a small fraction of fresh input ($0.20 vs $4 per million tokens on Opus 5.5 `[R239]`), so context layout is part of the budget decision, not an afterthought.
 
-> **中文**：状态外部化（计划/进度/台账/决策）；一次一增量并落盘；冷启动可续接；步骤幂等（计算与提交分离）；agent 自维护交接文档；重置 vs 压缩要显式选择并记录；心跳/进度；预算超限即检查点停；人工件登记表；**循环契约**（先写终止目标态 + 步数预算 + 每步真值校验，并检测「无进展」即停）；**显式控制图**（类型化共享状态 · 节点/条件边 · 冻结输入扇出 · 显式扇入合并 · 每共享值单一属主 · 逐节点检查点，可恢复/回滚/取消）；**显式记忆后端 + 恢复协议**（存哪里 · 多贵 · 一次增量一检查点 · 冷启动按序读回，可推导者皆为缓存）。
+> **中文**：状态外部化（计划/进度/台账/决策）；一次一增量并落盘；冷启动可续接；步骤幂等（计算与提交分离）；agent 自维护交接文档；重置 vs 压缩要显式选择并记录；心跳/进度；预算超限即检查点停；人工件登记表；**循环契约**（先写终止目标态 + 步数预算 + 每步真值校验，并检测「无进展」即停）；**显式控制图**（类型化共享状态 · 节点/条件边 · 冻结输入扇出 · 显式扇入合并 · 每共享值单一属主 · 逐节点检查点，可恢复/回滚/取消）；**显式记忆后端 + 恢复协议**（存哪里 · 多贵 · 一次增量一检查点 · 冷启动按序读回，可推导者皆为缓存）；**努力是预算行不是质量档**——推理档位（low/medium/high/xhigh/max 或思考 token 预算）价格不同，按阶段对着门禁花：能被检查驳回的环节给高，机械环节给低，并把档位与模型 id 一起记录（否则不同档位的对比只是在比设置，不是在比模型）。
 
 ## Checklist
 - [ ] A cold process can resume the task from on-disk state alone.
@@ -41,6 +42,7 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 - [ ] Multi-step/multi-worker work has a declared topology with one owner per shared state (M8).
 - [ ] The memory backend, its read cost and the resume protocol are written down, and a cold session follows them (M2.12).
 - [ ] Anything the ledger already implies is treated as a rebuildable cache, not a second source of truth (M2.12, M0.5).
+- [ ] Effort/thinking is set per stage against the gate, and recorded with the model id (M2.13, M4.17).
 
 ## Anti-patterns
 - **In-memory-only state.** Progress lost on interruption.
@@ -52,6 +54,8 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 - **Implicit topology.** Control flow discovered by the prompt, so branches and parallel work are neither reproducible nor resumable.
 - **Undeclared memory backend.** Recovery discovers the storage design — and its cost — at the worst possible moment.
 - **Cache and ledger both editable.** Two writable copies of one fact means the drift is already scheduled (M0.5).
+- **Max-effort by default.** Paying the top reasoning tier on every step, including the mechanical ones, then reporting the total as the cost of the task (M2.13).
+- **Cross-effort comparison.** Ranking two models measured at different effort levels or thinking budgets — the difference belongs to the settings (M2.13).
 
 ## See also
 `01-meta-principles.md` (M0.7, M0.5) · `02-context-engineering.md` (M1) · `04-verification-and-gates.md` (M3) · `09-collaboration-and-sessions.md` (M8).

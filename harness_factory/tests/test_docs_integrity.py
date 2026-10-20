@@ -190,5 +190,45 @@ class P17ClauseAnchorTest(unittest.TestCase):
             self.assertIn(ref, table, f"{ref} missing from the cross table")
 
 
+class P19ClauseAnchorTest(unittest.TestCase):
+    """The three clauses P19 landed must keep their evidence and their object.
+
+    These are content-presence guards, not wording guards: the prose can be
+    edited freely as long as each clause still names the mechanism it exists
+    for and still appears in the source map.  Dropping one of those silently is
+    how a rule decays into a slogan.
+    """
+
+    def test_append_only_compaction_names_the_provider_constraint(self):
+        text = _read(HARNESS / "core/02-context-engineering.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M1.11", text)
+        section = text.split("M1.11", 1)[1][:2200]
+        for token in ("preserved thinking", "forward-only", "addition"):
+            self.assertIn(token, section, f"{token!r} missing from M1.11")
+
+    def test_effort_clause_names_the_gate_and_the_comparison_trap(self):
+        text = _read(HARNESS / "core/03-long-running-agents.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M2.13", text)
+        section = text.split("M2.13", 1)[1][:2600]
+        for token in ("per stage", "gate", "xhigh", "cache"):
+            self.assertIn(token, section, f"{token!r} missing from M2.13")
+
+    def test_serving_model_clause_names_requested_and_served(self):
+        text = _read(HARNESS / "core/05-provenance-and-integrity.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M4.17", text)
+        section = text.split("M4.17", 1)[1][:2600]
+        for token in ("requested", "served", "substitution", "not a measurement"):
+            self.assertIn(token, section, f"{token!r} missing from M4.17")
+
+    def test_new_clauses_have_source_rows(self):
+        text = _read(HARNESS / "sources/source-map.md")
+        self.assertIsNotNone(text)
+        for clause in ("M1.11", "M2.13", "M4.17"):
+            self.assertIn(f"| {clause} ", text, f"{clause} has no source-map row")
+
+
 if __name__ == "__main__":
     unittest.main()

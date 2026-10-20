@@ -100,6 +100,24 @@ class DomainsClassifyTest(unittest.TestCase):
         self.assertNotEqual(self._domain("build an online course with exercises"), "devops")
         self.assertNotEqual(self._domain("summarise the partial results in this article"), "arts-design")
 
+    def test_explicit_model_choice_reaches_model_selection(self):
+        # Generic neighbours carry "model"/"模型"/"eval"/"评测" and outvote the
+        # selection domain's exact phrases by count; the cue is what makes the
+        # domain reachable from the way people actually ask (P19).
+        self.assertEqual(
+            self._domain("帮我在 GPT 和 Claude 之间选一个模型，做一个可复现的适配性评测"),
+            "model-selection",
+        )
+        self.assertEqual(
+            self._domain("which model should we use for this classification task?"),
+            "model-selection",
+        )
+
+    def test_model_comparison_alone_is_not_a_selection_task(self):
+        # "模型对比" is also how an ablation or a literature review is phrased;
+        # treating it as selection intent would steal those tasks.
+        self.assertNotEqual(self._domain("写一篇模型对比的文献综述，注明来源"), "model-selection")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -638,6 +638,40 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P19",
+      "date": "2026-10-20",
+      "status": "done",
+      "title_en": "The model is a variable: what the three frontier families change in the harness",
+      "title_zh": "模型是变量：御三家改变了 harness 的什么",
+      "note": "A model-family round, not a benchmark round: 3 clauses, 1 capability, 0 domains. The current flagships (Claude Opus 5.5, Gemini 4 Argon, OpenAI's 5.6/6 generation as reachable) were read from first-party announcements, model cards and SDK docs, and the finding was convergence rather than a ranking: effort is a priced per-stage dial, providers re-route requests under safety policy, prior reasoning can be immutable, workspace/sandbox is now a product-level contract, and exposure is not authorization. Three clauses landed (M1.11 append-only compaction where thinking is preserved, M2.13 effort as a budget line, M4.17 serving-model provenance), M6 was deepened with two checklist rows and two anti-patterns, and the `model-selection` domain finally got a capability (`model-portfolio-discipline`) - the same 'domain documented, router empty' hole P18 found. Deliberate non-additions recorded with triggers: vendor citation APIs, computer-use specifics, fast mode, CCL cases, a provider-routing capability, 1M-context guidance. OpenAI's own model pages returned 403 and Google's API docs timed out, so no OpenAI feature claim rests on them.",
+      "slices": [
+        "P19.1 - discovery under access constraints: first-party Anthropic announcement and Google model card fetched, OpenAI reached through its own Agents SDK docs; blocked hosts recorded rather than routed around with secondary sources",
+        "P19.2 - mechanism extraction and convergence table: five levers all three vendors expose, plus two mechanisms already covered by the library (long-context degradation, computer use)",
+        "P19.3 - clause decisions: M1.11, M2.13, M4.17 written with checklist and anti-patterns; M6 deepened without a new clause because the obligation already existed and only the failure mode was unnamed",
+        "P19.4 - the capability gap: `model-selection` had an L0-L5 README and no trigger; `model-portfolio-discipline` added, router row filled, positive and negative trigger guards written. Reachability needed a second fix: a real selection ask classified as data-science because generic neighbours outvote the domain's exact phrases, so explicit selection cues now outrank the domain default (the P18 rule), with `模型对比` / `model comparison` deliberately excluded",
+        "P19.5 - evidence and guards: R239-R242 entered as group V with a verification-status paragraph, three source-map rows, 4 content-presence tests, review/model-families-2026-10.md written"
+      ],
+      "added": {
+        "capabilities": [
+          "model-portfolio-discipline"
+        ],
+        "domains": [],
+        "clauses": [
+          "M1.11",
+          "M2.13",
+          "M4.17"
+        ],
+        "references": [
+          "R239",
+          "R240",
+          "R241",
+          "R242"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

@@ -69,7 +69,7 @@
 | The harness keeps growing and nobody can say which module earns its place · 脚手架只增不减，说不清哪个模块在承重 | `component-ablation` | M3, M5 | [`review/harness-ablation-2026-10.md`](../review/harness-ablation-2026-10.md), [`core/06-self-evolution.md`](../core/06-self-evolution.md) |
 | Unsure *what evidence would settle it* · 说不清用什么仪器 | `verification-gate`, `formal-verification`, `dimensional-analysis`, `empirical-measurement` | M3, M4 | [`reference/evidence-instruments.md`](evidence-instruments.md) |
 | Picking a discipline to work in · 选学科门类 | — (route by *kind of work*) | — | [`domains/`](../domains) → `domains/<name>/README.md` |
-| Choosing a model/method · 选模型/选方法 | — | — | [`domains/model-selection/README.md`](../domains/model-selection/README.md) |
+| Choosing a model/method · 选模型/选方法 | `model-portfolio-discipline` | M3, M4, M7 | [`domains/model-selection/README.md`](../domains/model-selection/README.md), [`review/model-families-2026-10.md`](../review/model-families-2026-10.md) |
 | Want the capability list (capability → when it fires) · 反查能力 | `harness capabilities` | — | [`CAPABILITIES.md`](../CAPABILITIES.md) |
 | Want the whole landscape (modules · capabilities · domains · catalog · CLI) · 想要全景 | `harness map` | — | [`HARNESS-MAP.md`](../HARNESS-MAP.md) |
 | Want to learn from the work just done · 想反哺本仓库 | `bidirectional-capability-flow` | M0, M5, M7 | [`reference/capability-flow.md`](capability-flow.md) |

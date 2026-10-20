@@ -455,3 +455,23 @@ class MathStatsCapabilityTest(unittest.TestCase):
         self.assertIn("certified-computation", _active(domain="geometry-topology"))
         # mathematics keeps formal-verification; the clause M3.12 covers its computations
         self.assertNotIn("certified-computation", _active(domain="mathematics"))
+
+
+class ModelPortfolioCapabilityTest(unittest.TestCase):
+    """P19: model selection gets a capability of its own, on its own domain only.
+
+    The gap this closes was structural: `domains/model-selection/README.md`
+    documented an L0-L5 pipeline while no capability fired on the domain, so a
+    selection task derived floor modules only. The trigger is deliberately the
+    domain itself - a model choice is a measurement on your own hold-out, not a
+    property of another artefact - and the negative cases keep it from leaking
+    into neighbouring domains.
+    """
+
+    def test_model_portfolio_fires_on_model_selection(self):
+        self.assertIn("model-portfolio-discipline", _active(domain="model-selection"))
+
+    def test_model_portfolio_does_not_fire_by_default(self):
+        self.assertNotIn("model-portfolio-discipline", _active())
+        self.assertNotIn("model-portfolio-discipline", _active(domain="data-science"))
+        self.assertNotIn("model-portfolio-discipline", _active(domain="software-engineering"))
