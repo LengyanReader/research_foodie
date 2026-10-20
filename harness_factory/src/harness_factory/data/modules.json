@@ -4,6 +4,8 @@
     "title_zh": "元原则",
     "rule_en": "Truth and traceability outrank speed; automate only observe/record/rank",
     "rule_zh": "真相与可溯优先于速度；自动化只做观察/记录/排序",
+    "excludes_en": "Names no workflow, tool or domain method - it only ranks principles when they collide.",
+    "excludes_zh": "不提供流程、工具或领域方法；只在原则冲突时排优先级。",
     "doc": "core/01-meta-principles.md"
   },
   "M1": {
@@ -11,6 +13,8 @@
     "title_zh": "上下文工程",
     "rule_en": "Context is a finite, scarce resource - curate, don't dump",
     "rule_zh": "上下文稀缺——精修，不要倾倒",
+    "excludes_en": "Does not judge what is true or what counts as done - only what enters the window.",
+    "excludes_zh": "不判断真假与验收标准，只管什么进入窗口。",
     "doc": "core/02-context-engineering.md"
   },
   "M2": {
@@ -18,6 +22,8 @@
     "title_zh": "长时程 agent",
     "rule_en": "Externalize memory; advance incrementally; make every run resumable",
     "rule_zh": "记忆外部化；增量推进；每次运行可续接",
+    "excludes_en": "Does not verify results or choose direction - only keeps state resumable and runs idempotent.",
+    "excludes_zh": "不判定结果或方向；只保证可恢复、可续跑、可重入。",
     "doc": "core/03-long-running-agents.md"
   },
   "M3": {
@@ -25,6 +31,8 @@
     "title_zh": "验证与门禁",
     "rule_en": "Define done before work; verify the verifier; hard vs soft gates",
     "rule_zh": "先定义完成；验证验证器；硬门/软门分离",
+    "excludes_en": "Does not decide what to build or where evidence comes from - it defines and enforces done.",
+    "excludes_zh": "不决定做什么、不负责取证；只定义并执行 done。",
     "doc": "core/04-verification-and-gates.md"
   },
   "M4": {
@@ -32,6 +40,8 @@
     "title_zh": "来源与完整性",
     "rule_en": "Every fact traceable to a primary source; uncertain means uncertain",
     "rule_zh": "每个事实可溯源；不确定即标注不确定",
+    "excludes_en": "Does not audit code correctness or guarantee the conclusion is true - it makes claims traceable and expression reviewable.",
+    "excludes_zh": "不审计代码、不担保结论为真；只让断言可溯源、表达可复核。",
     "doc": "core/05-provenance-and-integrity.md"
   },
   "M5": {
@@ -39,6 +49,8 @@
     "title_zh": "自演化",
     "rule_en": "signal -> audit -> mutation -> journal, human-gated",
     "rule_zh": "信号→审计→变异→日志，人类把关",
+    "excludes_en": "Never edits an SSOT or publishes on its own - it proposes, gates and journals.",
+    "excludes_zh": "不自行改 SSOT 或发布；只提案、过闸、记账。",
     "doc": "core/06-self-evolution.md"
   },
   "M6": {
@@ -46,6 +58,8 @@
     "title_zh": "工具与技能",
     "rule_en": "Minimal toolset; biased errors; skills load progressively",
     "rule_zh": "最小工具集；偏向正确的错误；技能渐进加载",
+    "excludes_en": "Sets no policy or permissions - it shapes interfaces, minimality and load order.",
+    "excludes_zh": "不定权限与流程；只定工具接口、最小集与加载顺序。",
     "doc": "core/07-tools-and-skills.md"
   },
   "M7": {
@@ -53,6 +67,8 @@
     "title_zh": "变更治理",
     "rule_en": "Single source of truth; reviewable diffs; no unsolicited destructive acts",
     "rule_zh": "单一事实来源；可审阅 diff；不擅自做破坏性动作",
+    "excludes_en": "Produces no content - it makes changes visible, reviewable and revertible.",
+    "excludes_zh": "不生产内容；只让变更可见、可复核、可回退。",
     "doc": "core/08-change-governance.md"
   },
   "M8": {
@@ -60,6 +76,8 @@
     "title_zh": "协作与会话",
     "rule_en": "Explicit contracts; escalate decisions; hand off with state",
     "rule_zh": "显式契约；决策升级；带状态交接",
+    "excludes_en": "Does not grade the work or set the bar - it makes contracts, escalation and handoff explicit.",
+    "excludes_zh": "不评判质量、不设定标准；只把契约、升级与交接写明白。",
     "doc": "core/09-collaboration-and-sessions.md"
   }
 }

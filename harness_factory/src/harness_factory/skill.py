@@ -44,7 +44,7 @@ def _domain_skills() -> tuple[Skill, ...]:
 _HEAD: tuple[Skill, ...] = (
     Skill("skill", "overview", "SKILL.md", "Cardinal rules + load-index + output contract. Read first."),
     Skill("index", "overview", "core/00-index.md", "Library index (how core/domains/review fit)."),
-    Skill("map", "overview", "HARNESS-MAP.md", "Whole-factory map: modules/capabilities/domains/CLI + how to regenerate."),
+    Skill("map", "overview", "HARNESS-MAP.md", "Whole-factory map: capability architecture diagram, module x capability matrix (rules + boundaries), worked examples, domains/CLI + how to regenerate."),
     Skill("M0", "modules", "core/01-meta-principles.md", "Meta-principles: truth/traceability outrank speed."),
     Skill("M1", "modules", "core/02-context-engineering.md", "Context is scarce; curate, don't dump."),
     Skill("M2", "modules", "core/03-long-running-agents.md", "Externalize memory; resumable runs."),
