@@ -161,9 +161,34 @@ Machine-readable source of record: `harness cycle roadmap` (`data/cycles.json`).
 
 | id | cycle | what | why it is still open |
 |---|---|---|---|
-| **P14.4** | P14 | Score **3–5 published domain harnesses** on the three fixed criteria (schema declared before extraction · entity identity handled · output evidence-bounded *and* coverage reported) | only Case 1 was read in full; the comparables were resolved at the metadata level, so no verdict may be asserted yet |
+| **P14.4** | P14 | Score **3–5 published domain harnesses** on the three fixed criteria (schema declared before extraction · entity identity handled · output evidence-bounded *and* coverage reported) | only Case 1 was read in full; the comparables were resolved at the metadata level, so no verdict may be asserted yet. **Opens as P17** — see the plan below |
 
 Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (loop product, deliberately not under version control). Detail for the case study: `updates/2026-10-19-domain-harness-case-study-plan.md`; the landed outcome: `review/knowledge-and-dh-crosswalk-2026-10.md`.
+
+### P17 · 下一轮（排定于 2026-10-20）：关掉 P14.4 —— 领域 harness 的横向评分
+
+**为什么是它。** P14.4 是全库唯一的 `planned` 项，已被推迟两轮：P15 去补了图谱经典（因为"没有源基就无从打分"），P16 去补了表达与消融。它没法靠"再读一遍本库自己的话"关掉——需要**全文**读 3–5 个已发表领域 harness，再按三条固定标准打分。P16.5 还给了它第二个用途：如果这些 harness 的模块能被评分，`component-ablation` 就有可对照的实例，而不只是一个程序。
+
+**完成定义（本轮关闭时以下须全成立）**
+- 3–5 个案例**全文**读过（PDF/HTML 抽文，不是摘要），每个给出处（arXiv / DOI / 官方 repo）与访问日期；
+- 先定判据、后读案例：三条标准写成**可判定问句**并各带反例，避免读完后倒推标准；
+- 每个案例逐条打分，允许 **N/A**（标出并说明），不把"论文没写"当成"作者没做"——两者对读者的含义不同；
+- 一张横向表 + 一段判决；
+- **负面结果也是结果**：若 3–5 个案例在三条标准上无差别，结论就是"这套判据不判别"，记录理由并**退役判据**，不新增子句（M0.5）。只有判据真能分开案例，才落子句或能力，且须过 M5.10 的完成定义。
+
+**Slices（一片一个可交付）**
+- **P17.1 · 候选池定级。** 逐个解析到一手出处并核许可与可读性，淘汰到 3–5 个。起点是 P14 已记的三个（GraphRAG `[R148]` · LongHarness `[R128]` · HTR 栈 `[R153]`/`[R154]`，三者都只到元数据级）加 **P14 的 Case 1**（已通读），再加 **PaperQA2**——它在 P16 只作为 `[R235]` 的实验对象出现，**它自己的论文还没有解析过 id**，先解析再决定是否入选。**不猜 arXiv id**——P16 的教训是猜中的概率不够，必须 `id_list` 或按题名搜到再引。
+- **P17.2 · 判据操作化。** 三条标准 → 可判定问句 + 反例（例：「schema 先声明」= 抽取前已有字段表/本体文件/受控词表，且文中给出；只在附录提一句不算）。
+- **P17.3 · 全文阅读与逐条打分。** 每案例一页笔记（方法 · schema · 身份 · 证据边界 · 覆盖报告），落 `review/domain-harness-cases-2026-10.md`。
+- **P17.4 · 横向表与判决。** 判别力判定；有则提议子句，无则退役判据并说明。
+- **P17.5 · 收尾。** `cycles.json` 记 P17（`added` 只放真正落地的）；P14.4 标 `done`，或带**新理由**重新 `deferred`。
+
+**Non-goals（写死，防止这一轮膨胀）** 不做 harness 排行榜；不评案例的工程质量（只评三条判据）；不给案例里提到的工具新开目录条目（除非它们本身是被引用的能力来源）。
+
+**排队中、未排期的候选轮**
+- **P18 · 自用轮（dogfood）。** 用 M4.15 审本库自己的文档：逐节标读者任务、找四类理解缺陷、修最坏的几处，并记录**新子句没抓住什么**——这是"新子句是否可用"的最便宜检验。触发：有人抱怨入口文档难读，或需要在 P17 之后验证 M4.15 的可操作性。
+- **P19 · 记分轮。** 给本库一个最小的打分任务集，从而能真跑 `component-ablation`。它同时是 **P16.9 的重访触发**（"本库有打分任务集"），也是让 M5.12 对本库自己生效的唯一路径。触发：P17 的判据产生了可复用的评分口径。
+- **卫生项（不单独开轮，顺手做）。** `harness_factory/domains/model-selection/README.md` 与 `harness_factory/tasks/REFRESH.md` 仍是 CRLF（历史遗留，非本轮引入）；下次动到这两个文件时一并规范为 LF。
 
 - **P0 (done):** pattern library (`core/`, `domains/`, `review/`, `sources/`).
 - **P1 (done):** CLI scaffold generator — `derive`/`init`/`explain`/`check`, rules engine, tests.
