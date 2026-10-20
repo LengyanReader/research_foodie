@@ -44,5 +44,7 @@ Files in this harness: {{ files_list }}
 
 - **Direction 1 (concretize):** this file stays here; enrich it as the task runs (append-only).
 - **Direction 2 (distill):** generalisable patterns go out **only** as proposals in `updates/` — a human reviews them before anything reaches `data/`, `core/`, `domains/`, or `templates/` (M0.4/M0.8).
+- **This file is not the loaded set.** What is *currently held in context* lives in `.harness/working-set.json`
+  (`active` vs `evicted` + a reason + a reload trigger, M1.10); this ledger records *how* a capability was realised.
 - **Path convention:** `SKILL.md`, `reference/*.md`, `core/*.md`, `data/*`, `updates/` above refer to the
   **harness-factory that generated this harness** — not this project.

@@ -5,7 +5,7 @@
 > and file to load. Load nothing else until a row fires. · 外部任务/项目引用本仓库时的**第一落点**：
 > 由「我的情境 / 我要补哪一环」快速定位到**能力 → 模块 → 文件**。没有命中就不要加载其它内容。
 
-**Updated:** 2026-10-19 · Load via `harness skill capability-router`. Machine-readable truth: `data/capabilities.json`, `data/modules.json`.
+**Updated:** 2026-10-20 · Load via `harness skill capability-router`. Machine-readable truth: `data/capabilities.json`, `data/modules.json`.
 
 ---
 
@@ -19,8 +19,9 @@
 
 1. Find the **situation** row that matches your task (a task may hit several rows).
 2. Load only the **files** column — that is the smallest high-signal set (M0.6).
-3. If the situation is a *requirement problem* (vague / under-aimed ask), run `reference/requirement-refinement.md` **before** deriving anything.
-4. When done, send what you learned back with `reference/capability-flow.md` (distill direction).
+3. **Put rows back when they stop firing.** At a phase boundary (new subgoal, artifact switch, a capability idle for a whole phase), re-check the loaded set and evict what no longer changes a decision — with a reason and a reload trigger, never an always-on invariant (M1.10). This table *is* the index you reload from, so eviction costs one lookup, not lost knowledge. Generated harnesses keep the set in `.harness/working-set.json`; `harness check --dir` rejects a silent drop or an evicted invariant.
+4. If the situation is a *requirement problem* (vague / under-aimed ask), run `reference/requirement-refinement.md` **before** deriving anything.
+5. When done, send what you learned back with `reference/capability-flow.md` (distill direction).
 
 > Rule of thumb: **route by situation, not by topic.** Two tasks in the same discipline can need different capabilities.
 

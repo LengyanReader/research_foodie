@@ -4,6 +4,21 @@
 
 ---
 
+## 2026-10-20 · P17.6：工作集退出（M1.10）—— 把"取用"补成"取用+退出"
+
+- **Ask（用户插入项）。** 除了继续 P17，还要有能力**检查某些能力在当前任务里暂时不需要，就先退出加载**——「随用随取，不多占上下文窗口，不浪费 token」。
+- **审计结论：半就位，缺的是退出侧。** 取用侧齐：M0.6 最小高信噪、M1.1「不改变下一步动作的 token 就删」、M1.2 渐进披露、M6.6 技能渐进加载、`capability-router` 「只加载命中行”已存在；`context-budget-policy` 管"什么进入窗口"。缺三件：**没有再检查点**（加载在 `init` 时决定一次，之后靠惯性留着）· **没有退出判据与收据**（M5.10 只管轮次级的"推迟"，不管运行期"已加载集"）· **没有机械信号**（"不浪费 token"此前只是断言，没有可校验的账）。
+- **落地（四项，全部可验证）。**
+  1. **新子句 M1.10「工作集是租的，不是买的」**（`core/02-context-engineering.md`）：在阶段边界（新子目标 / 换产物 / 某能力一个阶段没改动任何决策）重查；保留当且仅当 (a) 触发器仍成立或 (b) 上一阶段它定过事；其余带 `{reason, reload_when}` 退回索引；**硬不变式（always-on）不退**；能安全退出的前提是**索引仍在上下文里**（M1.2）——否则那是遗忘不是释放。同时补 checklist 与三条反模式（静默退出 / 退掉闸门 / 无索引退出）。
+  2. **`.harness/working-set.json`**（`assemble.py` 新增 `_working_set()`）：`vector` + `matched` + `active` + `evicted`，`init` 时全量 active；agent 在阶段边界维护。前端 AGENTS 模板与 `SKILL.md` 输出契约同步（工作集是**任务本地**的账，与 `capabilities.local.md` 的"具体化"账分工不同）。
+  3. **`harness check` 真闸门**（`check.py` 新增 `_check_working_set()`）：拒 `active ⊄ matched` · 拒 **静默丢弃**（既不在 active 也不在 evicted）· 拒同一能力既 active 又 evicted / 重复 · 拒缺 `reason` 或 `reload_when` · **拒退 always-on**（`baseline-discipline`/`verification-gate`/`bidirectional-capability-flow`，由 `when == {}` 现算，不写死名单）· 拒手改 `matched`（应与 manifest 一致，要改用 `derive`）。旧 harness 没有该文件则不报错（manifest 未声明即跳过）。
+  4. **来源与入口**：`review/references.md` 新组 §T + **R237**（Anthropic "Managing context on the Claude Developer Platform"，2025-09-29，本次以**文本**读页面：context editing 在接近 token 上限时**自动清除陈旧 tool 调用与结果**并保留对话流；memory tool 落到窗口外持久化；文中 +29% / +39% / **token 减 84%** 均为**厂商自报内部评测**，已如实标注非同行评审；`docs.claude.com` 两页**地区封锁**，故不据其立论）；`sources/source-map.md` 新增 M1.10 行；router 用法第 3 条改成"行不再命中就把行放回去"。
+- **为什么不加新能力（M0.5 判定，留痕）。** 候选 `working-set-eviction` 的 `when` 若写 `min_horizon: session`，则被 `context-budget-policy` 的 `any[session, tool_surface∈{read,read_write,external}]` **严格包含**（任何会触发退出的任务都已触发预算纪律）；若收窄到 `multi_session`，仍只是子集，不产生分离集——只会在 37→38 上加一条几乎总与邻居同亮的标注。按 P16 的先例（只差一个参数时**深化 M4.14**而非新增）记为**深化 `context-budget-policy`**（`why` 补一句指向 M1.10）。**重访触发**：若出现"单次调用内也需退出"的场景（同一上下文里反复换子任务、且索引无法常驻），则退出需要自己的触发器，那时再立能力。
+- **验证。** 260 测试通过（新增 7 个 `WorkingSetTest`：初始全量 active / 有收据可退出 / 静默丢弃被拒 / 退 always-on 被拒 / 缺 reason+reload_when 被拒 / active 越界被拒 / 手改 matched 被拒）；`cycle audit` **0 硬问题 0 缺口**（29 条子句 anchored）；重新生成 `CAPABILITIES.md` + `HARNESS-MAP.md`；EOL 归一。
+- **仍开放。** P17.3–P17.5 未动，P14.4 仍未关闭。
+
+---
+
 ## 2026-10-20 · P17.1–P17.2：候选池定到一手 id · 三条判据先写成可判定问句
 
 - **P17.1 候选池 6 → 4。** 全部一手核验（abs 页或 `id_list`），**无一条凭记忆**：Case 1（方志人物 KG，已全文读过）· **GraphRAG** `arXiv:2404.16130v2`（CC BY 4.0）· **LongHarness** `arXiv:2610.13075v1`（arXiv 非独占分发）· **PaperQA2** `arXiv:2409.13740v2`（CC BY-SA 4.0）。**PaperQA2 的 id 是这一轮新解析的**：此前只用过 `[R235]`（SHarP）里的实验对象身份，它自己的论文从未解析——按题名 `all:"PaperQA2"` 搜到 4 条，再开 abs 页核对摘要自述「PaperQA2 … optimized for improved factuality」，与 `arXiv:2411.14199`（OpenScholar，引用它）区分开。HTR 两篇（`2411.03340` · `2504.00414`）**有意不入**：属预处理体裁（转写/OCR 纠错/NER），无模式声明、无身份合并、无证据-覆盖输出契约，硬拉进来等于**替它们换考卷**；重访触发写成「若四例结果完全一致，则补一个异质体裁以区分『判据不判别』与『池子太同质』」。

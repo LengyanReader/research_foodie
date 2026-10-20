@@ -116,6 +116,8 @@ lets you reuse the same config for every task. · 配置（如何引用与使用
    as faithful (`reference/cross-language.md` — M4.10).
 7. **Close the loop** (`reference/capability-flow.md`): keep task-local capability notes in
    `.harness/capabilities.local.md`; propose only generalisable patterns back (`updates/`, human-gated).
+   Keep the loaded set **leased, not bought**: `.harness/working-set.json` records what is held and what was
+   put back (reason + reload trigger) at each phase boundary (M1.10).
 8. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
 
 **Variant prompts · 变体指令词（在「配置」之后，按场景替换任务句）：**
@@ -203,12 +205,14 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 
 ```
 AGENTS.md · tasks/PLAN.md · tasks/PROGRESS.md
-.harness/{manifest.json, gates.md, PROVENANCE.md, check.py, capabilities.local.md}
+.harness/{manifest.json, working-set.json, gates.md, PROVENANCE.md, check.py, capabilities.local.md}
 + ledger.md (M2) · skills/README.md + skills/<name>/SKILL.md (M6) · decisions.md (M8) · PROFILE.md (if a project was profiled)
 ```
 
 > `capabilities.local.md` is the **task-local capability ledger** (concretize half of the bidirectional flow);
 > see `reference/capability-flow.md`. It stays in the target project.
+> `working-set.json` is the **loaded set**: `active` is held, `evicted` is put back with a `reason` and a
+> `reload_when` (M1.10). `harness check` rejects a silent drop and an evicted always-on invariant.
 
 **Portable skills.** When M6 is enabled, the emitted `.harness/skills/<name>/SKILL.md` follows the
 [Agent Skills](https://agentskills.io/specification) open format (`name` + `description` frontmatter,

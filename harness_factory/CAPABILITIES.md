@@ -148,7 +148,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** horizon ≥ session OR tool_surface ∈ {read, read_write, external} (工具面)
 - **Modules · 关联模块:** M1, M2
-- **Why · 理由:** Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks ("context rot"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6).
+- **Why · 理由:** Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks ("context rot"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6). The loaded set is leased, not bought: at each phase boundary re-check it, put back what no longer changes a decision (with a reason and a reload trigger), and never evict an always-on invariant (M1.10).
 
 ### `untrusted-content-discipline` — Untrusted-content discipline · 不可信内容纪律
 

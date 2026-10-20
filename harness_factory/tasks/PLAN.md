@@ -183,6 +183,7 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **P17.3 · 全文阅读与逐条打分。** 每案例一页笔记（方法 · schema · 身份 · 证据边界 · 覆盖报告），落 `review/domain-harness-cases-2026-10.md`。
 - **P17.4 · 横向表与判决。** 判别力判定；有则提议子句，无则退役判据并说明。
 - **P17.5 · 收尾。** `cycles.json` 记 P17（`added` 只放真正落地的）；P14.4 标 `done`，或带**新理由**重新 `deferred`。
+- **P17.6 · 工作集退出（用户插入项，2026-10-20；已落地）。** 用户问「能否检查某些能力在当前任务里暂时不需要，就先退出加载，随用随取、不多占窗口」——审计结论：**取用侧齐、退出侧缺**（M1.1 只管单次调用的 token，M5.10 只管轮次级的推迟，运行期的"已加载集"没有任何再检查点）。落地：**新子句 M1.10**（换阶段重查工作集；留 `{reason, reload_when}` 收据；硬不变式不退；靠常驻索引才可安全退出）· `context-budget-policy.why` 补上退出半句 · 生成的 harness 新增 `.harness/working-set.json`（`matched/active/evicted`）· `harness check` 拒绝静默丢弃、拒退 always-on、拒改 `matched` · router 加"行不再命中就把行放回去" · 7 个守卫。**不加新能力**：其 `when` 被 `context-budget-policy` 严格包含（任何会触发退出的任务都会触发预算纪律），只在 37→38 上添噪声——按 M0.5 记为**深化**，理由与重访触发记在 PROGRESS。
 
 
 **Non-goals（写死，防止这一轮膨胀）** 不做 harness 排行榜；不评案例的工程质量（只评三条判据）；不给案例里提到的工具新开目录条目（除非它们本身是被引用的能力来源）。

@@ -108,12 +108,16 @@ and assume an expert persona from the domain (persona changes method, never fact
 
 - **Concretize (factory → this task):** maintain `.harness/capabilities.local.md` — record *how each fired
   capability is realised here*, its evidence, gaps, and whether it looks generalisable.
+- **Keep the working set leased, not bought:** `.harness/working-set.json` is the set this task is *currently
+  holding*. At a phase boundary, move what no longer changes a decision to `evicted` with a `reason` and a
+  `reload_when`; never evict an always-on invariant and never drop silently (`harness check --dir` rejects both).
 - **Distill (this task → factory):** at session end, propose generalisable patterns back via
   `harness learn` + `harness evolve` (writes only to `updates/`, gitignored). **Never edit the factory
   catalogue from here**; a human approves. See the harness-factory's `reference/capability-flow.md`
   (or `harness skill capability-flow`).
 
 > 具体化的留在本任务（`.harness/capabilities.local.md`）；通用化的只以**提案**回流，人类把关，绝不自动合并。
+> 工作集是租的不是买的：换阶段就把不再影响决策的能力退回索引（`.harness/working-set.json` 记理由与重载条件），硬不变式不退、不许静默丢弃。
 
 ## Workflow · 工作流
 

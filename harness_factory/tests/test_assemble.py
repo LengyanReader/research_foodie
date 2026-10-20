@@ -123,5 +123,96 @@ class AssembleTest(unittest.TestCase):
             self.assertTrue(check_harness(tmp))
 
 
+class WorkingSetTest(unittest.TestCase):
+    """M1.10: the loaded set is leased -- no silent drop, no evicted invariant."""
+
+    def _written(self, tmp):
+        plan = _plan(horizon="multi_session", collaboration="human_review")
+        write_harness(plan, tmp)
+        return plan, Path(tmp) / ".harness/working-set.json"
+
+    def _edit(self, path, mutate):
+        data = json.loads(path.read_text(encoding="utf-8"))
+        mutate(data)
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def test_emitted_set_starts_fully_active(self):
+        files = build_files(_plan())
+        manifest = json.loads(files[".harness/manifest.json"])
+        data = json.loads(files[".harness/working-set.json"])
+        self.assertIn(".harness/working-set.json", manifest["files"])
+        self.assertEqual(data["matched"], manifest["capabilities"])
+        self.assertEqual(data["active"], manifest["capabilities"])
+        self.assertEqual(data["evicted"], [])
+        self.assertIn("vector", data)
+
+    def test_eviction_with_a_receipt_passes_the_gate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plan, path = self._written(tmp)
+            victim = next(c for c in plan.capabilities if c not in {
+                "baseline-discipline", "verification-gate", "bidirectional-capability-flow"
+            })
+
+            def mutate(data):
+                data["active"].remove(victim)
+                data["evicted"].append(
+                    {"id": victim, "reason": "phase 2 dropped retrieval", "reload_when": "need sources again"}
+                )
+
+            self._edit(path, mutate)
+            self.assertEqual(check_harness(tmp), [])
+
+    def test_silent_drop_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plan, path = self._written(tmp)
+            self._edit(path, lambda data: data["active"].remove(plan.capabilities[0]))
+            problems = check_harness(tmp)
+            self.assertTrue(any("silently dropped" in p for p in problems), problems)
+
+    def test_evicting_an_always_on_invariant_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _plan_text, path = self._written(tmp)
+            invariant = "verification-gate"
+
+            def mutate(data):
+                if invariant in data["active"]:
+                    data["active"].remove(invariant)
+                data["evicted"].append(
+                    {"id": invariant, "reason": "small phase", "reload_when": "before shipping"}
+                )
+
+            self._edit(path, mutate)
+            problems = check_harness(tmp)
+            self.assertTrue(any("always-on" in p for p in problems), problems)
+
+    def test_eviction_without_reason_or_reload_trigger_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plan, path = self._written(tmp)
+
+            def mutate(data):
+                victim = data["active"][-1]
+                data["active"].remove(victim)
+                data["evicted"].append({"id": victim, "reason": "", "reload_when": ""})
+
+            self._edit(path, mutate)
+            problems = check_harness(tmp)
+            self.assertTrue(any("'reason'" in p for p in problems), problems)
+            self.assertTrue(any("'reload_when'" in p for p in problems), problems)
+
+    def test_active_must_be_a_subset_of_matched(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _plan_text, path = self._written(tmp)
+            self._edit(path, lambda data: data["active"].append("not-a-capability"))
+            problems = check_harness(tmp)
+            self.assertTrue(any("unknown capabilities" in p for p in problems), problems)
+
+    def test_editing_matched_instead_of_re_deriving_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _plan_text, path = self._written(tmp)
+            self._edit(path, lambda data: data["matched"].pop())
+            problems = check_harness(tmp)
+            self.assertTrue(any("disagrees with the manifest" in p for p in problems), problems)
+
+
 if __name__ == "__main__":
     unittest.main()

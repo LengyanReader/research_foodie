@@ -287,7 +287,7 @@
       "M1",
       "M2"
     ],
-    "why": "Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks (\"context rot\"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6)."
+    "why": "Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks (\"context rot\"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6). The loaded set is leased, not bought: at each phase boundary re-check it, put back what no longer changes a decision (with a reason and a reload trigger), and never evict an always-on invariant (M1.10)."
   },
   "untrusted-content-discipline": {
     "title_en": "Untrusted-content discipline",

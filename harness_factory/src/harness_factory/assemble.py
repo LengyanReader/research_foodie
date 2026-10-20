@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +28,7 @@ _TEMPLATE_MAP = {
 }
 
 _MANIFEST = ".harness/manifest.json"
+_WORKING_SET = ".harness/working-set.json"
 _POINTER = ".harness/pointer.json"
 _PROFILE = ".harness/PROFILE.md"
 _SKILLS_DIR = ".harness/skills"
@@ -344,12 +346,13 @@ def build_files(
     if extra.get("profile_md"):
         names = [*names, _PROFILE]
     names = sorted({*names, *plugin_targets})
+    names = sorted({*names, _WORKING_SET})
     plan.files = names
     ctx["files_list"] = "\n".join(f"- `{name}`" for name in names)
 
     files: dict[str, str] = {}
     for name in names:
-        if name == _MANIFEST:
+        if name in (_MANIFEST, _WORKING_SET):
             continue
         if name == _POINTER:
             files[name] = pointer.render(
@@ -374,7 +377,30 @@ def build_files(
         files[name] = render_template(_TEMPLATE_MAP[name], ctx)
 
     files[_MANIFEST] = json.dumps(plan.to_dict(), ensure_ascii=False, indent=2) + "\n"
+    files[_WORKING_SET] = _working_set(plan)
     return files
+
+
+def _working_set(plan: HarnessPlan) -> str:
+    """The task's *loaded* set: what fired, what is still held, what was put back.
+
+    Eviction is a runtime decision, so this file is written once at ``init`` and
+    maintained by the agent afterwards. It stays machine-readable so the gate can
+    check it (M1.10): never drop an always-on invariant, never drop silently.
+    """
+    payload = {
+        "_note": (
+            "Working set for THIS task. `active` = held in context now; `evicted` = put "
+            "back into the index, with the reason and the trigger that reloads it. Evict "
+            "only at a phase boundary, never an always-on capability, never without a "
+            "receipt (M1.10). Regenerate with `harness derive` if the task itself changes."
+        ),
+        "vector": asdict(plan.features),
+        "matched": list(plan.capabilities),
+        "active": list(plan.capabilities),
+        "evicted": [],
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
 def write_harness(
