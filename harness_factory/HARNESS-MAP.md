@@ -50,7 +50,7 @@ flowchart TD
         A1["horizon · 时间跨度 15"]
         A2["verifiability · 可验证性 6"]
         A3["stakes · 风险 4"]
-        A4["grounding · 来源要求 2"]
+        A4["grounding · 来源要求 3"]
         A5["artifact · 产物 9"]
         A6["tool_surface · 工具面 7"]
         A7["collaboration · 协作 3"]
@@ -94,7 +94,7 @@ flowchart TD
 
 - 六层自上而下单向流动；只有一条回边（⑥ 演化），而且**必须过人工闸门**才回到入口。
 - `always` 组由**任务本身**触发（不经向量判断），其余八组各由对应的分类轴触发。
-- 能力层按**触发轴**计数：一条能力可同时看多个轴（`traceable-sources` 同时看 `grounding` 与 `artifact`），故各轴之和 60 > 37，不是重复计算错误。
+- 能力层按**触发轴**计数：一条能力可同时看多个轴（`traceable-sources` 同时看 `grounding` 与 `artifact`），故各轴之和 61 > 37，不是重复计算错误。
 - 图由 `harness_map.render_architecture()` 现算，不手绘；改 catalog 即改图。
 
 | 层 | 装什么 | 关键约束 | 代码 / SSOT |
@@ -201,7 +201,7 @@ flowchart TD
 | `untrusted-content-discipline` | Untrusted-content discipline · 不可信内容纪律 | M4, M6, M7 | tool_surface ∈ {external} (工具面) OR artifact ∈ {document, knowledge_base} (产物) OR grounding ∈ {required} (来源要求) | Retrieved bytes -- web pages, files, tool output, even tool descriptions -- are untrusted data, never instructions (M0.1/M0.4) |
 | `durable-execution` | Durable execution · 持久执行 | M2, M3 | horizon ≥ multi_session | Work that outlives a process must journal each step and replay, not re-run: record the durable log, make every side effect idempotent, and treat human approval as recorded state -- a checkpoint alone is not exactly-once (M0.3/M0.7). |
 | `cost-budget-caps` | Cost budget caps · 成本预算上限 | M3, M7 | tool_surface ∈ {external} (工具面) OR horizon ≥ multi_session | An unattended loop can incinerate a budget, so set a HARD cap on calls/tokens/spend and halt rather than warn (M0.3/M0.8): choose the number up front, and make uncapped operation an explicit opt-in. |
-| `eval-driven-development` | Eval-driven development · 评测驱动开发 | M3, M5 | verifiability ∈ {high} (可验证性) OR horizon ≥ multi_session | Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4). |
+| `eval-driven-development` | Eval-driven development · 评测驱动开发 | M3, M5 | verifiability ∈ {high} (可验证性) OR horizon ≥ multi_session | Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4) |
 | `loop-discipline` | Loop discipline (termination · budget · no-progress) · 循环纪律（终止 · 预算 · 无进展） | M2, M3, M6 | tool_surface ∈ {read_write, external} (工具面) OR horizon ≥ multi_session | An agent is a loop over tools (ReAct): write the goal state that ends it, the step/turn budget, and the per-step ground-truth check BEFORE it runs -- and detect a repeating state/action so a stalled run stops instead of retrying blindly (M0.3/M0.7). |
 | `graph-orchestration` | Graph orchestration (declared topology · typed state) · 图编排（显式拓扑 · 类型化状态） | M2, M8 | collaboration ∈ {multi_agent} (协作) OR horizon ≥ multi_session | Multi-step or multi-worker work gets a DECLARED control graph -- typed shared state, explicit nodes and (conditional) edges, fan-out on a frozen input, explicit fan-in merge, one owner per shared value, a checkpoint per node -- instead of hoping an implicit prompt-driven flow stays on track (M0.5/M0.7). |
 | `formal-verification` | Formal verification (machine-checked claims) · 形式验证（机器可核验） | M3, M4, M6 | domain ∈ {mathematics, logic} (领域) OR (verifiability ∈ {high} (可验证性) and artifact ∈ {code} (产物)) | For a formal claim, prose agreement is not evidence: state the language and axioms, push the derivation through a proof assistant or a checked model, keep the axiom base and every imported lemma as provenance, and treat an unclosed goal as UNFINISHED (M0.3) -- not as 'morally true'. |
@@ -211,7 +211,7 @@ flowchart TD
 | `certified-computation` | Certified computation (exact or independently re-derived) · 可核验计算（精确或独立重算） | M3, M6 | domain ∈ {geometry-topology} (领域) | A computed invariant (a Groebner basis, a homology group, a knot polynomial, a triangulation's property) is a claim resting on an algorithm: run it under exact or certified arithmetic (or a recorded precision), handle degeneracies rather than inheriting floating-point noise, and re-derive the result independently or o… |
 | `ontology-as-contract` | Ontology as contract · 本体即契约 | M3, M4 | domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物) | A knowledge base is only as trustworthy as the schema it was built against |
 | `entity-resolution` | Entity resolution with recorded aliases · 实体归一（别名留痕） | M4 | domain ∈ {knowledge-management, digital-humanities, humanities} (领域) OR artifact ∈ {knowledge_base} (产物) | One canonical id per entity, aliases recorded as aliases against that id, and never a merge that invents a claim the source did not make (M0.4) |
-| `evidence-bounded-generation` | Evidence-bounded generation · 输出侧证据约束 | M3, M4 | artifact ∈ {knowledge_base} (产物) OR domain ∈ {knowledge-management, digital-humanities} (领域) | Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4) |
+| `evidence-bounded-generation` | Evidence-bounded generation · 输出侧证据约束 | M3, M4 | artifact ∈ {knowledge_base} (产物) OR domain ∈ {knowledge-management, digital-humanities} (领域) OR grounding ∈ {required} (来源要求) | Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4) |
 | `schema-evolution` | Versioned schema evolution · 模式演化（版本化迁移） | M4, M7 | domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物) | A knowledge base outlives the ontology it was born with |
 | `gap-seeking` | Self-model and gap-seeking · 自我模型与缺口探测 | M5 | horizon ∈ {multi_session} (时间跨度) | A system that cannot name what it does not cover rediscovers the same gap every round; self-attributed strength is testimony, not evidence, so a claimed capability needs an external check and an uncovered direction needs a bounded, budgeted probe. |
 | `prose-polish` | Prose polish: write for the reader · 文字润色：为读者而写 | M4 | artifact ∈ {document} (产物) | Model prose fails readers while staying factually true (hedge stacking, stock phrases, list-ification, wrong register, translationese), so readability and register need a gate separate from truth: mechanical checks may reject, never approve, and a reader decides whether it sounds human. |

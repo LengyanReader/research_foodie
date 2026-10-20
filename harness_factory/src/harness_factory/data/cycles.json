@@ -584,6 +584,38 @@
         "catalog_delta": 2,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P17",
+      "date": "2026-10-20",
+      "status": "done",
+      "title_en": "Closing P14.4: four domain harnesses scored on fixed criteria, and the criteria that did not survive",
+      "title_zh": "关掉 P14.4：四个领域 harness 按预设判据打分，以及没通过检验的那几条判据",
+      "note": "Opened to close P14.4. Four published harnesses were read in full (Case 1 in P14; GraphRAG, LongHarness and PaperQA2 this round) and scored on criteria frozen before the bodies were opened. Two of six pre-registered predictions held. C1 and C2 discriminate only within the 'build a store' genre, and C2 was reworded to name the pipeline's unit of reference rather than assuming entities. C3a scored 1 in all four cases and was therefore rewritten from a bit into a three-rung ladder (requested / resolvable / enforced) - the bit was measuring the wrong thing. C3b discriminates and has two shapes worth naming: a precision/accuracy/refusal split and a conditional stage funnel. Two clauses landed (M3.15, M4.16), no capability and no domain; evidence-bounded-generation's trigger was widened to grounding: required because it demonstrably would not fire for PaperQA2's shape.",
+      "slices": [
+        "P17.0 - the map rebuilt as an index that explains itself: Mermaid architecture diagram, eight axes with glosses and two real classify+derive examples, a module x capability matrix with not-responsible boundaries, per-faculty domain tables, catalogue classes (out of band - the user's immediate need)",
+        "P17.1 - candidate pool resolved to four first-party ids; PaperQA2's own id resolved for the first time, the HTR pair deliberately excluded with a revisit trigger",
+        "P17.2 - the three criteria operationalised into decidable questions with counter-examples and an N/A rule, plus a meta-criterion C4; predictions pre-registered from abstracts only",
+        "P17.3 - four cases read and scored, per-case notes with section pointers, cross table, and the falsified predictions recorded (review/domain-harness-cases-2026-10.md)",
+        "P17.4 - verdict: C1 keeps, C2 rewords (unit of reference), C3a becomes a ladder, C3b keeps; two clauses proposed from the surviving evidence",
+        "P17.5 - P14.4 closed; clauses M3.15 and M4.16 written with checklist and anti-patterns; provenance rows and R238 added; trigger of evidence-bounded-generation widened to grounding: required",
+        "P17.6 - working set eviction (out of band, user's ask): M1.10, .harness/working-set.json and a check gate that rejects silent drops and evicted invariants"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [
+          "M1.10",
+          "M3.15",
+          "M4.16"
+        ],
+        "references": [
+          "R237",
+          "R238"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -733,12 +765,12 @@
     },
     {
       "id": "P14.4",
-      "status": "planned",
+      "status": "done",
       "cycle": "P14",
       "source": "review/knowledge-and-dh-crosswalk-2026-10.md section 3 (honest limit)",
       "title_en": "Score 3-5 published domain harnesses on the three fixed criteria",
       "reason": "the crosswalk's comparables row for GraphRAG rests on its own README and rows for LongHarness / the HTR pipelines are metadata-only, because only Case 1 was read in full; a harness-vs-harness survey means opening the PDFs and scoring each on (1) schema declared before extraction, (2) entity identity handled, (3) output evidence-bounded and coverage reported",
-      "revisit_when": "a bounded reading slice can open the full texts of the candidate comparables"
+      "done_in": "P17 (review/domain-harness-cases-2026-10.md: four cases read in full, cross table, discriminability verdict; clauses M3.15 + M4.16)"
     },
     {
       "id": "P15.1",

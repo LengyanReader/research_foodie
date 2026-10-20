@@ -274,8 +274,11 @@ class KnowledgeEngineeringCapabilityTest(unittest.TestCase):
             "evidence-bounded-generation", _active(**{**self.QUIET, "artifact": "knowledge_base"})
         )
         self.assertIn("evidence-bounded-generation", _active(domain="knowledge-management"))
-        # it is not the generic documentary case: grounding alone does not fire it
-        self.assertNotIn("evidence-bounded-generation", _active(grounding="required"))
+        # grounding=required is enough: a research-domain answer *over a corpus* needs the
+        # same pointer gate as a knowledge base (P17.3: PaperQA2's shape did not fire it)
+        self.assertIn("evidence-bounded-generation", _active(grounding="required"))
+        # ...but a preference is not a contract
+        self.assertNotIn("evidence-bounded-generation", _active(grounding="preferred"))
 
     def test_schema_evolution_fires_where_a_schema_outlives_the_round(self):
         self.assertNotIn("schema-evolution", _active(**self.QUIET))

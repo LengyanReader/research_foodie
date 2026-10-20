@@ -150,5 +150,45 @@ class DocLinkIntegrityTest(unittest.TestCase):
         self.assertEqual(offenders, [], f"unresolved relative links: {offenders}")
 
 
+class P17ClauseAnchorTest(unittest.TestCase):
+    """The two clauses P17 landed must stay anchored to their evidence and their test.
+
+    A clause without its source row is a rule with no provenance; one whose failure
+    modes have been quietly dropped from the text is a rule that only remembers half
+    of what the cases showed. These guards are deliberately about *content presence*,
+    not wording, so the prose can be edited without fighting the test.
+    """
+
+    def test_stage_funnel_clause_names_its_three_stages(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M3.15", text)
+        section = text.split("M3.15", 1)[1][:1500]
+        for stage in ("evidence found", "kept", "used correctly"):
+            self.assertIn(stage, section)
+
+    def test_pointer_clause_names_all_three_failure_modes(self):
+        text = _read(HARNESS / "core/05-provenance-and-integrity.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M4.16", text)
+        section = text.split("M4.16", 1)[1][:2600]
+        for mode in ("Dangling", "Stale", "Unsupported"):
+            self.assertIn(mode, section, f"failure mode {mode} missing from M4.16")
+
+    def test_case_review_keeps_one_row_per_case(self):
+        text = _read(HARNESS / "review/domain-harness-cases-2026-10.md")
+        self.assertIsNotNone(text)
+        table = text.split("## 6. Cross table", 1)[1].split("## 7.", 1)[0]
+        self.assertIn("C1 schema", table)
+        rows = [
+            line
+            for line in table.splitlines()
+            if line.startswith("| ") and "Case |" not in line and not line.startswith("|---")
+        ]
+        self.assertEqual(len(rows), 4, f"cross table lost a case: {rows}")
+        for ref in ("[R136]", "[R148]", "[R128]", "[R238]"):
+            self.assertIn(ref, table, f"{ref} missing from the cross table")
+
+
 if __name__ == "__main__":
     unittest.main()

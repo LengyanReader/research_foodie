@@ -172,7 +172,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** verifiability ∈ {high} (可验证性) OR horizon ≥ multi_session
 - **Modules · 关联模块:** M3, M5
-- **Why · 理由:** Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4).
+- **Why · 理由:** Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4). Report the stage funnel (found / kept / used) rather than one end-to-end score, so the loss is locatable and the repair is chosen rather than guessed (M3.15).
 
 ### `loop-discipline` — Loop discipline (termination · budget · no-progress) · 循环纪律（终止 · 预算 · 无进展）
 
@@ -230,9 +230,9 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 ### `evidence-bounded-generation` — Evidence-bounded generation · 输出侧证据约束
 
-- **Fires when · 触发条件:** artifact ∈ {knowledge_base} (产物) OR domain ∈ {knowledge-management, digital-humanities} (领域)
+- **Fires when · 触发条件:** artifact ∈ {knowledge_base} (产物) OR domain ∈ {knowledge-management, digital-humanities} (领域) OR grounding ∈ {required} (来源要求)
 - **Modules · 关联模块:** M3, M4
-- **Why · 理由:** Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4). When a system answers *about* a corpus or a knowledge base, every named assertion (person, place, date, number, relation) carries a pointer into the evidence, and "the sources do not support an answer" is a complete, acceptable output. External-knowledge completion is the failure this bars: an answer that is fluent, plausible and nowhere in the material (M4.13).
+- **Why · 理由:** Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4). When a system answers *about* a corpus or a knowledge base, every named assertion (person, place, date, number, relation) carries a pointer into the evidence, and "the sources do not support an answer" is a complete, acceptable output. External-knowledge completion is the failure this bars: an answer that is fluent, plausible and nowhere in the material (M4.13). The pointer itself must be checked for three distinct failures -- dangling, stale (resolving to a superseded or retracted entry) and unsupported -- and must terminate at the source span, not at a generated summary (M4.16).
 
 ### `schema-evolution` — Versioned schema evolution · 模式演化（版本化迁移）
 

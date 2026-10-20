@@ -363,7 +363,7 @@
       "M3",
       "M5"
     ],
-    "why": "Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4)."
+    "why": "Grade the trajectory, not only the final artifact (M0.3): each recurring failure becomes a frozen golden case, so every harness change is re-scored against an evaluator that is not the author (M0.4). Report the stage funnel (found / kept / used) rather than one end-to-end score, so the loss is locatable and the repair is chosen rather than guessed (M3.15)."
   },
   "loop-discipline": {
     "title_en": "Loop discipline (termination · budget · no-progress)",
@@ -558,6 +558,9 @@
             "knowledge-management",
             "digital-humanities"
           ]
+        },
+        {
+          "grounding": "required"
         }
       ]
     },
@@ -565,7 +568,7 @@
       "M3",
       "M4"
     ],
-    "why": "Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4). When a system answers *about* a corpus or a knowledge base, every named assertion (person, place, date, number, relation) carries a pointer into the evidence, and \"the sources do not support an answer\" is a complete, acceptable output. External-knowledge completion is the failure this bars: an answer that is fluent, plausible and nowhere in the material (M4.13)."
+    "why": "Reading material is untrusted input (M4.5); writing it down is a provenance claim (M4.4). When a system answers *about* a corpus or a knowledge base, every named assertion (person, place, date, number, relation) carries a pointer into the evidence, and \"the sources do not support an answer\" is a complete, acceptable output. External-knowledge completion is the failure this bars: an answer that is fluent, plausible and nowhere in the material (M4.13). The pointer itself must be checked for three distinct failures -- dangling, stale (resolving to a superseded or retracted entry) and unsupported -- and must terminate at the source span, not at a generated summary (M4.16)."
   },
   "schema-evolution": {
     "title_en": "Versioned schema evolution",
