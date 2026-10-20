@@ -398,10 +398,24 @@
       "zh": "手写文本识别"
     },
     {
-      "id": "prose-linter"
+      "id": "prose-linter",
+      "en": "Prose linter (declared house style)",
+      "zh": "文稿 linter（按声明的房规）"
     },
     {
-      "id": "readability-metric"
+      "id": "readability-metric",
+      "en": "Readability metric (advisory only)",
+      "zh": "可读性指标（仅作警报）"
+    },
+    {
+      "id": "diagramming",
+      "en": "Diagram-as-code",
+      "zh": "图即代码"
+    },
+    {
+      "id": "visualization-grammar",
+      "en": "Visualization grammar",
+      "zh": "可视化语法"
     }
   ],
   "harnesses": [
@@ -4926,6 +4940,51 @@
         "ontology",
         "reasoner",
         "owl-el"
+      ]
+    },
+    {
+      "id": "mermaid",
+      "name": "Mermaid",
+      "name_zh": "Mermaid",
+      "class": "instruments",
+      "kind": "diagramming",
+      "vendor": "Mermaid contributors",
+      "ecosystem": "open",
+      "maps_to": [
+        "M4"
+      ],
+      "summary_en": "Diagrams written as text and rendered on demand, so structure lives in a reviewable source and changes appear in a diff.",
+      "summary_zh": "以文本描述图并即时渲染：结构存放在可复核的源码里，改动会出现在 diff 中。",
+      "url": "https://mermaid.js.org/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "diagram",
+        "text-source",
+        "diffable"
+      ]
+    },
+    {
+      "id": "vega-lite",
+      "name": "Vega-Lite",
+      "name_zh": "Vega-Lite",
+      "class": "instruments",
+      "kind": "visualization-grammar",
+      "vendor": "UW Interactive Data Lab",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M4"
+      ],
+      "summary_en": "A grammar of interactive graphics: a chart is a specification over encodings, so the encoding - and what it hides - can be inspected and regenerated.",
+      "summary_zh": "交互图形语法：图表是「编码」的声明式规格，因此编码（以及它所隐去的东西）可被检查与重生成。",
+      "url": "https://vega.github.io/vega-lite/",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "visualization",
+        "grammar",
+        "specification"
       ]
     }
   ]

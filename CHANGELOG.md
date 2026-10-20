@@ -6,6 +6,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Expression round (P16) - form before words · translation as expression · a module that earns its place.** One round,
+  five slices, and the first where the two headline papers were read **in full** rather than at abstract level.
+  - **Expression design - clause M4.15 (`core/05`) + capability `expression-design`**
+    (`review/expression-design-2026-10.md`, §R R219-R233). The content unit and the reader's task select the form:
+    four reader needs > four documents (tutorial / how-to / reference / explanation), and a section must serve one.
+    "What needs explanation" becomes a search (undefined term at first use, unstated precondition, unexplained jump, rule
+    with no worked example). The modality ladder runs prose > list > table > diagram > chart > notation > animation >
+    sound, climbed only as far as the relation requires, preferring the rung whose **source of truth is reviewable** -
+    so for video the script is the artefact of record. A form change may change what the reader can check but **never
+    what is claimed** (M4.10), hence the text spine (caption with claim, data, unit, caveat + alt text). Instruments
+    `mermaid` (+ kind `diagramming`) and `vega-lite` (+ kind `visualization-grammar`).
+  - **Translation as expression.** The 1898 preface that states 信·達·雅 (R233) was read as a **primary text**, not from
+    a secondary account: 「不斤斤於字比句次，而意義則不倍本文」 carries the licence and its limit in one sentence, and
+    一名之立，旬月踟躕 makes a coined term a logged decision. Modern evidence makes the trade-off measurable: fluency and
+    faithfulness are **negatively correlated** over 130,486 paragraphs in 16 source languages (R229), sentence alignment
+    is unrealistic for literary text (R230), and quality is reported as MQM error categories (R224) rather than "fluent".
+  - **Context-adaptive polish - M4.14 deepened, no new capability.** Audience, register and channel are declared
+    **before** writing and re-checked per section (`review/language-polish-2026-10.md` §3.1); an undeclared audience
+    silently becomes "whoever is writing", which is the register failure the gate exists to catch.
+  - **Ablation - clause M5.12 (`core/06`) + capability `component-ablation`** (`review/harness-ablation-2026-10.md`,
+    §S R234-R236). Retention is not causal contribution and neither is deployed utility (R234); the procedure that
+    separates them ablates one coupled functional unit at a time against the **per-task median over ablations**, reports
+    performance and cost as two axes with paired tests, protects the set at alpha = 0.05, and evaluates the ladder on a
+    held-out set as a Pareto frontier. Recorded against the obvious reading: removing a unit can **raise** cost, one
+    harness in the study is a counter-example to "harnesses are redundant", and an all-pruned baseline that still scores
+    is a statement about **task coverage**.
+  - **Sources graded, and a second-hand piece demoted.** The WeChat article is an accurate explainer of the same SHaRP
+    paper and is still **not a source**: it dropped the 24-of-27 cliff to 14.44%, the PaperQA2 counter-example, and the
+    reading of the all-pruned baseline. It is a retrieval pointer only; §1 of the ablation doc records the omissions.
+  - **Counts.** 35 > **37** capabilities · 26 > **28** clauses · 68 > **70** instruments (25 > 27 kinds) · R218 > **R236**
+    (no new outlets). **242 tests** (237 + 5 guards). `cycle audit`: 0 hard, 0 gaps. Five non-additions recorded with
+    revisit triggers (`modality` axis, genre templates, automated pruner, redundancy ratio, `harness-pruning` domain).
 - **Depth round (P15) - KG canon · training boundary · scholarly channels · language polish · self-model.** Five
   surveys, two new invariants and the first round to *state what the library does not cover*.
   - **Knowledge graphs (`review/knowledge-graph-patterns-2026-10.md`, §N R155-R170).** A layered stack (data model >

@@ -32,14 +32,14 @@ M4 令每条 load-bearing claim 必须可溯源；M3 令「完成」= 通过校�
 ## Pipeline · 流水线
 | layer · 层 | step · 步骤 | guarantee · 保证 | module |
 |---|---|---|---|
-| L0 | 题目解析 · parse | 复述真实问题（thesis + 受众 + 体裁），歧义则先确认 | M0,M7 |
-| L1 | Outline · 结构 | thesis + 分论点 + 论证顺序（先骨架后血肉） | M1,M7 |
+| L0 | 题目解析 · parse | 复述真实问题（thesis + 受众 + 体裁），并**声明受众·语域·渠道**（M4.14）；歧义则先确认 | M0,M7 |
+| L1 | Outline · 结构 | thesis + 分论点 + 论证顺序；**先定形式**——读者任务（学/做/查/懂）→ 教程/how-to/参考/解释，再选文字/表/图/图表（M4.15） | M1,M4,M7 |
 | L2 | Context pack · 上下文包 | 关键来源入包（academic-search / crossref / openalex） | M1,M6 |
 | L3 | Claim→Evidence · 配对 | **每条 claim 强制挂证据**；无源则标 `unverified` | M4 |
 | L4 | Draft · 草稿 | 按 outline 成文；引文逐条锚定 | M1,M4 |
 | L5 | Originality · 原创性 | 区分「复述」与「己见」；标注借鉴来源 | M3,M4 |
 | L6 | Verify · 校验 | claim 全部可解析到来源；缺口/矛盾如实标注 | M3,M4 |
-| L7 | Clarity · 清晰 | 结构/行文润色（最后一步） | M7 |
+| L7 | Clarity · 清晰 | 结构/行文润色（**最后一步**）；机械项只可**否决**、读者才可放行（M4.14） | M7 |
 
 ## Tools · 工具
 `academic-search` · `evidence-extractor` · `survey`（见 `harness catalog --class deep-research`）。

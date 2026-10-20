@@ -536,6 +536,54 @@
         "catalog_delta": 5,
         "outlets_delta": 20
       }
+    },
+    {
+      "id": "P16",
+      "date": "2026-10-20",
+      "status": "done",
+      "title_en": "Expression round: form before words, translation as expression, and a module that earns its place",
+      "title_zh": "表达轮：先定形式再定措辞、翻译即表达、组件须自证其位",
+      "note": "Opened 2026-10-20 on a three-part ask: (1) language/text refinement must adapt to the context rather than apply one taste; (2) a capability for choosing the best form of expression for the same content and goal - reader-oriented structure for a manual, 信达雅 rather than word-for-word for translation, and no fixed output type at all: chart, diagram, storyboard, video, sound, whichever makes the meaning, the logic and the important details land fastest; (3) the capabilities and insights named in three supplied links (arXiv:2609.36630, github.com/UCSB-NLP-Chang/SHarP, a WeChat explainer) must be traced to first-hand sources, assessed and integrated. Closed the same day: two survey docs, two clauses (M4.15, M5.12), two capabilities, two instruments; M4.14 deepened with a declared audience/register/channel. The two §S papers were read in full rather than at abstract level; the WeChat piece was demoted to a discovery pointer and is not cited.",
+      "slices": [
+        "P16.1 - the three named sources verified and graded: the distillation roadmap and the SHarP paper read in full, the official implementation checked, and the WeChat explainer demoted to a retrieval pointer with what it omitted recorded",
+        "P16.2 - expression design: content unit + reader task -> form (tutorial/how-to/reference/explanation), the four comprehension defects, the modality ladder, and the reviewable-source rule",
+        "P16.3 - translation as expression under a fixed source: the 1898 譯例言 read as a primary text, the measured fluency/faithfulness trade-off, and quality as error categories rather than 'fluent'",
+        "P16.4 - context-adaptive polish: audience, register and channel declared before writing and re-checked per section (deepens M4.14; no new capability)",
+        "P16.5 - ablation accounting: retention vs causal contribution vs deployed utility, and the single-unit ablation procedure that decides what a harness keeps"
+      ],
+      "added": {
+        "capabilities": [
+          "expression-design",
+          "component-ablation"
+        ],
+        "domains": [],
+        "clauses": [
+          "M4.15",
+          "M5.12"
+        ],
+        "references": [
+          "R219",
+          "R220",
+          "R221",
+          "R222",
+          "R223",
+          "R224",
+          "R225",
+          "R226",
+          "R227",
+          "R228",
+          "R229",
+          "R230",
+          "R231",
+          "R232",
+          "R233",
+          "R234",
+          "R235",
+          "R236"
+        ],
+        "catalog_delta": 2,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -741,6 +789,101 @@
       "reason": "gap detection today is a side-effect of `cycle audit`, self-attributed strength has no disconfirming check, and there is no artefact stating the library's own limits in a form a user can act on - nor a bounded rule for exploring an uncovered direction without self-deception",
       "revisit_when": "done in P15 Slice 5 (clause M5.11 in core/06 + capability `gap-seeking` + review/self-model-and-gap-seeking-2026-10.md; evidence-backed self-model, two-halved gap register, one disconfirming check per round)",
       "done_in": "P15"
+    },
+    {
+      "id": "P16.1",
+      "status": "done",
+      "cycle": "P16",
+      "source": "user ask 2026-10-20 (three supplied links: arXiv:2609.36630, github.com/UCSB-NLP-Chang/SHarP, a WeChat article)",
+      "title_en": "Trace the three supplied links to first-hand sources and grade what each actually claims",
+      "reason": "the ask supplied two papers and one popular explainer as examples of capabilities worth integrating; an abstract-level read and a second-hand summary are not a basis for a clause, and a summary is precisely where the inconvenient findings go missing",
+      "revisit_when": "done in P16 Slice 1 (both papers read in full - 57 pp. and 29 pp., PDF text extracted; the official implementation checked; the WeChat piece demoted to a discovery pointer, with its three omissions recorded in review/harness-ablation-2026-10.md section 1)",
+      "done_in": "P16"
+    },
+    {
+      "id": "P16.2",
+      "status": "done",
+      "cycle": "P16",
+      "source": "user ask 2026-10-20 (choose the best expression for the same content and goal; do not be constrained by output type)",
+      "title_en": "Expression design: choose the form before the words",
+      "reason": "the library could polish a sentence but had nothing to say about whether the information should be a sentence at all - no handling of reader task, document architecture, comprehension defects, or the choice among prose, table, diagram, chart, notation and animation",
+      "revisit_when": "done in P16 Slice 2 (clause M4.15 in core/05 + capability `expression-design` + review/expression-design-2026-10.md; four reader needs -> four forms; the four comprehension defects; the modality ladder; the reviewable-source rule; instruments mermaid/vega-lite)",
+      "done_in": "P16"
+    },
+    {
+      "id": "P16.3",
+      "status": "done",
+      "cycle": "P16",
+      "source": "user ask 2026-10-20 (translation must be 信达雅, not word-for-word)",
+      "title_en": "Translation as expression under a fixed source",
+      "reason": "M4.10 already required meaning-unit alignment and no silent term substitution, but it grounded that in the current literature only; the tradition that named the trade-off has a primary text, and the modern corpus work says the trade-off is measurable and that fluency is not evidence of faithfulness",
+      "revisit_when": "done in P16 Slice 3 (the 1898 譯例言 read as a primary text, R233; fluency/faithfulness negative correlation, R229; chapter-to-chapter discourse, R230; MQM error typology, R224; quality reported as categories, never as 'fluent')",
+      "done_in": "P16"
+    },
+    {
+      "id": "P16.4",
+      "status": "done",
+      "cycle": "P16",
+      "source": "user ask 2026-10-20 (refinement must adapt to the specific context rather than apply one taste)",
+      "title_en": "Context-adaptive polish: declare audience, register and channel before writing",
+      "reason": "M4.14 asked whether the register was right without ever requiring the register to be named; an undeclared audience silently becomes 'whoever is writing', which is the failure the gate exists to catch",
+      "revisit_when": "done in P16 Slice 4 (M4.14 deepened - declaration before writing, re-checked per section; review/language-polish-2026-10.md section 3.1; no new capability, because the operation is unchanged and only its parameter was missing)",
+      "done_in": "P16"
+    },
+    {
+      "id": "P16.5",
+      "status": "done",
+      "cycle": "P16",
+      "source": "user ask 2026-10-20 (integrate the insights in the supplied links); arXiv:2610.04178",
+      "title_en": "A module earns its place by ablation, not by argument",
+      "reason": "M5 only adds - signal, audit, mutation - so the harness grows monotonically and module count starts reading as capability; nothing in the library separated 'present during success' from 'caused the success', and no procedure existed for removing a component on evidence",
+      "revisit_when": "done in P16 Slice 5 (clause M5.12 in core/06 + capability `component-ablation` + review/harness-ablation-2026-10.md; single-unit ablation against the per-task median, two axes, protected set, held-out ladder; retention vs causal contribution vs deployed utility, R234)",
+      "done_in": "P16"
+    },
+    {
+      "id": "P16.6",
+      "status": "deferred",
+      "cycle": "P16",
+      "source": "P16 Slice 2 (design decision)",
+      "title_en": "Give expression design its own `modality` feature axis",
+      "reason": "an axis addition ripples through the spec, the classifier, the derivation rules and every capability's trigger, and it would have to be paid for twice to be worth it; `artifact in {document, dataset}` already discriminates - prose-polish fires on document only, expression design on document and dataset - so the engine stays untouched",
+      "revisit_when": "a second capability needs modality as a first-class trigger, or a task arrives whose modality cannot be inferred from the artefact kind"
+    },
+    {
+      "id": "P16.7",
+      "status": "deferred",
+      "cycle": "P16",
+      "source": "P16 Slice 2 (design decision)",
+      "title_en": "Ship per-genre document templates as instruments",
+      "reason": "a template encodes one organisation's genre conventions and would be mistaken for the architecture decision M4.15 asks for; the first-party template set is cited (R222) and referred to, not vendored, because the failure this round targets is type-first drafting",
+      "revisit_when": "users report the same genre repeatedly and a template would be a starting point rather than a substitute for the form decision"
+    },
+    {
+      "id": "P16.8",
+      "status": "deferred",
+      "cycle": "P16",
+      "source": "P16 Slice 5 (design decision)",
+      "title_en": "Automate the pruner in the CLI",
+      "reason": "module partitioning is manual by construction - the source paper does it manually too - so an automated pruner would automate the one step that is not the bottleneck, and would hide the counterfactual definition that makes a module a module",
+      "revisit_when": "module boundaries become declared in `data/`, at which point the ablation ladder could be driven from the manifest"
+    },
+    {
+      "id": "P16.9",
+      "status": "deferred",
+      "cycle": "P16",
+      "source": "P16 Slice 5 (design decision)",
+      "title_en": "Add a redundancy-ratio or module-count metric for this repository",
+      "reason": "the observable is a task score, which this repository does not have for its own harness; a ratio computed from document or clause counts would be exactly the proxy that Goodhart's law eats (R216)",
+      "revisit_when": "this harness has a scored task set, so that a pruned configuration and the full one can be compared on the same tasks"
+    },
+    {
+      "id": "P16.10",
+      "status": "deferred",
+      "cycle": "P16",
+      "source": "P16 Slice 5 (design decision)",
+      "title_en": "Add a `harness-pruning` domain",
+      "reason": "pruning is a procedure over an existing harness, not a field of work; a domain routes by topic, which is the error the router's own rule warns against",
+      "revisit_when": "pruning grows sub-procedures (partitioning, paired statistics, Pareto selection) that a domain index would genuinely organise"
     }
   ]
 }

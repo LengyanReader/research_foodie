@@ -3,22 +3,22 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 35 capabilities · 31 domains · 201 catalog entries · 24 CLI subcommands**
+**9 modules (M0–M8) · 37 capabilities · 31 domains · 203 catalog entries · 24 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、35 条能力（capability，任务特征 → 模块）、31 个学科域、201 条工具目录、24 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
+这张地图把 harness_factory **所有部件**画在一页上：9 个核心模块（M0–M8）、37 条能力（capability，任务特征 → 模块）、31 个学科域、203 条工具目录、24 个 CLI 子命令、以及 L0/L1 两种消费形态。它回答三个问题：**(1)** 有哪些部件；**(2)** 每个部件的数据源（SSOT）在哪；**(3)** 改完 SSOT 后跑哪条命令同步。整份文档**由代码生成**（`harness map --write`），并由 `tests/test_harness_map.py` 做漂移守卫——因此它随每次更新自动保持一致。
 
 ## 0 · At a glance · 一览
 
 | surface · 面 | count | SSOT | view |
 |---|---|---|---|
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
-| Capabilities | 35 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
+| Capabilities | 37 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
 | Domains | 31 (30 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
-| Tool catalog | 201 (12 classes × 58 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
+| Tool catalog | 203 (12 classes × 60 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
 | Rubrics | 32 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
 | CLI subcommands | 24 | `src/harness_factory/cli.py` | §7 below |
@@ -65,7 +65,7 @@
 | M7 | Change governance · 变更治理 | Single source of truth; reviewable diffs; no unsolicited destructive acts | `core/08-change-governance.md` |
 | M8 | Collaboration & sessions · 协作与会话 | Explicit contracts; escalate decisions; hand off with state | `core/09-collaboration-and-sessions.md` |
 
-## 4 · Capabilities · 能力（35）
+## 4 · Capabilities · 能力（37）
 
 A capability is a *reusable requirement*: it fires when the task's feature vector matches its `when`, then **annotates** the already-enabled modules with why they matter (M0.4). Trigger renderer shared with `CAPABILITIES.md`; full text (fires-when + why) there.
 
@@ -106,6 +106,8 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | `schema-evolution` | M4, M7 | domain ∈ {knowledge-management, digital-humanities} (领域) OR artifact ∈ {knowledge_base} (产物) |
 | `gap-seeking` | M5 | horizon ∈ {multi_session} (时间跨度) |
 | `prose-polish` | M4 | artifact ∈ {document} (产物) |
+| `expression-design` | M4 | artifact ∈ {document, dataset} (产物) |
+| `component-ablation` | M3, M5 | horizon ∈ {multi_session} (时间跨度) and verifiability ∈ {high} (可验证性) |
 
 ## 5 · Domains · 学科域
 
@@ -124,7 +126,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | natural-sciences · 自然科学 | `biology`, `chemistry`, `earth-environment`, `mathematics`, `physics` |
 | social-sciences · 社会科学 | `cognitive-science`, `economics-finance`, `psychology`, `social-science` |
 
-## 6 · Tool catalog · 工具目录（201）
+## 6 · Tool catalog · 工具目录（203）
 
 `data/harnesses.json` indexes third-party agent harnesses, frameworks, protocols, evaluation tools and safety work, each mapped to the modules it exercises. Lookup with `harness catalog`.
 
@@ -141,7 +143,7 @@ A capability is a *reusable requirement*: it fires when the task's feature vecto
 | discovery · Discovery / evidence & model search | 5 |
 | reading · Reading, acquisition & distillation | 20 |
 | deep-research · Deep research — search, retrieval & synthesis | 43 |
-| instruments · Scientific & formal instruments (evidence tools) | 68 |
+| instruments · Scientific & formal instruments (evidence tools) | 70 |
 
 ## 7 · CLI surface · 命令行（24 subcommands）
 

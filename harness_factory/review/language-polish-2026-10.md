@@ -72,6 +72,30 @@ The point of listing the unfetched four is not decoration: they disagree with ea
 words"; Gopen & Swan say the *position* of information matters more than its length. A harness that reduces "polish" to a
 word-count rule has picked one authority and mistaken it for the field.
 
+### 3.1 The reader is not a constant
+
+"Polish" is not one operation. The same sentence is right for a regulator and wrong for a tutorial, right in a
+runbook and wrong in a paper. So the pass begins by **declaring three things** — and writing them down, because an
+undeclared audience silently becomes "whoever is writing":
+
+| Declaration | Why it changes the prose | Failure if omitted |
+|---|---|---|
+| **Audience** (what they already know) | Determines what is defined, what is assumed, how much shorthand is allowed | Explains the obvious, skips the hard part |
+| **Register** (formal / instructional / conversational) | Determines person, voice, contractions, sentence length | Chatty in a compliance report; bureaucratic in a quickstart |
+| **Channel** (read once on screen / consulted under pressure / printed / listened to) | Determines structure and redundancy: a runbook needs one step per line and repeated preconditions; an essay does not | A wall of prose in a runbook; a bullet list where an argument was needed |
+
+The declaration is per **section**, not per document: a manual legitimately opens in an instructional register and
+switches to reference register in its tables. What it may not do is drift without saying so — and drift is exactly
+what a single global "tone" instruction produces, because it has nowhere to say *toward what*.
+
+Two consequences for the gate:
+
+- **The machine half cannot check register.** A linter enforces the declared house style; it cannot tell you the
+  declaration was wrong. Only a reader can spot a document that is well-formed for an audience that is not there.
+- **Readability numbers are register-blind.** A Flesch score is the same for a grade-school explainer and a
+  deliberately dense legal clause. It is a drift alarm within one declared register (M3.14), not a comparison across
+  registers.
+
 ---
 
 ## 4. Chinese-specific failure modes

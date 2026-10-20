@@ -321,6 +321,56 @@ class ReaderAndSelfModelCapabilityTest(unittest.TestCase):
         self.assertIn("gap-seeking", _active(horizon="multi_session"))
 
 
+class ExpressionAndAblationCapabilityTest(unittest.TestCase):
+    """P16: choose the form, and make a module earn its place.
+
+    **M4.15** (`expression-design`) and **M5.12** (`component-ablation`). The
+    discriminator matters here: expression design must not be a second copy of
+    prose-polish, so it is pinned on the artefact where prose does *not* apply
+    (a dataset has a schema, a data dictionary and a chart to choose between,
+    and no sentences to polish). Ablation must not fire on every long task, so
+    it is pinned on the conjunction it actually needs - rounds to amortise the
+    cost *and* a score to ablate against.
+    """
+
+    QUIET = TriggerCoverageTest.QUIET
+
+    def test_expression_design_fires_on_document_and_dataset(self):
+        self.assertNotIn("expression-design", _active(**self.QUIET))
+        self.assertIn("expression-design", _active(artifact="document"))
+        self.assertIn("expression-design", _active(artifact="dataset"))
+        # code has its own conventions; this gate is about reader-facing form
+        self.assertNotIn("expression-design", _active(artifact="code"))
+
+    def test_expression_design_is_not_a_duplicate_of_prose_polish(self):
+        # the discriminator: a dataset needs a form chosen, but there is no prose to polish
+        self.assertIn("expression-design", _active(artifact="dataset"))
+        self.assertNotIn("prose-polish", _active(artifact="dataset"))
+
+    def test_expression_design_is_not_a_sourcing_gate(self):
+        # grounding alone must not fire it: a well-sourced diagram can still be the wrong form
+        self.assertNotIn("expression-design", _active(grounding="required"))
+
+    def test_component_ablation_needs_rounds_and_a_score(self):
+        self.assertNotIn("component-ablation", _active(**self.QUIET))
+        # rounds without a measurable score: nothing to ablate against
+        self.assertNotIn("component-ablation", _active(horizon="multi_session"))
+        # a score within one session: no harness to prune
+        self.assertNotIn(
+            "component-ablation", _active(**{**self.QUIET, "verifiability": "high"})
+        )
+        self.assertIn(
+            "component-ablation",
+            _active(**{**self.QUIET, "horizon": "multi_session", "verifiability": "high"}),
+        )
+
+    def test_component_ablation_sits_beside_the_eval_and_evolution_gates(self):
+        both = _active(**{**self.QUIET, "horizon": "multi_session", "verifiability": "high"})
+        self.assertIn("eval-driven-development", both)
+        self.assertIn("self-improving-loop", both)
+        self.assertIn("component-ablation", both)
+
+
 class MathStatsCapabilityTest(unittest.TestCase):
     """P10: statistics and certified computation fire only on their own fields."""
 

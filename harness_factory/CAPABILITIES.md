@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**35 capabilities · 9 modules (M0–M8)**
+**37 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -251,6 +251,18 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** artifact ∈ {document} (产物)
 - **Modules · 关联模块:** M4
 - **Why · 理由:** Model prose fails readers while staying factually true (hedge stacking, stock phrases, list-ification, wrong register, translationese), so readability and register need a gate separate from truth: mechanical checks may reject, never approve, and a reader decides whether it sounds human.
+
+### `expression-design` — Expression design: choose the form before the words · 表达设计：先定形式，再定措辞
+
+- **Fires when · 触发条件:** artifact ∈ {document, dataset} (产物)
+- **Modules · 关联模块:** M4
+- **Why · 理由:** Correct content can still fail because it was given the wrong form: a manual organised around the author's outline, a table that hides the decisive comparison, a diagram that silently drops a qualifier. The content unit (claim, relation, procedure, quantity, change over time) and the reader's task (learn, do, look up, understand) select the form - tutorial, how-to, reference, explanation, then prose/table/diagram/chart/notation/animation/sound - and a form change may change what the reader can check but never what is claimed (M4.10). Prose polish repairs sentences; this decides whether the information should be a sentence at all.
+
+### `component-ablation` — Component ablation: a module earns its place · 组件消融：组件须自证其位
+
+- **Fires when · 触发条件:** horizon ∈ {multi_session} (时间跨度) and verifiability ∈ {high} (可验证性)
+- **Modules · 关联模块:** M3, M5
+- **Why · 理由:** A harness grows by accretion and never shrinks, so module count starts reading as capability. Retention is not contribution: presence during success does not show causation, and model, artifact and harness effects are confounded. The place of a module is decided by a single-unit ablation against the per-task median over ablations, reported on two axes (performance and token cost) and evaluated on a held-out ladder; removing a unit can raise cost, and an all-pruned baseline that still scores is a statement about task coverage.
 
 ---
 
