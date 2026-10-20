@@ -215,6 +215,11 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - **自用轮（dogfood）。** 用 M4.15 审本库自己的文档：逐节标读者任务、找四类理解缺陷、修最坏的几处，并记录**新子句没抓住什么**——这是"新子句是否可用"的最便宜检验。触发：有人抱怨入口文档难读，或需要验证 M4.15/M4.17 的可操作性。
 - **记分轮。** 给本库一个最小的打分任务集，从而能真跑 `component-ablation`。它同时是 **P16.9 的重访触发**（"本库有打分任务集"），也是让 M5.12 对本库自己生效的唯一路径。触发：P17 的判据产生了可复用的评分口径。
+- **P19 的后续（小项，随轮带走，不单独开轮）。**
+  1. **补 OpenAI 模型行**：`openai.com` / `platform.openai.com` 恢复可达时，把 `review/model-families-2026-10.md` §1 的「文档行」升级为模型行，并记录访问日期对应的快照（M4.17）。触发：403 解除，或出现 OpenAI 模型卡的一手镜像。
+  2. **M1.11 的范围升级**：preserved thinking 目前只有一家；若第二家也禁止编辑既有推理，把 M1.11 从「厂商约束」升为通用默认（即所有压缩默认追加）。触发：第二家发布同类约束。
+  3. **隐性选型**：`model-portfolio-discipline` 依赖显式选型线索；若真实使用中"只给任务、不提模型"的选型请求仍落 `data-science`，补的是线索而非域信号（保持 P18 的高精度原则）。触发：第一例此类误判被记录。
+  4. **`references.bib` 欠账**：bib 仍停在 R1–R236，R237–R242 只在 `references.md`。触发：下次任何一轮改动 bib 时一并补齐（不为此单独开轮）。
 - **卫生项（不单独开轮，顺手做）。** `harness_factory/domains/model-selection/README.md` 与 `harness_factory/tasks/REFRESH.md` 仍是 CRLF（历史遗留，非本轮引入）；下次动到这两个文件时一并规范为 LF。
 
 - **P0 (done):** pattern library (`core/`, `domains/`, `review/`, `sources/`).

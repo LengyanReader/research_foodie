@@ -17,7 +17,8 @@
 - **能力缺口与可达性**：`model-selection` 域有 L0–L5 说明却没有任何能力触发（与 P18 的「域有文档、路由无入口」同型）。新增 **`model-portfolio-discipline`**（仅 `domain=model-selection`）：需求矩阵 → 按阶段组合 → 在**声明的档位**上跑自己的留出集 → 带 id / 版本 / 档位记录的硬门禁；同分取更便宜的层，换层或换档即重开评测。但只加能力不够——实测「在 GPT 和 Claude 之间选一个模型…」被判成 `data-science`：邻域的通用信号（`model`/`模型`/`eval`/`评测`）按计数压过了选型域的精确短语，**能力等于不可达**。修法与 P18 同一条规则：**显式线索压过领域默认**——`_SELECTION_CUES`（which model / choose a model / 选一个模型 / 哪个模型 / 选型…）命中即定向 `model-selection`；`模型对比`/`model comparison` 刻意不做线索（消融与文献综述也这么写）。router 上原本是「—」的那一行现在指向它。
 - **刻意不加（M0.5，各记重访触发）**：厂商引用 API（义务已在 M4.13/M4.16）、computer-use 细节、fast mode、CCL 案例、`provider-routing` 能力（要求是记录与作废，不是选路）、1M 上下文指引（M1.5/M1.10 已覆盖，新数字只是确认）。
 - **证据与守卫**：`review/references.md` 新增 **V 组 + R239–R242**（含一条核验状态：哪些读到了、哪些被挡、哪些数字只是厂商自报）；`sources/source-map.md` 三行；`P19ClauseAnchorTest` 4 个内容守卫（每条子句必须仍点名其机制 + 必须仍有溯源行）；`ModelPortfolioCapabilityTest` 2 个触发守卫（只在该域触发、不泄漏到邻域）；`DomainsClassifyTest` 2 个路由守卫（中英显式选型两例须可达、`模型对比` 反例不算选型）。
-- **状态**：测试 271 → **279**；32 族路由基线仍 **32/32**；`cycle audit` 15 轮 · 38 能力 · 34 条子句 anchored · 0 hard · 0 gaps；重生成 `CAPABILITIES.md` / `HARNESS-MAP.md`；EOL 规范化；**未 push**（未获指示）。
+- **状态**：测试 271 → **279**；32 族路由基线仍 **32/32**；`cycle audit` 15 轮 · 38 能力 · 34 条子句 anchored · 0 hard · 0 gaps；重生成 `CAPABILITIES.md` / `HARNESS-MAP.md`；EOL 规范化；提交 `c3b061a`，已按指示 push。
+- **交接（下一轮可直接接手的四件事）**：① OpenAI 模型页恢复可达时，补 §1 那行「文档行」为模型行，并按 M4.17 记录访问日期对应的快照；② `preserved thinking` 目前只有一家，若第二家也禁止编辑既有推理，把 M1.11 从「厂商约束」升为通用默认；③ `model-portfolio-discipline` 只在显式选型线索下触发，若真实使用中出现「隐性选型」（只给任务、不提模型）仍落 data-science，补的是线索而不是域信号；④ `review/references.bib` 仍停在 R1–R236（R237–R242 只在 `.md`），属既有欠账，下次动 bib 时一并补齐。
 
 ---
 
