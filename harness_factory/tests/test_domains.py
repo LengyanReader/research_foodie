@@ -80,6 +80,26 @@ class DomainsClassifyTest(unittest.TestCase):
     def test_falls_back_to_general(self):
         self.assertEqual(self._domain("do the thing"), "general")
 
+    def test_task_families_reach_a_domain(self):
+        """The families a user actually types, not the textbook vocabulary."""
+        cases = {
+            "add type hints and tests to a legacy python package": "software-engineering",
+            "debug a production incident and write the postmortem": "devops",
+            "design a poster series with a distinct visual identity": "arts-design",
+            "write a short story in the style of Borges": "writing",
+            "build an online course with exercises": "education",
+            "design a pcb for a low-power sensor": "engineering",
+            "把这批访谈整理成一份研究报告，注明来源": "general",  # artefact/sources still resolve
+        }
+        for text, expected in cases.items():
+            self.assertEqual(self._domain(text), expected, text)
+
+    def test_short_signals_do_not_fire_inside_longer_words(self):
+        # "ci" inside "exercises" once made a course-design task devops;
+        # "art" inside "partial" made prose arts-design.
+        self.assertNotEqual(self._domain("build an online course with exercises"), "devops")
+        self.assertNotEqual(self._domain("summarise the partial results in this article"), "arts-design")
+
 
 if __name__ == "__main__":
     unittest.main()

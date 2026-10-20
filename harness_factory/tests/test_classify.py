@@ -36,6 +36,18 @@ class ClassifyTest(unittest.TestCase):
         feats = classify(TaskSpec(text="bake a cake"))
         self.assertEqual(feats.domain, "general")
 
+    def test_explicit_artifact_cue_beats_the_domain_default(self):
+        # the domain is a scenario prior; "report" is evidence about this task
+        feats = classify(TaskSpec(text="write a report from these interviews"))
+        self.assertEqual(feats.artifact, "document")
+
+    def test_explicit_source_demand_raises_grounding(self):
+        feats = classify(TaskSpec(text="write a literature review with citations"))
+        self.assertEqual(feats.grounding, "required")
+
+    def test_grounding_stays_preferred_without_a_cue(self):
+        self.assertNotEqual(classify(TaskSpec(text="bake a cake")).grounding, "required")
+
 
 if __name__ == "__main__":
     unittest.main()

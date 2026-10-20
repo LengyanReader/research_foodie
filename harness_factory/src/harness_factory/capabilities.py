@@ -33,7 +33,14 @@ def _cond_matches(cond: dict[str, Any], features: FeatureVector) -> bool:
     if not cond:
         return True
     if "any" in cond:
-        return any(_cond_matches(c, features) for c in cond["any"])
+        # `any` is one conjunct among the clause's keys, not the whole clause:
+        # `{"any": [...], "domain": "law"}` means (any of ...) AND domain=law, which
+        # is how the rendered trigger text has always read. Returning early here
+        # would silently drop the other keys.
+        rest = {k: v for k, v in cond.items() if k != "any"}
+        return any(_cond_matches(c, features) for c in cond["any"]) and _cond_matches(
+            rest, features
+        )
     for key, value in cond.items():
         if key == "min_horizon":
             if not _at_least(features.horizon, value):

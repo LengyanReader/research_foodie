@@ -150,7 +150,20 @@
       "接口",
       "缺陷",
       "功能",
-      "单元测试"
+      "单元测试",
+      "python",
+      "javascript",
+      "typescript",
+      "package",
+      "pytest",
+      "type hints",
+      "type annotations",
+      "dependency",
+      "memory leak",
+      "code review",
+      "类型注解",
+      "内存泄漏",
+      "编译"
     ]
   },
   "devops": {
@@ -173,11 +186,22 @@
       "pipeline",
       "infra",
       "ops",
-      "evolution",
-      "governance",
       "运维",
       "部署",
-      "演化"
+      "devops",
+      "incident",
+      "postmortem",
+      "on-call",
+      "kubernetes",
+      "docker",
+      "terraform",
+      "monitoring",
+      "observability",
+      "sre",
+      "线上",
+      "线上服务",
+      "故障",
+      "告警"
     ]
   },
   "engineering": {
@@ -208,7 +232,15 @@
       "电路",
       "材料",
       "结构",
-      "公差"
+      "公差",
+      "pcb",
+      "firmware",
+      "embedded",
+      "sensor",
+      "robotics",
+      "3d printing",
+      "传感器",
+      "嵌入式"
     ]
   },
   "physics": {
@@ -550,7 +582,18 @@
       "教育",
       "课程",
       "教学",
-      "评估"
+      "评估",
+      "course",
+      "syllabus",
+      "lecture",
+      "lesson",
+      "classroom",
+      "students",
+      "learner",
+      "课件",
+      "大纲",
+      "学生",
+      "课堂"
     ]
   },
   "arts-design": {
@@ -569,7 +612,6 @@
     "artifact": "mixed",
     "grounding": "off",
     "signals": [
-      "art",
       "design",
       "typography",
       "illustration",
@@ -579,7 +621,29 @@
       "设计",
       "排版",
       "插画",
-      "创意"
+      "创意",
+      "arts",
+      "artwork",
+      "artistic",
+      "brand",
+      "branding",
+      "logo",
+      "poster",
+      "visual identity",
+      "palette",
+      "storyboard",
+      "video",
+      "film",
+      "animation",
+      "soundtrack",
+      "music",
+      "品牌",
+      "海报",
+      "视觉",
+      "配色",
+      "视频",
+      "动画",
+      "音乐"
     ]
   },
   "general": {
@@ -734,7 +798,23 @@
       "文章",
       "论点",
       "论据",
-      "claim→evidence"
+      "claim→evidence",
+      "poem",
+      "poetry",
+      "fiction",
+      "memoir",
+      "narrative",
+      "screenplay",
+      "blog",
+      "newsletter",
+      "小说",
+      "诗歌",
+      "散文",
+      "随笔",
+      "剧本",
+      "文案",
+      "story",
+      "short story"
     ]
   },
   "logic": {

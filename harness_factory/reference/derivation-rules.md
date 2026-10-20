@@ -1,6 +1,6 @@
 # Derivation rules · 推导规则（agent-readable mirror）
 
-**Updated:** 2026-10-18 · Mirrors `src/harness_factory/derive.py` + `data/capabilities.json`.
+**Updated:** 2026-10-20 · Mirrors `src/harness_factory/derive.py` + `data/capabilities.json`.
 **Purpose:** let a vibe-coding assistant (L0, no Python) derive a harness by reading rules, and let
 the CLI (L1) stay explainable. 若可用 CLI，优先 `PYTHONPATH=src python -m harness_factory derive --task "…" --json`。
 
@@ -44,6 +44,14 @@ Classify the task into these closed vocabularies (rules; optional LLM may fill g
 - `evolution_cadence`: `per_session` if `multi_session`; `periodic` if `long_running`.
 
 Precedence: **explicit flags > LLM suggestion > rules > domain defaults**. Record `source` = `rules|llm|flags|mixed`.
+
+**How the classifier fills the vector** (what "rules" means above):
+
+- `horizon`, `verifiability`, `stakes`, `tool_surface`, `collaboration` — keyword rules on the task text.
+- `domain` — each domain in `data/domains.json` declares `signals`; the domain with the most hits wins, `general` when none does. Latin signals match at a **word start** (so `deploy` matches "deployment" but `ci` does not match "exercises", and `art` does not match "partial"); CJK and multi-word signals match as substrings.
+- `artifact`, `grounding` — start from the domain's default (`artifact`, `grounding` in `domains.json`), then **an explicit cue in the text wins**: a deliverable noun (`report`/`paper`/`dataset`/`knowledge graph`/`codebase`/`proposal`/`报告`/`幻灯片`/…) sets `artifact`; a demand for sources (`cite`/`citations`/`references`/`provenance`/`注明来源`/`可溯源`) raises `grounding` to `required`, and only an explicit "no external knowledge" lowers it to `off`. Nothing infers `off` by silence: a false `off` is worse than a false `preferred`.
+
+This is why a task typed as prose ("write a report from these interviews") gets M4 and the pointer capabilities even when no domain signal matches: the cue, not the scenario, decides the deliverable.
 
 ## 3. Capability map · 能力映射
 

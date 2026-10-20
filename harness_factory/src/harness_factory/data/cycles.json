@@ -616,6 +616,28 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P18",
+      "date": "2026-10-20",
+      "status": "done",
+      "title_en": "Routing completeness: does any task find its capabilities?",
+      "title_zh": "路由完备性：任何任务都能定位到能力吗",
+      "note": "Verification round, not an expansion: 0 capabilities, 0 domains, 0 clauses. The claim 'any task can find suitable capabilities' was split into totality, discrimination and correctness and tested on 32 hand-labelled task families (16 zh / 16 en), an axis sweep and a constructive satisfiability check. Totality holds (32/32 plans, minimum 9 capabilities, 37/37 capabilities satisfiable and router-reachable); discrimination mostly holds (13 axis values add nothing over the quiet baseline, 8 by design and 2 real holes recorded with triggers); correctness failed - 9 of 32 families were misrouted by three mechanisms: substring signals (ci in exercises, art in partial, eval in retrieval), missing high-precision families, and two axes (artifact, grounding) that were never read from the text. Fixed in classify.py + domains.json with word-start signal matching, ~60 high-precision signals and explicit artifact/grounding cues; 6 guards added so the audit does not need repeating.",
+      "slices": [
+        "P18.1 - the audit: 32-family battery with allowed domain sets, an axis-by-axis delta sweep, constructive satisfiability for all 37 capabilities, and a two-way router parse (review/routing-coverage-2026-10.md)",
+        "P18.2 - the three defect classes and their fixes: word-start signal matching (also applied to the verifiability/stakes/horizon keyword lists, which is what stopped 'retrieval' reading as 'eval'), ~60 high-precision signals, and explicit artifact/grounding cues that outrank the domain default",
+        "P18.3 - guards: catalog reachability (declared values, satisfiable triggers, router coverage in both directions), task-family regression cases, false-positive cases for short signals, and cue tests",
+        "P18.4 - the latent DSL inconsistency fixed: a `when` clause mixing `any` with other keys now ANDs them, as the rendered trigger text always claimed"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

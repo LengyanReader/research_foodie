@@ -81,7 +81,7 @@ The library is *readable by humans*; the tool is *executable by agents*. `data/m
 
 ### Domains
 
-`research`, `knowledge-management`, `data-science`, `devops`, and a first-class `general` fallback. Domains only set **defaults** (artifact, grounding, workflow, signals); the features still decide.
+`research`, `knowledge-management`, `data-science`, `devops`, and a first-class `general` fallback. Domains only set **defaults** (artifact, grounding, workflow, signals), and an explicit cue in the task text (`report`, `dataset`, `注明来源`…) overrides the artifact/grounding default; the features still decide.
 
 ---
 

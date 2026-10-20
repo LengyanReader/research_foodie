@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-10-20 · P18：路由完备性审计 —— 32 个任务族里 9 个落错域，三类根因，修后 32/32
+
+- **Ask（用户问）。** 「double check 一下现阶段 harness_factory 的完备程度，是否对任何 task 都可以定位到适合的能力。」这不是一句表态能回答的，拆成三个可检验命题：**① 总量**（有任务掉空吗）· **② 判别**（不同任务真拿到不同能力集吗）· **③ 正确**（分类对吗）。交付物 `review/routing-coverage-2026-10.md`。
+- **做法。** 32 个手写任务族（16 中 / 16 英，含「do the thing」「help me with this」两个空提示），每族给**允许域集合**，集合外即算错；八轴逐值相对安静基线翻转，看能力集是否变化；37 条能力逐条**构造性**求满足向量；router 表正则解析后与目录**双向**比对。
+- **① 总量：成立。** 32/32 出计划；最少 9 条能力、中位 13；**没有一例只剩 3 条常驻底线**；37/37 能力可满足、37/37 在 router 里点名；条件取值 0 处越界。
+- **② 判别：大体成立，两个真洞。** 13 个轴值不增加能力，其中 8 个是「比基线更少」的语义（one_shot/off/none/solo/medium/low），`artifact=code` 只在 `verifiability=high` 时组合承重，`artifact=mixed` 是「没具名产物」。**真洞两个**：`artifact=plan`（计划无专属要求）· `domain=arts-design`（无域能力，且 `grounding=off` 连带丢掉 `traceable-sources`，9 条为全池最低）。**不硬补**——按 M0.5 记重访触发（计划类产物「漏写自己的验收标准」时；媒体/设计交付物带第三方素材时）。
+- **③ 正确：原先不成立。** 9/32 落错域，三类根因，各有可复现例：
+  1. **子串误命中**：`ci` ∈ "exer**ci**ses" → 课程设计判 devops（假阳性）；`art` ∈ "p**art**ial"/"**art**icle" → 散文判 arts-design；**`eval` ∈ "retri**eval**" → 所有 RAG 任务被当成高可验证**，能力数虚高 18→15 就是这条的账。
+  2. **常用任务族缺信号**：python package / type hints、线上服务/内存泄漏、incident/postmortem、course/syllabus、pcb/sensor、brand/logo、视频/音乐 —— 全部落到 `general`。
+  3. **两个轴从不读文本**：`artifact`、`grounding` 只继承域默认，于是「研究报告」「注明来源」都改不了它们——而这两轴正是决定 M4 与指针类能力是否触发的。
+- **修法（不改模块规则，不加能力）。** ① 信号改为**词首匹配**（`deploy` 仍匹配 deployment；`ci` 不再匹配 exercises），并把同一匹配器用于可验证性/风险/时间跨度关键词表——`retrieval` 误判由此根治，这不是补词能解决的。② 补 84 条高精度信号（6 个域）；删 3 条错键信号（`art`；devops 的 `evolution`/`governance`/`演化`——那是本库概念，不是部署工作）。③ **显式线索压过域默认**：产物名词（report/dataset/knowledge graph/codebase/proposal/报告/幻灯片/随笔…）→ `artifact`；来源要求（cite/references/provenance/注明来源/可溯源）→ `grounding=required`；只有明说「不用外部知识」才降到 `off`（静默不降级：假 off 比假 preferred 更坏）。规则写进 `reference/derivation-rules.md` §「分类器怎么填向量」。
+- **修后效应（方向都对）。** 报告/写作族 10 → 14 条（拿到 M4 与指针能力）；设计/音乐族仍 9（该域本就 `grounding=off`）；RAG 综述 **18 → 15**（它从来不是高可验证）；32/32 落在允许域内。
+- **守卫（6 条，数据驱动、不点名具体能力）。** 能力取值已声明（域拼错会静默失效，这是最阴的坏法）· 每条能力可满足 · router 双向覆盖（原先只有单向）· 任务族回归 · 短信号误命中回归（ci/art）· 线索压过默认。
+- **顺带修的潜伏不一致。** `_cond_matches` 遇到 `when` 里同时有 `any` 与其他键时**提前返回**、忽略其余键；而 `_when_text` 渲染一直把其余键读成 AND。当前无一条目用该组合，所以行为未变——但 DSL 现在与它印出来的话一致，避免下一个人按文档写、按代码跑。
+- **验证。** 271 测试通过（+8：能力 3、分类 3、域 2）；`cycle audit` **14 轮 · 37 能力 · 31 子句 · 0 硬问题 · 0 缺口**；重生成 `CAPABILITIES.md` / `HARNESS-MAP.md`（样例 A 现在真按 software-engineering/code 走）；EOL 归一。
+
+---
+
 ## 2026-10-20 · P17.6：工作集退出（M1.10）—— 把"取用"补成"取用+退出"
 
 - **Ask（用户插入项）。** 除了继续 P17，还要有能力**检查某些能力在当前任务里暂时不需要，就先退出加载**——「随用随取，不多占上下文窗口，不浪费 token」。

@@ -8,6 +8,7 @@ classifier never invents task content -- it only labels (M0.4).
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .registry import domains as _domains
@@ -108,9 +109,117 @@ _MULTI_AGENT = [
 ]
 _HUMAN_REVIEW = ["review", "reviewer", "team", "handoff", "评审", "复核", "同事", "交接"]
 
+# Artifact cues: an explicit deliverable noun in the task text beats the domain
+# default. Only high-precision cues belong here -- a cue that fires on ordinary
+# prose turns a preference into a wrong answer.
+_ART_CUES: tuple[tuple[str, list[str]], ...] = (
+    (
+        "knowledge_base",
+        [
+            "knowledge base",
+            "knowledge graph",
+            "ontology",
+            "知识图谱",
+            "知识库",
+            "本体库",
+            "本体",
+        ],
+    ),
+    ("dataset", ["dataset", "data set", "csv", "corpus", "data cleaning", "数据集", "语料", "数据清洗"]),
+    (
+        "code",
+        [
+            "codebase",
+            "code base",
+            "source code",
+            "package",
+            "module",
+            "script",
+            "refactor",
+            "unit test",
+            "unit tests",
+            "type hints",
+            "type annotations",
+            "代码",
+            "程序",
+            "脚本",
+            "单元测试",
+            "类型注解",
+            "内存泄漏",
+        ],
+    ),
+    (
+        "document",
+        [
+            "report",
+            "paper",
+            "essay",
+            "memo",
+            "chapter",
+            "slides",
+            "deck",
+            "documentation",
+            "readme",
+            "报告",
+            "文档",
+            "论文",
+            "文章",
+            "幻灯片",
+            "讲稿",
+            "说明书",
+            "随笔",
+        ],
+    ),
+    ("plan", ["proposal", "roadmap", "project plan", "行动计划", "路线图", "提案", "方案书"]),
+)
+
+# Grounding cues. "required" is raised only by an explicit demand for sources;
+# nothing lowers it, because a task that needs no sources does not usually say so
+# and a false "off" is worse than a false "preferred".
+_GROUND_REQUIRED = [
+    "citation",
+    "citations",
+    "cite",
+    "cited",
+    "bibliography",
+    "references",
+    "with sources",
+    "sourced",
+    "grounded in",
+    "evidence-based",
+    "provenance",
+    "引用",
+    "出处",
+    "参考文献",
+    "注明来源",
+    "可溯源",
+    "有据可查",
+]
+_GROUND_OFF = ["no external knowledge", "without external knowledge", "不用外部知识", "不要引用"]
+
+_SIG_RES: dict[str, re.Pattern[str]] = {}
+
+
+def _sig_hit(signal: str, text: str) -> bool:
+    """Match a signal at a **word start**, not inside a longer word.
+
+    Substring matching produced real false positives: the devops signal ``ci``
+    fired on "exercises", ``art`` on "partial", and ``ops`` on "devops" while
+    missing the task that literally said devops. Latin signals must begin a word
+    (inflections still match: ``deploy`` matches "deployment"); CJK and multi-word
+    signals stay plain substrings, since Chinese has no word spaces.
+    """
+    if not signal.isascii() or " " in signal or "-" in signal:
+        return signal in text
+    pattern = _SIG_RES.get(signal)
+    if pattern is None:
+        pattern = re.compile(r"(?<![a-z0-9])" + re.escape(signal))
+        _SIG_RES[signal] = pattern
+    return pattern.search(text) is not None
+
 
 def _has(text: str, keywords: list[str]) -> bool:
-    return any(k in text for k in keywords)
+    return any(_sig_hit(k, text) for k in keywords)
 
 
 def _guess_domain(text: str) -> str:
@@ -118,10 +227,27 @@ def _guess_domain(text: str) -> str:
     for name, meta in _domains().items():
         if name == "general":
             continue
-        score = sum(1 for sig in meta.get("signals", []) if sig in text)
+        score = sum(1 for sig in meta.get("signals", []) if _sig_hit(sig, text))
         if score > best_score:
             best, best_score = name, score
     return best
+
+
+def _guess_artifact(text: str) -> str | None:
+    """Return the artifact named by an explicit cue, or ``None``."""
+    for artifact, cues in _ART_CUES:
+        if _has(text, cues):
+            return artifact
+    return None
+
+
+def _guess_grounding(text: str) -> str | None:
+    """Return ``required``/``off`` only when the text says so explicitly."""
+    if _has(text, _GROUND_OFF):
+        return "off"
+    if _has(text, _GROUND_REQUIRED):
+        return "required"
+    return None
 
 
 def _guess_horizon(text: str) -> str:
@@ -192,6 +318,16 @@ def classify(
     domain_meta = _domains().get(domain, _domains()["general"])
     feats.artifact = domain_meta.get("artifact", "mixed")
     feats.grounding = domain_meta.get("grounding", "preferred")
+
+    # The domain is a *scenario prior*; an explicit cue in the text is evidence
+    # about this task and wins (M0.1). Nothing here invents content: the cue only
+    # selects an already-declared artifact/source level.
+    cue_artifact = _guess_artifact(text)
+    if cue_artifact:
+        feats.artifact = cue_artifact
+    cue_grounding = _guess_grounding(text)
+    if cue_grounding:
+        feats.grounding = cue_grounding
 
     feats.horizon = _guess_horizon(text)
     feats.verifiability = _guess_verifiability(text)

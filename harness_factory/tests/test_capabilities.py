@@ -16,8 +16,8 @@ import unittest
 from pathlib import Path
 
 from harness_factory.capabilities import DOC_PATH, capability_ids, match
-from harness_factory.registry import data_file, module_ids
-from harness_factory.spec import FEATURE_FIELDS, FeatureVector
+from harness_factory.registry import data_file, domains, module_ids
+from harness_factory.spec import FEATURE_CHOICES, FEATURE_FIELDS, HORIZONS, FeatureVector
 
 _ROOT = Path(__file__).resolve().parents[1]
 _REQUIRED = {"title_en", "title_zh", "when", "modules", "why"}
@@ -86,6 +86,72 @@ class CapabilityShapeTest(unittest.TestCase):
                 cited.update(_BACKTICKED.findall(cells[2]))
         self.assertTrue(cited, "router table not parsed")
         self.assertEqual(set(), cited - set(capability_ids()), "unknown capability in router")
+
+
+def _router_capabilities() -> set[str]:
+    text = (_ROOT / "reference" / "capability-router.md").read_text(encoding="utf-8")
+    cited: set[str] = set()
+    for line in text.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = line.split("|")
+        if len(cells) > 2:  # column 2 = capability ids
+            cited.update(_BACKTICKED.findall(cells[2]))
+    return cited
+
+
+def _branches(when: dict) -> list[dict]:
+    """One conjunctive condition per satisfiable branch of ``when``."""
+    branches = when.get("any")
+    if not branches:
+        return [when]
+    rest = {k: v for k, v in when.items() if k != "any"}
+    return [dict(b, **rest) for b in branches] if rest else [dict(b) for b in branches]
+
+
+class CatalogReachabilityTest(unittest.TestCase):
+    """No capability may be silently dead, and none may be unreachable.
+
+    The catalogue is data, so a typo in a ``when`` value -- or a domain that does
+    not exist -- fails *open*: nothing raises, the requirement simply never
+    applies, and the review that added it still reads as done. These guards are
+    data-driven on purpose: they name no capability, so tomorrow's entries are
+    covered without editing the test.
+    """
+
+    def test_condition_values_are_declared(self):
+        for cid, cap in _caps().items():
+            for cond in _branches(cap["when"]):
+                for key, value in cond.items():
+                    values = value if isinstance(value, list) else [value]
+                    if key == "min_horizon":
+                        self.assertIn(value, HORIZONS, cid)
+                    elif key == "domain":
+                        for v in values:
+                            self.assertIn(v, domains(), f"{cid}: unknown domain {v!r}")
+                    else:
+                        for v in values:
+                            self.assertIn(v, FEATURE_CHOICES[key], f"{cid}.{key}={v!r}")
+
+    def test_every_capability_fires_on_some_vector(self):
+        for cid, cap in _caps().items():
+            fired = False
+            for cond in _branches(cap["when"]):
+                fv = FeatureVector()
+                for key, value in cond.items():
+                    if key == "min_horizon":
+                        fv.horizon = value
+                    else:
+                        setattr(fv, key, value[0] if isinstance(value, list) else value)
+                self.assertEqual([], fv.validate(), cid)
+                if cid in {c["id"] for c in match(fv)}:
+                    fired = True
+                    break
+            self.assertTrue(fired, f"{cid}: no vector satisfies its `when` clause")
+
+    def test_every_capability_is_reachable_from_the_router_doc(self):
+        missing = set(capability_ids()) - _router_capabilities()
+        self.assertEqual(missing, set(), f"capabilities absent from the router: {missing}")
 
 
 class FrontierCapabilityTest(unittest.TestCase):
