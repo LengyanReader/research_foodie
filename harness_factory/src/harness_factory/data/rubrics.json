@@ -1201,5 +1201,18 @@
       {"dim": "calibration", "zh": "校准", "weight": 0.1},
       {"dim": "clarity", "zh": "清晰", "weight": 0.1}
     ]
+  },
+  "ai-safety": {
+    "title_en": "AI-safety quality",
+    "title_zh": "AI 安全质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {"dim": "safety-case-structure", "zh": "安全论证结构", "weight": 0.25},
+      {"dim": "red-team-coverage", "zh": "红队覆盖", "weight": 0.2},
+      {"dim": "capability-measurement", "zh": "能力实测", "weight": 0.2},
+      {"dim": "residual-risk-honesty", "zh": "残余风险坦诚", "weight": 0.15},
+      {"dim": "calibration", "zh": "校准", "weight": 0.1},
+      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+    ]
   }
 }

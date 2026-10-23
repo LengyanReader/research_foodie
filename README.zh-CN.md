@@ -191,8 +191,8 @@ harness_factory/          项目主体 —— 模式库 + `harness` CLI（从这
 │   ├── 07-tools-and-skills.md      工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md     单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/              33 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
-│   ├── deep-research/ research/ excellence/ knowledge-management/ (meta + methods)
+├── domains/              34 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
+│   ├── ai-safety/ deep-research/ research/ excellence/ knowledge-management/ (meta + methods)
 │   ├── data-science/ model-selection/ software-engineering/ devops/ engineering/ (engineering)
 │   ├── geometry-topology/ logic/ statistics/ (formal sciences)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)

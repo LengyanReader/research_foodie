@@ -885,6 +885,29 @@
         "catalog_delta": 2,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P29",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Interdisciplinary & frontier domains: the audit and the automated finder",
+      "title_zh": "跨学科与前沿域：检视 + 自动发现机制",
+      "note": "The user asked two things: can interdisciplinary/transdisciplinary and frontier domains be integrated, and can the factory gain the automatic ability to FIND the unmentioned ones. The audit answered the first with a 12-task empirical classify+derive table (2026-10-23) and four verdicts: composition (most interdisciplinary tasks are work-type compositions, already covered - no new domain per M0.5), signal fixes (2 real misroutes found: bioinformatics 'pipeline' -> devops, interpretability 'circuit' -> devops; biology +3 signals rna-seq/single-cell/transcriptomic, earth-environment +3 satellite/urban climate/遥感), one landed frontier domain (ai-safety: safety properties -> capability measurement M3.10 -> red-team records M3.15 -> claim-by-claim safety case M4.13/M4.16 -> M3.16 disclosure self-audit -> residual risk declared; 6-dim rubric), and three deferrals with revisit triggers (interpretability / embodied / systems-science). The second got a mechanism: domain_probe.py + `harness probe-domains` cluster collected intel that lands on general or the capability floor into keyword proposals (nearest existing domain named = cheapest signal fix), written to updates/DOMAIN-PROBES.md only (M0.4/M0.8); guards in tests/test_domain_probe.py. The loop is now complete: refresh/intel pulls known topics, probe-domains finds unknown clusters, evolve audits catalog health - find -> propose -> human decides.",
+      "slices": [
+        "P29.1 - audit: 12 interdisciplinary/frontier tasks classified empirically; verdicts: composition (most) / signal fixes (bioinformatics, interpretability misroutes) / land ai-safety / defer interpretability+embodied+systems-science with triggers; review/interdisciplinary-frontier-domains-2026-10.md",
+        "P29.2 - landings: ai-safety domain (faculty meta, workflow L0-L5, 13 bilingual signals, README, 6-dim rubric); biology +3 and earth-environment +3 signals; entry-doc counts 33 -> 34 disciplines",
+        "P29.3 - the automated finder: domain_probe.py (unmapped = general or <=10 capabilities; keyword clustering against the full signal vocabulary; nearest-domain suggestion) + CLI `harness probe-domains` + tests/test_domain_probe.py (4 guards: quiet noop, cluster surfaces without mapped items, fully-mapped silence, emit writes report only)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [
+          "ai-safety"
+        ],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

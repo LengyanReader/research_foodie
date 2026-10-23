@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-10-23 · P29：跨学科与前沿域 —— 检视 + 自动发现机制
+
+- **开轮依据。** 用户两问：跨学科/超学科与前沿域能否整合？未提到的域能否让工厂**自动发现**？
+- **切片 1 · 12 任务实测检视。** 四类裁决：**组合即覆盖**（多数跨学科任务按「工作性质」分类已覆盖——network-science/systems-science/HCI/STS/futures/neuro-symbolic/climate 不新开域，M0.5）；**信号修复**（2 处实测误路由：single-cell RNA-seq pipeline → devops（"pipeline" 误命中）、transformer circuit interpretability → devops（"circuit" 被当电气电路）——biology +3（rna-seq/single-cell/transcriptomic）、earth-environment +3（satellite/urban climate/遥感））；**落 1 个真前沿域** `ai-safety`（安全论证的 L0–L5 门禁结构判别力足：属性/威胁模型 → 能力实测 M3.10 → 红队留痕 M3.15 → 逐条论证 M4.13/M4.16 → M3.16 披露自审 → 残余风险显式；6 维 rubric；入口文档 33 → **34 学科**）；**推迟 3 个带触发**（interpretability / embodied / systems-science）。
+- **切片 2 · 自动发现机制（机制性答案）。** 新模块 `domain_probe.py` + CLI `harness probe-domains`：读 `updates/intel.jsonl` → 每条 classify+derive → **落 general 的判为 unmapped** → 按共享关键词**贪婪互斥聚类**（min 2 条）→ 每簇附最近的既有域（= 最便宜的信号修复）→ 提案只写 `updates/DOMAIN-PROBES.md`（M0.4/M0.8，不碰 SSOT）。分工闭环：`refresh/intel` 拉已知主题 → `probe-domains` 找未知簇 → `evolve` 审目录健康 → 人裁决。
+- **自己埋自己修的两个错（写测试即审己）。** 聚类非互斥（同批条目拆成多簇）→ 改贪婪互斥 + min_cluster；测试夹具的 brief 词（"clinical"）命中 medicine 信号 → 换无信号词——实测定位后修。
+- **守卫。** `tests/test_domain_probe.py` **4 用例**（空情报静默 · unmapped 簇浮现且不带 mapped 项 · 全映射零提案 · emit 只写报告）。
+- **登记。** cycles.json **P29**（0 能力 / **1 域** / 0 子句 / 0 参考）；交付 `review/interdisciplinary-frontier-domains-2026-10.md`（12 任务实测表 + 推迟触发）。
+- **状态。** 测试 **330 → 334**（+4）全过；`cycle audit` **25 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成（34 域）；P18 32 族回归全过。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P28：整合轮 —— 注册表双向核验 · 补两个真缺口 · 生态扫描提案
 
 - **开轮依据。** 评估发现「15 个 tracked 实体在目录里无同 id 条目」。机械核验给出定论：交叉链接是**单向**的（目录 `tracked` 字段 → sources id），方向 1 **71/71 全部解析**、完全健全；方向 2（harnesses 组 33 个实体被谁引用）有 5 个零引用——裁决：3 个**豁免有据**（anthropic-building-effective-agents 是 R93 的博客源不是产品；deepseek-repos / kimi-moonshot 是公司级情报追踪器，各带重访触发），**2 个真缺口已补**。

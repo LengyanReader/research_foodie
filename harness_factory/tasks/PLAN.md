@@ -285,6 +285,10 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 > 评估发现的「15 个 tracked 实体目录无同 id」经机械核验定论：交叉链接单向但**健全**（71/71）；反向 5 个零引用 → 3 豁免有据 + **2 个真缺口已补**（`mistral-agents`：smolagents 是 HF 的不是 Mistral 的；`hermit-cashapp`：目录 'hermit' 是牛津推理器）。目录 203 → **205**；`RegistryBidirectionalTest` 2 守卫钉双向一致性。网络半环（生态扫描：AGENTS.md 标准/ACP/LangMem/AgentOps/skills 注册表/computer-use/D7/D8）为提案 `updates/2026-10-23-ecosystem-scan-proposal.md`，待确认开轮。
 
+## P29 · 跨学科与前沿域（2026-10-23，已做）：检视 + 自动发现机制
+
+> 用户两问的答案落地：① 12 个跨学科/前沿任务实测检视——多数是「工作性质组合」已覆盖（M0.5 不新开域）、2 处信号误路由 data-only 修掉（biology/earth-environment 各 +3）、**落 1 个真前沿域 `ai-safety`**（安全论证门禁结构判别力足；34 学科）、3 个推迟带触发（interpretability/embodied/systems-science）。② **自动发现机制** `harness probe-domains`：情报中落 general 的条目按共享关键词聚类成候选域提案（提案制，M0.4）——**未提到的域从此会自己浮出来**。交付 `review/interdisciplinary-frontier-domains-2026-10.md`；登记 P29（0 能力 / 1 域 / 0 子句）。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

@@ -20,6 +20,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Interdisciplinary & frontier round (P29) - the audit and the automated finder.** 12 interdisciplinary/frontier
+  tasks classified empirically (2026-10-23), four verdicts: composition (most are work-type combinations already
+  covered - M0.5), signal fixes (2 real misroutes: bioinformatics `pipeline` → devops, interpretability `circuit` →
+  devops; biology +3 signals, earth-environment +3), one landed frontier domain **`ai-safety`** (safety properties →
+  capability measurement → red-team records → claim-by-claim safety case → M3.16 disclosure self-audit → residual
+  risk declared; 6-dim rubric; 33 → **34 disciplines**), and three deferrals with triggers (interpretability ·
+  embodied · systems-science). The second ask got a mechanism: **`harness probe-domains`** clusters collected intel
+  that lands on `general` into disjoint keyword proposals (nearest existing domain named = cheapest signal fix),
+  written to `updates/DOMAIN-PROBES.md` only (M0.4/M0.8) — the factory can now *find* the unmentioned domains itself:
+  refresh/intel pulls known topics, probe-domains finds unknown clusters, evolve audits catalog health, humans decide.
+  `review/interdisciplinary-frontier-domains-2026-10.md`; `tests/test_domain_probe.py` 4 guards.
+  **330 → 334 tests**; `cycle audit` 25 cycles, 0 hard, 0 gaps.
 - **Integration round (P28) - registry cross-link audit, two real catalog gaps, scan proposal.** The 15
   tracked-entities-without-same-id question resolved definitively: the cross-link is one-directional and fully
   consistent (71/71 `tracked` values resolve across groups); the reverse direction had 5 unreferenced entities —

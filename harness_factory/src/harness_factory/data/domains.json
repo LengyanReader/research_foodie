@@ -325,7 +325,10 @@
       "基因",
       "蛋白",
       "细胞",
-      "生态"
+      "生态",
+      "rna-seq",
+      "single-cell",
+      "transcriptomic"
     ]
   },
   "earth-environment": {
@@ -354,7 +357,10 @@
       "地质",
       "环境",
       "气象",
-      "水文"
+      "水文",
+      "satellite",
+      "urban climate",
+      "遥感"
     ]
   },
   "mathematics": {
@@ -1154,6 +1160,37 @@
       "地缘政治",
       "选举",
       "制度分析"
+    ]
+  },
+  "ai-safety": {
+    "faculty": "meta",
+    "title_en": "AI safety & alignment",
+    "name_zh": "AI 安全与对齐域",
+    "summary": "Frontier safety work: safety properties declared, capability measured, red-teams run, safety cases argued claim-argument-evidence",
+    "workflow": [
+      "L0 Define the safety property and the threat model",
+      "L1 Measure capabilities with named evals (M3.10 instruments)",
+      "L2 Red-team the system and record every finding (M3.15)",
+      "L3 Argue the safety case claim-by-claim with evidence pointers (M4.13)",
+      "L4 Audit the case against the disclosure card (M3.16)",
+      "L5 Write with the residual risk declared"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "ai safety",
+      "alignment",
+      "safety case",
+      "red team",
+      "red-team",
+      "capability eval",
+      "jailbreak",
+      "constitution",
+      "对齐",
+      "安全评测",
+      "红队",
+      "能力评测",
+      "安全论证"
     ]
   }
 }
