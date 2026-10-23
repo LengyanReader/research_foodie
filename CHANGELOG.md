@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Trace round (P22 · D1a) - trace schema + collection for trace-driven self-evolution.** Stage A of the accepted D1
+  design doc (`updates/2026-10-23-trace-driven-evolution-design.md`), before any auditor or promotion: new `trace.py`
+  implements the schema (v1 JSONL, six-event vocabulary, required fields, append-only, legacy lines read back as
+  `signal`); a failed `gate` run appends a `gate_miss` line to the tool home (passed runs record nothing — traces are
+  facts, M0.4); `harvest --event/--detail` writes structured events; new CLI `harness collect --project DIR` pulls a
+  project's local traces (offline, human-run); the emitted AGENTS.md template carries the optional trace contract.
+  Stages B (rules auditor) / C (measured promotion, waits on the scored task set) / D (LLM-assisted) stay deferred.
+  No clauses or capabilities; `tests/test_trace.py` 13 guards. **289 → 302 tests**; `cycle audit` 18 cycles, 0 hard, 0 gaps.
 - **Docs round (P21) - dogfooding M4.15 on the entry docs.** The queue's dogfood candidate, opened on the project
   evaluation's readability flag. Method: per-section reader tasks + the four-defect search + SSOT cross-check over
   README.md / introduction.md / GUIDE.md / SKILL.md. 10 findings, 10 fixed: 5 caught by M4.15 (incl. the bare-`harness`

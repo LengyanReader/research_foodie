@@ -22,6 +22,7 @@ self-evolution loop, not an automatic change (M0.4/M0.8).
 from __future__ import annotations
 
 import datetime as _dt
+import hashlib
 import json
 import subprocess
 import sys
@@ -277,6 +278,49 @@ def record_signals(kb_root: str | Path, bundle: dict[str, Any]) -> Path:
     with path.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(bundle, ensure_ascii=False) + "\n")
     return path
+
+
+def _manifest_hash(root: Path) -> str:
+    path = root / MANIFEST_REL
+    if not path.exists():
+        return "none"
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+
+
+def _task_label(manifest: dict[str, Any] | None, root: Path) -> str:
+    task = (manifest or {}).get("task")
+    if isinstance(task, dict):
+        return task.get("text") or root.name
+    return root.name
+
+
+def record_gate_miss_trace(
+    root: str | Path, report: dict[str, Any], kb_root: str | Path
+) -> Path | None:
+    """Append one ``gate_miss`` trace to the knowledge base (D1a; best-effort).
+
+    Traces are facts: only a *failed* gate run records anything (M0.4). Returns
+    the path written, or ``None`` when the gate passed or the write failed.
+    """
+    if report["passed"]:
+        return None
+    from . import trace as _trace
+
+    root = Path(root)
+    manifest, _ = _load_manifest(root)
+    failed = [g["id"] for g in report["gates"] if g["kind"] == "hard" and g["status"] != "pass"]
+    line = _trace.make_trace(
+        "gate_miss",
+        project=str(root),
+        task=_task_label(manifest, root),
+        harness=_manifest_hash(root),
+        detail={"failed_gates": failed},
+    )
+    try:
+        _trace.record_trace(Path(kb_root) / _trace.TRACES_REL, line)
+    except OSError:  # pragma: no cover - home may be unwritable
+        return None
+    return Path(kb_root) / _trace.TRACES_REL
 
 
 def render_harvest(bundle: dict[str, Any]) -> str:

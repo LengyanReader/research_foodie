@@ -151,3 +151,8 @@ See `.harness/gates.md`. Gate strictness: **{{ gate_strictness }}**. Do not clai
 ```
 python .harness/check.py .
 ```
+
+**Trace (optional · 可选).** At phase boundaries, append machine-readable facts — `gate_miss` or
+`human_correction` — to `.harness/traces.jsonl`, one JSON line each:
+`{"v":1,"ts":"…","project":"…","task":"…","harness":"…","event":"gate_miss"}`. A human runs
+`harness collect --project .` to pull them back to the factory (offline, never automatic).

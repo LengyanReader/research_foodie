@@ -232,6 +232,14 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **M4.15 没抓住的 5 处：跨文档漂移。** 过期计数（GUIDE「132 tests OK」、introduction §6「8 topics / 109 entities / 7 groups」）、漏列的组（README 来源枚举无 outlets）、**重复渲染的路线图**（introduction §10 停在 P11，M0.5 双重渲染即漂移源——压缩为指向 PLAN.md 的指针）、过期日期。修法两条可推广：**声明带日期**（M0.1）+ **同一状态不渲染两次**（M0.5）。**不新增 `cross-doc-consistency` 子句**：它会命中几乎所有文档工作、不判别（methodology-fit 规则）；重访触发：若发现漂移的散文声明（非计数）**导致 agent 做错事**，再开。
 - **登记与验证。** `cycles.json` P21（0 能力 / 0 域 / 0 子句 / 0 参考）；测试 **289 OK**；`cycle audit` 17 轮 · 0 硬 · 0 缺口；视图重生成。M4.17 可操作性仍开放（文档维护不涉及模型运行）。
 
+## P22 · D1a（2026-10-23，已做）：trace schema + 采集——轨迹驱动自演化的第一段
+
+> D1 设计文档（`updates/2026-10-23-trace-driven-evolution-design.md`）已确认，先开零风险的阶段 A：schema + 采集，先于任何审计与晋升。登记为 P22（0 能力 / 0 域 / 0 子句 / 0 参考）；阶段 B（规则审计→提案）/ C（带测量晋升，须等记分轮）/ D（LLM 辅助，D7 之后）仍 defer。
+
+- **schema（`trace.py`）。** v1 JSONL；6 事件封闭词表（gate_miss · human_correction · re_derive · capability_unused · check_fail · context_eviction）；必填字段 v/ts/project/task/harness/event；只追加；旧行（自由文本或非 trace JSON）读作 `signal`，P22 前的记录不失效。
+- **采集点。** `gate` 失败自动记一行到 `<kb>/updates/traces.jsonl`（通过不记）；`harvest --event/--detail` 写结构化事件（旧行为不变）；`harness collect --project DIR` 把项目本地 `.harness/traces.jsonl` 拉回工具家（离线、人跑）；发射模板自检节增可选 trace 合同。
+- **守卫与验证。** `tests/test_trace.py` 13 用例；CLI gate 测试 hermetic 化。测试 **302 OK**；`cycle audit` 18 轮 · 0 硬 · 0 缺口；HARNESS-MAP 重生成。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

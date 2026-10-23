@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-10-23 · P22（D1a）：trace schema + 采集 —— 轨迹驱动自演化的第一段落地
+
+- **开轮依据。** 用户确认 D1 设计文档（`updates/2026-10-23-trace-driven-evolution-design.md` §7），先开零风险的阶段 A。按 M5.10 登记：**P22 = D1a**；阶段 B（规则审计→提案）、C（带测量晋升，须等记分轮）、D（LLM 辅助，D7 之后）仍 defer。
+- **落地。** ① 新模块 `src/harness_factory/trace.py`：schema v1（6 事件封闭词表 `gate_miss / human_correction / re_derive / capability_unused / check_fail / context_eviction` + 必填字段 + 只追加 + 旧行读作 `signal`）+ `collect_traces`（copied/rejected，绝不静默丢弃，M0.4）。② `runtime.record_gate_miss_trace`：gate 失败即记一行（失败是事实不是意见；通过不记）。③ CLI：`gate` 失败自动落 trace（best-effort，不影响退出码）；`harvest --event/--detail` 写结构化事件（旧行为不变）；新子命令 `harness collect --project DIR`（离线、人跑）。④ 发射模板 `AGENTS.md.tmpl` 自检节增可选 trace 合同（`gate_miss`/`human_correction` 追加到 `.harness/traces.jsonl`，人跑 `collect` 拉回）。
+- **守卫。** `tests/test_trace.py` **13 用例**（schema 校验、存储往返、旧行兼容、collect 拒绝与拷贝、gate 挂钩绑定 manifest 哈希）；`test_cli` 的 gate 失败测试改为 hermetic（HARNESS_HOME 指向临时目录）并顺带断言 gate_miss 落盘。修一个自己引入的 bug：`validate` 把 `v`（int）当字符串必填字段误伤。
+- **状态。** 测试 **289 → 302**（+13）全过；`cycle audit` **18 轮 · 0 硬 · 0 缺口**；HARNESS-MAP 重生成（新子命令 collect）；cycles.json P22（0 能力 / 0 域 / 0 子句 / 0 参考）+ D1 `revisit_when` 更新（设计已接受，B/C 仍 defer）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · D1 设计文档提案（`updates/`，不入版本控制）
 
 - 按 D1 的 `revisit_when` 验收标准写了设计文档**提案**：`updates/2026-10-23-trace-driven-evolution-design.md`——点名 **trace schema**（6 事件词表 + 3 采集点，全部本地、可匿名化）· **留出集**（= 记分轮的产物；阶段 A/B 无需留出集即可动工，阶段 C 带测量的晋升须等记分轮——依赖顺序写明）· **回滚路径**（只追加 + updates 删除即撤销 + git revert + harness 哈希可重放）。

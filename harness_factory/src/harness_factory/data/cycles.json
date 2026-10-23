@@ -729,6 +729,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P22",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "D1a: trace schema + collection for trace-driven self-evolution",
+      "title_zh": "D1a：轨迹 schema + 采集——trace-driven 自演化的第一段",
+      "note": "Stage A of the D1 design doc (updates/2026-10-23-trace-driven-evolution-design.md, accepted 2026-10-23): the trace schema and the collection points, before any auditor or promotion - stages B/C/D stay deferred. New module trace.py implements the design doc §2 schema (version 1, six mechanically-producible events, required fields v/ts/project/task/harness/event, append-only, legacy lines read back as event 'signal'); runtime.record_gate_miss_trace appends a gate_miss line when a runtime gate fails (a failed run is a fact worth recording - M0.4); harvest gains --event/--detail to write structured traces beside the legacy signal line; new CLI `harness collect --project DIR` pulls a project's local .harness/traces.jsonl into the tool home (offline, human-run); the emitted AGENTS.md template carries the optional trace contract. No clauses, no capabilities: this is tooling, and the design doc already names the guardrails (the holdout gates stage C; rollback = append-only + updates deletable + git revert).",
+      "slices": [
+        "P22.1 - trace.py: schema (TRACE_VERSION=1, EVENTS six-event vocabulary, REQUIRED_FIELDS), make_trace/validate/record_trace/read_traces (legacy lines read back as event 'signal') + collect_traces (copied/rejected, never silently dropped)",
+        "P22.2 - collection: runtime.record_gate_miss_trace (failed gate runs append to <kb>/updates/traces.jsonl, best-effort); CLI gate hook + harvest --event/--detail + new `harness collect --project`; emitted AGENTS.md template gains the optional trace contract",
+        "P22.3 - guards: tests/test_trace.py (11 cases: schema, storage roundtrip, legacy reads, collect reject/copy, gate hook binds to the manifest hash); D1 roadmap revisit_when updated (design accepted; stages B/C remain deferred)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -802,7 +823,7 @@
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
       "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code",
-      "revisit_when": "a design doc exists naming the trace schema, the holdout, and the rollback path"
+      "revisit_when": "the design doc is accepted (updates/2026-10-23-trace-driven-evolution-design.md) and stage B (rules auditor) opens on the P22 schema; stage C additionally needs the scored task set (P16.9 / P23)"
     },
     {
       "id": "D2",

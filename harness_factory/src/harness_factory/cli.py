@@ -14,6 +14,7 @@ from .check import check_harness
 from .classify import classify
 from .derive import derive
 from .registry import domain_ids, module_ids
+from .trace import EVENTS as TRACE_EVENTS
 from .spec import (
     ARTIFACTS,
     COLLABORATION,
@@ -96,7 +97,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="knowledge-base dir for updates/signals.jsonl (default: user home)",
     )
     harvest_p.add_argument("--no-write", action="store_true", help="report only; write nothing")
+    harvest_p.add_argument(
+        "--event",
+        choices=sorted(TRACE_EVENTS),
+        default=None,
+        help="record a structured trace event (D1a) instead of the legacy signal line",
+    )
+    harvest_p.add_argument(
+        "--detail",
+        type=json.loads,
+        default=None,
+        help="trace payload as a JSON object (only with --event)",
+    )
     harvest_p.add_argument("--json", action="store_true")
+
+    collect_p = sub.add_parser(
+        "collect", help="pull a project's local .harness/traces.jsonl into the tool home (offline, human-run)"
+    )
+    collect_p.add_argument("--project", required=True, help="target project directory")
+    collect_p.add_argument("--json", action="store_true")
 
     plugins_p = sub.add_parser(
         "plugins", help="list/validate third-party domain & template plugins"
@@ -454,14 +473,53 @@ def _cmd_gate(args: argparse.Namespace) -> int:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
         print(render_gate_report(report))
-    return 0 if report["passed"] else 1
+    if not report["passed"]:
+        # D1a: a failed gate run is a fact worth recording (best-effort; never fatal).
+        try:
+            from . import config
+            from .runtime import record_gate_miss_trace
+
+            config.ensure_home()
+            path = record_gate_miss_trace(args.dir, report, config.home())
+            if path is not None and not args.json:
+                print(f"trace -> {path}", file=sys.stderr)
+        except OSError:  # pragma: no cover - home may be unavailable
+            pass
+        return 1
+    return 0
 
 
 def _cmd_harvest(args: argparse.Namespace) -> int:
-    from .runtime import harvest, record_signals, render_harvest
+    from .runtime import harvest, record_signals, render_harvest, _manifest_hash, _task_label, _load_manifest
 
     bundle = harvest(args.dir)
-    if not args.no_write:
+    if args.event:
+        if not args.no_write:
+            if args.root:
+                kb_root = args.root
+            else:
+                from . import config
+
+                config.ensure_home()
+                kb_root = str(config.home())
+            from . import trace
+            from pathlib import Path
+
+            root = Path(args.dir)
+            manifest, _ = _load_manifest(root)
+            try:
+                line = trace.make_trace(
+                    args.event,
+                    project=str(root),
+                    task=_task_label(manifest, root),
+                    harness=_manifest_hash(root),
+                    detail=args.detail or {"gates_passed": bundle["gates"]["passed"]},
+                )
+                trace.record_trace(Path(kb_root) / trace.TRACES_REL, line)
+                bundle["trace_recorded"] = trace.TRACES_REL
+            except (ValueError, OSError) as exc:
+                bundle["trace_error"] = str(exc)
+    elif not args.no_write:
         if args.root:
             kb_root = args.root
         else:
@@ -474,6 +532,18 @@ def _cmd_harvest(args: argparse.Namespace) -> int:
         print(json.dumps(bundle, ensure_ascii=False, indent=2))
     else:
         print(render_harvest(bundle))
+    return 0
+
+
+def _cmd_collect(args: argparse.Namespace) -> int:
+    from . import config, trace
+
+    config.ensure_home()
+    copied, rejected = trace.collect_traces(args.project, config.home())
+    if args.json:
+        print(json.dumps({"project": args.project, "copied": copied, "rejected": rejected}))
+    else:
+        print(f"collect @ {args.project} -> copied {copied}, rejected {rejected}")
     return 0
 
 
@@ -1098,6 +1168,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_gate(args)
     if args.command == "harvest":
         return _cmd_harvest(args)
+    if args.command == "collect":
+        return _cmd_collect(args)
     if args.command == "plugins":
         return _cmd_plugins(args)
     if args.command == "refresh":

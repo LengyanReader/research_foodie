@@ -87,9 +87,22 @@ class CliTest(unittest.TestCase):
 
     def test_gate_fails_without_manifest(self):
         with tempfile.TemporaryDirectory() as tmp:
-            code, out = run(["gate", "--dir", tmp])
+            # D1a: a failed gate run records a gate_miss trace in the tool home; point it at a temp dir.
+            old_home = os.environ.get("HARNESS_HOME")
+            os.environ["HARNESS_HOME"] = str(Path(tmp) / "home")
+            try:
+                code, out = run(["gate", "--dir", tmp])
+            finally:
+                if old_home is None:
+                    os.environ.pop("HARNESS_HOME", None)
+                else:
+                    os.environ["HARNESS_HOME"] = old_home
             self.assertEqual(code, 1)
             self.assertIn("FAIL", out)
+            from harness_factory import trace
+
+            lines = trace.read_traces(Path(tmp) / "home" / "updates" / "traces.jsonl")
+            self.assertEqual(lines[-1]["event"], "gate_miss")
 
     def test_harvest_writes_signals(self):
         with tempfile.TemporaryDirectory() as tmp:
