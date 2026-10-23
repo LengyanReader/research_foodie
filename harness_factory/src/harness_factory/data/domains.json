@@ -37,7 +37,10 @@
       "文献检索",
       "证据综合",
       "深调"
-    ]
+    ],
+    "overlaps": {
+      "research": "调研"
+    }
   },
   "research": {
     "faculty": "meta",
@@ -68,7 +71,12 @@
       "综述",
       "论文",
       "引用"
-    ]
+    ],
+    "overlaps": {
+      "deep-research": "深度调研",
+      "data-science": "数据驱动研究",
+      "writing": "学术写作"
+    }
   },
   "knowledge-management": {
     "faculty": "meta",
@@ -92,7 +100,11 @@
       "知识库",
       "笔记",
       "覆盖"
-    ]
+    ],
+    "overlaps": {
+      "research": "知识整理与研究",
+      "data-science": "知识工程"
+    }
   },
   "data-science": {
     "faculty": "engineering",
@@ -121,7 +133,12 @@
       "模型",
       "训练",
       "评测"
-    ]
+    ],
+    "overlaps": {
+      "statistics": "统计学习",
+      "software-engineering": "ML 工程",
+      "research": "数据驱动研究"
+    }
   },
   "software-engineering": {
     "faculty": "engineering",
@@ -164,7 +181,12 @@
       "类型注解",
       "内存泄漏",
       "编译"
-    ]
+    ],
+    "overlaps": {
+      "devops": "部署与运维",
+      "engineering": "嵌入式系统",
+      "data-science": "ML 工程"
+    }
   },
   "devops": {
     "faculty": "engineering",
@@ -202,7 +224,11 @@
       "线上服务",
       "故障",
       "告警"
-    ]
+    ],
+    "overlaps": {
+      "software-engineering": "部署与运维",
+      "engineering": "基础设施"
+    }
   },
   "engineering": {
     "faculty": "engineering",
@@ -241,7 +267,12 @@
       "3d printing",
       "传感器",
       "嵌入式"
-    ]
+    ],
+    "overlaps": {
+      "physics": "应用物理",
+      "software-engineering": "嵌入式系统",
+      "earth-environment": "环境工程"
+    }
   },
   "physics": {
     "faculty": "natural-sciences",
@@ -269,7 +300,12 @@
       "量子",
       "粒子",
       "实验测量"
-    ]
+    ],
+    "overlaps": {
+      "mathematics": "数学物理",
+      "chemistry": "物理化学",
+      "engineering": "应用物理"
+    }
   },
   "chemistry": {
     "faculty": "natural-sciences",
@@ -297,7 +333,12 @@
       "分子",
       "反应",
       "合成"
-    ]
+    ],
+    "overlaps": {
+      "biology": "生化交界",
+      "physics": "物理化学",
+      "earth-environment": "地球化学"
+    }
   },
   "biology": {
     "faculty": "natural-sciences",
@@ -329,7 +370,12 @@
       "rna-seq",
       "single-cell",
       "transcriptomic"
-    ]
+    ],
+    "overlaps": {
+      "chemistry": "生化交界",
+      "medicine": "基础与临床",
+      "cognitive-science": "神经科学"
+    }
   },
   "earth-environment": {
     "faculty": "natural-sciences",
@@ -361,7 +407,12 @@
       "satellite",
       "urban climate",
       "遥感"
-    ]
+    ],
+    "overlaps": {
+      "biology": "生态学",
+      "engineering": "环境工程",
+      "social-science": "环境社会科学"
+    }
   },
   "mathematics": {
     "faculty": "natural-sciences",
@@ -390,7 +441,12 @@
       "证明",
       "代数",
       "几何"
-    ]
+    ],
+    "overlaps": {
+      "statistics": "数理统计",
+      "physics": "数学物理",
+      "geometry-topology": "几何"
+    }
   },
   "medicine": {
     "faculty": "health",
@@ -419,7 +475,12 @@
       "诊断",
       "治疗",
       "医学"
-    ]
+    ],
+    "overlaps": {
+      "biology": "基础医学",
+      "chemistry": "药学",
+      "psychology": "精神医学"
+    }
   },
   "economics-finance": {
     "faculty": "social-sciences",
@@ -448,7 +509,12 @@
       "金融",
       "投资",
       "计量"
-    ]
+    ],
+    "overlaps": {
+      "social-science": "经济社会学",
+      "statistics": "计量经济学",
+      "mathematics": "数理经济学"
+    }
   },
   "psychology": {
     "faculty": "social-sciences",
@@ -504,7 +570,13 @@
       "政策",
       "民族志",
       "治理"
-    ]
+    ],
+    "overlaps": {
+      "economics-finance": "经济社会学",
+      "political-science": "政治社会学",
+      "psychology": "社会心理学",
+      "education": "教育社会学"
+    }
   },
   "law": {
     "faculty": "law",
@@ -533,7 +605,11 @@
       "合同",
       "判例",
       "法规"
-    ]
+    ],
+    "overlaps": {
+      "political-science": "公法与宪政",
+      "humanities": "法史"
+    }
   },
   "humanities": {
     "faculty": "humanities",
@@ -600,7 +676,11 @@
       "大纲",
       "学生",
       "课堂"
-    ]
+    ],
+    "overlaps": {
+      "psychology": "学习科学",
+      "social-science": "教育社会学"
+    }
   },
   "arts-design": {
     "faculty": "arts",
@@ -650,7 +730,11 @@
       "视频",
       "动画",
       "音乐"
-    ]
+    ],
+    "overlaps": {
+      "humanities": "美学与艺术史",
+      "writing": "创意写作"
+    }
   },
   "general": {
     "faculty": "meta",
@@ -691,7 +775,11 @@
       "选型",
       "任务适配",
       "模型选型"
-    ]
+    ],
+    "overlaps": {
+      "data-science": "评测",
+      "ai-safety": "能力评测"
+    }
   },
   "reading": {
     "faculty": "humanities",
@@ -726,7 +814,11 @@
       "章节",
       "体裁",
       "精读"
-    ]
+    ],
+    "overlaps": {
+      "humanities": "细读",
+      "writing": "细读与写作"
+    }
   },
   "excellence": {
     "faculty": "meta",
@@ -764,7 +856,11 @@
       "标杆",
       "第一梯队",
       "顶尖"
-    ]
+    ],
+    "overlaps": {
+      "research": "对标",
+      "writing": "表达"
+    }
   },
   "writing": {
     "faculty": "humanities",
@@ -821,7 +917,11 @@
       "文案",
       "story",
       "short story"
-    ]
+    ],
+    "overlaps": {
+      "humanities": "学术写作",
+      "reading": "细读与写作"
+    }
   },
   "logic": {
     "faculty": "formal-sciences",
@@ -859,7 +959,12 @@
       "模态逻辑",
       "可满足性",
       "形式逻辑"
-    ]
+    ],
+    "overlaps": {
+      "mathematics": "数理逻辑",
+      "philosophy": "逻辑哲学",
+      "linguistics": "形式语义学"
+    }
   },
   "linguistics": {
     "faculty": "humanities",
@@ -899,7 +1004,12 @@
       "语用",
       "语料库",
       "标注一致性"
-    ]
+    ],
+    "overlaps": {
+      "cognitive-science": "心理语言学",
+      "humanities": "语文学",
+      "logic": "形式语义学"
+    }
   },
   "cognitive-science": {
     "faculty": "social-sciences",
@@ -932,7 +1042,11 @@
       "眼动",
       "脑电",
       "认知建模"
-    ]
+    ],
+    "overlaps": {
+      "psychology": "行为与机制的实证交界",
+      "linguistics": "心理语言学"
+    }
   },
   "statistics": {
     "faculty": "formal-sciences",
@@ -995,7 +1109,12 @@
       "sampling distribution",
       "estimand",
       "random variable"
-    ]
+    ],
+    "overlaps": {
+      "mathematics": "数理统计",
+      "data-science": "统计学习",
+      "economics-finance": "计量经济学"
+    }
   },
   "geometry-topology": {
     "faculty": "formal-sciences",
@@ -1039,7 +1158,11 @@
       "同调群",
       "曲面重建",
       "多面体"
-    ]
+    ],
+    "overlaps": {
+      "mathematics": "几何",
+      "physics": "数学物理"
+    }
   },
   "digital-humanities": {
     "faculty": "humanities",
@@ -1076,7 +1199,10 @@
       "方志",
       "碑刻",
       "写本"
-    ]
+    ],
+    "overlaps": {
+      "history": "数字化/编码/建库工作 vs 史学梳理——「方志/古籍」信号只指数字人文的编码工作"
+    }
   },
   "history": {
     "faculty": "humanities",
@@ -1102,8 +1228,14 @@
       "断代",
       "考据",
       "档案",
-      "一手史料"
-    ]
+      "一手史料",
+      "修纂"
+    ],
+    "overlaps": {
+      "digital-humanities": "史学梳理 vs 数字化编码——修纂/编年/断代指向史学一侧",
+      "philosophy": "观念史与哲学史交界",
+      "humanities": "诠释与史学共享细读方法"
+    }
   },
   "philosophy": {
     "faculty": "humanities",
@@ -1130,7 +1262,11 @@
       "认识论",
       "伦理学",
       "本体论"
-    ]
+    ],
+    "overlaps": {
+      "humanities": "诠释学共域",
+      "logic": "论证与形式化交界"
+    }
   },
   "political-science": {
     "faculty": "social-sciences",
@@ -1160,7 +1296,12 @@
       "地缘政治",
       "选举",
       "制度分析"
-    ]
+    ],
+    "overlaps": {
+      "social-science": "政治社会学",
+      "law": "公法与宪政",
+      "economics-finance": "政治经济学"
+    }
   },
   "ai-safety": {
     "faculty": "meta",
@@ -1191,6 +1332,10 @@
       "红队",
       "能力评测",
       "安全论证"
-    ]
+    ],
+    "overlaps": {
+      "model-selection": "能力评测与选型共享评测面",
+      "deep-research": "前沿安全研究"
+    }
   }
 }

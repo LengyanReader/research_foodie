@@ -293,6 +293,10 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 > 用户问「说一声『全面更新 harness』是否就能触发以上所有」——答案现在是**能**。`harness full-update` 六相串联（intel → probe-domains → trace-audit → evolve → cycle audit → scoreboard），每相失败隔离、报告双语、人工裁决行收尾；`--offline` 跳过联网相。接线四处：SKILL.md 第 8 步（agent 的 L0 六步等效）、capability-router 情境行、README quickstart、工作区 AGENTS.md 常驻引用；refresh.ps1 调度器同用。登记 P30（0/0/0/0——既有机制的组合，M0.5）。
 
+## P31 · 交叉轮（2026-10-24，已做）：学科交集显式化——overlaps 声明 · 近失域报告 · 能力并集
+
+> 用户「学科之间很多都是有交叉和交集的」落地为三层：**32 域声明 `overlaps`**（相邻域 + 判别要点）· **derive 报近失域**（声明重叠且接近或够强，至多 2 个，带判别要点）· **强邻域（≥2 分）并集其域键控能力**——交集任务拿并集而不是单边。发射物增「Secondary domains · 交叉域」节。方志案例（史学梳理 vs 数字人文编码）从此显式报出 history。守卫 7 条（含 8 样本路由电池）；测试 **343 OK**；`cycle audit` 27 轮 · 0 硬 · 0 缺口。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

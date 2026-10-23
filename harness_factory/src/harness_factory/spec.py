@@ -112,6 +112,9 @@ class HarnessPlan:
     features: FeatureVector
     modules: list[ModulePlan] = field(default_factory=list)
     capabilities: list[str] = field(default_factory=list)
+    # P31: near/intersecting domains that qualified for the report (and, when
+    # strong enough, contributed their domain-keyed capabilities to the union).
+    secondary_domains: list[dict[str, Any]] = field(default_factory=list)
     version: str = ""
     created: str = ""
     files: list[str] = field(default_factory=list)

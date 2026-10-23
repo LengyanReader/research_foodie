@@ -224,6 +224,25 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
         cap_rows.append(f"| {cid} | {title} — {meta.get('why', '')} |")
     capabilities_table = "\n".join(cap_rows) or "| _(none matched)_ | |"
     capabilities_line = ", ".join(plan.capabilities) or "(none)"
+    # P31: intersecting domains, named with their discriminator notes.
+    if getattr(plan, "secondary_domains", []):
+        rows = []
+        for entry in plan.secondary_domains:
+            note = f" — {entry['overlap']}" if entry.get("overlap") else ""
+            added = (
+                f" (added capabilities: {', '.join(entry['added_capabilities'])})"
+                if entry.get("added_capabilities")
+                else ""
+            )
+            rows.append(f"- **{entry['domain']}** (signal score {entry['score']}){note}{added}")
+        secondary_domains_stanza = (
+            "## Secondary domains · 交叉域\n\n"
+            "This task sits at a declared discipline intersection; the second half is named, not dropped:\n\n"
+            + "\n".join(rows)
+            + "\n"
+        )
+    else:
+        secondary_domains_stanza = ""
     evidence_instrument = _evidence_instrument(plan)
     workflow = domain_meta.get("workflow", [])
     workflow_list = "\n".join(f"{i + 1}. {step}" for i, step in enumerate(workflow))
@@ -279,6 +298,7 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
         "modules_reasons_table": modules_reasons_table,
         "capabilities_line": capabilities_line,
         "capabilities_table": capabilities_table,
+        "secondary_domains_stanza": secondary_domains_stanza,
         "evidence_instrument": evidence_instrument,
         "memory_stanza": _memory_stanza(plan),
         "profile_note": "",

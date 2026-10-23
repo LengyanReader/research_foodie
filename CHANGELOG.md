@@ -20,6 +20,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Intersection round (P31) - discipline overlaps declared, near domains named, unions united.** Disciplines overlap;
+  single-domain routing silently dropped the other half. Three layers: (1) **32 domains declare `overlaps`** (adjacent
+  domain → one-line discriminator note, e.g. digital-humanities↔history: encoding work vs historical interpretation;
+  history gains the 修纂 signal so the tie is real); (2) **derive reports `secondary_domains`** when a
+  declared-overlap neighbour scores ≥1 and is close or strong (≥2), at most two, each with its discriminator note;
+  (3) a neighbour scoring ≥2 **contributes its domain-keyed capabilities to the plan union** (re-run of the existing
+  matcher with the alternate domain — nothing invented, M0.4). The emitted AGENTS.md gains a "Secondary domains ·
+  交叉域" stanza. Two self-introduced bugs caught by the guards: the secondary scorer skipped lowercasing (sentence-
+  initial "Bayesian" escaped the word-initial match) and the scoring refactor changed tie-breaks to alphabetical
+  (restored to stable registry order — the French battery case caught it). `tests/test_overlaps.py` 7 guards incl.
+  the 8-sample routing battery. **336 → 343 tests**; `cycle audit` 27 cycles, 0 hard, 0 gaps.
 - **One-instruction round (P30) - `harness full-update` chains the whole observe loop.** Saying 「全面更新 harness」 now
   triggers everything: `full_update.py` chains intel (networked, `--offline` skips) → probe-domains → trace-audit →
   evolve → cycle audit → scoreboard, each phase failure-isolated (a failing phase reports and the rest still run —

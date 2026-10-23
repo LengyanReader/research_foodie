@@ -9,6 +9,7 @@ engine only *selects and parameterizes* modules; it never writes task content
 from __future__ import annotations
 
 import datetime as _dt
+from typing import Any
 
 from ._version import __version__
 from .capabilities import annotate as _annotate_capabilities
@@ -181,4 +182,60 @@ def derive(task: TaskSpec, features: FeatureVector) -> HarnessPlan:
         created=created,
     )
     plan.capabilities = _annotate_capabilities(plan)
+    _attach_secondary_domains(plan)
     return plan
+
+
+def _attach_secondary_domains(plan: HarnessPlan) -> None:
+    """P31: name the intersecting domains and union their domain-keyed capabilities.
+
+    Disciplines overlap; a single-domain selection silently drops the other
+    half. Two thresholds, both evidence-driven (signal counts, never guesses):
+
+    - **report**: a declared-overlap neighbour scores >= 1 and is either close
+      (within 1 of the selected domain's score) or strong in its own right
+      (>= 2) - it joins ``secondary_domains`` with its discriminator note, so
+      the intersection is visible to the agent/human (at most two).
+    - **union**: the same neighbour scores >= 2 - its domain-keyed capabilities
+      are added to the plan (an intersection task gets the union, not one side).
+
+    Nothing here invents content: the union only re-runs the existing matcher
+    with the alternate domain and keeps what the primary match did not have.
+    """
+    from dataclasses import replace as _replace
+
+    from .capabilities import match as _match
+    from .classify import domain_scores
+    from .registry import domains as _domains
+
+    text = (plan.task.text or "").lower()  # same case rule as classify (word-initial latin signals)
+    scores = domain_scores(text)
+    selected = plan.features.domain
+    selected_score = next((s for d, s in scores if d == selected), 0)
+    registry = _domains()
+    selected_meta = registry.get(selected, {})
+    overlaps = selected_meta.get("overlaps", {})
+    for alt, alt_score in scores:
+        if alt == selected or alt == "general":
+            continue
+        # report only declared-overlap neighbours that are actually close
+        if alt not in overlaps and selected not in registry.get(alt, {}).get("overlaps", {}):
+            continue
+        if alt_score < 1 or (alt_score < selected_score - 1 and alt_score < 2):
+            continue
+        if len(plan.secondary_domains) >= 2:
+            break
+        entry: dict[str, Any] = {
+            "domain": alt,
+            "score": alt_score,
+            "overlap": overlaps.get(alt)
+            or registry.get(alt, {}).get("overlaps", {}).get(selected, ""),
+            "added_capabilities": [],
+        }
+        if alt_score >= 2:
+            alt_features = _replace(plan.features, domain=alt)
+            alt_ids = {cap["id"] for cap in _match(alt_features)}
+            added = sorted(cid for cid in alt_ids if cid not in plan.capabilities)
+            entry["added_capabilities"] = added
+            plan.capabilities.extend(added)
+        plan.secondary_domains.append(entry)

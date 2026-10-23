@@ -929,6 +929,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P31",
+      "date": "2026-10-24",
+      "status": "done",
+      "title_en": "Intersection round: discipline overlaps declared, near domains named, unions united",
+      "title_zh": "交叉轮：学科交集显式化——overlaps 声明 · 近失域报告 · 能力并集",
+      "note": "The user's point that disciplines heavily overlap exposed three real holes in single-domain routing: domain-keyed capabilities are lost on the other side of an intersection, signal ownership forces hard boundaries (the 方志 misroute: a historiography task caught by digital-humanities' 方志 signal), and the runner-up domain is invisible in the plan. Three layers landed, all evidence-driven: (1) data - 32 domains declare `overlaps` (adjacent domain -> one-line discriminator note, e.g. digital-humanities<->history: encoding work vs historical interpretation; history gains the 修纂 signal so the tie is real); (2) derive reports `secondary_domains` when a declared-overlap neighbour scores >=1 and is close (within 1) or strong (>=2), at most two, each with its discriminator note; (3) a neighbour scoring >=2 contributes its domain-keyed capabilities to the plan union (re-run of the existing matcher with the alternate domain - nothing invented, M0.4). The emitted AGENTS.md gains a 'Secondary domains · 交叉域' stanza (assembled, empty when none). A real bug found and fixed on the way: the secondary scorer did not lowercase, so sentence-initial 'Bayesian' escaped the word-initial signal match. Guards: tests/test_overlaps.py (overlap targets exist, the known intersections declared, the 8-sample routing battery from the evaluation, the 方志 intersection names history, the statistics/data-science union adds statistical-inference, clean tasks stay clean, the emitted stanza appears only when non-empty).",
+      "slices": [
+        "P31.1 - data: `overlaps` declared for 32 domains (adjacent + discriminator note); history gains the 修纂 signal; guards that overlap targets exist and the known intersections are declared",
+        "P31.2 - engine: classify.domain_scores extracted and shared; derive._attach_secondary_domains reports near domains (declared overlap + close or strong) and unions domain-keyed capabilities at score >= 2; lowercase fix on the secondary scorer",
+        "P31.3 - surface + guards: emitted AGENTS.md 'Secondary domains' stanza via assemble._context; tests/test_overlaps.py (7 cases incl. the routing battery)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

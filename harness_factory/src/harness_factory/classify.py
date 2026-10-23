@@ -249,20 +249,34 @@ def _has(text: str, keywords: list[str]) -> bool:
     return any(_sig_hit(k, text) for k in keywords)
 
 
+def domain_scores(text: str) -> list[tuple[str, int]]:
+    """Signal-score every domain, best first (``general`` excluded).
+
+    Shared with :func:`derive` for the near-domain report (P31): intersections
+    are invisible unless the runner-up is named.
+    """
+    scored = []
+    for name, meta in _domains().items():
+        if name == "general":
+            continue
+        score = sum(1 for sig in meta.get("signals", []) if _sig_hit(sig, text))
+        scored.append((name, score))
+    # Stable sort: ties keep the registry's insertion order (the historical
+    # tie-break; alphabetical order would silently re-route tie cases).
+    scored.sort(key=lambda pair: -pair[1])
+    return scored
+
+
 def _guess_domain(text: str) -> str:
     # An explicit choice of model outranks the domain default: generic
     # neighbours (data-science carries "model"/"模型"/"eval"/"评测") otherwise
     # outvote the selection domain's exact phrases by count.
     if _has(text, _SELECTION_CUES):
         return "model-selection"
-    best, best_score = "general", 0
-    for name, meta in _domains().items():
-        if name == "general":
-            continue
-        score = sum(1 for sig in meta.get("signals", []) if _sig_hit(sig, text))
-        if score > best_score:
-            best, best_score = name, score
-    return best
+    scores = domain_scores(text)
+    if not scores:
+        return "general"
+    return scores[0][0] if scores[0][1] > 0 else "general"
 
 
 def _guess_artifact(text: str) -> str | None:
