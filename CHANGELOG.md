@@ -6,6 +6,94 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 ## [Unreleased]
 
 ### Added
+- **Scan round (P20) - harness disclosure · MCP 2026-07-28 · two fired revisit triggers.** A round first proposed by a
+  whole-web scan (`review/harness-landscape-scan-2026-10.md`) and applied as P20 after user approval (renumbered: P18/P19
+  were already registered 2026-10-20). All three shrink conditions were checked against the primary texts and none fired.
+  - **Disclosure - clause M3.16 (`core/04`)** (`review/harness-disclosure-2026-10.md`, §W R243-R251). A comparison that ranks
+    agents across models or harnesses is incomplete unless both arms carry the seven-layer **ETCSOVG** card (Execution ·
+    Tools · Context · Scheduling · Observation · Verification · Governance) and a variance statement; admissible protocols
+    are **locked-harness** (vary the model) or **factorial** (η²_p paired with ω²/bootstrap and ranking-reversal counts).
+    Full read of arXiv:2605.23950: HV̄/MV̄ ≈ 7.80× on one controlled 3×3 grid, 6/9 ranking reversals - the authors
+    disclaim generality, so the figures are carried as directional. No new capability: the clause keys on the *claim
+    type*, not a feature vector, and mirrors `component-ablation` (M5.12) - ablation removes parts *within* a harness,
+    disclosure names the configuration *across* comparisons.
+  - **AST10 cue closed (data-only).** OWASP AST10 v1.0 (R245, README read in full) targets the skills-execution layer -
+    update drift, missing scans, supply chain at 1,184-malicious-skills scale - and is judged **not** a duplicate of the
+    ingested ASI01-10 (R86). The `levers.json` security note and `portable-skills` / `untrusted-content-discipline` now
+    cite it; the obligations themselves stay with M8.4/M3.11.
+  - **MCP 2026-07-28 core revision digested.** Four mappings land in `review/workflow-patterns-2026-10.md` §9 with an
+    explicit "no invariants changed": MRTR `input_required` = the human gate as a protocol-recorded state (M8); the
+    Tasks extension = native convergence for `durable-execution` (M2); list cache hints = a `context-budget-policy` row;
+    the 12-month deprecation window = an M7 exemplar. The `mcp` catalog entry is remapped M1,M6 → M1,M6,M2,M8.
+  - **Numbers refreshed, all *listed*-marked.** METR 1.1 (~1.1 h, ~105-day doubling as of 2026-09, R249) refreshes the
+    long-horizon-autonomy argument; Claude Code Agent Teams (R250) and A2A under the Linux Foundation (R251) stay
+    pointer lines. Context-editing/memory is answered as reference parameters on `context-budget-policy` -
+    `platform.claude.com` remains region-blocked, so the mechanism line rests on R237 alone.
+  - **Counts.** R242 → **R251** (3 full reads, 6 *listed*) · 34 → **35** clauses · 38 capabilities and 196 catalog entries
+    unchanged. **284 tests** (279 + 5 P20 guards). `cycle audit`: 16 cycles, 0 hard, 0 gaps. Deferred with triggers:
+    agent-judge robustness (D7), A2A / peer-session re-audit after full texts (D8).
+- **Model round (P19) - the models are the variable; what the Big Three disclosures changed for harnesses.** Primary
+  vendor posts read (`review/model-families-2026-10.md`, §V R239-R242); with `openai.com` and `platform.claude.com/docs`
+  blocked, OpenAI stays a documentation line - its model names are recorded only as named in the other two vendors'
+  comparison tables, never as product facts.
+  - Five converged mechanisms, three of which break defaults: effort tiers are priced goods (a cross-tier comparison is a
+    settings comparison); the served model may differ from the requested one (silent re-routing, alias drift); history may
+    be non-rewritable (preserved thinking); the workspace/sandbox is a product-level contract (manifest ≠ live workspace ≠
+    snapshot); exposed ≠ authorized (toggles govern visibility; authorization lives inside the tool).
+  - **Clauses.** **M1.11** (`core/02`) non-rewritable history compresses append-only - summaries write state, the original
+    stays reachable. **M2.13** (`core/03`) effort is a budget row recorded with the model id, cache pricing in the same
+    account. **M4.17** (`core/05`) the served model is part of provenance - requested id, served id and version, tier,
+    substitution with reason; an evaluation whose model changed silently is not a measurement. M6 deepens without a new
+    clause (two checklists, two anti-patterns: *exposure-as-authorization*, *"sandbox" as an adjective*).
+  - **One capability added.** `model-portfolio-discipline` (fires only on `domain=model-selection`): requirements matrix →
+    per-stage composition → measure on your own held-out set at the declared tier → hard gate with id/version/tier logged;
+    ties go to the cheaper tier, tier changes reopen the evaluation. The router had to be fixed too - explicit selection
+    cues must override neighbouring defaults (the P18 rule) or the capability was unreachable.
+  - **Counts.** 37 → **38** capabilities · 31 → **34** clauses · R238 → **R242** · **279 tests** (+8). 32-family routing
+    baseline still 32/32. Six non-additions recorded with revisit triggers (vendor citation APIs, computer-use detail,
+    fast mode, CCL case, provider routing, 1M-context guidance).
+- **Routing-completeness audit (P18) - can any task locate its capabilities?** No clauses, no capabilities: the round
+  audits the compiler itself (`review/routing-coverage-2026-10.md`), splitting the claim into three testable ones -
+  **totals** (does any task fall to the floor?), **discrimination** (do different tasks get different sets?),
+  **correctness** (is the classification right?) - over 32 hand-written task families (16 zh / 16 en, two empty prompts
+  included), per-value flips across eight axes, constructive satisfiability for all 37 capabilities, and a bidirectional
+  router check.
+  - Totals hold (32/32 produce a plan; every capability satisfiable and named by the router). Discrimination mostly - two
+    real holes (`artifact=plan`, `domain=arts-design` with `grounding=off`) recorded with revisit triggers instead of
+    forced fills. Correctness **failed first**: 9/32 misrouted for three reproducible root causes - substring false hits
+    (`ci` ∈ "exercises", `eval` ∈ "retrieval", which inflated RAG tasks' capability counts), missing signals for common
+    families, and the `artifact`/`grounding` axes never reading text.
+  - **Fixes** (no module-rule changes): signals move to **word-initial** matching; 84 high-precision signals added across
+    six domains, three wrong keys dropped; **explicit cues beat domain defaults** (artifact nouns → the axis;
+    cite/provenance asks → `grounding=required`; only an explicit "no external knowledge" downgrades - a fake off is worse
+    than a fake preferred). Post-fix: 32/32 land in allowed sets; the RAG set drops 18 → 15 (it was never
+    high-verifiability). A latent DSL mismatch (`_cond_matches` early-return vs its printed AND) was fixed alongside.
+  - **Counts.** **271 tests** (263 + 8 guards, data-driven, naming no specific capability) · capabilities/clauses/refs
+    unchanged (37 · 31 · R238) · `cycle audit` 0 hard, 0 gaps.
+- **Domain-criteria round (P17) - four cases read in full, two criteria overturned, a working set that can exit.**
+  Closed P14.4 by scoring four domain harnesses against criteria **written before reading** (schema-before-extraction ·
+  entity identity · evidence-bounded output with coverage reporting), plus meta-criterion C4: a criterion that scores the
+  same value on every case is not discriminating. Four of six pre-registered predictions were overturned, all in one
+  direction: full texts look better than abstracts, and binary criteria had been flattering them. C3a scored 1 on all
+  four cases → rewritten as a three-rung ladder (prompt request → resolvable per-sentence keys → mechanism-enforced
+  against the active evidence set): the bit-count was wrong, not the criterion.
+  - **Clauses.** **M3.15** (`core/04`) attribute losses stage by stage - one end-to-end number cannot say whether to fix
+    retrieval or generation; the first stage's denominator holds all samples and any scoring convention that inflates a
+    stage must be declared. **M4.16** (`core/05`) a pointer is an assertion of a support relation - dangling / stale /
+    unsupported each check differently; resolution runs against the **active** set; pointers land on the original text, not
+    its summary; "accurate but miscited" is reported apart from "inaccurate". **M1.10** (`core/02`) the working set is
+    rented, not owned - re-check at phase boundaries, evict with `{reason, reload_when}` receipts, always-on baselines are
+    never evicted, and eviction without the index still in context is forgetting, not release; enforced by a
+    `.harness/working-set.json` gate in `harness check`.
+  - **Sources.** §T **R237** (Anthropic context-editing / memory post - vendor-reported numbers marked as such; the
+    `docs.claude.com` pair is region-blocked, so no claim rests on it) and §U **R238** (PaperQA2, read in full). The
+    candidate pool was resolved to primary arXiv ids before reading (GraphRAG 2404.16130v2 · LongHarness 2610.13075v1 ·
+    PaperQA2 2409.13740v2); the two HTR papers were deliberately excluded rather than "re-writing their exam for them".
+  - **A trigger gap fixed on the way.** `evidence-bounded-generation` never fired for *research + document artifact +
+    grounding-required* (the PaperQA2 shape); `grounding: required` was added - deliberately not `preferred`.
+  - **Counts.** 28 → **31** clauses · R236 → **R238** · capabilities unchanged at 37 · **263 tests** (242 + 21). No new
+    capability for working-set eviction: its `when` is strictly contained in `context-budget-policy`, so M1.10 deepens it
+    instead (the P16 precedent).
 - **Expression round (P16) - form before words · translation as expression · a module that earns its place.** One round,
   five slices, and the first where the two headline papers were read **in full** rather than at abstract level.
   - **Expression design - clause M4.15 (`core/05`) + capability `expression-design`**
