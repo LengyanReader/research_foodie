@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Depth round (P26) - M6/M7/M8 gain anchorable clauses.** The clause distribution was asymmetric (M3/M4 carry 15
+  numbered clauses, M6/M7/M8 zero or one), so `cycle audit` had nothing to audit on three modules. Four clauses landed,
+  each numbering an existing prose rule and anchored in an already-verified source (zero new references): **M6.10**
+  skills as versioned reusable methods, index-first progressive disclosure (Agent Skills open standard, tracked,
+  verified 2026-10-15) · **M6.11** exposure is not authorization; a sandbox claim names its backend (R241/R242) ·
+  **M7.10** every governing change is a reviewable attributable diff with a rollback path (Conventional Commits spec +
+  R90) · **M8.11** handoff passes through artifacts, not memory (R93). Each with a checklist line, a source-map row and
+  a content-presence guard (`P26ClauseAnchorTest`). **322 → 326 tests**; `cycle audit` 22 cycles, **39 clauses anchored**, 0 hard, 0 gaps.
 - **Trace-audit round (P25 · D1 stage B) - the rules auditor turns recorded traces into proposals.** The missing half of
   the automation puzzle: `data/trace-rules.json` (five rules: gate-miss-repeat · capability-unused-repeat ·
   re-derive-repeat · correction-focus · low-outcome — the P24 effect axis feeding back) + `trace_audit.py` group traces

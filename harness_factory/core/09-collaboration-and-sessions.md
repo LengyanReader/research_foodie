@@ -1,7 +1,7 @@
 # M8 · Collaboration & Sessions · 协作与会话
 > Agents working alongside humans and other agents — explicit contracts, escalation, handoff with state.
 > agent 与人类及其他 agent 协同——显式契约、逐级升级、带状态交接。
-**Updated:** 2026-10-18
+**Updated:** 2026-10-23
 
 ---
 
@@ -19,7 +19,7 @@ Multi-party work fails at the seams: unstated assumptions, ambiguous ownership, 
 2. **Role separation.** Keep *builder* and *critic* in distinct contexts (M3). In pair work, use driver/navigator; in pipelines, generator/evaluator.
 3. **Escalation path.** Define when the agent must stop and ask: irreversible acts (M0.8), conflicting instructions, out-of-scope requests, low confidence on high-stakes calls. "Ask early" beats "guess confidently."
 4. **Question budget.** Bound clarifications (e.g. one consolidated question round) to avoid stalling — but never let a budget force a guess on a gated decision.
-5. **Handoff with state (M2).** End every session with a structured handoff: goal, done, blocked, next actions, open questions, sources. The receiver resumes without archaeology.
+5. **Handoff with state (M8.11).** End every session with a structured handoff: goal, done, blocked, next actions, open questions, sources. The receiver resumes without archaeology. Hand-off travels through **artifacts, not memory**: the distilled state lands as files, and the receiver trusts the artifact, not the sender's recollection — a handoff that lives only in the sender's context dies with it `[R93]`.
 6. **Subagent contracts.** When delegating to a helper: give a narrow task, a strict output format, and a bounded context; return only the distilled result.
 7. **Conflict resolution by priority chain.** When instructions collide, apply the M0 priority order (Truth ≻ Trace ≻ Verify ≻ …) and **record the conflict and resolution** (M4, append-only).
 8. **Keep decision authority human.** Automate orchestration and throughput; humans own substance and values (M0.4, M0.8).
@@ -36,6 +36,7 @@ Multi-party work fails at the seams: unstated assumptions, ambiguous ownership, 
 - [ ] Subagent tasks have a narrow scope and a strict output format.
 - [ ] Conflicts are resolved by the M0 chain and logged.
 - [ ] Multi-role work has a declared topology (who runs when, who owns shared state).
+- [ ] Handoffs travel as artifacts (state files), not as memory (M8.11).
 
 ## Anti-patterns
 - **Unstated assumptions.** Parties proceed on different mental models.

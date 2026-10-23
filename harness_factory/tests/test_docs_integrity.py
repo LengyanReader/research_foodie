@@ -350,5 +350,34 @@ class CountDriftGuardTest(unittest.TestCase):
         )
 
 
+class P26ClauseAnchorTest(unittest.TestCase):
+    """The four clauses P26 landed must stay anchored: each names its mechanism
+    in its own module and keeps its source-map row (content presence, not wording)."""
+
+    def test_m6_clauses_are_anchored(self):
+        text = _read(HARNESS / "core/07-tools-and-skills.md")
+        self.assertIsNotNone(text)
+        for token in ("M6.10", "M6.11", "progressive", "concrete argument"):
+            self.assertIn(token, text, f"{token!r} missing from the M6 module")
+
+    def test_m7_clause_is_anchored(self):
+        text = _read(HARNESS / "core/08-change-governance.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M7.10", text)
+        self.assertIn("rollback", text)
+
+    def test_m8_clause_is_anchored(self):
+        text = _read(HARNESS / "core/09-collaboration-and-sessions.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M8.11", text)
+        self.assertIn("artifact", text)
+
+    def test_new_clauses_have_source_rows(self):
+        text = _read(HARNESS / "sources/source-map.md")
+        self.assertIsNotNone(text)
+        for clause in ("M6.10", "M6.11", "M7.10", "M8.11"):
+            self.assertIn(f"| {clause} ", text, f"{clause} has no source-map row")
+
+
 if __name__ == "__main__":
     unittest.main()

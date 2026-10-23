@@ -813,6 +813,32 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P26",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Depth round: M6/M7/M8 gain anchorable clauses",
+      "title_zh": "深度补平轮：M6/M7/M8 落可锚定子句",
+      "note": "The evaluation found the clause distribution asymmetric: M3/M4 carry 15 numbered clauses while M6/M7/M8 carry zero or one, so `cycle audit`'s anchored-clause check has nothing to audit on three modules. Four clauses landed, each numbering an existing prose rule and anchored in an already-verified source (no new references): M6.10 (skills as versioned reusable methods, index-first progressive disclosure - the Agent Skills open standard, tracked in data/sources.json, verified 2026-10-15), M6.11 (exposure is not authorization; a sandbox claim names its backend - R241/R242, read 2026-10-20), M7.10 (every governing change is a reviewable attributable diff with a rollback path - Conventional Commits spec linked from AGENTS.md §4 + R90 Temporal for the journaled/replayable half), M8.11 (handoff passes through artifacts, not memory - R93). Each has a checklist line and a source-map row; P26ClauseAnchorTest guards the anchoring.",
+      "slices": [
+        "P26.1 - core/07: rules 6/7 numbered M6.10 (progressive skill loading + skills as durable procedures, with the agentskills.io contract named), rule 11 numbered M6.11; two checklist lines; date refreshed",
+        "P26.2 - core/08: pattern 2 numbered M7.10 (reviewable attributable diffs + rollback path as the same discipline backwards; R90 for the journaled/replayable substrate); checklist line; core/09: rule 5 numbered M8.11 (handoff via artifacts, not memory; R93); checklist line; dates refreshed",
+        "P26.3 - sources/source-map.md rows for M6.10/M6.11/M7.10/M8.11 (all on already-verified sources, zero new references); P26ClauseAnchorTest (4 content-presence guards)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [
+          "M6.10",
+          "M6.11",
+          "M7.10",
+          "M8.11"
+        ],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

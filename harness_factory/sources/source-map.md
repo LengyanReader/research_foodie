@@ -51,6 +51,10 @@
 | M0.10 The harness evolves | `_archive/docs/design/self-evolution-mechanism.md`; Hashimoto [21]; `review/harness-catalog.md` §3; this repo's own recorded rounds (`data/cycles.json`) | internal + practitioner |
 | M8 Collaboration & sessions (contracts, escalation, handoff) | Anthropic generator/evaluator + handoff [26]; Hashimoto six-stage adoption [21] | practitioner |
 | M8.10 Declare the topology (who runs when, shared state, ownership) | ADK graph workflows `[R96]`; LangGraph persistence `[R97]` | practitioner |
+| M6.10 Skills are versioned, reusable methods loaded index-first (progressive disclosure) | Agent Skills open standard (agentskills.io; tracked as `agentskills` in `data/sources.json`, verified 2026-10-15 — Discovery → Activation → Execution) | vendor docs |
+| M6.11 Exposure is not authorization; a "sandbox" claim names its backend | OpenAI Agents SDK docs `[R241]` `[R242]` (read 2026-10-20: capability callbacks "cannot authorize a model-generated argument or resource selection"; sessions "do not themselves guarantee OS-level confinement") | vendor docs |
+| M7.10 Every governing change is a reviewable, attributable diff with a rollback path | Conventional Commits spec (conventionalcommits.org, linked from workspace `AGENTS.md` §4); Temporal durable execution `[R90]` (state journaled and replayable — the rollback substrate) | practitioner + academic |
+| M8.11 Handoff passes through artifacts, not memory | Anthropic "Building effective agents" `[R93]` (handoffs: pass the distilled result, not the recollection) | practitioner |
 
 ---
 

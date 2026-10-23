@@ -1,7 +1,7 @@
 # M7 · Change Governance · 变更治理
 > How the harness and its outputs change — single source of truth, reviewable diffs, no unsolicited destructive acts.
 > harness 与其产出如何变更——单一事实来源、可审阅的 diff、不擅自做破坏性动作。
-**Updated:** 2026-10-12
+**Updated:** 2026-10-23
 
 ---
 
@@ -16,7 +16,7 @@ Drift and lost work come from *untracked* change: a value defined in three place
 ## Patterns · 模式
 
 1. **Single source of truth (M0.5).** Each fact/config/definition lives in exactly one canonical place; everything else references it. Duplication is the primary source of drift.
-2. **Reviewable, attributable diffs (M0.9).** Substantive changes travel as diffs under version control, with an author and a message. In-place silent rewrites are forbidden.
+2. **Reviewable, attributable diffs (M7.10).** Substantive changes travel as diffs under version control, with an author and a message. In-place silent rewrites are forbidden. The same discipline runs backwards as the **rollback path** (pattern 8): a change that cannot be undone is not a change — it is a commit with no way back. Durable execution makes the pair mechanical: state changes are journaled and replayable, so "what happened" and "how to undo it" are the same record `[R90]`.
 3. **Conventional Commits.** Use a consistent `<type>(<scope>): <subject>` scheme; keep the subject short. Enables automated changelogs and filtering.
 4. **No unsolicited destructive acts (M0.8).** Never delete data, force-push, publish, spend, or contact people without explicit human authorization. Reversible local edits do not need a gate.
 5. **Commit ≠ push.** Committing locally is routine; pushing/publishing is a gated, deliberate act. (Repo policy: auto-commit allowed, **never auto-push**.)
@@ -34,6 +34,7 @@ Drift and lost work come from *untracked* change: a value defined in three place
 - [ ] No destructive/publishing act occurs without a human gate.
 - [ ] Pushing/publishing is separate from committing.
 - [ ] Each change has a stated rollback path; changelog updated.
+- [ ] Every substantive change is a reviewable, attributable diff, and its journal entry names the undo (M7.10).
 
 ## Anti-patterns
 - **Shadow edits.** In-place rewrites with no diff and no author.
