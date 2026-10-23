@@ -9,6 +9,7 @@ known strings did NOT catch either.  These tests check *structure* instead.
 
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -278,6 +279,75 @@ class P20ClauseAnchorTest(unittest.TestCase):
         self.assertIn("R245", caps, "capability provenance lost the AST10 citation")
         self.assertIn("tasks/get", caps, "durable-execution lost the MCP Tasks pointer")
         self.assertIn("R249", caps, "long-horizon-autonomy-control lost the METR refresh")
+
+
+class CountDriftGuardTest(unittest.TestCase):
+    """Hand-maintained counts in the entry docs must match the SSOT and the suite.
+
+    A count copied by hand decays the moment a round lands (A.3 #6): the
+    workspace AGENTS.md once claimed 27 domains / 242 tests while the SSOT
+    carried 31 domains and the suite ran 284, and its bare unittest command
+    fails without the src path.  These guards compare the written numbers
+    against data/domains.json and the discovered test suite, so drift fails
+    CI instead of misleading the next agent.
+    """
+
+    _DOMAIN_RE = re.compile(r"(\d+)\s*学科(?:门类)?\s*\+\s*general")
+    _TEST_RE = re.compile(r"当前 \*\*(\d+)\*\* 用例")
+
+    @staticmethod
+    def _domains() -> dict:
+        return json.loads(
+            (HARNESS / "src/harness_factory/data/domains.json").read_text(encoding="utf-8")
+        )
+
+    def test_agents_md_domain_count_matches_ssot(self):
+        text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        m = self._DOMAIN_RE.search(text)
+        self.assertIsNotNone(m, "AGENTS.md lost its domain-count line")
+        expected = len(self._domains()) - 1  # minus the general fallback
+        self.assertEqual(
+            int(m.group(1)), expected,
+            f"AGENTS.md domain count stale: {m.group(1)} vs SSOT {expected}",
+        )
+
+    def test_readme_domain_counts_match_ssot(self):
+        expected = len(self._domains()) - 1
+        for name in ("README.md", "README.zh-CN.md"):
+            text = (ROOT / name).read_text(encoding="utf-8")
+            m = self._DOMAIN_RE.search(text)
+            self.assertIsNotNone(m, f"{name} lost its domain-count line")
+            self.assertEqual(
+                int(m.group(1)), expected,
+                f"{name} domain count stale: {m.group(1)} vs SSOT {expected}",
+            )
+
+    def test_readme_trees_list_every_domain(self):
+        domain_ids = set(self._domains()) - {"general"}
+        for name in ("README.md", "README.zh-CN.md"):
+            text = (ROOT / name).read_text(encoding="utf-8")
+            trees = [b for b in _FENCE.findall(text) if "HARNESS-MAP" in b and "├── domains/" in b]
+            self.assertEqual(len(trees), 1, f"{name}: expected exactly one layout tree")
+            missing = sorted(d for d in domain_ids if f"{d}/" not in trees[0])
+            self.assertEqual(missing, [], f"{name} layout tree missing: {missing}")
+
+    def test_agents_md_test_count_matches_suite(self):
+        text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        m = self._TEST_RE.search(text)
+        self.assertIsNotNone(m, "AGENTS.md lost its test-count claim")
+        actual = unittest.defaultTestLoader.discover(str(HARNESS / "tests")).countTestCases()
+        self.assertEqual(
+            int(m.group(1)), actual,
+            f"AGENTS.md test count stale: {m.group(1)} vs suite {actual}",
+        )
+
+    def test_agents_md_gate_command_names_pythonpath(self):
+        text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        line = next(l for l in text.splitlines() if "Test gate" in l)
+        self.assertIn(
+            "PYTHONPATH=src", line,
+            "the bare unittest command fails without the src path (CI sets it)",
+        )
 
 
 if __name__ == "__main__":

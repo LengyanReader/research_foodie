@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 
 ## [Unreleased]
 
+### Fixed
+- **Housekeeping - hand-maintained counts now guarded.** The workspace `AGENTS.md` claimed **27** domains and **242** tests
+  while the SSOT carries **31** (30 disciplines + `general`, 10 faculties) and the suite ran **284**; its bare
+  `python -m unittest discover -s tests` command also fails without `PYTHONPATH=src` (CI has always set it). Fixed: both
+  README layout trees re-grouped to the real faculties and completed (statistics / geometry-topology / logic under formal
+  sciences; digital-humanities / writing / reading under humanities; data-science / model-selection under engineering),
+  the references range refreshed R1-R106 → R1-R251, and a new `CountDriftGuardTest` (5 guards) makes these counts fail CI
+  instead of drifting: the AGENTS.md/README counts must equal the `domains.json` SSOT, the layout trees must name every
+  domain, the test count must equal the discovered suite, and the gate command must name `PYTHONPATH=src`.
+- **References backlog cleared.** `review/references.bib` gains the 12 missing entries (R237-R242, R246-R251; R243-R245
+  were already present), so the machine-readable bib covers R1-R251 again.
+- **Line endings.** The two legacy CRLF files (`domains/model-selection/README.md`, `tasks/REFRESH.md`) are normalized to LF.
+- **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
+
 ### Added
 - **Scan round (P20) - harness disclosure · MCP 2026-07-28 · two fired revisit triggers.** A round first proposed by a
   whole-web scan (`review/harness-landscape-scan-2026-10.md`) and applied as P20 after user approval (renumbered: P18/P19

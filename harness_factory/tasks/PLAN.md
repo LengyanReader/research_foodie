@@ -231,8 +231,8 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
   1. **补 OpenAI 模型行**：`openai.com` / `platform.openai.com` 恢复可达时，把 `review/model-families-2026-10.md` §1 的「文档行」升级为模型行，并记录访问日期对应的快照（M4.17）。触发：403 解除，或出现 OpenAI 模型卡的一手镜像。
   2. **M1.11 的范围升级**：preserved thinking 目前只有一家；若第二家也禁止编辑既有推理，把 M1.11 从「厂商约束」升为通用默认（即所有压缩默认追加）。触发：第二家发布同类约束。
   3. **隐性选型**：`model-portfolio-discipline` 依赖显式选型线索；若真实使用中"只给任务、不提模型"的选型请求仍落 `data-science`，补的是线索而非域信号（保持 P18 的高精度原则）。触发：第一例此类误判被记录。
-  4. **`references.bib` 欠账**：bib 仍停在 R1–R236，R237–R242 只在 `references.md`。触发：下次任何一轮改动 bib 时一并补齐（不为此单独开轮）。
-- **卫生项（不单独开轮，顺手做）。** `harness_factory/domains/model-selection/README.md` 与 `harness_factory/tasks/REFRESH.md` 仍是 CRLF（历史遗留，非本轮引入）；下次动到这两个文件时一并规范为 LF。
+  4. ~~**`references.bib` 欠账**~~ **已清零（2026-10-23 卫生项）**：R237–R242 与 R246–R251 共 12 条已入 `review/references.bib`（R243–R245 此前已在），机器可读 bib 重新覆盖 R1–R251。
+- **卫生项（2026-10-23 已收尾，不单独开轮）。** 两个遗留 CRLF 文件已剥离 CR 归一为 LF（索引本就是 LF，剥离后与索引哈希一致）；入口文档的计数漂移（27 域 / 242 用例 / R1–R106）已修，并新增 `CountDriftGuardTest`（5 条守卫）看住域数、布局树、用例数与测试命令，详见 PROGRESS 同日条目。
 
 - **P0 (done):** pattern library (`core/`, `domains/`, `review/`, `sources/`).
 - **P1 (done):** CLI scaffold generator — `derive`/`init`/`explain`/`check`, rules engine, tests.

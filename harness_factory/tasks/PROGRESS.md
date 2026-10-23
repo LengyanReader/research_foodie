@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-23 · 卫生项收尾（评估轮后续）：计数漂移修复 · bib 欠账清零 · CRLF 归一 · 防漂移守卫
+
+- **背景。** 项目评估（同日）点名 ASSESSMENT A.3 #6「手写计数漂移」的三个活例，按推荐顺序先做卫生清理；不另开能力轮（PLAN 卫生项约定）。全程只读 SSOT + 实测，不臆造数字（M0.4）。
+- **实测事实。** `PYTHONPATH=src python -m unittest discover -s tests` → **284 通过**（与 CHANGELOG P20 一致；裸命令因缺 PYTHONPATH 直接 ImportError）；`data/domains.json` → **31 域**（30 学科 + general，10 faculties）；`references.bib` 207 条，缺 **R237–R242 + R246–R251** 共 12 条（R243–R245 已在）。
+- **修复。** ① `AGENTS.md`：27 学科 → **30**（+10 faculties）；242 用例 → 实测数；测试门禁命令补 `PYTHONPATH=src`。② 两份 README 布局树按 SSOT 真实 faculty 重新分组并补全（statistics / geometry-topology / logic → formal-sciences；digital-humanities / writing / reading → humanities；data-science / model-selection → engineering；meta 不再含 reading）；参考文献范围 R1–R106 → **R1–R251**。③ `review/references.bib` 补 12 条（anthropic2025context · skarlinski2024language · anthropic2026opus55 · deepmind2026gemini4argon · openai2026sdksandbox · openai2026sdkcontext · lhtb2026 · polyworkbench2026 · agentif2026 · metr2026timehorizons · anthropic2026agentteams · linuxfoundation2026a2a）；作者名严格照 `.md` 缩写与核验状态，R247/R248 未核实的题目照原文标 *listed*。④ 两个遗留 CRLF 文件直接剥离 CR 归一为 LF（`git checkout --` 因归一化内容与索引相同而不重写；剥离后 `git ls-files --eol` 为 w/lf，且工作树 blob 哈希与索引一致）。
+- **守卫（+5，漂移从此在 CI 现形）。** `tests/test_docs_integrity.py` 新增 `CountDriftGuardTest`：AGENTS.md 域数 == SSOT−1；两份 README 域数 == SSOT−1；布局树点名全部 30 个域 id（漏列即红）；AGENTS.md 用例数 == `discover().countTestCases()`（增删测试强制同步该数字）；测试门禁行必须带 `PYTHONPATH=src`。
+- **状态。** 测试 **284 → 289**（+5 守卫）全过；`cycle audit` 0 硬 0 缺口；`catalog/map/capabilities --write` 无需重生成（SSOT 未动）；按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P20：全网扫描轮 —— 一条披露子句、MCP 核心修订消化、两个触发器关闭
 
 - **Ask（用户原话）。**「请先加载本项目中的 harness 能力系统，对全网涉及 harness 的研究和实践方向进行广泛调研，分析和评估是否可以进行一次项目更新和升级。」→「可以，请开始。」两个半环分开执行：observe 半环 `review/harness-landscape-scan-2026-10.md`（已提交 `a78e75e`），用户确认后落地 apply 半环（本轮）。**编号修正**：提案时写作 P18，但 P18/P19 已被 2026-10-20 两轮占用，实际以 **P20** 登记，scan 文档已重编号并标记 applied。
