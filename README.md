@@ -91,6 +91,8 @@ harness evolve --dry-run                 # same, write nothing
 harness evolve-apply --accept <id|target>
 harness full-update                      # one instruction: the whole observe loop -> updates/FULL-UPDATE.md
                                          #   (intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard)
+harness brief --task "…"                 # paste-ready task brief: refinement fields + plan + first actions + gates
+                                         #   (a DRAFT to confirm, not a licence to start - P32)
 ```
 
 **Consumption modes.** L0 — an assistant reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself

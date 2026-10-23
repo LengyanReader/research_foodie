@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Task-brief round (P32) - `harness brief` renders a paste-ready execution draft.** The second capability-evaluation
+  gap closed: one step from goal to an executable brief. `brief.py` renders the requirement-refinement fields the rules
+  can compute (R0 restate · R2 hard/soft/assumed tiers · R3's three offerings with mechanical deltas — MVP / Elevated /
+  Exploratory naming P31's intersections), the 8-axis feature vector with reasons, the module/capability plan, the
+  domain workflow, first-phase actions (first workflow step + PLAN skeleton + declared evidence instrument +
+  self-check), the gates, and an explicit R4/R5 confirm block — the brief is a **draft to confirm, never a licence to
+  start** (WAIT rule, M0.4). CLI: `harness brief --task … [--out FILE] [--json]`. `tests/test_brief.py` 6 guards;
+  scoreboard addition deliberately declined (same pipeline already pinned). **343 → 349 tests**; `cycle audit` 28 cycles, 0 hard, 0 gaps.
 - **Intersection round (P31) - discipline overlaps declared, near domains named, unions united.** Disciplines overlap;
   single-domain routing silently dropped the other half. Three layers: (1) **32 domains declare `overlaps`** (adjacent
   domain → one-line discriminator note, e.g. digital-humanities↔history: encoding work vs historical interpretation;

@@ -155,6 +155,14 @@ def build_parser() -> argparse.ArgumentParser:
     full_p.add_argument("--offline", action="store_true", help="skip the networked intel phase")
     full_p.add_argument("--json", action="store_true")
 
+    brief_p = sub.add_parser(
+        "brief",
+        help="render a paste-ready task brief (P32): refinement fields + plan + first actions + gates (draft, confirm before work)",
+    )
+    _add_task_args(brief_p)
+    brief_p.add_argument("--out", default=None, help="write the brief to a file instead of stdout")
+    brief_p.add_argument("--json", action="store_true")
+
     plugins_p = sub.add_parser(
         "plugins", help="list/validate third-party domain & template plugins"
     )
@@ -659,6 +667,27 @@ def _cmd_full_update(args: argparse.Namespace) -> int:
     else:
         print(full_update.render(report))
     return 0 if all(p["status"] != "error" for p in report["phases"]) else 1
+
+
+def _cmd_brief(args: argparse.Namespace) -> int:
+    from . import brief
+    from .spec import TaskSpec
+
+    # NOTE: brief.build runs classify+derive itself; CLI flags (--domain,
+    # --horizon, …) are passed through classify via TaskSpec.domain + the
+    # _overrides path inside build's classify call is not wired - the brief
+    # honours --task and --domain; feature overrides belong to `derive`.
+    task = TaskSpec(text=args.task, domain=getattr(args, "domain", None), goal=args.goal)
+    built = brief.build(task)
+    if args.json:
+        print(brief.to_json(built))
+    else:
+        if args.out:
+            brief.write_brief(built, args.out)
+            print(f"brief -> {args.out}")
+        else:
+            print(brief.render(built))
+    return 0
 
 
 def _cmd_plugins(args: argparse.Namespace) -> int:
@@ -1292,6 +1321,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_probe_domains(args)
     if args.command == "full-update":
         return _cmd_full_update(args)
+    if args.command == "brief":
+        return _cmd_brief(args)
     if args.command == "plugins":
         return _cmd_plugins(args)
     if args.command == "refresh":

@@ -950,6 +950,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P32",
+      "date": "2026-10-24",
+      "status": "done",
+      "title_en": "Task-brief round: `harness brief` renders a paste-ready execution draft",
+      "title_zh": "任务简报轮：`harness brief` 渲染可粘贴的执行简报",
+      "note": "The evaluation named two capability gaps: routing precision (P31 addressed intersections) and high-quality instruction/prompt generation. The latter's missing piece was a one-step 'goal -> executable brief': brief.py renders the requirement-refinement fields whose values the rules can compute (R0 restate, R2 hard/soft/assumed constraint tiers, R3's three offerings with mechanical deltas only - MVP / Elevated (horizon step + grounding upgrade) / Exploratory (the named intersections from P31)), the 8-axis feature vector with reasons, the module/capability plan, the domain workflow, first-phase actions (first workflow step + PLAN skeleton + declared evidence instrument + self-check), the gates, and an explicit R4/R5 confirm block. The brief is a DRAFT to confirm, never a licence to start (the refinement doc's WAIT rule, M0.4). CLI: `harness brief --task … [--domain D] [--out FILE] [--json]`. Guards: tests/test_brief.py (6 cases: all eight sections present, draft-not-licence wording, three tiers, plans differ between task shapes, json serializes, file write). Deliberately NOT added to the scoreboard: the brief reuses the same derive pipeline the five scoreboard tasks already pin (recorded).",
+      "slices": [
+        "P32.1 - brief.py: build (R0-R3 mechanical fields + features table + plan + workflow + first actions + instrument + gates) / render (bilingual eight-section markdown) / write_brief / to_json",
+        "P32.2 - CLI `harness brief` (--task/--domain/--goal/--out/--json) + README quickstart line",
+        "P32.3 - guards: tests/test_brief.py (6 cases); scoreboard addition deliberately declined (same pipeline already pinned)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
