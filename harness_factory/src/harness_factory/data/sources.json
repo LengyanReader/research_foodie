@@ -448,7 +448,7 @@
           "anthropic",
           "coding-agent"
         ],
-        "why": "Terminal coding-agent harness; skills, subagents, hooks."
+        "why": "Terminal coding-agent harness; skills, subagents, hooks; Agent Teams adds peer parallel-session coordination (R250, listed)."
       },
       {
         "id": "anthropic-mcp",
@@ -465,7 +465,7 @@
           "anthropic",
           "protocol"
         ],
-        "why": "Standard tool/resource/prompt interface for agents."
+        "why": "Standard tool/resource/prompt interface for agents; 2026-07-28 core revision: stateless requests, MRTR mid-call human input, Tasks extension, 12-month deprecation window (R244, spec GA read 2026-10-23)."
       },
       {
         "id": "anthropic-agent-sdk",

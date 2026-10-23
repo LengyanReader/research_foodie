@@ -212,6 +212,18 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 **Non-goals** 不评榜单、不给价格建议、不把厂商自报数字当已验证；不因为「某家这么做」就写成通用规则——每条子句只保留跨厂商成立的那部分，厂商专属处（preserved thinking）在文中写明范围。
 
+## P20 · 全网扫描轮（2026-10-23，已做）：披露标准、MCP 核心修订与两个已触发的回访线索
+
+> 用户问「加载本库 harness 能力系统，对全网 harness 研究与实践前沿做广泛调研，评估能否升级」。按库自己的治理跑：observe 半环先交提案 `review/harness-landscape-scan-2026-10.md`（含四切片、缩水条件与重访触发），用户确认后落地 apply 半环。**编号记录**：提案时写 P18，P18/P19 已被 2026-10-20 占用，改以 P20 登记并重编号扫描文档。三份一手材料全文读后，§5 三个缩水条件均未触发，四切片全量落地。
+
+- **① 披露标准 → 唯一新子句 M3.16。** arXiv:2605.23950（全文读，含 Appx. A 的 ETCSOVG 七层最小字段表）表明 harness 解释量可与模型同量级（单受控网格 HV/MV ≈ 7.8×、6/9 排名翻转，作者自声不具普遍性——按方向性数字载）。跨 harness 的比较必须附两侧配置卡 + 方差说明，协议只能是锁定 harness 换模型或双因子分解；它补足 M3.14/M3.15 的缺口（环境相同性 / 方差归属都未点名 harness）。**不加能力**：按主张类型触发；与 `component-ablation` 互为镜像，交叉表记 `review/harness-disclosure-2026-10.md`。
+- **② AST10 线索关闭（仅数据面）。** frontier §6b「skills 杠杆应指向它」已触发：`levers.json` security 便签 + `portable-skills`/`untrusted-content-discipline` 的 why 指向 OWASP AST10（R245，README 全文读）；判定与已 ingest 的 ASI01–10（R86）不重复（它打技能执行层：更新漂移、扫描缺失、供应链规模化）。不新增能力：M8.4/M3.11 已覆盖义务，缺的只是带引用的溯源。
+- **③ MCP 2026-07-28 核心修订消化（R244）。** 无不变量变化，四个映射落 `workflow-patterns-2026-10.md` §9：MRTR = M8 人类门的协议化记录状态；Tasks 扩展 = durable-execution 的原生收敛（`durable-execution` 的 why 指向它）；列表缓存提示 = context-budget 行；12 个月弃用窗口 = M7 exemplar。目录端 `mcp` 映射 M1,M6 → M1,M6,M2,M8。
+- **④ 数字刷新（方向性值，全部 *listed* 明标）。** METR 1.1（~1.1 h / ~105 天翻倍，R249）刷新 `long-horizon-autonomy-control` 的论证 grounding；Claude Code Agent Teams（R250）与 A2A 入 LF（R251）只作描述与标签行，不据此开子句；context-editing/memory 以参考参数回答进 `context-budget-policy` 的 why（`platform.claude.com` 仍封锁，机制线只认 R237）。
+- **守卫与验证。** `P20ClauseAnchorTest` 5 个内容守卫（子句点名 ETCSOVG/两种协议/方差/标注，溯源行存在，§W 存在，levers/capabilities 引用落地）；references **§W R243–R251** + `.bib` 3 条；测试 279 → **284**；`cycle audit` 16 轮 · 0 硬 · 0 缺口。
+
+**Non-goals** 不做 harness 排行榜（场景即测件的反对证据已载明）；不新增能力（披露条款按主张类型触发）；trace-driven 自演化不随本轮带走（D1 保持自己的设计文档轮）；agent-judge 鲁棒性与 A2A/peer-session 再审只登记重访触发（D7/D8），不设排期。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - **自用轮（dogfood）。** 用 M4.15 审本库自己的文档：逐节标读者任务、找四类理解缺陷、修最坏的几处，并记录**新子句没抓住什么**——这是"新子句是否可用"的最便宜检验。触发：有人抱怨入口文档难读，或需要验证 M4.15/M4.17 的可操作性。
 - **记分轮。** 给本库一个最小的打分任务集，从而能真跑 `component-ablation`。它同时是 **P16.9 的重访触发**（"本库有打分任务集"），也是让 M5.12 对本库自己生效的唯一路径。触发：P17 的判据产生了可复用的评分口径。

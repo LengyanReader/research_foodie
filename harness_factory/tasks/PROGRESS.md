@@ -1,6 +1,19 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-20
+**Updated:** 2026-10-23
+
+---
+
+## 2026-10-23 · P20：全网扫描轮 —— 一条披露子句、MCP 核心修订消化、两个触发器关闭
+
+- **Ask（用户原话）。**「请先加载本项目中的 harness 能力系统，对全网涉及 harness 的研究和实践方向进行广泛调研，分析和评估是否可以进行一次项目更新和升级。」→「可以，请开始。」两个半环分开执行：observe 半环 `review/harness-landscape-scan-2026-10.md`（已提交 `a78e75e`），用户确认后落地 apply 半环（本轮）。**编号修正**：提案时写作 P18，但 P18/P19 已被 2026-10-20 两轮占用，实际以 **P20** 登记，scan 文档已重编号并标记 applied。
+- **读全 / 仅列。** 全文读三份：arXiv:2605.23950（含 Appx. A/B/E）、MCP 2026-07-28 GA 博客、OWASP AST10 README（十条风险 + 证据表）。§5 三个缩水条件经全文核验**均未触发**，四切片全量落地。其余信号只 *listed*（Agent Teams、METR 1.1、LHTB/PolyWorkBench/AgentIF、A2A/LF、context editing/memory 文档）；`platform.claude.com` 仍区域封锁，机制线只认 R237，不冒充新事实。
+- **落地的子句：M3.16**（`core/04`）「比较披露其 harness」：跨模型/跨 harness 的比较必须附两侧 **ETCSOVG 七层配置卡**（执行/工具/上下文/调度/观测/验证/治理）+ 方差说明，否则只能标注「不完整、可能误导」；合法协议只有两种——**锁定 harness 换模型**，或**双因子分解方差**（η²_p 须配 ω²/bootstrap 与排名翻转数）。证据数字按方向性载：单受控 3×3 网格 HV̄/MV̄ = 7.80×（run 级 8.72×/6.76×）、6/9 排名翻转，作者自声不具普遍性。反直觉细节一并记录：跨模型方差 H2 最小、H3 最大——控制既可吸收也可暴露模型差异。**不加能力**：它按*主张类型*触发而非特征向量（methodology-fit 同规则）；与 `component-ablation`（M5.12）互为镜像（剪枝拆一个 harness 内的部件，披露点名跨 harness 的配置）。
+- **数据面（P20.2/P20.3/P20.4，均 data-only）：** `levers.json` security 便签指向 AST10（技能执行层，与 R86 的 ASI01–10 **不重复**——更新漂移/扫描缺失等风险是它没有的）；`portable-skills`/`untrusted-content-discipline` 的 why 获得 AST10 溯源（R245）；`context-budget-policy` 获得 API 级参考参数（R237 委托 + R244 缓存提示）；`durable-execution` 的 why 指向 MCP Tasks 扩展；`long-horizon-autonomy-control` 记 METR 1.1 ~1.1 h/~105 天（R249，*listed，方向性*）；`harnesses.json` `mcp` 映射 M1,M6 → M1,M6,**M2,M8**（MRTR = M8 人类门的记录状态；Tasks = M2 持久执行），claude-code 条目补 Agent Teams（*listed*）；`sources.json` 两条 `why` 带日期回执。
+- **评审交付物：** 新 `review/harness-disclosure-2026-10.md`（全文读记录 + 交叉表 + 核验状态）；MCP 修订落在 `review/workflow-patterns-2026-10.md` **§9**（四个映射 + 明写「不改任何不变量」）；`references.md` **§W R243–R251**（3 全读 / 6 listed）+ `.bib` 3 条；`source-map.md` M3.16 行；frontier §6b 两条线索关闭（AST10、context-editing 参数化），agent-judge 仍开放（转 D7）。
+- **记录：** `cycles.json` P20（added：0 能力 / 0 域 / 1 子句 / 9 参考）；roadmap +4（P20.W1/W2 done；D7 agent-judge 鲁棒性；D8 A2A/peer-session 全文再审）。
+- **状态。** 测试 279 → **284**（`P20ClauseAnchorTest` 5 个内容守卫）；`cycle audit`：**16 轮 · 38 能力 · 35 子句 anchored · 0 硬问题 · 0 缺口**；重生成 `CAPABILITIES.md` / `HARNESS-MAP.md` / `review/harness-index.md`；按默认指示 commit，**不 push**。
+- **交接（下一轮可直接接手）。** ① trace-driven 自演化仍是最大结构缺口（D1，先设计文档再动代码）；② D7：出现可全文读的评价者鲁棒性一手材料时再开；③ D8：A2A 文本与 agent-teams 文档全文读后再判 M8 互操作子句；④ `references.bib` 欠账增至 R237–R242（本轮已另加 R243–R245，旧欠下次动 bib 时一并补）。
 
 ---
 

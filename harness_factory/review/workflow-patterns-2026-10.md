@@ -1,6 +1,6 @@
 # Workflow patterns 2026-10 — loop & graph engineering · 工作流模式（循环 / 图）
 
-**Updated:** 2026-10-18 · Companion to [`frontier-2026-10.md`](frontier-2026-10.md) (context · security · durability · spend · evals).
+**Updated:** 2026-10-23 (§9 P20 addendum; §1–§8 as of 2026-10-18) · Companion to [`frontier-2026-10.md`](frontier-2026-10.md) (context · security · durability · spend · evals).
 
 > **中文速览**
 > 问题：本仓库的 22 条能力已覆盖「上下文预算 / 不可信内容 / 持久执行 / 成本上限 / 评测驱动」，但**工作流本身的结构**（agent 循环、图/状态机编排）没有对应能力，模块层也只在 M2 里零散提到「预算」「心跳」。本文按一手资料核验 2025–26 收敛结论后，**新增 2 条通用能力**（`loop-discipline`、`graph-orchestration`），在 M2/M8 补上对应的模块条款，并修正 `langgraph` 的模块映射（M6,M7 → M2,M6,M7,M8）。**未新增**：`routing`/`prompt-chaining`/`reflection-loop` 等（已被模块或既有能力覆盖，另立能力只会变成"文档"）。**使用者侧**：`.harness/capabilities.local.md` 与 `harness learn`/`cases`/`evolve` 是回流通道，但 `updates/` 目前只有 `standard.json`——**尚无案例可整合**，如实记录。
@@ -93,3 +93,14 @@ So there is nothing harvested from consumers to integrate at this stage; the cha
 - Re-probe **ADK dynamic workflows** and whether a *dynamic* (model-refers-to-refers) topology needs vocabulary beyond `graph-orchestration`.
 - Watch **agent-graph observability** (`[R91]` OTel GenAI conventions, still *Development*) — a span tree per node is what makes a declared graph auditable.
 - Consider emitting a **loop-contract stanza** in `templates/` (goal state · budget · ground-truth check · stall rule) so `harness init` states it by default.
+
+## 9 · P20 addendum (2026-10-23) · MCP 2026-07-28 core revision digested · MCP 核心修订消化
+
+> 中文：MCP **2026-07-28 规范正式版**（`[R244]`，博客全文已读）改变了本库两条能力所注解的基座，但**不改任何不变量**——协议从传输侧重新确认了它们。四个映射：**MRTR**（服务端返回 `input_required`、客户端带答案重试）= 把「中途要人确认」协议化为记录状态（M8 人类门 + M0.7）；**Tasks 扩展** = `durable-execution` 的厂商收敛（AWS 贡献）；**列表缓存提示** `ttlMs`/`cacheScope` = 上下文预算从环境成本变成显式预算线（`context-budget-policy`）；**12 个月弃用窗口** = M7 变更治理的活样本。无新条款、无新能力；数据面改动：`harnesses.json` `mcp` 补 M2/M8 映射与摘要、`sources.json` 两条 `why` 改写、`capabilities.json` 四条 `why` 补溯源（R244/R245/R249/R237）。溯源与核验状态见 `references.md` §W 与 `data/cycles.json` P20。
+
+- **MRTR is the protocolized human gate (M8).** The server answers `resultType:"input_required"` and the client *retries* with `inputResponses` — held-open streams (elicitation/create, sampling/createMessage, roots/list) are replaced. Approval mid-call becomes recorded state carried by a request, not a connection held open: the durable-execution rule "human approval is recorded state" (M0.3/M0.7), now at the transport layer.
+- **Tasks extension = convergence on `durable-execution`.** `io.modelcontextprotocol/tasks` (contributed by AWS): long-running work as an addressable resource — poll `tasks/get`, update `tasks/update`. The capability predates the protocol; the protocol is confirmation, not a new requirement.
+- **List-cache hints are a context-budget line.** List responses gain `ttlMs`/`cacheScope` + deterministic ordering: refresh cost of tool lists becomes explicit and policy-able, instead of ambient. Annotated on `context-budget-policy`.
+- **A 12-month minimum deprecation window is an M7 exemplar.** Roots/Sampling/Logging and HTTP+SSE are deprecated with a *dated, bounded* migration window — deprecate → announce → window → remove, run by the spec itself. Cite as the change-governance exemplar (M7) next to the repo's own rounds.
+- **Stateless core is transport, not harness.** `initialize`/session and `Mcp-Session-Id` retired; per-request self-describing calls + `server/discover`. Effect on a harness: fewer session states to journal and fewer held-open failure modes — recorded for completeness; no clause changes because of it.
+- **Not a duplication of M3.16:** R244 changes the *substrate*; the disclosure clause (R243) governs *comparisons*. Both landed the same round via different outlets — see [`harness-disclosure-2026-10.md`](harness-disclosure-2026-10.md).

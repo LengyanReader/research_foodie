@@ -1,6 +1,6 @@
 # Frontier assimilation · 前沿整合（2026-10）
 
-**Updated:** 2026-10-18 · **Status:** applied (data + docs only; human-directed) · **Scope:** agent harness — context, security, durability, spend, evals.
+**Updated:** 2026-10-23 (§6b cue statuses closed by P20; §1–§6 body as of 2026-10-18) · **Status:** applied (data + docs only; human-directed) · **Scope:** agent harness — context, security, durability, spend, evals.
 
 > What the leading labs, security bodies, and practitioners converged on **this cycle**, and
 > which of it the capability system did not yet carry. Every claim traces to a primary
@@ -136,10 +136,21 @@ not a mechanism.
 ## 6b · Next-cycle cues · 下轮提示
 
 - Watch the **OWASP Agentic Skills Top 10 (AST10)** / *Agent Control Standard (ACS)* — if
-  skills carry risk, a `skills` lever should point at them.
+  skills carry risk, a `skills` lever should point at them. **Closed in P20 (2026-10-23):**
+  AST10 v1.0 shipped and its README was read in full (`[R245]`); the `security` lever in
+  `data/levers.json` and the provenance of `portable-skills` / `untrusted-content-discipline`
+  now point at it. It is **not** a 1:1 duplicate of the ASI01–ASI10 list already ingested
+  (`[R86]`) — it targets the skills execution layer (SKILL.md / skill.json / manifest.json /
+  package.json formats, MAESTRO-mapped). ACS remains a watch item.
 - Re-probe **context editing / memory tooling** as provider APIs stabilize; a
-  `context-budget-policy` *parameter* may beat prose.
+  `context-budget-policy` *parameter* may beat prose. **Answered as parameters in P20
+  (2026-10-23):** `context-budget-policy`'s provenance now binds the delegation mechanism to
+  `[R237]` (+ MCP list-cache hints `[R244]`); the `platform.claude.com/docs` pages were still
+  region-blocked, so the cue stays open *only* for a first-party docs read — no new mechanism
+  claim is made beyond R237.
 - Probe **robustness of agent judges** (evaluation integrity) before trusting any golden set.
+  **Still open** (P20 surfaced no full-read-grade primary source for it; related instrumentation
+  — LHTB's hidden fake-proof verifiers `[R246]` — is *listed* only).
 
 ## See also · 参见
 

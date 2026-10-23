@@ -1,11 +1,11 @@
-# Harness landscape scan · 2026-10-23 — what moved since the last assimilation, and what a next round (P18) could carry
+# Harness landscape scan · 2026-10-23 — what moved since the last assimilation, and what the next round (P20) carried
 
-**Updated:** 2026-10-23 · **Status:** research findings + **upgrade proposal only** (no SSOT edited; human-gated per M0.4/M0.8) · **Scope:** agent-harness research & practice across the web, diffed against this factory as of R242 / 12 cycles / 37 capabilities (2026-10-20).
+**Updated:** 2026-10-23 · **Status:** research findings + upgrade proposal — **applied as round P20 on 2026-10-23** (registry: `data/cycles.json` P20; assimilation note: [`harness-disclosure-2026-10.md`](harness-disclosure-2026-10.md)). Numbering note: this doc said "P18" when committed; P18/P19 were already registered on 2026-10-20, so the round runs as **P20**. · **Scope:** agent-harness research & practice across the web, diffed against this factory as of R242 / 12 cycles / 37 capabilities (2026-10-20).
 
-> 中文速览：这是 P17 收尾（2026-10-20）之后的一次**全网扫描轮（observe 半环）**。方法：一手来源抓取 → 与本库 R1–R242 语料和 `data/*.json` 做覆盖差集 → 按判别性四判据评估是否值得开一轮 **P18**。
+> 中文速览：这是 P17 收尾（2026-10-20）之后的一次**全网扫描轮（observe 半环）**。方法：一手来源抓取 → 与本库 R1–R242 语料和 `data/*.json` 做覆盖差集 → 按判别性四判据评估是否值得开一轮新循环（提案时写作 **P18**，落地时为 **P20**，因 P18/P19 已被 2026-10-20 的两轮占用）。
 > **三个已被一手核验的新增量**：① **arXiv:2605.23950《Stop Comparing LLM Agents Without Disclosing the Harness》**——把「harness 比模型更能决定长时程表现」形式化为 Binding Constraint Thesis，并给出**披露标准 + 方差分解协议**；这是本库立场的学界表述，现有语料**未收录**。② **MCP 2026-07-28 规范正式版**——无状态核心、MRTR（服务端中途要人确认的回合式请求）、Tasks 扩展（长任务）、缓存化 list、授权加固、12 个月弃用窗口；本库只收过其安全页（R87），**核心变化未消化**。③ **OWASP AST10 v1.0 已发布**——恰是 `frontier-2026-10.md` §6b 挂名的回访触发器，**触发条件已成立**。
 > 另有 5 组*listed（未深读）*信号（Claude Code Agent Teams、METR 1.1/105 天翻倍、长时程基准群、A2A 进 Linux Foundation、Anthropic context editing/memory tool）。
-> **评估结论：可以升级，且值得** —— 建议 P18 四个切片（见 §4），全部 data-only 或「子句+评审」级，不动引擎代码；其中披露判据与 AST10 两项通过四判据，其余按记录留档。任何落地改动**等用户确认后**再执行。
+> **评估结论：可以升级，且值得** —— 建议四个切片（见 §4），全部 data-only 或「子句+评审」级，不动引擎代码；其中披露判据与 AST10 两项通过四判据，其余按记录留档。用户已于 2026-10-23 确认，本轮以 **P20** 落地（深读后 §5 三个缩水条件均未触发）。
 
 ---
 
@@ -58,42 +58,44 @@ Checked against `review/references.md` (R1–R242), `data/capabilities.json` (37
 
 **Already well covered (no action):** durable-execution practice posts (R90 stands), Agent Skills open standard (P1 conformance + `agentskills.io` verified 2026-10-15; ~50 clients noted in P2/B review), lethal trifecta, CaMeL, budget caps, model-ranking-reversal *instances* (P16 ablation read the Distilling/SHarP papers directly — S1 generalizes what P16 practiced).
 
-## 4 · Upgrade evaluation · 升级评估（P18 提案，待确认）
+## 4 · Upgrade evaluation · 升级评估（P20 提案，已确认落地）
 
 **Verdict: yes — one round is justified, but a bounded one.** The three fetched signals are not "news noise": S1 gives the factory's *own thesis* an external, citable formalization with a protocol the factory can operationalize; S2 changes the substrate two existing capabilities annotate; S3 closes a **recorded** revisit trigger. Applying the four-part discriminating test (`integration-map` §0):
 
 | Slice | Kind | What lands | Passes the test because |
 |---|---|---|---|
-| **P18.1 · Harness disclosure assimilated** — S1 (+L3 as corroboration) | review + clause + data | new review note absorbing §2a-S1; a proposed clause **M3.16 "a comparison discloses its harness"** (any claim comparing agents across models/harnesses must attach or cite both harness configurations + a variance statement, else mark *incomplete*); crosswalk row vs `component-ablation` / `eval-driven-development`; refs R243–R246 | fires distinctly (only on comparative claims — not every task); maps to a real M3 clause; traceable (fetched); not a duplicate (ablation *removes* components on one harness; disclosure *names* harnesses across comparisons) |
-| **P18.2 · AST10 revisit closes** — S3 | data-only | skills lever in `data/levers.json` → AST10; `untrusted-content-discipline` / `portable-skills` provenance rows gain the AST10 citation; frontier §6b cue marked done in `cycles.json` roadmap | the round mechanism *exists for this*: a recorded `revisit_when` fired; a harness that emits `SKILL.md` files must track the security framework *for that format* |
-| **P18.3 · MCP 2026-07-28 core digested** — S2 | review + data | sources.json/harnesses.json refresh entries + dated receipts; short § in `review/workflow-patterns-2026-10.md` (or frontier companion): MRTR = protocolized human gate (M8), Tasks extension = vendor convergence on `durable-execution`, cache hints → context budget, **12-month deprecation window = M7 exemplar**; refs R247–R248 | two existing capabilities annotate a substrate that just changed materially; not updating is drift, and each mapping names a *different* face |
-| **P18.4 · Figure & status refresh (small)** — L1/L2/L4/L5 | data-only | METR 1.1 + 105 d (marked *directional, as of 2026-09*); Claude Code Agent Teams catalogued as a coordination topology (feeds `graph-orchestration` exemplars); A2A LF status line; context editing + memory tool registered as `context-budget-policy` **reference parameters** (no new capability) | keeps `sources.json` honest ("dates explicit"); the L5 item is a fired §6b cue answered as *parameter*, matching the cue's own wording |
+| **P20.1 · Harness disclosure assimilated** — S1 (+L3 as corroboration) | review + clause + data | new review note absorbing §2a-S1; a proposed clause **M3.16 "a comparison discloses its harness"** (any claim comparing agents across models/harnesses must attach or cite both harness configurations + a variance statement, else mark *incomplete*); crosswalk row vs `component-ablation` / `eval-driven-development`; refs (landed as R243–R248) | fires distinctly (only on comparative claims — not every task); maps to a real M3 clause; traceable (fetched); not a duplicate (ablation *removes* components on one harness; disclosure *names* harnesses across comparisons) |
+| **P20.2 · AST10 revisit closes** — S3 | data-only | skills lever in `data/levers.json` → AST10; `untrusted-content-discipline` / `portable-skills` provenance rows gain the AST10 citation (landed as R245); frontier §6b cue marked done in `cycles.json` roadmap | the round mechanism *exists for this*: a recorded `revisit_when` fired; a harness that emits `SKILL.md` files must track the security framework *for that format* |
+| **P20.3 · MCP 2026-07-28 core digested** — S2 | review + data | sources.json/harnesses.json refresh entries + dated receipts; short § in `review/workflow-patterns-2026-10.md` (landed as §9): MRTR = protocolized human gate (M8), Tasks extension = vendor convergence on `durable-execution`, cache hints → context budget, **12-month deprecation window = M7 exemplar**; refs (landed as R244) | two existing capabilities annotate a substrate that just changed materially; not updating is drift, and each mapping names a *different* face |
+| **P20.4 · Figure & status refresh (small)** — L1/L2/L4/L5 | data-only | METR 1.1 + 105 d (marked *directional, as of 2026-09*, R249); Claude Code Agent Teams catalogued as a coordination topology (R250, feeds `graph-orchestration` exemplars); A2A LF status line (R251); context editing + memory tool registered as `context-budget-policy` **reference parameters** (no new capability) | keeps `sources.json` honest ("dates explicit"); the L5 item is a fired §6b cue answered as *parameter*, matching the cue's own wording |
 
 **Deliberate non-additions (pre-recorded):**
 - **No `harness-disclosure` capability** — it keys on *claim type* (comparative), not on the feature vector; adding it would fire on nearly nothing or need a new axis → carried by clause M3.16 instead (same logic as `methodology-fit`, integration-map §2).
 - **No `memory-api` capability** for L5 — provider-specific mechanism; belongs as refs/params under `context-budget-policy` + M2.12, per the §6b cue itself.
 - **No new agent-team capability** — `graph-orchestration` + `cross-field-crew` already annotate M8; L1 is a catalog/exemplar update. If A2A+teams converge further, re-audit *after* full-text reads, not from snippets.
-- **P18 ≠ the trace-driven self-evolution round** — that remains the largest recorded gap (ASSESSMENT A.3 #2) and deserves its own round with a design doc first; folding it in would violate one-round-one-`added`-block (M5.10).
+- **P20 ≠ the trace-driven self-evolution round** — that remains the largest recorded gap (ASSESSMENT A.3 #2, roadmap D1) and deserves its own round with a design doc first; folding it in would violate one-round-one-`added`-block (M5.10).
 
 **Cost & reversibility:** all four slices are `data/*` + `review/*` + one `core/04` clause + generated-view regeneration (`catalog/capabilities/map --write`) + guard tests; **no engine code changes**; every slice is a separate revertible commit. Tests 242 → est. ~250 (M3.16 checklist + ref-continuity guards).
 
 ## 5 · What would change my mind · 推翻条件
 
-- If a full-text read of arXiv:2605.23950 shows the "disclosure standard" is only a reporting checklist already subsumed by `.harness/manifest.json` semantics, P18.1 shrinks to a refs + crosswalk row (still worth it as external validation of the factory's stance). *(Abstract read; full PDF not yet downloaded — deep-read is step 1 of the slice.)*
-- If AST10's ten risks all map 1:1 onto existing OWASP ASI01–ASI10 items already ingested (R86), P18.2 shrinks to a single provenance line. *(Project page read; the ten entries themselves not yet read.)*
-- If the MCP changelog turns out to be transport-only with no harness-layer semantics, P18.3 is data-only. *(Blog read in full; SEP-level detail not yet.)*
+*(Checked on 2026-10-23 against the full texts — **no shrink condition fired**; the round landed at full scope.)*
+
+- If a full-text read of arXiv:2605.23950 shows the "disclosure standard" is only a reporting checklist already subsumed by `.harness/manifest.json` semantics, P20.1 shrinks to a refs + crosswalk row (still worth it as external validation of the factory's stance). *(Checked: the full read shows a per-arm field taxonomy for **comparisons** plus a variance-decomposition protocol — the manifest describes one emitted run; purposes differ, M3.16 keeps full form.)*
+- If AST10's ten risks all map 1:1 onto existing OWASP ASI01–ASI10 items already ingested (R86), P20.2 shrinks to a single provenance line. *(Checked: the ten entries target the **skills execution layer** — formats SKILL.md/skill.json/manifest.json/package.json, MAESTRO-mapped, update-drift and scanning risks absent from ASI01–10 — not a 1:1 duplicate; slice keeps scope.)*
+- If the MCP changelog turns out to be transport-only with no harness-layer semantics, P20.3 is data-only. *(Checked: MRTR encodes mid-call human confirmation and Tasks encodes durable work — harness-layer semantics confirmed; §9 lands in workflow-patterns.)*
 
 ## 6 · Provenance & verification status · 核验状态
 
-- **Fetched (2026-10-23):** arXiv:2605.23950 abstract (full PDF *not* read — marked); MCP 2026-07-28 official blog post (full); OWASP AST10 project page (full; the AST10 list document itself *not* read).
+- **Fetched (2026-10-23, upgraded from abstract-only at proposal time):** arXiv:2605.23950 **read in full** incl. Appx. A/B/E; MCP 2026-07-28 official blog post (full); OWASP AST10 — project page and the **ten-risk README read in full**. See [`harness-disclosure-2026-10.md`](harness-disclosure-2026-10.md) §6.
 - **Listed (search-surfaced, not deep-read):** code.claude.com agent-teams docs · metr.org/time-horizons page · LHTB project page · arXiv:2607.06008 / 2608.05013 / 2605.10912 · LF A2A press release · platform.claude.com context-editing & memory-tool docs · openai.com AgentKit page. All marked *listed*; none used as a load-bearing fact.
 - **Secondary (orientation only, uncited):** winder.ai / cellcog / northflank / stacklok / explainx harness comparisons; totalum/taskade blogs.
 - **`[unverified]`:** nothing above is asserted beyond its status; the 105-day doubling figure is attributed to METR's own fit *as reported via secondary post* → treat as directional until read at metr.org directly.
-- Proposed new reference ids **R243–R248** continue the existing numbering (R1–R242); actual insertion into `references.md`/`.bib` happens only when a slice is applied.
+- Reference ids **R243–R251** were inserted into `references.md` §W / `references.bib` when the round applied (group §W, P20; the proposal-stage plan of R243–R248 expanded to R251 to carry the listed-only signals as pointers).
 
 ## See also · 参见
 
 - [`frontier-2026-10.md`](frontier-2026-10.md) — last assimilation + the §6b cues this scan closes/keeps.
 - [`integration-map-2026-10.md`](integration-map-2026-10.md) §0 — the discriminating test every slice above is graded against.
 - [`harness-ablation-2026-10.md`](harness-ablation-2026-10.md) — P16's internal ablation practice, of which S1 is the external generalization.
-- [`../tasks/PLAN.md`](../tasks/PLAN.md) — P17 status; P18 would open here on confirmation, registered in `data/cycles.json` with its own DoD (M5.10).
+- [`../tasks/PLAN.md`](../tasks/PLAN.md) — P17–P19 status; **P20 opened and closed here on 2026-10-23 (user-confirmed)**, registered in `data/cycles.json` with its own DoD (M5.10).

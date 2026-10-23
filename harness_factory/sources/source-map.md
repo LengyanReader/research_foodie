@@ -3,7 +3,7 @@
 > Which pattern came from which primary artifact. Keeps `core/` honest: every claimed pattern traces back.
 > 模式 ← 一手材料 的对照表。用于保证 `core/` 每条模式都可溯源。
 
-**Updated:** 2026-10-20 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18, 2026-10-19, 2026-10-20).
+**Updated:** 2026-10-23 · All URLs retrieved 2026-10-12 (rows: 2026-10-16, 2026-10-18, 2026-10-19, 2026-10-20, 2026-10-23).
 
 ---
 
@@ -34,6 +34,7 @@
 | M4 Provenance & integrity; injection-safe design | Willison lethal trifecta [15], [16]; design patterns paper [17]; repo citation-verify | practitioner + internal |
 | M4.10 Meaning-unit fidelity across languages (align by sense group; corroborate; gloss, never silently substitute) | Translation-quality standards ISO 17100 `[R120]`, ISO 5060 `[R121]`; interchange format XLIFF 2.2 `[R123]`; comparative stylistics Vinay & Darbelnet `[R124]`; dynamic equivalence Nida & Taber `[R125]`; cohesion Halliday & Hasan `[R122]`; MQM `[R126]` | standard + academic |
 | M3.15 Attribute the loss stage by stage (found → kept → used; first denominator over all items; scoring conventions stated) | LongHarness `[R128]` §3.4 (r1/r2/r3 funnel on OfficeQA Pro; V2 87.8% / 87.3% / 79.7%; exactly-correct episodes counted as passing r1–r2 by protocol); PaperQA2 `[R238]` (precision 85.2% / accuracy 66.0% / refusal 21.9%) | academic |
+| M3.16 A comparison discloses its harness (ETCSOVG seven-layer card per arm + variance statement; locked-harness or factorial protocol; otherwise mark *incomplete*) | Stop Comparing LLM Agents Without Disclosing the Harness `[R243]` (arXiv:2605.23950, read in full 2026-10-23; controlled 3×3 grid HV̄/MV̄ = 7.80×, 6/9 ranking reversals; Appx. A minimum-disclosure fields; authors disclaim universality); mirror-image relation to M5.12 ablation is internal reasoning | academic |
 | M4.16 A pointer is a claim about support (dangling / stale / unsupported; resolves against the active set; terminates at the source span) | LongHarness `[R128]` §2.3–2.4 (controller validates references against active evidence at submission; Fig. 4 shows a baseline returning a stale value after a recognised correction); PaperQA2 `[R238]` (page-level citation keys, "I cannot answer", cited-and-supported 86.1% vs 71.2%); GraphRAG `[R148]` App. E.3–E.4 as the prompt-only counter-example | academic |
 | M1.11 History you cannot rewrite must be summarized forward (compaction has a rewrite shape and an append shape; where the provider preserves reasoning, the summary is an addition and the original turns stay reachable) | Claude Opus 5.5 `[R239]` (preserved thinking forbids editing prior assistant context for accounts created on/after 2026-08-31); append-only ledger discipline already in M4.8 and M1.10 | vendor docs |
 | M2.13 Effort is a budget line, not a quality setting (set per stage against the gate; record it with the model id; cross-effort comparison is a settings comparison; cache pricing is part of the arithmetic) | Claude Opus 5.5 `[R239]` (low/medium/high/xhigh/max ladder; default effort reported to match Opus 5 at max for ~1/5 the cost; a benchmark table comparing one model at xhigh against another at high; $0.20 cache read vs $4 input per 1M) | vendor docs |

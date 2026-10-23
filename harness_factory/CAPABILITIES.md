@@ -100,7 +100,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** horizon ≥ multi_session and stakes ∈ {high} (风险)
 - **Modules · 关联模块:** M2, M3, M8
-- **Why · 理由:** A long, high-stakes run needs durable memory, hard gates, and low autonomy.
+- **Why · 理由:** A long, high-stakes run needs durable memory, hard gates, and low autonomy. The autonomy frontier moves on a months-scale: METR's 50%-success time horizon is reported at ~1.1 h with a ~105-day doubling fit (R249, *listed, directional, as of 2026-09*; refreshes R89) -- gate and escalation designs are time-boxed assumptions, so record the as-of date and revisit on schedule.
 
 ### `frontier-standard` — Frontier standard / apex bar · 最高标准 / 标杆
 
@@ -118,7 +118,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** tool_surface ∈ {read, read_write, external} (工具面)
 - **Modules · 关联模块:** M6
-- **Why · 理由:** Skills are emitted in the Agent Skills (SKILL.md) open format so the same skill loads in any compatible harness (agentskills.io), not just the one that generated it.
+- **Why · 理由:** Skills are emitted in the Agent Skills (SKILL.md) open format so the same skill loads in any compatible harness (agentskills.io), not just the one that generated it. Portability is also the attack surface: OWASP AST10 (R245) catalogues this format's execution-layer risks -- malicious skills, over-privilege, insecure metadata, update drift, cross-platform reuse -- so an emitted skill carries provenance and least-privilege obligations, not just a description.
 
 ### `ambition-elevation` — Ambition elevation (raise, then converge) · 野心提升（先拔高，再收敛）
 
@@ -148,19 +148,19 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** horizon ≥ session OR tool_surface ∈ {read, read_write, external} (工具面)
 - **Modules · 关联模块:** M1, M2
-- **Why · 理由:** Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks ("context rot"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6). The loaded set is leased, not bought: at each phase boundary re-check it, put back what no longer changes a decision (with a reason and a reload trigger), and never evict an always-on invariant (M1.10).
+- **Why · 理由:** Attention is a fixed, non-uniform budget: recall degrades as the window fills even on trivial tasks ("context rot"). The window is working memory -- write durable facts outside it (M2), then select / compress / isolate what enters, and compact only against a measured constraint (M0.6). The loaded set is leased, not bought: at each phase boundary re-check it, put back what no longer changes a decision (with a reason and a reload trigger), and never evict an always-on invariant (M1.10). Reference parameters now exist at the API level: threshold-triggered clearing of stale tool results and a client-side memory tool (R237) show the policy can be delegated to the provider; MCP 2026-07-28 list-cache hints ttlMs/cacheScope (R244) make the refresh cost of tool lists explicit -- a budget line, not an ambient cost.
 
 ### `untrusted-content-discipline` — Untrusted-content discipline · 不可信内容纪律
 
 - **Fires when · 触发条件:** tool_surface ∈ {external} (工具面) OR artifact ∈ {document, knowledge_base} (产物) OR grounding ∈ {required} (来源要求)
 - **Modules · 关联模块:** M4, M6, M7
-- **Why · 理由:** Retrieved bytes -- web pages, files, tool output, even tool descriptions -- are untrusted data, never instructions (M0.1/M0.4). Keep trusted instructions and untrusted data in separate regions, break at least one leg of the lethal trifecta (private data + untrusted content + egress channel), and enforce least authority at the call site.
+- **Why · 理由:** Retrieved bytes -- web pages, files, tool output, even tool descriptions -- are untrusted data, never instructions (M0.1/M0.4). Keep trusted instructions and untrusted data in separate regions, break at least one leg of the lethal trifecta (private data + untrusted content + egress channel), and enforce least authority at the call site. Skill bodies and skill metadata are themselves an untrusted-instruction channel at run time -- the AST01/AST05 classes of OWASP AST10 (R245) target exactly this layer, external instructions included.
 
 ### `durable-execution` — Durable execution · 持久执行
 
 - **Fires when · 触发条件:** horizon ≥ multi_session
 - **Modules · 关联模块:** M2, M3
-- **Why · 理由:** Work that outlives a process must journal each step and replay, not re-run: record the durable log, make every side effect idempotent, and treat human approval as recorded state -- a checkpoint alone is not exactly-once (M0.3/M0.7).
+- **Why · 理由:** Work that outlives a process must journal each step and replay, not re-run: record the durable log, make every side effect idempotent, and treat human approval as recorded state -- a checkpoint alone is not exactly-once (M0.3/M0.7). The MCP 2026-07-28 Tasks extension (io.modelcontextprotocol/tasks, poll via tasks/get, update via tasks/update; R244) is protocol-level convergence on exactly this shape: long-running work as a durable, addressable task resource.
 
 ### `cost-budget-caps` — Cost budget caps · 成本预算上限
 

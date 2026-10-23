@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-23",
   "note": "Unified, machine-readable harness catalog (SSOT). Classes x kinds x core-module maps x source. `tracked` cross-links an entry to data/sources.json by entity id. Prose explanation lives in review/harness-catalog.md; review/harness-index.md is generated from this file. The `instruments` class carries the scientific/formal evidence tools the discipline capabilities (formal-verification / dimensional-analysis / empirical-measurement) name; the claim->instrument map is reference/evidence-instruments.md.",
   "licenses": "Sources are cited (paper/repo/docs). Pricing/benchmark numbers, where any, are directional.",
   "classes": [
@@ -456,8 +456,8 @@
         "M6",
         "M7"
       ],
-      "summary_en": "Terminal agent with a skills/subagent model and permission gates.",
-      "summary_zh": "带技能/子 agent 模型与权限门禁的终端 agent。",
+      "summary_en": "Terminal agent with a skills/subagent model and permission gates; Agent Teams coordinates peer parallel sessions (distinct from parent-child subagents; listed, R250).",
+      "summary_zh": "带技能/子 agent 模型与权限门禁的终端 agent；Agent Teams 以对等并行会话协作（区别于父子子 agent；listed，R250）。",
       "url": "https://docs.anthropic.com/en/docs/claude-code",
       "tracked": "anthropic-claude-code",
       "verified": true,
@@ -1337,10 +1337,12 @@
       "ecosystem": "open",
       "maps_to": [
         "M1",
-        "M6"
+        "M6",
+        "M2",
+        "M8"
       ],
-      "summary_en": "Standard protocol for exposing tools/resources to agents.",
-      "summary_zh": "向 agent 暴露工具/资源的标准协议。",
+      "summary_en": "Standard protocol for exposing tools/resources to agents. 2026-07-28 core: stateless requests, MRTR mid-call human input (M8), Tasks extension for durable long-running work (M2), list-cache hints, 12-month deprecation window.",
+      "summary_zh": "向 agent 暴露工具/资源的标准协议。2026-07-28 核心修订：无状态请求、MRTR 中途人工输入（M8）、Tasks 扩展承载持久长任务（M2）、列表缓存提示与 12 个月弃用窗口。",
       "url": "https://modelcontextprotocol.io",
       "tracked": "anthropic-mcp",
       "verified": true,

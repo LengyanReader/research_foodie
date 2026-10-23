@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-19 · 203 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-23 · 203 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -89,7 +89,7 @@ harness catalog claude-code           # detail one entry
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
 | `anthropic-agent-skills` | Anthropic Agent Skills · Anthropic Agent Skills | 技能生态 | M1, M6 | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview |
-| `mcp` | Model Context Protocol (MCP) · 模型上下文协议 (MCP) | 协议 | M1, M6 | https://modelcontextprotocol.io · tracked:anthropic-mcp |
+| `mcp` | Model Context Protocol (MCP) · 模型上下文协议 (MCP) | 协议 | M1, M6, M2, M8 | https://modelcontextprotocol.io · tracked:anthropic-mcp |
 | `agentskills-standard` | Agent Skills standard · Agent Skills 标准 | 技能生态 | M1, M6 | https://agentskills.io/specification · tracked:agentskills |
 | `openclaw` | OpenClaw · OpenClaw | 技能生态 | M2, M6, M8 | https://github.com/openclaw/openclaw · tracked:openclaw |
 

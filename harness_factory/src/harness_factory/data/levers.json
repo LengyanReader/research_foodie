@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-23",
   "note": "How to close a rubric gap: dim -> harness modules (M0-M8) + catalog kinds to pull tools from. Consumed by `harness standard plan`. Anchors to Claude/Anthropic's documented practice where one exists.",
   "default": {
     "modules": ["M3", "M4"],
@@ -177,7 +177,7 @@
     "security": {
       "modules": ["M3", "M6", "M7"],
       "kinds": ["safety-framework"],
-      "note": "Threat-model; least privilege; sandbox the execution surface (capability: sandboxed-execution)."
+      "note": "Threat-model; least privilege; sandbox the execution surface (capability: sandboxed-execution). Where the harness emits skills, triage the skills execution layer against OWASP AST10 (R245): malicious / over-privileged skills, insecure metadata, update drift, weak isolation."
     },
     "docs": {
       "modules": ["M7"],

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20",
+  "updated": "2026-10-23",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -672,6 +672,41 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P20",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Scan round: the harness-disclosure standard, MCP 2026-07-28, and two fired revisit cues",
+      "title_zh": "扫描轮：harness 披露标准、MCP 2026-07-28 与两条已触发的回访线索",
+      "note": "A whole-web scan round (observe half: review/harness-landscape-scan-2026-10.md, committed 2026-10-23; apply half here). Numbering note: the scan proposed 'P18', but P18/P19 were already registered on 2026-10-20 - this round is P20 and the scan doc was renumbered accordingly. One clause, no capabilities, no domains: 3 signals read in full (arXiv:2605.23950, the MCP 2026-07-28 GA post, the OWASP AST10 README), 5 signals kept as *listed*; all three §5 shrink conditions were checked against the full texts and none fired. P20.1 lands M3.16 (a comparison discloses its harness: ETCSOVG card per arm + variance statement; locked-harness or factorial protocol) with checklist line and anti-pattern, crosswalked against `component-ablation` (M5.12 - the mirror: ablation removes parts within one harness, disclosure names the harness across comparisons); deliberately a clause, not a capability (fires on claim type, not the feature vector - the `methodology-fit` rule). P20.2 closes the frontier §6b AST10 cue (data-only: levers.json security note + `portable-skills` / `untrusted-content-discipline` provenance; AST10 is NOT a 1:1 duplicate of the ingested ASI01-10 list - it targets the skills execution layer). P20.3 digests the MCP core revision into workflow-patterns §9 + entity refresh (MRTR = protocolized human gate, Tasks = durable-execution convergence, cache hints = context-budget line, 12-month window = M7 exemplar; `mcp` catalog entry re-mapped to M2/M8). P20.4 refreshes figures as *directional* (METR 1.1 ~1.1h/~105d; Agent Teams catalogued; A2A/LF status line; context-editing/memory answered as reference parameters). Non-additions pre-recorded in the scan §4 and re-confirmed by the full reads: no harness-disclosure / memory-api / agent-team capability; trace-driven self-evolution (D1) stays out.",
+      "slices": [
+        "P20.1 - harness disclosure assimilated: arXiv:2605.23950 read in full incl. Appx. A/B/E (7.80x HV/MV on one grid, 6/9 reversals, authors disclaim universality - carried as directional); clause M3.16 + checklist + 'Unnamed-harness comparison' anti-pattern in core/04; crosswalk vs component-ablation / eval-driven-development / manifest semantics; review/harness-disclosure-2026-10.md; source-map row",
+        "P20.2 - AST10 revisit closed (data-only): levers.json security note points at the skills execution layer; portable-skills + untrusted-content-discipline why-fields cite R245; frontier §6b cue closed with the non-duplication verdict vs R86 recorded",
+        "P20.3 - MCP 2026-07-28 core digested: workflow-patterns-2026-10.md §9 (four mappings + stateless-core note); harnesses.json `mcp` entry M1,M6 -> M1,M6,M2,M8 with dated summaries; sources.json anthropic-mcp / anthropic-claude-code why-fields rewritten",
+        "P20.4 - figure & status refresh (data-only, marked *listed/directional*): METR 1.1 (~1.1 h, ~105-day doubling as of 2026-09) in long-horizon-autonomy-control's why; Claude Code Agent Teams in claude-code summaries (R250); A2A under LF as a status line (R251); context editing/memory answered as reference parameters on context-budget-policy (R237 + R244 cache hints) - platform.claude.com still region-blocked, so no new mechanism claim",
+        "P20.5 - evidence, guards and renumbering: references §W (R243-R251: 3 full-read, 6 listed) + header/verification-status updates + 3 bib entries; P20 guard tests (clause anchor, §W refs, lever note, capability why); views regenerated (catalog/capabilities/map --write); scan doc renumbered P18->P20 and marked applied"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [
+          "M3.16"
+        ],
+        "references": [
+          "R243",
+          "R244",
+          "R245",
+          "R246",
+          "R247",
+          "R248",
+          "R249",
+          "R250",
+          "R251"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -972,6 +1007,44 @@
       "title_en": "Add a `harness-pruning` domain",
       "reason": "pruning is a procedure over an existing harness, not a field of work; a domain routes by topic, which is the error the router's own rule warns against",
       "revisit_when": "pruning grows sub-procedures (partitioning, paired statistics, Pareto selection) that a domain index would genuinely organise"
+    },
+    {
+      "id": "P20.W1",
+      "status": "done",
+      "cycle": "P20",
+      "source": "review/frontier-2026-10.md §6b (watch OWASP AST10 / ACS)",
+      "title_en": "A skills lever points at OWASP AST10",
+      "reason": "the cue's own trigger ('if skills carry risk, a skills lever should point at them') fired when AST10 v1.0 shipped and its README was read in full (R245)",
+      "revisit_when": "done in P20.2 (levers.json security note + portable-skills / untrusted-content-discipline provenance; non-duplication vs ASI01-10 [R86] recorded; ACS remains a watch item)",
+      "done_in": "P20"
+    },
+    {
+      "id": "P20.W2",
+      "status": "done",
+      "cycle": "P20",
+      "source": "review/frontier-2026-10.md §6b (re-probe context editing / memory tooling)",
+      "title_en": "context-budget-policy reference parameters from provider APIs",
+      "reason": "the cue said a *parameter* may beat prose; MCP 2026-07-28 list-cache hints (R244) and the R237 delegation mechanism are exactly that shape",
+      "revisit_when": "done in P20.4 as parameters on context-budget-policy's why - the cue stays open only for a first-party docs read (platform.claude.com region-blocked again 2026-10-23)",
+      "done_in": "P20"
+    },
+    {
+      "id": "D7",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/frontier-2026-10.md §6b (robustness of agent judges)",
+      "title_en": "Agent-judge robustness pass before trusting any golden set",
+      "reason": "P20 surfaced no full-read-grade primary source on judge/verifier robustness; the adjacent instrumentation (LHTB hidden fake-proof verifiers, R246) is *listed* only and is not the cue's subject",
+      "revisit_when": "a primary source on evaluation integrity / judge robustness is readable in full and passes the discriminating test"
+    },
+    {
+      "id": "D8",
+      "status": "deferred",
+      "cycle": null,
+      "source": "review/harness-landscape-scan-2026-10.md §4 (pre-recorded non-additions)",
+      "title_en": "Re-audit A2A interop + peer-session topologies (Agent Teams) after full-text reads",
+      "reason": "the LF status change (R251) and Agent Teams (R250) are listed-only this session; deciding whether M8's interop clauses need a handoff-update rests on full texts, not search snippets",
+      "revisit_when": "A2A spec text and agent-teams docs are read in full, or a second vendor ships the same peer-session topology"
     }
   ]
 }

@@ -230,5 +230,55 @@ class P19ClauseAnchorTest(unittest.TestCase):
             self.assertIn(f"| {clause} ", text, f"{clause} has no source-map row")
 
 
+class P20ClauseAnchorTest(unittest.TestCase):
+    """P20 landed one clause (M3.16) and four data outlets; keep their objects.
+
+    Content-presence guards, not wording guards: the prose may be edited as
+    long as the clause still names the disclosure card, both valid protocols
+    and the *incomplete* fallback, and the AST10 / MCP / METR pointers stay
+    where the router and the audit can find them.
+    """
+
+    def test_disclosure_clause_names_the_card_and_both_protocols(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M3.16", text)
+        anchor = "A comparison discloses its harness (M3.16)"
+        self.assertIn(anchor, text, "M3.16 clause title missing")
+        section = text.split(anchor, 1)[1][:2600]
+        for token in ("ETCSOVG", "locked-harness", "factorial", "variance", "incomplete"):
+            self.assertIn(token, section, f"{token!r} missing from M3.16")
+
+    def test_disclosure_clause_has_checklist_line_and_antipattern(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIn("(M3.16).", text.split("## Checklist")[1], "no M3.16 checklist line")
+        self.assertIn("Unnamed-harness comparison", text, "M3.16 anti-pattern missing")
+
+    def test_m316_has_source_row(self):
+        text = _read(HARNESS / "sources/source-map.md")
+        self.assertIsNotNone(text)
+        self.assertIn("| M3.16 ", text, "M3.16 has no source-map row")
+
+    def test_group_W_refs_and_scan_renumbering(self):
+        text = _read(HARNESS / "review/references.md")
+        self.assertIsNotNone(text)
+        self.assertIn("## W.", text, "group W missing")
+        for ref in ("R243", "R244", "R245", "R251"):
+            self.assertIn(ref, text, f"{ref} missing from references.md")
+        scan = _read(HARNESS / "review/harness-landscape-scan-2026-10.md")
+        self.assertIsNotNone(scan)
+        self.assertIn("applied as round P20", scan, "scan doc not marked applied")
+
+    def test_ast10_mcp_and_metr_pointers_landed_in_data(self):
+        levers = _read(HARNESS / "src/harness_factory/data/levers.json")
+        self.assertIsNotNone(levers)
+        self.assertIn("AST10", levers, "security lever lost its AST10 pointer")
+        caps = _read(HARNESS / "src/harness_factory/data/capabilities.json")
+        self.assertIsNotNone(caps)
+        self.assertIn("R245", caps, "capability provenance lost the AST10 citation")
+        self.assertIn("tasks/get", caps, "durable-execution lost the MCP Tasks pointer")
+        self.assertIn("R249", caps, "long-horizon-autonomy-control lost the METR refresh")
+
+
 if __name__ == "__main__":
     unittest.main()
