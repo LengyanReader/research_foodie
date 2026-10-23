@@ -41,7 +41,7 @@ cost of *truthfulness or traceability*. Automated mechanisms may only **observe,
 they must never fabricate or mutate substantive output to close a task.
 
 **Design stance.** The compiler only *classifies, selects, and emits* — it never fabricates task
-substance (M0.4). Every derivation is logged in `.harness/manifest.json`. The refresh/evolution loop is
+substance (M0.4 — machines observe, humans decide). Every derivation is logged in `.harness/manifest.json`. The refresh/evolution loop is
 *observe-only*: it audits, counts, and ranks, then writes proposals under `updates/` for a human to
 merge (M0.8). See [`harness_factory/core/01-meta-principles.md`](harness_factory/core/01-meta-principles.md).
 
@@ -55,6 +55,8 @@ cd harness_factory
 # fastest path: set the config once (how to reference/use this repo as a skill), then give the task —
 # same turn or next. It reads harness_factory/SKILL.md and derives/emits the harness itself (no install). Or use the CLI:
 PYTHONPATH=src python -m harness_factory derive --task "write a literature review with citations" --json
+# the commands below use `harness` as shorthand for the CLI. Without an install, alias it first:
+#   alias harness='PYTHONPATH=src python -m harness_factory'
 harness derive --task "write a literature review with citations over several weeks"
 harness init   --task "add unit tests to the parser" --out ./my-task   # --out defaults to ./<slug>
 harness check  --dir ./my-task
@@ -113,10 +115,11 @@ harness is better.
 Google DeepMind, Meta, Mistral, DeepSeek, Moonshot/Kimi, …), **vendor harnesses** (Agents SDK, Claude Code, MCP,
 Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (Nature/Science/NeurIPS/ICML/ICLR/ACL/arXiv), **people**
 (Karpathy, Ilya, LeCun, Hassabis, …), **self-media** (Substack/YouTube/newsletters), **libraries** (Project
-Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), and **tools** (search:
+Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), **tools** (search:
 Exa/Tavily/Brave/SearXNG; academic: Semantic Scholar/Crossref/Scite; retrieval: FAISS/Qdrant; crawl:
-Trafilatura/Jina; screening: Rayyan/ASReview; eval: GAIA/BrowseComp/HLE). Feeds are RSS/Atom; YouTube `@handle`
-pages are resolved to channel feeds on the fly — `refresh`/`intel` pull them as **proposals only**.
+Trafilatura/Jina; screening: Rayyan/ASReview; eval: GAIA/BrowseComp/HLE), and **outlets** (per-field first-party
+portals/journals/databases/registries — the rows behind `reference/outlet-map.md`). Feeds are RSS/Atom; YouTube
+`@handle` pages are resolved to channel feeds on the fly — `refresh`/`intel` pull them as **proposals only**.
 
 ---
 

@@ -707,6 +707,28 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P21",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Dogfood round: M4.15 applied to the factory's own entry docs",
+      "title_zh": "自用轮：把 M4.15 用在入口文档上——10 处缺陷全修，5 处超出四缺陷",
+      "note": "The PLAN.md queue's dogfood candidate, triggered twice: the project evaluation (2026-10-23) flagged entry-doc readability, and M4.15 operability needed its cheapest real test. Method: per-section reader task + the four-defect search + SSOT cross-check over README.md / introduction.md / GUIDE.md / SKILL.md. 10 findings, 10 fixed: 5 caught by M4.15's search list (incl. the highest-value one - bare `harness` commands in both quickstarts with no alias/install note while L2 packaging is cancelled, so a new user's first command fails), 5 outside it (cross-doc drift: stale counts, a missing `outlets` group in a prose enumeration, a duplicated roadmap, a stale date, an overstated Python floor 3.11+ vs pyproject/CI 3.10). Repairs that generalize: date the claim (M0.1) and never render the same state twice (M0.5) - introduction §10's roadmap copy was compressed to a pointer. Non-additions recorded: no `cross-doc-consistency` clause (fires on nearly everything, cannot discriminate - the `methodology-fit` rule); revisit trigger: a drifted prose claim that leads an agent to do the wrong thing. M4.17 operability stays unexercised (no model runs in doc maintenance).",
+      "slices": [
+        "P21.1 - audit: per-section reader tasks + four-defect search + SSOT cross-check over README.md / introduction.md / GUIDE.md / SKILL.md; findings table in review/dogfood-m415-2026-10.md",
+        "P21.2 - fixes (10): README quickstart alias line (unstated precondition) + M0.4 gloss at first use + outlets group in the sources enumeration; introduction §3 domains 5 -> 30 disciplines/10 faculties (internal contradiction) + §4 alias line + §6 counts dated (9 topics/4 probes, 213 entities/8 groups) + §10 roadmap compressed to a pointer + Updated date; GUIDE §3 test-count comment de-numbered; SKILL.md Python 3.11+ -> 3.10+",
+        "P21.3 - what M4.15 did not catch, recorded: cross-document drift (5/10 findings) is a maintenance defect class outside the four comprehension defects; no new clause (M0.5, cannot discriminate); revisit trigger recorded",
+        "P21.4 - record & verify: P21 in cycles.json (0 capabilities / 0 domains / 0 clauses / 0 references); tests 289 OK; cycle audit 17 cycles 0 hard 0 gaps; views regenerated"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

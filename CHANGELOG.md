@@ -20,6 +20,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Docs round (P21) - dogfooding M4.15 on the entry docs.** The queue's dogfood candidate, opened on the project
+  evaluation's readability flag. Method: per-section reader tasks + the four-defect search + SSOT cross-check over
+  README.md / introduction.md / GUIDE.md / SKILL.md. 10 findings, 10 fixed: 5 caught by M4.15 (incl. the bare-`harness`
+  quickstarts — an unstated precondition now that L2 packaging is cancelled, so a new user's first command failed; the
+  M0.4 first-use gloss; introduction's 5-vs-30 domains self-contradiction; SKILL.md's Python 3.11+ floor corrected to
+  3.10+ per pyproject/CI) and 5 outside it (cross-doc drift: stale counts and dates, the missing `outlets` group in the
+  sources enumeration, introduction §10's duplicated roadmap compressed to a pointer). No new clause or capability:
+  `cross-doc-consistency` cannot discriminate (revisit trigger recorded in `review/dogfood-m415-2026-10.md`); M4.17
+  operability stays unexercised. Registered as P21 (0 capabilities / 0 domains / 0 clauses / 0 references); tests
+  unchanged at **289**; `cycle audit` 17 cycles, 0 hard, 0 gaps.
 - **Scan round (P20) - harness disclosure · MCP 2026-07-28 · two fired revisit triggers.** A round first proposed by a
   whole-web scan (`review/harness-landscape-scan-2026-10.md`) and applied as P20 after user approval (renumbered: P18/P19
   were already registered 2026-10-20). All three shrink conditions were checked against the primary texts and none fired.

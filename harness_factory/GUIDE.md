@@ -154,7 +154,7 @@ Run the tests (stdlib `unittest`, no deps) · 跑测试：
 
 ```bash
 cd harness_factory
-PYTHONPATH=src python -m unittest discover -s tests     # 132 tests OK
+PYTHONPATH=src python -m unittest discover -s tests     # tests OK (the count grows each round; see CHANGELOG)
 ```
 
 ---

@@ -2,7 +2,7 @@
 name: harness-factory
 description: Derive and scaffold the agent harness a task needs. Point a vibe-coding assistant at this repository plus a task goal, and it refines the ask first (restate -> raise ambition -> classify constraints -> confirm), routes the situation to the right capability, selects the right modules (M0-M8), records why, and emits a runnable harness (AGENTS.md, tasks/, .harness/) into the target project. Also tracks AI-harness sources and runs a bidirectional capability flow (concrete capabilities stay in the task; generalisable ones are proposed back). Use when setting up a new project/task's agent workflow, when an ask is vague or under-aimed and needs strengthening, or when asked to "configure a harness", "set up agent scaffolding", "add context/verification/memory discipline", or "profile a project for an agent".
 license: MIT
-compatibility: Agent Skills (SKILL.md) format; no code execution required for L0 (read-and-reason); Python 3.11+ for L1 (CLI from path).
+compatibility: Agent Skills (SKILL.md) format; no code execution required for L0 (read-and-reason); Python 3.10+ for L1 (CLI from path).
 ---
 
 # harness-factory · agent-native harness compiler

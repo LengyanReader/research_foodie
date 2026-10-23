@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-23 · P21：dogfood 轮 —— 把 M4.15 用在入口文档上（10 处缺陷全修；5 处超出四缺陷）
+
+- **触发。** PLAN 队列的自用轮候选两条触发齐了：同日项目评估点名入口文档可读性 + M4.15 需要最便宜的可操作性检验。按 M5.10 开轮：先定判据（四缺陷检索 + SSOT 交叉核对）再动手，交付 `review/dogfood-m415-2026-10.md`。
+- **M4.15 命中的 5 处（价值最高在前）。** ① **未声明前置条件**：README 与 introduction 两份 Quickstart 在「免安装」的 `PYTHONPATH=src python -m harness_factory` 形式后直接用裸 `harness` 命令，而 L2 打包已取消、没有东西会创建 `harness`——新用户第一条命令就失败；GUIDE §3 早有 alias 行，两份入口文档却没有，已按 GUIDE 方式补上。② README 首现 `(M0.4)` 未定义 → 加注「machines observe, humans decide」。③ introduction §3 列 4+general 域而 §10 同文档说 30 域 → 改「30 disciplines / 10 faculties」。④ SKILL.md 写 Python 3.11+，与 pyproject `>=3.10`、CI 3.10/3.12、GUIDE 3.10+ 矛盾 → 改 3.10+。
+- **M4.15 没抓住的 5 处：跨文档漂移（记录在案，不新增子句）。** 过期计数（GUIDE「132 tests OK」→ 去数字化指向 CHANGELOG；introduction §6「8 topics / 109 entities / 7 groups」→ 实测 9+4 / 213 / 8 并带 `as of` 日期）、漏列的组（README 来源枚举补 outlets）、**重复渲染的路线图**（introduction §10 停在 P11——M0.5 双重渲染即漂移源，压缩为指向 PLAN.md 的指针）、过期日期（Updated 2026-10-14 → 2026-10-23）。可推广修法：**声明带日期（M0.1）+ 同一状态不渲染两次（M0.5）**。**不新增 `cross-doc-consistency` 子句**：命中几乎所有文档工作、不判别；重访触发：漂移的散文声明**导致 agent 做错事**时再开。
+- **登记。** `cycles.json` P21（0 能力 / 0 域 / 0 子句 / 0 参考）；PLAN.md P21 节 + 队列候选行标记关闭；CHANGELOG 记轮。
+- **状态。** 测试 **289 OK**；`cycle audit` **17 轮 · 0 硬 · 0 缺口**；视图重生成（cycles.json 属 SSOT，按门禁跑 `catalog --write`）；M4.17 可操作性仍开放（文档维护不涉及模型运行，留待真正消费模型输出的轮次）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · 卫生项收尾（评估轮后续）：计数漂移修复 · bib 欠账清零 · CRLF 归一 · 防漂移守卫
 
 - **背景。** 项目评估（同日）点名 ASSESSMENT A.3 #6「手写计数漂移」的三个活例，按推荐顺序先做卫生清理；不另开能力轮（PLAN 卫生项约定）。全程只读 SSOT + 实测，不臆造数字（M0.4）。

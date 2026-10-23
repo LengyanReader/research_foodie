@@ -1,6 +1,6 @@
 # Introduction · harness-factory 简介
 
-**Updated:** 2026-10-14 · **Status:** working tool (P2) · **Version:** 0.1.0 · **License:** MIT
+**Updated:** 2026-10-23 · **Status:** working tool (P2) · **Version:** 0.1.0 · **License:** MIT
 
 > **Give any task the agent harness it needs — and keep that know-how current.**
 > 为任意任务生成它所需的 agent harness，并让这套 know-how 持续自我更新。
@@ -81,7 +81,7 @@ The library is *readable by humans*; the tool is *executable by agents*. `data/m
 
 ### Domains
 
-`research`, `knowledge-management`, `data-science`, `devops`, and a first-class `general` fallback. Domains only set **defaults** (artifact, grounding, workflow, signals), and an explicit cue in the task text (`report`, `dataset`, `注明来源`…) overrides the artifact/grounding default; the features still decide.
+30 disciplines across 10 faculties (from `research` to `digital-humanities` and `writing`), each with its own `domains/<id>/README.md`, plus a first-class `general` fallback. Domains only set **defaults** (artifact, grounding, workflow, signals), and an explicit cue in the task text (`report`, `dataset`, `注明来源`…) overrides the artifact/grounding default; the features still decide.
 
 ---
 
@@ -92,6 +92,8 @@ The library is *readable by humans*; the tool is *executable by agents*. `data/m
 #    then give the task (same turn or next). It reads SKILL.md and derives/emits the harness itself — no install.
 #    Deterministic path (L1), no install either:
 PYTHONPATH=src python -m harness_factory derive --task "…" --json
+# The rest of this file uses `harness` as shorthand for the CLI; without an install, alias it first:
+#   alias harness='PYTHONPATH=src python -m harness_factory'
 
 # 1. See the plan for a task (explainable: which rule fired, and why)
 harness derive --task "write a literature review with citations over several weeks"
@@ -172,13 +174,13 @@ Every emitted file is plain Markdown/Python — no lock-in, no runtime dependenc
 
 The knowledge base must not freeze. `harness refresh` runs `signal → audit → rank → proposal → journal`:
 
-- **Signals** from `data/watchlist.json` (8 topics + frontier probes), a local `updates/inbox.jsonl`, and optional LLM discovery.
+- **Signals** from `data/watchlist.json` (9 topics + 4 frontier probes, as of 2026-10-23), a local `updates/inbox.jsonl`, and optional LLM discovery.
 - **Audit** drops anything without a traceable url/arXiv-id/DOI (M4) and dedupes against the existing `review/` corpus.
 - **Report** a bilingual `updates/REPORT.md` with **hot topics** (frequency × recency) and **coverage gaps** (declared topics with zero hits) — the cue for boundary expansion.
 - **Human gate:** `refresh-apply` only writes merge stubs to `updates/proposals/`; a human edits the catalogs. Nothing is auto-merged, and everything is reversible by deleting `updates/`.
 - **Watermark:** the effective `since` date is persisted to `updates/state.json`, so repeated cycles only surface *new* items without passing `--since` each time.
 
-**Tracked entities (`data/sources.json`).** 109 entities across 7 groups — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), and **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
+**Tracked entities (`data/sources.json`).** 213 entities across 8 groups (as of 2026-10-23) — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools), and **outlets** (per-field first-party portals/journals/databases/registries). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
 
 **Intel (`harness intel`).** Pulls those feeds, scores relevance (topic keywords + entity mention + recency), tags by topic/entity, and writes a bilingual `updates/INTEL.md` + `updates/intel.jsonl`. Briefs are verbatim excerpts unless an LLM summary is configured (`llm.summarize`).
 
@@ -245,18 +247,8 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 
 ## 10. Status & roadmap
 
-- **P0 done** — pattern library.
-- **P1 done** — CLI compiler (`derive`/`init`/`explain`/`check`), rules engine, stdlib tests.
-- **P1.5 done** — self-update loop (`refresh`/`refresh-apply`), watchlist, curate, journal, scheduler.
-- **P1.6 done** — cross-project packaging: user-home KB (`HARNESS_HOME`), `doctor`, `self-update`, re-rooted `refresh`; installable via `uv tool install`.
-- **P1.7 done** — intel tracking (`data/sources.json`, 109 entities, feed/YouTube collection) + self-evolution loop (`evolve`, metrics, proposal gate) + CLI `sources`/`intel`/`evolve`/`evolve-apply`.
-- **P1.8 done** — agent-native mode (`SKILL.md`, `reference/derivation-rules.md`, `harness skill`) + project learning (`profile`/`learn`/`cases` + `missing_capability` audit) + capability mechanism (`data/capabilities.json`); packaging cancelled.
-- **P2 (disciplines + catalog + frontier standard)** — disciplines expanded to **30** (faculty-level taxonomy) with domain READMEs; unified **harness catalog** (`data/harnesses.json`, 196 entries), `catalog` CLI + generated `review/harness-index.md` with drift guard; domains discoverable via skill/index. **Frontier standard** is now executable: `standard.py` + `harness standard bar|score|audit|raise|plan|frontier`, per-domain rubrics (`data/rubrics.json`), gap→lever map (`data/levers.json`), and the `stale_frontier` audit. The **writing** domain is registered in the SSOT (`data/domains.json` + `data/rubrics.json`), so `--domain writing` is selectable. **Agent Skills conformance**: emitted M6 skills use the portable `SKILL.md` format, and Hermes Agent + peers are tracked in the SSOT (see `CAPABILITIES.md` + `tasks/ASSESSMENT.md`). Remaining P2 slices: LLM discovery/classification hardening; feed/entity coverage expansion.
-- **P3 done** — runtime hooks: `runtime.py` — **gate runner** (`harness gate`: structural check + executes the emitted `.harness/check.py`; hard gates decide the exit code, M2/M4/M6/M8 gates are advisory) and **signal harvest** (`harness harvest`, observe-only → `<kb>/updates/signals.jsonl`).
-- **P4 done** — plugin protocol: `plugins.py` — read-only third-party `domain`/`template` plugins (`HARNESS_PLUGINS_DIR`), merged over the SSOT, strictly validated, CLI `harness plugins`.
-- **P5 done** — frontier assimilation + bidirectional capability flow: distilled *ambition* sources into 4 new capabilities (`ambition-elevation`, `expert-instruments`, `cross-field-crew`, `bidirectional-capability-flow`) and three reference docs (`capability-router.md`, `requirement-refinement.md`, `capability-flow.md`); the emitted harness now carries a **task-local capability ledger** (`.harness/capabilities.local.md`); the standing-reference convention is documented in `SKILL.md` + both root READMEs and emitted into `AGENTS.md` (guarded by `tests/test_standing_reference.py`); review [`ambition-and-agency.md`](review/ambition-and-agency.md) + refs R80–R83.
-- **P10 done** - mathematics, statistics & methodology systems: `statistics` + `geometry-topology` domains, `statistical-inference` + `certified-computation` capabilities (clauses M3.11-M3.12), 23 new instruments (catalog 160 → 183), the methodology layer (`reference/methodology-map.md` + clause M3.13, no `methodology-fit` capability by design), and the scope roadmap `review/integration-map-2026-10.md`; refs R111-R119.
-- **P11 done (2026-10-19)** - cross-language meaning-unit fidelity (clause **M4.10** + `reference/cross-language.md`; no `cross-language` capability by design) and per-field information outlets (new `outlets` group in `data/sources.json`, **68** entries + `reference/outlet-map.md`); refs R120-R126.
-- **Generated views** — [`CAPABILITIES.md`](CAPABILITIES.md) (per capability) and [`HARNESS-MAP.md`](HARNESS-MAP.md) (the whole factory on one page: modules · capabilities · domains · CLI · how to sync) are rendered from the SSOT (`harness capabilities --write` / `harness map --write`, also `harness catalog --write`) and drift-guarded.
-
-See `tasks/PLAN.md` (plan), `tasks/PROGRESS.md` (log), and `tasks/DISTRIBUTION.md` (packaging & tool-form evaluation).
+**The live roadmap lives in [`tasks/PLAN.md`](tasks/PLAN.md)** (rounds, next-round worklist, non-goals) with the
+machine-readable registry in `data/cycles.json` (`harness cycle audit`). This section is deliberately a pointer,
+not a copy — a second rendering of the roadmap is a drift source (M0.5): rounds P0–P20 are done as of 2026-10-23,
+and [`CHANGELOG.md`](../CHANGELOG.md) records each round's counts and sources. Packaging history and the tool-form
+decision: [`tasks/DISTRIBUTION.md`](tasks/DISTRIBUTION.md).
