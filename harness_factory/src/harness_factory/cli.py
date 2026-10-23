@@ -123,6 +123,16 @@ def build_parser() -> argparse.ArgumentParser:
     scoreboard_p.add_argument("--task", default=None, help="run one task id instead of all")
     scoreboard_p.add_argument("--json", action="store_true")
 
+    trace_audit_p = sub.add_parser(
+        "trace-audit", help="audit recorded traces into mutation proposals (D1 stage B, offline)"
+    )
+    trace_audit_p.add_argument(
+        "--root", "--data-dir", dest="root", default=None,
+        help="knowledge-base dir with updates/traces.jsonl (default: user home)",
+    )
+    trace_audit_p.add_argument("--no-write", action="store_true", help="report only; write nothing")
+    trace_audit_p.add_argument("--json", action="store_true")
+
     plugins_p = sub.add_parser(
         "plugins", help="list/validate third-party domain & template plugins"
     )
@@ -570,6 +580,28 @@ def _cmd_scoreboard(args: argparse.Namespace) -> int:
         print(json.dumps(reports, ensure_ascii=False, indent=2))
     else:
         print(scoreboard.render(reports))
+    return 0
+
+
+def _cmd_trace_audit(args: argparse.Namespace) -> int:
+    from . import config, trace_audit
+
+    problems = trace_audit.validate_rules()
+    if problems:
+        print("trace rules invalid:", "; ".join(problems), file=sys.stderr)
+        return 1
+    if args.root:
+        kb_root = args.root
+    else:
+        config.ensure_home()
+        kb_root = str(config.home())
+    proposals = trace_audit.audit(kb_root)
+    if not args.no_write and proposals:
+        trace_audit.emit(kb_root, proposals)
+    if args.json:
+        print(json.dumps(proposals, ensure_ascii=False, indent=2))
+    else:
+        print(trace_audit.render(proposals))
     return 0
 
 
@@ -1198,6 +1230,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_collect(args)
     if args.command == "scoreboard":
         return _cmd_scoreboard(args)
+    if args.command == "trace-audit":
+        return _cmd_trace_audit(args)
     if args.command == "plugins":
         return _cmd_plugins(args)
     if args.command == "refresh":

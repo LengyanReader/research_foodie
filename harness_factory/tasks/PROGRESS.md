@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-23 · P25（D1 阶段 B）：规则审计器 —— 把轨迹自动变成提案
+
+- **开轮依据。** 评估结论「自动化拼图缺的那块」：P22/P24 采集的事实没有任何东西把它们转成提案。按 D1 设计文档 §3 开阶段 B，先于任何晋升（M0.4/M0.8）。
+- **落地。** ① `data/trace-rules.json`：5 条规则（gate-miss-repeat → Deepen · capability-unused-repeat → Archive · re-derive-repeat → Promote · correction-focus → Deepen · **low-outcome → Deepen**——P24 effect 轴的回流：`task_outcome` 数字分 ≤2 计，等级串留给人类）。② `trace_audit.py`：validate（未知事件/变异词表/group_by 拒）→ audit（按模式分组、过阈值出提案）→ emit（只写 `updates/traces-proposals.jsonl` + `TRACE-EVOLUTION.md`，**绝不碰 data|core|domains|templates**）。③ CLI `harness trace-audit [--root] [--no-write] [--json]`（离线）。
+- **自己埋自己修的两个错。** low-outcome 的 group_by 误写 detail.task（task 是顶层字段）；测试断言 updates 目录含 trace-rules.json（它在 data/）——写测试即审己（M3）。
+- **守卫。** `tests/test_trace_audit.py` **7 用例**（规则合法 · 幻影名拒 · 各规则阈值触发/不足静默 · low-outcome 只计数字分 · emit 只写日志+报告）。
+- **登记。** cycles.json **P25**（0 能力 / 0 域 / 0 子句 / 0 参考）；D1 `revisit_when` 更新（B 已落地；C 待用户开或第一份 measured 收据）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P24：效果反馈轮 —— task_outcome 事件 + 记分集 effect 轴
 
 - **开轮依据。** 用户确认评估建议（「双向流补上结果侧采集 + 留出集补效果轴，第一步由真实任务自然完成」）。评估的两个事实支撑：双向流能回传的 6 个 trace 事件**全是过程/失败形状**，没有「任务最终做得多好」的通道；P23 留出集 5 轴全是结构轴，D1 阶段 C 即使开闸也**检验不了效果提升**。

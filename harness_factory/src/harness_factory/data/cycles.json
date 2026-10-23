@@ -792,6 +792,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P25",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "D1 stage B: the rules auditor turns recorded traces into proposals",
+      "title_zh": "D1 阶段 B：规则审计器——把轨迹自动变成提案",
+      "note": "Stage B of the D1 design doc: the missing half of the automation puzzle, now that P22/P24 collect facts but nothing converts them. data/trace-rules.json (five rules: gate-miss-repeat / capability-unused-repeat / re-derive-repeat / correction-focus / low-outcome - the P24 effect axis feeding back) + trace_audit.py group traces by pattern and emit M5.3-vocabulary proposals to updates/traces-proposals.jsonl + TRACE-EVOLUTION.md only. The auditor never touches data|core|domains|templates (M0.4/M0.8); a measured promotion additionally needs the holdout (stage C, P23 scoreboard). CLI: `harness trace-audit [--root] [--no-write] [--json]`. No clauses or capabilities: the rules are data, and the guardrails live in the design doc.",
+      "slices": [
+        "P25.1 - data/trace-rules.json: five rules (event, group_by on detail or top-level keys, min_count, M5.3 mutation, target, why); low-outcome counts only numeric scores at or below score_max - grade strings stay human territory (P24 discipline)",
+        "P25.2 - trace_audit.py: validate_rules (unknown event/mutation/group_by rejected), audit (pattern grouping), emit (journal + report only), render; CLI `harness trace-audit`",
+        "P25.3 - guards: tests/test_trace_audit.py (7 cases: rules valid, phantom names rejected, each threshold fires, below-threshold silent, low-outcome numeric-only, emit writes journal+report only); D1 revisit_when updated (B landed; C waits on the user or a first measured receipt)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -865,7 +886,7 @@
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
       "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code",
-      "revisit_when": "the design doc is accepted (updates/2026-10-23-trace-driven-evolution-design.md) and stage B (rules auditor) opens on the P22 schema; stage C additionally needs the scored task set (P16.9 / P23)"
+      "revisit_when": "stage C (measured promotion) opens when the user opens it or a first measured effect receipt lands; the holdout exists (P23) and the auditor feeds proposals (P25)"
     },
     {
       "id": "D2",

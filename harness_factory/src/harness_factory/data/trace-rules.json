@@ -1,0 +1,52 @@
+{
+  "updated": "2026-10-23",
+  "note": "Rules auditor for D1 stage B (P25): turns recorded traces into mutation proposals. Each rule names the trace event, the pattern (grouping keys + min count), the proposed mutation (M5.3 vocabulary) and the target. The auditor only proposes (updates/traces-proposals.jsonl + TRACE-EVOLUTION.md) - never touches data|core|domains|templates (M0.4/M0.8). Patterns come from the D1 design doc §3; the low-outcome rule is the P24 effect axis feeding back. 'score_max' rules fire only on numeric scores; grade strings are human territory.",
+  "rules": [
+    {
+      "id": "gate-miss-repeat",
+      "event": "gate_miss",
+      "group_by": "detail.failed_gates",
+      "min_count": 3,
+      "mutation": "Deepen",
+      "target": "the gate named by detail.failed_gates",
+      "why": "The same gate failing across three or more projects is a fact about the gate's clause, not about the projects: its executable form is missing or wrong (M3 checklist)."
+    },
+    {
+      "id": "capability-unused-repeat",
+      "event": "capability_unused",
+      "group_by": "detail.capability",
+      "min_count": 3,
+      "mutation": "Archive",
+      "target": "the capability named by detail.capability",
+      "why": "A capability that is matched but never referenced across three projects either has no operational surface (Archive) or a mis-set trigger (then Deepen instead); both are registry defects (M5.3 vocabulary)."
+    },
+    {
+      "id": "re-derive-repeat",
+      "event": "re_derive",
+      "group_by": "detail.task_family",
+      "min_count": 2,
+      "mutation": "Promote",
+      "target": "default parameters or domain signals for the task family",
+      "why": "The same task family being re-derived means the first selection was insufficient twice; the default the engine picked for that family is the thing to change."
+    },
+    {
+      "id": "correction-focus",
+      "event": "human_correction",
+      "group_by": "detail.capability",
+      "min_count": 2,
+      "mutation": "Deepen",
+      "target": "the capability named by detail.capability",
+      "why": "A human correction is the strongest signal the loop has; two corrections concentrated on one capability mean its operating manual has a hole."
+    },
+    {
+      "id": "low-outcome",
+      "event": "task_outcome",
+      "group_by": "task",
+      "min_count": 2,
+      "score_max": 2,
+      "mutation": "Deepen",
+      "target": "the harness of the task family named by detail.task",
+      "why": "P24's effect axis feeding back: two measured low outcomes on the same task family is evidence the emitted harness does not achieve its effect, not just that its structure is wrong."
+    }
+  ]
+}

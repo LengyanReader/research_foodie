@@ -269,6 +269,10 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
   消融第二问 · 非目标改写）。**留给使用侧的**：第一个真实任务的 `task_outcome` 与第一份 effect 收据（L1/L2 证据）；
   第一次消融实跑（L3）。
 
+## P25 · D1 阶段 B（2026-10-23，已做）：规则审计器——把轨迹自动变成提案
+
+> D1 设计文档 §3 落地：`data/trace-rules.json` 5 条规则 + `trace_audit.py`，轨迹 → 按模式分组 → M5.3 词表提案 → 只写 `updates/traces-proposals.jsonl` + `TRACE-EVOLUTION.md`；`harness trace-audit` 离线可跑。low-outcome 规则把 P24 的 effect 轴回流成 Deepen 提案（数字分 ≤2 才计，等级串留人）。登记 P25（0/0/0/0）；D1 触发更新：阶段 C（带测量晋升）待用户开或第一份 measured 收据。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

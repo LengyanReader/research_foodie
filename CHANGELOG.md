@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Trace-audit round (P25 · D1 stage B) - the rules auditor turns recorded traces into proposals.** The missing half of
+  the automation puzzle: `data/trace-rules.json` (five rules: gate-miss-repeat · capability-unused-repeat ·
+  re-derive-repeat · correction-focus · low-outcome — the P24 effect axis feeding back) + `trace_audit.py` group traces
+  by pattern and emit M5.3-vocabulary proposals to `updates/traces-proposals.jsonl` + `TRACE-EVOLUTION.md` only —
+  never touching `data|core|domains|templates` (M0.4/M0.8). `low-outcome` counts only numeric scores at or below the
+  threshold; grade strings stay human territory. CLI: `harness trace-audit` (offline). D1's revisit trigger now points
+  at stage C (measured promotion). No clauses or capabilities; `tests/test_trace_audit.py` 7 guards.
+  **315 → 322 tests**; `cycle audit` 21 cycles, 0 hard, 0 gaps.
 - **Scoring round (P23) - a minimal scored task set for the factory's own harness.** Closes P16.9's revisit trigger
   and gives `component-ablation` (M5.12) a holdout, and D1 stage C its dependency. `data/scoreboard.json` +
   `scoreboard.py`: 5 canonical tasks (lit-review / unit-tests / kg-dh / deep-research / model-choice) scored on five
