@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-10-24 · P30：一句话轮 —— `harness full-update` 串起完整观察环
+
+- **开轮依据。** 用户问「说一声『全面更新 harness』是否就能触发以上所有」——诚实回答：还没有（六个半环是分开的命令），缺的是编排层。本轮补齐。
+- **落地。** ① `full_update.py`：六个半环按序串联（intel → probe-domains → trace-audit → evolve → cycle audit → scoreboard），**每相失败隔离**（一相报错、其余照跑，绝不伪造完成——M0.3），最后写一份双语报告 `updates/FULL-UPDATE.md`，以**人工裁决行**收尾（M0.4/M0.8）。CLI `harness full-update [--root] [--since] [--offline] [--json]`；任一相 error 则退出码 1。② **接线四处的「一句话」UX**：SKILL.md 第 8 步（agent 的 L0 六步等效程序）、capability-router 加「全面更新 harness」情境行、README quickstart 一行、工作区 AGENTS.md 常驻引用补一句、refresh.ps1 调度器改为 refresh + `full-update --offline`。③ 守卫 `tests/test_full_update.py` 2 用例。
+- **实测（CLI smoke，离线 + 临时 kb）。** 六相全部 ok（probe 0 簇 · trace 0 提案 · evolve 1 提案 · cycle audit 0 硬 0 缺口 · scoreboard 1.0/5 任务），报告以人工裁决行收尾。
+- **登记。** cycles.json **P30**（0 能力 / 0 域 / 0 子句 / 0 参考——它是既有机制的**组合**，M0.5）。测试 **334 → 336**（+2）全过；`cycle audit` **26 轮 · 0 硬 · 0 缺口**；HARNESS-MAP 重生成（新子命令）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P29：跨学科与前沿域 —— 检视 + 自动发现机制
 
 - **开轮依据。** 用户两问：跨学科/超学科与前沿域能否整合？未提到的域能否让工厂**自动发现**？

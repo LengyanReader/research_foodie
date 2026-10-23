@@ -36,6 +36,7 @@
 | Work that will span sessions / be resumed · 跨会话、需续接 | `resumable-memory`, `self-improving-loop` | M2, M5 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/06-self-evolution.md`](../core/06-self-evolution.md) |
 | Long context / tool output floods the window · 上下文膨胀 | `context-budget-policy` | M1, M2 | [`core/02-context-engineering.md`](../core/02-context-engineering.md), [`core/03-long-running-agents.md`](../core/03-long-running-agents.md) |
 | Work must survive a crash and resume exactly · 需抗崩溃续跑 | `durable-execution` | M2, M3 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md) |
+| "Fully update the harness" · 「全面更新 harness」 | `self-improving-loop`（工具路径，非能力） | M5 | [`core/06-self-evolution.md`](../core/06-self-evolution.md)；CLI：`harness full-update`（离线加 `--offline`）→ `updates/FULL-UPDATE.md`（只提案） |
 | Claims/citations/Facts must be traceable · 结论要可溯 | `traceable-sources` | M4 | [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md) |
 | Untrusted docs / tool output / MCP servers · 接触不可信内容 | `untrusted-content-discipline` | M4, M6, M7 | [`core/05-provenance-and-integrity.md`](../core/05-provenance-and-integrity.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
 | Runs where nobody watches the spend · 无人值守的花费 | `cost-budget-caps` | M3, M7 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/08-change-governance.md`](../core/08-change-governance.md) |

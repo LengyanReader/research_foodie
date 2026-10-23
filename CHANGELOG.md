@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **One-instruction round (P30) - `harness full-update` chains the whole observe loop.** Saying 「全面更新 harness」 now
+  triggers everything: `full_update.py` chains intel (networked, `--offline` skips) → probe-domains → trace-audit →
+  evolve → cycle audit → scoreboard, each phase failure-isolated (a failing phase reports and the rest still run —
+  never faked, M0.3), ending in one bilingual report `updates/FULL-UPDATE.md` with the human-gate line (M0.4/M0.8).
+  Wired for the phrase: SKILL.md step 8 (the L0 six-phase procedure), a capability-router row for the situation, the
+  README quickstart line, the workspace AGENTS.md standing-reference addendum, and refresh.ps1 now runs refresh +
+  `full-update --offline`. No new clauses/capabilities/domains — it is composition of existing mechanisms (M0.5).
+  **334 → 336 tests**; `cycle audit` 26 cycles, 0 hard, 0 gaps.
 - **Interdisciplinary & frontier round (P29) - the audit and the automated finder.** 12 interdisciplinary/frontier
   tasks classified empirically (2026-10-23), four verdicts: composition (most are work-type combinations already
   covered - M0.5), signal fixes (2 real misroutes: bioinformatics `pipeline` → devops, interpretability `circuit` →

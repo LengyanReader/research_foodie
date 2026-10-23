@@ -89,6 +89,8 @@ harness intel   --since 2026-01-01       # pull tracked feeds -> updates/INTEL.m
 harness evolve                           # coverage/gap audit -> updates/EVOLUTION.md (proposals)
 harness evolve --dry-run                 # same, write nothing
 harness evolve-apply --accept <id|target>
+harness full-update                      # one instruction: the whole observe loop -> updates/FULL-UPDATE.md
+                                         #   (intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard)
 ```
 
 **Consumption modes.** L0 — an assistant reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself

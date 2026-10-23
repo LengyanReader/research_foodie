@@ -143,6 +143,18 @@ def build_parser() -> argparse.ArgumentParser:
     probe_p.add_argument("--no-write", action="store_true", help="report only; write nothing")
     probe_p.add_argument("--json", action="store_true")
 
+    full_p = sub.add_parser(
+        "full-update",
+        help="the whole observe loop in one instruction: intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard (proposals only)",
+    )
+    full_p.add_argument(
+        "--root", "--data-dir", dest="root", default=None,
+        help="knowledge-base dir (default: user home)",
+    )
+    full_p.add_argument("--since", default=None, help="only consider intel newer than this date")
+    full_p.add_argument("--offline", action="store_true", help="skip the networked intel phase")
+    full_p.add_argument("--json", action="store_true")
+
     plugins_p = sub.add_parser(
         "plugins", help="list/validate third-party domain & template plugins"
     )
@@ -631,6 +643,22 @@ def _cmd_probe_domains(args: argparse.Namespace) -> int:
     else:
         print(domain_probe.render(proposals))
     return 0
+
+
+def _cmd_full_update(args: argparse.Namespace) -> int:
+    from . import config, full_update
+
+    if args.root:
+        kb_root = args.root
+    else:
+        config.ensure_home()
+        kb_root = str(config.home())
+    report = full_update.run_full_update(kb_root, since=args.since, offline=args.offline)
+    if args.json:
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+    else:
+        print(full_update.render(report))
+    return 0 if all(p["status"] != "error" for p in report["phases"]) else 1
 
 
 def _cmd_plugins(args: argparse.Namespace) -> int:
@@ -1262,6 +1290,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_trace_audit(args)
     if args.command == "probe-domains":
         return _cmd_probe_domains(args)
+    if args.command == "full-update":
+        return _cmd_full_update(args)
     if args.command == "plugins":
         return _cmd_plugins(args)
     if args.command == "refresh":

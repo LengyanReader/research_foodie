@@ -49,7 +49,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **334** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **336** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 
@@ -86,3 +86,5 @@ LICENSE                   MIT License
 
 这样配置一次、任务一句，输入更省事。用它触发 **L0（agent 原生，免安装）** 用法；需要确定性复现时走 **L1**：
 `PYTHONPATH=harness_factory/src python -m harness_factory derive --task "…"`。
+说「**全面更新 harness**」→ 助手执行 `harness full-update`（或 L0 等效六步：intel → probe-domains → trace-audit →
+evolve → cycle audit → scoreboard），一句话触发完整观察环，产出全部只提案（`updates/FULL-UPDATE.md`）。

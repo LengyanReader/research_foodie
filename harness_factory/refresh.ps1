@@ -1,8 +1,9 @@
 #!/usr/bin/env pwsh
-# Scheduled self-update for harness_factory.
-# Runs one observe-only cycle: refresh (file + tracked feeds + LLM if configured) ->
-# intel extraction -> self-evolution audit. Never edits docs/catalogs.
-# See tasks/REFRESH.md for scheduling (Task Scheduler / cron / GitHub Actions).
+# Scheduled self-update for harness_factory (P30).
+# One observe-only cycle: refresh (file + tracked feeds + LLM if configured) ->
+# then the rest of the loop (probe-domains -> trace-audit -> evolve ->
+# cycle audit -> scoreboard) via `full-update --offline`.
+# Never edits docs/catalogs. See tasks/REFRESH.md for scheduling.
 
 param(
     [string]$Root = "",
@@ -25,11 +26,10 @@ if ($DryRun) { $refreshArgs += "--dry-run" }
 & python @refreshArgs
 $code = $LASTEXITCODE
 
-if (-not $NoEvolve) {
-    $evolveArgs = @("-m", "harness_factory", "evolve")
-    if ($Root) { $evolveArgs += @("--root", $Root) }
-    if ($DryRun) { $evolveArgs += "--dry-run" }
-    & python @evolveArgs
+if (-not $NoEvolve -and -not $DryRun) {
+    $fullArgs = @("-m", "harness_factory", "full-update", "--offline")
+    if ($Root) { $fullArgs += @("--root", $Root) }
+    & python @fullArgs
     if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE }
 }
 

@@ -118,7 +118,11 @@ lets you reuse the same config for every task. · 配置（如何引用与使用
    `.harness/capabilities.local.md`; propose only generalisable patterns back (`updates/`, human-gated).
    Keep the loaded set **leased, not bought**: `.harness/working-set.json` records what is held and what was
    put back (reason + reload trigger) at each phase boundary (M1.10).
-8. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
+8. **Full update · 全面更新.** When the user says 「全面更新 harness」 / "fully update the harness", run the whole
+   observe loop: `harness full-update` (L1; `--offline` skips the networked intel) or, in L0, execute its six phases in
+   order — intel → probe-domains → trace-audit → evolve → cycle audit → scoreboard — and hand the human the proposals
+   from `updates/FULL-UPDATE.md`. Everything stays proposal-only (M0.4/M0.8).
+9. **Never fabricate task substance** (M0.4); all loop output is a **proposal** for a human.
 
 **Variant prompts · 变体指令词（在「配置」之后，按场景替换任务句）：**
 

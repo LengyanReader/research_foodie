@@ -908,6 +908,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P30",
+      "date": "2026-10-24",
+      "status": "done",
+      "title_en": "One-instruction round: `harness full-update` chains the whole observe loop",
+      "title_zh": "一句话轮：`harness full-update` 串起完整观察环",
+      "note": "The user asked whether saying 「全面更新 harness」 alone can trigger everything described. Answer was honest (not yet - the six half-rings existed as separate commands) and the orchestration layer landed: full_update.py chains intel (networked, skippable with --offline) -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard into one run, failure-isolated per phase (a phase that fails reports its error and the rest still run - never faked, M0.3), and writes one bilingual report updates/FULL-UPDATE.md ending in the human-gate line. Wired for the 'say it once' UX: SKILL.md step 8 (the L0 six-phase procedure for agents), a capability-router row for the 「全面更新 harness」 situation, the README quickstart line, the workspace AGENTS.md standing-reference addendum, and refresh.ps1 now runs refresh then `full-update --offline` (scheduler path). No new clauses/capabilities/domains: it is composition of existing mechanisms (M0.5).",
+      "slices": [
+        "P30.1 - full_update.py: run_full_update chains the six phases (each failure-isolated via _phase), render/write_report produce the bilingual FULL-UPDATE.md with the human-gate line; CLI `harness full-update [--root] [--since] [--offline] [--json]`, exit 1 iff any phase errored",
+        "P30.2 - wiring: SKILL.md step 8 (L0 six-phase procedure for the 「全面更新 harness」 phrase), capability-router row, README quickstart line, workspace AGENTS.md standing-reference addendum, refresh.ps1 -> refresh + full-update --offline",
+        "P30.3 - guards: tests/test_full_update.py (2 cases: offline run completes all six phases and writes the report; a failed phase reports and never fakes)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
