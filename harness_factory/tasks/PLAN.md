@@ -277,6 +277,10 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 > 评估发现的子句分布不对称已补：**M6.10**（技能索引先行·版本化）· **M6.11**（暴露≠授权）· **M7.10**（治理性变更=可审阅 diff + 回滚路径）· **M8.11**（交接走产物不走记忆）——全部编号化既有散文规则、锚在已核验来源（0 新参考），各带 checklist 行 + source-map 行 + 内容守卫。`cycle audit` 现在对三个模块有事可做：**39 条子句 anchored**。
 
+## P27 · 广度轮（2026-10-23，已做）：基础学科 + 思想/学术流派梳理（用户指示）
+
+> 判据先行（M0.5）：域 = 能改变路由/门禁内容才入。落三条：**① 3 个新域**（`history` 史源批判 · `philosophy` 论证重构·立场声明 · `political-science` 概念先行·案例选择留痕，各带 workflow/信号/README/rubric；入口文档 30 → **33 学科**）；**② methodology-map 流派表 16 行**（哲学 4 + 批判传统 2 + 社科 4 + 经济/心理 4 + 数学基础三派 + 中文经学考据 1——每行三件套：书目式经典源 · 该传统内的纪律 · 谁执行）；**③ 7 条 outlets**（实测：2×200 为真、5×403 诚实登记、Europeana 合并）。信号所有权记录：通用词留 humanities、新域持学科专属信号（判别纪律的产物，重访触发在交付文档 §5）。推迟：astronomy/materials/neuroscience/anthropology/geography（各带触发）。交付 `review/basic-disciplines-schools-2026-10.md`；登记 P27（0 能力 / 3 域 / 0 子句 / outlets +7）。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

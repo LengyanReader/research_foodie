@@ -3,13 +3,13 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 38 capabilities · 31 domains · 203 catalog entries · 27 CLI subcommands**
+**9 modules (M0–M8) · 38 capabilities · 34 domains · 203 catalog entries · 27 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 38 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、31 个学科域的产物类型与来源要求（§6）、203 条工具目录按类对应模块（§7）、27 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
+这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 38 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、34 个学科域的产物类型与来源要求（§6）、203 条工具目录按类对应模块（§7）、27 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
 
 整份文档**由代码生成**（`harness map --write`），`tests/test_harness_map.py` 做漂移守卫：图、表、样例读的是同一批数据，改 SSOT 后重生成即可，不会出现「文档说一套、代码做一套」。
 
@@ -19,9 +19,9 @@
 |---|---|---|---|
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
 | Capabilities | 38 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
-| Domains | 31 (30 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
+| Domains | 34 (33 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
 | Tool catalog | 203 (12 classes × 60 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
-| Rubrics | 32 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
+| Rubrics | 35 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
 | CLI subcommands | 27 | `src/harness_factory/cli.py` | §8 below |
 | Emitted templates | 11 | `src/harness_factory/templates/` | `harness init` output |
@@ -119,7 +119,7 @@ flowchart TD
 | `artifact` | 交付物是什么：决定验证方式与表达形式<br/>*What ships?* | `code` · `document` · `dataset` · `knowledge_base` · `plan` · `mixed` |
 | `tool_surface` | agent 能碰什么：只读 / 读写 / 外部网络<br/>*What may the agent touch?* | `none` · `read` · `read_write` · `external` |
 | `collaboration` | 谁在一起干：单人 / 人工复核 / 多 agent<br/>*Who works alongside?* | `solo` · `human_review` · `multi_agent` |
-| `domain` | 命中哪个学科：加载该域的方法论与仪器<br/>*Which discipline fires?* | 31 个域 id（§6） |
+| `domain` | 命中哪个学科：加载该域的方法论与仪器<br/>*Which discipline fires?* | 34 个域 id（§6） |
 
 下面两段是 `classify` + `derive` 的**真实输出**（规则分类，未用 LLM；命令见 `harness derive --task "…"`）。同一条流水线，换任务就换答案：
 
@@ -221,7 +221,7 @@ flowchart TD
 
 ## 6 · 学科域 · Domains
 
-31 个域分布在 10 个学科门类（`general` 是永远可用的兜底）。一个域**不加规则**（M0.5），它提供的是一套工作流 + 命中信号 + 产物类型 + 来源要求；`artifact` / `grounding` 两列是该域默认的交付物与取证强度。
+34 个域分布在 10 个学科门类（`general` 是永远可用的兜底）。一个域**不加规则**（M0.5），它提供的是一套工作流 + 命中信号 + 产物类型 + 来源要求；`artifact` / `grounding` 两列是该域默认的交付物与取证强度。
 
 ### arts · 艺术
 
@@ -264,8 +264,10 @@ flowchart TD
 | domain | artifact · grounding | 要点 |
 |---|---|---|
 | `digital-humanities` · 数字人文域 | `dataset` · `required` | Machine-readable cultural heritage: encode, canonicalise, publish with provenance |
+| `history` · 史学域 | `document` · `required` | Primary-source historical work |
 | `humanities` · 人文学域 | `document` · `required` | Primary-source close reading with interpretive honesty |
 | `linguistics` · 语言域 | `dataset` · `required` | Description and annotation of language data with explicit schemes and measured reliability |
+| `philosophy` · 哲学域 | `document` · `preferred` | Philosophical work across schools |
 | `reading` · 读物阅读域 | `document` · `required` | Type-aware, lossless reading |
 | `writing` · 写作域 | `document` · `required` | Citation-first essay harness |
 
@@ -301,6 +303,7 @@ flowchart TD
 |---|---|---|
 | `cognitive-science` · 认知科学域 | `dataset` · `required` | Model cognition with falsifiable constructs, measured in experiments and computational models |
 | `economics-finance` · 经济与金融域 | `dataset` · `required` | Identification-first analysis of markets and policy |
+| `political-science` · 政治学域 | `document` · `required` | Political science work |
 | `psychology` · 心理与认知科学域 | `dataset` · `required` | Pre-registered, replication-aware behavioral research |
 | `social-science` · 社会科学域 | `document` · `required` | Theory-led, evidence-triangulated study of societies and policy |
 

@@ -379,5 +379,41 @@ class P26ClauseAnchorTest(unittest.TestCase):
             self.assertIn(f"| {clause} ", text, f"{clause} has no source-map row")
 
 
+class P27SchoolsAndDomainsTest(unittest.TestCase):
+    """P27 landed three domains and a school-of-thought table; keep the objects.
+
+    Content-presence guards: the domains must exist in the SSOT with their
+    rubrics, and the methodology map must keep the school rows that give the
+    new fields their gate content (a school row lost is a gate gone silent)."""
+
+    def test_new_domains_have_entries_and_rubrics(self):
+        import json
+
+        domains = json.loads(
+            (HARNESS / "src/harness_factory/data/domains.json").read_text(encoding="utf-8")
+        )
+        rubrics = json.loads(
+            (HARNESS / "src/harness_factory/data/rubrics.json").read_text(encoding="utf-8")
+        )
+        for domain in ("history", "philosophy", "political-science"):
+            self.assertIn(domain, domains, f"{domain} missing from domains.json")
+            self.assertIn(domain, rubrics, f"{domain} has no rubric")
+
+    def test_school_rows_are_present(self):
+        text = _read(HARNESS / "reference/methodology-map.md")
+        self.assertIsNotNone(text)
+        for token in (
+            "Gadamer",
+            "Husserl",
+            "Popper",
+            "Glaser",
+            "Kahneman",
+            "Brouwer",
+            "四书章句集注",
+            "Die Traumdeutung",
+        ):
+            self.assertIn(token, text, f"school row lost its anchor: {token!r}")
+
+
 if __name__ == "__main__":
     unittest.main()

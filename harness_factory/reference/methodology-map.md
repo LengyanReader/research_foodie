@@ -71,6 +71,33 @@ For **any** named method, M3.13 asks three questions — missing any one turns t
 
 ---
 
+## Schools of thought · 思想与学术流派（P27，2026-10-23）
+
+> 流派 = **一个命名的解读/论证传统**，每条行给三件套：**一手经典源**（书目式，经典著作无需 URL；若引线上版本须带访问日期）· **它要求什么**（在该传统内工作必须满足的纪律）· **谁执行**（prose gate 或既有能力）。用法同本表主表：方法 = 协议 + 假设 + 报告规范（M3.13）。**不做**的：不评流派优劣、不为每一派开能力（M0.5：命中几乎所有论证类工作，不判别——`qualitative-rigour` 仍按路线图推迟）。
+
+| Field(s) · 领域 | School · 流派 | Methodology system · 方法论体系 | Canonical source · 一手经典源 | What it demands · 要求 | Enforced by · 执行者 | Status |
+|---|---|---|---|---|---|---|
+| philosophy / humanities · 哲学 | Hermeneutics · 诠释学 | 诠释循环：前见（Vorurteil）显式化 → 视域融合 → 效果历史；理解即再诠释，无「最终读法」 | Gadamer, *Wahrheit und Methode*, 1960; Ricoeur, *De l'interprétation*, 1965; Schleiermacher, *Hermeneutik*, 1819/1838 | 读者的前见与视域**先声明**；诠释是诠释（M4.15 立场声明）；「文本说 X」与「我主张 Y」分行 | `philosophy`/`humanities` 域 prose gate；M4.16 指针落原文 | **done (prose gate)** |
+| philosophy · 哲学 | Phenomenology · 现象学 | epoché（悬置自然态度）→ 现象描述 → 本质直观（eidetic）与经验陈述分离 | Husserl, *Ideen zu einer reinen Phänomenologie I*, 1913; Heidegger, *Sein und Zeit*, 1927 | 自然态度被悬置（写明悬置了什么）；「本质」主张与「经验」主张分报 | `philosophy` prose gate | **done (prose gate)** |
+| philosophy · 哲学 | Analytic philosophy · 分析哲学 | 概念分析：逐前提论证重构 + 反例搜索 + 承重术语定义先行 | Frege, *Begriffsschrift*, 1879; Wittgenstein, *Tractatus Logico-Philosophicus*, 1921; Rawls, *A Theory of Justice*, 1971 | 每个承重术语首现即定义（M4.15 四缺陷检索即机械半场）；最强反例，不是最弱反例 | `philosophy` prose gate（M4.15 检索可机械化） | **done (prose gate)** |
+| philosophy · 哲学 | Pragmatism · 实用主义 | 意义 = 实践后果；信念是行动习惯；真理是探究的终点不是起点 | Peirce, "How to Make Our Ideas Clear", 1878; James, *Pragmatism*, 1907 | 每个主张写明**现金价值**（它改变什么实践）；把「对」译为「在何条件下成立」 | `philosophy` prose gate | **done (prose gate)** |
+| philosophy / social science · 哲学/社科 | Critical theory · 批判理论 | 命名权力关系 + 批判者的自我反身性；解放兴趣与认知兴趣分开 | Horkheimer & Adorno, *Dialektik der Aufklärung*, 1947; Habermas, *Erkenntnis und Interesse*, 1968 | 规范立场**作为立场**声明；权力关系点名而非暗示；批判者自己的位置入文 | prose gate | **done (prose gate)** |
+| humanities / linguistics · 人文/语言 | Structuralism / post-structuralism · 结构主义/后结构主义 | 关系先于实体；文本的意义条件（conditions of possibility）；作者功能 ≠ 作者 | Saussure, *Cours de linguistique générale*, 1916; Foucault, *L'Archéologie du savoir*, 1969 | 结构主张 = 关系主张（写明关系而非列举实体）；「作者功能」与作者本人区分 | prose gate | **done (prose gate)** |
+| social science · 社科 | Positivism / post-positivism · 实证主义/后实证主义 | 可证伪性 + 范式意识；观察负载理论 | Popper, *Logik der Forschung*, 1934; Kuhn, *The Structure of Scientific Revolutions*, 1962 | 假设可证伪（写明什么观察会推翻它）；范式/不可通约假设声明 | `statistical-inference`/`empirical-measurement` 对经验半场；prose gate 对认识论半场 | **done** |
+| social science · 社科 | Grounded theory · 扎根理论 | 理论抽样 + 持续比较 + 饱和；理论从数据中「长出来」 | Glaser & Strauss, *The Discovery of Grounded Theory*, 1967 | 编码轨迹可审计；饱和判据写明；先数据后理论（不能反过来） | prose gate（`qualitative-rigour` 能力仍按路线图推迟） | **done (prose gate)** |
+| social science / anthropology · 社科/人类学 | Ethnography · 民族志 | 田野工作 + 深描 + 位置性（positionality） | Malinowski, *Argonauts of the Western Pacific*, 1922; Geertz, "Thick Description", 1973 | 田野者位置声明；报道人保护；观察与诠释分层报告 | prose gate | **done (prose gate)** |
+| social science · 社科 | Classical sociology · 古典社会学 | Verstehen（理解）与社会事实；理想类型是构造物 | Durkheim, *Les Règles de la méthode sociologique*, 1895; Weber, *Wirtschaft und Gesellschaft*, 1922 | 理想类型声明为构造而非实在；社会事实（如自杀率）与动机解释分开 | prose gate；`empirical-measurement` 对数据半场 | **done** |
+| economics · 经济学 | Classical → neoclassical → Keynesian · 古典→新古典→凯恩斯 | 均衡 + 模型先行 + 反周期政策 | Smith, *The Wealth of Nations*, 1776; Marshall, *Principles of Economics*, 1890; Keynes, *The General Theory*, 1936 | 模型与假设**先于**结论声明；均衡/非均衡主张显式；价格数字标方向性（M0） | `empirical-measurement` 对数据半场 | **done** |
+| economics / psychology · 经济/心理 | Behavioral economics · 行为经济学 | 有限理性；前景理论；对理性基准的偏离要实测 | Kahneman & Tversky, "Prospect Theory", *Econometrica* 47(2), 1979 | 对理性基准的偏离**测量而非断言**；框架效应控制 | `empirical-measurement` | **done** |
+| psychology · 心理学 | Behaviorism → cognitive revolution · 行为主义→认知革命 | 操作定义 + 可证伪机制；不可观察构念靠预测赢取地位 | Watson, "Psychology as the Behaviorist Views It", 1913; Miller, "The Magical Number Seven", 1956 | 操作定义先行；构念以「它预测了什么」立身 | `empirical-measurement` | **done** |
+| formal sciences · 形式科学 | Formalism / logicism / intuitionism · 数学基础三派 | 证明所依赖的基础显式：形式系统 / 逻辑还原 / 构造性 | Hilbert, *Grundlagen der Geometrie*, 1899; Russell & Whitehead, *Principia Mathematica*, 1910–13; Brouwer, 1908; Heyting, *Intuitionism*, 1956 | 构造性与经典逻辑声明；排中律/选择公理的使用点名 | `certified-computation` 对机器可验半场 | **done** |
+| humanities (Chinese) · 人文（中文） | 经学与考据传统（汉学考据 vs 宋学义理）· Classical exegesis & evidential scholarship | 训诂先于义理；版本与校勘纪律；「实事求是，无征不信」 | 朱熹, *四书章句集注*, 1190; 顾炎武, *日知录*, 1670; 戴震, *孟子字义疏证*, 1777 | 每个诠释断言行可拆为**训诂层与义理层**；版本点名（呼应 TEI 编辑纪律 `[R146]`/`[R147]`）；引文落原书卷次 | prose gate（M4.10 跨语言意群 + M4.16 指针） | **done (prose gate)** |
+| psychology · 心理学 | Psychodynamic tradition · 精神分析传统 | 临床证据与理论主张分离；个案材料按数据对待（含其限度） | Freud, *Die Traumdeutung*, 1900 | 诠释性主张与经验性主张分行；个案作为证据时声明其选择与限度 | prose gate | **done (prose gate)** |
+
+**流派梳理的边界（写死）。** 行只管「在该传统内工作要守什么纪律」，不管流派优劣之争；每行 canonical source 为书目式经典（经典著作本身即一手材料）；若将来引用线上版本，须带访问日期（M0.1）。新增流派的判据与域相同：**能改变工作的门禁内容才入行**，仅「有名」不足（M0.5）。
+
+---
+
 ## Deliberate non-additions · 有意不新增
 
 - **No `methodology-fit` capability.** It would fire on nearly every task (any empirical or qualitative work has a method), so it would not discriminate — the invariant lives in **M3.13** + this map instead. A capability that never discriminates is documentation, not a mechanism.

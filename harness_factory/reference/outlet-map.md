@@ -224,6 +224,10 @@ Abstract indexes, preprints, data archives and survey research.
 | ✔ [ICPSR](https://www.icpsr.umich.edu/) | repository | University of Michigan social-science data archive. | Access tiers vary by membership. |
 | ✔ [Pew Research Center](https://www.pewresearch.org/) | portal | Non-partisan survey research on social trends and public opinion. | Reports, not raw data (datasets are separately released) — cite the report. |
 | ✔ [Our World in Data](https://ourworldindata.org/) | portal | Curated, sourced long-run data and visual essays. | A secondary curator — always follow through to the underlying dataset. |
+| ○ [Cognitive Science](https://onlinelibrary.wiley.com/journal/15516709) | journal | The Cognitive Science Society's flagship. | Subscription-gated; automated check blocked (403) — pair with Open Mind/PsyArXiv. |
+| ○ [Cognition](https://www.sciencedirect.com/journal/cognition) | journal | Dense, single-mechanism studies — a high bar for falsifiable claims. | Paywalled; preprints often live on PsyArXiv; automated check blocked. |
+| ○ [Trends in Cognitive Sciences](https://www.cell.com/trends/cognitive-sciences/home) | journal | Cell Press review journal; curated takes on the field's direction. | Reviews, not primary findings; automated check blocked. |
+| ○ [Open Mind](https://direct.mit.edu/opmi) | journal | MIT Press open-access journal for the sciences of mind. | Young journal, smaller volume; automated check blocked. |
 
 ---
 
@@ -254,6 +258,9 @@ Digitised journals, reference works and cultural-heritage collections.
 | ✔ [Perseus Digital Library](https://www.perseus.tufts.edu/) | repository | Classical Greek and Latin texts with translations and tools. | Editions are dated — record the edition used. |
 | ○ [Digital Public Library of America](https://dp.la/) | portal | US aggregator of digitised library, museum and archive collections. | Aggregation layer — cite the holding institution, not the aggregator. |
 | ○ [Europeana](https://www.europeana.eu/) | portal | EU aggregator of cultural-heritage collections. | Aggregation layer — cite the holding institution; rights vary per item. |
+| ✔ [DARIAH](https://www.dariah.eu/) | portal | EU digital-humanities infrastructure: working groups, standards, training. | A network, not a content repository — follow outputs to their publishers. |
+| ○ [Digital Scholarship in the Humanities](https://academic.oup.com/dsh) | journal | The flagship DH journal (OUP). | Subscription-gated; automated check blocked (403) — listed, not confirmed. |
+| ✔ [Journal of Cultural Analytics](https://culturalanalytics.org/) | journal | Open-access computational study of culture; data and code alongside articles. | Method-forward — for a domain question, start from the field's own journal. |
 
 ---
 

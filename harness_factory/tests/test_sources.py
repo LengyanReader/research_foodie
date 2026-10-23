@@ -101,7 +101,9 @@ class OutletDataTest(unittest.TestCase):
             oid = o["id"]
             self.assertIn(o["outlet_kind"], OUTLET_KINDS, oid)
             self.assertIsInstance(o.get("verified"), bool, oid)
-            self.assertEqual(o.get("access"), "2026-10-19", oid)
+            # P27 relaxed this from a pinned date: outlets are verified on different
+            # rounds, so the guard checks the date's shape, not one frozen value.
+            self.assertRegex(o.get("access") or "", r"^\d{4}-\d{2}-\d{2}$", oid)
             self.assertTrue(o.get("why"), f"no why for {oid}")
             if not o["verified"]:
                 self.assertTrue(o.get("note"), f"{oid} not verified but carries no note")

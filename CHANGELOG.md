@@ -20,6 +20,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Breadth round (P27) - basic disciplines and schools of thought.** The user's directive (梳理基础学科与重要思想/学术流派).
+  Three slices, criteria-first: (1) **3 domains landed** — `history` (source criticism, periodization declared, silences
+  weighed), `philosophy` (argument reconstruction, position declaration, counterexample honesty), `political-science`
+  (concept definition, method declaration, case-selection honesty) — each with workflow, bilingual signals, README and
+  a weighted rubric; entry-doc counts 30 → **33 disciplines** (guard-enforced). (2) **methodology-map "Schools of
+  thought" table, 16 rows** — hermeneutics (Gadamer) · phenomenology (Husserl) · analytic (Frege/Wittgenstein) ·
+  pragmatism (Peirce/James) · critical theory (Horkheimer/Adorno) · structuralism (Saussure/Foucault) · positivism
+  (Popper/Kuhn) · grounded theory (Glaser & Strauss) · ethnography (Malinowski/Geertz) · classical sociology
+  (Durkheim/Weber) · economics schools (Smith/Marshall/Keynes) · behavioral (Kahneman & Tversky) · behaviorism→cognitive
+  (Watson/Miller) · psychodynamic (Freud) · math foundations (Hilbert/Russell/Brouwer) · Chinese classical exegesis
+  (朱熹/顾炎武/戴震: 训诂先于义理) — each with bibliographic canonical source, its demands, and who enforces it.
+  (3) **7 outlets** (digital-humanities + cognitive-science) with real reachability results (2 verified, 5 honestly
+  flagged; Europeana merged, not duplicated); `topic_ids` registry extended. Deferred with triggers: astronomy /
+  materials / neuroscience / anthropology / geography. `review/basic-disciplines-schools-2026-10.md`.
+  **326 → 328 tests**; `cycle audit` 23 cycles, 0 hard, 0 gaps.
 - **Depth round (P26) - M6/M7/M8 gain anchorable clauses.** The clause distribution was asymmetric (M3/M4 carry 15
   numbered clauses, M6/M7/M8 zero or one), so `cycle audit` had nothing to audit on three modules. Four clauses landed,
   each numbering an existing prose rule and anchored in an already-verified source (zero new references): **M6.10**

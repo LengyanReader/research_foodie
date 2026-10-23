@@ -839,6 +839,31 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P27",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Breadth round: basic disciplines and schools of thought",
+      "title_zh": "广度轮：基础学科与思想/学术流派梳理",
+      "note": "The user's directive (梳理基础学科与重要思想/学术流派). Three slices, all criteria-first (M0.5: a domain enters only if it changes routing or gate content). (1) Three domains landed in the SSOT - history (source criticism, periodization declared, silences weighed), philosophy (argument reconstruction, position declaration, counterexample honesty - covers hermeneutics/phenomenology/analytic/pragmatism/critical theory), political-science (concept definition, method declaration, case-selection honesty) - each with workflow, bilingual signals, README and a weighted rubric. (2) methodology-map gains a 'Schools of thought' table, 16 rows, each with the three-piece set: bibliographic canonical source (classics, no URL needed), what the tradition demands of work inside it, and who enforces it (prose gate or existing capabilities) - including the Chinese classical-exegesis/evidential-scholarship tradition (朱熹四书章句集注/顾炎武日知录/戴震孟子字义疏证: 训诂先于义理). (3) 8 outlets verified by real HTTP checks (2 x 200 -> verified:true; 6 x 403 -> verified:false with reason, the P12 pattern); OutletDataTest's pinned access date relaxed to a date-shape check (deliberate, recorded). Deferred with revisit triggers: astronomy/materials/neuroscience/anthropology/geography (weak discrimination or noisy signals); qualitative-rigour stays deferred (roadmap item, not this round's call).",
+      "slices": [
+        "P27.1 - disciplines: history + philosophy + political-science in domains.json (faculty/workflow/artifact/grounding/signals) + rubrics.json + 3 bilingual READMEs; entry-doc counts 30 -> 33 and layout trees updated (CountDriftGuardTest enforces)",
+        "P27.2 - schools of thought: methodology-map 'Schools of thought' section, 16 rows (philosophy 4, critical traditions 2, social science 4, economics/psychology 4, formal sciences 1, Chinese classical exegesis 1), three-piece rows, boundaries written down (no school rankings, no per-school capabilities)",
+        "P27.3 - outlets + guards: 8 outlets in sources.json (digital-humanities 4, cognitive-science 4) with real 2026-10-23 reachability results; outlet-map.md rows; OutletDataTest access-date assertion relaxed to a shape check; P27SchoolsAndDomainsTest (2 content-presence guards)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [
+          "history",
+          "philosophy",
+          "political-science"
+        ],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 7
+      }
     }
   ],
   "roadmap": [

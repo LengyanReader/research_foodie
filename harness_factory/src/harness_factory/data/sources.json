@@ -31,7 +31,9 @@
     "humanities",
     "education",
     "arts-design",
-    "linguistics"
+    "linguistics",
+    "digital-humanities",
+    "cognitive-science"
   ],
   "groups": {
     "projects": [
@@ -3088,6 +3090,7 @@
         "feed": null,
         "topics": [
           "humanities",
+          "digital-humanities",
           "arts-design"
         ],
         "tags": [
@@ -3754,6 +3757,102 @@
         "verified": true,
         "access": "2026-10-19",
         "not_for": "PLOS ONE is broad and volume-driven - appraise the specific article, not the brand."
+      },
+      {
+        "id": "dariah",
+        "name": "DARIAH",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://www.dariah.eu/",
+        "topics": ["digital-humanities"],
+        "tags": ["infrastructure", "digital-humanities"],
+        "why": "The EU digital-humanities infrastructure: working groups, standards and training for computational humanities work.",
+        "verified": true,
+        "access": "2026-10-23",
+        "not_for": "A network, not a content repository - for data, follow the working-group outputs to their publishers."
+      },
+      {
+        "id": "dsh-journal",
+        "name": "Digital Scholarship in the Humanities",
+        "kind": "other",
+        "outlet_kind": "journal",
+        "url": "https://academic.oup.com/dsh",
+        "topics": ["digital-humanities"],
+        "tags": ["journal"],
+        "why": "The flagship DH journal (OUP); peer-reviewed computational-humanities research.",
+        "verified": false,
+        "access": "2026-10-23",
+        "note": "host blocks automated checks (403); listed, not confirmed",
+        "not_for": "Subscription-gated; the abstract may suffice for a first pass."
+      },
+      {
+        "id": "joc",
+        "name": "Journal of Cultural Analytics",
+        "kind": "other",
+        "outlet_kind": "journal",
+        "url": "https://culturalanalytics.org/",
+        "topics": ["digital-humanities"],
+        "tags": ["journal", "open-access"],
+        "why": "Open-access journal for the computational study of culture; publishes data and code alongside articles.",
+        "verified": true,
+        "access": "2026-10-23",
+        "not_for": "Method-forward - for a domain question, start from the field's own journal."
+      },
+      {
+        "id": "cogsci-journal",
+        "name": "Cognitive Science (journal)",
+        "kind": "other",
+        "outlet_kind": "journal",
+        "url": "https://onlinelibrary.wiley.com/journal/15516709",
+        "topics": ["cognitive-science", "psychology"],
+        "tags": ["journal"],
+        "why": "The Cognitive Science Society's journal; the field's flagship for computational and empirical cognition.",
+        "verified": false,
+        "access": "2026-10-23",
+        "note": "host blocks automated checks (403); listed, not confirmed",
+        "not_for": "Subscription-gated; for OA, pair with Open Mind and PsyArXiv."
+      },
+      {
+        "id": "cognition",
+        "name": "Cognition (journal)",
+        "kind": "other",
+        "outlet_kind": "journal",
+        "url": "https://www.sciencedirect.com/journal/cognition",
+        "topics": ["cognitive-science", "psychology"],
+        "tags": ["journal"],
+        "why": "Elsevier's cognitive journal; dense, single-mechanism studies - a high bar for falsifiable claims.",
+        "verified": false,
+        "access": "2026-10-23",
+        "note": "host blocks automated checks (403); listed, not confirmed",
+        "not_for": "Paywalled full text; preprint versions often live on PsyArXiv."
+      },
+      {
+        "id": "tics",
+        "name": "Trends in Cognitive Sciences",
+        "kind": "other",
+        "outlet_kind": "journal",
+        "url": "https://www.cell.com/trends/cognitive-sciences/home",
+        "topics": ["cognitive-science"],
+        "tags": ["journal", "review"],
+        "why": "Cell Press review journal; short, curated takes on where cognitive science is moving.",
+        "verified": false,
+        "access": "2026-10-23",
+        "note": "host blocks automated checks (403); listed, not confirmed",
+        "not_for": "Reviews, not primary findings - follow the references to the studies."
+      },
+      {
+        "id": "open-mind",
+        "name": "Open Mind (journal)",
+        "kind": "other",
+        "outlet_kind": "journal",
+        "url": "https://direct.mit.edu/opmi",
+        "topics": ["cognitive-science", "psychology"],
+        "tags": ["journal", "open-access"],
+        "why": "MIT Press open-access journal for the sciences of mind; the OA alternative to the paywalled flagships.",
+        "verified": false,
+        "access": "2026-10-23",
+        "note": "host blocks automated checks (403); listed, not confirmed",
+        "not_for": "Young journal - smaller volume than the flagships."
       }
     ]
   }

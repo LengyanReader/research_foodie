@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-10-23 · P27：广度轮 —— 基础学科 + 思想/学术流派梳理（用户指示）
+
+- **开轮依据。** 用户指示「基础学科和重要的思想/学术流派要好好梳理」+ 评估的广度缺口清单。判据先行（M0.5）：域 = 能改变路由/门禁内容才入。
+- **切片 1 · 3 个新域。** `history`（史源批判·断代显式·沉默入账）· `philosophy`（论证重构·立场声明·反例坦诚）· `political-science`（概念先行·方法声明·案例选择留痕）——各带 workflow、双语信号、README、加权 rubric；入口文档 30 → **33 学科**（CountDriftGuard 强制同步两 README 树）。
+- **切片 2 · 流派表 16 行**（methodology-map 新节）。哲学 4（诠释学 Gadamer · 现象学 Husserl · 分析哲学 Frege/Wittgenstein · 实用主义 Peirce/James）+ 批判传统 2 + 社会科学 4（Popper/Kuhn · 扎根理论 Glaser & Strauss · 民族志 Malinowski/Geertz · 古典社会学 Durkheim/Weber）+ 经济/心理 4（Smith/Marshall/Keynes · Kahneman & Tversky · Watson/Miller · Freud）+ 形式科学 1（数学基础三派）+ **中文经学与考据** 1（朱熹/顾炎武/戴震：训诂先于义理）。每行三件套：书目式经典源 · 该传统内的纪律 · 谁执行；边界写死：不评流派优劣、不按派开能力。
+- **切片 3 · outlets。** 8 个候选实测（2×200 核验为真；5×403 按 P12 惯例诚实登记 + note；Europeana **合并**进既有条目补 topic）。`topic_ids` 补注册 `digital-humanities`/`cognitive-science`；`OutletDataTest` 的 access 钉死日期放宽为格式校验（守卫变更，记录在案）。
+- **守卫与判别纪律的产物。** 信号唯一性守卫逼出的决定：通用词（history/philosophy/历史/哲学/诠释学）留在 humanities，新域持**学科专属信号**——英文裸词「history」路由到 humanities（与 reading/humanities 分工同构），重访触发写在交付文档 §5。`P27SchoolsAndDomainsTest` 2 守卫（域+rubric 在场 · 流派锚点在文）。
+- **登记。** cycles.json **P27**（0 能力 / **3 域** / 0 子句 / 0 参考 / outlets +7）；交付 `review/basic-disciplines-schools-2026-10.md`（含推迟项：astronomy/materials/neuroscience/anthropology/geography，各带重访触发）。
+- **状态。** 测试 **326 → 328**（+2）全过；`cycle audit` **23 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成（33 域同步进 CAPABILITIES/HARNESS-MAP/harness-index）；P18 32 族路由回归全过。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P26：深度补平轮 —— M6/M7/M8 落可锚定子句
 
 - **开轮依据。** 评估发现子句分布不对称：M3/M4 有 15 条编号子句，M6/M7/M8 零或一条——`cycle audit` 对这三模块无事可做。本轮把既有散文规则**编号化**并全部锚在**已核验的既有来源**上（0 新参考）。

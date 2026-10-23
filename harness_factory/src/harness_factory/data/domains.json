@@ -1071,5 +1071,89 @@
       "碑刻",
       "写本"
     ]
+  },
+  "history": {
+    "faculty": "humanities",
+    "title_en": "History",
+    "name_zh": "史学域",
+    "summary": "Primary-source historical work: source criticism, periodization declared, context fidelity, counter-narratives - interpretation declared as interpretation",
+    "workflow": [
+      "L0 Frame the question in time and place",
+      "L1 Locate and provenance the sources (M4)",
+      "L2 Criticize the sources (authenticity, bias, lacunae)",
+      "L3 Reconstruct with periodization declared",
+      "L4 Weigh counter-narratives and silences",
+      "L5 Write with dated claims and an explicit lens"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "historiography",
+      "chronicle",
+      "primary sources",
+      "史学",
+      "编年",
+      "断代",
+      "考据",
+      "档案",
+      "一手史料"
+    ]
+  },
+  "philosophy": {
+    "faculty": "humanities",
+    "title_en": "Philosophy",
+    "name_zh": "哲学域",
+    "summary": "Philosophical work across schools: argument reconstruction, declared positions, textual fidelity, counterexample honesty",
+    "workflow": [
+      "L0 State the question and the tradition it belongs to",
+      "L1 Reconstruct the arguments from primary texts (M4)",
+      "L2 Declare the interpreter's position and horizon (M4.15)",
+      "L3 Search for the strongest counterexample",
+      "L4 Separate exegesis from systematic claim",
+      "L5 Write with the position and its rivals named"
+    ],
+    "artifact": "document",
+    "grounding": "preferred",
+    "signals": [
+      "metaphysics",
+      "epistemology",
+      "ethics",
+      "analytic philosophy",
+      "philosophy of science",
+      "形而上学",
+      "认识论",
+      "伦理学",
+      "本体论"
+    ]
+  },
+  "political-science": {
+    "faculty": "social-sciences",
+    "title_en": "Political science",
+    "name_zh": "政治学域",
+    "summary": "Political science work: concept definition, method declaration, comparative rigor, case-selection honesty",
+    "workflow": [
+      "L0 Define the question and the key concepts",
+      "L1 Declare the method and its assumptions (M3.13)",
+      "L2 Select cases or data with the selection rule stated",
+      "L3 Analyze with the model named (rational choice / institutional / historical)",
+      "L4 Check the counter-hypothesis",
+      "L5 Write with scope conditions declared"
+    ],
+    "artifact": "document",
+    "grounding": "required",
+    "signals": [
+      "political science",
+      "comparative politics",
+      "international relations",
+      "geopolitics",
+      "political theory",
+      "政治学",
+      "政治科学",
+      "比较政治",
+      "国际关系",
+      "地缘政治",
+      "选举",
+      "制度分析"
+    ]
   }
 }

@@ -1162,5 +1162,44 @@
         "weight": 0.1
       }
     ]
+  },
+  "history": {
+    "title_en": "Historical quality",
+    "title_zh": "史学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {"dim": "source-criticism", "zh": "史源批判", "weight": 0.25},
+      {"dim": "periodization", "zh": "断代与分期声明", "weight": 0.2},
+      {"dim": "context-fidelity", "zh": "语境保真", "weight": 0.2},
+      {"dim": "counter-narrative", "zh": "反叙事与沉默", "weight": 0.15},
+      {"dim": "calibration", "zh": "校准", "weight": 0.1},
+      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+    ]
+  },
+  "philosophy": {
+    "title_en": "Philosophical quality",
+    "title_zh": "哲学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {"dim": "argument-reconstruction", "zh": "论证重构", "weight": 0.25},
+      {"dim": "position-declaration", "zh": "立场声明", "weight": 0.2},
+      {"dim": "counterexample-honesty", "zh": "反例坦诚", "weight": 0.2},
+      {"dim": "textual-fidelity", "zh": "文本忠实", "weight": 0.15},
+      {"dim": "calibration", "zh": "校准", "weight": 0.1},
+      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+    ]
+  },
+  "political-science": {
+    "title_en": "Political-science quality",
+    "title_zh": "政治学质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {"dim": "concept-definition", "zh": "概念界定", "weight": 0.25},
+      {"dim": "method-declaration", "zh": "方法声明", "weight": 0.2},
+      {"dim": "comparative-rigor", "zh": "比较严谨", "weight": 0.2},
+      {"dim": "case-selection", "zh": "案例选择", "weight": 0.15},
+      {"dim": "calibration", "zh": "校准", "weight": 0.1},
+      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+    ]
   }
 }
