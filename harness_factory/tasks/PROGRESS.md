@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-23 · P23：记分轮 —— 本库自己的最小打分任务集（关闭 P16.9）
+
+- **开轮依据。** 用户确认；触发来自 PLAN 队列「记分轮」+ P16.9 的重访条件（「本库有打分任务集」）。它同时是 M5.12（component-ablation）在本库自跑的留出集、D1 阶段 C 的前置依赖。
+- **落地。** ① `data/scoreboard.json`：5 个任务（lit-review / unit-tests / kg-dh / deep-research / model-choice），各带 allowed_domains / must_capabilities / must_modules——**全部来自 2026-10-23 一次实测 classify+derive**（model-choice 验证了 P19 的选型路由修复），不凭记忆（M0.4）。② `scoreboard.py`：5 轴确定性打分（routing / capabilities / modules / structure / emission）+ 幻影 id 校验（未知域/能力/模块即拒，M0.5）。③ CLI `harness scoreboard [--task ID] [--json]`（离线、确定性）；实测 5/5 任务 total=1.0。
+- **守卫。** `tests/test_scoreboard.py` 3 用例：board 合法 · 幻影 id 被拒 · **每任务 1.0 基线钉死**（分数变动=一次有意编辑，绝不静默漂移）。
+- **登记。** cycles.json **P23**（0 能力 / 0 域 / 0 子句 / 0 参考）；**P16.9 → done（done_in P23）**；交付 `review/scored-task-set-2026-10.md`（非目标写死：不是任务质量基准、不替代 rubric、不自动晋升）。
+- **状态。** 测试 **302 → 305**（+3）全过；`cycle audit` **19 轮 · 0 硬 · 0 缺口**；HARNESS-MAP 重生成（新子命令 scoreboard）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P22（D1a）：trace schema + 采集 —— 轨迹驱动自演化的第一段落地
 
 - **开轮依据。** 用户确认 D1 设计文档（`updates/2026-10-23-trace-driven-evolution-design.md` §7），先开零风险的阶段 A。按 M5.10 登记：**P22 = D1a**；阶段 B（规则审计→提案）、C（带测量晋升，须等记分轮）、D（LLM 辅助，D7 之后）仍 defer。

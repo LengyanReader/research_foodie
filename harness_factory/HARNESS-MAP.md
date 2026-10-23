@@ -3,13 +3,13 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 38 capabilities · 31 domains · 203 catalog entries · 25 CLI subcommands**
+**9 modules (M0–M8) · 38 capabilities · 31 domains · 203 catalog entries · 26 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 38 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、31 个学科域的产物类型与来源要求（§6）、203 条工具目录按类对应模块（§7）、25 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
+这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 38 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、31 个学科域的产物类型与来源要求（§6）、203 条工具目录按类对应模块（§7）、26 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
 
 整份文档**由代码生成**（`harness map --write`），`tests/test_harness_map.py` 做漂移守卫：图、表、样例读的是同一批数据，改 SSOT 后重生成即可，不会出现「文档说一套、代码做一套」。
 
@@ -23,7 +23,7 @@
 | Tool catalog | 203 (12 classes × 60 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
 | Rubrics | 32 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
-| CLI subcommands | 25 | `src/harness_factory/cli.py` | §8 below |
+| CLI subcommands | 26 | `src/harness_factory/cli.py` | §8 below |
 | Emitted templates | 11 | `src/harness_factory/templates/` | `harness init` output |
 
 ## 1 · 怎么读 · How to read this map
@@ -323,7 +323,7 @@ flowchart TD
 | deep-research · Deep research — search, retrieval & synthesis | 深度调研·检索与综合 | 43 | M1, M3, M4, M6 |
 | instruments · Scientific & formal instruments (evidence tools) | 科学仪器与形式工具（证据工具） | 70 | M3, M4, M6 |
 
-## 8 · CLI surface · 命令行（25 subcommands）
+## 8 · CLI surface · 命令行（26 subcommands）
 
 `PYTHONPATH=<harness_factory>/src python -m harness_factory <cmd>`（或已安装的 `harness`）。日常只用五条：`derive`（看规划）· `init`（写脚手架）· `check` / `gate`（自证）· `skill`（取参考）。其余分三类：**看**（`map` `capabilities` `catalog` `sources` `cases` `doctor` `profile`）、**跑一轮演化**（`harvest` `evolve` `evolve-apply` `refresh` `refresh-apply` `intel` `cycle`）、**改库**（`catalog --write` `capabilities --write` `map --write` `self-update` `plugins` `standard`）。
 
@@ -336,6 +336,7 @@ flowchart TD
 | `gate` | run an emitted harness's runtime gates (structural + emitted check.py) |
 | `harvest` | harvest observed signals from an emitted harness (observe-only) |
 | `collect` | pull a project's local .harness/traces.jsonl into the tool home (offline, human-run) |
+| `scoreboard` | run the scored task set (P23) - the factory's own holdout (offline) |
 | `plugins` | list/validate third-party domain & template plugins |
 | `refresh` | pull new/leading sources (proposal only; never edits docs) |
 | `refresh-apply` | human gate: accept queued candidates into proposal stubs |

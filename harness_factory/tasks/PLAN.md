@@ -240,6 +240,10 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **采集点。** `gate` 失败自动记一行到 `<kb>/updates/traces.jsonl`（通过不记）；`harvest --event/--detail` 写结构化事件（旧行为不变）；`harness collect --project DIR` 把项目本地 `.harness/traces.jsonl` 拉回工具家（离线、人跑）；发射模板自检节增可选 trace 合同。
 - **守卫与验证。** `tests/test_trace.py` 13 用例；CLI gate 测试 hermetic 化。测试 **302 OK**；`cycle audit` 18 轮 · 0 硬 · 0 缺口；HARNESS-MAP 重生成。
 
+## P23 · 记分轮（2026-10-23，已做）：本库自己的最小打分任务集（关闭 P16.9）
+
+> 队列「记分轮」开为本轮：给本库一个打分任务集，让 `component-ablation`（M5.12）能真跑、D1 阶段 C 有留出集。**5 任务 × 5 轴**（路由 / 能力覆盖 / 模块覆盖 / 结构自检 / 干净发射），1.0 基线由 `tests/test_scoreboard.py` 钉死；allowed/must 值全部来自 2026-10-23 实测 classify+derive（M0.4）。交付 `review/scored-task-set-2026-10.md`；P16.9 → done（done_in P23）。非目标写死：不是任务质量基准、不替代 rubric、不自动晋升。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

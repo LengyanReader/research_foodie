@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Scoring round (P23) - a minimal scored task set for the factory's own harness.** Closes P16.9's revisit trigger
+  and gives `component-ablation` (M5.12) a holdout, and D1 stage C its dependency. `data/scoreboard.json` +
+  `scoreboard.py`: 5 canonical tasks (lit-review / unit-tests / kg-dh / deep-research / model-choice) scored on five
+  deterministic axes (routing · capability coverage · module coverage · structural check · clean emission); all
+  allowed/must values were taken from an actual classify+derive run on 2026-10-23 (M0.4), and the 1.0 baseline per
+  task is pinned by `tests/test_scoreboard.py`, so a score move is a deliberate edit, never a silent drift. CLI:
+  `harness scoreboard [--task ID] [--json]` (offline). Non-goals: not a task-quality benchmark, not a per-domain
+  rubric (that is `harness standard`), no automatic promotion. **302 → 305 tests**; `cycle audit` 19 cycles, 0 hard, 0 gaps.
 - **Trace round (P22 · D1a) - trace schema + collection for trace-driven self-evolution.** Stage A of the accepted D1
   design doc (`updates/2026-10-23-trace-driven-evolution-design.md`), before any auditor or promotion: new `trace.py`
   implements the schema (v1 JSONL, six-event vocabulary, required fields, append-only, legacy lines read back as

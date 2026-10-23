@@ -750,6 +750,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P23",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Scoring round: a minimal scored task set for the factory's own harness",
+      "title_zh": "记分轮：本库自己的最小打分任务集",
+      "note": "Closes P16.9's revisit trigger ('this harness has a scored task set, so that a pruned configuration and the full one can be compared on the same tasks') and gives M5.12 / component-ablation a holdout to run on, and D1 stage C its holdout dependency. data/scoreboard.json + scoreboard.py define five canonical tasks (lit-review / unit-tests / kg-dh / deep-research / model-choice), each scored on five deterministic axes: routing (classified domain in the allowed set), capabilities (must-have subset of the matched set), modules (must-have subset of the enabled set), structure (check_harness passes on the emitted scaffold), emission (no unfilled placeholders). All allowed/must values were taken from an actual classify+derive run on 2026-10-23, not written from memory (M0.4); the 1.0 baseline per task is pinned by tests/test_scoreboard.py, so a score move is a deliberate edit of scoreboard.json, never a silent drift. CLI: `harness scoreboard [--task ID] [--json]`. Non-goals recorded: this is a harness-emission score, not a task-quality benchmark, and not a per-task rubric (that is `harness standard`'s job).",
+      "slices": [
+        "P23.1 - data/scoreboard.json: 5 tasks with empirically derived allowed_domains / must_capabilities / must_modules (classify+derive run on 2026-10-23); phantom-id validation in scoreboard.py (unknown domain/capability/module/axis rejected, M0.5)",
+        "P23.2 - scoreboard.py: run_task (classify -> derive -> emit -> check -> 5-axis score), run_all, render; CLI `harness scoreboard [--task ID] [--json]` (offline, deterministic)",
+        "P23.3 - guards + record: tests/test_scoreboard.py (board valid, phantom ids rejected, full 1.0 baseline pinned per task); review/scored-task-set-2026-10.md; P16.9 -> done (done_in P23); views regenerated"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1035,12 +1056,12 @@
     },
     {
       "id": "P16.9",
-      "status": "deferred",
+      "status": "done",
       "cycle": "P16",
       "source": "P16 Slice 5 (design decision)",
       "title_en": "Add a redundancy-ratio or module-count metric for this repository",
       "reason": "the observable is a task score, which this repository does not have for its own harness; a ratio computed from document or clause counts would be exactly the proxy that Goodhart's law eats (R216)",
-      "revisit_when": "this harness has a scored task set, so that a pruned configuration and the full one can be compared on the same tasks"
+      "done_in": "P23 (data/scoreboard.json + scoreboard.py: 5 tasks x 5 axes, 1.0 baseline pinned by tests/test_scoreboard.py - the holdout a pruned configuration can now be compared on)"
     },
     {
       "id": "P16.10",

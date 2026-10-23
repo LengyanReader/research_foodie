@@ -117,6 +117,12 @@ def build_parser() -> argparse.ArgumentParser:
     collect_p.add_argument("--project", required=True, help="target project directory")
     collect_p.add_argument("--json", action="store_true")
 
+    scoreboard_p = sub.add_parser(
+        "scoreboard", help="run the scored task set (P23) - the factory's own holdout (offline)"
+    )
+    scoreboard_p.add_argument("--task", default=None, help="run one task id instead of all")
+    scoreboard_p.add_argument("--json", action="store_true")
+
     plugins_p = sub.add_parser(
         "plugins", help="list/validate third-party domain & template plugins"
     )
@@ -544,6 +550,26 @@ def _cmd_collect(args: argparse.Namespace) -> int:
         print(json.dumps({"project": args.project, "copied": copied, "rejected": rejected}))
     else:
         print(f"collect @ {args.project} -> copied {copied}, rejected {rejected}")
+    return 0
+
+
+def _cmd_scoreboard(args: argparse.Namespace) -> int:
+    from . import scoreboard
+
+    problems = scoreboard.validate_scoreboard()
+    if problems:
+        print("scoreboard invalid:", "; ".join(problems), file=sys.stderr)
+        return 1
+    reports = scoreboard.run_all()
+    if args.task:
+        reports = [r for r in reports if r["id"] == args.task]
+        if not reports:
+            print(f"unknown task id {args.task!r}", file=sys.stderr)
+            return 1
+    if args.json:
+        print(json.dumps(reports, ensure_ascii=False, indent=2))
+    else:
+        print(scoreboard.render(reports))
     return 0
 
 
@@ -1170,6 +1196,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_harvest(args)
     if args.command == "collect":
         return _cmd_collect(args)
+    if args.command == "scoreboard":
+        return _cmd_scoreboard(args)
     if args.command == "plugins":
         return _cmd_plugins(args)
     if args.command == "refresh":

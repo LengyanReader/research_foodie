@@ -1,0 +1,42 @@
+{
+  "updated": "2026-10-23",
+  "note": "The minimal scored task set (P23). Five canonical tasks, each scored on five deterministic axes (routing, capabilities, modules, structure, emission); the 1.0 baseline per task is pinned by tests/test_scoreboard.py, so component-ablation (M5.12) can re-run these same tasks against a pruned configuration and compare on the same ground. The allowed/must values were taken from an actual classify+derive run on 2026-10-23, not written from memory (M0.4). A baseline change is a deliberate edit here, never a silent drift.",
+  "axes": ["routing", "capabilities", "modules", "structure", "emission"],
+  "tasks": [
+    {
+      "id": "lit-review",
+      "task": "Write a literature review with citations over several weeks",
+      "allowed_domains": ["research", "deep-research"],
+      "must_capabilities": ["traceable-sources", "evidence-bounded-generation", "prose-polish", "loop-discipline"],
+      "must_modules": ["M2", "M4", "M8"]
+    },
+    {
+      "id": "unit-tests",
+      "task": "Add unit tests to the parser",
+      "allowed_domains": ["general", "software-engineering"],
+      "must_capabilities": ["verification-gate", "eval-driven-development"],
+      "must_modules": ["M3"]
+    },
+    {
+      "id": "kg-dh",
+      "task": "构建方志人物知识图谱，做检索增强问答，注明来源",
+      "allowed_domains": ["digital-humanities"],
+      "must_capabilities": ["ontology-as-contract", "entity-resolution", "evidence-bounded-generation", "schema-evolution"],
+      "must_modules": ["M2", "M4"]
+    },
+    {
+      "id": "deep-research",
+      "task": "Deep research report on agent memory systems with citations",
+      "allowed_domains": ["deep-research"],
+      "must_capabilities": ["traceable-sources", "evidence-bounded-generation", "prose-polish"],
+      "must_modules": ["M2", "M4"]
+    },
+    {
+      "id": "model-choice",
+      "task": "在 GPT 和 Claude 之间选一个模型来跑评测",
+      "allowed_domains": ["model-selection"],
+      "must_capabilities": ["model-portfolio-discipline", "eval-driven-development"],
+      "must_modules": ["M2", "M4"]
+    }
+  ]
+}
