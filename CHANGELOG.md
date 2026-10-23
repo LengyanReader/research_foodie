@@ -20,6 +20,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Integration round (P28) - registry cross-link audit, two real catalog gaps, scan proposal.** The 15
+  tracked-entities-without-same-id question resolved definitively: the cross-link is one-directional and fully
+  consistent (71/71 `tracked` values resolve across groups); the reverse direction had 5 unreferenced entities —
+  3 recorded exemptions with reasons, and **2 real gaps closed**: `mistral-agents` (Mistral's agents API — the
+  catalog's smolagents is Hugging Face's, not Mistral's) and `hermit-cashapp` (Cash App's hermetic toolchain — the
+  catalog's `hermit` is the Oxford reasoner, a different project). Catalog 203 → **205**; `RegistryBidirectionalTest`
+  (2 guards) pins the bidirectional consistency. The ecosystem scan (AGENTS.md standard · ACP · LangMem · AgentOps ·
+  skills registries · computer-use · D7/D8) is proposed in `updates/` (observe half, P20 method). **328 → 330 tests**;
+  `cycle audit` 24 cycles, 0 hard, 0 gaps.
 - **Breadth round (P27) - basic disciplines and schools of thought.** The user's directive (梳理基础学科与重要思想/学术流派).
   Three slices, criteria-first: (1) **3 domains landed** — `history` (source criticism, periodization declared, silences
   weighed), `philosophy` (argument reconstruction, position declaration, counterexample honesty), `political-science`

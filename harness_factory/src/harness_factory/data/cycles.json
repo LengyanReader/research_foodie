@@ -864,6 +864,27 @@
         "catalog_delta": 0,
         "outlets_delta": 7
       }
+    },
+    {
+      "id": "P28",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Integration round: registry cross-link audit, two real catalog gaps, scan proposal",
+      "title_zh": "整合轮：注册表双向核验 · 补两个真缺口 · 生态扫描提案",
+      "note": "The evaluation flagged 15 tracked harness entities with no same-id catalog entry. The mechanical half of the integration round resolved it definitively: the cross-link is one-directional (catalog.tracked -> sources id) and fully consistent (71/71 resolve across groups); the reverse direction had 5 unreferenced entities - 3 recorded exemptions with reasons (anthropic-building-effective-agents is the R93 blog source, not a product; deepseek-repos / kimi-moonshot are company-level intel trackers with revisit triggers) and 2 REAL gaps now closed: mistral-agents (Mistral's agents API - the catalog's smolagents is Hugging Face's, not Mistral's!) and hermit-cashapp (Cash App's hermetic toolchain - the catalog's 'hermit' is the Oxford reasoner, a different project). RegistryBidirectionalTest (2 guards) pins the bidirectional consistency. The network half (ecosystem scan: AGENTS.md standard, ACP, LangMem, AgentOps, skills registries, computer-use harnesses, D7/D8) is proposed in updates/2026-10-23-ecosystem-scan-proposal.md (observe half, human-gated).",
+      "slices": [
+        "P28.1 - audit: bidirectional matrix computed from the SSOT; direction 1 clean (71/71); direction 2: 5 unreferenced, triaged into 3 recorded exemptions + 2 real gaps",
+        "P28.2 - catalog gaps closed: mistral-agents (orchestration/sdk, docs.mistral.ai) + hermit-cashapp (coding/terminal-agent, github.com/cashapp/hermit), each with tracked/maps_to/tags; catalog 203 -> 205 entries",
+        "P28.3 - guard + proposal: RegistryBidirectionalTest (2 cases) in tests/test_catalog.py; ecosystem scan proposal in updates/ (observe half, P20 method, shrink conditions pre-registered)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 2,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

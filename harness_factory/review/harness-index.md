@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-23 · 203 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-23 · 205 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -21,7 +21,7 @@ harness catalog claude-code           # detail one entry
 
 ---
 
-## Coding / software harnesses · 编码 harness  (12)
+## Coding / software harnesses · 编码 harness  (13)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -37,8 +37,9 @@ harness catalog claude-code           # detail one entry
 | `goose` | goose · goose | 终端编码 agent | M1, M6, M7 | https://github.com/block/goose · tracked:goose |
 | `crush` | crush · crush | 终端编码 agent | M1, M6, M7 | https://github.com/charmbracelet/crush |
 | `pi-mono` | pi (pi-mono) · pi (pi-mono) | 终端编码 agent | M1, M6 | https://github.com/badlogic/pi-mono · tracked:pi-mono |
+| `hermit-cashapp` | Hermit (Cash App) · Hermit（Cash App） | 终端编码 agent | M6, M7 | https://github.com/cashapp/hermit · tracked:hermit-cashapp |
 
-## Orchestration frameworks / agent SDKs · 编排框架与 SDK  (11)
+## Orchestration frameworks / agent SDKs · 编排框架与 SDK  (12)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -53,6 +54,7 @@ harness catalog claude-code           # detail one entry
 | `llama-stack` | Llama Stack · Llama Stack | agent SDK / 框架 | M6, M7 | https://github.com/meta-llama/llama-stack · tracked:meta-llama-stack |
 | `a2a` | Agent2Agent (A2A) · Agent2Agent (A2A) | 协议 | M7, M8 | https://github.com/a2aproject/A2A · tracked:google-a2a |
 | `dspy` | DSPy · DSPy | agent SDK / 框架 | M6 | https://github.com/stanfordnlp/dspy · tracked:dspy |
+| `mistral-agents` | Mistral Agents API · Mistral Agents API | agent SDK / 框架 | M6, M7, M8 | https://docs.mistral.ai/capabilities/agents/ · tracked:mistral-agents |
 
 ## Self-evolution methods · 自我演化方法  (15)
 

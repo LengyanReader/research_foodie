@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-23 · P28：整合轮 —— 注册表双向核验 · 补两个真缺口 · 生态扫描提案
+
+- **开轮依据。** 评估发现「15 个 tracked 实体在目录里无同 id 条目」。机械核验给出定论：交叉链接是**单向**的（目录 `tracked` 字段 → sources id），方向 1 **71/71 全部解析**、完全健全；方向 2（harnesses 组 33 个实体被谁引用）有 5 个零引用——裁决：3 个**豁免有据**（anthropic-building-effective-agents 是 R93 的博客源不是产品；deepseek-repos / kimi-moonshot 是公司级情报追踪器，各带重访触发），**2 个真缺口已补**。
+- **两个真缺口（同名不同物的教训）。** `mistral-agents`——目录里的 smolagents 是 **Hugging Face** 的，不是 Mistral 的；Mistral 的 agents API 此前完全没条目，现已入 orchestration/sdk。`hermit-cashapp`——目录里的 'hermit' 是**牛津推理器**，Cash App 的封闭工具链（B.5 已核验）没有条目，现已入 coding/terminal-agent。目录 203 → **205**。
+- **守卫。** `RegistryBidirectionalTest` 2 用例（catalog `tracked` 必须解析到任一组的实体；harnesses 组实体必须被引用或列在带理由的豁免表）——双向一致性从此进 CI。
+- **网络半环 = 提案。** 生态扫描候选（AGENTS.md 标准 · ACP · LangMem · AgentOps · skills 注册表 · computer-use 栈 · D7/D8）写成 `updates/2026-10-23-ecosystem-scan-proposal.md`（observe 半环，P20 方法 + 缩水条件预登记），**待确认后开轮**。
+- **状态。** 测试 **328 → 330**（+2）全过；`cycle audit` **24 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成（目录 205 条）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P27：广度轮 —— 基础学科 + 思想/学术流派梳理（用户指示）
 
 - **开轮依据。** 用户指示「基础学科和重要的思想/学术流派要好好梳理」+ 评估的广度缺口清单。判据先行（M0.5）：域 = 能改变路由/门禁内容才入。

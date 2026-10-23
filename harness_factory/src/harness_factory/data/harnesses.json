@@ -4988,6 +4988,53 @@
         "grammar",
         "specification"
       ]
+    },
+    {
+      "id": "mistral-agents",
+      "name": "Mistral Agents API",
+      "name_zh": "Mistral Agents API",
+      "class": "orchestration",
+      "kind": "sdk",
+      "vendor": "Mistral",
+      "ecosystem": "mistral",
+      "maps_to": [
+        "M6",
+        "M7",
+        "M8"
+      ],
+      "summary_en": "Mistral's agents API: built-in connectors, code execution and guardrails for multi-step agent workflows.",
+      "summary_zh": "Mistral 的 agents API：内置连接器、代码执行与护栏的多步 agent 工作流。",
+      "url": "https://docs.mistral.ai/capabilities/agents/",
+      "tracked": "mistral-agents",
+      "verified": true,
+      "tags": [
+        "agents-sdk",
+        "vendor",
+        "api"
+      ]
+    },
+    {
+      "id": "hermit-cashapp",
+      "name": "Hermit (Cash App)",
+      "name_zh": "Hermit（Cash App）",
+      "class": "coding",
+      "kind": "terminal-agent",
+      "vendor": "Cash App",
+      "ecosystem": "cashapp",
+      "maps_to": [
+        "M6",
+        "M7"
+      ],
+      "summary_en": "Hermetic per-project toolchain manager; ships an AI-coding-agent skill for reproducible agent-managed repos.",
+      "summary_zh": "逐项目封闭工具链管理器；附带 AI 编码 agent 技能，用于可复现的 agent 管理仓库。",
+      "url": "https://github.com/cashapp/hermit",
+      "tracked": "hermit-cashapp",
+      "verified": true,
+      "tags": [
+        "toolchain",
+        "reproducibility",
+        "skills"
+      ]
     }
   ]
 }

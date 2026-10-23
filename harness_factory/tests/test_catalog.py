@@ -98,5 +98,58 @@ class CatalogIndexDriftTest(unittest.TestCase):
         self.assertIn("do not edit by hand", render_markdown())
 
 
+class RegistryBidirectionalTest(unittest.TestCase):
+    """P28: the sources <-> catalog cross-link must resolve in both directions.
+
+    Direction 1: every catalog `tracked` value names a real sources.json entity
+    (any group). Direction 2: every harnesses-group entity is referenced by at
+    least one catalog entry, or sits on the recorded exemption list with a
+    reason - an unreferenced tracker is one nobody consumes (M0.5).
+    """
+
+    EXEMPT = {
+        "anthropic-building-effective-agents": "a source/blog post cited as R93, not a product",
+        "deepseek-repos": "company-level intel tracker; wire `tracked` when a product-level entry lands",
+        "kimi-moonshot": "company-level intel tracker; wire `tracked` when a product-level entry lands",
+    }
+
+    def test_catalog_tracked_values_resolve(self):
+        import json
+
+        data = ROOT / "src/harness_factory/data"
+        catalog = json.loads((data / "harnesses.json").read_text(encoding="utf-8"))
+        sources = json.loads((data / "sources.json").read_text(encoding="utf-8"))
+        all_ids = {
+            e.get("id")
+            for group in sources["groups"].values()
+            if isinstance(group, list)
+            for e in group
+            if isinstance(e, dict) and e.get("id")
+        }
+        dangling = sorted(
+            f"{i['id']} -> {i['tracked']}"
+            for i in catalog["harnesses"]
+            if i.get("tracked") and i["tracked"] not in all_ids
+        )
+        self.assertEqual(dangling, [], f"catalog `tracked` values that resolve nowhere: {dangling}")
+
+    def test_tracked_entities_are_referenced_or_exempt(self):
+        import json
+
+        data = ROOT / "src/harness_factory/data"
+        catalog = json.loads((data / "harnesses.json").read_text(encoding="utf-8"))
+        sources = json.loads((data / "sources.json").read_text(encoding="utf-8"))
+        tracked_ids = {
+            e["id"] for e in sources["groups"]["harnesses"] if isinstance(e, dict) and e.get("id")
+        }
+        referenced = {i["tracked"] for i in catalog["harnesses"] if i.get("tracked")}
+        unreferenced = sorted(tracked_ids - referenced - set(self.EXEMPT))
+        self.assertEqual(
+            unreferenced,
+            [],
+            f"tracked entities no catalog entry references (wire `tracked` or record an exemption): {unreferenced}",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
