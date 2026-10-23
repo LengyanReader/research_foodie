@@ -154,5 +154,9 @@ python .harness/check.py .
 
 **Trace (optional · 可选).** At phase boundaries, append machine-readable facts — `gate_miss` or
 `human_correction` — to `.harness/traces.jsonl`, one JSON line each:
-`{"v":1,"ts":"…","project":"…","task":"…","harness":"…","event":"gate_miss"}`. A human runs
-`harness collect --project .` to pull them back to the factory (offline, never automatic).
+`{"v":1,"ts":"…","project":"…","task":"…","harness":"…","event":"gate_miss"}`. At task close, record
+one final `task_outcome` line carrying the verdict's source and value —
+`{"v":1,"ts":"…","project":"…","task":"…","harness":"…","event":"task_outcome","detail":{"judge":"human","score":4,"rubric":"…"},"session":"…"}`
+(`judge` is `human` or `machine`; a machine judge is only legitimate where the task family has a
+defined metric). A human runs `harness collect --project .` to pull them back to the factory
+(offline, never automatic).

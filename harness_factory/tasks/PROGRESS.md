@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-10-23 · P24：效果反馈轮 —— task_outcome 事件 + 记分集 effect 轴
+
+- **开轮依据。** 用户确认评估建议（「双向流补上结果侧采集 + 留出集补效果轴，第一步由真实任务自然完成」）。评估的两个事实支撑：双向流能回传的 6 个 trace 事件**全是过程/失败形状**，没有「任务最终做得多好」的通道；P23 留出集 5 轴全是结构轴，D1 阶段 C 即使开闸也**检验不了效果提升**。
+- **落地 ①（trace 词表 6 → 7）。** `task_outcome` 成为词表唯一的结果侧事件：`detail` 必须带 `judge`（`human` 默认；`machine` 仅当该任务族有已定义度量器时合法）+ `score`（数字或等级）；缺任一被 `trace.validate` 拒绝、永不落盘——**机器记判决、不做判决**（M0.4）。发射模板 `AGENTS.md.tmpl` 的 trace 合同补记收尾事件；D1 设计文档（updates/，不入版本控制）词表同步。CLI 现成可用：`harness harvest --event task_outcome --detail '{"judge":"human","score":4,"rubric":"writing"}'`。
+- **落地 ②（记分集第 6 轴）。** `data/scoreboard.json` 每任务声明 `effect_metric`（机器可判分指标，锚既有条款：citation-verifiability · answer-evidence-precision（M4.13）· decision-audit-pass-rate（M4.17）· test-suite-pass-rate）；真实测量前一律 `effect=unmeasured`（**0 分也是编造**）；测得值须带完整收据 `{status: measured, score, judge, measured_on}`，`validate_scoreboard` 拒绝残缺收据；**effect 永不进结构总分**——5 轴 1.0 结构基线原样钉死，结构与效果分开报告、分开钉死。
+- **顺带修正一个真实交互。** 模板里 task_outcome 的 JSON 示例以嵌套对象结尾（`…}}`）会撞 emission 轴的占位符检查——第一次全量跑就红了（emission=0）；示例在 `detail` 后补真实字段 `session` 后回到全绿。结构守卫先于文档意图，一次自证。
+- **证据分层（写进 D1 文档与记分集文档）。** L1 过程事实 / L2 结果观察（task_outcome）→ **只提案**；L3 晋升仍须阶段 C 留出集检验。留给使用侧：第一个真实任务的 `task_outcome`、第一份 effect 收据、第一次消融实跑。
+- **守卫与登记。** `tests/test_trace.py` **+6**（合法组合 · 缺 judge · 缺 score · `judge=vibes` 拒 · 无效行永不落盘 · 机器判决合法）· `tests/test_scoreboard.py` **+4**（每任务有 metric · unmeasured 且不进 total · 残缺收据拒 · 完整收据受呈）；cycles.json **P24**（0 能力 / 0 域 / 0 子句 / 0 参考）；PLAN.md P24 章节；`scored-task-set-2026-10.md` 更新（第 6 轴 · 消融第二问 · 非目标改写——「结构分不是任务效果」与 effect 轴的存在理顺）；AGENTS.md 测试计数 305 → 315（CountDriftGuard 抓的，按规矩同步）。
+- **状态。** 测试 **305 → 315** 全过；`cycle audit` **20 轮 · 0 硬 · 0 缺口**；结构基线 5/5 任务 total=1.0 不变；`catalog --write` 重生成（CAPABILITIES / harness-index 内容无变化，HARNESS-MAP 仅行尾）。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-23 · P23：记分轮 —— 本库自己的最小打分任务集（关闭 P16.9）
 
 - **开轮依据。** 用户确认；触发来自 PLAN 队列「记分轮」+ P16.9 的重访条件（「本库有打分任务集」）。它同时是 M5.12（component-ablation）在本库自跑的留出集、D1 阶段 C 的前置依赖。

@@ -244,6 +244,31 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 > 队列「记分轮」开为本轮：给本库一个打分任务集，让 `component-ablation`（M5.12）能真跑、D1 阶段 C 有留出集。**5 任务 × 5 轴**（路由 / 能力覆盖 / 模块覆盖 / 结构自检 / 干净发射），1.0 基线由 `tests/test_scoreboard.py` 钉死；allowed/must 值全部来自 2026-10-23 实测 classify+derive（M0.4）。交付 `review/scored-task-set-2026-10.md`；P16.9 → done（done_in P23）。非目标写死：不是任务质量基准、不替代 rubric、不自动晋升。
 
+## P24 · 效果反馈轮（2026-10-23，已做）：task_outcome 事件 + 记分集 effect 轴——双向流补上「结果」那一边
+
+> 评估发现：双向能力流能回传**过程事实**（trace 6 事件，全是失败形状），却没有「任务最终做得多好」的采集通道；
+> 且 P23 留出集的 5 轴全是结构轴——即使 D1 阶段 C 开闸，也只能检验「结构不回归」，检验不了「效果提升」。本轮落
+> 两个最小改动，都遵守「未测量就不编数」（M0.4）。证据分层写死：L1 过程事实/L2 结果观察 → 只提案；L3 晋升仍须
+> 阶段 C 留出集检验。**不做**：不加能力（自身不触发任何新东西）、不发明效果数字、不自动打分；D1 阶段 B/C 仍 defer。
+
+- **① `task_outcome`（词表第 7 个、唯一的结果侧事件）。** `detail` 必须带 `judge`（默认 `human`；`machine` 仅当
+  该任务族有已定义度量器——即记分集的 `effect_metric`——时合法）+ `score`（数字或等级）；缺任一即被
+  `trace.validate` 拒绝、永不落盘（无判决者的判决是噪声）。**机器记判决、不做判决**（M0.4）。发射模板的 trace
+  合同补记该事件；D1 设计文档词表同步（6 → 7，updates/ 不入版本控制）。CLI 侧 `harvest --event task_outcome
+  --detail '{"judge":"human","score":4}'` 即可用。
+- **② 记分集 effect 轴。** 每任务声明 `effect_metric`（该任务族的机器可判分指标，锚在既有条款：引用可核验率 ·
+  答句证据指针可解析率（M4.13）· 选型记录完整率（M4.17）等）；真实测量落地前一律 `effect=unmeasured`，测得值
+  须带完整收据 `{status: measured, score, judge, measured_on}`，`validate_scoreboard` 拒绝残缺收据；**effect
+  永不进结构总分**——5 轴 1.0 结构基线原样钉死，结构与效果是两种主张，分开报告、分开钉死。
+- **顺带修正一个真实交互。** 模板里 task_outcome 的 JSON 示例若以嵌套对象结尾（`…}}`）会撞 emission 轴的未渲染
+  占位符检查（`}}` 序列），示例改为在 `detail` 后补真实字段 `session`，发射检查回到全绿——这正是「结构轴守卫先于
+  文档」的一次自证。
+- **守卫与验证。** `tests/test_trace.py` +6（合法 judge/score 组合 · 缺 judge · 缺 score · `judge=vibes` 拒绝 ·
+  无效行永不落盘）· `tests/test_scoreboard.py` +4（每任务有 metric · unmeasured 且不进 total · 残缺收据拒绝 ·
+  完整收据接受并呈现）；测试 **315 OK**；`cycle audit` 20 轮 · 0 硬 · 0 缺口；`scored-task-set` 文档更新（第 6 轴 ·
+  消融第二问 · 非目标改写）。**留给使用侧的**：第一个真实任务的 `task_outcome` 与第一份 effect 收据（L1/L2 证据）；
+  第一次消融实跑（L3）。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

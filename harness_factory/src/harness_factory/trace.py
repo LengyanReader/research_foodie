@@ -1,10 +1,17 @@
-"""Trace recording for the D1 loop (P22 · D1a): traces are facts, not opinions.
+"""Trace recording for the D1 loop (P22 · D1a, extended in P24): traces are facts, not opinions.
 
 The D1 design doc (`updates/2026-10-23-trace-driven-evolution-design.md`, a
-human-gated proposal) names the schema this module implements: a closed six-event
-vocabulary, required fields, append-only local storage, and a legacy reader that
-treats pre-P22 lines as the ``signal`` event so nothing collected before becomes
-unreadable.
+human-gated proposal) names the schema this module implements: a closed
+event vocabulary, required fields, append-only local storage, and a legacy
+reader that treats pre-P22 lines as the ``signal`` event so nothing collected
+before becomes unreadable.
+
+P24 added the vocabulary's only result-side event, ``task_outcome``: the six
+process events say where a harness misbehaved, but nothing recorded how the
+task itself ended. A outcome line carries the *judge's* verdict
+(``detail.judge`` is ``human`` or ``machine``) plus a ``detail.score`` — the
+machine records the verdict, the human (or a task-family metric) makes it
+(M0.4).
 
 Traces never touch the SSOT and never leave the machine (offline by default);
 they are proposal input for the M5 loop, not an automatic change (M0.4/M0.8).
@@ -21,7 +28,8 @@ TRACE_VERSION = 1
 TRACES_REL = "updates/traces.jsonl"
 PROJECT_TRACES_REL = ".harness/traces.jsonl"
 
-# Closed vocabulary (design doc §2): six events, all mechanically producible.
+# Closed vocabulary (design doc §2): six process events, all mechanically
+# producible, plus the one result-side event (P24).
 EVENTS = frozenset(
     {
         "gate_miss",  # a runtime gate run failed
@@ -30,6 +38,7 @@ EVENTS = frozenset(
         "capability_unused",  # matched but never referenced (working-set.json)
         "check_fail",  # the emitted self-check failed
         "context_eviction",  # M1.10 eviction receipts aggregated
+        "task_outcome",  # the task's final result as judged (P24): the result fact the six process events cannot carry
     }
 )
 LEGACY_EVENT = "signal"  # lines recorded before P22 read back under this event
@@ -90,6 +99,19 @@ def validate(trace: dict[str, Any]) -> list[str]:
         problems.append(f"unknown event {trace.get('event')!r}")
     if "detail" in trace and not isinstance(trace["detail"], dict):
         problems.append("'detail' must be a JSON object")
+    if trace.get("event") == "task_outcome":
+        # An outcome line without a judge and a score carries no information:
+        # who verdicted, and what the verdict was (M0.4 — the machine records
+        # the judgement, it never makes it).
+        detail = trace.get("detail")
+        if not isinstance(detail, dict):
+            problems.append("task_outcome requires a detail object with judge + score")
+        else:
+            if detail.get("judge") not in ("human", "machine"):
+                problems.append("task_outcome detail.judge must be 'human' or 'machine'")
+            score = detail.get("score")
+            if isinstance(score, bool) or not isinstance(score, (int, float, str)) or score == "":
+                problems.append("task_outcome detail.score must be a number or non-empty string")
     return problems
 
 

@@ -771,6 +771,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P24",
+      "date": "2026-10-23",
+      "status": "done",
+      "title_en": "Effect-feedback round: the task_outcome trace event + the scoreboard effect axis",
+      "title_zh": "效果反馈轮：task_outcome 轨迹事件 + 记分集 effect 轴",
+      "note": "The bidirectional capability flow could carry process facts (six trace events, all failure-shaped) but had no channel for the task's final result, and the P23 holdout scored only structure, so D1 stage C could never have tested an effect gain even once opened. Two minimal landings, both honest-until-measured: (1) trace vocabulary gains its only result-side event, task_outcome, whose detail must carry judge ('human' by default; 'machine' only where the task family has a defined metric) + score -- the machine records the verdict, never makes it (M0.4); validation refuses a verdictless line and it never reaches storage. (2) scoreboard.json gains a per-task effect_metric (the machine-scorable metric for that task family, anchored in existing clauses: M4.13 evidence pointers, M4.17 selection records) while every task stays effect=unmeasured until a real run records a full {status: measured, score, judge, measured_on} receipt; the effect score never enters the structural total, so the 1.0 structural baseline is untouched. Evidence layers stay explicit: L1 process facts -> proposals only; L2 task_outcome observations -> proposals only; L3 promotion still requires the stage-C holdout test. The D1 design doc's vocabulary section is synced (updates/, untracked). Non-goals: no new capability (fires nothing new by itself), no invented effect numbers, no automated judging, D1 stage B/C remain deferred.",
+      "slices": [
+        "P24.1 - trace.py: EVENTS + task_outcome (the vocabulary's only result-side event); validate() requires detail.judge in {human, machine} + a non-empty detail.score; the emitted AGENTS.md trace contract names it (judge/score payload, machine-judge legitimacy rule); D1 design doc vocabulary synced (6 -> 7 events)",
+        "P24.2 - scoreboard: every task declares effect_metric (per-family machine-scorable metric, anchored in M4.13/M4.17); effect reports unmeasured until a full {status: measured, score, judge, measured_on} receipt exists; validate_scoreboard refuses partial receipts; effect never enters the structural total (5-axis 1.0 baseline pinned as before)",
+        "P24.3 - guards + record: tests/test_trace.py +6 (valid judge/score pairs, missing judge, missing score, vibes-judge rejected, invalid line never stored), tests/test_scoreboard.py +4 (metric declared per task, unmeasured + outside total, partial receipt rejected, full receipt accepted/reported); review/scored-task-set-2026-10.md updated (axis 6, ablation's second question, non-goals rewritten); views regenerated"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

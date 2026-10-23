@@ -135,5 +135,67 @@ class GateMissTraceTest(unittest.TestCase):
         self.assertIn("failed_gates", line["detail"])
 
 
+class TaskOutcomeTraceTest(unittest.TestCase):
+    """P24: task_outcome is the vocabulary's only result-side event.
+
+    The six process events carry failure facts; task_outcome carries the final
+    verdict. A verdict line without a judge and a score is noise, so validation
+    refuses to record it.
+    """
+
+    def test_outcome_with_judge_and_score_is_valid(self):
+        line = trace.make_trace(
+            "task_outcome",
+            project="p",
+            task="t",
+            harness="h",
+            detail={"judge": "human", "score": 4, "rubric": "writing"},
+        )
+        self.assertEqual(trace.validate(line), [])
+
+    def test_machine_judged_outcome_is_valid_too(self):
+        line = trace.make_trace(
+            "task_outcome",
+            project="p",
+            task="t",
+            harness="h",
+            detail={"judge": "machine", "score": 0.83, "metric": "citation-verifiability"},
+        )
+        self.assertEqual(trace.validate(line), [])
+
+    def test_outcome_without_detail_is_invalid(self):
+        line = trace.make_trace("task_outcome", project="p", task="t", harness="h")
+        self.assertTrue(trace.validate(line))
+
+    def test_outcome_requires_both_judge_and_score(self):
+        line = trace.make_trace(
+            "task_outcome", project="p", task="t", harness="h", detail={"judge": "human"}
+        )
+        joined = "; ".join(trace.validate(line))
+        self.assertIn("score", joined)
+
+        line = trace.make_trace(
+            "task_outcome", project="p", task="t", harness="h", detail={"score": 4}
+        )
+        joined = "; ".join(trace.validate(line))
+        self.assertIn("judge", joined)
+
+    def test_outcome_rejects_vibes_judge(self):
+        line = trace.make_trace(
+            "task_outcome", project="p", task="t", harness="h",
+            detail={"judge": "vibes", "score": 5},
+        )
+        self.assertIn("judge", "; ".join(trace.validate(line)))
+
+    def test_invalid_outcome_never_reaches_storage(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaises(ValueError):
+                trace.record_trace(
+                    Path(tmp) / "traces.jsonl",
+                    trace.make_trace("task_outcome", project="p", task="t", harness="h"),
+                )
+            self.assertFalse((Path(tmp) / "traces.jsonl").exists())
+
+
 if __name__ == "__main__":
     unittest.main()

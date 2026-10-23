@@ -44,5 +44,53 @@ class ScoreboardBaselineTest(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)), "duplicate task ids")
 
 
+class EffectAxisTest(unittest.TestCase):
+    """P24: the effect axis is defined for every task but never invented.
+
+    Effect answers "did the task go well" — a different claim from the five
+    structural axes. Until a real run records a full receipt, every task must
+    report unmeasured, and validate_scoreboard must refuse a receipt that is
+    missing its judge, score, or date (M0.4).
+    """
+
+    def test_every_task_declares_an_effect_metric(self):
+        for entry in scoreboard.load_scoreboard()["tasks"]:
+            self.assertTrue(
+                entry.get("effect_metric"),
+                f"{entry['id']}: effect_metric missing — the effect axis is undefined for this task",
+            )
+
+    def test_effect_is_unmeasured_and_outside_the_structural_total(self):
+        for report in scoreboard.run_all():
+            self.assertEqual(report["effect"]["status"], "unmeasured")
+            self.assertTrue(report["effect"]["metric"])
+            self.assertEqual(len(report["scores"]), 5, "effect must not join the structural axes")
+
+    def test_partial_effect_receipt_is_rejected(self):
+        board = scoreboard.load_scoreboard()
+        board["tasks"][0]["effect"] = {"status": "measured", "score": 4.5}
+        self.assertTrue(any("effect" in p for p in scoreboard.validate_scoreboard(board)))
+
+        board = scoreboard.load_scoreboard()
+        board["tasks"][0]["effect"] = {
+            "status": "measured", "score": 4.5, "judge": "human", "measured_on": "23-10-2026",
+        }
+        self.assertTrue(any("measured_on" in p or "effect" in p
+                            for p in scoreboard.validate_scoreboard(board)))
+
+    def test_full_effect_receipt_is_accepted_and_reported(self):
+        board = scoreboard.load_scoreboard()
+        entry = dict(board["tasks"][0])
+        entry["effect"] = {
+            "status": "measured", "score": 4.5, "judge": "human", "measured_on": "2026-10-23",
+        }
+        board["tasks"] = [entry]
+        self.assertEqual(scoreboard.validate_scoreboard(board), [])
+        report = scoreboard.run_task(entry)
+        self.assertEqual(report["effect"]["status"], "measured")
+        self.assertEqual(report["effect"]["score"], 4.5)
+        self.assertIn("effect=measured", scoreboard.render([report]))
+
+
 if __name__ == "__main__":
     unittest.main()
