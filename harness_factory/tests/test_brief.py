@@ -54,6 +54,42 @@ class BriefWriteTest(unittest.TestCase):
         self.assertTrue(path.exists())
         self.assertIn("Task brief", path.read_text(encoding="utf-8"))
 
+    def test_load_brief_from_markdown(self):
+        tmp = Path(tempfile.mkdtemp())
+        built = brief.build(TaskSpec(text="Write a literature review with citations over several weeks"))
+        path = brief.write_brief(built, tmp / "brief.md")
+        loaded = brief.load_brief(path)
+        self.assertEqual(loaded["task"], "Write a literature review with citations over several weeks")
+        self.assertEqual(loaded["domain"], built["domain"])
+        self.assertIn("Task brief", loaded["brief_md"])
+
+    def test_load_brief_from_json(self):
+        tmp = Path(tempfile.mkdtemp())
+        built = brief.build(TaskSpec(text="Add unit tests to the parser"))
+        json_path = tmp / "brief.json"
+        json_path.write_text(brief.to_json(built), encoding="utf-8")
+        loaded = brief.load_brief(json_path)
+        self.assertEqual(loaded["task"], "Add unit tests to the parser")
+        self.assertEqual(loaded["domain"], built["domain"])
+        self.assertIn("Task brief", loaded["brief_md"])
+
+    def test_init_from_brief_cli(self):
+        from harness_factory import cli
+        from harness_factory.check import check_harness
+
+        tmp = Path(tempfile.mkdtemp())
+        built = brief.build(TaskSpec(text="Write a literature review with citations over several weeks"))
+        brief_file = tmp / "brief.md"
+        brief.write_brief(built, brief_file)
+
+        out_dir = tmp / "task-out"
+        code = cli.main(["init", "--from-brief", str(brief_file), "--out", str(out_dir)])
+        self.assertEqual(code, 0)
+        self.assertTrue((out_dir / ".harness" / "BRIEF.md").exists())
+        manifest = json.loads((out_dir / ".harness" / "manifest.json").read_text(encoding="utf-8"))
+        self.assertIn(".harness/BRIEF.md", manifest["files"])
+        self.assertEqual(check_harness(out_dir), [])
+
 
 if __name__ == "__main__":
     unittest.main()

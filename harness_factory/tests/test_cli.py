@@ -133,6 +133,31 @@ class CliTest(unittest.TestCase):
                     os.environ["HARNESS_PLUGINS_DIR"] = old
                 plugins.clear_caches()
 
+    def test_doctor_success(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = os.environ.get("HARNESS_HOME")
+            os.environ["HARNESS_HOME"] = str(Path(tmp) / "home")
+            try:
+                code, out = run(["doctor"])
+                self.assertEqual(code, 0)
+                self.assertIn("harness-factory", out)
+                self.assertIn("seed        : added=", out)
+            finally:
+                if old is None:
+                    os.environ.pop("HARNESS_HOME", None)
+                else:
+                    os.environ["HARNESS_HOME"] = old
+
+    def test_doctor_handles_unwritable_home(self):
+        from unittest.mock import patch
+        from harness_factory import config
+
+        with patch.object(config, "ensure_home", side_effect=PermissionError("mock access denied")):
+            code, out = run(["doctor"])
+            self.assertEqual(code, 1)
+            self.assertIn("[unwritable: mock access denied]", out)
+            self.assertIn("hint        : set HARNESS_HOME", out)
+
 
 if __name__ == "__main__":
     unittest.main()

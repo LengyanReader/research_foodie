@@ -174,6 +174,63 @@ def write_brief(brief: dict[str, Any], path: str | Path) -> Path:
     return path
 
 
+def load_brief(source: str | Path) -> dict[str, Any]:
+    """Load a brief from a file path or text content (markdown or json).
+
+    Returns a dict with ``task``, ``domain``, ``brief_md``, and any parsed data.
+    """
+    path = Path(source)
+    if path.is_file():
+        text = path.read_text(encoding="utf-8")
+    else:
+        text = str(source)
+
+    # 1. Try JSON
+    try:
+        data = json.loads(text)
+        if isinstance(data, dict) and "task" in data:
+            task_text = data.get("task", "")
+            domain = data.get("domain")
+            if text.strip().startswith("#"):
+                brief_md = text
+            elif "features" in data:
+                from .spec import FeatureVector
+
+                feat_dict = data["features"]
+                if isinstance(feat_dict, dict):
+                    data["features"] = FeatureVector(**feat_dict)
+                brief_md = render(data)
+            else:
+                brief_md = text
+            return {
+                "task": task_text,
+                "domain": domain,
+                "brief_md": brief_md,
+                "data": data,
+            }
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+    # 2. Parse Markdown brief
+    import re
+
+    task_text = ""
+    goal_m = re.search(r"## 0\. Goal[^\n]*\n\n(.*?)(?=\n## |\Z)", text, flags=re.DOTALL)
+    if goal_m:
+        task_text = goal_m.group(1).strip()
+
+    domain = None
+    domain_m = re.search(r"domain\s+([a-zA-Z0-9_\-]+)", text)
+    if domain_m:
+        domain = domain_m.group(1).strip()
+
+    return {
+        "task": task_text,
+        "domain": domain,
+        "brief_md": text,
+    }
+
+
 def to_json(brief: dict[str, Any]) -> str:
     payload = dict(brief)
     payload["features"] = {

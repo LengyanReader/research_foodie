@@ -31,6 +31,7 @@ _MANIFEST = ".harness/manifest.json"
 _WORKING_SET = ".harness/working-set.json"
 _POINTER = ".harness/pointer.json"
 _PROFILE = ".harness/PROFILE.md"
+_BRIEF = ".harness/BRIEF.md"
 _SKILLS_DIR = ".harness/skills"
 _PORTABLE_SKILL_TEMPLATE = "skills_SKILL.md.tmpl"
 
@@ -354,6 +355,9 @@ def build_files(
     params = plan.params()
     ctx = _context(plan, params)
     ctx["profile_note"] = extra.get("profile_note", "")
+    if extra.get("brief_note"):
+        note = ctx["profile_note"]
+        ctx["profile_note"] = (note + "\n" if note else "") + extra["brief_note"]
 
     root = Path(factory_root) if factory_root else _factory_root()
     if root is not None and not (root / "SKILL.md").is_file():
@@ -365,6 +369,8 @@ def build_files(
     names = _selected_files(plan)
     if extra.get("profile_md"):
         names = [*names, _PROFILE]
+    if extra.get("brief_md"):
+        names = [*names, _BRIEF]
     names = sorted({*names, *plugin_targets})
     names = sorted({*names, _WORKING_SET})
     plan.files = names
@@ -383,6 +389,9 @@ def build_files(
             continue
         if name == _PROFILE:
             files[name] = extra["profile_md"]
+            continue
+        if name == _BRIEF:
+            files[name] = extra["brief_md"]
             continue
         if name in plugin_targets:
             try:

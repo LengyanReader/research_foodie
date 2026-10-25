@@ -35,8 +35,8 @@ def _slug(text: str) -> str:
     return (slug or "harness")[:40]
 
 
-def _add_task_args(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--task", required=True, help="natural-language task description")
+def _add_task_args(parser: argparse.ArgumentParser, task_required: bool = True) -> None:
+    parser.add_argument("--task", required=task_required, default=None, help="natural-language task description")
     parser.add_argument("--domain", choices=domain_ids(), help="force a domain")
     parser.add_argument("--goal", default=None, help="explicit goal (optional)")
     parser.add_argument(
@@ -67,11 +67,13 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     derive_p = sub.add_parser("derive", help="show the derived harness plan")
-    _add_task_args(derive_p)
+    _add_task_args(derive_p, task_required=False)
+    derive_p.add_argument("--from-brief", default=None, help="derive from a confirmed brief file (.md or .json)")
     derive_p.add_argument("--json", action="store_true", help="emit the plan as JSON")
 
     init_p = sub.add_parser("init", help="write the harness scaffold to a directory")
-    _add_task_args(init_p)
+    _add_task_args(init_p, task_required=False)
+    init_p.add_argument("--from-brief", default=None, help="derive from a confirmed brief file (.md or .json)")
     init_p.add_argument("--out", default=None, help="output directory (default: ./<task-slug>)")
     init_p.add_argument("--force", action="store_true", help="overwrite existing files")
 
@@ -386,6 +388,19 @@ def _overrides(args: argparse.Namespace) -> dict[str, str]:
 def _make_plan(args: argparse.Namespace) -> HarnessPlan:
     from .profile import ProjectProfile, profile_project
 
+    brief_data: dict[str, Any] | None = None
+    if getattr(args, "from_brief", None):
+        from . import brief
+
+        brief_data = brief.load_brief(args.from_brief)
+        if not getattr(args, "task", None):
+            args.task = brief_data.get("task")
+        if not getattr(args, "domain", None) and brief_data.get("domain"):
+            args.domain = brief_data["domain"]
+
+    if not getattr(args, "task", None):
+        raise ValueError("task description is required: provide --task or --from-brief")
+
     task = TaskSpec(text=args.task, domain=getattr(args, "domain", None), goal=args.goal)
     overrides = _overrides(args)
 
@@ -400,6 +415,8 @@ def _make_plan(args: argparse.Namespace) -> HarnessPlan:
     plan = derive(task, features)
     if profile is not None:
         setattr(plan, "_profile", profile)
+    if brief_data is not None:
+        setattr(plan, "_brief_data", brief_data)
     return plan
 
 
@@ -436,7 +453,12 @@ def _format_plan(plan: HarnessPlan) -> str:
 
 
 def _cmd_derive(args: argparse.Namespace) -> int:
-    plan = _make_plan(args)
+    try:
+        plan = _make_plan(args)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+
     if args.json:
         payload = plan.to_dict()
         profile = getattr(plan, "_profile", None)
@@ -453,11 +475,24 @@ def _cmd_derive(args: argparse.Namespace) -> int:
 
 
 def _cmd_init(args: argparse.Namespace) -> int:
-    plan = _make_plan(args)
+    try:
+        plan = _make_plan(args)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+
     out = args.out or str(Path.cwd() / _slug(args.task))
+    extra = _profile_extra(plan, args.goal) or {}
+    brief_data = getattr(plan, "_brief_data", None)
+    if brief_data and brief_data.get("brief_md"):
+        extra["brief_md"] = brief_data["brief_md"]
+        extra["brief_note"] = (
+            "- **Confirmed brief:** `.harness/BRIEF.md` (read confirmed constraints, feature plan, and first actions)."
+        )
+
     try:
         written = write_harness(
-            plan, out, force=args.force, extra=_profile_extra(plan, args.goal)
+            plan, out, force=args.force, extra=extra
         )
     except FileExistsError as exc:
         print(f"error: {exc}", file=sys.stderr)
@@ -897,31 +932,56 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
 
     from . import config, llm, pointer
 
-    existed = config.home().exists()
-    home = config.ensure_home()
-    seeded = config.seed_catalog()
-    catalog_files = sorted(p.name for p in config.catalog_dir().glob("*.json"))
+    home = config.home()
+    existed = False
+    home_err: str | None = None
+    seeded: dict[str, list[str]] = {"added": [], "kept": []}
+    catalog_files: list[str] = []
+
+    try:
+        existed = home.exists()
+        config.ensure_home()
+        seeded = config.seed_catalog()
+        if config.catalog_dir().exists():
+            catalog_files = sorted(p.name for p in config.catalog_dir().glob("*.json"))
+    except OSError as exc:
+        home_err = str(exc)
+        try:
+            if config.catalog_dir().exists():
+                catalog_files = sorted(p.name for p in config.catalog_dir().glob("*.json"))
+        except OSError:
+            pass
 
     print(f"harness-factory {__version__}  (python {sys.version.split()[0]})")
-    print(f"home        : {home}{'  (created)' if not existed else ''}")
+    if home_err:
+        print(f"home        : {home}  [unwritable: {home_err}]")
+        print("hint        : set HARNESS_HOME to a writable directory (e.g. $env:HARNESS_HOME='<path>')")
+    else:
+        print(f"home        : {home}{'  (created)' if not existed else ''}")
     print(
         f"config      : {config.config_file()}  "
         f"{'[present]' if config.config_file().exists() else '[none]'}"
     )
-    print(f"catalog dir : {config.catalog_dir()}  files={catalog_files}")
+    if home_err and not catalog_files:
+        print(f"catalog dir : {config.catalog_dir()}  [inaccessible]")
+    else:
+        print(f"catalog dir : {config.catalog_dir()}  files={catalog_files}")
     print(f"corpus dir  : {config.corpus_dir()}")
     print(f"updates dir : {config.updates_dir()}")
     root = config.factory_root()
     print(f"factory     : {root if root else '(docs not on disk — data-only install)'}")
     print(f"llm         : {'configured' if llm.available() else 'not configured (rules only)'}")
     print("network     : optional - everything runs offline except `refresh`/`intel` (feeds) and `llm`")
-    print(f"seed        : added={seeded['added'] or 'none'} kept={seeded['kept'] or 'none'}")
+    if home_err:
+        print(f"seed        : [failed: {home_err}]")
+    else:
+        print(f"seed        : added={seeded['added'] or 'none'} kept={seeded['kept'] or 'none'}")
 
     project = Path(args.project) if getattr(args, "project", None) else Path.cwd()
     if getattr(args, "project", None) or (project / ".harness" / "pointer.json").is_file():
         print()
         print(pointer.render_verify(pointer.verify(project)))
-    return 0
+    return 1 if home_err else 0
 
 
 def _cmd_self_update(args: argparse.Namespace) -> int:

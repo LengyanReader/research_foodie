@@ -1,6 +1,17 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-23
+**Updated:** 2026-10-25
+
+---
+
+## 2026-10-25 · P33：环境鲁棒与简报串联 —— doctor 只读探测容错 + init --from-brief 管道
+
+- **开轮依据。** 实测与自检发现两处断点：① 受限沙箱/只读容器中 `harness doctor` 因无条件调用 `ensure_home()` 触发 `PermissionError` 崩溃，违背纯观察原则（M0.4）；② P32 `harness brief` 生成的高质量执行草案与 `harness init` 之间无直接输入通道，确认后需重新手敲任务目标。
+- **落地两项。**
+  1. `doctor` 容错探测：`_cmd_doctor` 捕获 `OSError`/`PermissionError`，安全报告 `[unwritable / access denied]` 与 `$env:HARNESS_HOME` 环境变量引导，不崩溃并返回诊断退出码 1；正常环境 exit 0。
+  2. `brief` 管道串联：`brief.py` 增 `load_brief`（自动解析 markdown 或 json 简报中的 Goal 与 Domain）；`assemble.py` 支持 `extra["brief_md"]` 生成 `.harness/BRIEF.md`；`cli.py` 的 `derive` 与 `init` 增加 `--from-brief` 参数，实现确认草案一键落盘脚手架。
+- **守卫。** `test_cli.py` +2 用例（`doctor` 成功/无权写入容错）；`test_brief.py` +3 用例（Markdown 解析/JSON 反序列化/`init --from-brief` 端到端自检通过）。
+- **状态。** 测试 **349 → 354**（+5）全过；`CountDriftGuardTest` 同步守护；`cycle audit` 0 硬 0 缺口。
 
 ---
 

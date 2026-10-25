@@ -20,6 +20,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Environment resilience & brief pipeline (P33).** `doctor` command hardened against restricted permissions
+  and read-only sandbox environments (captures `OSError`/`PermissionError`, reports friendly status and hints
+  for `$env:HARNESS_HOME`, avoids crashes on diagnostic calls, M0.4 compliant). Closed the brief-to-init pipeline
+  via `harness init --from-brief <brief.md|brief.json>`, which reads refined goal/domain from the confirmed brief,
+  derives the plan, and emits `.harness/BRIEF.md` directly into the generated harness. 5 new tests; **349 -> 354 tests**.
 - **Task-brief round (P32) - `harness brief` renders a paste-ready execution draft.** The second capability-evaluation
   gap closed: one step from goal to an executable brief. `brief.py` renders the requirement-refinement fields the rules
   can compute (R0 restate · R2 hard/soft/assumed tiers · R3's three offerings with mechanical deltas — MVP / Elevated /

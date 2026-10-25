@@ -301,6 +301,10 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 > 双能力评估第二项的答案落地：「高质量指令生成」缺的一步成型。`harness brief --task "…"` 渲染规则可算的精炼字段（R0 重述 · R2 约束分级 · R3 三档机械增量）+ 特征向量 + 计划 + 第一阶段行动 + 门禁 + **R4/R5 确认块**——简报是**待确认草案**，不是开工许可（WAIT 纪律，M0.4）。守卫 6 条；测试 **349 OK**；`cycle audit` 28 轮 · 0 硬 · 0 缺口。
 
+## P33 · 环境鲁棒与简报串联（2026-10-25，已做）：doctor 只读探测容错 + init --from-brief 管道
+
+> 实测排查的两项工程闭环：① `_cmd_doctor` 捕获受限沙箱与只读环境的 `PermissionError`/`OSError`，以诊断状态友好报告，严守纯观察原则（M0.4）；② `brief.py` 与 `assemble.py` 打通，支持 `harness init --from-brief <brief.md|brief.json>` 直接从确认后的简报生成脚手架并落盘 `.harness/BRIEF.md`。守卫 5 条（+2 cli, +3 brief）；测试 **354 OK**；`cycle audit` 28 轮 · 0 硬 · 0 缺口。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。
