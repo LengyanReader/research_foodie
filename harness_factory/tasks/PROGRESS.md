@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-10-28 · P37：dogfood 轮 —— 第一个真实任务走通全链路（VeriHarness 发布池一手核验）
+
+- **任务自选（用户授权）**：选 P38 登记的后续「发布池核验」——服务真实需要（消融/留出素材直通 D1 阶段 C）而非演练。
+- **全链路首次真实数据走通**：`brief`（P32 首用，research 域/verifiability=high/grounding=required/external 工具面，交叉域 data-science 正确报出）→ `init --from-brief`（P33，落盘 updates/dogfood/p37-veriharness-pool/，gitignored）→ **判据先于工作**（M5.13：7 项检查写入项目 PLAN）→ 执行 → `gate` 过 → `harvest task_outcome`（judge=machine, score=1.0——**工厂历史上第一条真实轨迹**）→ `collect`（项目本地无轨迹，正确 no-op）→ `trace-audit` 首跑（单轨迹低于阈值，正确报无提案）。
+- **核验结果（7/7）**：数据集存在/公开/与附录 E 逐项相符；**实测 23,197 rollouts**（摘要 ~26,000 的 **−10.8%**——以实测数为准）；五基准 × 双模型全对上；载荷字段齐（official_id/grader 分/轨迹/交付 tar+sha256）；许可证 `other/mixed-upstream-see-readme`；GitHub 仓库 Apache-2.0 属实。**注意事项**：HF 主站当日对本机整体不可达（对照 /papers 亦 000），经 **hf-mirror.com** 公共镜像读取（一手性折扣已记录）；APEX 平均 9.74 rollout/任务非整 10。
+- **交付与登记**：`review/veriharness-pool-check-2026-10.md`（tracked 报告）；P38 survey §4 升级（池已一手查验）；cycles **P37**（0/0/0/0，**DoD 修订如实记录**：machine 收据按 P24 定义度量器规则合法，human 确认可随时追加升级）；`P37PoolCheckGuardTest` 2 守卫；AGENTS.md 计数 373 → 374。
+- **后续规划（用户授权裁决，已入 roadmap）**：**D7 排队**（触发已满足；golden-set 审计，可选用已核验发布池作素材——上游许可先过）；**D1 阶段 C 可排**（开闸条件已满足：第一份 measured 收据；开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案与判据原样保留，触发：某轮需要生态锚点或用户点名）。建议顺序：真实任务继续 dogfood → D7 → D1 阶段 C。
+- **状态。** 测试 **373 → 374** 全过；`cycle audit` **34 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P38：全文重读轮 —— R252–R259 全文核验，digest 台账逐项裁决（关闭 P34.R1）
 
 - **开轮依据。** P36 探测确认 arXiv HTML 端点恢复可达（P34.R1 重访触发生效）。方法：9 篇 HTML 全文逐条抓取（每条主张带节/表定位）+ R260 机构归属块（abs 页不显示机构，HTML 才显示）。台账六项 + 一项新增，全部裁决。

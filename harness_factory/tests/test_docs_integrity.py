@@ -589,5 +589,24 @@ class P38RereadGuardTest(unittest.TestCase):
         self.assertIn("tolerance bound", m513, "M5.13 lost VERA's two-bound exemplar")
 
 
+class P37PoolCheckGuardTest(unittest.TestCase):
+    """P37: the VeriHarness pool check is the first dogfood deliverable.
+
+    Pins the measured numbers so a future edit cannot re-inflate the abstract's
+    "~26,000" over the measured count, and the survey doc keeps its pointer.
+    """
+
+    def test_pool_report_keeps_the_measured_numbers(self):
+        doc = _read(HARNESS / "review/veriharness-pool-check-2026-10.md")
+        for token in ("23,197", "10.8%", "mixed-upstream-see-readme", "7/7",
+                      "hf-mirror.com", "judge=machine"):
+            self.assertIn(token, doc, f"pool-check report lost {token!r}")
+
+    def test_survey_doc_points_at_the_pool_check(self):
+        doc = _read(HARNESS / "review/self-modifying-harnesses-2026-10.md")
+        self.assertIn("veriharness-pool-check-2026-10.md", doc)
+        self.assertIn("23,197", doc, "survey doc must carry the measured count, not the abstract's")
+
+
 if __name__ == "__main__":
     unittest.main()

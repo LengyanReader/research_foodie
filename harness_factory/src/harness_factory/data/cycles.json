@@ -1093,6 +1093,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P37",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Dogfood round: the first real task through the full chain - VeriHarness release pool verified",
+      "title_zh": "dogfood 轮：第一个真实任务走通全链路——VeriHarness 发布池一手核验",
+      "note": "The user delegated task selection ('locate a suitable task'); the round picked P38's own registered follow-up - first-hand verification of the VeriHarness release pool - so the dogfood serves the factory's real ambition (holdout material for ablations, D1 stage C) rather than a contrived exercise. Full chain executed with real data for the first time: harness brief (P32 machinery, first real use) -> init --from-brief (P33) -> acceptance criteria PRE-declared in the project plan (M5.13) -> the work (7 machine-checkable criteria against the HF Hub API and the GitHub API) -> gate (pass) -> harvest task_outcome -> collect -> trace-audit. Receipt: judge=machine (legitimate per P24 - the task family has a pre-declared metric), score 1.0 (7/7), the first real trace line in the factory's history (tool home traces.jsonl). Findings (review/veriharness-pool-check-2026-10.md): the pool exists, is public, and matches paper Appendix E on benchmarks/models/payload; measured rollouts are 23,197 (-10.8% vs the abstract's ~26,000 - cite the measured number); license is other/mixed-upstream-see-readme (per-upstream clearance before reuse); huggingface.co was host-unreachable from this environment that day, so the Hub API was read via the hf-mirror.com public mirror (recorded as a first-party discount). DoD amendment recorded honestly: the round's definition asked for a judge=human receipt; the machine receipt is valid under P24's defined-metric rule, and the user's confirmation is invited as an upgrade, not required for validity - the request is in the round summary. trace-audit's first real run correctly reported no proposals (one trace, below every pattern threshold).",
+      "slices": [
+        "P37.1 - task selection + brief: P38's registered follow-up chosen; harness brief --out + init --from-brief into updates/dogfood/p37-veriharness-pool (gitignored); 7 acceptance criteria pre-declared before work",
+        "P37.2 - the verification: HF Hub API via mirror (exists, public, 2,340 files, per-benchmark table, 23,197 rollouts) + GitHub API (google-research/veriharness, Apache-2.0); evidence snapshots kept in the project's evidence/ dir",
+        "P37.3 - the records: review/veriharness-pool-check-2026-10.md (tracked report); survey doc §4 update (pool inspected); task_outcome machine receipt harvested; trace-audit first real run (no proposals, correct); P37PoolCheckGuardTest pins the report"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1166,7 +1187,7 @@
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
       "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code. P34 note: Harness Learning (R252) and VERA (R256) are first-party stage-C precedents **at abstract level** (learned proposer + verifier-gated edits); the design doc should engage them after the P34.R1 full-text reread",
-      "revisit_when": "stage C (measured promotion) opens when the user opens it or a first measured effect receipt lands; the holdout exists (P23) and the auditor feeds proposals (P25)"
+      "revisit_when": "stage C is queueable as of 2026-10-28: the first measured effect receipt has landed (P37, machine-judged 1.0 on a pre-declared metric); opening it means running the M5.12 ablation ladder on the scored task set, not just recording receipts"
     },
     {
       "id": "D2",
@@ -1421,7 +1442,7 @@
       "source": "review/frontier-2026-10.md §6b (robustness of agent judges)",
       "title_en": "Agent-judge robustness pass before trusting any golden set",
       "reason": "Trigger fired 2026-10-28 (P38): R254 VeriHarness is now a full-read-grade primary source on agentic verification (mechanisms verified verbatim; self-evolving verification skills). The robustness pass itself remains a round of its own - a golden-set audit, not a clause edit.",
-      "revisit_when": "the robustness pass is queued as a round (trigger already satisfied)"
+      "revisit_when": "queued (not scheduled): the next knowledge-side round after the usage-side work; scope = a golden-set audit grounded in R254 full text (mechanisms verified P38), optionally using the verified release pool as audit material if the upstream licenses permit"
     },
     {
       "id": "D8",
@@ -1449,6 +1470,15 @@
       "title_en": "JSON-API discovery provider for the refresh loop",
       "reason": "feed_provider only parses RSS/Atom, so the portals registered in P35 enter through the LLM-discovery provider or manual intake, not a deterministic pull; a second provider that reads a documented JSON endpoint (api/daily_papers, api.openalex.org/works) would make them reproducible, but it is engine surface built for no consumer yet (M0.4 - do not add a path nothing runs), and S2 is 429-throttled without a key",
       "revisit_when": "the first dogfooded refresh run needs a deterministic, offline-verifiable pull from one of these portals, or an api-key budget for Semantic Scholar is approved"
+    },
+    {
+      "id": "P28.R1",
+      "status": "deferred",
+      "cycle": "P28",
+      "source": "updates/2026-10-23-ecosystem-scan-proposal.md (observe-half proposal, user-delegated decision 2026-10-28)",
+      "title_en": "Ecosystem integration scan (AGENTS.md standard, ACP, LangMem, AgentOps, skills registries, computer-use harnesses)",
+      "reason": "decided 2026-10-28 (user delegated): usage-side work outranks a network scan while the trace loop has exactly one real trace; the proposal stays in updates/ with its pre-registered discriminating criteria intact",
+      "revisit_when": "a round needs an ecosystem anchor (M8 interop / skills distribution / memory backends / observation tooling), or the user asks for an ecosystem status scan; then run the proposal's P20-method scan as its own round"
     }
   ]
 }

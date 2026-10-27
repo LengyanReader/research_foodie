@@ -149,6 +149,12 @@ redistributed). The skill-evolution loop (§5) adds held-out gains for library e
 +3.7 (SpreadsheetBench 2) from evolving the human-authored library. Retrieval of the actual dataset remains
 its own task; the *commitment* is now first-party-verified.
 
+**Update (2026-10-28, P37): the pool has been inspected first-hand** — exists, public, and matching Appendix E
+on benchmarks/models/payload (7/7 pre-declared checks), with two honest caveats: the measured rollout count is
+**23,197** (−10.8% vs the abstract's "~26,000"; cite the measured number) and the license is
+`other / mixed-upstream-see-readme` (per-upstream clearance needed before reuse). Full report:
+[`veriharness-pool-check-2026-10.md`](veriharness-pool-check-2026-10.md).
+
 ## 5. Roadmap status after this round
 
 - **P34.R1 → done (done_in P38, 2026-10-28)**: the full-text reread ran with the §4 ledger as its checklist;

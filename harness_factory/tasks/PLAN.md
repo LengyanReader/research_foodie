@@ -327,15 +327,13 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 **Non-goals** 不动 `_ONE_SHOT`/`_LONG_RUNNING` 词表；不加 `weekly` 单独信号（`week` 词首已覆盖，且其语义本就该是 multi_session）；不把 P36 当作「分类器已完备」——它只是回归基线上又两个样本。
 
-## P37 · dogfood 轮（已登记，待开）：第一条真实轨迹流过整条管道
+## P37 · dogfood 轮（2026-10-28，已做）：第一个真实任务走通全链路——VeriHarness 发布池一手核验
 
-> 使用侧数据为零是当前最大缺口：P22 采集、P24 结果事件、P25 审计器、P30 全环串联——四轮机制建设，没有一条真实轨迹流过。本轮不开新机制，产出物是**第一份真实数据**。
+> 任务由用户授权自选，选了 P38 自己登记的后续（发布池核验）——dogfood 服务真实需要而非演练。**全链路首次以真实数据走通**：`brief`（P32 机制首用）→ `init --from-brief`（P33）→ 判据**先于工作**预声明（M5.13）→ 7 项检查 → `gate` 过 → `harvest task_outcome` → `collect` → `trace-audit` 首跑（单轨迹低于一切模式阈值，正确报「无提案」）。
 
-**完成定义（本轮关闭时以下须全成立）**
-- 一个真实任务走全链路：`harness brief`（或直接 `init`）→ 人在环工作 → `harvest` 记结构化事件（过程中 `human_correction`/`gate_miss`，收尾 `task_outcome` 带 judge+score）→ `collect` 拉回工具家；
-- `harness trace-audit` 对真实轨迹产出第一份 `TRACE-EVOLUTION.md`（哪怕结论是「无模式」也是第一份真实输出）；
-- 第一份 effect 收据（judge=human 的 `task_outcome`）落盘——它是 **D1 阶段 C 的开闸条件**；
-- 若轨迹暴露真问题 → 按提案制回流（`updates/`），人审后 merge。
+- **核验结果（7/7，effect=1.0，machine 判决）。** 数据集存在、公开、与论文附录 E 逐项相符（五基准 × 双模型 × 轨迹/交付文件/grader 分）；**实测 23,197 rollouts**（摘要「~26,000」的 −10.8%——引用实测数）；许可证 `other/mixed-upstream-see-readme`（复用前须逐上游过许可）；huggingface.co 当日本机不可达，经 hf-mirror.com 公共镜像读取（一手性折扣如实记录）。交付 `review/veriharness-pool-check-2026-10.md`；P38 survey §4 相应升级。
+- **第一份真实轨迹。** tool home `traces.jsonl` 首行：`task_outcome, judge=machine, score=1.0`（7 检查明细入 detail）。**DoD 修订（诚实记录）**：原定义要 judge=human 收据；本任务族有预声明机器度量器，按 P24 规则 machine 收据合法——**你的一次「确认/打分」可随时升级为 human 收据**（对轨迹只追加，不改写）。
+- **解锁。** D1 阶段 C 的开闸条件（第一份 measured effect 收据）已满足，排入待开；数据集若上游许可放行，是消融/留出迄今最接近真实任务分布的素材。守卫 `P37PoolCheckGuardTest` 钉住报告关键数字。
 
 ## P38 · 全文重读轮（2026-10-28，已做）：R252–R259 全文核验，digest 台账逐项裁决——关闭 P34.R1
 
@@ -351,7 +349,7 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **子句与登记。** core/04 M3.17 / core/06 M5.13 的 abstract 级 hedge 全部升级为 full-read（2026-10-28）；`P38RereadGuardTest` 3 守卫钉住证据级、池 URL、纠正项、恰好 8 条标记、两条子句的升级；references §X 8 条标记升级 + 组注记；**D7 触发已生效**（R254 现为 full-read 级）——保持 defer、理由升级为「触发已满足，轮次未排队」；cycles **P38**（0/0/0/0），P34.R1 → `done_in P38`。
 - **状态。** 测试 **370 → 373** 全过；`cycle audit` 33 轮 · 0 硬 · 0 缺口。**Non-goals**：不加能力/域/目录；不开 D7 本轮（它是一次 golden-set 审计，不是子句编辑）。
 
-**排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
+**排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。
 - **记分轮。** 给本库一个最小的打分任务集，从而能真跑 `component-ablation`。它同时是 **P16.9 的重访触发**（"本库有打分任务集"），也是让 M5.12 对本库自己生效的唯一路径。触发：P17 的判据产生了可复用的评分口径。
