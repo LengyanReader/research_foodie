@@ -73,6 +73,23 @@ The layer that sits *above* a field index: it finds **identifiers**, it does not
 
 ---
 
+## AI-paper discovery portals · AI 论文发现门户（自更新循环入口）
+
+Where §"Scholarly discovery" answers *find a citation*, these answer the self-update loop's question — **what is new in AI this week, and through which machine-readable door**. Statuses and the full table are in `review/scholarly-channels-2026-10.md` §8 (re-verified 2026-10-27); the rows are registered as `venues`/`projects` records, **not** duplicated as outlets. The distinction that matters for operation is the **loop path**: only an RSS/Atom feed is pulled by `harness refresh --provider feed`; everything else enters through the loop's LLM-discovery provider or manual intake.
+
+| Portal | Door | Loop path | Registered as |
+|---|---|---|---|
+| ✔ [arXiv](https://arxiv.org/) | `export.arxiv.org/rss/cs.{AI,CL,LG,MA,SE,HC}` (200) | **feed-pull** — the only genuinely RSS channel here | `venues`: arxiv-cs-ai/cl/lg/**ma** |
+| ✔ [Hugging Face Daily Papers](https://huggingface.co/papers) | `api/daily_papers` JSON 200; no RSS (feed 401) | **LLM-discovery / manual** — returns arXiv ids to resolve | `venues`: hf-papers |
+| ○ [Semantic Scholar](https://www.semanticscholar.org/product/api) | Graph API, 429 without a key | LLM-discovery; resolve hit → producer id | `tools`: semantic-scholar |
+| ✔ [Google Scholar](https://scholar.google.com/) | per-query alerts RSS | discovery of record, never a citation | `outlets`: google-scholar |
+| ○ [OpenAlex](https://openalex.org/) | `api.openalex.org/works` 200 (shared budget) | identifier/venue backfill | `projects`: openalex |
+| — [Papers with Code](https://paperswithcode.com/) | **defunct** — redirects to `huggingface.co/papers/trending` | **retired**; poll HF Daily Papers instead | redirect marker only (`verified: false`) |
+
+**Rule unchanged (§6.1):** every portal above except arXiv is an aggregator — a hit is a lead. Take the arXiv id / DOI and fetch the artefact at the producing party before it enters the corpus.
+
+---
+
 ## Multilingual & regional scholarship · 多语种与区域学术
 
 English-language indexes systematically under-cover scholarship published in Chinese, Japanese, Korean, French, Spanish and Portuguese. These are the first-party regional platforms that fill that gap (added 2026-10-20); they are **not** interchangeable with a field index.

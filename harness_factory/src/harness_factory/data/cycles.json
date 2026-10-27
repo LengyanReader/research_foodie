@@ -1014,6 +1014,28 @@
         "catalog_delta": 0,
         "outlets_delta": 1
       }
+    },
+    {
+      "id": "P35",
+      "date": "2026-10-27",
+      "status": "done",
+      "title_en": "Paper-discovery channels: complete the portals, wire the update loop",
+      "title_zh": "论文发现渠道补全：门户梳理完备 · 接入自更新循环",
+      "note": "Ask: make the paper sites (Hugging Face Papers, arXiv, Google Scholar, Semantic Scholar, etc.) complete and register them as first-class channels for BOTH the self-update loop and content retrieval. P15.3 (review/scholarly-channels-2026-10.md) already surveyed ~95 channels but never covered the **AI daily-discovery layer** the loop actually polls, and its statuses were from 2026-10-19. Re-verified every named portal 2026-10-27 from this host (python+urllib): HuggingFace /papers L 200 and /api/daily_papers A **200 JSON** (arXiv ids; /papers/feed 401 - no RSS); arXiv category RSS cs.{AI,CL,LG,MA,SE,HC} all **200**; Semantic Scholar product L 200 / API **429** unauthenticated; Google Scholar L 200; OpenAlex works API **200** (shared budget); AlphaXiv L 200; OpenReview notes **403**; dblp **202** bot gate. Real defect found and fixed: **Papers with Code is defunct** - Meta closed it (2025-07) and paperswithcode.com (incl. /api/v1) now **redirects to huggingface.co/papers/trending**; its two SSOT rows (catalog + sources project) were asserting liveness, so both are downgraded to redirect markers (feed retired, verified:false). No new clause or capability: the operating rules (M4.5 untrusted retrieval; source-map 'aggregator = discovery, resolve to the producer'; refresh feed-vs-LLM paths) already bind these channels, and the only structural truth worth recording is the **loop path** - only arXiv is genuinely RSS-pullable, the rest enter via the LLM-discovery provider or manual intake (recorded, M0.5). Landed (data + reference only): venues hf-papers + arxiv-cs-ma (cs.MA was the missing multi-agent feed); semantic-scholar + google-scholar rows refreshed with today's door/verified/topics; watchlist new `scholarly-discovery` topic (portal queries + keywords); survey new section 8 (portal table + how-the-loop-consumes column + bilingual); outlet-map new section (portal -> door -> loop path -> where registered). No references added (P34 owns R252-R262).",
+      "slices": [
+        "P35.1 - verify & register: re-probe all named portals 2026-10-27; add venues hf-papers (API door, no-RSS noted) + arxiv-cs-ma (cs.MA RSS, the missing multi-agent feed); retire paperswithcode feed; refresh semantic-scholar/google-scholar rows",
+        "P35.2 - reference completeness: review/scholarly-channels-2026-10.md section 8 'AI-paper discovery portals' (portal table, loop-consumption column, unverified-today statuses, bilingual); outlet-map.md 'AI-paper discovery portals' section (portal -> door -> loop path -> where registered)",
+        "P35.3 - defect fix: Papers with Code defunct -> redirect to HF /papers/trending; both SSOT rows downgraded (catalog verified:false + defunct note; sources feed:null + redirect why)",
+        "P35.4 - loop wiring + guards: watchlist `scholarly-discovery` topic; guards in tests/test_docs_integrity.py::P35ChannelTest (venues present, cs.MA feed, PWC retired, survey+outlet tokens); catalog --write regenerates harness-index (paperswithcode verified change)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1361,6 +1383,15 @@
       "title_en": "Full-text rereads of R252-R259 with the digest-ledger checklist",
       "reason": "M3.17 and M5.13 rest on abstract-level verification; the survey §4 ledger (6.5->31%, +5/-20 thresholds, +6.4-11.7/-34-57% magnitudes, $1,073, institution attributions) and the VeriHarness 26k-rollout release can only be cleared, promoted or retracted from the bodies - D7's full-read bar also depends on this reread",
       "revisit_when": "arXiv HTML/PDF becomes reachable from this environment, or the next round touching core/04 M3.17 or core/06 M5.13 rereads them first"
+    },
+    {
+      "id": "P35.R1",
+      "status": "deferred",
+      "cycle": "P35",
+      "source": "P35 channel audit - HF Daily Papers / OpenAlex / Semantic Scholar expose JSON APIs, not RSS",
+      "title_en": "JSON-API discovery provider for the refresh loop",
+      "reason": "feed_provider only parses RSS/Atom, so the portals registered in P35 enter through the LLM-discovery provider or manual intake, not a deterministic pull; a second provider that reads a documented JSON endpoint (api/daily_papers, api.openalex.org/works) would make them reproducible, but it is engine surface built for no consumer yet (M0.4 - do not add a path nothing runs), and S2 is 429-throttled without a key",
+      "revisit_when": "the first dogfooded refresh run needs a deterministic, offline-verifiable pull from one of these portals, or an api-key budget for Semantic Scholar is approved"
     }
   ]
 }

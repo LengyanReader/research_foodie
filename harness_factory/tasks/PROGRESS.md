@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-10-27 · P35：论文发现渠道补全轮 —— 门户梳理完备 · 接入自更新循环
+
+- **开轮依据。** 用户要求把 Hugging Face Papers、arXiv、Google Scholar、Semantic Scholar 等论文站点梳理完备，并列入**能力更新与内容检索**的重要渠道（“之前可能提过”——即 P15.3 `review/scholarly-channels-2026-10.md` 已扫 ~95 个渠道）。但该清单缺自更新循环真正轮询的 **AI 每日发现层**（HF Papers / AlphaXiv / PWC / arXiv 分类 feed），且状态停在 2026-10-19。
+- **逐门户一手实测（2026-10-27）。** 用 `python`+`urllib` 从本机实测：HF `/papers` L 200、`/api/daily_papers` **A 200 JSON**（每项含 arXiv id）、`/papers/feed` 401（无 RSS）；arXiv `export.arxiv.org/rss/cs.{AI,CL,LG,MA,SE,HC}` **六类全 200**；Semantic Scholar 产品页 200 / API **429**（无 key）；Google Scholar 200；OpenAlex works **200**（共享免费额度）；AlphaXiv 200（SPA 无 API）；OpenReview notes **403**（挑战门）；dblp **202**（Anubis 机器人门）。
+- **发现真缺陷并修。** **Papers with Code 已停维**（Meta 2025-07 关闭）：实测 `paperswithcode.com`（含 `/api/v1`）**重定向至 `huggingface.co/papers/trending`**。两处 SSOT 行（目录 `harnesses.json` + `sources.json` projects）此前都声称在线——现均降级为**重定向标记**：sources 行 `feed:null` + redirect why；catalog 行 `verified:false` + 双语 defunct 注记。HF Daily Papers 接棒为其发现渠道。
+- **落地（纯数据 + 参考，0 子句 0 能力）。** venues 新增 `hf-papers`（JSON API 门径，注明无 RSS）+ `arxiv-cs-ma`（cs.MA 为缺失的多智能体 feed）；`semantic-scholar`/`google-scholar` 行刷新今日门径与主题（S2 加 retrieval-grounding）；survey `scholarly-channels` 新 **§8「AI-paper discovery portals」**（门户表 +「循环如何消费」列 + 中英）；outlet-map 新节（门户→门径→循环路径→登记处）；watchlist 新 `scholarly-discovery` 主题。**立场**：除 arXiv 外全为聚合器，命中只作线索、按 §6.1 取 id 回产出方；只有 arXiv 真可被 `refresh --provider feed` 拉取，其余经 LLM 发现/人工摄入——故不新增子句（M4.5 + source-map + refresh 两路已约束），JSON-API 发现 provider 登记 **P35.R1** deferred（M0.4：不建无人消费的路径）。
+- **守卫。** `test_docs_integrity.py` 增 `P35ChannelTest` **6 用例**（两 venue 存在·cs.MA feed·PWC 两面均退役·watchlist 主题·survey §8 记号·outlet-map 路由节·registry P35/P35.R1）。
+- **状态。** 测试 **361 → 367**（+6）全过；`cycle audit` **31 轮 · 0 硬 · 0 缺口**；`catalog/map/capabilities --write` 重生成三视图。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-27 · P34：周报摄取轮 —— 一致不等于验证（M3.17）· 自我编辑先过验收门（M5.13）
 
 - **开轮依据。** 用户问 DAIR.AI「Top AI Papers of the Week」X 文章（2026-10-11，十项）能否整合，并指出该账户应纳入自动更新来源。评估通过后排定本轮：二手摘要=**仅发现用、永不引用**（P11 汇总 / P16 微信先例），经 fxtwitter API 镜像读取正文（x.com 不可达），十条 arXiv 记录逐条回一手 abs 页核验。证据级：**摘要级核实**（P12 先例）——0 篇全文可达（HTML/ar5iv 七次取文失败、S2 429），digest 正文独有数字与全部机构归属入**未验证台账**（survey §4），全文重读登记 **P34.R1**。

@@ -1854,16 +1854,17 @@
         "M1",
         "M4"
       ],
-      "summary_en": "Papers+code+datasets+benchmarks mapped to tasks/models.",
-      "summary_zh": "论文-代码-数据集-基准与任务/模型映射。",
+      "summary_en": "Defunct 2025-07 (Meta closed it); domain now redirects to Hugging Face Daily Papers. Kept as a historical SOTA-link marker.",
+      "summary_zh": "已停维（2025-07 Meta 关闭）；域名现重定向至 Hugging Face Daily Papers。仅作历史 SOTA 链接标记。",
       "url": "https://paperswithcode.com/",
       "tracked": null,
-      "verified": true,
+      "verified": false,
       "tags": [
         "papers",
         "code",
         "datasets",
-        "benchmarks"
+        "benchmarks",
+        "defunct"
       ]
     },
     {

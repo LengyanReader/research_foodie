@@ -490,5 +490,61 @@ class P34ClauseAnchorTest(unittest.TestCase):
                       "full-text reread trigger not registered")
 
 
+class P35ChannelTest(unittest.TestCase):
+    """P35 completed the paper-discovery channels and wired them into the update
+    loop. Guards: the new venue rows exist, arXiv cs.MA is a real feed, the defunct
+    Papers with Code is retired in both SSOT surfaces, the survey + outlet-map gained
+    the portal section, the watchlist discovery topic is present, and the registry
+    records the round. Content-presence only - prose may be edited freely."""
+
+    def test_new_paper_venues_registered(self):
+        sources = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                             .read_text(encoding="utf-8"))
+        venues = {e["id"]: e for e in sources["groups"]["venues"]}
+        self.assertIn("hf-papers", venues, "Hugging Face Daily Papers not registered")
+        self.assertIn("arxiv-cs-ma", venues, "arXiv cs.MA feed not registered")
+        self.assertIn("export.arxiv.org/rss/cs.MA", venues["arxiv-cs-ma"].get("feed", ""))
+        self.assertIn("api/daily_papers", venues["hf-papers"].get("api", ""))
+
+    def test_paperswithcode_retired_in_both_surfaces(self):
+        sources = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                             .read_text(encoding="utf-8"))
+        pwc = next(e for e in sources["groups"]["projects"] if e["id"] == "paperswithcode")
+        self.assertIsNone(pwc.get("feed"), "defunct PWC feed must not stay on the pull path")
+        harnesses = json.loads((HARNESS / "src/harness_factory/data/harnesses.json")
+                              .read_text(encoding="utf-8"))
+        cat = next(e for e in harnesses["harnesses"] if e.get("id") == "paperswithcode")
+        self.assertFalse(cat.get("verified"), "catalog PWC must be marked unverified")
+
+    def test_watchlist_has_paper_discovery_topic(self):
+        wl = json.loads((HARNESS / "src/harness_factory/data/watchlist.json")
+                       .read_text(encoding="utf-8"))
+        self.assertIn("scholarly-discovery", {t["id"] for t in wl["topics"]},
+                      "paper-discovery topic missing from the loop's watchlist")
+
+    def test_survey_added_portal_section_with_today_status(self):
+        doc = _read(HARNESS / "review/scholarly-channels-2026-10.md")
+        self.assertIsNotNone(doc)
+        self.assertIn("## 8.", doc, "survey lost its AI-paper portals section")
+        for token in ("Hugging Face Daily Papers", "api/daily_papers",
+                      "Papers with Code", "defunct", "2026-10-27"):
+            self.assertIn(token, doc, f"portal section lost {token!r}")
+
+    def test_outlet_map_routing_section(self):
+        doc = _read(HARNESS / "reference/outlet-map.md")
+        self.assertIn("AI-paper discovery portals", doc, "outlet-map lost the portal section")
+        for token in ("hf-papers", "arxiv-cs", "refresh --provider feed"):
+            self.assertIn(token, doc, f"outlet-map portal section lost {token!r}")
+
+    def test_registry_records_p35(self):
+        cycles = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                           .read_text(encoding="utf-8"))
+        p35 = next((c for c in cycles["cycles"] if c["id"] == "P35"), None)
+        self.assertIsNotNone(p35, "P35 not registered")
+        self.assertEqual(p35["added"]["outlets_delta"], 0, "P35 added no outlets")
+        self.assertIn("P35.R1", {r["id"] for r in cycles["roadmap"]},
+                      "JSON-API provider deferral not registered")
+
+
 if __name__ == "__main__":
     unittest.main()

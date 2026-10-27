@@ -56,6 +56,12 @@
       "name_zh": "野心与主动性",
       "queries": ["raising ambition with AI agents", "requirement refinement and goal elevation LLM", "goal setting theory specific difficult goals"],
       "keywords": ["ambition", "elevate", "stretch goal", "goal setting", "requirement refinement", "outside judge", "expert instrument"]
+    },
+    {
+      "id": "scholarly-discovery",
+      "name_zh": "论文发现与检索渠道",
+      "queries": ["hugging face daily papers trending this week", "new arXiv cs.MA multi-agent papers", "semantic scholar paper graph agent harness 2026", "openalex works on LLM agent evaluation"],
+      "keywords": ["arxiv", "hugging face papers", "semantic scholar", "google scholar", "openalex", "dblp", "alphaxiv", "paper discovery", "preprint"]
     }
   ],
   "frontier_probes": [

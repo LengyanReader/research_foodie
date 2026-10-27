@@ -283,10 +283,10 @@
       },
       {
         "id": "paperswithcode",
-        "name": "PapersWithCode",
+        "name": "PapersWithCode (defunct)",
         "kind": "post",
         "url": "https://paperswithcode.com/",
-        "feed": "https://paperswithcode.com/blog/feed",
+        "feed": null,
         "topics": [
           "agent-harness",
           "evaluation-gates",
@@ -295,9 +295,10 @@
         "tags": [
           "papers",
           "benchmarks",
-          "datasets"
+          "datasets",
+          "defunct"
         ],
-        "why": "Papers+code+benchmarks mapping."
+        "why": "Defunct - Meta closed Papers with Code (2025-07); observed 2026-10-27 the domain redirects to https://huggingface.co/papers/trending. Feed retired; Hugging Face Daily Papers (venue hf-papers) is the successor channel. Kept as a redirect marker for historical SOTA links."
       },
       {
         "id": "lmarena",
@@ -1104,6 +1105,41 @@
           "preprint"
         ],
         "why": "Daily new ML preprints."
+      },
+      {
+        "id": "arxiv-cs-ma",
+        "name": "arXiv cs.MA (new)",
+        "kind": "paper",
+        "url": "https://arxiv.org/list/cs.MA/recent",
+        "feed": "http://export.arxiv.org/rss/cs.MA",
+        "topics": [
+          "multi-agent-collaboration",
+          "agent-harness"
+        ],
+        "tags": [
+          "preprint"
+        ],
+        "why": "Daily new multi-agent systems preprints; RSS verified 2026-10-27 (the loop's feed path)."
+      },
+      {
+        "id": "hf-papers",
+        "name": "Hugging Face Daily Papers",
+        "kind": "paper",
+        "url": "https://huggingface.co/papers",
+        "feed": null,
+        "api": "https://huggingface.co/api/daily_papers",
+        "topics": [
+          "agent-harness",
+          "self-evolving-agents",
+          "context-engineering",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "papers",
+          "curated",
+          "community"
+        ],
+        "why": "Community-curated daily ML papers (arXiv ids + discussion); successor to Papers with Code. JSON API https://huggingface.co/api/daily_papers verified 2026-10-27 (HTTP 200, no RSS - enters via LLM discovery/manual, not the feed path)."
       }
     ],
     "people": [
@@ -1554,13 +1590,14 @@
         "feed": null,
         "topics": [
           "deep-research",
-          "citation-integrity"
+          "citation-integrity",
+          "retrieval-grounding"
         ],
         "tags": [
           "scholarly",
           "citations"
         ],
-        "why": "Scholarly index + citation API."
+        "why": "Scholarly index + citation Graph API (https://api.semanticscholar.org/graph/v1/); TLDRs + citation contexts. Re-observed 2026-10-27: product page HTTP 200, API 429 without a key (throttled) - resolve hits to the arXiv/publisher id before citing."
       },
       {
         "id": "crossref",
@@ -2042,9 +2079,9 @@
           "index",
           "caution"
         ],
-        "why": "Broad scholarly index across languages and fields; useful for coverage.",
+        "why": "Broad scholarly index across languages and fields; useful for coverage. Per-query RSS (the notification feed) is the machine-readable hook; re-verified landing+search HTTP 200 on 2026-10-27.",
         "verified": true,
-        "access": "2026-10-19",
+        "access": "2026-10-27",
         "not_for": "Uncurated — mixes predatory venues, duplicates and grey literature; never treat a hit as peer review."
       },
       {

@@ -20,6 +20,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Paper-discovery channels round (P35) - complete the portals, wire the update loop.** The ask: make the paper sites
+  (Hugging Face Papers, arXiv, Google Scholar, Semantic Scholar, etc.) complete and register them as first-class channels for
+  **both** the self-update loop and content retrieval. P15.3's `review/scholarly-channels-2026-10.md` already surveyed ~95
+  channels but never covered the **AI daily-discovery layer** the loop actually polls, and its statuses were from 2026-10-19.
+  Every named portal was re-verified **2026-10-27** from this host: HF `/papers` L 200 and `/api/daily_papers` A **200 JSON**
+  (arXiv ids; `/papers/feed` 401, no RSS); arXiv `rss/cs.{AI,CL,LG,MA,SE,HC}` all **200**; Semantic Scholar product L 200 /
+  API **429** unauthenticated; Google Scholar L 200; OpenAlex works A **200**; AlphaXiv L 200; OpenReview notes **403**;
+  dblp **202**. **Real defect found and fixed: Papers with Code is defunct** (Meta closed it 2025-07) and its domain now
+  **redirects to `huggingface.co/papers/trending`** - both SSOT rows (catalog `harnesses.json` + `sources.json` projects) had
+  been asserting liveness and are downgraded to redirect markers (feed retired, `verified: false`, bilingual defunct note).
+  Landed data + reference only, **no new clause or capability** (M4.5 untrusted retrieval, the source-map "aggregator = discovery,
+  resolve to the producer" rule, and the refresh feed-vs-LLM split already bind these channels; M0.5): new `venues` rows
+  **hf-papers** (JSON-API door, no-RSS noted) + **arxiv-cs-ma** (the missing multi-agent feed), refreshed semantic-scholar /
+  google-scholar rows with today's door/topics, a new watchlist `scholarly-discovery` topic, survey **§8 "AI-paper discovery
+  portals"** (portal table + "how the loop consumes it" column + bilingual), a new outlet-map routing section (portal → door →
+  loop path → where registered), and the JSON-API discovery provider deferred as roadmap **P35.R1** (only arXiv is genuinely
+  RSS-pullable; the rest enter via LLM-discovery/manual, so no engine path is built for no consumer). `P35ChannelTest` 6 guards.
+  **361 → 367 tests**; `cycle audit` 31 cycles, 0 hard, 0 gaps.
 - **Weekly-digest intake round (P34) - agreement is not verification; self-edits pass an acceptance gate before adoption.**
   The DAIR.AI "Top AI Papers of the Week" X post (2026-10-11, ten items) ingested as a **secondary source, discovery-only,
   never cited** (P11 roundup / P16 WeChat precedent), read via the fxtwitter API mirror (x.com unreachable). All ten arXiv

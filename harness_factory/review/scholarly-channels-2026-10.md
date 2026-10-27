@@ -2,7 +2,7 @@
 
 > Where to look, what is first-party vs aggregator, and what actually answers from a CLI.
 > 去哪查、谁是一手、命令行实测哪些可达。
-**Updated:** 2026-10-19
+**Updated:** 2026-10-27 (§8 AI-paper discovery portals added; the portal rows were re-fetched that day. §1–§7 statuses remain as measured on 2026-10-19.)
 
 ## 0. Method, legend, and what "first-party" means
 
@@ -134,6 +134,26 @@
 
 ---
 
+## 8. AI-paper discovery portals · the daily / curated layer
+
+The layers above answer "find a citation". This section answers a different question the self-update loop actually asks: **what is new in AI this week, and through which machine-readable door?** These are the portals a refresh cycle polls. Statuses re-fetched **2026-10-27** from this Windows host (`python`+`urllib`, browser UA, 15 s timeout). The last column names **how the loop consumes it** — the only distinction that makes a channel operational rather than decorative:
+
+| Portal | What it is | Machine-readable door | Kind | Fetched 2026-10-27 | How the update loop uses it |
+|---|---|---|---|---|---|
+| Hugging Face Daily Papers | Community-curated daily ML papers (upvotes + discussion), each an arXiv id | `https://huggingface.co/api/daily_papers` (JSON array) | agg (curated) | L `https://huggingface.co/papers` 200 · A `/api/daily_papers` **200 JSON** · A `/papers/feed` 401 (no RSS) | **LLM-discovery / manual intake** — returns paper ids, not a feed the RSS path pulls. Successor to Papers with Code. |
+| arXiv per-category RSS | The canonical preprint firehose, by category | `http://export.arxiv.org/rss/cs.{AI,CL,LG,MA,SE,HC}` | **1P preprint** | A **200** for all six categories | **The feed path** — the only genuinely RSS-pullable channel here; wired as `venues` rows (cs.AI/cs.CL/cs.LG/**cs.MA**). |
+| Semantic Scholar | Paper graph + TLDRs + citation contexts | `https://api.semanticscholar.org/graph/v1/` | agg | L product page 200 · A **429** without a key | **LLM-discovery**; take the `arXiv:`/DOI id and resolve to the producer (§6.1). Unauthenticated API is throttled — budget for it. |
+| Google Scholar | Broadest scholarly web index | Per-query alerts RSS (the notification feed) | agg | L 200 · search 200 | **Discovery of record**, not citation; a result count is never evidence (§6.5). |
+| OpenAlex | Open catalog of works · authors · venues | `https://api.openalex.org/works?search=…` | agg (open) | A **200** (shared free daily budget; key for volume) | Backfill identifiers + venue/institution facts; open enough to cache. |
+| AlphaXiv | arXiv papers with inline discussion + related-paper graph | (SPA; no public API found — none invented) | agg | L 200 | Human reading aid / lead generation. |
+| OpenReview | ICLR/NeurIPS submissions + public reviews | `https://api2.openreview.net/notes` | portal | L 200 · A **403** (challenge) observed today | Venue-level discovery; gated today, documented as gated. |
+| dblp | Curated CS bibliography | `https://dblp.org/search/publ/api?format=json` | index | L/A **202** (Anubis bot gate) today | Author/venue metadata when reachable; identity, not merit (§6.6). |
+| Papers with Code | ~~Papers+code+benchmarks~~ **defunct** | ~~`/api/v1/papers`~~ | — | **Redirects to `https://huggingface.co/papers/trending`** (Meta closed it 2025-07) | **Retired as a channel.** Its rows are kept only as redirect markers; poll HF Daily Papers instead. |
+
+**Why only arXiv is on the pull path.** `harness refresh --provider feed` fetches RSS/Atom; among these portals only arXiv publishes a stable per-category feed. HF Daily Papers, Semantic Scholar, Google Scholar and OpenAlex are reached by the loop's **LLM-discovery** provider (driven by `watchlist.json` queries) or by manual intake — so their value here is being *registered with the right topics and an honest door note*, not pretending to be a feed. Everything in this table is an **aggregator except arXiv**: per §6.1 a hit is a lead — resolve the identifier to the producing party before it becomes a reference.
+
+---
+
 ## 中文
 
 **这是什么。** 一份「去哪查、谁是一手、命令行实测哪些可达」的学术检索与引用渠道清单。全部条目于 **2026-10-19** 用 `python`+`urllib`、Firefox UA 实测（关闭 TLS 校验，20–30 秒超时），状态为**实测值**而非文档值；`L`=落地页，`A`=API。`200` 可用 · `200*` 返回 200 但页面是机器人/同意门（非内容）· `403/405/429/404` 出错 · `Err` 传输/SSL/超时 · `—` 未找到公开 API（**未编造**任何端点）。
@@ -150,3 +170,12 @@
 **如何不洗稿（关键）。** ① 聚合器只做发现，命中后取标识符（DOI / arXiv id）到**产出方**取原文；② 优先**版本记录**，只能引预印本时给**稳定标识**并注明是预印本；③ 使用前**查撤稿/更正状态**（Crossref 撤稿过滤或 Retraction Watch 数据库）；④ 评论/QA 层（PubPeer、新闻）是线索不是证据；⑤ **检索结果条数永远不是证据**，「Google Scholar 有 N 条」度量的是索引，不是文献，引用次数同理（须注明来源与日期）；⑥ ORCID/ROR/ISSN/DataCite 只证身份，不证质量；DOI 可解析只证持久性，不证同行评审；⑦ 记录你**真正打开过**的一手 URL + 标识 + 访问日期。
 
 **受阻清单（§7）。** 403：PubMed/Europe PMC/DOAJ/PhilPapers/ACM DL/ScienceDirect/Wiley/T&F/Oxford/SSRN；429：ror.org、无 key 的 Semantic Scholar API；SSL 失败：datacite.org、SAGE、Airiti、https repec.org；机器人门：ISSN API、Shodhganga、BASE about、Brill（WAF）；超时：CORE API。均为**本环境特有**，服务本身健在——凡标注 `A 200` 的 API 实测确有响应。
+
+**§8 AI 论文每日发现门户（2026-10-27 补测）。** 前七节答「如何找到一条引用」，本节答自更新循环真正会问的另一个问题：**本周 AI 有什么新论文，从哪扇机器可读的门进？** 逐门户实测列于 §8 表，最后一列**只区分「循环如何消费」**——这才是把渠道做实而非摆设的关键：
+- **Hugging Face Daily Papers**：`/papers` 落地 200，`/api/daily_papers` **返回 200 JSON**（每项是 arXiv id + 社区讨论），但 `/papers/feed` 401（**无 RSS**）→ 只能走 LLM 发现/人工摄入，不能走 feed 拉取。它是 Papers with Code 停维后的接棒者。
+- **arXiv 分类 RSS**：`export.arxiv.org/rss/cs.{AI,CL,LG,MA,SE,HC}` **六类全 200**——本节里**唯一真正可被 `refresh --provider feed` 拉取**的一手渠道，已在 `venues` 登记（含本轮新增 cs.MA 多智能体）。
+- **Semantic Scholar**（API 无 key 429）、**Google Scholar**（按查询的提醒 RSS）、**OpenAlex**（works API 200，共享免费额度）：均经 LLM 发现/回填标识，命中后仍按 §6.1 取 id 回**产出方**。
+- **AlphaXiv** 落地 200（SPA，未见公开 API——不臆造）；**OpenReview** 今日 A 403（挑战门）；**dblp** 今日 202（Anubis 机器人门）。
+- **Papers with Code：已停维**——实测 `paperswithcode.com`（含其 API）**重定向至 `huggingface.co/papers/trending`**；本仓库两处 `paperswithcode` 行（目录 + `sources.json`）均降级为**重定向标记**（feed 摘除、`verified` 置 false），轮询改走 HF Daily Papers。
+
+**一句话立场。** 本节除 arXiv 外全是**聚合器**——门户命中是线索不是引用源；把渠道「列全」的意义在于登记正确的主题与诚实的门径注记，而不是假装每个门户都能当 feed 拉。
