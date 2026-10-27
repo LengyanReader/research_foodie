@@ -415,5 +415,80 @@ class P27SchoolsAndDomainsTest(unittest.TestCase):
             self.assertIn(token, text, f"school row lost its anchor: {token!r}")
 
 
+class P34ClauseAnchorTest(unittest.TestCase):
+    """P34 landed two clauses (M3.17, sharpening M5.11's sampling-agreement aside
+    into a gate obligation; M5.13, the acceptance-side twin of M5.12) from abstract-verified sources, plus the
+    digest-intake outlets. Content-presence guards: the prose may be edited as
+    long as each clause still names its mechanism, the unverified evidence level
+    stays declared, and the registry rows (incl. the P33 backfill) hold.
+    """
+
+    def test_m317_clause_names_the_adjudication_rule(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIsNotNone(text)
+        anchor = "Agreement is not verification (M3.17)"
+        self.assertIn(anchor, text, "M3.17 clause title missing")
+        section = text.split(anchor, 1)[1][:2200]
+        for token in ("disagreement", "consensus", "environmental evidence",
+                      "requirements every rollout omitted", "[R254]", "never a vote"):
+            self.assertIn(token, section, f"{token!r} missing from M3.17")
+
+    def test_m317_checklist_line_and_antipattern(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIn("(M3.17).", text.split("## Checklist")[1], "no M3.17 checklist line")
+        self.assertIn("Selection by agreement", text, "M3.17 anti-pattern missing")
+
+    def test_m513_clause_names_the_acceptance_gate(self):
+        text = _read(HARNESS / "core/06-self-evolution.md")
+        self.assertIsNotNone(text)
+        anchor = "A self-edit is attributed and gated before acceptance (M5.13)"
+        self.assertIn(anchor, text, "M5.13 clause title missing")
+        section = text.split(anchor, 1)[1][:2600]
+        for token in ("development set", "acceptance criteria", "cause",
+                      "rejection bound", "[R256]", "[R252]"):
+            self.assertIn(token, section, f"{token!r} missing from M5.13")
+
+    def test_m513_checklist_lines_and_antipattern(self):
+        text = _read(HARNESS / "core/06-self-evolution.md")
+        checklist = text.split("## Checklist")[1].split("## Anti-patterns")[0]
+        self.assertEqual(checklist.count("(M5.13)."), 2, "M5.13 should carry two checklist lines")
+        self.assertIn("Ungated self-edit", text, "M5.13 anti-pattern missing")
+
+    def test_p34_source_rows_and_reference_group(self):
+        text = _read(HARNESS / "sources/source-map.md")
+        self.assertIn("| M3.17 ", text, "M3.17 has no source-map row")
+        self.assertIn("| M5.13 ", text, "M5.13 has no source-map row")
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## X.", refs, "group X missing")
+        for ref in ("R252", "R254", "R256", "R262"):
+            self.assertIn(ref, refs, f"{ref} missing from references.md")
+        bib = _read(HARNESS / "review/references.bib")
+        for key in ("zhang2026veriharness", "liu2026vera", "dairai2026papers"):
+            self.assertIn(key, bib, f"bib entry missing: {key}")
+
+    def test_p34_review_doc_declares_the_evidence_level(self):
+        doc = _read(HARNESS / "review/self-modifying-harnesses-2026-10.md")
+        self.assertIsNotNone(doc, "P34 survey doc missing (linked from M3.17)")
+        for token in ("abstract-verified", "unverified", "P34.R1", "CC BY-NC-SA"):
+            self.assertIn(token, doc, f"survey doc lost its {token!r} declaration")
+        self.assertIn("self-modifying-harnesses-2026-10.md",
+                      _read(HARNESS / "core/04-verification-and-gates.md"))
+
+    def test_p34_data_outlets_and_registry_rows(self):
+        caps = _read(HARNESS / "src/harness_factory/data/capabilities.json")
+        self.assertIn("(M3.17)", caps, "verification-gate why lost M3.17")
+        self.assertIn("(M5.13)", caps, "self-improving-loop why lost M5.13")
+        sources = _read(HARNESS / "src/harness_factory/data/sources.json")
+        self.assertIn("dair-ai-x", sources, "digest account not tracked as media")
+        cycles = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                            .read_text(encoding="utf-8"))
+        by_id = {c["id"]: c for c in cycles["cycles"]}
+        self.assertIn("P33", by_id, "P33 backfill missing from the registry")
+        p34 = by_id.get("P34", {})
+        self.assertEqual(p34.get("added", {}).get("clauses"), ["M3.17", "M5.13"])
+        self.assertIn("P34.R1", {r["id"] for r in cycles["roadmap"]},
+                      "full-text reread trigger not registered")
+
+
 if __name__ == "__main__":
     unittest.main()

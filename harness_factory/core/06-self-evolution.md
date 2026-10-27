@@ -1,7 +1,7 @@
 # M5 · Self-Evolution · 自演化
 > Making the harness improve itself — signal → audit → mutation → journal, human-gated.
 > 让 harness 自我改进——信号 → 审计 → 变异 → 日志，人类把关。
-**Updated:** 2026-10-20
+**Updated:** 2026-10-27
 
 ---
 
@@ -13,6 +13,8 @@
 **自知之明的契约（M5.11）**：回路假定 harness 知道自己**缺什么**，而这本身是个主张。三件产物：**自我模型**（每条能力指向能证伪它的证据——守卫测试 / 已交付文件 / 实测运行）、**缺口登记册**（`cycle audit` 的机械面 **+** 带理由与重访触发的路线图条目）、以及每轮一次的**反证检查**（挑一个自称的强项，故意去打碎它）。依据是不对称：自我报告便宜且不可靠，外部检验昂贵但决定性——无外部反馈的自我纠错甚至会变差（`arXiv:2310.01798`），校准很差（`arXiv:1706.04599`），模型只掌握部分知识边界（`arXiv:2207.05221`/`2305.18153`）。**探索有界**：留出集、预算、书面停止条件；**新颖不等于价值**，未覆盖方向只能作为候选，仍须过本轮完成定义。前沿的「自我改进 agent」细读之下都是**搜索 + 一个可信的评估器**——所以钱要花在评估与溯源上。
 
 **组件消融（M5.12）**：回路只**加**不减，模块数于是被误读为能力。对冲办法：**留下的组件必须扛过一次干预**。**留存 ≠ 贡献**——模块在成功时在场，不能说明它促成了成功；agent 基准里模型、产物、harness 的效应通常**混杂**（`arXiv:2609.36630`）。做法：按实现边界切成**耦合功能单元**（工具与其使用说明算一个），为每个单元定义「移除」的反事实，**一次只摘一个**；基准取**同一任务上全部消融的中位数**，而不是那一次完整 harness 运行（单次运行只是一个噪声样本）；**性能与 token 两轴分报**，各做单侧配对检验，绝不并成一个加权分；显著伤害红线者进**保护集**，其余按另一轴排序，在**留出集**上重复评估，报 **Pareto 前沿**而非单一赢家。要预期**非单调**：摘掉「判断任务完成」的机制反而**更贵**（agent 会继续调用）。全剪枝基线仍能得分，说明的是**任务覆盖**不够，不是模块无用。消融要留在测试里，否则下一轮又把剪掉的加回来。注意 `cycle audit` 只查结构（缺行·缺守卫·缺溯源），它无法判断某条子句是否承重——这条子句才是那个测量（`arXiv:2610.04178`，代码 `github.com/UCSB-NLP-Chang/SHarP`）。
+
+**接纳侧的孪生子句（M5.13）**：M5.12 量的是「留下的」是否承重，M5.13 管「正要接纳的」——自我改进回路提出对 harness 自身的编辑（或换模型 checkpoint）时，「无指标不晋升」需要可执行的程序：**(a) 应用前**在开发集上**写明验收标准**，由验证器把关而非事后叙事（`[R256]`）；**(b) 更新须指向原因**而不只是让触发样本通过（`[R256]`）；**(c) 归因是哪个轴动了**——harness 编辑、模型还是环境，说不清归属的接纳按未验证处理；**(d) 预先声明拒绝边界**，超出边界的回退被拦截并记入日志，而不是反复重试直到通过。别假定收益逐轮累积：在修订序列上训练的收益**随场景而变**（`[R252]`，摘要级），每一轮编辑都须按自身重新度量。注意 `[R256]` 本轮仅达摘要级核实，子句陈述的是其论证的不变式，不是对已交付工具的主张。
 
 ---
 
@@ -58,6 +60,8 @@ The loop above governs one **mutation**. A **round** (a cycle) governs many at o
 
 12. **A module earns its place by ablation (M5.12).** The loop above only *adds* - signal, audit, mutation - so left alone it grows monotonically until module count reads as capability. The counterweight: **what is in the harness must survive an intervention.** Retention is not contribution; that a module is present when the task succeeds says nothing about whether it caused the success, and in agent benchmarks the model, artifact and harness effects are often **confounded** `[R234]`. So measure it. Partition the harness into **coupled functional units** at implementation boundaries - a tool and its usage instructions are one unit - and define what "removed" means for each as a **counterfactual** ("with this off, the harness does X instead"), because a unit whose removal cannot be described is not a unit `[R235]`. Ablate **one unit at a time** and compare against the **median over all ablations on the same task**, never against the single full-harness run: the full run is one noisy draw, and using it as the baseline distorts every estimate in the same direction `[R235]`. Report **two** axes - performance and token cost - as two one-sided paired tests, and never merge them into one weighted score: they answer different questions and a sum hides which one moved. Protect the units whose removal significantly hurts the red line, rank the rest by the other axis, evaluate the ladder on a **held-out** set with repeats, and report the **Pareto frontier** rather than a winner - the winner is a policy choice about what a token costs *you*. Expect **non-monotonicity**: removing a unit can **raise** cost, because the unit that recognises task completion is also the one that stops the model calling itself `[R235]`. Read the all-pruned baseline correctly: if a harness with every optional unit removed still scores, the finding is about **task coverage**, not about the units. Keep the ablation in the test suite, or next round re-adds what this round pruned. Note what this is *not*: `harness cycle audit` reports missing rows, guards and provenance - a **structural** criticism. It cannot say whether a clause is load-bearing, and this clause is the measurement that can.
 
+13. **A self-edit is attributed and gated before acceptance (M5.13).** M5.12 measures whether what *stays* earns its place; this clause is its acceptance-side twin - whether what is *about to be admitted* earns acceptance. When the loop above proposes an edit to the harness itself, or a new model checkpoint, the guardrail "no metric, no promotion" needs a procedure: (a) **acceptance criteria are named on a development set before the edit is applied** - a verifier gates the update rather than a narrative after it `[R256]`; (b) **the update must target the cause, not only the observed outcome** `[R256]` - a patch that makes the triggering example pass while leaving the failure mechanism intact is a regression dressed as a fix; (c) **attribute which axis moved** - harness edit, model, or environment; these are routinely confounded in agent benchmarks (M5.12's own grounding `[R234]`), and an acceptance that cannot say which axis improved is unverified; (d) **declare a rejection bound in advance** - a measured regression beyond the bound blocks acceptance and is journalled, not retried until something passes. One caution against assuming compounding: training on multi-round revision sequences helps in some settings and not others `[R252]` (abstract-level this round), so each round's edit is re-measured on its own terms rather than credited with prior rounds' momentum. Scope note: `[R256]` describes a research system verified at abstract level only; the clause states the invariant it argues for, not a claim about a delivered tool. Full evidence trail: [`../review/self-modifying-harnesses-2026-10.md`](../review/self-modifying-harnesses-2026-10.md).
+
 ## Checklist
 - [ ] Signals come from real runs, not speculation.
 - [ ] Each mutation passes an audit (pattern? generalizes? M0-consistent?).
@@ -73,6 +77,8 @@ The loop above governs one **mutation**. A **round** (a cycle) governs many at o
 - [ ] The protected set came from significance on the *other* axis, and pruning stopped at its size (M5.12).
 - [ ] The verdict names the task set, the model and the development-set size; the all-pruned baseline was read as task coverage (M5.12).
 - [ ] The ablation lives in the test suite, so the next round cannot silently re-add what was pruned (M5.12).
+- [ ] A proposed self-edit or checkpoint swap has acceptance criteria named on the development set **before** it is applied, and patches the cause, not the triggering example (M5.13).
+- [ ] Each accepted edit names which axis improved (harness / model / environment) and a rejection bound was set in advance; a regression beyond it was blocked and journalled rather than retried (M5.13).
 
 ## Anti-patterns
 - **Unbounded self-modification.** The harness rewrites itself with no audit or gate.
@@ -93,6 +99,7 @@ The loop above governs one **mutation**. A **round** (a cycle) governs many at o
 - **Redundancy universalism.** Generalising "harnesses are mostly redundant" from one benchmark to every harness; the literature's own counter-example is a retrieval harness whose every module pulls weight (M5.12).
 - **All-pruned misreading.** Concluding a module is worthless because the task set never exercised it (M5.12).
 - **Ablation as ritual.** Running the ablation, then restoring every module "to be safe" — the measurement changed no decision (M5.12).
+- **Ungated self-edit.** Accepting a harness edit or checkpoint because it makes the motivating example pass — no criteria named before application, no attribution of which axis moved, no rejection bound for the regression it might hide (M5.13).
 
 ## See also
-`01-meta-principles.md` (M0.10, M0.4, M0.8) · `../review/harness-catalog.md` §3, §8 · `08-change-governance.md` (M7) · `04-verification-and-gates.md` (M3) · `../reference/capability-cycle.md` (how to run a round; `harness cycle`) · `../review/self-model-and-gap-seeking-2026-10.md` (M5.11 — self-model, gap register, bounded exploration) · `../review/harness-ablation-2026-10.md` (M5.12 — retention vs contribution, the ablation procedure, its limits).
+`01-meta-principles.md` (M0.10, M0.4, M0.8) · `../review/harness-catalog.md` §3, §8 · `08-change-governance.md` (M7) · `04-verification-and-gates.md` (M3) · `../reference/capability-cycle.md` (how to run a round; `harness cycle`) · `../review/self-model-and-gap-seeking-2026-10.md` (M5.11 — self-model, gap register, bounded exploration) · `../review/harness-ablation-2026-10.md` (M5.12 — retention vs contribution, the ablation procedure, its limits) · `../review/self-modifying-harnesses-2026-10.md` (M5.13 — verifier-gated self-edits, cause-vs-outcome, the abstract-verified evidence trail).

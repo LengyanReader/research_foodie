@@ -52,7 +52,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** always · 总是
 - **Modules · 关联模块:** M3
-- **Why · 理由:** Define done before work and verify with observed evidence (M0.3).
+- **Why · 理由:** Define done before work and verify with observed evidence (M0.3). Agreement is not verification: when selecting or revising among sampled rollouts, disagreements are adjudicated against environmental evidence and consensus is audited for jointly omitted requirements - verification is an evidence-bearing act, not a vote (M3.17).
 
 ### `resumable-memory` — Resumable memory · 可续接记忆
 
@@ -70,7 +70,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** horizon ≥ multi_session
 - **Modules · 关联模块:** M5
-- **Why · 理由:** Multi-session work benefits from an explicit signal→audit→mutation→journal loop (M0.10).
+- **Why · 理由:** Multi-session work benefits from an explicit signal→audit→mutation→journal loop (M0.10). Each proposed self-edit or checkpoint swap is gated by acceptance criteria named before application, patches the cause rather than the triggering example, attributes which axis moved (harness/model/environment), and carries a declared rejection bound - and gains are not assumed to compound across rounds (M5.13).
 
 ### `tool-use` — Tool use · 工具使用
 
@@ -226,7 +226,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** domain ∈ {knowledge-management, digital-humanities, humanities} (领域) OR artifact ∈ {knowledge_base} (产物)
 - **Modules · 关联模块:** M4
-- **Why · 理由:** One canonical id per entity, aliases recorded as aliases against that id, and never a merge that invents a claim the source did not make (M0.4). Same name / different entity is the normal case in historical and biographical material: when the evidence cannot decide a merge, the pair goes to a human gate rather than being averaged into one record (M4.12).
+- **Why · 理由:** One canonical id per entity, aliases recorded as aliases against that id, and never a merge that invents a claim the source did not make (M0.4). Same name / different entity is the normal case in historical and biographical material: when the evidence cannot decide a merge, the pair goes to a human gate rather than being averaged into one record (M4.12). The same resolution done offline pays twice: an entity-level corpus map built once by resolving recurring mentions across documents is shared across queries instead of rediscovered per query, and outperforms per-query navigation alternatives while using fewer tokens.
 
 ### `evidence-bounded-generation` — Evidence-bounded generation · 输出侧证据约束
 
@@ -268,7 +268,7 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 
 - **Fires when · 触发条件:** domain ∈ {model-selection} (领域)
 - **Modules · 关联模块:** M3, M4, M7
-- **Why · 理由:** A model choice is a measurement, not a rank. Vendor tables compare different models at different effort levels, an alias silently moves to a new snapshot, and a safety policy can re-route the request to another model, so a leaderboard position does not transfer to your task. Declare the requirements matrix (quality, latency, cost, licence, privacy), pick a portfolio per stage rather than one model for the whole job, run a minimal fit-for-task evaluation on your own hold-out at a declared effort, and pass a hard decision gate with requested/served model ids, versions and effort settings recorded (M4.17). A tie goes to the cheaper tier; a change of tier or effort re-opens the evaluation.
+- **Why · 理由:** A model choice is a measurement, not a rank. Vendor tables compare different models at different effort levels, an alias silently moves to a new snapshot, and a safety policy can re-route the request to another model, so a leaderboard position does not transfer to your task. Declare the requirements matrix (quality, latency, cost, licence, privacy), pick a portfolio per stage rather than one model for the whole job, run a minimal fit-for-task evaluation on your own hold-out at a declared effort, and pass a hard decision gate with requested/served model ids, versions and effort settings recorded (M4.17). A tie goes to the cheaper tier; a change of tier or effort re-opens the evaluation. Compare on both sampling axes: post-training can sharpen single-shot accuracy (pass@1) while shrinking solution coverage (pass@K), so a base model with a light inference harness may be the better portfolio member when test-time budget is available.
 
 ---
 

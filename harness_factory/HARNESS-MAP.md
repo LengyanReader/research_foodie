@@ -181,10 +181,10 @@ flowchart TD
 | capability | name | modules | fires when | 要点 · what it buys |
 |---|---|---|---|---|
 | `baseline-discipline` | Baseline discipline · 基线纪律 | M0, M1, M7 | always · 总是 | Every task needs load-bearing invariants, curated context, and change governance. |
-| `verification-gate` | Verification gate · 验证门禁 | M3 | always · 总是 | Define done before work and verify with observed evidence (M0.3). |
+| `verification-gate` | Verification gate · 验证门禁 | M3 | always · 总是 | Define done before work and verify with observed evidence (M0.3) |
 | `resumable-memory` | Resumable memory · 可续接记忆 | M2 | horizon ≥ session | Work that spans a session must externalize state and resume from it. |
 | `traceable-sources` | Traceable sources · 来源可溯 | M4 | grounding ∈ {preferred, required} (来源要求) OR artifact ∈ {document, dataset, knowledge_base} (产物) | Cited material demands every claim trace to a primary source (M0.1). |
-| `self-improving-loop` | Self-improving loop · 自改进循环 | M5 | horizon ≥ multi_session | Multi-session work benefits from an explicit signal→audit→mutation→journal loop (M0.10). |
+| `self-improving-loop` | Self-improving loop · 自改进循环 | M5 | horizon ≥ multi_session | Multi-session work benefits from an explicit signal→audit→mutation→journal loop (M0.10) |
 | `tool-use` | Tool use · 工具使用 | M6 | tool_surface ∈ {read, read_write, external} (工具面) | A task that touches the world needs a minimal, progressive toolset. |
 | `human-review-gate` | Human review gate · 人工复核门 | M8 | collaboration ∈ {human_review, multi_agent} (协作) OR stakes ∈ {high} (风险) | Others are involved or stakes are high: escalate irreversible decisions (M0.8). |
 | `high-stakes-guardrails` | High-stakes guardrails · 高风险护栏 | M3, M8 | stakes ∈ {high} (风险) | When stakes are high, strengthen gates and lower autonomy. |

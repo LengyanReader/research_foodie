@@ -303,7 +303,11 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 ## P33 · 环境鲁棒与简报串联（2026-10-25，已做）：doctor 只读探测容错 + init --from-brief 管道
 
-> 实测排查的两项工程闭环：① `_cmd_doctor` 捕获受限沙箱与只读环境的 `PermissionError`/`OSError`，以诊断状态友好报告，严守纯观察原则（M0.4）；② `brief.py` 与 `assemble.py` 打通，支持 `harness init --from-brief <brief.md|brief.json>` 直接从确认后的简报生成脚手架并落盘 `.harness/BRIEF.md`。守卫 5 条（+2 cli, +3 brief）；测试 **354 OK**；`cycle audit` 28 轮 · 0 硬 · 0 缺口。
+> 实测排查的两项工程闭环：① `_cmd_doctor` 捕获受限沙箱与只读环境的 `PermissionError`/`OSError`，以诊断状态友好报告，严守纯观察原则（M0.4）；② `brief.py` 与 `assemble.py` 打通，支持 `harness init --from-brief <brief.md|brief.json>` 直接从确认后的简报生成脚手架并落盘 `.harness/BRIEF.md`。守卫 5 条（+2 cli, +3 brief）；测试 **354 OK**；`cycle audit` 28 轮 · 0 硬 · 0 缺口。（P33 当时未登记 cycles.json，由 P34 补登记。）
+
+## P34 · 周报摄取轮（2026-10-27，已做）：一致不等于验证（M3.17）· 自我编辑先过验收门（M5.13）
+
+> DAIR.AI「Top AI Papers of the Week」X 文章（2026-10-11，十项）作**二手入口、仅发现用**（P11 汇总/P16 微信先例），经 fxtwitter API 镜像读取（x.com 被墙）。十条 arXiv 记录全部达**摘要级核实**（0 篇全文：HTML/ar5iv 七次取文失败、S2 429），digest 正文独有数字与全部机构归属入**未验证台账**（survey §4），全文重读登记 **P34.R1**。落两子句：**M3.17**（VeriHarness R254：分歧以环境证据裁决、共识反查共同遗漏；把 M5.11 的「采样一致只是路由信号」升为门禁义务）与 **M5.13**（VERA R256：验收标准先于应用写明、补原因非症状、归因哪个轴、预声明拒绝边界；M5.12 的接纳侧孪生，R252 警示别假定逐轮累积）。边界裁决：MASS/MIMESIS/CMM 在权重级与模型内部一侧，不入（P15 边界）；HERMES(R255) 与目录 `hermes-agent` 重名不合。data 面：references §X R252–R262 + bib 11 条 · source-map 两行 · capabilities why×4 · 媒体 `dair-ai-x` · watchlist 关键词 · cycles P33 补登记 + P34 + D7/D1 理由更新。守卫 7 条；测试 **361 OK**；`cycle audit` **30 轮 · 0 硬 · 0 缺口**。
 
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。

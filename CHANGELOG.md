@@ -20,6 +20,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Weekly-digest intake round (P34) - agreement is not verification; self-edits pass an acceptance gate before adoption.**
+  The DAIR.AI "Top AI Papers of the Week" X post (2026-10-11, ten items) ingested as a **secondary source, discovery-only,
+  never cited** (P11 roundup / P16 WeChat precedent), read via the fxtwitter API mirror (x.com unreachable). All ten arXiv
+  records verified to **abstract grade** (P12 precedent) - zero full texts reachable (7 HTML/ar5iv fetch failures, S2 429),
+  so digest-body-only figures and every institutional attribution sit in an explicit **unverified ledger** (survey §4) with a
+  full-text reread registered as roadmap **P34.R1**. Two clauses landed: **M3.17** (`core/04`, VeriHarness R254) - disagreements
+  are adjudicated by environmental evidence, never a vote, and consensus is reverse-checked for the requirements every rollout
+  omitted (sharpens M5.11's sampling-agreement aside into a gate obligation, complements M3.14); **M5.13** (`core/06`, VERA R256)
+  - a self-edit is attributed and gated before acceptance: criteria named on a development set before the edit is applied, the
+  update targets the cause not only the observed outcome, which axis moved is attributed (R234 confounding grounding), a rejection
+  bound is declared in advance (the acceptance-side twin of M5.12; R252 cautions against assuming per-round compounding).
+  New survey `review/self-modifying-harnesses-2026-10.md` (grading table, seven module mappings incl. the HERMES(R255) vs
+  `hermes-agent` name-collision alert, unverified ledger, license hygiene: VERA CC BY-NC-SA 4.0, CorpusMap/Agent Plasticity
+  arXiv non-exclusive, MIMESIS CC0). Boundary rulings: MASS/MIMESIS/CMM stay weight-level (P15 boundary); no new capabilities,
+  domains, or catalog entries (M0.5). Data outlets: references §X **R252-R262** + 11 bib entries, source-map 2 rows, capabilities
+  `why` x4, `dair-ai-x` media row, watchlist keywords; **cycles.json gains the backfilled P33 entry** (shipped to git without a
+  registry entry - the exact "round without closure" M5.10 names) plus P34, and D7/D1 reason updates. `P34ClauseAnchorTest`
+  7 guards. **354 → 361 tests**; `cycle audit` 30 cycles, 0 hard, 0 gaps.
 - **Environment resilience & brief pipeline (P33).** `doctor` command hardened against restricted permissions
   and read-only sandbox environments (captures `OSError`/`PermissionError`, reports friendly status and hints
   for `$env:HARNESS_HOME`, avoids crashes on diagnostic calls, M0.4 compliant). Closed the brief-to-init pipeline

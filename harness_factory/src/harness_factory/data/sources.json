@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-27",
   "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`.",
   "topic_ids": [
     "agent-harness",
@@ -1246,6 +1246,23 @@
         ],
         "why": "Curated weekly research digest — 'Top AI Papers of the Week' and 'AI Agents Weekly'.",
         "note": "Repointed off the *.substack.com form, which is unreachable from our environment; the custom domain serves RSS plus a paginated /api/v1/archive. Same publication as the former nlpnews.substack.com: its feed reports webMaster nlpnews@substack.com, author/copyright 'elvis' (DAIR.AI) and channel title 'AI Newsletter' (checked 2026-10-19). The old page could not be diffed because *.substack.com is blocked here."
+      },
+      {
+        "id": "dair-ai-x",
+        "name": "DAIR.AI (X account, @dair_ai)",
+        "kind": "post",
+        "url": "https://x.com/dair_ai",
+        "topics": [
+          "agent-harness",
+          "self-evolving-agents",
+          "context-engineering"
+        ],
+        "tags": [
+          "social",
+          "papers-of-the-week"
+        ],
+        "why": "Publisher of the weekly 'Top AI Papers of the Week' X articles that seeded the P11 roundup and the P34 digest intake; the X channel carries items days-to-weeks ahead of the newsletter and sometimes body-only commentary the abs pages do not.",
+        "note": "Secondary source — discovery only, never citable as evidence (same standing as the newsletter and the P16 WeChat explainer). Direct x.com is blocked from this environment; readable retrieval goes through the fxtwitter API mirror (api.fxtwitter.com/<user>/status/<id>) — receipt verified 2026-10-27 on status 2109270464962916674. Same publisher as `nlpnews` (Elvis Saravia / DAIR.AI)."
       },
       {
         "id": "data-science-weekly",

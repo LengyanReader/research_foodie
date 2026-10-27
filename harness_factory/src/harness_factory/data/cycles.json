@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-27",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -971,6 +971,49 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P33",
+      "date": "2026-10-25",
+      "status": "done",
+      "title_en": "Environment resilience round: doctor survives read-only homes, brief feeds init",
+      "title_zh": "环境鲁棒轮：doctor 只读容错 + brief 直通 init",
+      "note": "**Registered late - backfilled 2026-10-27 by P34**: P33 shipped to git (8c3e144) without a registry entry, the exact 'round without closure' M5.10 names; this entry restores the record from PROGRESS.md and the commit message. Two break-points found by real use, both mechanism combinations (M0.5, 0 additions): (1) `harness doctor` crashed in restricted sandboxes / read-only containers because _cmd_doctor called ensure_home() unconditionally (PermissionError) - it now catches OSError/PermissionError, reports `[unwritable / access denied]` with a $HARNESS_HOME pointer and returns diagnostic exit 1 instead of dying: pure observation must never mutate or crash (M0.4); (2) a confirmed P32 brief had no channel into scaffolding - brief.load_brief parses Goal/Domain out of a markdown or json draft, assemble emits .harness/BRIEF.md via extra['brief_md'], and `derive`/`init` accept --from-brief so one confirmed draft becomes a scaffold in one step. Guards: test_cli.py +2 (doctor success / unwritable tolerance), test_brief.py +3 (markdown parse / json roundtrip / init --from-brief end-to-end self-check). Tests 349 -> 354; audit was 28 cycles, 0 hard, 0 gaps at the time.",
+      "slices": [
+        "P33.1 - doctor resilience: _cmd_doctor OSError/PermissionError path, [unwritable / access denied] report + $HARNESS_HOME guidance, exit 1 without crashing",
+        "P33.2 - brief pipeline: brief.load_brief (markdown/json Goal+Domain), assemble extra['brief_md'] -> .harness/BRIEF.md, cli derive/init --from-brief",
+        "P33.3 - guards: test_cli.py +2, test_brief.py +3 (349 -> 354); CountDriftGuard synced"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P34",
+      "date": "2026-10-27",
+      "status": "done",
+      "title_en": "Digest-intake round: agreement is not verification (M3.17); self-edits gate before acceptance (M5.13)",
+      "title_zh": "周报摄取轮：一致不等于验证（M3.17）· 自我编辑先过验收门（M5.13）",
+      "note": "Intake: the DAIR.AI 'Top AI Papers of the Week' X article (2026-10-11, ten items) - a **secondary digest, discovery only** (P11 roundup / P16 WeChat precedents), read via the fxtwitter API mirror because x.com is blocked. All ten arXiv records (R252-R261) resolved at **abstract level**; **0 full reads** - seven HTML/ar5iv fetches failed to parse and Semantic Scholar returned 429 - so the round degraded per the P12 precedent, with an explicit unverified ledger (survey §4: the 6.5->31% pair, +5/-20 gate thresholds, +6.4-11.7/-34-57% magnitudes, $1,073 figure, all institution attributions incl. CMM#Sakana) and a full-text reread registered as roadmap P34.R1. Two clauses passed discrimination against the live lists: M3.17 (R254 VeriHarness - disagreement adjudicated against environmental evidence, consensus audited for jointly omitted requirements; sharpens M5.11's router-signal aside into a gate obligation, complements M3.14) and M5.13 (R256 VERA - a verifier gates checkpoints and harness edits on development-set acceptance criteria named before application, targets the cause not the outcome; R252 cautions against assuming compounding; acceptance-side twin of M5.12, the procedure under Guardrails' 'no metric, no promotion'). Boundary decisions recorded: MASS (R257) and MIMESIS (R261) sit on the weight-level/training-substrate side of the P15 boundary; CMM (R260) is model internals - deliberately not ingested. HERMES (R255) vs catalog `hermes-agent` name collision logged, no merge (P28 hermit precedent). Why-refreshes only, no new capability: entity-resolution (CorpusMap R253), model-portfolio-discipline (Sharpening Tax R258), verification-gate, self-improving-loop. No catalog entry: research systems without a verified public runnable artifact (M0.5, M5.11). Source hygiene: media `dair-ai-x` added to sources.json (same publisher as `nlpnews`), watchlist keywords extended; R256 carries **CC BY-NC-SA 4.0** - license check before any derivative reuse. Roadmap: D7 stays deferred (abstract-grade evidence found, its bar is full-read-grade); D1 records R252/R256 as stage-C precedents.",
+      "slices": [
+        "P34.1 - intake & verification: fxtwitter mirror receipt for the digest; 10/10 ids resolved at abs pages (title/authors/date/license from the record); full-text paths unreachable -> evidence level degraded, P34.R1 registered",
+        "P34.2 - clauses: M3.17 in core/04 (item + bilingual + checklist + anti-pattern 'Selection by agreement'); M5.13 in core/06 (item + bilingual + 2 checklist lines + anti-pattern 'Ungated self-edit'); survey review/self-modifying-harnesses-2026-10.md with the unverified ledger",
+        "P34.3 - outlets: references.md §X R252-R262 + 11 bib entries; source-map M3.17/M5.13 rows + P34 note; capabilities why x4; sources.json dair-ai-x media row; watchlist keywords",
+        "P34.4 - registry & roadmap: P33 backfilled (shipped unregistered); D7/D1 reasons updated; guards for both clause anchors in tests/test_docs_integrity.py"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": ["M3.17", "M5.13"],
+        "references": ["R252", "R253", "R254", "R255", "R256", "R257", "R258", "R259", "R260", "R261", "R262"],
+        "catalog_delta": 0,
+        "outlets_delta": 1
+      }
     }
   ],
   "roadmap": [
@@ -1043,7 +1086,7 @@
       "cycle": null,
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
-      "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code",
+      "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code. P34 note: Harness Learning (R252) and VERA (R256) are first-party stage-C precedents **at abstract level** (learned proposer + verifier-gated edits); the design doc should engage them after the P34.R1 full-text reread",
       "revisit_when": "stage C (measured promotion) opens when the user opens it or a first measured effect receipt lands; the holdout exists (P23) and the auditor feeds proposals (P25)"
     },
     {
@@ -1298,7 +1341,7 @@
       "cycle": null,
       "source": "review/frontier-2026-10.md §6b (robustness of agent judges)",
       "title_en": "Agent-judge robustness pass before trusting any golden set",
-      "reason": "P20 surfaced no full-read-grade primary source on judge/verifier robustness; the adjacent instrumentation (LHTB hidden fake-proof verifiers, R246) is *listed* only and is not the cue's subject",
+      "reason": "P20 surfaced no full-read-grade primary source on judge/verifier robustness; the adjacent instrumentation (LHTB hidden fake-proof verifiers, R246) is *listed* only and is not the cue's subject. P34 update: VeriHarness (R254) is squarely on the subject but landed at **abstract grade only** (full texts unreachable, P34.R1 pending) - the cue's full-read bar is still not met, so the deferral now rests on an identified candidate rather than on their absence",
       "revisit_when": "a primary source on evaluation integrity / judge robustness is readable in full and passes the discriminating test"
     },
     {
@@ -1309,6 +1352,15 @@
       "title_en": "Re-audit A2A interop + peer-session topologies (Agent Teams) after full-text reads",
       "reason": "the LF status change (R251) and Agent Teams (R250) are listed-only this session; deciding whether M8's interop clauses need a handoff-update rests on full texts, not search snippets",
       "revisit_when": "A2A spec text and agent-teams docs are read in full, or a second vendor ships the same peer-session topology"
+    },
+    {
+      "id": "P34.R1",
+      "status": "deferred",
+      "cycle": "P34",
+      "source": "P34 intake - full texts unreachable from this environment (7 parse failures incl. ar5iv; S2 429)",
+      "title_en": "Full-text rereads of R252-R259 with the digest-ledger checklist",
+      "reason": "M3.17 and M5.13 rest on abstract-level verification; the survey §4 ledger (6.5->31%, +5/-20 thresholds, +6.4-11.7/-34-57% magnitudes, $1,073, institution attributions) and the VeriHarness 26k-rollout release can only be cleared, promoted or retracted from the bodies - D7's full-read bar also depends on this reread",
+      "revisit_when": "arXiv HTML/PDF becomes reachable from this environment, or the next round touching core/04 M3.17 or core/06 M5.13 rereads them first"
     }
   ]
 }

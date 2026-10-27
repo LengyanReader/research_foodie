@@ -1,6 +1,20 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-25
+**Updated:** 2026-10-27
+
+---
+
+## 2026-10-27 · P34：周报摄取轮 —— 一致不等于验证（M3.17）· 自我编辑先过验收门（M5.13）
+
+- **开轮依据。** 用户问 DAIR.AI「Top AI Papers of the Week」X 文章（2026-10-11，十项）能否整合，并指出该账户应纳入自动更新来源。评估通过后排定本轮：二手摘要=**仅发现用、永不引用**（P11 汇总 / P16 微信先例），经 fxtwitter API 镜像读取正文（x.com 不可达），十条 arXiv 记录逐条回一手 abs 页核验。证据级：**摘要级核实**（P12 先例）——0 篇全文可达（HTML/ar5iv 七次取文失败、S2 429），digest 正文独有数字与全部机构归属入**未验证台账**（survey §4），全文重读登记 **P34.R1**。
+- **落地两子句。**
+  1. **M3.17**（`core/04`，VeriHarness R254）：分歧以环境证据裁决而非多数票；共识要反查「每一次 rollout 都漏掉的需求」。把 M5.11「采样一致只是廉价路由信号」的旁注升为门禁义务，补 M3.14。
+  2. **M5.13**（`core/06`，VERA R256）：自我编辑在被接纳前须归因且过门——(a) 验收标准在应用前先于开发集写明；(b) 更新须针对原因而非症状；(c) 归因哪个轴动了（借 R234 混淆接地）；(d) 预声明拒绝边界。M5.12 的接纳侧孪生；R252 警示别假定逐轮必然累积。
+- **评审文档。** `review/self-modifying-harnesses-2026-10.md`（§0–§6）：十条记录的摘要级评级表、两子句判别、七条既有模块映射（含 HERMES(R255) 与目录 `hermes-agent` **重名不合**的告警）、未验证台账、许可证卫生（VERA **CC BY-NC-SA 4.0**、CorpusMap/Agent Plasticity arXiv 非独占、MIMESIS CC0）。
+- **边界裁决。** MASS/MIMESIS/CMM 在权重级与模型内部一侧，不入（P15 边界）；不新增能力/域/目录条目（M0.5）。
+- **data 面。** references §X **R252–R262** + bib 11 条 · source-map M3.17/M5.13 两行 + P34 注 · capabilities `why`×4（verification-gate、self-improving-loop、entity-resolution 离线双付、model-portfolio-discipline pass@1/pass@K）· sources 媒体行 `dair-ai-x`（kind=post）· watchlist 三主题关键词。**cycles.json：P33 补登记**（8c3e144 发货时漏登记，正是 M5.10 点名的「无闭环轮」）+ P34 条目 + D7（摘要级候选已识别）/D1（阶段 C 先例）理由更新 + P34.R1 deferred。
+- **守卫。** `test_docs_integrity.py` 增 `P34ClauseAnchorTest` **7 用例**（两子句锚点与关键措辞、checklist 行数、反模式、source-map 行、references §X + bib keys、评审文档记号与回链、四数据面 outlet、registry P33/P34/P34.R1）。
+- **状态。** 测试 **354 → 361**（+7）全过；`cycle audit` **30 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成三视图（CAPABILITIES / HARNESS-MAP / harness-index）。按默认指示 commit，不 push。
 
 ---
 

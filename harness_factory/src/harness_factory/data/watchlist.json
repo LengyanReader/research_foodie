@@ -1,19 +1,19 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-27",
   "cadence": "weekly",
   "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery.",
   "topics": [
     {
       "id": "agent-harness",
       "name_zh": "Agent 外壳/脚手架",
-      "queries": ["agent harness design", "agentic scaffold architecture", "autonomous agent loop"],
-      "keywords": ["harness", "agent loop", "scaffold", "orchestration", "agent architecture"]
+      "queries": ["agent harness design", "agentic scaffold architecture", "autonomous agent loop", "harness learning test-time adaptation"],
+      "keywords": ["harness", "agent loop", "scaffold", "orchestration", "agent architecture", "dev-primitives", "resident llm"]
     },
     {
       "id": "self-evolving-agents",
       "name_zh": "自演化 agent",
-      "queries": ["self-evolving agents", "self-improving agent", "automated agent design"],
-      "keywords": ["self-evolv", "self-improv", "self-referential", "godel", "seal", "adas", "evolution"]
+      "queries": ["self-evolving agents", "self-improving agent", "automated agent design", "verifiable environments agentic co-evolution"],
+      "keywords": ["self-evolv", "self-improv", "self-referential", "godel", "seal", "adas", "evolution", "co-evolution", "revision sequence"]
     },
     {
       "id": "context-engineering",
@@ -36,8 +36,8 @@
     {
       "id": "evaluation-gates",
       "name_zh": "评测与门禁",
-      "queries": ["LLM agent evaluation", "agent verifier reward", "process reward model agents"],
-      "keywords": ["evaluation", "gate", "verifier", "reward model", "benchmark", "self-check"]
+      "queries": ["LLM agent evaluation", "agent verifier reward", "process reward model agents", "scaling agentic verification long-horizon"],
+      "keywords": ["evaluation", "gate", "verifier", "reward model", "benchmark", "self-check", "consensus", "rollout"]
     },
     {
       "id": "provenance-integrity",
