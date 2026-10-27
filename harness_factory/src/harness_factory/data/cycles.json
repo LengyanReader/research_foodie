@@ -1072,6 +1072,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P38",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Full-text reread round: R252-R259 read in full, the digest ledger resolved",
+      "title_zh": "全文重读轮：R252–R259 全文核验，digest 台账逐项裁决",
+      "note": "Closed P34.R1. The P34 digest-intake round had verified R252-R261 at abstract level only (arXiv HTML then unreachable) and held the digest's body-only claims in an unverified ledger; the 2026-10-28 probe found the HTML endpoint reachable again, so all of R252-R259 were re-read as HTML full texts with the ledger as the checklist, plus R260's affiliation block (abs pages do not show affiliations). Resolutions: (1) HERMES 6.5->31.0 verified but it is a composite score, not the digest's 'task pass rate' (and the paper itself carries a 26.2% vs 37.4% cost-figure tension, flagged); (2) VERA's '+5% accept / -20% reject' corrected in kind - two distinct criteria (>=5pp required gain for harness edits; <=20% tolerated regression for model checkpoints), which strengthens M5.13(d) and gave it a two-bound exemplar; (3) CorpusMap's magnitudes verified and the ledger premise found wrong - they were abstract-stated all along (M3.17 in miniature: a careful single read is a sample); (4) Agent Plasticity's models verified, the '$1,073 total cost' corrected - it is Claude Opus 5.5's per-model prior learning cost ($1,072.73, Appx C); (5) CMM->Sakana AI confirmed true (all six authors); (6) Sharpening Tax / MASS body-side numbers carried with their own caveats (observational; not a matched-data control). R254's release pool located first-party (HF caiqizh/veriharness + GitHub google-research/veriharness). Both landed clauses' abstract-level hedges promoted (core/04 M3.17, core/06 M5.13); no clause retracted. D7's revisit trigger fired (R254 now full-read) - stays deferred with the reason upgraded. Non-goals: no new capability/domain/catalog entry; the R254 dataset was located, not downloaded; D7 itself not opened.",
+      "slices": [
+        "P38.1 - the reread: 9 arXiv HTML full texts fetched with per-claim prompts (R252-R259) + R260 affiliations; every ledger item decided against the body",
+        "P38.2 - the records: survey doc evidence level -> full-read, §4 rewritten as the resolved ledger with verdicts and access dates, §5/§6 updated (P34.R1 done, D7 trigger fired, pool URLs); references.md §X - 8 entry markers upgraded + group note + verification-status paragraph",
+        "P38.3 - the clauses + guard: core/04 M3.17 and core/06 M5.13 hedges promoted (M5.13(d) gains VERA's two-bound exemplar); P38RereadGuardTest 3 guards pin the grade, the pool URL, the corrections, exactly-8 markers, and both clause promotions"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1399,8 +1420,8 @@
       "cycle": null,
       "source": "review/frontier-2026-10.md §6b (robustness of agent judges)",
       "title_en": "Agent-judge robustness pass before trusting any golden set",
-      "reason": "P20 surfaced no full-read-grade primary source on judge/verifier robustness; the adjacent instrumentation (LHTB hidden fake-proof verifiers, R246) is *listed* only and is not the cue's subject. P34 update: VeriHarness (R254) is squarely on the subject but landed at **abstract grade only** (full texts unreachable, P34.R1 pending) - the cue's full-read bar is still not met, so the deferral now rests on an identified candidate rather than on their absence",
-      "revisit_when": "a primary source on evaluation integrity / judge robustness is readable in full and passes the discriminating test"
+      "reason": "Trigger fired 2026-10-28 (P38): R254 VeriHarness is now a full-read-grade primary source on agentic verification (mechanisms verified verbatim; self-evolving verification skills). The robustness pass itself remains a round of its own - a golden-set audit, not a clause edit.",
+      "revisit_when": "the robustness pass is queued as a round (trigger already satisfied)"
     },
     {
       "id": "D8",
@@ -1413,12 +1434,12 @@
     },
     {
       "id": "P34.R1",
-      "status": "deferred",
+      "status": "done",
       "cycle": "P34",
       "source": "P34 intake - full texts unreachable from this environment (7 parse failures incl. ar5iv; S2 429)",
       "title_en": "Full-text rereads of R252-R259 with the digest-ledger checklist",
-      "reason": "M3.17 and M5.13 rest on abstract-level verification; the survey §4 ledger (6.5->31%, +5/-20 thresholds, +6.4-11.7/-34-57% magnitudes, $1,073, institution attributions) and the VeriHarness 26k-rollout release can only be cleared, promoted or retracted from the bodies - D7's full-read bar also depends on this reread",
-      "revisit_when": "arXiv HTML/PDF becomes reachable from this environment, or the next round touching core/04 M3.17 or core/06 M5.13 rereads them first"
+      "reason": "M3.17 and M5.13 rest on abstract-level verification; the survey §4 ledger (6.5->31%, +5/-20 thresholds, +6.4-11.7/-34-57% magnitudes, $1,073, institution attributions) and the VeriHarness 26k-rollout release can only be cleared, promoted or retracted from the bodies - D7's full-read bar also depends on this reread | CLOSED in P38 (2026-10-28): arXiv HTML reachable again; R252-R259 read as full texts + R260 affiliations; ledger resolved (3 verified, 3 corrected in kind, 1 ledger premise wrong, CMM attribution true); both clause hedges promoted.",
+      "done_in": "P38"
     },
     {
       "id": "P35.R1",

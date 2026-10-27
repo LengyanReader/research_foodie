@@ -546,5 +546,48 @@ class P35ChannelTest(unittest.TestCase):
                       "JSON-API provider deferral not registered")
 
 
+class P38RereadGuardTest(unittest.TestCase):
+    """P38: the full-text reread upgraded the evidence level and resolved the ledger.
+
+    The digest-body ledger (survey doc §4) was the P34.R1 checklist; this guard
+    pins the reread's outcomes so a future edit cannot silently re-grade them:
+    the survey doc carries the full-read grade, the located release pool and the
+    in-kind corrections; references §X carries exactly eight upgraded entry
+    markers; both landed clauses carry the promotion instead of the hedge.
+    """
+
+    def test_survey_doc_carries_grade_pool_and_corrections(self):
+        doc = _read(HARNESS / "review/self-modifying-harnesses-2026-10.md")
+        for token in (
+            "full-read",                                    # the upgraded evidence level
+            "huggingface.co/datasets/caiqizh/veriharness",  # the release pool located
+            "composite score",                              # HERMES metric correction in kind
+            "tolerance bound",                              # VERA threshold semantics corrected
+            "$1,072.73",                                    # the $1,073 digest compression corrected
+            "Sakana AI",                                    # the CMM attribution verified true
+        ):
+            self.assertIn(token, doc, f"reread outcome lost: {token!r}")
+
+    def test_references_carry_exactly_eight_upgraded_markers(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertEqual(
+            refs.count("full-read 2026-10-28"), 8,
+            "expected exactly the R252-R259 markers upgraded (R260/R261 stay abstract-level)",
+        )
+
+    def test_both_landed_clauses_carry_the_promotion(self):
+        self.assertIn(
+            "results verified against the HTML full text, 2026-10-28",
+            _read(HARNESS / "core/04-verification-and-gates.md"),
+            "M3.17 still carries the unreachable-full-text hedge",
+        )
+        m513 = _read(HARNESS / "core/06-self-evolution.md")
+        self.assertIn(
+            "read in full, 2026-10-28", m513,
+            "M5.13 still carries an abstract-level hedge",
+        )
+        self.assertIn("tolerance bound", m513, "M5.13 lost VERA's two-bound exemplar")
+
+
 if __name__ == "__main__":
     unittest.main()

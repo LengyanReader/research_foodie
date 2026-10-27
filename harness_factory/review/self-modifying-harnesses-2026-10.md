@@ -1,9 +1,10 @@
 # Self-modifying harnesses, digest-ingested · 自改造 harness 一轮：周报摄取实录
 
 > What a weekly papers digest can and cannot justify: two clauses (M3.17, M5.13) landed from abstract-verified
-> primary sources, and an explicit ledger of what stayed *unverified*.
-> 一份周论文精选能支撑什么、不能支撑什么：两条子句（M3.17、M5.13）落在摘要级一手核实上，其余主张明列「未验证」台账。
-**Updated:** 2026-10-27 · Round P34 · Evidence level: **abstract-verified** (0 full reads)
+> primary sources, and an explicit ledger of what stayed *unverified* — then (P38, 2026-10-28) the full-text reread
+> that resolved the ledger: three verified, three corrected in kind, one ledger premise itself found wrong.
+> 一份周论文精选能支撑什么、不能支撑什么：两条子句（M3.17、M5.13）落在摘要级一手核实上，其余主张明列「未验证」台账——随后（P38，2026-10-28）全文重读裁决台账：3 项验证、3 项纠正、1 项台账前提本身有误。
+**Updated:** 2026-10-28 · Rounds P34 + P38 · Evidence level: **full-read** (R252–R259 + R260 affiliations via `arxiv.org/html`, 2026-10-28); the 2026-10-27 round was **abstract-verified** (0 full reads) — its history is kept below.
 
 ---
 
@@ -32,13 +33,21 @@ fxtwitter API mirror (`api.fxtwitter.com/dair_ai/status/2109270464962916674`, fe
 | 9 | CMM (R260) | 2610.07907v1 | 2026-10-06 | CC BY 4.0 | **Abstract read in full** (out of scope) |
 | 10 | MIMESIS (R261) | 2610.09484v2 | 2026-10-07/08 | CC0 1.0 | **Abstract read in full** (out of scope) |
 
-**Full texts were not reachable from this environment.** Seven attempts across `arxiv.org/html/*` and `ar5iv`
+**Full texts were not reachable from this environment** (2026-10-27 state). Seven attempts across `arxiv.org/html/*` and `ar5iv`
 all failed to parse (context-deadline / cancellation), and the Semantic Scholar API returned HTTP 429; abs
-pages themselves succeeded only on spaced retries. So this round is graded, honestly, **abstract-verified** —
+pages themselves succeeded only on spaced retries. So that round was graded, honestly, **abstract-verified** —
 the same posture as the P12 precedent ("no reachable HTML full text and stays unverified"). A **full-text
-reread trigger** is registered as roadmap item P34.R1: any upgrade of these items to *full-read* status
+reread trigger** was registered as roadmap item P34.R1: any upgrade of these items to *full-read* status
 (checking method sections, ablations and the claims in §4 below) reopens the two landed clauses for revision.
 Nothing in `core/` states a body-only number as fact; both clauses cite `[R###] (abstract-level)`.
+
+**P38 (2026-10-28): the trigger fired and the reread is done.** `arxiv.org/abs` and `arxiv.org/html/<id>`
+were probed reachable again (2026-10-28), and all of **R252–R259 were read as HTML full texts** (method,
+results, tables; each fetch checked for the specific ledger claims below), plus **R260's affiliation block**
+(HTML renders affiliations; abs pages do not). Evidence level is now **full-read** for the eight; the two
+landed clauses' hedges are promoted (`core/04` M3.17, `core/06` M5.13), and the §4 ledger below carries each
+item's resolution — three verified, three corrected in kind, one ledger premise found wrong, one attribution
+confirmed true.
 
 ## 2. What landed — two clauses, each discrimination-tested
 
@@ -88,41 +97,83 @@ application, cause-vs-symptom, axis attribution, rejection bound), and it is the
 - **R261 MIMESIS** — user-simulator training environments; agent-training substrate, same boundary as R257;
   *why*-refresh only if the reread finds a harness-level invariant.
 
-## 4. What stayed unverified — the digest-body-only ledger
+## 4. The ledger, resolved — P38 reread (2026-10-28)
 
-Each claim below appears in the digest's article body but **not** in the corresponding abstract. Per AGENTS.md §3
-they are *unverified* and are excluded from every landed document; the reread (P34.R1) decides each one:
+Each claim below appeared in the digest's article body but **not** (as far as the 2026-10-27 abstract read
+showed) in the corresponding abstract, and stayed *unverified* until the P34.R1 reread. All access dates for
+the resolutions: **2026-10-28**, `arxiv.org/html/<id>` full text. Verdicts:
 
-1. HERMES "task pass rate 6.5% → 31%" (R255) — the abstract reports +12.4% relative to matched baselines; the
-   absolute pair is body-only.
-2. VERA's "+5% accept / −20% reject" gate thresholds (R256) — the abstract names acceptance criteria but no thresholds.
-3. CorpusMap "+6.4–11.7 points, −34–57% tokens" (R253) — the abstract states direction (better discovery, fewer
-   tokens) without magnitudes.
-4. Agent Plasticity's named models and the "$1,073 total cost" figure (R259) — absent from the abstract.
-5. **All institution attributions** — including the digest crediting CMM to Sakana AI (R260's listed authors are
-   affiliated elsewhere as far as the abs page shows; attribution **unverified**, flagged in the earlier assessment).
-6. Sharpening Tax and MASS headline numbers beyond what §3 quotes — §3's figures are abstract-side; any
-   additional body-side numbers were not carried.
+1. **HERMES "task pass rate 6.5% → 31%" (R255) — verified, metric corrected in kind.** The pair is real
+   ("the composite score rises from 6.5% to 31.0% under medium effort", GPT-5.6 Sol, SWE Refactor Bench,
+   §4.2) but the metric is a **composite score**, not the digest's "task pass rate". Side finding recorded:
+   an *internal* tension — the abstract states a **26.2%** inference-cost cut on Terminal-Bench 4.0, while
+   §4.3's discussion reports **37.4%** lower total inference cost ($2.13k vs $3.40k); different measurement
+   bases or a drafting slip, but the library quotes the abstract figure as abstract-stated and flags the pair.
+2. **VERA's "+5% accept / −20% reject" gate thresholds (R256) — verified, semantics corrected in kind.**
+   The paper states **two distinct criteria for two update types** (§2.1): a *harness edit* must pass
+   self-tests and improve the Overall development score **by at least 5 percentage points** (a required
+   gain); a *model checkpoint* is accepted if its development-benchmark score **decreases by no more than
+   20%** relative to the previously accepted checkpoint (a tolerated-regression bound). The digest's
+   symmetric "+5% accept / −20% reject" fused an advance bound with a tolerance bound. Also confirmed at
+   full-read: the LLM/Harness attribution reports, paired reruns on a frozen model so "only the edit can
+   cause the difference", 9,000+ environments, the 10.3/13.0 and 71.6/80.7 headline results.
+3. **CorpusMap "+6.4–11.7 points, −34–57% tokens" (R253) — verified, and the ledger's premise was wrong.**
+   The magnitudes are stated **in the abstract itself** ("overall quality by 6.4 to 11.7 points", "34% to
+   57% fewer input tokens on average") — the 2026-10-27 abstract read missed them, which is M3.17 in
+   miniature: even a careful single read is a sample. The body confirms: Table 6 gives +6.45 to +11.74 vs
+   raw-corpus agentic search (Holm-corrected p < 10⁻⁴), token ratios 0.43×–0.65× (geometric mean), over
+   7 models × 3 benchmarks, beating the four alternative navigation layers (Document Page, Group Page,
+   LLM Wiki, Corpus2Skill).
+4. **Agent Plasticity's named models and the "$1,073 total cost" (R259) — models verified; cost figure
+   corrected in kind.** The named models check out (Claude Fable 5, Claude Opus 5/4.8/4.6, Claude Sonnet 5,
+   GPT-5.5, GPT-5.6 Sol/Luna, Gemini 3.1 Pro). But "$1,073 total cost" is a digest compression that changed
+   the claim: the paper's only dollar figure is **Claude Opus 5.5's prior learning cost, $1,072.73** (per
+   model, Appendix C) — there is no total-evaluation-cost figure. Plasticity is reported as score points
+   per $1,000 of learning cost (e.g. GPT-5.6 Sol 298 vs Claude Fable 5 57).
+5. **Institution attributions, incl. CMM → Sakana AI (R260) — verified true.** All six R260 authors are
+   affiliated with **Sakana AI** (Regan additionally University of Tsukuba). P34's suspicion was an artifact
+   of abs pages not showing affiliations; the digest's attribution stands.
+6. **Sharpening Tax / MASS headline numbers (R258, R257) — §3's abstract-side quotes confirmed; body-side
+   numbers now carried.** Sharpening Tax: Tax_S(128) > 0 in **36 of 42** combinations; the crossover budget
+   k* falls from >128 (4B) to ≈3 (31B); bimodalization measured (pass-given-compute 87.6% → 30.0%,
+   gemma-4-31B WebShop); PTGS shrinks the tax (e.g. GRPO Sokoban 0.081 → 0.025) while lifting both pass@1
+   and pass@128; the work is **observational, not interventional** (§9). MASS: the 1.2–1.6× per-output-token
+   range is confirmed, with honest smallness (AstaBench 0.053 → 0.067); the 1.4×-token efficiency control is
+   **"not a matched-data control"** (Appendix D); the workflow search is pairwise with elite size one, not
+   population evolution.
+
+**Added by the reread — the R254 release pool is located (§6's open item).** Appendix E names the release
+targets: rollouts at `huggingface.co/datasets/caiqizh/veriharness`, verification code at
+`github.com/google-research/veriharness` (trajectories, delivered files, grader scores; no benchmark content
+redistributed). The skill-evolution loop (§5) adds held-out gains for library evolution: +6.8 (APEX-Agents) /
++3.7 (SpreadsheetBench 2) from evolving the human-authored library. Retrieval of the actual dataset remains
+its own task; the *commitment* is now first-party-verified.
 
 ## 5. Roadmap status after this round
 
-- **D7 (agent-judge robustness)**: R254 is on-topic evidence **but at abstract grade**, and D7's revisit trigger
-  demands a full-read-grade primary source → stays **deferred**, reason upgraded (no longer "no candidate source").
-- **D1 (trace-driven evolution)**: stage-C precedents R252/R256 noted on the entry; still deferred pending reread.
-- **P34.R1 (new, deferred)**: full-text rereads of R252–R259 with the §4 ledger as the checklist; the two landed
-  clauses carry "abstract-level" hedges that this round may promote or must retract.
-- **No new capability, domain, or catalog entry** (M0.5 discipline): all systems are research artifacts without a
-  verified public runnable implementation reachable and checked this round (no code-page verification attempted
-  beyond abs metadata); landing them would be self-report without an external check (M5.11).
+- **P34.R1 → done (done_in P38, 2026-10-28)**: the full-text reread ran with the §4 ledger as its checklist;
+  the two landed clauses' "abstract-level" hedges are promoted, not retracted — both mechanisms survived the
+  full text, and M5.13(d) gains VERA's two-bound exemplar (advance bound for harness edits, tolerance bound
+  for checkpoints).
+- **D7 (agent-judge robustness)**: R254 is now a **full-read-grade** primary source on agentic verification
+  (mechanisms §3.2/§3.3 verified verbatim; self-evolving verification skills §5) — D7's revisit trigger has
+  *fired*. The robustness pass itself remains a round of its own (a golden-set audit, not a clause edit);
+  D7 stays deferred with the reason upgraded from "no candidate source" to "trigger fired, round not yet queued".
+- **D1 (trace-driven evolution)**: stage-C precedents R252/R256 now **full-read** — the precedent basis is
+  solid; stage C itself still awaits the first real measured effect receipt (P37's completion definition).
+- **No new capability, domain, or catalog entry** (M0.5 discipline): all systems are research artifacts; the
+  reread verified *claims and release commitments*, not runnable implementations (the R254 dataset/code URLs
+  are named and first-party, but the artifacts were not downloaded or executed this round).
 
 ## 6. Licenses and reach — capture hygiene
 
 R256 is **CC BY-NC-SA 4.0** (non-commercial) — any future derivative of its materials inside this factory needs
 the license checked *before* reuse, not after. R253 and R259 carry the **arXiv non-exclusive distribution**
 license (no blanket CC grant). R261 is **CC0 1.0**. R260's notes show a NeurIPS 2026 workshop context (PALM).
-R254's abstract promises release of a ~26,000-rollout pool (> $100k compute, abstract-stated) — the pool is the
-most useful artifact of the set for this library's scored-task work (`scored-task-set-2026-10.md`); retrieval of
-the actual data release belongs to P34.R1.
+R254's release pool is first-party-located as of the P38 reread (2026-10-28): rollouts at
+`huggingface.co/datasets/caiqizh/veriharness`, verification code at `github.com/google-research/veriharness`
+(§4, added item) — the most useful artifact of the set for this library's scored-task work
+(`scored-task-set-2026-10.md`); retrieval and inspection of the actual data remains its own task.
 
 ---
 
