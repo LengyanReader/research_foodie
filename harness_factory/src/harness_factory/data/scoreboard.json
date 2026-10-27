@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-23",
-  "note": "The minimal scored task set (P23). Five canonical tasks, each scored on five deterministic axes (routing, capabilities, modules, structure, emission); the 1.0 baseline per task is pinned by tests/test_scoreboard.py, so component-ablation (M5.12) can re-run these same tasks against a pruned configuration and compare on the same ground. The allowed/must values were taken from an actual classify+derive run on 2026-10-23, not written from memory (M0.4). A baseline change is a deliberate edit here, never a silent drift. P24 added the effect axis: every task declares its effect_metric (the machine-scorable metric for that task family) but stays unmeasured until a real run records a full {status: measured, score, judge, measured_on} receipt; the effect score never enters the structural total.",
+  "updated": "2026-10-28",
+  "note": "The minimal scored task set (P23). Five canonical tasks, each scored on five deterministic axes (routing, capabilities, modules, structure, emission); the 1.0 baseline per task is pinned by tests/test_scoreboard.py, so component-ablation (M5.12) can re-run these same tasks against a pruned configuration and compare on the same ground. The allowed/must values were taken from an actual classify+derive run on 2026-10-23, not written from memory (M0.4). A baseline change is a deliberate edit here, never a silent drift. P24 added the effect axis: every task declares its effect_metric (the machine-scorable metric for that task family) but stays unmeasured until a real run records a full {status: measured, score, judge, measured_on} receipt; the effect score never enters the structural total. DELIBERATE BASELINE EDIT 2026-10-28 (P36): the lit-review must_modules moved M8 -> M5. The M8 came from a classification misfire -- bare 'review' fired the human-review collaboration cue on 'literature review' -- which P36 fixed together with a missing horizon cue ('week' now raises multi_session); the corrected derive enables M5 (multi-week work => self-evolution + durable memory) and disables M8 (solo work). The baseline follows the fixed engine, with the reason recorded here per M0.5.",
   "axes": ["routing", "capabilities", "modules", "structure", "emission"],
   "effect_axis": {
     "added_in": "P24",
@@ -13,7 +13,7 @@
       "task": "Write a literature review with citations over several weeks",
       "allowed_domains": ["research", "deep-research"],
       "must_capabilities": ["traceable-sources", "evidence-bounded-generation", "prose-polish", "loop-discipline"],
-      "must_modules": ["M2", "M4", "M8"],
+      "must_modules": ["M2", "M4", "M5"],
       "effect_metric": "citation-verifiability: share of cited claims that resolve to a primary source"
     },
     {

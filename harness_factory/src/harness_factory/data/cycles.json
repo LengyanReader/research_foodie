@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-28",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -1009,8 +1009,23 @@
       "added": {
         "capabilities": [],
         "domains": [],
-        "clauses": ["M3.17", "M5.13"],
-        "references": ["R252", "R253", "R254", "R255", "R256", "R257", "R258", "R259", "R260", "R261", "R262"],
+        "clauses": [
+          "M3.17",
+          "M5.13"
+        ],
+        "references": [
+          "R252",
+          "R253",
+          "R254",
+          "R255",
+          "R256",
+          "R257",
+          "R258",
+          "R259",
+          "R260",
+          "R261",
+          "R262"
+        ],
         "catalog_delta": 0,
         "outlets_delta": 1
       }
@@ -1027,6 +1042,27 @@
         "P35.2 - reference completeness: review/scholarly-channels-2026-10.md section 8 'AI-paper discovery portals' (portal table, loop-consumption column, unverified-today statuses, bilingual); outlet-map.md 'AI-paper discovery portals' section (portal -> door -> loop path -> where registered)",
         "P35.3 - defect fix: Papers with Code defunct -> redirect to HF /papers/trending; both SSOT rows downgraded (catalog verified:false + defunct note; sources feed:null + redirect why)",
         "P35.4 - loop wiring + guards: watchlist `scholarly-discovery` topic; guards in tests/test_docs_integrity.py::P35ChannelTest (venues present, cs.MA feed, PWC retired, survey+outlet tokens); catalog --write regenerates harness-index (paperswithcode verified change)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P36",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Tuning round: two classification defects fixed, one deliberate baseline move, dogfood wiring",
+      "title_zh": "调优轮：修两个分类缺陷 · 有意基线编辑 · dogfood 接线",
+      "note": "Landed the actionable directions of the 2026-10-28 global assessment. (1) horizon vocabulary gains week-family cues (week, long-term, 数周/几周/每周) -- the flagship example 'over several weeks' now correctly derives multi_session, enabling M5 self-evolution and durable memory instead of the session default. (2) bare 'review' removed from the human-review collaboration cues (it is the deliverable noun in 'literature review'; every literature review was being read as a human-in-the-loop workflow), replaced by high-precision compound forms (code review, peer review, reviewer, review my/our, review comments); 'review the' is deliberately absent because 'review the literature' is exactly the false hit. (3) DELIBERATE baseline edit: lit-review must_modules M8 -> M5 -- the M8 was the misfire's downstream artifact (bare review fired collaboration -> M8 enabled -> pinned by P23); after the engine fix M5 is the corrected expectation, and the reason is recorded in scoreboard.json's note and the scored-task-set doc (M0.5) -- the first real exercise of the 'a score move is a deliberate edit' mechanism. (4) dogfood wiring: P37 (dogfood round) registered with its completion definition, and a session-close trace discipline added to the workspace AGENTS.md so usage-side data accumulates by procedure, not memory. (5) probe: arXiv abs and html/<id> endpoints are reachable again from this environment (2026-10-28; seven failures on 2026-10-27), so P34.R1's revisit trigger has fired -- P38 (full-text rereads of R252-R259) registered as ready to open. Non-goals: no changes to _ONE_SHOT/_LONG_RUNNING; no separate 'weekly' signal (the word-start 'week' covers it and its semantics are multi_session anyway).",
+      "slices": [
+        "P36.1 - classify.py: _MULTI_SESSION += week/long-term/数周/几周/每周; bare 'review' out of _HUMAN_REVIEW, compound forms in, with the why-comment citing the holdout misfire",
+        "P36.2 - deliberate baseline move: data/scoreboard.json lit-review must_modules M8 -> M5 + note records the reason and date (M0.5); scored-task-set doc table + a baseline-edit record in §3",
+        "P36.3 - guards + wiring: tests/test_classify.py +3 (week->multi_session bilingual, literature review not human_review, compound forms still fire); P37 dogfood round registered in PLAN.md with completion definition; workspace AGENTS.md gains the session-close trace discipline; arXiv reachability probe recorded (P34.R1 trigger fired, P38 registered)"
       ],
       "added": {
         "capabilities": [],

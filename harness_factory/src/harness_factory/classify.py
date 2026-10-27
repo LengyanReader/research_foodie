@@ -21,6 +21,11 @@ _MULTI_SESSION = [
     "multi-day",
     "over several sessions",
     "ongoing",
+    "long-term",
+    "week",
+    "数周",
+    "几周",
+    "每周",
     "长期",
     "持续",
     "多天",
@@ -107,7 +112,25 @@ _MULTI_AGENT = [
     "多智能体",
     "多 agent 协作",
 ]
-_HUMAN_REVIEW = ["review", "reviewer", "team", "handoff", "评审", "复核", "同事", "交接"]
+# "review" as a bare word is NOT a cue (P36): it is also the deliverable noun in
+# "literature review" / "systematic review" / "survey", and that false positive
+# once reached the scored holdout (lit-review pinned M8 from the misfire). The
+# compound verb-request forms below stay high-precision; "review the" is
+# deliberately absent because "review the literature" is exactly the false hit.
+_HUMAN_REVIEW = [
+    "code review",
+    "peer review",
+    "reviewer",
+    "review my",
+    "review our",
+    "review comments",
+    "team",
+    "handoff",
+    "评审",
+    "复核",
+    "同事",
+    "交接",
+]
 
 # Artifact cues: an explicit deliverable noun in the task text beats the domain
 # default. Only high-precision cues belong here -- a cue that fires on ordinary

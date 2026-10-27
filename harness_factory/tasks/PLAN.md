@@ -313,6 +313,30 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 
 > 用户要求把 Hugging Face Papers、arXiv、Google Scholar、Semantic Scholar 等论文站点梳理完备，并列入**能力更新与内容检索**的重要渠道（P15.3 `scholarly-channels` 已扫 ~95 源，但缺自更新循环真正轮询的 **AI 每日发现层**，且状态停在 2026-10-19）。逐门户 2026-10-27 回一手实测：HF `/papers` 200、`/api/daily_papers` **200 JSON**（`/papers/feed` 401 无 RSS）；arXiv `rss/cs.{AI,CL,LG,MA,SE,HC}` **六类全 200**；S2 API 无 key **429**；Google Scholar 200；OpenAlex works **200**；AlphaXiv 200；OpenReview notes 403；dblp 202 机器人门。**发现真缺陷并修**：Papers with Code 已停维（Meta 2025-07 关闭），`paperswithcode.com`（含 `/api/v1`）**重定向至 `huggingface.co/papers/trending`**——两处 SSOT 行曾声称在线，均降级为重定向标记（feed 摘除、`verified:false`）。**不新增子句/能力**：操作规则（M4.5 不可信检索、source-map「聚合=发现、回产出方」、refresh feed-vs-LLM 两路）已约束这些渠道；唯一值得固化的结构事实是**循环路径**——只有 arXiv 真能被 `refresh --provider feed` 拉取，其余经 LLM 发现/人工摄入（M0.5 登记）。落地（纯数据+参考）：venues `hf-papers` + `arxiv-cs-ma`（cs.MA 为缺失的多智能体 feed）· semantic-scholar/google-scholar 行刷新今日门径与主题 · watchlist 新 `scholarly-discovery` 主题 · survey 新 §8（门户表 + 「循环如何消费」列 + 中英）· outlet-map 新节（门户→门径→循环路径→登记处）· JSON-API 发现 provider 登记 **P35.R1** deferred。守卫 6 条；测试 **361 → 367 OK**；`cycle audit` **31 轮 · 0 硬 · 0 缺口**。
 
+## P36 · 调优轮（2026-10-28，已做）：修两个分类缺陷 · 有意基线编辑 · dogfood 接线
+
+> 全局评估（2026-10-28）给出的方向落地。评估的事实：工厂侧机制已齐装（trace→audit→提案、full-update、brief 管道），
+> 但使用侧数据为零；且两个已报告的分类缺陷仍未修，其一已被记分集基线固化。
+
+- **① horizon 词表补 `week` 系信号。** `_MULTI_SESSION` 增 `week`（词首匹配，覆盖 weeks/weekly）+ `数周/几周/每周/long-term`——旗舰示例 "over several weeks" 从此正确落 `multi_session`（M5 自演化 + durable 记忆启用），此前落到 `session` 默认。
+- **② `review` 消歧。** 裸词 `review` 从 `_HUMAN_REVIEW` 移除（它是「文献综述/系统综述」的产物名词，不是协作信号——每次文献综述都被读成人审工作流）；补高精度复合形式（code review · peer review · reviewer · review my/our · review comments）；**`review the` 刻意不加**——"review the literature" 正是那个误命中。中文 `评审` 无此歧义（综述≠评审），保留。
+- **③ 记分集有意基线编辑。** lit-review 的 must_modules **M8 → M5**：M8 是误判的下游产物（裸 review 误触发协作→M8 启用→被 P23 钉进基线）；修引擎后 M5 才是该任务的正解（多周工作→自演化+持久记忆）。理由按 M0.5 记在 `data/scoreboard.json` note 与 `scored-task-set` 文档——「分数变动必须是有意编辑」机制的第一次真实行使。
+- **④ dogfood 接线（使用侧数据为零的结构性对策）。** **P37（dogfood 轮）已登记**（见下）；工作区 AGENTS.md 新增**会话收尾轨迹纪律**：每轮真实工作收尾时记结构化事件（`harness harvest --event human_correction/task_outcome` + `collect`），让使用侧数据积累不再依赖记忆，而是流程。
+- **⑤ P34.R1 重访触发已生效（探测）。** 2026-10-27 时 arXiv HTML/ar5iv 七次取文失败；2026-10-28 实测 `arxiv.org/abs` 与 `arxiv.org/html/<id>` 均可达（HTML 渲染完整正文章节 + 表格）。全文重读 R252–R259 的阻塞解除，**P38（全文重读轮）已登记待开**——M3.17/M5.13 的摘要级证据欠账可以清了。
+- **守卫与验证。** `test_classify.py` +3（week→multi_session 双语 · literature review 不再 human_review · 复合形式正例守卫防过度移除）；测试 **367 → 370 OK**；`cycle audit` 32 轮 · 0 硬 · 0 缺口；`scoreboard` 5/5 total=1.0（基线随引擎修正有意移动）。
+
+**Non-goals** 不动 `_ONE_SHOT`/`_LONG_RUNNING` 词表；不加 `weekly` 单独信号（`week` 词首已覆盖，且其语义本就该是 multi_session）；不把 P36 当作「分类器已完备」——它只是回归基线上又两个样本。
+
+## P37 · dogfood 轮（已登记，待开）：第一条真实轨迹流过整条管道
+
+> 使用侧数据为零是当前最大缺口：P22 采集、P24 结果事件、P25 审计器、P30 全环串联——四轮机制建设，没有一条真实轨迹流过。本轮不开新机制，产出物是**第一份真实数据**。
+
+**完成定义（本轮关闭时以下须全成立）**
+- 一个真实任务走全链路：`harness brief`（或直接 `init`）→ 人在环工作 → `harvest` 记结构化事件（过程中 `human_correction`/`gate_miss`，收尾 `task_outcome` 带 judge+score）→ `collect` 拉回工具家；
+- `harness trace-audit` 对真实轨迹产出第一份 `TRACE-EVOLUTION.md`（哪怕结论是「无模式」也是第一份真实输出）；
+- 第一份 effect 收据（judge=human 的 `task_outcome`）落盘——它是 **D1 阶段 C 的开闸条件**；
+- 若轨迹暴露真问题 → 按提案制回流（`updates/`），人审后 merge。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

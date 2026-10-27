@@ -1,6 +1,19 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-27
+**Updated:** 2026-10-28
+
+---
+
+## 2026-10-28 · P36：调优轮 —— 修两个分类缺陷 · 有意基线编辑 · dogfood 接线
+
+- **开轮依据。** 2026-10-28 全局评估（用户确认「根据建议方向调优」）。评估事实：工厂侧机制齐装（trace→audit→提案 / full-update / brief 管道），使用侧数据为零；两个已报告分类缺陷仍未修，其一已被记分集基线固化。
+- **① horizon 补 `week` 系。** `_MULTI_SESSION` += `week`（词首匹配，覆盖 weeks/weekly）· `long-term` · `数周/几周/每周`。旗舰示例 "over several weeks" 从 `session` 修正为 `multi_session`（M5 自演化 + durable 记忆启用）——README 亲自演示的第一条命令此前就在演示一个次优推导。
+- **② `review` 消歧。** 裸词 `review` 移出 `_HUMAN_REVIEW`（它是「文献综述」的产物名词，非协作信号；每次文献综述都被读成人审工作流）；补复合形式 code review / peer review / reviewer / review my / review our / review comments；**`review the` 刻意不加**（"review the literature" 正是误命中）；`评审`/`复核` 等中文信号无此歧义，保留。
+- **③ 有意基线编辑（第一次真实行使）。** lit-review `must_modules` **M8 → M5**：M8 是误判下游产物（裸 review → human_review → M8 启用 → 被 P23 钉进基线），修引擎后 M5 才是正解。理由记入 `scoreboard.json` note（M0.5）+ `scored-task-set` §3 新增「基线有意编辑记录」小节。`scoreboard` 5/5 total=1.0。
+- **④ dogfood 接线。** **P37（dogfood 轮）在 PLAN 登记**（完成定义：一个真实任务走 brief/init → 工作 → harvest 记 `human_correction`/`task_outcome` → collect → trace-audit 出第一份 TRACE-EVOLUTION.md + 第一份 effect 收据 = D1 阶段 C 开闸条件）；工作区 AGENTS.md §5 新增**会话收尾轨迹纪律**（数据积累靠流程不靠记忆）。
+- **⑤ P34.R1 重访触发生效（探测）。** 2026-10-27 时 arXiv HTML/ar5iv 七次取文失败；本日实测 `arxiv.org/abs` 可达、`arxiv.org/html/<id>` 渲染完整正文章节 + 表格。**P38（全文重读轮）登记待开**——M3.17/M5.13 的摘要级证据欠账可清。
+- **守卫与登记。** `test_classify.py` +3（week→multi_session 双语 · literature review 不再 human_review · 复合形式正例守卫防过度移除）；cycles.json **P36**（0/0/0/0）；PLAN.md P36 章节 + P37/P38 登记；AGENTS.md 测试计数 367 → 370（CountDriftGuard 抓的）。
+- **状态。** 测试 **367 → 370** 全过；`cycle audit` **32 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成（视图内容无变化）。**待用户裁决**：`updates/2026-10-23-ecosystem-scan-proposal.md`（生态扫描轮）仍挂起——开轮或 defer 请明示。按默认指示 commit，不 push。
 
 ---
 

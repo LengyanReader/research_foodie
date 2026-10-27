@@ -49,7 +49,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **367** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **370** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 
@@ -63,6 +63,7 @@ LICENSE                   MIT License
 ## 5. 工作链路原则 / Workflow principles (为什么存在 tasks/PLAN.md 与 PROGRESS.md)
 
 - **计划先行、进度可查 (/plan-first, track-as-you-go)。** 任何多步骤任务先写入 `harness_factory/tasks/PLAN.md`，执行中把结果、修正、来源记入 `harness_factory/tasks/PROGRESS.md`。
+- **会话收尾轨迹纪律（P36 起）。** 每轮真实工作收尾时，把本会话的结构化事实记入轨迹（使用侧数据积累靠流程不靠记忆）：过程中的人为改写/门禁失灵 → `PYTHONPATH=harness_factory/src python -m harness_factory harvest --dir <项目> --event human_correction --detail '{…}'`；任务收尾判决 → `--event task_outcome --detail '{"judge":"human","score":<分>,"rubric":"<域>"}'`（判决由人做，机器只记录，M0.4）；再 `harness collect --project <项目>` 拉回工具家、`harness trace-audit` 出提案。观察而已，只入 `updates/`。
 - **一手资料优先 / Primary sources first。** 校对与规划一律回到官方仓库、论文原文、官方文档，而非二手转述。
 - **成本敏感 / Cost-sensitive。** 默认选择开源/免费、本地可跑的工具；付费 API 仅在质量关键步骤使用（用户环境：本地 Win11 CPU + 可远程 GPU 平台）。
 

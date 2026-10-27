@@ -15,7 +15,7 @@
 
 | id | task | allowed domains | must capabilities | must modules | effect metric (P24) |
 |---|---|---|---|---|---|
-| lit-review | Write a literature review with citations over several weeks | research, deep-research | traceable-sources · evidence-bounded-generation · prose-polish · loop-discipline | M2 M4 M8 | citation-verifiability（引用可核验率） |
+| lit-review | Write a literature review with citations over several weeks | research, deep-research | traceable-sources · evidence-bounded-generation · prose-polish · loop-discipline | M2 M4 M5 | citation-verifiability（引用可核验率） |
 | unit-tests | Add unit tests to the parser | general, software-engineering | verification-gate · eval-driven-development | M3 | test-suite-pass-rate（交付测试套件确定性通过且覆盖目标模块） |
 | kg-dh | 构建方志人物知识图谱，做检索增强问答，注明来源 | digital-humanities | ontology-as-contract · entity-resolution · evidence-bounded-generation · schema-evolution | M2 M4 | answer-evidence-precision（答句证据指针可解析率，M4.13） |
 | deep-research | Deep research report on agent memory systems with citations | deep-research | traceable-sources · evidence-bounded-generation · prose-polish | M2 M4 | citation-verifiability（同 lit-review） |
@@ -47,6 +47,11 @@ effect 轴（P24，**不进 `total`**）：
 M5.12 的对照口径是**同一任务上全部消融的中位数**——本集就是那批任务：对一个发射物做单单元剪枝后
 （按实现边界改 `data/scoreboard.json` 的 must 集、或剪掉一个模块的发射产物），重跑 `scoreboard`，
 对比 `total` 与 token 两轴。**基线是 1.0**，所以任何剪枝引起的分数下降都落在 [0,1] 内可读。
+
+**基线有意编辑记录（P36，2026-10-28）。** lit-review 的 must_modules 由 M2 M4 **M8** 改为 M2 M4 **M5**：M8 来自
+一次分类误判——裸词 `review` 命中 human_review 协作线索，把「文献综述」读成了「人审工作流」；P36 同时修掉了
+horizon 词表缺 `week` 的问题（"over several weeks" 从此正确落 multi_session，M5 启用、M8 关闭）。基线跟着修好
+的引擎走，理由按 M0.5 记在 `data/scoreboard.json` 的 note 里——这正是「分数变动必须是有意编辑」机制的设计用途。
 
 effect 轴给消融的第二问（「剪掉的东西对**任务效果**有影响吗」）提供了落点：同一任务在裸跑 / 全
 harness / 剪枝配置下各跑真实运行，效果分记进各自任务的 `effect` 收据——但这是**运行时**的测量，

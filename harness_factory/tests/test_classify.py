@@ -23,6 +23,39 @@ class ClassifyTest(unittest.TestCase):
         feats = classify(TaskSpec(text="a long-running continuous project"))
         self.assertEqual(feats.horizon, "long_running")
 
+    def test_horizon_from_weeks(self):
+        # P36: "week" was absent from the horizon vocabulary, so the flagship
+        # README example ("over several weeks") landed on the session default
+        # and never enabled M5 (self-evolution) or durable memory.
+        feats = classify(TaskSpec(text="write a literature review with citations over several weeks"))
+        self.assertEqual(feats.horizon, "multi_session")
+        self.assertEqual(
+            classify(TaskSpec(text="写一篇文献综述，持续数周，跨多个会话完成")).horizon,
+            "multi_session",
+        )
+
+    def test_literature_review_is_not_human_review(self):
+        # P36: bare "review" fired the collaboration cue, so every literature
+        # review was read as a human-in-the-loop review workflow (M8 + lowered
+        # autonomy) — a misfire that once reached the scored holdout baseline.
+        feats = classify(TaskSpec(text="write a literature review with citations over several weeks"))
+        self.assertEqual(feats.collaboration, "solo")
+        self.assertNotEqual(
+            classify(TaskSpec(text="systematic review of the screening literature")).collaboration,
+            "human_review",
+        )
+
+    def test_review_requests_still_fire_human_review(self):
+        # Guard against over-removal: the compound verb-request forms keep firing.
+        for text in (
+            "review my PR before it merges",
+            "run a code review on this module",
+            "act as the reviewer for this draft",
+        ):
+            self.assertEqual(
+                classify(TaskSpec(text=text)).collaboration, "human_review", text
+            )
+
     def test_overrides_win(self):
         feats = classify(TaskSpec(text="quick draft"), overrides={"stakes": "high"})
         self.assertEqual(feats.stakes, "high")
