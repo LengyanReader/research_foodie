@@ -49,3 +49,25 @@ E4 溯源完整 · E5 证据界定。
 tool home `updates/traces.jsonl` #3/#4：`task_outcome, judge=machine, condition=A-bare, score=0.2`（缺陷明细入
 detail）；`condition=B-harness, score=1.0`。原始物：`updates/dogfood/p45-paired-trial/{condition-A-bare.md,
 condition-B-harness.md}`（未入版本控制）；判据预声明在该项目 `tasks/PLAN.md`。
+
+
+---
+
+## 5. Second trial (P48) · model-choice 族，带尺度收据
+
+同设计（双条件、同模型、判据预声明），指标=model-choice 族的 `decision-audit-pass-rate`（记录的**结构完整性**，
+离线机器可判分）。**收据首次带声明尺度 `scale: [0,1]`**（P45.R1 修复后的首用）。
+
+| check | A（裸奔：选 GPT，凭印象一段话） | B（harness：可审计决策记录） |
+|---|---|---|
+| E1 模型身份（id+版本，M4.17） | ❌ 裸品牌名 | ✅ id 结构 + 版本槽位，占位显式标 unverified |
+| E2 档位纪律（M2.13） | ❌ 无档位 | ✅ 档位作预算行 + 跨档位=设置对比警示 |
+| E3 留出检查先声明（M5.13a） | ❌ 事后式「跑一轮看分」 | ✅ 验收标准+拒绝边界先于决策 |
+| E4 沉默声明（M4.13） | ❌ 无 | ✅ 「两家相对优劣：源之沉默」+ 本环境不可调用声明 |
+| E5 轴归因就绪（M5.13c） | ❌ 无 | ✅ ETCSOVG/模型/环境归因列预留 |
+| **score（scale [0,1]）** | **0.0** | **1.0** |
+
+**修复现场验证**：这对收据入轨迹后 `trace-audit` **正确静默**——修复前（尺度盲）两条都会被判低并误触发提案；
+修复后 A 的 0.0 单条不足阈值（min_count=2）、B 归一化 1.0 不是低分。**P47 的修复在真实轨迹上生效。**
+注意：B 的决策是**条件性暂缓**（本环境无法真实调用两家 API，留出检查未运行）——harness 纪律的产出是「可审计的
+决策结构 + 显式的未测声明」，不是假装的结论（M0.4）。

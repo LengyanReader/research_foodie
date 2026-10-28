@@ -91,6 +91,37 @@ class AuditRulesTest(unittest.TestCase):
         self.assertEqual(len(proposals), 1)
         self.assertEqual(proposals[0]["count"], 2)  # 1 and 2 fire; 4 and the grade do not
 
+    def test_declared_scale_makes_perfect_scores_not_low(self):
+        # P45.R1: 1.0 on a declared [0,1] scale is PERFECT -- the scale-blind
+        # rule used to file it as a low outcome.
+        _write(self.tmp, [
+            trace.make_trace("task_outcome", project="p1", task="lit-review", harness="h",
+                             detail={"judge": "machine", "score": 1.0, "scale": [0, 1]}),
+            trace.make_trace("task_outcome", project="p2", task="lit-review", harness="h",
+                             detail={"judge": "machine", "score": 1.0, "scale": [0, 1]}),
+        ])
+        self.assertEqual(self._proposals("low-outcome"), [])
+
+    def test_declared_scale_low_scores_still_fire(self):
+        _write(self.tmp, [
+            trace.make_trace("task_outcome", project="p1", task="lit-review", harness="h",
+                             detail={"judge": "machine", "score": 0.2, "scale": [0, 1]}),
+            trace.make_trace("task_outcome", project="p2", task="lit-review", harness="h",
+                             detail={"judge": "machine", "score": 0.3, "scale": [0, 1]}),
+        ])
+        self.assertEqual(len(self._proposals("low-outcome")), 1)
+
+    def test_scale_validation_rejects_inverted_or_nonnumeric(self):
+        line = trace.make_trace("task_outcome", project="p", task="t", harness="h",
+                                detail={"judge": "human", "score": 1, "scale": [1, 0]})
+        self.assertIn("scale", "; ".join(trace.validate(line)))
+        line = trace.make_trace("task_outcome", project="p", task="t", harness="h",
+                                detail={"judge": "human", "score": 1, "scale": ["a", "b"]})
+        self.assertIn("scale", "; ".join(trace.validate(line)))
+        line = trace.make_trace("task_outcome", project="p", task="t", harness="h",
+                                detail={"judge": "human", "score": 1, "scale": [0, 1]})
+        self.assertEqual(trace.validate(line), [])
+
     def test_emit_writes_journal_and_report_only(self):
         _write(
             self.tmp,

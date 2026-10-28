@@ -20,6 +20,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Three-front push (P47/P48/P49) - scale fix, second paired trial, ACS deep read.** P47 closes P45.R1: effect
+  receipts may declare `detail.scale: [lo, hi]`; the low-outcome rule compares scaled receipts by NORMALIZED score
+  (low_max_normalized 0.4 - 1.0 on [0,1] is perfect, 1.0 on [0,5] is low) while scale-less receipts keep the
+  documented legacy raw check. P48 runs the second paired trial on the model-choice family (decision-audit-pass-
+  rate): bare 0.0 vs harness 1.0, receipts carry scale [0,1] and trace-audit is now CORRECTLY silent on the pair -
+  the fix verified live; the harness condition's output is an auditable decision structure with conditionally-
+  deferred status, not a pretended conclusion. Tool home now holds 6 real traces. P49 deep-reads the OWASP Agent
+  Control Standard v0.1.0 (R271) and DEEPENS M6.11: ACS materializes authorization-on-the-concrete-argument as the
+  modify disposition inside a deterministic-first hook architecture; its own named v0.1.0 gaps (unauthenticated
+  wire, fail-open default) are recorded as the caution - fail-open is what the library's default-fail principle
+  forbids. Non-additions recorded. Deliverables: `review/acs-deep-read-2026-10.md`, paired-trial doc section 5.
 - **Paired trial (P45) + documentation refresh (P46).** P45: bare vs harness on the same task, same model, same
   session - **0.2 vs 1.0 on citation-verifiability** (5 machine checks pre-declared; the bare run's defects are real
   and checkable: a misremembered id, a wrong-paper attribution, a body-only claim stated as abstract-level, no

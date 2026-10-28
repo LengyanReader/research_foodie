@@ -84,9 +84,23 @@ def audit(kb_root: str | Path, rules: list[dict[str, Any]] | None = None) -> lis
             if line.get("event") != rule["event"]:
                 continue
             if rule["event"] == "task_outcome":
-                score = (line.get("detail") or {}).get("score")
-                if not isinstance(score, (int, float)) or score > rule.get("score_max", 2):
-                    continue  # grade strings and high scores are human territory
+                detail = line.get("detail") or {}
+                score = detail.get("score")
+                if not isinstance(score, (int, float)):
+                    continue  # grade strings are human territory
+                scale = detail.get("scale")
+                if isinstance(scale, list) and len(scale) == 2 and scale[0] < scale[1]:
+                    # Declared scale (P45.R1): compare the NORMALIZED score, so
+                    # 1.0 on [0,1] is perfect and 1.0 on [0,5] is low.
+                    span = scale[1] - scale[0]
+                    normalized = (score - scale[0]) / span if span else 1.0
+                    if normalized > rule.get("low_max_normalized", 0.4):
+                        continue
+                elif score > rule.get("score_max", 2):
+                    # Legacy receipts without a declared scale: raw-value check
+                    # (known ambiguity -- declaring a scale is the fix).
+                    continue
+                # scaled-but-low and legacy-low receipts both fall through to grouping
             key = _group_value(line, rule["group_by"])
             if key is None:
                 continue

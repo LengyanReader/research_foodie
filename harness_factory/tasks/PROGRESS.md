@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-28 · P47+P48+P49：三组推进 —— 尺度修复 · 第二组配对试验 · ACS 深读
+
+- **P47（P45.R1 修复）。** effect 收据可声明 `scale: [lo, hi]`；low-outcome 规则按**归一化分数**判低（`low_max_normalized: 0.4`），无尺度收据保持 legacy 原值检查（歧义写明）；scoreboard 收据同样接受可选 scale。trace.py 校验 + trace_audit.py 比较 + 规则 why + scoreboard.py 四处落地，+3 守卫。
+- **P48（第二组配对试验，model-choice 族）。** decision-audit-pass-rate（结构完整性）：裸奔 **0.0** vs harness **1.0**（占位 id 显式标 unverified、档位=预算行、验收先于决策、沉默专节、归因列就绪；决策=条件性暂缓而非假装结论）。收据带 `scale: [0,1]`——**P47 修复现场验证**：trace-audit 对这对收据正确静默。轨迹 **#5/#6**（tool home 现 6 条）。配对试验文档新增 §5。
+- **P49（ACS 深读，R271 v0.1.0）。** 观察项链条闭环（P20→P43→本轮）。**M6.11 深化**：ACS 把「授权在具体实参上」物化为强制架构（19 钩子 + 五处置；modify=实参重写；确定性层先行、LLM 层从属不得读策略源；ask=人类门协议化）；其 v0.1.0 自报缺口（未认证线缆、fail-open 默认）= 本库 default-fail 原则所禁反模式的一手实例。刻意不加：无 policy-enforcement 能力；预-1.0 自声明标准不落门禁义务。交付 `review/acs-deep-read-2026-10.md`；levers/source-map/frontier/R271+bib 同步。
+- **登记。** cycles **P47/P48/P49**；**P45.R1 → done_in P47**；守卫 +7（P47 3 + P48 1 + P49 3，随 docs_integrity 计入）；AGENTS.md 计数 396 → 403。
+- **状态。** 测试 **396 → 403** 全过；`cycle audit` **45 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P45+P46：配对试验轮 + 文档刷新轮
 
 - **P45（用户指示「模拟或试验真实案例」）。** 双条件配对试验（同任务/同模型/同会话）：**裸奔 0.2 vs harness 1.0**（lit-review 族 effect_metric=citation-verifiability，5 项机器判据预声明后执行）。裸奔缺陷全部真实可检：记错 id（LanguageBind 当 MemGPT）、张冠李戴（Context Engineering 2.0 非方法 survey）、正文级当摘要级、无溯源、无界定——**harness 的贡献集中在可检验性**。收据入轨迹 **#3/#4**；trace-audit 产出**第一条真实轨迹驱动提案**并暴露 low-outcome 规则的**尺度盲**（1.0 满分被判低）→ **P45.R1**（effect 收据需声明尺度）。`full-update --offline` 六相链首跑全绿。诚实边界：N=1、污染声明、token=proxy、非受控实验。交付 `review/paired-trial-2026-10-28.md`。

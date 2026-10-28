@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-23",
-  "note": "Rules auditor for D1 stage B (P25): turns recorded traces into mutation proposals. Each rule names the trace event, the pattern (grouping keys + min count), the proposed mutation (M5.3 vocabulary) and the target. The auditor only proposes (updates/traces-proposals.jsonl + TRACE-EVOLUTION.md) - never touches data|core|domains|templates (M0.4/M0.8). Patterns come from the D1 design doc §3; the low-outcome rule is the P24 effect axis feeding back. 'score_max' rules fire only on numeric scores; grade strings are human territory.",
+  "updated": "2026-10-28",
+  "note": "Rules auditor for D1 stage B (P25): turns recorded traces into mutation proposals. Each rule names the trace event, the pattern (grouping keys + min count), the proposed mutation (M5.3 vocabulary) and the target. The auditor only proposes (updates/traces-proposals.jsonl + TRACE-EVOLUTION.md) - never touches data|core|domains|templates (M0.4/M0.8). Patterns come from the D1 design doc §3; the low-outcome rule is the P24 effect axis feeding back. 'score_max' rules fire only on numeric scores; grade strings are human territory. P45.R1: task_outcome receipts may declare detail.scale ([lo, hi]); scaled receipts are compared by normalized score (low_max_normalized), unscaled ones keep the legacy raw score_max check.",
   "rules": [
     {
       "id": "gate-miss-repeat",
@@ -46,7 +46,8 @@
       "score_max": 2,
       "mutation": "Deepen",
       "target": "the harness of the task family named by detail.task",
-      "why": "P24's effect axis feeding back: two measured low outcomes on the same task family is evidence the emitted harness does not achieve its effect, not just that its structure is wrong."
+      "why": "P24's effect axis feeding back: two measured low outcomes on the same task family is evidence the emitted harness does not achieve its effect, not just that its structure is wrong. P45.R1: receipts that declare detail.scale ([lo, hi]) are compared by their NORMALIZED score (low_max_normalized); scale-less receipts fall back to the raw score_max check - a known ambiguity, so declaring the scale is the fix (an M3.19 outcome-validity point on the effect axis itself).",
+      "low_max_normalized": 0.4
     }
   ]
 }

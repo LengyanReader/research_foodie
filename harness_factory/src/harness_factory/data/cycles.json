@@ -1297,6 +1297,68 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P47",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "P45.R1 fix: effect receipts declare a scale; the low-outcome rule compares normalized scores",
+      "title_zh": "P45.R1 修复：effect 收据声明尺度，low-outcome 规则按归一化分数判低",
+      "note": "Closed P45.R1. task_outcome receipts may declare detail.scale ([lo, hi]) - trace.validate accepts [lo,hi] with lo<hi and rejects inverted/non-numeric forms; trace_audit compares scaled receipts by their NORMALIZED score against low_max_normalized=0.4 (so 1.0 on [0,1] is perfect and 1.0 on [0,5] is low), while scale-less receipts keep the legacy raw score_max check with the ambiguity documented in the rule's why; the scoreboard's effect receipts accept the same optional scale field. Guards: scaled-perfect silent, scaled-low fires, scale validation, legacy test unchanged.",
+      "slices": [
+        "P47.1 - trace.py scale validation; trace_audit.py normalized comparison; trace-rules.json low-outcome gains low_max_normalized + the why; scoreboard.py effect receipts accept optional scale",
+        "P47.2 - tests/test_trace_audit.py +3 (scaled perfect silent, scaled low fires, scale validation)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P48",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Second paired trial: model-choice family, bare 0.0 vs harness 1.0 on decision-audit-pass-rate, with scaled receipts",
+      "title_zh": "第二组配对试验：model-choice 族，裸奔 0.0 vs harness 1.0（decision-audit-pass-rate），收据带声明尺度",
+      "note": "The user asked to push several fronts. Same paired design on the model-choice family, metric = decision-audit-pass-rate (the record's structural completeness, offline machine-judgeable): bare 0.0 (bare brand names, no tier, no pre-declared acceptance check, no silence declaration, no attribution) vs harness 1.0 (candidate ids with version slots explicitly marked unverified per M4.17, tiers as budget lines with the cross-tier=setting-comparison warning, acceptance criteria + rejection bound before the decision, a silence section declaring the environment cannot call either API, attribution columns reserved). Receipts carry scale [0,1] - the P47 fix's first live use: trace-audit is now CORRECTLY silent on this pair (pre-fix both lines would have been grouped low and fired a bogus proposal; post-fix the 0.0 is one line below min_count and the 1.0 is not low). Honest note: the harness condition's output is an auditable decision structure with conditionally-deferred status, not a pretended conclusion (M0.4). Section 5 appended to review/paired-trial-2026-10-28.md; receipts as traces #5/#6 (tool home now holds 6 real traces).",
+      "slices": [
+        "P48.1 - harness emitted (dogfood #4); 5 structural checks pre-declared; both conditions archived",
+        "P48.2 - scaled receipts harvested as traces #5/#6; trace-audit silent on the pair (the fix verified live); trial doc section 5"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P49",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "ACS deep read: M6.11 gains the enforcement-architecture exemplar (hooks, modify-disposition, deterministic-first) with the fail-open caution",
+      "title_zh": "ACS 深读：M6.11 增强制架构范例（钩子、modify 处置、确定性优先）与 fail-open 警示",
+      "note": "The P20 watch item chain closed: P43 entered ACS at landing grade (R270), this round read the standard text (R271, v0.1.0 repo). Verdict: M6.11 DEEPENED, no new clause - ACS materializes authorization-on-the-concrete-argument as the modify disposition (rewriting arguments, e.g. capping SELECT * to named columns + LIMIT) inside a deterministic-first hook architecture (19 lifecycle hooks; allow/deny/modify/ask/defer; ask = M0.8's human gate protocolized; the trace chain mirrors the M4.8 append-only ledger). The standard's own named v0.1.0 gaps (unauthenticated wire #70; fail-open decision-failure default #32/#37) are recorded as the caution - fail-open is exactly what the library's default-fail principle (M3) forbids. Non-addition: no policy-enforcement capability (an enforcement architecture exemplar, not a task-family discriminator); no gate obligations from a pre-1.0 self-declared-conformance standard (M0.2 - the standard declares its own immaturity and the citation carries that). Landings: M6.11 sentence (core/07); levers security note; references R271 (+bib, range R1-R271); source-map M6.11 row; frontier doc note updated; review/acs-deep-read-2026-10.md.",
+      "slices": [
+        "P49.1 - the read: ACS repo v0.1.0 (three pillars, 19 hooks, five dispositions, deterministic-first, self-declared conformance, named gaps)",
+        "P49.2 - the landings: M6.11 deepening sentence; levers + references R271 + source-map + frontier note; review/acs-deep-read-2026-10.md"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R271"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1674,12 +1736,12 @@
     },
     {
       "id": "P45.R1",
-      "status": "deferred",
+      "status": "done",
       "cycle": "P45",
       "source": "P45 trial - trace-audit's first real proposal fired on the scale-blind low-outcome rule",
       "title_en": "Give the effect receipt a declared scale; fix the low-outcome rule's threshold",
-      "reason": "the low-outcome rule groups task_outcomes by count and numeric score <= 2, so 1.0-on-a-0-1-scale (perfect) is treated as low; effect receipts need a declared scale (or a normalized score) and the rule needs to read it - an M3.19 outcome-validity point on the effect axis itself",
-      "revisit_when": "the next trace-audit tuning pass, or when effect receipts from a second metric family arrive"
+      "reason": "CLOSED in P47 (2026-10-28): effect receipts may declare detail.scale; the low-outcome rule compares normalized scores (low_max_normalized 0.4) for scaled receipts and keeps the documented legacy raw check for scale-less ones; verified live on the P48 pair (correctly silent).",
+      "done_in": "P47"
     }
   ]
 }

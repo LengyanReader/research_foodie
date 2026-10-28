@@ -870,5 +870,46 @@ class P45TrialGuardTest(unittest.TestCase):
                       "scale-blindness finding not registered")
 
 
+class P47ScaleGuardTest(unittest.TestCase):
+    """P47: effect receipts may declare a scale; the low-outcome rule normalizes."""
+
+    def test_scaled_receipts_roundtrip(self):
+        from harness_factory import trace
+        line = trace.make_trace("task_outcome", project="p", task="t", harness="h",
+                                detail={"judge": "machine", "score": 1.0, "scale": [0, 1]})
+        self.assertEqual(trace.validate(line), [])
+        bad = trace.make_trace("task_outcome", project="p", task="t", harness="h",
+                               detail={"judge": "machine", "score": 1.0, "scale": [5, 1]})
+        self.assertIn("scale", "; ".join(trace.validate(bad)))
+
+
+class P48ModelChoiceTrialGuardTest(unittest.TestCase):
+    """P48: the second paired trial (model-choice) is recorded with scaled receipts."""
+
+    def test_trial_doc_records_the_second_pair(self):
+        doc = _read(HARNESS / "review/paired-trial-2026-10-28.md")
+        # the second trial's numbers live in the P48 section appended to the same doc
+        self.assertIn("decision-audit-pass-rate", doc, "second trial metric missing")
+        self.assertIn("scale", doc, "the scaled receipts are not recorded")
+
+
+class P49AcsGuardTest(unittest.TestCase):
+    """P49: the ACS deep read deepened M6.11 and closed the reference chain."""
+
+    def test_m611_names_the_enforcement_architecture(self):
+        text = _read(HARNESS / "core/07-tools-and-skills.md")
+        for token in ("[R271]", "modify", "fail-open", "deterministic policy layer"):
+            self.assertIn(token, text, f"M6.11 deepening lost {token!r}")
+
+    def test_r271_reference_chain(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("R271", refs)
+        self.assertIn("GenAI-Security-Project/agent-control-standard", refs)
+        bib = _read(HARNESS / "review/references.bib")
+        self.assertIn("owasp2026acsspec", bib)
+        frontier = _read(HARNESS / "review/frontier-2026-10.md")
+        self.assertIn("[R271]", frontier, "deep-read follow-up not marked done")
+
+
 if __name__ == "__main__":
     unittest.main()

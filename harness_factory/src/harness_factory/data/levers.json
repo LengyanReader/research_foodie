@@ -2,7 +2,10 @@
   "updated": "2026-10-23",
   "note": "How to close a rubric gap: dim -> harness modules (M0-M8) + catalog kinds to pull tools from. Consumed by `harness standard plan`. Anchors to Claude/Anthropic's documented practice where one exists.",
   "default": {
-    "modules": ["M3", "M4"],
+    "modules": [
+      "M3",
+      "M4"
+    ],
     "kinds": [],
     "tools": [],
     "note": "Anchor to a named, sourced bar and verify against it (M3/M4)."
@@ -32,382 +35,672 @@
   },
   "by_dim": {
     "fidelity": {
-      "modules": ["M3", "M4"],
-      "kinds": ["fact-check", "academic-search", "retrieval"],
+      "modules": [
+        "M3",
+        "M4"
+      ],
+      "kinds": [
+        "fact-check",
+        "academic-search",
+        "retrieval"
+      ],
       "note": "Anchor every claim to a source; run a citation pass before output.",
       "claude": "A dedicated CitationAgent checks each claim against its source."
     },
     "coverage": {
-      "modules": ["M1", "M6"],
-      "kinds": ["research-agent", "web-search", "academic-search", "crawler"],
+      "modules": [
+        "M1",
+        "M6"
+      ],
+      "kinds": [
+        "research-agent",
+        "web-search",
+        "academic-search",
+        "crawler"
+      ],
       "note": "Widen the search matrix; explore angles in parallel, not serially.",
       "claude": "3-5 subagents run in parallel; start wide, then narrow."
     },
     "contradiction-honesty": {
-      "modules": ["M3"],
-      "kinds": ["fact-check", "research-eval"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "fact-check",
+        "research-eval"
+      ],
       "note": "Actively surface conflicting evidence and report it; do not smooth it over."
     },
     "calibration": {
-      "modules": ["M3", "M5"],
-      "kinds": ["research-eval", "benchmark"],
+      "modules": [
+        "M3",
+        "M5"
+      ],
+      "kinds": [
+        "research-eval",
+        "benchmark"
+      ],
       "note": "Attach an eval, report confidence/limits, re-baseline when the bar moves.",
       "claude": "LLM-as-judge rubric (factual accuracy, citation, completeness, source quality, tool efficiency) over ~20 queries; keep human review."
     },
     "insight": {
-      "modules": ["M1"],
-      "kinds": ["evidence-synthesizer"],
+      "modules": [
+        "M1"
+      ],
+      "kinds": [
+        "evidence-synthesizer"
+      ],
       "note": "Add a synthesis step beyond aggregation; connect non-obvious findings."
     },
     "clarity": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Structure and edit the final synthesis; plain language."
     },
     "polish": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Final review pass against the bar."
     },
     "rigor": {
-      "modules": ["M3"],
-      "kinds": ["research-eval"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "research-eval"
+      ],
       "note": "State assumptions; add an adversarial/verification pass."
     },
     "reproducibility": {
-      "modules": ["M2", "M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M2",
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Make the recipe re-runnable; pin inputs and versions."
     },
     "novelty": {
-      "modules": ["M1"],
-      "kinds": ["survey"],
+      "modules": [
+        "M1"
+      ],
+      "kinds": [
+        "survey"
+      ],
       "note": "Position explicitly against prior art."
     },
     "intent": {
-      "modules": ["M3"],
-      "kinds": ["document-parser", "annotator"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "document-parser",
+        "annotator"
+      ],
       "note": "Recover the author's intent, not just the words."
     },
     "preservation": {
-      "modules": ["M3"],
-      "kinds": ["annotator"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "annotator"
+      ],
       "note": "Preserve uncertainty; mark unverifiable claims `unverified`."
     },
     "gap-closure": {
-      "modules": ["M3", "M5"],
-      "kinds": ["research-eval"],
+      "modules": [
+        "M3",
+        "M5"
+      ],
+      "kinds": [
+        "research-eval"
+      ],
       "note": "Close the largest weighted gap first; one lever at a time."
     },
     "bar-quality": {
-      "modules": ["M4", "M8"],
-      "kinds": ["leaderboard", "benchmark"],
+      "modules": [
+        "M4",
+        "M8"
+      ],
+      "kinds": [
+        "leaderboard",
+        "benchmark"
+      ],
       "note": "Name a sourced, measurable bar; human confirms it (M0.8)."
     },
     "measurement-rigor": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Measure artifact and bar with the same ruler, with evidence."
     },
     "ratchet-discipline": {
-      "modules": ["M2", "M5"],
+      "modules": [
+        "M2",
+        "M5"
+      ],
       "kinds": [],
       "note": "Never regress; the floor only rises."
     },
     "frontier-awareness": {
-      "modules": ["M5"],
-      "kinds": ["leaderboard"],
+      "modules": [
+        "M5"
+      ],
+      "kinds": [
+        "leaderboard"
+      ],
       "note": "Track the moving SOTA; re-check the bar on a cadence."
     },
     "findability": {
-      "modules": ["M1"],
-      "kinds": ["retrieval"],
+      "modules": [
+        "M1"
+      ],
+      "kinds": [
+        "retrieval"
+      ],
       "note": "Index, tag, and make the corpus searchable."
     },
     "structure": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Impose a schema/taxonomy."
     },
     "freshness": {
-      "modules": ["M2", "M5"],
-      "kinds": ["web-search"],
+      "modules": [
+        "M2",
+        "M5"
+      ],
+      "kinds": [
+        "web-search"
+      ],
       "note": "Set TTLs and a refresh cadence."
     },
     "interlinking": {
-      "modules": ["M1"],
-      "kinds": ["retrieval"],
+      "modules": [
+        "M1"
+      ],
+      "kinds": [
+        "retrieval"
+      ],
       "note": "Link related notes/claims."
     },
     "validity": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Establish construct validity; keep claims falsifiable."
     },
     "leakage-control": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Separate train/test; no target leakage."
     },
     "evaluation": {
-      "modules": ["M3", "M5"],
-      "kinds": ["research-eval", "eval-framework"],
+      "modules": [
+        "M3",
+        "M5"
+      ],
+      "kinds": [
+        "research-eval",
+        "eval-framework"
+      ],
       "note": "Define metrics and a hold-out before optimizing."
     },
     "impact": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "State who benefits and the reach."
     },
     "correctness": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Add oracles/tests; property checks."
     },
     "tests": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Automated tests with coverage on the risky paths."
     },
     "maintainability": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Modularity; small reversible diffs."
     },
     "security": {
-      "modules": ["M3", "M6", "M7"],
-      "kinds": ["safety-framework"],
-      "note": "Threat-model; least privilege; sandbox the execution surface (capability: sandboxed-execution). Where the harness emits skills, triage the skills execution layer against OWASP AST10 (R245): malicious / over-privileged skills, insecure metadata, update drift, weak isolation."
+      "modules": [
+        "M3",
+        "M6",
+        "M7"
+      ],
+      "kinds": [
+        "safety-framework"
+      ],
+      "note": "Threat-model; least privilege; sandbox the execution surface (capability: sandboxed-execution). Where the harness emits skills, triage the skills execution layer against OWASP AST10 (R245): malicious / over-privileged skills, insecure metadata, update drift, weak isolation. Enforcement architecture exemplar: OWASP ACS (R271) - lifecycle hooks + allow/deny/modify/ask/defer dispositions, deterministic layer first; its v0.1.0 fail-open default is the anti-pattern."
     },
     "docs": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Document decisions and usage."
     },
     "performance": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Benchmark and profile."
     },
     "reliability": {
-      "modules": ["M3", "M5"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3",
+        "M5"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Resume-from-checkpoint; retries for long-running work.",
       "claude": "Durable state + resume-from-checkpoint so minor tool failures don't cascade."
     },
     "observability": {
-      "modules": ["M2"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M2"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Full tracing of decisions and tool calls."
     },
     "automation": {
-      "modules": ["M6"],
+      "modules": [
+        "M6"
+      ],
       "kinds": [],
       "note": "Script it into CI."
     },
     "rollback": {
-      "modules": ["M2", "M7"],
+      "modules": [
+        "M2",
+        "M7"
+      ],
       "kinds": [],
       "note": "Make every change reversible."
     },
     "safety-factor": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Design margins and failure modes."
     },
     "manufacturability": {
-      "modules": ["M3"],
+      "modules": [
+        "M3"
+      ],
       "kinds": [],
       "note": "Respect DFM constraints."
     },
     "cost": {
-      "modules": ["M6"],
-      "kinds": ["leaderboard", "model-registry"],
+      "modules": [
+        "M6"
+      ],
+      "kinds": [
+        "leaderboard",
+        "model-registry"
+      ],
       "note": "Budget tokens/price; scale effort to query complexity.",
       "claude": "Scale effort to complexity (1 agent/3-10 calls -> 10+ subagents). Multi-agent ~15x chat tokens; justify by value."
     },
     "durability": {
-      "modules": ["M3"],
+      "modules": [
+        "M3"
+      ],
       "kinds": [],
       "note": "Model wear/fatigue."
     },
     "uncertainty": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Report error bars; run sensitivity."
     },
     "characterization": {
-      "modules": ["M3"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Characterize the result adequately before claims."
     },
     "safety": {
-      "modules": ["M3", "M8"],
-      "kinds": ["safety-framework"],
+      "modules": [
+        "M3",
+        "M8"
+      ],
+      "kinds": [
+        "safety-framework"
+      ],
       "note": "Enumerate hazards/contraindications; human gate for harm."
     },
     "controls": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Adequate controls and blinding."
     },
     "statistics": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Power, multiplicity, and effect-size reporting."
     },
     "data-quality": {
-      "modules": ["M3"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Provenance, coverage, cleaning."
     },
     "generality": {
-      "modules": ["M1"],
+      "modules": [
+        "M1"
+      ],
       "kinds": [],
       "note": "State the scope; test edge cases."
     },
     "elegance": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Minimal sufficient construction."
     },
     "evidence-level": {
-      "modules": ["M3", "M4"],
-      "kinds": ["academic-search", "screening"],
+      "modules": [
+        "M3",
+        "M4"
+      ],
+      "kinds": [
+        "academic-search",
+        "screening"
+      ],
       "note": "Grade evidence (systematic review/RCT > cohort > case)."
     },
     "efficacy": {
-      "modules": ["M3"],
-      "kinds": ["academic-search", "screening"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "academic-search",
+        "screening"
+      ],
       "note": "Use effect sizes from trials, not mechanism alone."
     },
     "guideline-adherence": {
-      "modules": ["M4"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M4"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Follow current clinical guidelines; cite them."
     },
     "patient-centered": {
-      "modules": ["M1", "M8"],
+      "modules": [
+        "M1",
+        "M8"
+      ],
       "kinds": [],
       "note": "Reflect patient values; plain language."
     },
     "identification": {
-      "modules": ["M3", "M4"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3",
+        "M4"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "State and defend the causal identification strategy."
     },
     "robustness": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Sensitivity/robustness checks."
     },
     "relevance": {
-      "modules": ["M1"],
+      "modules": [
+        "M1"
+      ],
       "kinds": [],
       "note": "State policy/economic relevance."
     },
     "evidence": {
-      "modules": ["M3", "M4"],
-      "kinds": ["evidence-extractor", "academic-search"],
+      "modules": [
+        "M3",
+        "M4"
+      ],
+      "kinds": [
+        "evidence-extractor",
+        "academic-search"
+      ],
       "note": "Extract and cite primary evidence."
     },
     "reflexivity": {
-      "modules": ["M1"],
+      "modules": [
+        "M1"
+      ],
       "kinds": [],
       "note": "Account for the researcher's positionality."
     },
     "accuracy": {
-      "modules": ["M3", "M4"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M3",
+        "M4"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Cite authoritative text precisely."
     },
     "authority": {
-      "modules": ["M4"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M4"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Use binding sources; respect the hierarchy of authority."
     },
     "completeness": {
-      "modules": ["M1"],
-      "kinds": ["screening"],
+      "modules": [
+        "M1"
+      ],
+      "kinds": [
+        "screening"
+      ],
       "note": "Cover all elements/jurisdictions."
     },
     "reasoning": {
-      "modules": ["M3"],
+      "modules": [
+        "M3"
+      ],
       "kinds": [],
       "note": "Make the logical argument explicit."
     },
     "currency": {
-      "modules": ["M5"],
-      "kinds": ["web-search"],
+      "modules": [
+        "M5"
+      ],
+      "kinds": [
+        "web-search"
+      ],
       "note": "Check for superseding/updated material."
     },
     "interpretation": {
-      "modules": ["M1", "M3"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M1",
+        "M3"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Ground the reading; weigh competing readings."
     },
     "context": {
-      "modules": ["M4"],
-      "kinds": ["academic-search"],
+      "modules": [
+        "M4"
+      ],
+      "kinds": [
+        "academic-search"
+      ],
       "note": "Supply historical/cultural context."
     },
     "originality": {
-      "modules": ["M1"],
-      "kinds": ["survey"],
+      "modules": [
+        "M1"
+      ],
+      "kinds": [
+        "survey"
+      ],
       "note": "State the contribution against prior work."
     },
     "outcomes": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Measure learning outcomes, not activity."
     },
     "engagement": {
-      "modules": ["M1"],
+      "modules": [
+        "M1"
+      ],
       "kinds": [],
       "note": "Design for active participation."
     },
     "equity": {
-      "modules": ["M8"],
+      "modules": [
+        "M8"
+      ],
       "kinds": [],
       "note": "Check access and equity."
     },
     "assessment": {
-      "modules": ["M3"],
-      "kinds": ["eval-framework"],
+      "modules": [
+        "M3"
+      ],
+      "kinds": [
+        "eval-framework"
+      ],
       "note": "Valid, aligned assessment."
     },
     "craft": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Execution quality."
     },
     "concept": {
-      "modules": ["M1"],
+      "modules": [
+        "M1"
+      ],
       "kinds": [],
       "note": "Strength of the idea."
     },
     "coherence": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Internal consistency."
     },
     "finish": {
-      "modules": ["M7"],
+      "modules": [
+        "M7"
+      ],
       "kinds": [],
       "note": "Detailed completion."
     },
     "fit": {
-      "modules": ["M3", "M6"],
-      "kinds": ["eval-framework", "leaderboard", "benchmark"],
+      "modules": [
+        "M3",
+        "M6"
+      ],
+      "kinds": [
+        "eval-framework",
+        "leaderboard",
+        "benchmark"
+      ],
       "note": "Match model/config to the task; evaluate before committing."
     },
     "cost-latency": {
-      "modules": ["M6"],
-      "kinds": ["leaderboard", "model-registry"],
+      "modules": [
+        "M6"
+      ],
+      "kinds": [
+        "leaderboard",
+        "model-registry"
+      ],
       "note": "Weigh price and latency."
     },
     "provenance": {
-      "modules": ["M4"],
+      "modules": [
+        "M4"
+      ],
       "kinds": [],
       "note": "Record origin and date."
     }

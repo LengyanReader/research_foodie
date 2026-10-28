@@ -424,6 +424,15 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **两语 README quickstart。** 补测量/轨迹命令块（scoreboard / harvest task_outcome / collect / trace-audit）；**zh 版连 full-update/brief 都缺失**（P30/P32 只更了英文侧的跨语漂移）——本轮补齐。CountDriftGuard 不看 zh 命令清单——守卫扩展候选，未落地。
 - **登记。** cycles **P46**（0/0/0/0）；测试 **394 → 396**（P45 守卫 2 条随本轮计入）。
 
+## P47–P49 · 三组推进轮（2026-10-28，已做）：尺度修复 · 第二组配对试验 · ACS 深读
+
+> 用户指示「几组全面推进」。三组各自成轮，交叉验证：P47 修复 → P48 现场验证修复 → P49 关闭最后的观察项链条。
+
+- **P47 · P45.R1 修复。** effect 收据可声明 `detail.scale: [lo, hi]`；low-outcome 规则对带尺度收据按**归一化分数**判低（`low_max_normalized: 0.4`——[0,1] 上的 1.0 是满分、[0,5] 上的 1.0 是低分），无尺度收据保持 legacy 原值检查（歧义在规则 why 中写明，声明尺度即修复）；scoreboard effect 收据同样接受可选 scale。
+- **P48 · 第二组配对试验（model-choice 族）。** decision-audit-pass-rate（记录结构完整性，离线机器判分）：裸奔 **0.0**（裸品牌名/无档位/事后式计划/无沉默声明/无归因）vs harness **1.0**（候选 id+版本槽位显式标 unverified、档位=预算行、验收标准+拒绝边界先于决策、沉默专节、归因列就绪）。收据带 `scale: [0,1]`——**修复现场验证**：trace-audit 对这对收据正确静默（修复前会误触发）。harness 条件的产出是「可审计的决策结构 + 条件性暂缓」，不是假装的结论（本环境无法真实调用两家 API）。轨迹 **#5/#6**（tool home 现 6 条真实轨迹）。
+- **P49 · ACS 深读（R271，v0.1.0）。** 观察项链条闭环（P20 观察 → P43 落地页 → 本轮正文）。**裁决：M6.11 深化**——ACS 把「授权在具体实参上」物化为强制架构（19 钩子 + allow/deny/**modify**/ask/defer；modify=实参重写；确定性层永远先行、LLM 层从属；ask=人类门协议化）；其 v0.1.0 自报缺口（未认证线缆、**fail-open 默认**）正是本库 default-fail 原则所禁的反模式——警示随范例一并落地。刻意不加：无 policy-enforcement 能力；预-1.0 自声明标准不落门禁义务（M0.2）。
+- **登记。** cycles **P47/P48/P49**（P49 +1 参考 R271）；**P45.R1 → done_in P47**；M6.11 深化句（core/07）+ levers + source-map + frontier 注记；交付 `review/acs-deep-read-2026-10.md` + 配对试验文档 §5；测试 **396 → 403**。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

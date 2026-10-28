@@ -112,6 +112,17 @@ def validate(trace: dict[str, Any]) -> list[str]:
             score = detail.get("score")
             if isinstance(score, bool) or not isinstance(score, (int, float, str)) or score == "":
                 problems.append("task_outcome detail.score must be a number or non-empty string")
+            # A declared scale ([lo, hi]) makes the score interpretable across
+            # metric families (P45.R1: 1.0 is perfect on [0,1] and low on [0,5]).
+            scale = detail.get("scale")
+            if scale is not None:
+                ok = (
+                    isinstance(scale, list) and len(scale) == 2
+                    and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in scale)
+                    and scale[0] < scale[1]
+                )
+                if not ok:
+                    problems.append("task_outcome detail.scale must be [lo, hi] with lo < hi")
     return problems
 
 

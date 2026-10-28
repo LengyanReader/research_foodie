@@ -76,6 +76,12 @@ def validate_scoreboard(board: dict[str, Any] | None = None) -> list[str]:
             problems.append(f"{tid}: effect_metric must be a non-empty string")
         effect = entry.get("effect")
         if effect is not None:
+            scale = effect.get("scale")
+            scale_ok = scale is None or (
+                isinstance(scale, list) and len(scale) == 2
+                and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in scale)
+                and scale[0] < scale[1]
+            )
             ok = (
                 isinstance(effect, dict)
                 and effect.get("status") == "measured"
@@ -84,6 +90,7 @@ def validate_scoreboard(board: dict[str, Any] | None = None) -> list[str]:
                 and effect.get("judge") in ("human", "machine")
                 and isinstance(effect.get("measured_on"), str)
                 and bool(_DATE_RE.match(effect.get("measured_on", "")))
+                and scale_ok
             )
             if not ok:
                 problems.append(
