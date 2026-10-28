@@ -853,5 +853,22 @@ class P44CoverageGuardTest(unittest.TestCase):
             self.assertIn(token, doc, f"coverage widening record lost {token!r}")
 
 
+class P45TrialGuardTest(unittest.TestCase):
+    """P45: the paired trial's receipts and the scale-blindness finding."""
+
+    def test_trial_doc_carries_results_and_boundary(self):
+        doc = _read(HARNESS / "review/paired-trial-2026-10-28.md")
+        for token in ("0.2", "1.0", "citation-verifiability", "2310.08560",
+                      "N=1", "judge=machine"):
+            self.assertIn(token, doc, f"trial doc lost {token!r}")
+
+    def test_p45r1_registered(self):
+        import json
+        d = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                       .read_text(encoding="utf-8"))
+        self.assertIn("P45.R1", {r["id"] for r in d["roadmap"]},
+                      "scale-blindness finding not registered")
+
+
 if __name__ == "__main__":
     unittest.main()

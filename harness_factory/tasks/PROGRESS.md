@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-28 · P45+P46：配对试验轮 + 文档刷新轮
+
+- **P45（用户指示「模拟或试验真实案例」）。** 双条件配对试验（同任务/同模型/同会话）：**裸奔 0.2 vs harness 1.0**（lit-review 族 effect_metric=citation-verifiability，5 项机器判据预声明后执行）。裸奔缺陷全部真实可检：记错 id（LanguageBind 当 MemGPT）、张冠李戴（Context Engineering 2.0 非方法 survey）、正文级当摘要级、无溯源、无界定——**harness 的贡献集中在可检验性**。收据入轨迹 **#3/#4**；trace-audit 产出**第一条真实轨迹驱动提案**并暴露 low-outcome 规则的**尺度盲**（1.0 满分被判低）→ **P45.R1**（effect 收据需声明尺度）。`full-update --offline` 六相链首跑全绿。诚实边界：N=1、污染声明、token=proxy、非受控实验。交付 `review/paired-trial-2026-10-28.md`。
+- **P46（用户指示「更新文档、详实介绍」）。** introduction.md 补测量系统与轨迹环叙述 + 现行计数；两语 README quickstart 补测量/轨迹命令块；**zh 版缺失 full-update/brief 的跨语漂移补齐**（P30/P32 只更了英文侧）。zh 命令清单无守卫看护——扩展候选。
+- **状态。** 测试 **394 → 396** 全过；`cycle audit` **41 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P44：留出集覆盖扩大轮 —— P40 点名的有意基线编辑（钉住 10 → 17，7 任务）
 
 - **开轮依据。** 「继续加强」队列的首位可离线项：P40 发现 28/38 能力未被 must 钉住，本轮以**有意基线编辑**（M0.5）关闭。准则：**钉「缺了就算错」的，不钉「碰巧命中」的**。

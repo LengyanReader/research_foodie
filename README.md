@@ -93,6 +93,11 @@ harness full-update                      # one instruction: the whole observe lo
                                          #   (intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard)
 harness brief --task "…"                 # paste-ready task brief: refinement fields + plan + first actions + gates
                                          #   (a DRAFT to confirm, not a licence to start - P32)
+harness scoreboard                       # the factory's own 7-task holdout: structural axes + per-task effect axis
+harness harvest --dir <dir> --event task_outcome --detail '{"judge":"human","score":4}'
+                                         # record a task verdict (M5.14: failures are mandatory signal)
+harness collect --project <dir>          # pull a project's local traces into the tool home
+harness trace-audit                      # audit traces -> mutation proposals (proposal-only, D1 stage B)
 ```
 
 **Consumption modes.** L0 — an assistant reads `harness_factory/SKILL.md` + `core/` + `data/*.json` and derives itself

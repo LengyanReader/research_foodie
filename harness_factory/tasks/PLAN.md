@@ -406,6 +406,24 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **卫生项。** GUIDE 过期实例计数 9 → 10（两个 README 本为 10，一致了）。
 - **登记。** scoreboard.json note 记编辑；ablation 报告新 §5；scored-task-set 表 +2 行；cycles **P44**（0/0/0/0）；`P44CoverageGuardTest` 守卫；测试 **392 → 394**。
 
+## P45 · 配对试验轮（2026-10-28，已做）：裸奔 0.2 vs harness 1.0——第一批 effect 收据与第一条轨迹驱动提案
+
+> 用户指示「模拟或试验一些真实案例，测试并调优相关效果」。设计：同任务意图、同模型、同会话，双条件（裸奔 one-pass vs 发射 harness 纪律），指标=lit-review 族的 citation-verifiability，5 项机器判据**先于执行预声明**（M5.13）。
+
+- **结果。** A（裸奔）**0.2**（E1 机械通过；E2–E5 全挂）vs B（harness）**1.0**。裸奔缺陷全部真实可检：记错 id（把 LanguageBind 2310.01852 当 MemGPT，真 id 2310.08560——解析环节当场抓住）、张冠李戴（Context Engineering 2.0 是概念史论文非方法 survey）、正文级细节当摘要级陈述、无溯源、无界定。收据入轨迹 **#3/#4**（judge=machine，condition 标注）。
+- **第一条轨迹驱动提案（+一个真发现）。** trace-audit 的 low-outcome 规则对 4 条真实轨迹发出首个提案——但它把 0.2 和 1.0 都判为低分：**规则是尺度盲的**（分不清 0–1 尺度的满分与 5 分尺度的低分）→ effect 收据需要声明的尺度字段（effect 轴自身的 M3.19 结果有效性问题），登记 **P45.R1**。
+- **六相链首跑。** `full-update --offline` 端到端全绿（probe-domains / trace-audit / evolve / cycle-audit / scoreboard）。
+- **诚实边界（预声明）。** N=1/条件；同模型同会话（污染声明：测的是过程不是模型天真度）；token=proxy；非受控实验。方向性信号与库主张一致：harness 的贡献集中在**可检验性**。
+- **登记。** 交付 `review/paired-trial-2026-10-28.md`；cycles **P45**（0/0/0/0）+ **P45.R1**；原始物在 dogfood #3 项目目录（未入版本控制）。
+
+## P46 · 文档刷新轮（2026-10-28，已做）：入口文档补齐测量系统与现行计数
+
+> 用户指示「更新相关文档，对项目进行更加详实到位的介绍和说明」。审计入口文档 vs SSOT 后刷新。
+
+- **introduction.md。** 新增**测量系统叙述**（7 任务留出集 + effect 轴 + 轨迹环 D1 + 0.2 vs 1.0 配对试验）与 trace/effect 命令块；计数全面刷新（34 学科域 · 237 实体 · watchlist 12 主题 · R1–R270 · 10 份 reference 文档 · 轮次 P0–P45）。
+- **两语 README quickstart。** 补测量/轨迹命令块（scoreboard / harvest task_outcome / collect / trace-audit）；**zh 版连 full-update/brief 都缺失**（P30/P32 只更了英文侧的跨语漂移）——本轮补齐。CountDriftGuard 不看 zh 命令清单——守卫扩展候选，未落地。
+- **登记。** cycles **P46**（0/0/0/0）；测试 **394 → 396**（P45 守卫 2 条随本轮计入）。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

@@ -1,6 +1,6 @@
 # Introduction · harness-factory 简介
 
-**Updated:** 2026-10-23 · **Status:** working tool (P2) · **Version:** 0.1.0 · **License:** MIT
+**Updated:** 2026-10-28 · **Status:** working tool (post-P45) · **Version:** 0.1.0 · **License:** MIT
 
 > **Give any task the agent harness it needs — and keep that know-how current.**
 > 为任意任务生成它所需的 agent harness，并让这套 know-how 持续自我更新。
@@ -14,6 +14,8 @@
 **它是什么。** 一套跨域提炼的 **harness 模式库**（`core/`、`domains/`、`review/`）+ 一个把任务**编译成 harness** 的工具。工具既可由 **vibe-coding 助手直接读取（L0，免安装）**，也可用 CLI **从仓库路径调用（L1）**；打包分发（L2）已取消。
 
 **它怎么工作。** `task → 特征向量 → 选模块 → 生成脚手架`。任务被归约为 8 个特征轴，规则据其启用 M0–M8 模块并推导参数；每一步的选择与理由写入 `.harness/manifest.json`，可解释、可复核。
+
+**它如何自我校准（测量系统，P23–P45）。** 一个 7 任务记分集钉住 harness 发射质量（结构轴 1.0 基线 + 每任务 effect_metric 效果轴）；执行轨迹（失败与收尾判决）被采集、规则审计成提案；一次配对试验实测「裸奔 0.2 vs harness 1.0」（引用可核验性，机器判分）。`harness full-update --offline` 一句话跑完整个观察环。
 
 **它不做什么（M0.4）。** 只做**分类 / 选择 / 生成 / 观察 / 排序**；绝不编造任务实质内容，绝不自动改写正文，破坏性动作（推送 / 发布 / 删除 / 花钱）必须人工确认。
 
@@ -81,7 +83,7 @@ The library is *readable by humans*; the tool is *executable by agents*. `data/m
 
 ### Domains
 
-30 disciplines across 10 faculties (from `research` to `digital-humanities` and `writing`), each with its own `domains/<id>/README.md`, plus a first-class `general` fallback. Domains only set **defaults** (artifact, grounding, workflow, signals), and an explicit cue in the task text (`report`, `dataset`, `注明来源`…) overrides the artifact/grounding default; the features still decide.
+34 disciplines across 10 faculties (from `research` through `history`/`philosophy`/`political-science`/`ai-safety` to `digital-humanities` and `writing`), each with its own `domains/<id>/README.md`, plus a first-class `general` fallback. Domains only set **defaults** (artifact, grounding, workflow, signals), and an explicit cue in the task text (`report`, `dataset`, `注明来源`…) overrides the artifact/grounding default; the features still decide.
 
 ---
 
@@ -128,9 +130,19 @@ harness sources --group harnesses    # list every tracked entity (see data/sourc
 harness intel --since 2026-01-01     # pull tracked feeds -> <home>/updates/INTEL.md
 harness evolve                       # coverage/gap audit -> <home>/updates/EVOLUTION.md
 harness evolve-apply --accept <id|target>    # human gate -> <home>/updates/accepted.json
+
+# 6. The measurement & trace loop (P23-P45): the factory measures itself
+harness scoreboard                    # 7-task holdout: structural axes (1.0 baseline) + per-task effect axis
+harness brief --task "..." --out brief.md   # paste-ready task brief (confirm before work, R4/R5)
+harness init --from-brief brief.md --out <dir>  # emit the harness from a confirmed brief
+harness harvest --dir <dir> --event task_outcome --detail '{"judge":"human","score":4}'  # record a verdict
+harness collect --project <dir>       # pull a project's local traces into the tool home
+harness trace-audit                   # audit traces -> mutation proposals (proposal-only)
+harness cycle audit                   # the round registry audit (39+ rounds, 0 hard, 0 gaps)
+harness full-update --offline         # the whole observe loop in one instruction
 ```
 
-**The loadable reference set (L0).** `harness skill` lists it, and it is exactly what an emitted harness's `.harness/pointer.json` `entry_docs` points at: `SKILL.md`, `core/00-index.md`, `CAPABILITIES.md`, `HARNESS-MAP.md`, and `reference/` — capability-router · requirement-refinement · derivation-rules · capability-flow · evidence-instruments · methodology-map · outlet-map · cross-language. Read any one with `harness skill <name>`. · 可加载参考集：`harness skill` 与生成物 `pointer.json` 的 `entry_docs` 指向**同一套**（SKILL.md + core 索引 + 生成总览 + 8 份 `reference/`），逐份用 `harness skill <name>` 打开。
+**The loadable reference set (L0).** `harness skill` lists it, and it is exactly what an emitted harness's `.harness/pointer.json` `entry_docs` points at: `SKILL.md`, `core/00-index.md`, `CAPABILITIES.md`, `HARNESS-MAP.md`, and `reference/` — capability-router · requirement-refinement · derivation-rules · capability-flow · evidence-instruments · methodology-map · outlet-map · cross-language · capability-cycle · tool-router. Read any one with `harness skill <name>`. · 可加载参考集：`harness skill` 与生成物 `pointer.json` 的 `entry_docs` 指向**同一套**（SKILL.md + core 索引 + 生成总览 + 10 份 `reference/`），逐份用 `harness skill <name>` 打开。
 
 **Consumption modes.** **L0** — the assistant reads `SKILL.md` + `core/` + `data/*.json` and derives
 itself (most flexible, no install). **L1** — run the CLI from the path without installing
@@ -174,19 +186,23 @@ Every emitted file is plain Markdown/Python — no lock-in, no runtime dependenc
 
 The knowledge base must not freeze. `harness refresh` runs `signal → audit → rank → proposal → journal`:
 
-- **Signals** from `data/watchlist.json` (9 topics + 4 frontier probes, as of 2026-10-23), a local `updates/inbox.jsonl`, and optional LLM discovery.
+- **Signals** from `data/watchlist.json` (12 topics + 4 frontier probes, as of 2026-10-28), a local `updates/inbox.jsonl`, and optional LLM discovery.
 - **Audit** drops anything without a traceable url/arXiv-id/DOI (M4) and dedupes against the existing `review/` corpus.
 - **Report** a bilingual `updates/REPORT.md` with **hot topics** (frequency × recency) and **coverage gaps** (declared topics with zero hits) — the cue for boundary expansion.
 - **Human gate:** `refresh-apply` only writes merge stubs to `updates/proposals/`; a human edits the catalogs. Nothing is auto-merged, and everything is reversible by deleting `updates/`.
 - **Watermark:** the effective `since` date is persisted to `updates/state.json`, so repeated cycles only surface *new* items without passing `--since` each time.
 
-**Tracked entities (`data/sources.json`).** 213 entities across 8 groups (as of 2026-10-23) — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools), and **outlets** (per-field first-party portals/journals/databases/registries). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
+**Tracked entities (`data/sources.json`).** 237 entities across 8 groups (as of 2026-10-28) — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools), and **outlets** (per-field first-party portals/journals/databases/registries). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
 
 **Intel (`harness intel`).** Pulls those feeds, scores relevance (topic keywords + entity mention + recency), tags by topic/entity, and writes a bilingual `updates/INTEL.md` + `updates/intel.jsonl`. Briefs are verbatim excerpts unless an LLM summary is configured (`llm.summarize`).
 
 **Self-evolution (`harness evolve`).** The structural loop **snapshot → audit → mutation-proposal → journal**: audits topic coverage, empty groups, stale entities, accepted candidates from untracked sources, and **apex bars whose moving frontier is un-rechecked** (`stale_frontier`, from `updates/standard.json`); writes `updates/EVOLUTION.md` + `updates/evolution.jsonl` and appends a metric snapshot to `updates/metrics.jsonl`. `evolve-apply` accepts proposals into `updates/accepted.json` only (M0.8/M0.9).
 
 Scheduling (weekly): run `refresh.ps1` (now: refresh `--provider all --intel` then `evolve`); details in `tasks/REFRESH.md` (Task Scheduler / cron / GitHub Actions).
+
+**The trace-driven loop (D1, P22–P45).** Beyond the catalog-side loop, the factory consumes **execution traces**: an emitted harness records machine facts (a missed gate, a human correction, a capability that never fired, the task's final verdict with a judge and score) into `.harness/traces.jsonl`; `harness collect` pulls them into the tool home; `harness trace-audit` runs data-declared rules over them and emits **mutation proposals** (proposal-only, human-gated). Receipts carry a judge (`human` by default; `machine` only where the task family has a defined metric) — the machine records verdicts, it never makes them (M0.4). `harness full-update` chains the whole observe loop: intel → probe-domains → trace-audit → evolve → cycle audit → scoreboard.
+
+**The measurement system (P23–P45).** `data/scoreboard.json` is the factory's own holdout: **7 canonical task families, each scored on five deterministic structural axes** (routing / capabilities / modules / structure / emission — 1.0 baseline pinned by tests, moves only by deliberate recorded edit) plus a per-task **effect axis** (`effect_metric`: the machine-scorable measure of whether the task actually went well — unmeasured until a real run records a receipt). The structural ablation baseline (P40/P44) ablated all 38 capabilities one at a time: **17 units are load-bearing** and protected; a paired trial (P45) ran bare vs harnessed on the same task — **0.2 vs 1.0 on citation-verifiability** (machine-judged; N=1, directional) — the first effect receipts, recorded as real traces.
 
 ---
 
@@ -249,6 +265,6 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 
 **The live roadmap lives in [`tasks/PLAN.md`](tasks/PLAN.md)** (rounds, next-round worklist, non-goals) with the
 machine-readable registry in `data/cycles.json` (`harness cycle audit`). This section is deliberately a pointer,
-not a copy — a second rendering of the roadmap is a drift source (M0.5): rounds P0–P20 are done as of 2026-10-23,
+not a copy — a second rendering of the roadmap is a drift source (M0.5): rounds P0–P45 are done as of 2026-10-28,
 and [`CHANGELOG.md`](../CHANGELOG.md) records each round's counts and sources. Packaging history and the tool-form
 decision: [`tasks/DISTRIBUTION.md`](tasks/DISTRIBUTION.md).

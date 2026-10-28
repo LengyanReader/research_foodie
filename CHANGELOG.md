@@ -20,6 +20,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Paired trial (P45) + documentation refresh (P46).** P45: bare vs harness on the same task, same model, same
+  session - **0.2 vs 1.0 on citation-verifiability** (5 machine checks pre-declared; the bare run's defects are real
+  and checkable: a misremembered id, a wrong-paper attribution, a body-only claim stated as abstract-level, no
+  provenance, no bounding). First effect receipts as traces #3/#4; trace-audit emitted the first real trace-driven
+  proposal and exposed the low-outcome rule's scale-blindness (registered P45.R1); `full-update --offline` validated
+  the six-phase chain end-to-end. N=1, contamination acknowledged, directional only. P46: introduction.md now
+  describes the measurement system and the trace loop with current counts; both README quickstarts carry the
+  measurement/trace command block (the zh README had also drifted - missing full-update/brief since P30/P32).
 - **Holdout coverage widening (P44) - the deliberate baseline edit P40 called for.** 28 of 38 capabilities were
   unpinned by the must sets; closed by two moves under the criterion "pin only where absence would make the harness
   wrong for that family": the four research-family tasks gained the four research-definitional disciplines their

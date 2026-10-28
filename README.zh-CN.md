@@ -73,6 +73,15 @@ harness intel   --since 2026-01-01       # 拉取跟踪源 → updates/INTEL.md�
 harness evolve                           # 覆盖/缺口审计 → updates/EVOLUTION.md（提案）
 harness evolve --dry-run                 # 同上，但不写文件
 harness evolve-apply --accept <id|target>
+harness full-update                      # 一句话跑完观察环 -> updates/FULL-UPDATE.md
+                                         #   (intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard)
+harness brief --task "…"                 # 可粘贴的任务简报：精炼字段 + 计划 + 首步行动 + 门禁
+                                         #   （是待确认草案，不是开工许可 - P32）
+harness scoreboard                       # 本库自己的 7 任务留出集：结构轴 + 每任务效果轴
+harness harvest --dir <目录> --event task_outcome --detail '{"judge":"human","score":4}'
+                                         # 记录任务收尾判决（M5.14：失败是必需信号）
+harness collect --project <目录>          # 把项目本地轨迹拉回工具家
+harness trace-audit                      # 轨迹审计 -> 变异提案（只提案，D1 阶段 B）
 ```
 
 **消费层级。** **L0**——助手读 `harness_factory/SKILL.md` + `core/` + `data/*.json` 自行推导（最灵活、免安装）；

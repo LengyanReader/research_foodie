@@ -1256,6 +1256,47 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P45",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Paired trial: bare 0.2 vs harness 1.0 on citation-verifiability - the first effect receipts and the first trace-driven proposal",
+      "title_zh": "配对试验：裸奔 0.2 vs harness 1.0（引用可核验性）——第一批 effect 收据与第一条轨迹驱动提案",
+      "note": "The user asked for simulated/trialed real cases to test and tune effects. Design: same task intent (mini survey of context-growth taming), same model, same session; two conditions - A bare (one pass, memory-cited, unverified) and B harness (emitted harness discipline: every claim source-anchored with access dates, bounded to what the source states, silence recorded). Metric = the lit-review family's effect_metric (citation-verifiability), 5 machine checks pre-declared before execution (M5.13). Results: A scored 0.2 (E1 passes mechanically - all five ids return 200; E2-E5 all fail), B scored 1.0. The bare defects are real and checkable: a misremembered id (LanguageBind 2310.01852 presented as MemGPT, real id 2310.08560 - caught by resolution), a wrong-paper attribution (Context Engineering 2.0 is a conceptual-history paper, not a methods survey), one body-only claim stated as abstract-level, no provenance, no bounding. Receipts recorded as traces #3/#4 (judge=machine, condition-labeled). trace-audit then emitted the FIRST real trace-driven proposal (low-outcome rule) - which exposed a genuine finding: the rule is scale-blind (scores 0.2 and 1.0 both grouped as low; it cannot distinguish 1.0-on-a-0-1-scale from 1.0-on-a-5-point-scale) - the effect receipt needs a declared scale field, an M3.19 outcome-validity point on the effect axis itself, registered as P45.R1. Honest boundary (pre-declared): N=1 per condition, contamination acknowledged (the bare condition measures process, not model naivety), token=proxy, not a controlled experiment. Also exercised: full-update --offline ran the six-phase chain end-to-end for the first time (probe-domains/trace-audit/evolve/cycle-audit/scoreboard all ok). Deliverable: review/paired-trial-2026-10-28.md.",
+      "slices": [
+        "P45.1 - setup: harness emitted for the trial task (dogfood #3); 5 machine checks pre-declared; honest boundary pre-declared",
+        "P45.2 - the two conditions executed and archived; 6 abs pages fetched for verification (5 survey ids + 1 correction target); receipts harvested as traces #3/#4",
+        "P45.3 - records: review/paired-trial-2026-10-28.md; full-update --offline six-phase validation; trace-audit's first real proposal + the scale-blindness finding registered as P45.R1"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P46",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Documentation refresh: the entry docs describe the measurement system, the new command surface, and the current counts",
+      "title_zh": "文档刷新轮：入口文档补齐测量系统叙述、新命令面与现行计数",
+      "note": "The user asked for a more thorough and accurate introduction. Audited the entry docs against the SSOT and refreshed: introduction.md now carries the measurement-system section (7-task holdout with the effect axis, the trace-driven loop D1, the 0.2-vs-1.0 paired trial), the trace/effect commands in its quickstart, the trace-loop subsection in the self-update chapter, and current counts (34 disciplines, 237 entities, 12 topics, R1-R270, 10 reference docs, rounds P0-P45); both README quickstarts gained the measurement/trace command block (scoreboard / harvest task_outcome / collect / trace-audit) - the zh README had drifted further (it lacked full-update and brief entirely, a P30/P32 cross-language drift the EN side fixed then and the zh side gets now). CountDriftGuard does not cover the zh quickstart's command list - noted as a possible guard extension, not landed this round.",
+      "slices": [
+        "P46.1 - introduction.md: measurement-system + trace-loop sections, quickstart command block, counts refreshed (domains 34, entities 237, watchlist 12, references R270, 10 reference docs, P0-P45)",
+        "P46.2 - both README quickstarts: the measurement/trace command block; the zh README's missing full-update/brief lines restored (cross-language drift fix)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1630,6 +1671,15 @@
       "title_en": "Source-audit the CBETA community MCP server; re-probe the blocked classical-texts doors",
       "reason": "the tendayspace CBETA MCP server is known only from PulseMCP's listing (its repo was not located this round) and must be read at source before it leaves untrusted-read-only status (M6.11); api.cbdb.org / bdrc.io / dict.sinica.edu.tw / cbetaonline.dila.edu.tw / marco failed at handshake or answered 502 from this machine - the entries are leads, not verified doors",
       "revisit_when": "a 古籍整理 task actually runs through tool-router §3, or the environment gains a network path where those hosts answer"
+    },
+    {
+      "id": "P45.R1",
+      "status": "deferred",
+      "cycle": "P45",
+      "source": "P45 trial - trace-audit's first real proposal fired on the scale-blind low-outcome rule",
+      "title_en": "Give the effect receipt a declared scale; fix the low-outcome rule's threshold",
+      "reason": "the low-outcome rule groups task_outcomes by count and numeric score <= 2, so 1.0-on-a-0-1-scale (perfect) is treated as low; effect receipts need a declared scale (or a normalized score) and the rule needs to read it - an M3.19 outcome-validity point on the effect axis itself",
+      "revisit_when": "the next trace-audit tuning pass, or when effect receipts from a second metric family arrive"
     }
   ]
 }
