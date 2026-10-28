@@ -1,7 +1,13 @@
 {
   "updated": "2026-10-28",
-  "note": "The minimal scored task set (P23). Five canonical tasks, each scored on five deterministic axes (routing, capabilities, modules, structure, emission); the 1.0 baseline per task is pinned by tests/test_scoreboard.py, so component-ablation (M5.12) can re-run these same tasks against a pruned configuration and compare on the same ground. The allowed/must values were taken from an actual classify+derive run on 2026-10-23, not written from memory (M0.4). A baseline change is a deliberate edit here, never a silent drift. P24 added the effect axis: every task declares its effect_metric (the machine-scorable metric for that task family) but stays unmeasured until a real run records a full {status: measured, score, judge, measured_on} receipt; the effect score never enters the structural total. DELIBERATE BASELINE EDIT 2026-10-28 (P36): the lit-review must_modules moved M8 -> M5. The M8 came from a classification misfire -- bare 'review' fired the human-review collaboration cue on 'literature review' -- which P36 fixed together with a missing horizon cue ('week' now raises multi_session); the corrected derive enables M5 (multi-week work => self-evolution + durable memory) and disables M8 (solo work). The baseline follows the fixed engine, with the reason recorded here per M0.5.",
-  "axes": ["routing", "capabilities", "modules", "structure", "emission"],
+  "note": "The minimal scored task set (P23). Five canonical tasks, each scored on five deterministic axes (routing, capabilities, modules, structure, emission); the 1.0 baseline per task is pinned by tests/test_scoreboard.py, so component-ablation (M5.12) can re-run these same tasks against a pruned configuration and compare on the same ground. The allowed/must values were taken from an actual classify+derive run on 2026-10-23, not written from memory (M0.4). A baseline change is a deliberate edit here, never a silent drift. P24 added the effect axis: every task declares its effect_metric (the machine-scorable metric for that task family) but stays unmeasured until a real run records a full {status: measured, score, judge, measured_on} receipt; the effect score never enters the structural total. DELIBERATE BASELINE EDIT 2026-10-28 (P36): the lit-review must_modules moved M8 -> M5. The M8 came from a classification misfire -- bare 'review' fired the human-review collaboration cue on 'literature review' -- which P36 fixed together with a missing horizon cue ('week' now raises multi_session); the corrected derive enables M5 (multi-week work => self-evolution + durable memory) and disables M8 (solo work). The baseline follows the fixed engine, with the reason recorded here per M0.5. DELIBERATE COVERAGE WIDENING 2026-10-28 (P44): the P40 ablation found 28 of 38 capabilities unpinned by the must sets. Widened lit-review/kg-dh/deep-research with the four research-definitional disciplines their actual runs match (untrusted-content-discipline, context-budget-policy, resumable-memory, tool-use) and model-choice with untrusted-content-discipline, tool-use, reproducible-experiments (M4.17's selection discipline); unit-tests gains nothing (its two musts are already the definitional pair). Added two canonical tasks - proof-verification and bayesian-stats - so the domain-keyed capabilities (formal-verification, statistical-inference) have a task family to pin; their allowed/must values come from actual classify+derive runs on 2026-10-28. The scoreboard now pins 17 of 38 units; the remaining 21 are incidental at these seven families (recorded in review/ablation-baseline-2026-10.md section 5).",
+  "axes": [
+    "routing",
+    "capabilities",
+    "modules",
+    "structure",
+    "emission"
+  ],
   "effect_axis": {
     "added_in": "P24",
     "status": "unmeasured",
@@ -11,42 +17,143 @@
     {
       "id": "lit-review",
       "task": "Write a literature review with citations over several weeks",
-      "allowed_domains": ["research", "deep-research"],
-      "must_capabilities": ["traceable-sources", "evidence-bounded-generation", "prose-polish", "loop-discipline"],
-      "must_modules": ["M2", "M4", "M5"],
+      "allowed_domains": [
+        "research",
+        "deep-research"
+      ],
+      "must_capabilities": [
+        "traceable-sources",
+        "evidence-bounded-generation",
+        "prose-polish",
+        "loop-discipline",
+        "untrusted-content-discipline",
+        "context-budget-policy",
+        "resumable-memory",
+        "tool-use"
+      ],
+      "must_modules": [
+        "M2",
+        "M4",
+        "M5"
+      ],
       "effect_metric": "citation-verifiability: share of cited claims that resolve to a primary source"
     },
     {
       "id": "unit-tests",
       "task": "Add unit tests to the parser",
-      "allowed_domains": ["general", "software-engineering"],
-      "must_capabilities": ["verification-gate", "eval-driven-development"],
-      "must_modules": ["M3"],
+      "allowed_domains": [
+        "general",
+        "software-engineering"
+      ],
+      "must_capabilities": [
+        "verification-gate",
+        "eval-driven-development"
+      ],
+      "must_modules": [
+        "M3"
+      ],
       "effect_metric": "test-suite-pass-rate: the delivered suite passes deterministically and exercises the target module"
     },
     {
       "id": "kg-dh",
       "task": "构建方志人物知识图谱，做检索增强问答，注明来源",
-      "allowed_domains": ["digital-humanities"],
-      "must_capabilities": ["ontology-as-contract", "entity-resolution", "evidence-bounded-generation", "schema-evolution"],
-      "must_modules": ["M2", "M4"],
+      "allowed_domains": [
+        "digital-humanities"
+      ],
+      "must_capabilities": [
+        "ontology-as-contract",
+        "entity-resolution",
+        "evidence-bounded-generation",
+        "schema-evolution",
+        "untrusted-content-discipline",
+        "context-budget-policy",
+        "resumable-memory",
+        "tool-use"
+      ],
+      "must_modules": [
+        "M2",
+        "M4"
+      ],
       "effect_metric": "answer-evidence-precision: share of answer assertions carrying a resolvable evidence pointer (M4.13)"
     },
     {
       "id": "deep-research",
       "task": "Deep research report on agent memory systems with citations",
-      "allowed_domains": ["deep-research"],
-      "must_capabilities": ["traceable-sources", "evidence-bounded-generation", "prose-polish"],
-      "must_modules": ["M2", "M4"],
+      "allowed_domains": [
+        "deep-research"
+      ],
+      "must_capabilities": [
+        "traceable-sources",
+        "evidence-bounded-generation",
+        "prose-polish",
+        "untrusted-content-discipline",
+        "context-budget-policy",
+        "resumable-memory",
+        "tool-use"
+      ],
+      "must_modules": [
+        "M2",
+        "M4"
+      ],
       "effect_metric": "citation-verifiability: share of cited claims that resolve to a primary source"
     },
     {
       "id": "model-choice",
       "task": "在 GPT 和 Claude 之间选一个模型来跑评测",
-      "allowed_domains": ["model-selection"],
-      "must_capabilities": ["model-portfolio-discipline", "eval-driven-development"],
-      "must_modules": ["M2", "M4"],
+      "allowed_domains": [
+        "model-selection"
+      ],
+      "must_capabilities": [
+        "model-portfolio-discipline",
+        "eval-driven-development",
+        "untrusted-content-discipline",
+        "tool-use",
+        "reproducible-experiments"
+      ],
+      "must_modules": [
+        "M2",
+        "M4"
+      ],
       "effect_metric": "decision-audit-pass-rate: the selection record carries model id/version/tier (M4.17) plus a held-out result"
+    },
+    {
+      "id": "proof-verification",
+      "task": "Formally verify that this distributed protocol satisfies its safety property, using a proof assistant",
+      "allowed_domains": [
+        "mathematics",
+        "logic",
+        "geometry-topology"
+      ],
+      "must_capabilities": [
+        "formal-verification",
+        "verification-gate",
+        "traceable-sources",
+        "evidence-bounded-generation"
+      ],
+      "must_modules": [
+        "M3",
+        "M4"
+      ],
+      "effect_metric": "machine-checked acceptance: the proof assistant accepts with no admits/sorry, and the statement matches the claimed property"
+    },
+    {
+      "id": "bayesian-stats",
+      "task": "Fit a bayesian hierarchical model to this dataset and report the credible interval with convergence diagnostics",
+      "allowed_domains": [
+        "statistics",
+        "data-science"
+      ],
+      "must_capabilities": [
+        "statistical-inference",
+        "verification-gate",
+        "traceable-sources",
+        "evidence-bounded-generation"
+      ],
+      "must_modules": [
+        "M3",
+        "M4"
+      ],
+      "effect_metric": "inference validity: convergence diagnostics (R-hat/ESS) reported and the interval reproduced by an independent re-derivation"
     }
   ]
 }

@@ -1235,6 +1235,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P44",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Holdout coverage widening: the deliberate baseline edit P40 called for (10 -> 17 pinned units, 7 tasks)",
+      "title_zh": "留出集覆盖扩大：P40 点名的有意基线编辑（钉住 10 → 17 单元，7 任务）",
+      "note": "Closed the P40 finding (28 of 38 capabilities unpinned) with a deliberate baseline edit (M0.5), two moves. (1) Must widening, criterion = pin only where absence would make the harness wrong for that family: lit-review/kg-dh/deep-research gained the four research-definitional disciplines their actual runs match (untrusted-content-discipline, context-budget-policy, resumable-memory, tool-use); model-choice gained untrusted-content-discipline, tool-use, reproducible-experiments (M4.17's selection discipline); unit-tests gained nothing (its two musts are already the definitional pair). (2) Two new canonical tasks - proof-verification (mathematics/logic/geometry-topology; musts formal-verification, verification-gate, traceable-sources, evidence-bounded-generation) and bayesian-stats (statistics/data-science; musts statistical-inference + the same three) - values from actual classify+derive runs on 2026-10-28 (M0.4), each with a P24 effect_metric; both are natural machine-judge families (proof accepted with no admits/sorry; convergence diagnostics + independent re-derivation). Re-measured by re-ablating all 38 units (ablation-results-p44.json): protected set 10 -> 17, unpinned 28 -> 21; the seven newly protected units are exactly the seven deliberately pinned - ground sensitivity re-validated a second time. The remaining 21 unpinned are incidental at these seven families and are recorded as the holdout's declared boundary, not a defect (widening further would pin noise). Hygiene: GUIDE's stale worked-example count (9 -> 10, READMEs already said 10).",
+      "slices": [
+        "P44.1 - the adjudication: actual matched lists pulled per task; per-capability pin/skip decisions recorded (pin = family-definitional, skip = incidental)",
+        "P44.2 - the deliberate edit: 5 must widenings + 2 new tasks with effect_metrics; scoreboard 7/7 tasks at the 1.0 structural baseline; note records the edit and date",
+        "P44.3 - the re-measurement + records: 38/38 re-ablated, protected 10 -> 17; ablation report section 5; scored-task-set table + note; GUIDE count fixed; P44CoverageGuardTest"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

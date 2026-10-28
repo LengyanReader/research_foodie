@@ -9,7 +9,7 @@
 > 完整收据（score + judge + measured_on）且**永不进结构总分**——结构与效果是两种主张，分开报告、分开钉死。
 > **非目标**：结构分不替代 `harness standard` 的逐域 rubric；effect 轴在测量前不提供任何质量结论。
 
-**Updated:** 2026-10-23 · **Round:** P23 (+P24 effect axis) · **Closes:** P16.9 (done_in P23) · **Unblocks:** M5.12 ablation, D1 stage C
+**Updated:** 2026-10-28 · **Round:** P23 (+P24 effect axis, +P44 coverage widening: 7 tasks, 17/38 units pinned) · **Closes:** P16.9 (done_in P23) · **Unblocks:** M5.12 ablation, D1 stage C
 
 ## 1. The set · 任务集
 
@@ -20,6 +20,8 @@
 | kg-dh | 构建方志人物知识图谱，做检索增强问答，注明来源 | digital-humanities | ontology-as-contract · entity-resolution · evidence-bounded-generation · schema-evolution | M2 M4 | answer-evidence-precision（答句证据指针可解析率，M4.13） |
 | deep-research | Deep research report on agent memory systems with citations | deep-research | traceable-sources · evidence-bounded-generation · prose-polish | M2 M4 | citation-verifiability（同 lit-review） |
 | model-choice | 在 GPT 和 Claude 之间选一个模型来跑评测 | model-selection | model-portfolio-discipline · eval-driven-development | M2 M4 | decision-audit-pass-rate（选型记录含 id/版本/档位 M4.17 + 留出集结果） |
+| proof-verification | Formally verify that this distributed protocol satisfies its safety property, using a proof assistant | mathematics, logic, geometry-topology | formal-verification · verification-gate · traceable-sources · evidence-bounded-generation | M3 M4 | machine-checked acceptance（证明助手无 admit/sorry 接受且陈述匹配，天然 machine-judge） |
+| bayesian-stats | Fit a bayesian hierarchical model to this dataset and report the credible interval with convergence diagnostics | statistics, data-science | statistical-inference · verification-gate · traceable-sources · evidence-bounded-generation | M3 M4 | inference validity（R-hat/ESS 收敛诊断 + 独立重推导复现区间，天然 machine-judge） |
 
 ## 2. The scoring function · 打分函数（5 条结构轴，全确定性 + 1 条 effect 轴）
 

@@ -396,6 +396,16 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **刻意不加。** 不加 context-compaction 能力（预算问题非任务族判别）；不加 skill-evolution 能力（M5.13/M5.14/M4.8 已覆盖）；多 harness 编排器与 Harbor 记 lead（二手/待阶段 C）。
 - **登记。** references **§AA**（R267–R270，作者自 abs 页逐条核录）+ bib 4 条 + source-map 行；交付 `review/frontier-sweep-2026-10-28.md`（六路命中、判别裁决、非收入、对本库的四点自证）；cycles **P43**（0 能力 / 0 域 / **2 子句 M5.14+M3.19** / **4 参考**）；`P43ClauseAnchorTest` 守卫；测试 **389 → 392**。
 
+## P44 · 留出集覆盖扩大轮（2026-10-28，已做）：P40 点名的有意基线编辑——10 → 17 单元
+
+> P40 发现 28/38 能力未被 must 钉住。本轮以**有意基线编辑**（M0.5）关闭：钉入准则=「缺了就算错」，不是「碰巧命中」。
+
+- **Must 扩充（5 任务裁决）。** lit-review / kg-dh / deep-research += untrusted-content-discipline · context-budget-policy · resumable-memory · tool-use（外部来源/长程上下文/持久记忆/工具是这三个任务族的定义性纪律）；model-choice += untrusted-content-discipline · tool-use · **reproducible-experiments**（M4.17 选型纪律）；unit-tests **不加**（既有两条已是定义对）。
+- **两个新任务。** proof-verification（mathematics/logic/geometry-topology；must: formal-verification + 三条核心纪律）· bayesian-stats（statistics/data-science；must: statistical-inference + 同三条）——allowed/must 全部来自 2026-10-28 实测 derive（M0.4），各带 P24 effect_metric（天然 machine-judge 族：证明无 admit 接受 / 收敛诊断+独立重推导）。
+- **重测（38/38 再消融）。** 保护集 **10 → 17**、未钉 **28 → 21**；新增承重=恰好被有意钉入的 7 个——地面灵敏性第二次自证。剩余 21 个是这七族下的真实边界（继续扩=钉噪声），记为声明而非缺陷。
+- **卫生项。** GUIDE 过期实例计数 9 → 10（两个 README 本为 10，一致了）。
+- **登记。** scoreboard.json note 记编辑；ablation 报告新 §5；scored-task-set 表 +2 行；cycles **P44**（0/0/0/0）；`P44CoverageGuardTest` 守卫；测试 **392 → 394**。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

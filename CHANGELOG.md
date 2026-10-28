@@ -20,6 +20,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Holdout coverage widening (P44) - the deliberate baseline edit P40 called for.** 28 of 38 capabilities were
+  unpinned by the must sets; closed by two moves under the criterion "pin only where absence would make the harness
+  wrong for that family": the four research-family tasks gained the four research-definitional disciplines their
+  actual runs match, model-choice gained reproducible-experiments (M4.17), and **two new canonical tasks**
+  (proof-verification, bayesian-stats - values from actual derive runs, each with a P24 effect_metric and both natural
+  machine-judge families) give the domain-keyed capabilities a family to pin. Re-measured by re-ablating all 38
+  units: protected set 10 → 17, unpinned 28 → 21, the seven newly protected exactly the seven deliberately pinned -
+  ground sensitivity re-validated a second time; the remaining 21 are recorded as the holdout's declared boundary.
+  Hygiene: GUIDE's stale worked-example count (9 → 10).
 - **Frontier sweep round (P43) - M5.14 failures-are-mandatory-signal, M3.19 benchmark dual validity, M1.11 compaction-budget deepening, ACS watch item closed.** Six-front sweep; four full reads (authors verified from abs pages): R267 Feedback Dynamics (success-only evolution selects 0/14; failed records with diagnostics are the load-bearing signal - external quantitative grounding for this library's record-only-gate-misses trace design), R269 the Agentic Benchmark Checklist (task validity + outcome validity; a 100%-without-solving isolation cheat, 32.5% SLEEP-in-log overestimation, 33% absolute removed from CVE-Bench), R268 Context Compaction Theory (minimum budget = one-way communication complexity; selection is Theta(log n) worse; repeated compaction compounds), R270 the OWASP Agent Control Standard (published 2026-09-01 - the P20 watch item came due; deep-read deferred). Landings: clauses M5.14 (core/06) and M3.19 (core/04) with checklist lines, an M1.11 deepening (core/02); references group AA (R267-R270). Non-additions recorded (compaction is a budget problem not a capability; orchestrators/Harbor/Chinese-community items are leads). Deliverable: `review/frontier-sweep-2026-10-28.md`.
 - **Interop-topologies round (P42) - closes D8: M8.11 gains the boundary state vocabulary.** The trigger probed and
   fired (both full-text targets reachable): the **A2A Protocol Specification v1.0.0** read in full (Agent Card;

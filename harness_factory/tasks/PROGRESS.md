@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-10-28 · P44：留出集覆盖扩大轮 —— P40 点名的有意基线编辑（钉住 10 → 17，7 任务）
+
+- **开轮依据。** 「继续加强」队列的首位可离线项：P40 发现 28/38 能力未被 must 钉住，本轮以**有意基线编辑**（M0.5）关闭。准则：**钉「缺了就算错」的，不钉「碰巧命中」的**。
+- **Must 扩充（裁决记录在案）。** lit-review / kg-dh / deep-research += untrusted-content-discipline · context-budget-policy · resumable-memory · tool-use（外部来源/长程上下文/持久记忆/工具=任务族定义性纪律）；model-choice += untrusted-content-discipline · tool-use · **reproducible-experiments**（M4.17）；unit-tests **不加**（既有两条已是定义对）。逐能力 pin/skip 决策在 cycles note。
+- **两个新 canonical 任务。** proof-verification（mathematics/logic/geometry-topology；must: formal-verification + verification-gate/traceable-sources/evidence-bounded-generation）· bayesian-stats（statistics/data-science；must: statistical-inference + 同三条）——allowed/must 全部来自 2026-10-28 实测 derive（M0.4），各带 P24 effect_metric，且都是**天然 machine-judge 族**（证明无 admit 接受 / R-hat/ESS + 独立重推导）——阶段 C 效果测量时这两个任务可全自动判分。
+- **重测（38/38 再消融，`ablation-results-p44.json`）。** 保护集 **10 → 17**、未钉 **28 → 21**；新增承重恰好=有意钉入的 7 个——地面灵敏性第二次自证。剩余 21 个是七族下的真实边界（继续扩=钉噪声），记为声明非缺陷。
+- **卫生项。** GUIDE 过期实例计数 9 → 10（两个 README 本为 10——一致）。
+- **登记。** scoreboard.json note 记编辑与日期；ablation 报告新 §5；scored-task-set 表 +2 行 + note 更新；cycles **P44**（0/0/0/0）；`P44CoverageGuardTest` 2 守卫；AGENTS.md 计数 392 → 394。
+- **状态。** 测试 **392 → 394** 全过；`cycle audit` **40 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P43：前沿扫荡轮 —— M5.14 失败是必需信号 · M3.19 基准双有效性 · M1.11 压缩预算 · ACS 关闭
 
 - **开轮依据。** 用户指示「全面评估 + 继续全方位扫荡前沿动态」。六路检索（上下文/自演化/评测完整性/安全/厂商 harness/中文话语），避开 P39（评判）/P41（MCP 技能）/P42（互操作）已扫面。四篇全文 + 一份落地页，作者自 abs 页逐条核录（不猜规则）。

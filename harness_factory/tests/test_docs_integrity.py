@@ -824,5 +824,34 @@ class P43ClauseAnchorTest(unittest.TestCase):
         self.assertIn("[R270]", frontier, "ACS cue not closed with R270")
 
 
+class P44CoverageGuardTest(unittest.TestCase):
+    """P44: the holdout coverage widening (the deliberate edit P40 called for).
+
+    Pins the widened board shape (7 tasks, the family-definitional musts,
+    the two new effect_metrics) and the re-measured coverage numbers.
+    """
+
+    def test_board_carries_seven_tasks_and_the_widened_musts(self):
+        from harness_factory import scoreboard
+
+        board = scoreboard.load_scoreboard()
+        self.assertEqual(len(board["tasks"]), 7, "expected 7 canonical tasks")
+        by_id = {e["id"]: e for e in board["tasks"]}
+        for tid in ("lit-review", "kg-dh", "deep-research"):
+            for cap in ("untrusted-content-discipline", "context-budget-policy",
+                        "resumable-memory", "tool-use"):
+                self.assertIn(cap, by_id[tid]["must_capabilities"], f"{tid} lost {cap!r}")
+        self.assertIn("reproducible-experiments", by_id["model-choice"]["must_capabilities"])
+        self.assertIn("formal-verification", by_id["proof-verification"]["must_capabilities"])
+        self.assertIn("statistical-inference", by_id["bayesian-stats"]["must_capabilities"])
+        for tid in ("proof-verification", "bayesian-stats"):
+            self.assertTrue(by_id[tid].get("effect_metric"), f"{tid}: effect_metric missing")
+
+    def test_ablation_report_records_the_remeasurement(self):
+        doc = _read(HARNESS / "review/ablation-baseline-2026-10.md")
+        for token in ("10 → 17", "28 → 21", "proof-verification", "reproducible-experiments"):
+            self.assertIn(token, doc, f"coverage widening record lost {token!r}")
+
+
 if __name__ == "__main__":
     unittest.main()

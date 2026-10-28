@@ -60,6 +60,27 @@
   灵敏、保护集是什么）。
 - 单次运行、N=1：一切结论是方向性与结构性的，不是统计结论（M0.1/M0.2 纪律）。
 
+## 5. Coverage widening (P44, 2026-10-28) — the deliberate edit §2.2 called for
+
+The §2.2 gap (28 of 38 units unpinned) was closed by a **deliberate baseline edit** (M0.5), two moves:
+
+1. **Must widening** — the four research-family tasks (lit-review / kg-dh / deep-research) gained the four
+   research-definitional disciplines their actual runs match (untrusted-content-discipline · context-budget-policy ·
+   resumable-memory · tool-use); model-choice gained untrusted-content-discipline · tool-use · **reproducible-experiments**
+   (M4.17's selection discipline). unit-tests gained nothing: its two musts were already the definitional pair.
+   Criterion: a capability is pinned only where its absence would make the harness *wrong for that family* — not
+   everywhere it happens to fire.
+2. **Two new canonical tasks** — proof-verification (mathematics/logic/geometry-topology) and bayesian-stats
+   (statistics/data-science), values from actual classify+derive runs (2026-10-28), so the domain-keyed capabilities
+   (formal-verification · statistical-inference) have a family to pin. Each carries a P24 effect_metric — and both are
+   natural machine-judge families (proof accepted with no admits; convergence diagnostics + independent re-derivation).
+
+**Re-measured (38/38 re-ablated, `ablation-results-p44.json`): protected set 10 → 17, unpinned 28 → 21**; the seven
+newly protected units are exactly the seven deliberately pinned — the ground's sensitivity re-validated a second time.
+The remaining 21 unpinned units are incidental at these seven families (ambition-elevation, baseline-discipline,
+portable-skills, domain-keyed instruments without a family here, …) — recorded as the holdout's declared boundary,
+not as a defect; widening further would start pinning noise.
+
 ## 4. Provenance · 溯源
 
 - 判据预声明：`updates/dogfood/p40-ablation-baseline/tasks/PLAN.md`（工作前写入）；验收 5 项全过（machine, 5/5）
