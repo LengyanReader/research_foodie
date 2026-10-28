@@ -364,7 +364,7 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **程序。** 消融单元=能力；38 个逐一从 `data/capabilities.json` 隔离剪除（全新子进程跑 scoreboard——注册表缓存按进程隔离；try/finally 恢复；git diff 验证干净）；基线 + 逐消融分数机器可读落盘。
 - **三个发现。** ① **承重集恰 10 个**=5 任务 must 并集——记分集对承重单元的检测灵敏性双向验证；凡掉分者受保护，剪除/触发改动=有意基线编辑。② **留出集覆盖缺口**：28 个非承重单元含结构性重要者（context-budget-policy 等）——不是不重要，是 must 没钉住；扩 must 集=有意编辑，登记为阶段 C 后续切片候选。③ **架构自证**：全部掉分只在 capabilities 轴（modules/structure/emission 从不动）——M0.4「能力只注释、规则引擎启用」在数据上成立。
 - **诚实边界（预声明 A4）。** 确定性地面无方差，M5.12 配对检验**不可做且不假装**；效果级消融（裸跑 vs 带单元 vs 剪单元，M2.13 固定模型档位）需真实模型运行=阶段 C 剩余。N=1，结论方向性。
-- **登记。** 交付 `review/ablation-baseline-2026-10.md`；cycles **P40**（0/0/0/0）；D1 阶段 C roadmap 更新（slice 1 done）；dogfood 全链路第二次走通、**轨迹 #2** 入 tool home（现 2 条）；trace-audit 正确报无提案（低于阈值）；`P40AblationGuardTest` 钉住报告关键数字；测试 **379 → 381**。
+- **登记。** 交付 `review/ablation-baseline-2026-10.md`；cycles **P40**（0/0/0/0）；D1 阶段 C roadmap 更新（slice 1 done）；dogfood 全链路第二次走通、**轨迹 #2** 入 tool home（现 2 条）；trace-audit 正确报无提案（低于阈值）；`P40AblationGuardTest` 钉住报告关键数字；测试 **379 → 380**（P41 会话订正：守卫实为 1 方法，先前误写 381）。
 
 ## P41 · 工具生态路由轮（2026-10-28，已做）：工欲善其事必先利其器——按任务族盘 MCP/技能，入表有门、后续有代谢
 
@@ -375,6 +375,15 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **机制接线。** JSON-API 发现面走已登记的 **P35.R1**（named consumers 已补）；**P28.R1** 的 skills-registries 锚点由本轮消费；新延项 **P41.R1**（CBETA MCP 源码审计 + 被拦门的复探，触发：真实古籍任务走过 tool-router §3）。
 - **刻意不加（M0.5）。** 不新增能力/子句/域（tool-use 已有，本轮盘的是实例层而非新规则）；探测失败的主机不入 verified；目录计数不取单一真值。
 - **登记与守卫。** cycles **P41**（0/0/0/0，catalog_delta 8 / outlets_delta 9）；`P41ToolRouterTest` 6 守卫；RegistryBidirectionalTest EXEMPT +`mcp-blog`；工作区 AGENTS.md §5 新增两条长期原则（超出给定范围探索 · 工欲善其事必先利其器）；测试 **380 → 386**（含吸收 P40 未提交的 1 例）；`cycle audit` **37 轮 · 0 硬 · 0 缺口**。
+
+## P42 · 互操作拓扑轮（2026-10-28，已做）：M8.11 增边界状态词表（关闭 D8）
+
+> 触发探测生效：A2A 规范 v1.0.0 与 Agent Teams 文档双双全文可达（P38/P40 证明网络可达性已变，本轮先探后开）。**审计结论**：M8.11 的「产物即交接」被两侧收敛确认（A2A 规范化 / Agent Teams 文件化实践），且暴露一个真实深化点——**接收方是另一个 agent/进程时，状态字段必须是可分支的声明词表**（terminal ≠ needs-input；两源同形）→ 并入 M8.11，不新增子句。
+
+- **落地。** M8.11 正文一句 + checklist 一行（边界状态词表；A2A `[R266]` terminal/interrupted 之别 + 产物通道规范；Agent Teams `[R250]` 文件锁任务状态）；M8.10 范例集扩为 R93 + R250（peer-session 第二家）+ R266（应用间互操作）。
+- **刻意不加。** 不加 agent-interop 能力（8 轴无协议互操作 affordance，与 P39 non-addition 同型）；不加错误披露子句（服务端义务，harness 多为客户端，触发已记）；不给 Agent Teams 开目录条目（实验性功能面，tool-router metabolism 回访）；R251 保持 press 级（状态变化由仓库本体佐证）。
+- **顺带完成。** **P40 补账**（并行会话遗留）：PROGRESS/CHANGELOG 条目 + PLAN 计数订正（380 非 381）。
+- **登记。** references **§Z**（R266）+ R250 升级为已读 + R251 仓库佐证 + bib + source-map 行扩展；交付 `review/interop-topologies-2026-10.md`；cycles **P42**（0/0/0/1 参考）；**D8 → done_in P42**；`P42ClauseAnchorTest` 守卫；测试 **386 → 389**。
 
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。

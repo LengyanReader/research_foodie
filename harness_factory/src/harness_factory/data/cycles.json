@@ -1183,6 +1183,29 @@
         "catalog_delta": 8,
         "outlets_delta": 9
       }
+    },
+    {
+      "id": "P42",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Interop-topologies round: M8.11 gains the boundary state vocabulary, M8.10 gains the second peer-session exemplar (closes D8)",
+      "title_zh": "互操作拓扑轮：M8.11 增边界状态词表、M8.10 增第二家 peer-session 范例（关闭 D8）",
+      "note": "D8's trigger was probed and found fired: both full-text targets reachable (a2a-protocol.org spec v1.0.0 core sections; Agent Teams docs). The audit converged: M8.11's artifacts-not-memory is confirmed from both sides (A2A normative: 'Results SHOULD BE returned using Artifacts' / 'Messages should not deliver outputs'; Agent Teams: mailbox JSON files, teammates load project context not conversation history), and the round exposed one real deepening - when the handoff receiver is another agent/process, the state fields must come from a DECLARED vocabulary the receiver can branch on (A2A: terminal COMPLETED/FAILED/CANCELED/REJECTED vs interrupted INPUT_REQUIRED/AUTH_REQUIRED, normative; Agent Teams: shared task list with dependency-blocked states and file-locked claiming) - folded into M8.11 (sentence + checklist line), NOT a new clause. M8.10 gains the second first-party peer-session exemplar (R93 subagents + R250 Agent Teams) and the interop-side restatement (Agent Card + task states, R266). Non-additions: no agent-interop capability (no 8-axis affordance distinguishes protocol interop; same shape as P39's non-addition); no error-disclosure clause (server-side obligation; harnesses are mostly clients - trigger recorded); no Agent Teams catalog entry (experimental feature face; P41's tool-router metabolism revisits); R251 stays press-level (corroborated at the repo). Bookkeeping also completed this session: P40's PROGRESS/CHANGELOG entries (left open by the parallel P41 session) and the PLAN P40 count correction (380, not 381).",
+      "slices": [
+        "P42.1 - trigger probe + reads: A2A repo/spec (Agent Card, task lifecycle, artifacts rule, delivery, bindings, security) + Agent Teams doc (lead/teammates, task list, mailboxes, limits); R250 upgraded to read, R251 corroborated at the repo",
+        "P42.2 - the audit + clause edits: five M8 surfaces mapped; M8.11 deepened with the boundary state vocabulary (A2A + Agent Teams converge), M8.10 exemplars extended; no new clause, no new capability (non-additions recorded with triggers)",
+        "P42.3 - records: references group Z (R266) + R250/R251 upgrades + bib + source-map; review/interop-topologies-2026-10.md; cycles P42 + D8 done_in P42; P42ClauseAnchorTest guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R266"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1515,12 +1538,12 @@
     },
     {
       "id": "D8",
-      "status": "deferred",
+      "status": "done",
       "cycle": null,
       "source": "review/harness-landscape-scan-2026-10.md §4 (pre-recorded non-additions)",
       "title_en": "Re-audit A2A interop + peer-session topologies (Agent Teams) after full-text reads",
-      "reason": "the LF status change (R251) and Agent Teams (R250) are listed-only this session; deciding whether M8's interop clauses need a handoff-update rests on full texts, not search snippets",
-      "revisit_when": "A2A spec text and agent-teams docs are read in full, or a second vendor ships the same peer-session topology"
+      "reason": "CLOSED in P42 (2026-10-28): both full-text targets read (A2A spec v1.0.0 core sections; Agent Teams doc); M8.11 deepened with the boundary state vocabulary (two first-party sources converge); M8.10 exemplars extended; no new clause or capability needed.",
+      "done_in": "P42"
     },
     {
       "id": "P34.R1",

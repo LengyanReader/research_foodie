@@ -19,12 +19,12 @@ Multi-party work fails at the seams: unstated assumptions, ambiguous ownership, 
 2. **Role separation.** Keep *builder* and *critic* in distinct contexts (M3). In pair work, use driver/navigator; in pipelines, generator/evaluator.
 3. **Escalation path.** Define when the agent must stop and ask: irreversible acts (M0.8), conflicting instructions, out-of-scope requests, low confidence on high-stakes calls. "Ask early" beats "guess confidently."
 4. **Question budget.** Bound clarifications (e.g. one consolidated question round) to avoid stalling — but never let a budget force a guess on a gated decision.
-5. **Handoff with state (M8.11).** End every session with a structured handoff: goal, done, blocked, next actions, open questions, sources. The receiver resumes without archaeology. Hand-off travels through **artifacts, not memory**: the distilled state lands as files, and the receiver trusts the artifact, not the sender's recollection — a handoff that lives only in the sender's context dies with it `[R93]`.
+5. **Handoff with state (M8.11).** End every session with a structured handoff: goal, done, blocked, next actions, open questions, sources. The receiver resumes without archaeology. Hand-off travels through **artifacts, not memory**: the distilled state lands as files, and the receiver trusts the artifact, not the sender's recollection — a handoff that lives only in the sender's context dies with it `[R93]`. When the receiver is *another agent or process*, the state fields become a **declared boundary vocabulary the receiver can branch on**, not free text: terminal states must be distinguishable from interrupted-needs-input ones, and results travel in the artifacts channel — two first-party interop surfaces converge on exactly this shape (A2A makes terminal vs `INPUT_REQUIRED`/`AUTH_REQUIRED` normative and directs results through Artifacts, "Messages should not deliver outputs" `[R266]`; Agent Teams runs a shared task list with dependency-blocked states and file-locked claiming `[R250]`).
 6. **Subagent contracts.** When delegating to a helper: give a narrow task, a strict output format, and a bounded context; return only the distilled result.
 7. **Conflict resolution by priority chain.** When instructions collide, apply the M0 priority order (Truth ≻ Trace ≻ Verify ≻ …) and **record the conflict and resolution** (M4, append-only).
 8. **Keep decision authority human.** Automate orchestration and throughput; humans own substance and values (M0.4, M0.8).
 9. **Shared ledger.** One canonical record of decisions, so all parties see the same state (M0.5).
-10. **Declare the topology (M8.10).** When more than one role or agent runs, write down *who runs when*, *what shared state each touches* and *who owns each shared value* — topology in prose before prompts, so the run can be inspected, resumed and re-assigned rather than only "prompted".
+10. **Declare the topology (M8.10).** When more than one role or agent runs, write down *who runs when*, *what shared state each touches* and *who owns each shared value* — topology in prose before prompts, so the run can be inspected, resumed and re-assigned rather than only "prompted". First-party peer-session exemplars: parent→child subagents `[R93]`, and Agent Teams' lead/teammates grid — independent sessions, mailbox files, one team per session, explicitly experimental and token-hungry `[R250]`; for interop *between* opaque applications the same declaration duty lands on the Agent Card and task states `[R266]`.
 
 > **中文**：开工前显式契约（目标/验收/边界/预算/归属）；角色分离（生成者≠评判者，driver/navigator）；升级路径（不可逆、指令冲突、超范围、高风险低置信→停下问）；提问预算；带状态交接；子 agent 契约（窄任务+严格格式+受限上下文）；冲突按 M0 优先级链裁决并记录；人类掌握实质决断；共享决策台账；**先画拓扑再写提示词**（谁在何时运行 · 各自触及哪些共享状态 · 谁拥有哪个共享值）。
 
@@ -37,6 +37,7 @@ Multi-party work fails at the seams: unstated assumptions, ambiguous ownership, 
 - [ ] Conflicts are resolved by the M0 chain and logged.
 - [ ] Multi-role work has a declared topology (who runs when, who owns shared state).
 - [ ] Handoffs travel as artifacts (state files), not as memory (M8.11).
+- [ ] When the handoff receiver is another agent/process, its state fields come from a declared vocabulary it can branch on — terminal vs needs-input distinguishable, results in the artifacts channel (M8.11).
 
 ## Anti-patterns
 - **Unstated assumptions.** Parties proceed on different mental models.

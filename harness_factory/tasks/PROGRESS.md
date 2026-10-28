@@ -4,6 +4,29 @@
 
 ---
 
+## 2026-10-28 · P42：互操作拓扑轮 —— M8.11 增边界状态词表（关闭 D8）· P40 补账
+
+- **跨会话接续。** 先了解并行会话的 P41（工具生态路由轮，18eb102）：tool-router 四步环、catalog 205→213、编号冲突诚实披露；其把 P40 的 in-flight 产物随提交携带、但 **P40 的 PROGRESS/CHANGELOG 补账留给本会话**——已补（含 PLAN 计数订正：380 非 381）。
+- **开轮依据。** 队列评估发现 **D8 触发可测**：P38/P40 证明网络可达性已变，探测证实 A2A 规范 v1.0.0（a2a-protocol.org）与 Agent Teams 文档（R250）双双全文可达 → 开轮。
+- **读到的。** R266（A2A 规范核心节：Agent Card 自描述清单/可选 JWS；Task 终态 vs 中断态**规范区分**；**「Results SHOULD BE via Artifacts」「Messages should not deliver outputs」**；三种投递带事件不重排 MUST；三绑定功能等价；服务端不得泄露资源存在性）· R250↑（lead/teammates 完全独立会话、共享任务列表 + **文件锁认领**、邮箱 JSON、明示实验性与成本、无会话恢复/无嵌套）· R251 佐证于仓库本体（LF topic + GOVERNANCE.md）。
+- **审计裁决。** M8.11 的「产物即交接」两侧收敛确认；真实深化点=**接收方是另一 agent/进程时，状态字段必须是可分支的声明词表**（terminal ≠ needs-input；两源同形）→ 并入 M8.11（正文 + checklist），**不新增子句**。M8.10 范例集扩为 R93 + R250 + R266。
+- **刻意不加。** 不加 agent-interop 能力（8 轴无 affordance，与 P39 同型）；不加错误披露子句（服务端义务、触发已记）；不给 Agent Teams 开目录条目（tool-router metabolism 回访转正状态）；R251 保持 press 级。
+- **登记。** references **§Z**（R266）+ R250/R251 升级 + bib + source-map 行扩展 + 中文速览 R1–R266；交付 `review/interop-topologies-2026-10.md`；cycles **P42**（0/0/0/1 参考）；**D8 → done_in P42**；`P42ClauseAnchorTest` 3 守卫；AGENTS.md 计数 386 → 389。
+- **状态。** 测试 **386 → 389** 全过；`cycle audit` **38 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成。**队列剩余**：D1 阶段 C 效果级消融（需真实模型运行批次）；P41.R1（CBETA MCP 源审计，触发未生效）；P28.R1/P35.R1/D2/D3/D5（触发未生效）。按默认指示 commit，不 push。
+
+---
+
+## 2026-10-28 · P40：D1 阶段 C 第一片 —— 结构性消融基线（M5.12 第一次真跑）
+
+- **开轮依据与链路。** 队列下一项 D1 阶段 C 的可执行前置。dogfood #2：`brief` → `init --from-brief` → 判据先于工作（M5.13，5 项验收预声明）→ 执行 → gate 过 → `task_outcome`（judge=machine, 5/5）→ collect → trace-audit。**第二条真实轨迹**入 tool home（现 2 条）。
+- **程序。** 消融单元=能力；38 个逐一从 `data/capabilities.json` 隔离剪除（全新子进程跑 scoreboard——注册表缓存按进程隔离；try/finally 恢复；git diff 验证干净）；基线 + 逐消融分数机器可读落盘（`updates/dogfood/p40-ablation-baseline/`，未入版本控制）。
+- **三个发现。** ① **承重集恰 10 个** = 5 任务 must_capabilities 并集——记分集对承重单元的检测灵敏性双向验证；掉分者受保护，改动=有意基线编辑。② **留出集覆盖缺口**：28 个非承重单元含结构性重要者（context-budget-policy / untrusted-content-discipline / sandboxed-execution 等）——不是不重要，是 must 集没钉住；扩 must=有意编辑，登记为阶段 C 后续切片候选。③ **架构自证**：全部掉分只在 capabilities 轴（modules/structure/emission 从不动）——M0.4「能力只注释、规则引擎启用」数据上成立。
+- **诚实边界（预声明 A4）。** 确定性地面无方差，M5.12 配对检验不可做且不假装；效果级消融（裸跑 vs 带单元 vs 剪单元，M2.13 固定模型档位）需真实模型运行 = 阶段 C 剩余。N=1，方向性结论。
+- **交付与登记。** `review/ablation-baseline-2026-10.md`；cycles P40（0/0/0/0）；D1 阶段 C roadmap 更新（slice 1 done）；`P40AblationGuardTest` 守卫。
+- **跨会话注记（如实）。** 本轮收尾被打断，未及 commit；P41 会话在工作区发现 in-flight 产物并随 P41 提交携带（commit message 披露），PROGRESS/CHANGELOG 补账留给本会话——即本条目。PLAN 段计数笔误（误写 381）由本会话订正为 380。
+
+---
+
 ## 2026-10-28 · P41：工具生态路由轮 —— 按任务族盘 MCP/技能，入表有门、后续有代谢
 
 - **用户两段指示。** (1) 探索态度入则：参考但不局限给定范围，围绕话题继续广泛探索发现；(2) 具体到任务族：以古籍梳理为样例，先盘可用 MCP/skill/工具/拓展，入表做质量评估，后续更新优化、新陈代谢（工欲善其事必先利其器层）。**编号事故如实记录**：本轮原计划 P36，执行中发现 P36–P40 已被并行会话占用（P40 全套产物仍在工作区未提交），改记 P41；提交时一并携带 P40 的 in-flight 产物并在 commit message 中披露（其 PROGRESS/CHANGELOG 补账留给该会话或另行指示；其 PLAN 段中“测试 379→381”与实际发现的 380 不符，不代修）。

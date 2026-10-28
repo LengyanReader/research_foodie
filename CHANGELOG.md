@@ -20,6 +20,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Interop-topologies round (P42) - closes D8: M8.11 gains the boundary state vocabulary.** The trigger probed and
+  fired (both full-text targets reachable): the **A2A Protocol Specification v1.0.0** read in full (Agent Card;
+  terminal vs interrupted task states; "Results SHOULD BE returned using Artifacts" / "Messages should not deliver
+  outputs"; event-ordering MUSTs; functional-equivalent bindings) and **Agent Teams** upgraded listed → read (peer
+  sessions, shared file-locked task list, mailbox JSON files, explicitly experimental). Audit verdict: M8.11's
+  artifacts-not-handoff-memory is confirmed from both sides, and the two sources converge on one real deepening -
+  when the handoff receiver is another agent/process, state fields must come from a **declared vocabulary the
+  receiver can branch on** (terminal vs needs-input distinguishable) - folded into M8.11, not a new clause. M8.10's
+  exemplar set gains the second first-party peer-session topology. Non-additions recorded (no agent-interop
+  capability - no 8-axis affordance; no server-side error-disclosure clause; no Agent Teams catalog entry). Also
+  completed the parallel session's left-open P40 bookkeeping (PROGRESS/CHANGELOG + a PLAN count correction).
+  References: group **§Z** (R266), R250 upgraded to read, R251 corroborated at the repo.
+- **Structural ablation baseline (P40, D1 stage C slice 1) - M5.12's first real run on this library.** Dogfood #2
+  (brief → init --from-brief → pre-declared criteria → gate → first-of-kind trace #2). All 38 capabilities ablated
+  one at a time in isolated subprocesses (try/finally restore, git-diff verified). Findings: the protected set is
+  exactly the 10-unit union of the five tasks' must_capabilities (the holdout's sensitivity double-validated); a
+  holdout coverage gap — 28 units (incl. structurally important ones) are unpinned by the current must sets, widening
+  them is a deliberate baseline edit; and every drop sat on the capabilities axis only, self-evidencing M0.4
+  (capabilities annotate, the rule engine enables). Honest boundary: the deterministic ground has no variance, so
+  M5.12's paired tests do not apply here and are not pretended; the effect-level (performance+token) ladder needs
+  real model runs — stage C's remainder. Deliverable: `review/ablation-baseline-2026-10.md`.
 - **Tool-ecosystem routing round (P41) - 工欲善其事必先利其器: every task family gets a sharpened tool surface, with an intake gate and metabolism.**
   User-directed, two parts: (1) explore *beyond* the stated scope against primary sources, as a standing principle (now in the workspace
   `AGENTS.md` §5); (2) make it concrete per task family - worked example **古籍整理 (classical-text scholarship)**: before the work starts, survey which

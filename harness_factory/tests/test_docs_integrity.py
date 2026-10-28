@@ -744,5 +744,45 @@ class P41ToolRouterTest(unittest.TestCase):
                       "CBETA MCP source-audit not registered as a deferred item")
 
 
+class P42ClauseAnchorTest(unittest.TestCase):
+    """P42: M8.11's boundary state vocabulary and the D8 closeout.
+
+    Content guards: the deepening names both first-party sources and the
+    branchable-vocabulary rule, references group Z exists with the R250
+    upgrade, and D8 is closed in the roadmap.
+    """
+
+    def test_m811_names_the_boundary_vocabulary_rule(self):
+        text = _read(HARNESS / "core/09-collaboration-and-sessions.md")
+        for token in ("declared boundary vocabulary", "[R266]", "[R250]",
+                      "Messages should not deliver outputs", "file-locked claiming"):
+            self.assertIn(token, text, f"M8.11 deepening lost {token!r}")
+        self.assertIn(
+            "terminal vs needs-input distinguishable",
+            text.split("## Checklist")[1],
+            "no M8.11 boundary-vocabulary checklist line",
+        )
+
+    def test_references_group_z_and_r250_upgrade(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## Z.", refs, "group Z missing")
+        self.assertIn("R266", refs)
+        self.assertIn("read 2026-10-28, P42", refs, "R250 not upgraded to read")
+        self.assertNotIn("(*listed, not deep-read*; **peer parallel sessions**", refs,
+                         "R250 still carries its listed-only marker")
+        bib = _read(HARNESS / "review/references.bib")
+        self.assertIn("a2a2026specification", bib, "bib entry missing")
+        smap = _read(HARNESS / "sources/source-map.md")
+        self.assertIn("P42 adds", smap, "M8.11 source-map row not extended")
+
+    def test_d8_closed_in_the_roadmap(self):
+        import json
+        d = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                       .read_text(encoding="utf-8"))
+        d8 = next(r for r in d["roadmap"] if r["id"] == "D8")
+        self.assertEqual(d8["status"], "done")
+        self.assertEqual(d8.get("done_in"), "P42")
+
+
 if __name__ == "__main__":
     unittest.main()
