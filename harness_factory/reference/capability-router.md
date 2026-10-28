@@ -45,6 +45,7 @@
 | Shallow output / toy methods / self-grading · 结果太浅、自评自证 | `expert-instruments` | M3, M4, M6 | [`core/04-verification-and-gates.md`](../core/04-verification-and-gates.md), [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
 | Need perspectives from other fields; several workers · 要跨领域视角/多体 | `cross-field-crew` | M6, M8 | [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |
 | Tools call the outside world / code executes · 触碰外部世界 | `tool-use`, `sandboxed-execution` | M6, M7 | [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md), [`core/08-change-governance.md`](../core/08-change-governance.md) |
+| Starting a new task family — which MCP servers / skills / APIs exist for it? · 工欲善其事必先利其器（先盘工具生态） | `tool-use`（盘点路径，非新能力） | M6 | [`reference/tool-router.md`](tool-router.md) |
 | The capability itself must travel (a skill/plugin other harnesses load) · 能力本身要能跨 harness 携带 | `portable-skills` | M6 | [`core/07-tools-and-skills.md`](../core/07-tools-and-skills.md) |
 | Others are involved / stakes are high · 他人参与/高风险 | `human-review-gate`, `high-stakes-guardrails` | M3, M8 | [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |
 | Long, high-stakes autonomous run · 长时程高自主 | `long-horizon-autonomy-control` | M2, M3, M8 | [`core/03-long-running-agents.md`](../core/03-long-running-agents.md), [`core/09-collaboration-and-sessions.md`](../core/09-collaboration-and-sessions.md) |

@@ -1141,6 +1141,48 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P40",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "D1 stage C slice 1: the structural ablation baseline - 38 capabilities ablated one at a time",
+      "title_zh": "D1 阶段 C 第一片：结构性消融基线——38 能力逐一剪除",
+      "note": "M5.12's first real run on this library. Dogfood #2 (brief -> init --from-brief -> acceptance criteria pre-declared -> work -> gate -> harvest -> collect -> trace-audit; trace #2 in the tool home). Unit = one capability; each of the 38 units was removed from capabilities.json in turn and the scoreboard re-run in a fresh subprocess (registry caches are per-process; try/finally restore; git diff verified clean). Findings: (1) the protected set is exactly 10 units - the union of the five tasks' must_capabilities (verification-gate, eval-driven-development, traceable-sources, evidence-bounded-generation, prose-polish, loop-discipline, ontology-as-contract, entity-resolution, schema-evolution, model-portfolio-discipline) - which double-validates the holdout: the scoreboard detects the absence of the units it claims to pin; (2) a holdout coverage gap: the other 28 units (including structurally important ones - context-budget-policy, untrusted-content-discipline, sandboxed-execution, resumable-memory) are unpinned by the current must sets - widening them is a deliberate baseline edit, registered as a stage-C slice candidate; (3) architecture self-evidenced: every drop was on the capabilities axis only - modules/structure/emission never moved, confirming M0.4's design (capabilities annotate, the rule engine enables). Honest boundary (A4, pre-declared): the deterministic ground has no variance, so M5.12's paired tests are NOT applicable here and are not pretended; the performance+token effect-level ablation needs real model runs (same task, bare vs harnessed vs pruned, M2.13 fixed model/tier) - that is stage C's remainder. Deliverable: review/ablation-baseline-2026-10.md; raw results in the gitignored project dir.",
+      "slices": [
+        "P40.1 - dogfood #2 setup: brief + init --from-brief into updates/dogfood/p40-ablation-baseline; 5 acceptance criteria pre-declared (isolation, full sweep, protected set, honest boundary, closing records)",
+        "P40.2 - the sweep: 38/38 capabilities ablated (subprocess isolation, try/finally restore, git-diff-verified); per-ablation per-task totals captured machine-readably",
+        "P40.3 - the analysis + records: protected set (10) derived; coverage gap (28) named as a finding; M0.4 architecture self-evidenced; review/ablation-baseline-2026-10.md; trace #2 harvested; D1 stage C roadmap updated (slice 1 done, effect-level ladder awaits real model runs); P40AblationGuardTest pins the report"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P41",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Tool-ecosystem routing round - MCP servers / Agent Skills discoverable per task family, with intake gate and metabolism",
+      "title_zh": "工具生态路由轮——按任务族梳理 MCP/技能器面，入表有门、后续有代谢",
+      "note": "User-directed: for every task family (worked example: 古籍整理), survey which MCP servers / skills / tools / extensions exist, evaluate quality at intake, and keep the inventory metabolizing - the 工欲善其事必先利其器 layer, and the standing instruction to explore beyond the stated scope against primary sources. Verification: two probe batches run 2026-10-27/28 - official MCP registry (L+JSON API /v0/servers 200), mcp servers/registry repos releases.atom 200, MCP blog index.xml 200 (rss/feed 404), agentskills spec repo feed 200 (fills sources.json `agentskills` feed that was null), anthropics/skills + vercel-labs/skills feeds 200, smithery L+API 200, glama/pulsemcp/mcp.so/mcpmarket/skills-sh/ctext(+tools/api)/cbeta/cbdb-org/guji.nlc.cn/wikisource-zh/inkstone/sikuBERT-repo 200; SSL-blocked or 502 from this network (api.cbdb.org, bdrc.io, dict.sinica.edu.tw, cbetaonline, jwldatalab, marco) recorded unverified as re-probe leads. Landed: reference/tool-router.md (discover->evaluate->register->metabolize + 古籍整理 table + intake quality gate; registered in SKILL.md, harness skill index, capability-router new row); catalog +8 entries / +2 kinds under skills-protocols (205->213); sources +5 feed entities +9 DH outlets; watchlist +2 discovery topics. Deliberate non-additions (M0.5): no new clause/capability - M6.10/M6.11 + source-map's resolve-to-producer rule already bind tool claims; directory counts kept directional (reports diverge 7k-99k). Consumes the skills-registries anchor of P28.R1 (marked in its reason). CBETA community MCP server (tendayspace) stays untrusted-read-only until source-audited (P41.R1).",
+      "slices": [
+        "P41.1 - landscape scan: web sweep of MCP registry/directories, Agent Skills standard/repos/CLI, security advisories; every claim to its producer with probe dates",
+        "P41.2 - data landing: sources.json feeds + DH outlets, harnesses.json skills-protocols block (+2 kinds), watchlist topics; catalog views regenerated",
+        "P41.3 - operational sheet: reference/tool-router.md with the 4-step loop, intake gate, metabolism policy, 古籍整理 worked example; wired into SKILL.md / harness skill / capability-router; survey review/mcp-skills-landscape-2026-10.md; guards P41ToolRouterTest"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 8,
+        "outlets_delta": 9
+      }
     }
   ],
   "roadmap": [
@@ -1214,7 +1256,7 @@
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
       "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code. P34 note: Harness Learning (R252) and VERA (R256) are first-party stage-C precedents **at abstract level** (learned proposer + verifier-gated edits); the design doc should engage them after the P34.R1 full-text reread",
-      "revisit_when": "stage C is queueable as of 2026-10-28 (first measured effect receipt, P37); stage D (LLM-assisted audit) re-scoped by P39: waits until M3.18(a)-(d) has been exercised once on a real LLM judge, not merely for D7 to close"
+      "revisit_when": "stage C slice 1 DONE (P40: structural ablation baseline - protected set derived, holdout coverage gap named, ground sensitivity validated); the remaining slice is the effect-level ladder (performance+token axes) which requires real model runs on the scored tasks - needs the user's model environment or a batch of real dogfooded runs"
     },
     {
       "id": "D2",
@@ -1495,8 +1537,8 @@
       "cycle": "P35",
       "source": "P35 channel audit - HF Daily Papers / OpenAlex / Semantic Scholar expose JSON APIs, not RSS",
       "title_en": "JSON-API discovery provider for the refresh loop",
-      "reason": "feed_provider only parses RSS/Atom, so the portals registered in P35 enter through the LLM-discovery provider or manual intake, not a deterministic pull; a second provider that reads a documented JSON endpoint (api/daily_papers, api.openalex.org/works) would make them reproducible, but it is engine surface built for no consumer yet (M0.4 - do not add a path nothing runs), and S2 is 429-throttled without a key",
-      "revisit_when": "the first dogfooded refresh run needs a deterministic, offline-verifiable pull from one of these portals, or an api-key budget for Semantic Scholar is approved"
+      "reason": "feed_provider only parses RSS/Atom, so the portals registered in P35 enter through the LLM-discovery provider or manual intake, not a deterministic pull; a second provider that reads a documented JSON endpoint (api/daily_papers, api.openalex.org/works) would make them reproducible, but it is engine surface built for no consumer yet (M0.4 - do not add a path nothing runs), and S2 is 429-throttled without a key | P41 named concrete consumers: registry.modelcontextprotocol.io/v0/servers and registry.smithery.ai/servers (both 200 on probe 2026-10-28)",
+      "revisit_when": "the first dogfooded refresh run needs a deterministic, offline-verifiable pull from one of these portals or registries, or an api-key budget for Semantic Scholar is approved"
     },
     {
       "id": "P28.R1",
@@ -1504,8 +1546,17 @@
       "cycle": "P28",
       "source": "updates/2026-10-23-ecosystem-scan-proposal.md (observe-half proposal, user-delegated decision 2026-10-28)",
       "title_en": "Ecosystem integration scan (AGENTS.md standard, ACP, LangMem, AgentOps, skills registries, computer-use harnesses)",
-      "reason": "decided 2026-10-28 (user delegated): usage-side work outranks a network scan while the trace loop has exactly one real trace; the proposal stays in updates/ with its pre-registered discriminating criteria intact",
+      "reason": "decided 2026-10-28 (user delegated): usage-side work outranks a network scan while the trace loop has exactly one real trace; the proposal stays in updates/ with its pre-registered discriminating criteria intact | skills-registries anchor consumed by P41 (2026-10-28): MCP/skills discovery surfaces scanned in review/mcp-skills-landscape-2026-10.md and wired into reference/tool-router.md; ACP / LangMem / AgentOps / computer-use anchors still await a round that needs them",
       "revisit_when": "a round needs an ecosystem anchor (M8 interop / skills distribution / memory backends / observation tooling), or the user asks for an ecosystem status scan; then run the proposal's P20-method scan as its own round"
+    },
+    {
+      "id": "P41.R1",
+      "status": "deferred",
+      "cycle": "P41",
+      "source": "P41 probes - SSL/502 failures from this network + one community MCP server found only via a directory listing",
+      "title_en": "Source-audit the CBETA community MCP server; re-probe the blocked classical-texts doors",
+      "reason": "the tendayspace CBETA MCP server is known only from PulseMCP's listing (its repo was not located this round) and must be read at source before it leaves untrusted-read-only status (M6.11); api.cbdb.org / bdrc.io / dict.sinica.edu.tw / cbetaonline.dila.edu.tw / marco failed at handshake or answered 502 from this machine - the entries are leads, not verified doors",
+      "revisit_when": "a 古籍整理 task actually runs through tool-router §3, or the environment gains a network path where those hosts answer"
     }
   ]
 }

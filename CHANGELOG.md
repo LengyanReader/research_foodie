@@ -20,6 +20,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Tool-ecosystem routing round (P41) - 工欲善其事必先利其器: every task family gets a sharpened tool surface, with an intake gate and metabolism.**
+  User-directed, two parts: (1) explore *beyond* the stated scope against primary sources, as a standing principle (now in the workspace
+  `AGENTS.md` §5); (2) make it concrete per task family - worked example **古籍整理 (classical-text scholarship)**: before the work starts, survey which
+  MCP servers / Agent Skills / tools / extensions exist, quality-evaluate at intake, and keep the inventory metabolizing. Scanned and probed
+  **2026-10-28** from this host: the official MCP registry (`registry.modelcontextprotocol.io`, `/v0/servers` **200 JSON**), the
+  `modelcontextprotocol/servers` + `/registry` repos, the MCP blog (Hugo RSS at `/index.xml`; `rss.xml`/`feed.xml` 404), the **Agent Skills open
+  standard** (published 2025-12-18, agentskills.io; `anthropics/skills` document-skills library; Vercel's `skills.sh` + `npx skills`), and the
+  directories Smithery (L+API 200) / Glama / PulseMCP (self-reported 22,290+) / MCP.so - counts diverge (7k-99k), kept directional. Security
+  frame: tool poisoning (Invariant Labs 2025-04-01) + CSA best practices, consistent with clause **M6.11** (exposure ≠ authorization).
+  Classical-texts side: CBETA (incl. the community `tendayspace` CBETA MCP server, flagged **untrusted read-only until source-audited**), CBDB,
+  ctext.org, `guji.nlc.cn`, Chinese Wikisource, Intern InkStone (metered), SikuBERT - probe failures (api.cbdb.org/BDRC/Sinica/MARCO: SSL/502)
+  recorded as **unverified leads, never as facts**. Landed: `reference/tool-router.md` (the four-step loop Discover→Evaluate→Register→Metabolize,
+  the discovery-surface table, the 古籍整理 worked example with its harness-derivation paragraph, an intake quality-gate checklist, and the
+  metabolism policy incl. the retire-in-place precedent), registered in all three load indexes (`SKILL.md`, `harness skill`, capability-router);
+  catalog **205 → 213** (new kinds `server-registry`/`server-collection` + 8 `skills-protocols` entries); `sources.json` +5 feed entities (the
+  `agentskills` feed gap filled) +9 digital-humanities outlets; watchlist +2 discovery topics; survey
+  `review/mcp-skills-landscape-2026-10.md`. Wiring: JSON-API surfaces enter via the existing **P35.R1** deferral (named consumers added), the
+  **P28.R1** skills-registries anchor is consumed by this round, and **P41.R1** defers the CBETA MCP source-audit + blocked-door re-probe.
+  Deliberately added nothing else - no capability/clause/domain (M0.5: the instance layer was surveyed, not new rules). Round numbered P41
+  after P36-P40 were found taken by parallel sessions; the commit also carries P40's in-flight uncommitted artifacts (disclosed, its
+  bookkeeping left to its own session). `P41ToolRouterTest` 6 guards; `RegistryBidirectionalTest` EXEMPT +`mcp-blog`.
+  **380 → 386 tests**; `cycle audit` 37 cycles, 0 hard, 0 gaps.
 - **Paper-discovery channels round (P35) - complete the portals, wire the update loop.** The ask: make the paper sites
   (Hugging Face Papers, arXiv, Google Scholar, Semantic Scholar, etc.) complete and register them as first-class channels for
   **both** the self-update loop and content retrieval. P15.3's `review/scholarly-channels-2026-10.md` already surveyed ~95

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-28",
   "note": "Unified, machine-readable harness catalog (SSOT). Classes x kinds x core-module maps x source. `tracked` cross-links an entry to data/sources.json by entity id. Prose explanation lives in review/harness-catalog.md; review/harness-index.md is generated from this file. The `instruments` class carries the scientific/formal evidence tools the discipline capabilities (formal-verification / dimensional-analysis / empirical-measurement) name; the claim->instrument map is reference/evidence-instruments.md.",
   "licenses": "Sources are cited (paper/repo/docs). Pricing/benchmark numbers, where any, are directional.",
   "classes": [
@@ -416,6 +416,16 @@
       "id": "visualization-grammar",
       "en": "Visualization grammar",
       "zh": "可视化语法"
+    },
+    {
+      "id": "server-registry",
+      "en": "MCP server registry / directory",
+      "zh": "MCP 服务器注册表/目录"
+    },
+    {
+      "id": "server-collection",
+      "en": "Reference server collection",
+      "zh": "参考服务器合集"
     }
   ],
   "harnesses": [
@@ -1349,6 +1359,181 @@
       "tags": [
         "protocol",
         "tools"
+      ]
+    },
+    {
+      "id": "mcp-registry",
+      "name": "Official MCP Registry",
+      "name_zh": "MCP 官方注册表",
+      "class": "skills-protocols",
+      "kind": "server-registry",
+      "vendor": "MCP project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Official centralized registry of publicly listed MCP servers (launched 2025-09-08). JSON discovery API GET /v0/servers returns server metadata (200 on probe 2026-10-28) — machine door for tool discovery; repo feed pulls releases.",
+      "summary_zh": "公开 MCP 服务器的官方集中注册表（2025-09-08 上线）。JSON 发现 API GET /v0/servers 直接返回服务器元数据（2026-10-28 探测 200）——工具发现的机器入口；仓库 feed 拉发布。",
+      "url": "https://registry.modelcontextprotocol.io/",
+      "tracked": "mcp-registry-repo",
+      "verified": true,
+      "tags": [
+        "mcp",
+        "registry",
+        "discovery"
+      ]
+    },
+    {
+      "id": "mcp-servers-reference",
+      "name": "MCP reference servers",
+      "name_zh": "MCP 参考服务器合集",
+      "class": "skills-protocols",
+      "kind": "server-collection",
+      "vendor": "MCP project",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Official curated collection of reference MCP servers; pre-2026 examples moved to servers-archived (archive notice 2026-03). releases.atom pullable (200 on probe 2026-10-28).",
+      "summary_zh": "官方精选的 MCP 参考服务器合集；2026 年前旧例已移入 servers-archived（2026-03 归档公告）。releases.atom 可拉（2026-10-28 探测 200）。",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "tracked": "mcp-servers-repo",
+      "verified": true,
+      "tags": [
+        "mcp",
+        "reference-implementations"
+      ]
+    },
+    {
+      "id": "smithery",
+      "name": "Smithery",
+      "name_zh": "Smithery",
+      "class": "skills-protocols",
+      "kind": "server-registry",
+      "vendor": "Smithery",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Hosted MCP registry + connect layer ('Docker Hub of MCP' pattern): registry.smithery.ai/servers JSON API 200 on probe 2026-10-28. Scale claims vary (~7k–26k) — directional.",
+      "summary_zh": "托管式 MCP 注册表与连接层（MCP 界的 Docker Hub 模式）：registry.smithery.ai/servers JSON API 于 2026-10-28 探测 200。收录规模说法不一（约 7 千–2.6 万），仅作方向性参考。",
+      "url": "https://smithery.ai/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "mcp",
+        "registry",
+        "hosting"
+      ]
+    },
+    {
+      "id": "glama",
+      "name": "Glama MCP directory",
+      "name_zh": "Glama MCP 目录",
+      "class": "skills-protocols",
+      "kind": "server-registry",
+      "vendor": "Glama",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Broad MCP server/client directory grading each entry on license, quality and maintenance; self-reported catalog 200 on probe 2026-10-28. Count claims range ~24k–99k — directional only.",
+      "summary_zh": "按许可/质量/维护给每个条目打级的 MCP 服务器/客户端目录；页面 2026-10-28 探测 200。收录数说法从约 2.4 万到 9.9 万，仅作方向性参考。",
+      "url": "https://glama.ai/mcp/servers",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "mcp",
+        "directory",
+        "grading"
+      ]
+    },
+    {
+      "id": "pulsemcp",
+      "name": "PulseMCP",
+      "name_zh": "PulseMCP",
+      "class": "skills-protocols",
+      "kind": "server-registry",
+      "vendor": "PulseMCP",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Daily-updated MCP server directory (page title self-reports 22,290+ servers on 2026-10-28) plus ecosystem news; classification filters (official providers etc.). No verifiable RSS from this probe (/feed 404).",
+      "summary_zh": "每日更新的 MCP 服务器目录（2026-10-28 页面自报收录 22,290+）兼生态新闻；支持按官方出品等分类筛选。本次探测未见可用 RSS（/feed 404）。",
+      "url": "https://www.pulsemcp.com/servers",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "mcp",
+        "directory",
+        "news"
+      ]
+    },
+    {
+      "id": "mcp-so",
+      "name": "MCP.so directory",
+      "name_zh": "MCP.so 目录",
+      "class": "skills-protocols",
+      "kind": "server-registry",
+      "vendor": "MCP.so",
+      "ecosystem": "product",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "MCP server & client directory with per-client compatibility views; former bulk endpoint servers.json now 404 (probe 2026-10-28), site itself 200.",
+      "summary_zh": "带客户端兼容性视图的 MCP 服务器/客户端目录；原批量数据端点 servers.json 已 404（2026-10-28 探测），站点正常 200。",
+      "url": "https://mcp.so/",
+      "tracked": null,
+      "verified": true,
+      "tags": [
+        "mcp",
+        "directory"
+      ]
+    },
+    {
+      "id": "anthropics-skills-lib",
+      "name": "Anthropic Skills repository",
+      "name_zh": "Anthropic 技能仓库",
+      "class": "skills-protocols",
+      "kind": "skill-library",
+      "vendor": "Anthropic",
+      "ecosystem": "anthropic",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Public Agent Skills library: document skills (docx/pdf/pptx/xlsx) plus examples; each skill a SKILL.md folder, spec-conformant (agentskills.io). releases.atom 200 on probe 2026-10-28.",
+      "summary_zh": "公开 Agent Skills 技能库：文档四件套（docx/pdf/pptx/xlsx）与示例技能；每个技能为含 SKILL.md 的目录，符合 agentskills.io 规范。releases.atom 2026-10-28 探测 200。",
+      "url": "https://github.com/anthropics/skills",
+      "tracked": "anthropic-skills-repo",
+      "verified": true,
+      "tags": [
+        "skills",
+        "library",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "skills-sh",
+      "name": "skills.sh (`npx skills`)",
+      "name_zh": "skills.sh 技能目录",
+      "class": "skills-protocols",
+      "kind": "index",
+      "vendor": "Vercel",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6"
+      ],
+      "summary_en": "Open agent-skills directory + CLI: discover a skill on skills.sh, install its SKILL.md folder into any compatible agent (Claude Code, Cursor, Codex…) with one command. Site + vercel-labs/skills releases.atom 200 on probe 2026-10-28.",
+      "summary_zh": "开放技能目录 + CLI：在 skills.sh 检索技能，一条命令把 SKILL.md 目录装进任意兼容 agent（Claude Code、Cursor、Codex 等）。站点与 vercel-labs/skills releases.atom 于 2026-10-28 均探测 200。",
+      "url": "https://skills.sh/",
+      "tracked": "vercel-skills",
+      "verified": true,
+      "tags": [
+        "skills",
+        "directory",
+        "cli"
       ]
     },
     {

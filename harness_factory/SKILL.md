@@ -181,6 +181,7 @@ Read the entry, then load only the modules the task needs (see `harness skill` f
 | `methodology-map` | `reference/methodology-map.md` | M3.13 concrete: field → methodology system → what the harness must enforce |
 | `cross-language` | `reference/cross-language.md` | M4.10 concrete: align by meaning unit, corroborate by back-translation, term handling (not word-for-word) |
 | `outlet-map` | `reference/outlet-map.md` | field ⇒ high-quality information outlets / portals / media, with what each is NOT for |
+| `tool-router` | `reference/tool-router.md` | 工欲善其事必先利其器: task family ⇒ tool ecosystem (MCP servers / Agent Skills / data APIs / instruments) — discover → evaluate → register → metabolize, 古籍整理 worked example |
 | `capability-cycle` | `reference/capability-cycle.md` | M5.10 concrete: how a capability round is sourced, sliced, audited and recorded |
 | `derivation-rules` | `reference/derivation-rules.md` | the rule table + feature vocab + capability map + output contract |
 | `M0` | `core/01-meta-principles.md` | meta-principles |

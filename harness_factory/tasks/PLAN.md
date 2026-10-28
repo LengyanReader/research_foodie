@@ -357,6 +357,25 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **刻意不加（M0.5）**：不加 judge-robustness 能力（8 轴无评判角色轴，键在 verifiability=high 会命中一切）；**D1 阶段 D 重定触发**（等 M3.18 在真实 LLM 评判上跑过一轮，而非仅等 D7 关账——R263 的缓解未经验证说明规则制 trace-audit 仍是正确姿势）；不为 LHTB 开目录条目；两个未解析 id 的搜索命中不入 references（不猜 id 规则）。
 - **守卫与验证。** `P39ClauseAnchorTest` 4 守卫；references **§Y**（R263–R265）+ R246 升级 + bib 3 条 + source-map 行；scored-task-set effect 轴补 M3.18 指针；测试 **375 → 379**；`cycle audit` **35 轮 · 0 硬 · 0 缺口**；**D7 → done_in P39**。数据卫生：**D6 关账**（jspsych.org HTTP 200，最后一条 `verified:false` 仪器翻正）。交付 `review/judge-robustness-2026-10.md`。
 
+## P40 · D1 阶段 C 第一片（2026-10-28，已做）：结构性消融基线——M5.12 第一次真跑
+
+> 队列下一项 D1 阶段 C 的可执行前置：效果级消融（performance+token）需真实模型运行，但**结构性基线**（哪些单元承重、地面是否灵敏、保护集是什么）可离线诚实完成——同时是第二次 dogfood（全链路 + 第二条真实轨迹）。
+
+- **程序。** 消融单元=能力；38 个逐一从 `data/capabilities.json` 隔离剪除（全新子进程跑 scoreboard——注册表缓存按进程隔离；try/finally 恢复；git diff 验证干净）；基线 + 逐消融分数机器可读落盘。
+- **三个发现。** ① **承重集恰 10 个**=5 任务 must 并集——记分集对承重单元的检测灵敏性双向验证；凡掉分者受保护，剪除/触发改动=有意基线编辑。② **留出集覆盖缺口**：28 个非承重单元含结构性重要者（context-budget-policy 等）——不是不重要，是 must 没钉住；扩 must 集=有意编辑，登记为阶段 C 后续切片候选。③ **架构自证**：全部掉分只在 capabilities 轴（modules/structure/emission 从不动）——M0.4「能力只注释、规则引擎启用」在数据上成立。
+- **诚实边界（预声明 A4）。** 确定性地面无方差，M5.12 配对检验**不可做且不假装**；效果级消融（裸跑 vs 带单元 vs 剪单元，M2.13 固定模型档位）需真实模型运行=阶段 C 剩余。N=1，结论方向性。
+- **登记。** 交付 `review/ablation-baseline-2026-10.md`；cycles **P40**（0/0/0/0）；D1 阶段 C roadmap 更新（slice 1 done）；dogfood 全链路第二次走通、**轨迹 #2** 入 tool home（现 2 条）；trace-audit 正确报无提案（低于阈值）；`P40AblationGuardTest` 钉住报告关键数字；测试 **379 → 381**。
+
+## P41 · 工具生态路由轮（2026-10-28，已做）：工欲善其事必先利其器——按任务族盘 MCP/技能，入表有门、后续有代谢
+
+> 用户两段指示：(1) 参考但不局限于给定范围，围绕话题继续广泛探索并把这种态度固化为原则；(2) 具体到任务族——如做古籍梳理，先查哪些 MCP/skill/工具/拓展可用，入表时做质量评估，后续更新优化、新陈代谢。编号说明：本轮原计划 P36，执行中发现 P36–P40 已被并行会话占用（P40 尚在工作区未提交），改记 **P41**。
+
+- **扫描与探测（一手，2026-10-28）。** MCP 官方注册表 `registry.modelcontextprotocol.io`（`/v0/servers` JSON 200）、modelcontextprotocol/servers + /registry 仓库、MCP 博客（Hugo RSS 在 `/index.xml`，rss/feed 404）；Agent Skills 开放标准（2025-12-18 发布，agentskills.io + 仓库 releases.atom）；anthropics/skills 文档技能库；Vercel skills.sh + vercel-labs/skills；目录 Smithery（L+API 200）/Glama/PulseMCP（自报 22,290+）/MCP.so——计数分歧（7k–99k）只作方向性；安全面 tool poisoning（Invariant Labs 2025-04）+ CSA v1。古籍侧：CBETA（含 tendayspace 社区 MCP server）、CBDB、ctext、国家图书馆guji.nlc.cn、维基文库、书生·端砚、SikuBERT——逐Host 探测，SSL/502 失败者如实记 unverified 线索。
+- **落地。** `reference/tool-router.md`（四步环 Discover→Evaluate→Register→Metabolize + 发现面表 + 古籍整理 worked example（含 harness 推导段：grounding=required、社区 MCP 按 M6.11 不可信只读）+ intake 质量门清单 + 代谢政策），注册进 SKILL.md / skill.py / capability-router 三路索引；catalog **205 → 213**（新 kinds `server-registry`/`server-collection` + 8 条 skills-protocols 条目）；sources +5 馈送实体（agentskills 馈送由 null 补齐）+9 数字人文 outlet；watchlist +2 发现主题；survey `review/mcp-skills-landscape-2026-10.md`。
+- **机制接线。** JSON-API 发现面走已登记的 **P35.R1**（named consumers 已补）；**P28.R1** 的 skills-registries 锚点由本轮消费；新延项 **P41.R1**（CBETA MCP 源码审计 + 被拦门的复探，触发：真实古籍任务走过 tool-router §3）。
+- **刻意不加（M0.5）。** 不新增能力/子句/域（tool-use 已有，本轮盘的是实例层而非新规则）；探测失败的主机不入 verified；目录计数不取单一真值。
+- **登记与守卫。** cycles **P41**（0/0/0/0，catalog_delta 8 / outlets_delta 9）；`P41ToolRouterTest` 6 守卫；RegistryBidirectionalTest EXEMPT +`mcp-blog`；工作区 AGENTS.md §5 新增两条长期原则（超出给定范围探索 · 工欲善其事必先利其器）；测试 **380 → 386**（含吸收 P40 未提交的 1 例）；`cycle audit` **37 轮 · 0 硬 · 0 缺口**。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

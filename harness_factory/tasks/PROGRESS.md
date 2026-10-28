@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-28 · P41：工具生态路由轮 —— 按任务族盘 MCP/技能，入表有门、后续有代谢
+
+- **用户两段指示。** (1) 探索态度入则：参考但不局限给定范围，围绕话题继续广泛探索发现；(2) 具体到任务族：以古籍梳理为样例，先盘可用 MCP/skill/工具/拓展，入表做质量评估，后续更新优化、新陈代谢（工欲善其事必先利其器层）。**编号事故如实记录**：本轮原计划 P36，执行中发现 P36–P40 已被并行会话占用（P40 全套产物仍在工作区未提交），改记 P41；提交时一并携带 P40 的 in-flight 产物并在 commit message 中披露（其 PROGRESS/CHANGELOG 补账留给该会话或另行指示；其 PLAN 段中“测试 379→381”与实际发现的 380 不符，不代修）。
+- **扫描与探测（一手，2026-10-28，探针脚本用后即删）。** 通用面：MCP 官方注册表 L 200 + `/v0/servers` JSON 200；servers/registry 仓库、anthropics/skills、agentskills、vercel-labs/skills 均 releases.atom 200；MCP 博客 RSS 实路在 `/index.xml`（rss/feed 404）；Smithery L+API 200；Glama/PulseMCP/MCP.so 可达但计数分歧（7k–99k，PulseMCP 自报 22,290+）只作方向性；安全：tool poisoning（Invariant Labs 2025-04-01）+ CSA v1，与 M6.11 一致。古籍面：CBETA/CBDB org/ctext/guji.nlc.cn/维基文库/端砚/SikuBERT 200；api.cbdb.org/bdrc/dict.sinica/jwldatalab SSL 失败、marco 502——全部如实入 unverified 线索而非事实。
+- **落地面。** `reference/tool-router.md`（四步环 + 发现面表 + 古籍整理 worked example + intake 质量门 + 代谢政策）注册进 SKILL.md/skill.py/capability-router；catalog **205 → 213**（2 kinds + 8 entries）；sources +5 馈送实体（agentskills 馈送补齐）+9 outlets；watchlist +2 主题；survey `review/mcp-skills-landscape-2026-10.md`。机制接线：JSON-API 发现走 P35.R1（named consumers 已补）、P28.R1 锚点由本轮消费、新延项 P41.R1（CBETA MCP 源码审计+被拦门复探）。
+- **刻意不加（M0.5）。** 无新能力/子句/域（盘的是实例层）；探测失败不入 verified。
+- **登记与守卫。** cycles **P41**（0/0/0/0，catalog 8 / outlets 9）；`P41ToolRouterTest` 6 守卫；EXEMPT +mcp-blog；工作区 AGENTS.md §5 两条原则入则 + 计数 **379 → 386**（380=含 P40 未提交守卫，+6 本轮）；顺手修复 P40 遗留的守卫断 token（消融报告去 backtick）。**状态：测试 386 全过；`cycle audit` 37 轮 · 0 硬 · 0 缺口；catalog 三视图已重生成。** 按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P39：评判者鲁棒性轮 —— M3.18 评判者先受检（关闭 D7）
 
 - **开轮依据。** D7 触发在 P38 生效（R254 全文级）。方法：主源检索 → 解析 id → 全文读三篇 + R246 升级。检索命中两个无 id 的候选（reward-hacking 综述 PCH · 研究 agent reward-hacking）按不猜 id 规则**不入 references**，只在蒸馏文档留名。

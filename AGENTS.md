@@ -49,7 +49,7 @@ LICENSE                   MIT License
 - **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
 - **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
 - 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **379** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **386** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
 
 ## 4. 约定 / Conventions
 
@@ -65,6 +65,8 @@ LICENSE                   MIT License
 - **计划先行、进度可查 (/plan-first, track-as-you-go)。** 任何多步骤任务先写入 `harness_factory/tasks/PLAN.md`，执行中把结果、修正、来源记入 `harness_factory/tasks/PROGRESS.md`。
 - **会话收尾轨迹纪律（P36 起）。** 每轮真实工作收尾时，把本会话的结构化事实记入轨迹（使用侧数据积累靠流程不靠记忆）：过程中的人为改写/门禁失灵 → `PYTHONPATH=harness_factory/src python -m harness_factory harvest --dir <项目> --event human_correction --detail '{…}'`；任务收尾判决 → `--event task_outcome --detail '{"judge":"human","score":<分>,"rubric":"<域>"}'`（判决由人做，机器只记录，M0.4）；再 `harness collect --project <项目>` 拉回工具家、`harness trace-audit` 出提案。观察而已，只入 `updates/`。
 - **一手资料优先 / Primary sources first。** 校对与规划一律回到官方仓库、论文原文、官方文档，而非二手转述。
+- **超出给定范围探索 / Explore beyond the stated scope（2026-10-28，用户指示）。** 接到研究/梳理类任务时，参考但不局限于用户给出的范围：围绕话题主动继续广泛探索、发现、研究，把找到的高质量渠道一并纳入，并保留探索检索的长期态度。
+- **工欲善其事必先利其器 / Sharpen the tools before every task family（2026-10-28，用户指示）。** 做任何一类任务之前，先按 `reference/tool-router.md` 把可用的 MCP server / Agent Skill / API / 数据集盘一遍：入表有门（intake quality gate，来源/维护/许可证/安全逐项核），后续有代谢（更新、退役、`P41.R1` 类回访）。
 - **成本敏感 / Cost-sensitive。** 默认选择开源/免费、本地可跑的工具；付费 API 仅在质量关键步骤使用（用户环境：本地 Win11 CPU + 可远程 GPU 平台）。
 
 ## 6. 给 agent 的指令词：先配置，再提任务 / Directive for an agent: configure first, then task

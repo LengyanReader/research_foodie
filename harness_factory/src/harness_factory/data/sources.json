@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-28",
   "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`.",
   "topic_ids": [
     "agent-harness",
@@ -471,6 +471,88 @@
         "why": "Standard tool/resource/prompt interface for agents; 2026-07-28 core revision: stateless requests, MRTR mid-call human input, Tasks extension, 12-month deprecation window (R244, spec GA read 2026-10-23)."
       },
       {
+        "id": "mcp-servers-repo",
+        "name": "MCP reference servers (modelcontextprotocol/servers)",
+        "kind": "repo",
+        "url": "https://github.com/modelcontextprotocol/servers",
+        "feed": "https://github.com/modelcontextprotocol/servers/releases.atom",
+        "topics": [
+          "agent-skills-tools",
+          "agent-harness"
+        ],
+        "tags": [
+          "protocol",
+          "mcp",
+          "reference-implementations"
+        ],
+        "why": "Official collection of reference/current MCP servers (Archive 2026-03: old examples split to servers-archived). releases.atom + commits/main.atom both 200 on probe 2026-10-28; feed pulls releases."
+      },
+      {
+        "id": "mcp-registry-repo",
+        "name": "Official MCP Registry (modelcontextprotocol/registry)",
+        "kind": "repo",
+        "url": "https://github.com/modelcontextprotocol/registry",
+        "feed": "https://github.com/modelcontextprotocol/registry/releases.atom",
+        "topics": [
+          "agent-skills-tools",
+          "agent-harness"
+        ],
+        "tags": [
+          "protocol",
+          "mcp",
+          "registry"
+        ],
+        "why": "Community-driven registry service for MCP servers, launched as official registry 2025-09-08 (MCP blog). JSON discovery API GET https://registry.modelcontextprotocol.io/v0/servers returned 200 with server metadata on probe 2026-10-28; repo releases feed pullable (releases.atom 200)."
+      },
+      {
+        "id": "mcp-blog",
+        "name": "Model Context Protocol blog",
+        "kind": "post",
+        "url": "https://blog.modelcontextprotocol.io/",
+        "feed": "https://blog.modelcontextprotocol.io/index.xml",
+        "topics": [
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "protocol",
+          "mcp",
+          "announcements"
+        ],
+        "why": "Project blog: spec revisions (2026-07-28), registry launch, ecosystem updates. Hugo RSS at /index.xml 200 (~442 KB) on probe 2026-10-28; /rss.xml and /feed.xml 404 — use index.xml."
+      },
+      {
+        "id": "anthropic-skills-repo",
+        "name": "Anthropic Skills repository",
+        "kind": "repo",
+        "url": "https://github.com/anthropics/skills",
+        "feed": "https://github.com/anthropics/skills/releases.atom",
+        "topics": [
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "vendor",
+          "anthropic",
+          "skills"
+        ],
+        "why": "Public repo for Agent Skills: Anthropic's own skill folders (document skills pdf/docx/xlsx/pptx + examples). releases.atom 200 on probe 2026-10-28. Spec published as open standard 2025-12-18 (agentskills.io)."
+      },
+      {
+        "id": "vercel-skills",
+        "name": "skills.sh / `npx skills` (vercel-labs/skills)",
+        "kind": "repo",
+        "url": "https://github.com/vercel-labs/skills",
+        "feed": "https://github.com/vercel-labs/skills/releases.atom",
+        "topics": [
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "skills",
+          "directory",
+          "cli"
+        ],
+        "why": "Open agent-skills CLI + directory (skills.sh): detects installed agents, installs SKILL.md folders across harnesses with one command. Site and releases.atom both 200 on probe 2026-10-28."
+      },
+      {
         "id": "anthropic-agent-sdk",
         "name": "Claude Agent SDK",
         "kind": "repo",
@@ -786,7 +868,8 @@
         "name": "Agent Skills (SKILL.md) standard",
         "kind": "doc",
         "url": "https://agentskills.io/",
-        "feed": null,
+        "feed": "https://github.com/agentskills/agentskills/releases.atom",
+        "api": "https://github.com/agentskills/agentskills",
         "topics": [
           "agent-skills-tools",
           "agent-harness"
@@ -797,7 +880,7 @@
           "protocol",
           "anthropic"
         ],
-        "why": "Open standard for portable skills: a folder with SKILL.md (name+description frontmatter) loaded by progressive disclosure."
+        "why": "Open standard for portable skills: a folder with SKILL.md (name+description frontmatter) loaded by progressive disclosure. Released as an open standard with spec+SDK 2025-12-18; spec body lives at github.com/agentskills/agentskills (releases.atom 200 on probe 2026-10-28 — feed filled, was null). Adopted by Claude Code, Gemini CLI, Cursor, Codex and others (cross-harness portability)."
       },
       {
         "id": "openclaw",
@@ -3907,6 +3990,127 @@
         "access": "2026-10-23",
         "note": "host blocks automated checks (403); listed, not confirmed",
         "not_for": "Young journal - smaller volume than the flagships."
+      },
+      {
+        "id": "ctext",
+        "name": "Chinese Text Project (中國哲学書电子化)",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://ctext.org/",
+        "topics": ["digital-humanities"],
+        "tags": ["classical-chinese", "corpus", "api"],
+        "why": "Open-access digital library of pre-modern Chinese texts with a documented API (ctext.org/tools/api, JSON-RPC + data-writer). Site and API docs both 200 on probe 2026-10-28. Primary door for the 古籍整理 worked example in reference/tool-router.md.",
+        "verified": true,
+        "access": "2026-10-28",
+        "not_for": "Not a critical edition database - readings vary in provenance; cross-check against a second witness (CBETA / NLC scans) for collation work."
+      },
+      {
+        "id": "cbeta",
+        "name": "CBETA 電子佛典基金會 (XML-TEI corpus)",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://cbeta.org/",
+        "topics": ["digital-humanities"],
+        "tags": ["buddhist-canon", "tei-xml", "open-data"],
+        "why": "Digitized Chinese Buddhist canon (大正藏/卍續藏/嘉興藏 etc.) as TEI P5 XML; rolling releases (2026.R2, 2026-08). Site 200 on probe 2026-10-28; online reader cbetaonline.dila.edu.tw cert-failed from this network (unverified here). Attribution-based license.",
+        "verified": true,
+        "access": "2026-10-28",
+        "not_for": "Buddhist canon only - for dynastic histories use ctext/中華古籍資源庫; community MCP wrappers are untrusted reads until source-audited (M6.11)."
+      },
+      {
+        "id": "cbdb",
+        "name": "China Biographical Database (CBDB)",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://github.com/cbdb-project",
+        "topics": ["digital-humanities"],
+        "tags": ["prosopography", "relational-db", "api"],
+        "why": "Relational DB of historical Chinese persons (~370k+ per the Harvard project page; grows with each release); GitHub org 200 on probe 2026-10-28 incl. unpunctuated-text segmentation models; official Open Web API (api.cbdb.org) SSL-blocked from this network; community Claude Code skill for the API listed on mcpmarket (page 200).",
+        "verified": true,
+        "access": "2026-10-28",
+        "note": "org/repos verified; api.cbdb.org reachability unverified from this network - re-probe next round",
+        "not_for": "Biographical/relational data, not full texts - pair with ctext/Siku-quanshan sources for the text itself."
+      },
+      {
+        "id": "bdrc",
+        "name": "BDRC / BUDA (Buddhist Digital Resource Center)",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://www.bdrc.io/",
+        "topics": ["digital-humanities"],
+        "tags": ["buddhist-texts", "iiif", "linked-open-data"],
+        "why": "28M+ pages of Buddhist documents (Tibetan/Sanskrit/Chinese) with IIIF + open linked data per the official site. SSL handshake failed from this probe (2026-10-28) - listed by official URL, reachability unverified here.",
+        "verified": false,
+        "access": "2026-10-28",
+        "note": "probe blocked by network (SSL); listed, not confirmed",
+        "not_for": "Catalog-first platform - plan work around specific collections, not 'the archive'."
+      },
+      {
+        "id": "nlc-guji",
+        "name": "中华古籍资源库 (National Library of China)",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://guji.nlc.cn/",
+        "topics": ["digital-humanities"],
+        "tags": ["ancient-books", "scans", "gateway"],
+        "why": "Free-browse portal of digitized 古籍善本 (images); the second-witness door for collation against machine-readable corpora. L 200 on probe 2026-10-28; no public API - manual intake into tasks.",
+        "verified": true,
+        "access": "2026-10-28",
+        "not_for": "Image viewer, not text corpus - OCR/ transcription happens on your side (金文大模型/书生端砚 or VLM pipeline)."
+      },
+      {
+        "id": "wikisource-zh",
+        "name": "维基文库 中文 (Wikisource zh)",
+        "kind": "other",
+        "outlet_kind": "repository",
+        "url": "https://zh.wikisource.org/",
+        "topics": ["digital-humanities"],
+        "tags": ["corpus", "api", "community-verified"],
+        "why": "Community-proofread classical and modern Chinese texts with MediaWiki API + dumps; provenance visible in page history. L 200 on probe 2026-10-28.",
+        "verified": true,
+        "access": "2026-10-28",
+        "not_for": "Proofread ≠ critically edited - check page history and scan references before citing a reading."
+      },
+      {
+        "id": "inkstone",
+        "name": "书生·端砚 古籍大模型 (Shanghai AI Lab)",
+        "kind": "other",
+        "outlet_kind": "portal",
+        "url": "https://discovery.intern-ai.org.cn/",
+        "topics": ["digital-humanities"],
+        "tags": ["ancient-books", "llm", "ocr", "metered-api"],
+        "why": "Classical-Chinese LLM/OCR service platform (端砚); portal 200 on probe 2026-10-28. API keys are metered (墨点 quota, shared RPM/TPM) - cost-budget gate applies before unattended runs.",
+        "verified": true,
+        "access": "2026-10-28",
+        "not_for": "Model outputs need the M3 gates (double independent witness); not a source edition."
+      },
+      {
+        "id": "sinica-hanja",
+        "name": "中研院 漢語詞彙資料庫入口 (IHP lexica)",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "https://dict.sinica.edu.tw/",
+        "topics": ["digital-humanities"],
+        "tags": ["lexicon", "buddhist-chinese", "terminology"],
+        "why": "Academia Sinica lexica portal (hosts 佛教漢語文獻詞典等专书词典类资源); exact product behind this URL not confirmed - SSL probe failed from this network on 2026-10-28. Registered as a lead, re-probe and confirm next round.",
+        "verified": false,
+        "access": "2026-10-28",
+        "note": "probe blocked by network (SSL); listed, not confirmed",
+        "not_for": "专书术语词典路径；普通古汉语词频/搭配需要语料库侧工具（如 ctext 语料）。"
+      },
+      {
+        "id": "marco-cbdb-sjtu",
+        "name": "MARCO 文本与人物知识库 (SJTU 历史地理研究所方向)",
+        "kind": "other",
+        "outlet_kind": "database",
+        "url": "http://marco.ihp.sjtu.edu.cn/",
+        "topics": ["digital-humanities"],
+        "tags": ["entity-search", "cbdb-adjacent"],
+        "why": "Entity search over historical Chinese full texts (complements CBDB prosopography with text-side lookup); precise scope/period claim NOT verified - probe returned 502 on 2026-10-28, re-probe next round before relying on it.",
+        "verified": false,
+        "access": "2026-10-28",
+        "note": "502 Bad Gateway at probe time; listed, not confirmed",
+        "not_for": "Unconfirmed coverage - treat as a lead; use CBDB/ctext until verified."
       }
     ]
   }

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-28",
   "cadence": "weekly",
   "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery.",
   "topics": [
@@ -62,6 +62,18 @@
       "name_zh": "论文发现与检索渠道",
       "queries": ["hugging face daily papers trending this week", "new arXiv cs.MA multi-agent papers", "semantic scholar paper graph agent harness 2026", "openalex works on LLM agent evaluation"],
       "keywords": ["arxiv", "hugging face papers", "semantic scholar", "google scholar", "openalex", "dblp", "alphaxiv", "paper discovery", "preprint"]
+    },
+    {
+      "id": "mcp-skills-ecosystem",
+      "name_zh": "工具生态（MCP/技能）",
+      "queries": ["new MCP servers official registry", "Agent Skills ecosystem adoption 2026", "MCP security tool poisoning advisory", "MCP registry vs directories smithery glama pulsemcp"],
+      "keywords": ["mcp", "model context protocol", "agent skills", "skill", "registry", "tool discovery", "progressive disclosure", "tool poisoning", "marketplace"]
+    },
+    {
+      "id": "classical-texts-dh",
+      "name_zh": "古籍整理数字人文工具",
+      "queries": ["CBETA CBDB ctext API digital humanities classical Chinese", "classical Chinese OCR ancient books digitization model", "SikuBERT ancient text NER segmentation", "buddhist canon linked open data BDRC"],
+      "keywords": ["classical chinese", "古籍", "digital humanities", "cbeta", "cbdb", "ctext", "TEI", "pretraining", "ancient books", "collation", "句读", "断句"]
     }
   ],
   "frontier_probes": [

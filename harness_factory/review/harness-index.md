@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-23 · 205 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-28 · 213 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -86,12 +86,20 @@ harness catalog claude-code           # detail one entry
 | `a-mem` | A-MEM · A-MEM | 记忆系统 | M2 | Xu et al. 2025 |
 | `letta-code` | Letta Code · Letta Code | 记忆系统 | M2, M5 | https://github.com/letta-ai/letta · tracked:letta |
 
-## Skills ecosystems & protocols · 技能生态与协议  (4)
+## Skills ecosystems & protocols · 技能生态与协议  (12)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
 | `anthropic-agent-skills` | Anthropic Agent Skills · Anthropic Agent Skills | 技能生态 | M1, M6 | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview |
 | `mcp` | Model Context Protocol (MCP) · 模型上下文协议 (MCP) | 协议 | M1, M6, M2, M8 | https://modelcontextprotocol.io · tracked:anthropic-mcp |
+| `mcp-registry` | Official MCP Registry · MCP 官方注册表 | MCP 服务器注册表/目录 | M1, M6 | https://registry.modelcontextprotocol.io/ · tracked:mcp-registry-repo |
+| `mcp-servers-reference` | MCP reference servers · MCP 参考服务器合集 | 参考服务器合集 | M6 | https://github.com/modelcontextprotocol/servers · tracked:mcp-servers-repo |
+| `smithery` | Smithery · Smithery | MCP 服务器注册表/目录 | M6 | https://smithery.ai/ |
+| `glama` | Glama MCP directory · Glama MCP 目录 | MCP 服务器注册表/目录 | M6 | https://glama.ai/mcp/servers |
+| `pulsemcp` | PulseMCP · PulseMCP | MCP 服务器注册表/目录 | M6 | https://www.pulsemcp.com/servers |
+| `mcp-so` | MCP.so directory · MCP.so 目录 | MCP 服务器注册表/目录 | M6 | https://mcp.so/ |
+| `anthropics-skills-lib` | Anthropic Skills repository · Anthropic 技能仓库 | 技能沉淀 | M6 | https://github.com/anthropics/skills · tracked:anthropic-skills-repo |
+| `skills-sh` | skills.sh (`npx skills`) · skills.sh 技能目录 | index | M6 | https://skills.sh/ · tracked:vercel-skills |
 | `agentskills-standard` | Agent Skills standard · Agent Skills 标准 | 技能生态 | M1, M6 | https://agentskills.io/specification · tracked:agentskills |
 | `openclaw` | OpenClaw · OpenClaw | 技能生态 | M2, M6, M8 | https://github.com/openclaw/openclaw · tracked:openclaw |
 

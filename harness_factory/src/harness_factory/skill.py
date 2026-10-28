@@ -65,6 +65,7 @@ _TAIL: tuple[Skill, ...] = (
     Skill("methodology-map", "reference", "reference/methodology-map.md", "M3.13 made concrete: field -> methodology system -> what the harness must enforce."),
     Skill("cross-language", "reference", "reference/cross-language.md", "M4.10 made concrete: meaning-unit alignment, corroboration by back-translation, term handling (not word-for-word)."),
     Skill("outlet-map", "reference", "reference/outlet-map.md", "Field -> high-quality information outlets / portals / media, with what each is NOT for (sources.json `outlets`)."),
+    Skill("tool-router", "reference", "reference/tool-router.md", "Task family -> tool ecosystem (MCP servers, Agent Skills, data APIs, instruments): discover -> evaluate -> register -> metabolize, with a 古籍整理 worked example."),
     Skill("capability-cycle", "reference", "reference/capability-cycle.md", "M5.10 made concrete: how a capability round is sourced, sliced, audited and recorded (data/cycles.json)."),
     Skill("capabilities", "overview", "CAPABILITIES.md", "Generated overview: purpose + every harness capability (requirement -> modules)."),
     Skill("reference", "review", "review/references.md", "Source-grounded reference list."),

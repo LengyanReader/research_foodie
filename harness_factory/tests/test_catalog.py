@@ -111,6 +111,7 @@ class RegistryBidirectionalTest(unittest.TestCase):
         "anthropic-building-effective-agents": "a source/blog post cited as R93, not a product",
         "deepseek-repos": "company-level intel tracker; wire `tracked` when a product-level entry lands",
         "kimi-moonshot": "company-level intel tracker; wire `tracked` when a product-level entry lands",
+        "mcp-blog": "the MCP project's announcement channel; consumed via the `mcp`/`mcp-registry` entries' ecosystem, not a product of its own (P41)",
     }
 
     def test_catalog_tracked_values_resolve(self):

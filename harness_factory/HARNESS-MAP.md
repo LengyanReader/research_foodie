@@ -3,13 +3,13 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 38 capabilities · 35 domains · 205 catalog entries · 30 CLI subcommands**
+**9 modules (M0–M8) · 38 capabilities · 35 domains · 213 catalog entries · 30 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 38 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、35 个学科域的产物类型与来源要求（§6）、205 条工具目录按类对应模块（§7）、30 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
+这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 38 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、35 个学科域的产物类型与来源要求（§6）、213 条工具目录按类对应模块（§7）、30 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
 
 整份文档**由代码生成**（`harness map --write`），`tests/test_harness_map.py` 做漂移守卫：图、表、样例读的是同一批数据，改 SSOT 后重生成即可，不会出现「文档说一套、代码做一套」。
 
@@ -20,7 +20,7 @@
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
 | Capabilities | 38 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
 | Domains | 35 (34 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
-| Tool catalog | 205 (12 classes × 60 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
+| Tool catalog | 213 (12 classes × 62 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
 | Rubrics | 36 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
 | Levers | 75 | `data/levers.json` | `harness standard plan` |
 | CLI subcommands | 30 | `src/harness_factory/cli.py` | §8 below |
@@ -308,7 +308,7 @@ flowchart TD
 | `psychology` · 心理与认知科学域 | `dataset` · `required` | Pre-registered, replication-aware behavioral research |
 | `social-science` · 社会科学域 | `document` · `required` | Theory-led, evidence-triangulated study of societies and policy |
 
-## 7 · 工具目录 · Tool catalog（205）
+## 7 · 工具目录 · Tool catalog（213）
 
 `data/harnesses.json` 收录第三方 agent harness、框架、协议、评测与安全工作，每条都映到它演练的模块。查具体条目用 `harness catalog search <kw>`；生成的逐条索引在 [`review/harness-index.md`](review/harness-index.md)。
 
@@ -318,7 +318,7 @@ flowchart TD
 | orchestration · Orchestration frameworks / agent SDKs | 编排框架与 SDK | 12 | M6, M7, M8 |
 | self-evolution · Self-evolution methods | 自我演化方法 | 15 | M5 |
 | memory · Memory & persistence | 记忆与持久化 | 5 | M2 |
-| skills-protocols · Skills ecosystems & protocols | 技能生态与协议 | 4 | M1, M6 |
+| skills-protocols · Skills ecosystems & protocols | 技能生态与协议 | 12 | M1, M6 |
 | evaluation · Evaluation harnesses | 评测 harness | 11 | M3 |
 | survey · Surveys (orientation) | 综述导航 | 5 | M0, M5 |
 | safety · Safety of self-evolution | 自我演化安全 | 2 | M0, M5, M8 |
@@ -390,6 +390,7 @@ The agent-native load index (`harness skill`). Read top-down; load only what you
 | `methodology-map` | `reference/methodology-map.md` | M3.13 made concrete: field -> methodology system -> what the harness must enforce. |
 | `cross-language` | `reference/cross-language.md` | M4.10 made concrete: meaning-unit alignment, corroboration by back-translation, term handling (not word-for-word). |
 | `outlet-map` | `reference/outlet-map.md` | Field -> high-quality information outlets / portals / media, with what each is NOT for (sources.json `outlets`). |
+| `tool-router` | `reference/tool-router.md` | Task family -> tool ecosystem (MCP servers, Agent Skills, data APIs, instruments): discover -> evaluate -> register -> metabolize, with a 古籍整理 worked example. |
 | `capability-cycle` | `reference/capability-cycle.md` | M5.10 made concrete: how a capability round is sourced, sliced, audited and recorded (data/cycles.json). |
 | `capabilities` | `CAPABILITIES.md` | Generated overview: purpose + every harness capability (requirement -> modules). |
 | `reference` | `review/references.md` | Source-grounded reference list. |

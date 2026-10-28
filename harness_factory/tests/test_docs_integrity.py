@@ -656,5 +656,93 @@ class P39ClauseAnchorTest(unittest.TestCase):
         self.assertTrue(jspsych.get("verified"), "D6 not closed: jspsych still verified:false")
 
 
+class P40AblationGuardTest(unittest.TestCase):
+    """P40: the structural ablation baseline (D1 stage C slice 1).
+
+    Pins the measured findings so a future edit cannot inflate the ground:
+    10 load-bearing units, 28 unpinned (a coverage gap, not unimportance),
+    and the honest statistical boundary.
+    """
+
+    def test_ablation_report_keeps_the_measured_findings(self):
+        doc = _read(HARNESS / "review/ablation-baseline-2026-10.md")
+        for token in ("10 个承重", "28 个", "must_capabilities 的并集",
+                      "capabilities 轴", "无方差", "需真实模型运行"):
+            self.assertIn(token, doc, f"ablation baseline lost {token!r}")
+
+
+class P41ToolRouterTest(unittest.TestCase):
+    """P41: tool-ecosystem routing (MCP servers / Agent Skills per task family).
+
+    Guards: the router sheet exists, is registered in every load index, and
+    carries its four-step loop + the 古籍整理 worked example; the new catalog
+    block, feeds, outlets, watchlist topics and the round record are present.
+    Content-presence only - prose may be edited freely.
+    """
+
+    def test_tool_router_registered_in_all_indexes(self):
+        doc = _read(HARNESS / "reference/tool-router.md")
+        self.assertIsNotNone(doc, "tool-router.md missing")
+        self.assertIn("tool-router", _read(HARNESS / "SKILL.md"),
+                      "SKILL.md load-index lost tool-router")
+        self.assertIn('"tool-router"', _read(HARNESS / "src/harness_factory/skill.py"),
+                      "harness skill index lost tool-router")
+        self.assertIn("tool-router.md", _read(HARNESS / "reference/capability-router.md"),
+                      "capability-router lost the tool-ecosystem row")
+
+    def test_router_carries_the_loop_and_the_worked_example(self):
+        doc = _read(HARNESS / "reference/tool-router.md")
+        for token in ("Discover", "Evaluate", "Register", "Metabolize",
+                      "Intake quality gate", "古籍整理", "tool poisoning", "2026-10-28"):
+            self.assertIn(token, doc, f"router lost {token!r}")
+
+    def test_mcp_and_skills_catalog_block_landed(self):
+        cat = json.loads((HARNESS / "src/harness_factory/data/harnesses.json")
+                         .read_text(encoding="utf-8"))
+        kind_ids = {k["id"] for k in cat["kinds"]}
+        self.assertIn("server-registry", kind_ids, "new kind server-registry not declared")
+        self.assertIn("server-collection", kind_ids, "new kind server-collection not declared")
+        sp = {e["id"] for e in cat["harnesses"] if e.get("class") == "skills-protocols"}
+        for hid in ("mcp-registry", "mcp-servers-reference", "smithery", "glama",
+                    "pulsemcp", "mcp-so", "anthropics-skills-lib", "skills-sh"):
+            self.assertIn(hid, sp, f"skills-protocols block lost {hid}")
+
+    def test_feeds_and_outlets_registered(self):
+        sources = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                              .read_text(encoding="utf-8"))
+        hids = {e["id"] for e in sources["groups"]["harnesses"] if isinstance(e, dict)}
+        for sid in ("mcp-servers-repo", "mcp-registry-repo", "mcp-blog",
+                    "anthropic-skills-repo", "vercel-skills"):
+            self.assertIn(sid, hids, f"feed entity {sid} missing")
+        agentskills = next(e for e in sources["groups"]["harnesses"] if e.get("id") == "agentskills")
+        self.assertIsNotNone(agentskills.get("feed"), "agentskills feed still null after P41")
+        outlets = {e["id"]: e for e in sources["groups"]["outlets"] if isinstance(e, dict)}
+        for oid in ("ctext", "cbeta", "cbdb", "bdrc", "nlc-guji", "wikisource-zh", "inkstone"):
+            self.assertIn(oid, outlets, f"classical-texts outlet {oid} missing")
+        for oid in ("bdrc", "sinica-hanja", "marco-cbdb-sjtu"):
+            self.assertFalse(outlets[oid]["verified"],
+                             f"{oid} failed its probe - it must stay unverified until re-probed")
+
+    def test_watchlist_discovery_topics(self):
+        wl = json.loads((HARNESS / "src/harness_factory/data/watchlist.json")
+                        .read_text(encoding="utf-8"))
+        ids = {t["id"] for t in wl["topics"]}
+        self.assertIn("mcp-skills-ecosystem", ids, "tool-ecosystem discovery topic missing")
+        self.assertIn("classical-texts-dh", ids, "classical-texts topic missing")
+
+    def test_survey_and_round_record(self):
+        doc = _read(HARNESS / "review/mcp-skills-landscape-2026-10.md")
+        for token in ("registry.modelcontextprotocol.io/v0/servers", "2025-12-18",
+                      "Tool poisoning", "2026-10-28"):
+            self.assertIn(token, doc, f"survey lost {token!r}")
+        cycles = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                             .read_text(encoding="utf-8"))
+        by_id = {c["id"]: c for c in cycles["cycles"]}
+        self.assertIn("P41", by_id, "round not recorded")
+        self.assertEqual(by_id["P41"]["added"]["catalog_delta"], 8)
+        self.assertIn("P41.R1", {r["id"] for r in cycles["roadmap"]},
+                      "CBETA MCP source-audit not registered as a deferred item")
+
+
 if __name__ == "__main__":
     unittest.main()
