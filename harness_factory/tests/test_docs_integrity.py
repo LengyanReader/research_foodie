@@ -608,5 +608,53 @@ class P37PoolCheckGuardTest(unittest.TestCase):
         self.assertIn("23,197", doc, "survey doc must carry the measured count, not the abstract's")
 
 
+class P39ClauseAnchorTest(unittest.TestCase):
+    """P39: M3.18 (the judge is instrumented before its verdicts gate anything).
+
+    Content guards: the clause names its four obligations with their sources,
+    the checklist and anti-patterns carry it, references group Y exists with
+    the R246 upgrade, and the effect-axis judge rule points at the clause.
+    """
+
+    def test_m318_clause_names_the_four_obligations(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        anchor = "The judge is instrumented before its verdicts gate anything (M3.18)"
+        self.assertIn(anchor, text, "M3.18 clause title missing")
+        section = text.split(anchor, 1)[1][:3200]
+        for token in ("bias surface", "fails to enforce", "replayed artifacts",
+                      "self-reports", "[R263]", "[R264]", "[R265]", "[R246]",
+                      "golden set is trusted exactly as far"):
+            self.assertIn(token, section, f"{token!r} missing from M3.18")
+
+    def test_m318_checklist_and_antipatterns(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIn("(M3.18).", text.split("## Checklist")[1], "no M3.18 checklist line")
+        self.assertIn("Grading on self-report", text, "M3.18 anti-pattern missing")
+        self.assertIn("Judge-validated-once", text, "M3.18 second anti-pattern missing")
+
+    def test_references_group_y_and_r246_upgrade(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## Y.", refs, "group Y missing")
+        for ref in ("R263", "R264", "R265"):
+            self.assertIn(ref, refs, f"{ref} missing from references.md")
+        self.assertIn("read 2026-10-28, P39", refs, "R246 not upgraded to read")
+        self.assertNotIn("(*listed, not deep-read*; reported 46", refs,
+                         "R246 still carries its listed-only marker")
+        bib = _read(HARNESS / "review/references.bib")
+        for key in ("wataoka2026selfpreference", "helff2026gaming", "thaman2026rewardhacking"):
+            self.assertIn(key, bib, f"bib entry missing: {key}")
+        smap = _read(HARNESS / "sources/source-map.md")
+        self.assertIn("| M3.18 ", smap, "M3.18 has no source-map row")
+
+    def test_effect_axis_judge_rule_points_at_m318_and_jspsych_flipped(self):
+        self.assertIn("M3.18", _read(HARNESS / "review/scored-task-set-2026-10.md"),
+                      "effect-axis judge rule does not mention M3.18")
+        import json
+        cat = json.loads((HARNESS / "src/harness_factory/data/harnesses.json")
+                         .read_text(encoding="utf-8"))
+        jspsych = next(e for e in cat["harnesses"] if e.get("id") == "jspsych")
+        self.assertTrue(jspsych.get("verified"), "D6 not closed: jspsych still verified:false")
+
+
 if __name__ == "__main__":
     unittest.main()

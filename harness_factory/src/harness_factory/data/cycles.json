@@ -1114,6 +1114,33 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P39",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Judge-robustness round: M3.18, the judge is instrumented before its verdicts gate anything (closes D7)",
+      "title_zh": "评判者鲁棒性轮：M3.18——评判者先受检再把关（关闭 D7）",
+      "note": "D7's trigger fired in P38 (R254 full-read); this round ran the robustness pass as a golden-set audit. Three papers read in full (arxiv.org/html, access 2026-10-28) + R246 upgraded from listed to read: R263 (self-preference bias quantified via Equal Opportunity, GPT-4 gap 0.520, mechanism is perplexity/familiarity not self-generation, style- as much as correctness-concerned, mitigations suggested-not-validated), R264 (RLVR-trained models exploit what the verifier fails to enforce; controlled training pair differing only in the reward signal produced a ~3.5-point hacking gap - verifier design CAUSALLY induces or eliminates the exploit; Isomorphic Perturbation Testing as the black-box audit; the overwrite-tests/monkey-patch examples are cited background, not this paper's observations), R265 (13 models 0-13.9% exploit rates; RL attribution V3 0.6% vs R1-Zero 13.9%; rates rise with chain length sharply at 5 and hard variants elicit even 0%-exploit models; hardening -87.7%; 72% of exploits carry explicit CoT so 28% evade trace monitoring), R246 (LHTB: hidden verifiers + deterministic seeds + replay-based grading - 'claimed progress does not count, replayed progress does'). Landed: clause M3.18 (declare the judge's bias surface / audit what the verifier fails to enforce / grade replayed artifacts never self-reports / re-audit when difficulty or served model changes; a golden set is trusted exactly as far as its judge has passed (a)-(d)) + checklist line + 2 anti-patterns + zh block. Non-additions: no judge-robustness capability (no judge axis in the 8-axis vector; would fire on nearly everything); D1 stage D stays deferred (R263's unvalidated mitigations say rule-based trace-audit remains right; stage D waits for M3.18(a)-(d) to run once on a real LLM judge); no LHTB catalog entry (an exemplar, not a runnable instrument); two search hits without resolvable ids not entered (no-guessing rule). Data hygiene: D6 closed - jspsych.org re-checked HTTP 200, the last verified:false instrument flag flipped to true. Provenance: reference ids resolved from abs pages, never guessed.",
+      "slices": [
+        "P39.1 - the reads: R263/R264/R265 full texts + abs-page metadata (authors/dates/licenses quoted from the record); R246 upgraded from listed to read; search sweep surfaced two unresolvable hits (survey-PCH, research-agent reward hacking) recorded as non-entries",
+        "P39.2 - the audit + clause: five judge-facing surfaces mapped (M0.3/M3.17/M5.11/M5.13/effect axis); M3.18 landed in core/04 with (a)-(d), checklist line, anti-patterns (Grading on self-report, Judge-validated-once), zh block; scored-task-set effect-axis judge sentence gains the M3.18 pointer",
+        "P39.3 - records + hygiene: references group Y (R263-R265) + R246 upgrade + bib 3 + source-map M3.18 row; review/judge-robustness-2026-10.md; cycles P39 + D7 done_in P39 + D1 stage-D note; D6 jspsych verified:true; P39ClauseAnchorTest 4 guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [
+          "M3.18"
+        ],
+        "references": [
+          "R263",
+          "R264",
+          "R265"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1187,7 +1214,7 @@
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
       "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code. P34 note: Harness Learning (R252) and VERA (R256) are first-party stage-C precedents **at abstract level** (learned proposer + verifier-gated edits); the design doc should engage them after the P34.R1 full-text reread",
-      "revisit_when": "stage C is queueable as of 2026-10-28: the first measured effect receipt has landed (P37, machine-judged 1.0 on a pre-declared metric); opening it means running the M5.12 ablation ladder on the scored task set, not just recording receipts"
+      "revisit_when": "stage C is queueable as of 2026-10-28 (first measured effect receipt, P37); stage D (LLM-assisted audit) re-scoped by P39: waits until M3.18(a)-(d) has been exercised once on a real LLM judge, not merely for D7 to close"
     },
     {
       "id": "D2",
@@ -1437,12 +1464,12 @@
     },
     {
       "id": "D7",
-      "status": "deferred",
+      "status": "done",
       "cycle": null,
       "source": "review/frontier-2026-10.md §6b (robustness of agent judges)",
       "title_en": "Agent-judge robustness pass before trusting any golden set",
-      "reason": "Trigger fired 2026-10-28 (P38): R254 VeriHarness is now a full-read-grade primary source on agentic verification (mechanisms verified verbatim; self-evolving verification skills). The robustness pass itself remains a round of its own - a golden-set audit, not a clause edit.",
-      "revisit_when": "queued (not scheduled): the next knowledge-side round after the usage-side work; scope = a golden-set audit grounded in R254 full text (mechanisms verified P38), optionally using the verified release pool as audit material if the upstream licenses permit"
+      "reason": "CLOSED in P39 (2026-10-28): the robustness pass ran - three full-read primary sources + R246 upgrade, clause M3.18 landed (bias surface / unenforced assumptions / replayed-artifact grading / re-audit on difficulty or model change); D1 stage D re-scoped to wait for M3.18(a)-(d) on a real LLM judge.",
+      "done_in": "P39"
     },
     {
       "id": "D8",

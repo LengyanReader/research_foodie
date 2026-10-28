@@ -3896,7 +3896,7 @@
       "summary_zh": "用于浏览器行为实验的 JavaScript 库。",
       "url": "https://www.jspsych.org/",
       "tracked": "",
-      "verified": false,
+      "verified": true,
       "tags": [
         "experiment",
         "browser"

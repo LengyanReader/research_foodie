@@ -37,7 +37,7 @@ effect 轴（P24，**不进 `total`**）：
    `unmeasured`（0 也好 1 也好都是编造，M0.4）。一次真实测量落地为该任务的
    `effect: {status: "measured", score, judge: human|machine, measured_on}`，`validate_scoreboard`
    拒绝任何缺 judge / 缺 score / 缺日期的收据。与 trace 的 `task_outcome` 事件同构：**机器记判决，
-   不做判决**（`judge=machine` 只在该任务族有已定义度量器时合法）。
+   不做判决**（`judge=machine` 只在该任务族有已定义度量器时合法；机器判决者同样受 M3.18 约束——偏差面声明、未强制面审计、难度/模型变化重审）。
 
 `total = mean(5 structural axes)`。离线、无 LLM、无网络（M0.4：只测量，不发明）。运行：
 `harness scoreboard [--task <id>] [--json]`。
