@@ -1206,6 +1206,35 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P43",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Frontier sweep: M5.14 failures-are-mandatory-signal, M3.19 benchmark dual validity, M1.11 compaction-budget deepening, ACS cue closed",
+      "title_zh": "前沿扫荡轮：M5.14 失败是必需信号 · M3.19 基准双有效性 · M1.11 压缩预算深化 · ACS 观察项关闭",
+      "note": "Six-front sweep (context engineering / self-evolution / evaluation integrity / agentic security / vendor harnesses / Chinese-language discourse) with four full reads and one landing page. R267 (Feedback Dynamics, full): a validation-gated skill-revision loop whose feedback pool excludes failures selects nothing - success-only selected 0 of 14 settings across 42 runs; failed records carry verifier diagnostics; only 55/388 candidates establish byte-distinct bests; validation-to-test reversal measured -> clause M5.14 (failures are mandatory signal, with diagnostics, declared stop conditions, and the validation/deployed read-out separation). The design mirrors this library's own trace vocabulary (gates record only misses) - external quantitative grounding for the P22 design. R268 (Context Compaction Theory, full): minimum compaction budget = one-way communication complexity (Thm 1); selection-style needs Theta(log n) more budget than generation (Thm 3); repeated compaction compounds error (open problem); Bloom filter near-optimal for its case-study workload -> M1.11 deepening (budget is query-class-dependent; compaction count is a tracked number). R269 (ABC checklist, full): task validity + outcome validity as checkable benchmark claims, with quantified failures (100%-without-solving isolation cheat, 32.5% SLEEP-in-log overestimation, 33% absolute removed from CVE-Bench, tau-bench 38% trivial-pass) -> clause M3.19 (a benchmark declares both validities; construction duties; complements M3.18's judge-side duties). R270 (ACS landing): the P20 watch item came due - published 2026-09-01, middleware hooks + portable declarative runtime controls; deep-read of the standard text is the follow-up. Non-additions: no context-compaction capability (a budget problem, not a task-family discriminator), no skill-evolution capability (M5.13/M5.14/M4.8 cover it), orchestrators/Harbor/Chinese-community items kept as leads (secondary or pending D1-stage-C relevance). Author lists for R267-R269 verified from the abs pages (no-guessing rule).",
+      "slices": [
+        "P43.1 - the sweep: six searches, four full reads (R267/R268/R269) + ACS landing (R270); secondary hits recorded as pointers (Chinese ecosystem signal, orchestrators, EvolveR lineage)",
+        "P43.2 - the landings: M5.14 (core/06), M3.19 (core/04), M1.11 deepening (core/02), each with checklist line and zh; references group AA (R267-R270, authors verified) + bib + source-map rows; P20's ACS cue closed in frontier-2026-10.md",
+        "P43.3 - records + guards: review/frontier-sweep-2026-10-28.md (fronts, landings, non-additions, library self-validation); cycles P43; P43ClauseAnchorTest guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [
+          "M5.14",
+          "M3.19"
+        ],
+        "references": [
+          "R267",
+          "R268",
+          "R269",
+          "R270"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

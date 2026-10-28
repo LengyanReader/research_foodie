@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-10-28 · P43：前沿扫荡轮 —— M5.14 失败是必需信号 · M3.19 基准双有效性 · M1.11 压缩预算 · ACS 关闭
+
+- **开轮依据。** 用户指示「全面评估 + 继续全方位扫荡前沿动态」。六路检索（上下文/自演化/评测完整性/安全/厂商 harness/中文话语），避开 P39（评判）/P41（MCP 技能）/P42（互操作）已扫面。四篇全文 + 一份落地页，作者自 abs 页逐条核录（不猜规则）。
+- **M5.14 · 失败是必需信号**（R267 Feedback Dynamics 全文，cs.SE→cs.AI 交叉）：验证门控的技能修订循环中 **success-only 0/14 选中**（42 组实验/14 设置）；失败记录带诊断（期望-观测不匹配）入池；仅 55/388 候选建立字节异同最优（改进稀疏非稳态）；验证-测试反转实测（一设置验证涨、released test 跌 6.6）。落地 core/06 子句 + checklist + 中文。**本库自证：P22 的「通过不记、miss 才记」trace 词表获得外部定量支撑；M5.13 的验收门/回滚/字节异同与 R267 独立收敛到同一程序。**
+- **M3.19 · 基准双有效性**（R269 ABC 2507.02825 全文，25 作者）：task validity（当且仅当具备能力才可解——τ-bench 平凡 agent 过 38%）+ outcome validity（检查真能指示成功——错补丁过测试套件）；量化失效：SWE-Lancer 隔离失效改题库满分、SLEEP 日志检查 32.5% 高估、CVE-Bench 按清单修正 **−33% 绝对高估**、OSWorld 坏选择器 −28% 低估。落地 core/04 子句 + checklist + 中文——与 M3.18 构成「评判者四关 × 构造双有效性」闭环；**阶段 C 开测时 effect_metric 按此过检**。
+- **M1.11 深化**（R268 Context Compaction Theory 全文）：压缩预算=单向通信复杂度（Thm 1）；selection 比 generation 差 **Θ(log n)**（Thm 3）；重复压缩作用于「摘要的摘要」误差累积（开放问题）→ 压缩次数是被追踪数字；Bloom filter 在案例负载近最优。落地 core/02 一句（预算按查询类定）。
+- **R270/ACS**：P20 观察项到期关闭——ACS 于 2026-09-01 发布（中间件钩子 + 可移植声明式运行时控制；「inspectable, traceable and instrumentable」）；标准正文深读=后续轮候选（与 M6.11/M7 的接口可能判别）。
+- **刻意不加。** 不加 context-compaction 能力（预算问题非判别）；不加 skill-evolution 能力（M5.13/M5.14/M4.8 覆盖）；多 harness 编排器（仅二手）、Harbor（待阶段 C 核其任务套件可否作 effect 运行环境）、中文社区条目（无可追踪一手实体）——全部记 lead 于扫荡文档。
+- **登记。** references **§AA**（R267–R270）+ bib 4 条（作者补全）+ source-map 行（M5.14/M3.19 新增、M1.11 扩展）+ frontier 观察项关闭；交付 `review/frontier-sweep-2026-10-28.md`；cycles **P43**（0/0/**2 子句**/**4 参考**）；`P43ClauseAnchorTest` 3 守卫；AGENTS.md 计数 389 → 392。
+- **状态。** 测试 **389 → 392** 全过；`cycle audit` **39 轮 · 0 硬 · 0 缺口**；`catalog --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P42：互操作拓扑轮 —— M8.11 增边界状态词表（关闭 D8）· P40 补账
 
 - **跨会话接续。** 先了解并行会话的 P41（工具生态路由轮，18eb102）：tool-router 四步环、catalog 205→213、编号冲突诚实披露；其把 P40 的 in-flight 产物随提交携带、但 **P40 的 PROGRESS/CHANGELOG 补账留给本会话**——已补（含 PLAN 计数订正：380 非 381）。

@@ -141,7 +141,7 @@ not a mechanism.
   `data/levers.json` and the provenance of `portable-skills` / `untrusted-content-discipline`
   now point at it. It is **not** a 1:1 duplicate of the ASI01–ASI10 list already ingested
   (`[R86]`) — it targets the skills execution layer (SKILL.md / skill.json / manifest.json /
-  package.json formats, MAESTRO-mapped). ACS remains a watch item.
+  package.json formats, MAESTRO-mapped). ACS remained a watch item until P43 (2026-10-28): the standard was published 2026-09-01 and is entered at landing grade as `[R270]` (deep-read of the standard text is the follow-up).
 - Re-probe **context editing / memory tooling** as provider APIs stabilize; a
   `context-budget-policy` *parameter* may beat prose. **Answered as parameters in P20
   (2026-10-23):** `context-budget-policy`'s provenance now binds the delegation mechanism to

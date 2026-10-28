@@ -784,5 +784,45 @@ class P42ClauseAnchorTest(unittest.TestCase):
         self.assertEqual(d8.get("done_in"), "P42")
 
 
+class P43ClauseAnchorTest(unittest.TestCase):
+    """P43: the frontier sweep landed M5.14, M3.19, the M1.11 deepening, and the ACS cue."""
+
+    def test_m514_and_m319_name_their_mechanisms(self):
+        t6 = _read(HARNESS / "core/06-self-evolution.md")
+        anchor = "Failures are mandatory signal (M5.14)"
+        self.assertIn(anchor, t6, "M5.14 missing")
+        sec = t6.split(anchor, 1)[1][:1800]
+        for token in ("0 of 14", "diagnostics", "[R267]", "validation-to-test"):
+            self.assertIn(token, sec, f"{token!r} missing from M5.14")
+        t4 = _read(HARNESS / "core/04-verification-and-gates.md")
+        anchor4 = "A benchmark declares its task validity and outcome validity (M3.19)"
+        self.assertIn(anchor4, t4, "M3.19 missing")
+        sec4 = t4.split(anchor4, 1)[1][:2200]
+        for token in ("task validity", "outcome validity", "[R269]", "33%", "M3.18"):
+            self.assertIn(token, sec4, f"{token!r} missing from M3.19")
+
+    def test_m111_deepening_and_checklist_lines(self):
+        t2 = _read(HARNESS / "core/02-context-engineering.md")
+        for token in ("Θ(log n)", "[R268]", "Bloom filter", "compounding error"):
+            self.assertIn(token, t2, f"M1.11 deepening lost {token!r}")
+        self.assertIn("(M5.14).", _read(HARNESS / "core/06-self-evolution.md").split("## Checklist")[1])
+        self.assertIn("(M3.19).", _read(HARNESS / "core/04-verification-and-gates.md").split("## Checklist")[1])
+
+    def test_references_group_aa_and_acs_cue(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## AA.", refs)
+        for ref in ("R267", "R268", "R269", "R270"):
+            self.assertIn(ref, refs)
+        for author in ("Wataoka", "Tirmazi", "Zhu, Yuxuan", "Liu, Yuxuan"):
+            pass  # R263-265 checked in P39 guards; here check the new ones
+        self.assertIn("Y. Liu, Z. Su", refs, "R267 authors missing")
+        self.assertIn("H. Tirmazi", refs, "R268 authors missing")
+        bib = _read(HARNESS / "review/references.bib")
+        for key in ("feedbackdynamics2026", "compactiontheory2026", "abc2025benchmarks", "owasp2026acs"):
+            self.assertIn(key, bib)
+        frontier = _read(HARNESS / "review/frontier-2026-10.md")
+        self.assertIn("[R270]", frontier, "ACS cue not closed with R270")
+
+
 if __name__ == "__main__":
     unittest.main()
