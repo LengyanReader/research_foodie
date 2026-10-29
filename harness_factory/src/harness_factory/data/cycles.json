@@ -1414,6 +1414,32 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P52",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Capability expansion: four domain-keyed capabilities pre-named by P27/P29 (source-criticism, argument-reconstruction, concept-definition, safety-argumentation)",
+      "title_zh": "能力开拓轮：四个域键控能力落地（P27/P29 判别表预命名的学科纪律）",
+      "note": "The user asked to explore comprehensively what other capabilities can be incorporated. Method: an internal coverage matrix (34 domains x 43 capabilities) plus a frontier confirmation (the 2026 consensus concerns - scope leakage, sandboxing, observability - are all carried by existing clauses; 'Agent = Model + Harness' is the frame this library embodies). Adjudication: FOUR domain-keyed capabilities landed, each a discipline that P27/P29's discriminating-power tables PRE-NAMED as the justification for the domain but never landed as capabilities - history->source-criticism (source hierarchy, corroborated witnesses, explicit dating, silence-as-evidence), philosophy->argument-reconstruction (premise-conclusion form, declared stance, honest counterexamples), political-science->concept-definition (concepts before cases, declared method, logged case selection), ai-safety->safety-argumentation (L0-L5: property/threat-model first, red-team coverage logged, refusal != absence). Each fires ONLY on its domain (discrimination by construction) and makes the domain's gate content plan-visible and router-reachable. Non-additions with reasons: scope leakage (M6.11/M1), GUI (P19/no affordance), agent identity (R271/M6.11 path), personal-data (no data-sensitivity affordance - an engine-evolution lead like D3), arts-design (needs a sourced creative-method primary), qualitative-rigour (D3 unchanged), lineage capabilities (spec-driven/agentic-RAG covered by plan-first and evidence-instruments). Structural conclusion: (a)-moves on the existing 8-axis vector are near saturation; the next batch's door is (b)-moves (engine affordances), each paid for twice (P16.6 precedent) and opened per trigger.",
+      "slices": [
+        "P52.1 - the matrix: domain-capability keying analysis (19 uncovered domains, most OR-bypassed); P27/P29 delivery docs checked - the discriminating-power tables pre-named four capability ids",
+        "P52.2 - the four landings: capabilities.json + router rows + source-map rows, content sourced from the P27/P29 delivery docs",
+        "P52.3 - the frontier confirmation + non-additions: one search sweep (scope/sandbox/observability covered); six candidates recorded with reasons; review/capability-expansion-2026-10.md"
+      ],
+      "added": {
+        "capabilities": [
+          "source-criticism",
+          "argument-reconstruction",
+          "concept-definition",
+          "safety-argumentation"
+        ],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

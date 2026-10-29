@@ -962,5 +962,34 @@ class P51IdeationGuardTest(unittest.TestCase):
         self.assertIn("Battery step (P51, standing)", cyc)
 
 
+class P52DomainCapabilityTest(unittest.TestCase):
+    """P52: the four domain-keyed capabilities fire on their own domain and not on
+    a neighbour - discrimination by construction."""
+
+    def test_each_fires_on_its_domain_only(self):
+        from harness_factory.spec import TaskSpec
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        cases = [
+            ("Cross-check the chronicle accounts of the 1120 succession and note what the sources omit", "history", "source-criticism"),
+            ("从认识论角度重构这篇伦理学论文的论证，评估其前提并坦诚反例", "philosophy", "argument-reconstruction"),
+            ("国际关系研究：先界定地缘政治的概念，再说明案例选择的规则并留痕", "political-science", "concept-definition"),
+            ("Build the safety case for this alignment claim: state the threat model, run red-team capability evals, log the coverage", "ai-safety", "safety-argumentation"),
+        ]
+        for txt, dom, cap in cases:
+            v = classify(TaskSpec(text=txt))
+            self.assertEqual(v.domain, dom, f"{txt!r} routed to {v.domain}, expected {dom}")
+            plan = derive(TaskSpec(text=txt), v)
+            self.assertIn(cap, plan.capabilities, f"{cap!r} did not fire on: {txt!r}")
+
+    def test_cross_domain_does_not_fire(self):
+        from harness_factory.spec import TaskSpec
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        plan = derive(TaskSpec(text="add unit tests to the parser"), classify(TaskSpec(text="add unit tests to the parser")))
+        for cap in ("source-criticism", "argument-reconstruction", "concept-definition", "safety-argumentation"):
+            self.assertNotIn(cap, plan.capabilities, f"{cap!r} leaked into a coding task")
+
+
 if __name__ == "__main__":
     unittest.main()

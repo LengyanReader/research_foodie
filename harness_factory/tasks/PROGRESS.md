@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-10-28 · P52：能力开拓轮 —— 四个域键控能力落地（P27/P29 预命名的学科纪律）
+
+- **开轮依据与方法。** 用户指示「全面探索还有哪些新能力可纳入」。方法：**内部覆盖矩阵**（34 域 × 39 能力键控分析——19 域无直接键控但多数被 `any` 旁路覆盖）+ **P27/P29 交付文档核查**（判别力表格**预命名**了四条学科纪律却从未落成能力）+ **前沿确认**（2026 共识关切面——scope 泄漏/沙箱/可观测——均已被既有条款承载）。
+- **落地（4 条，39 → 43）。** `source-criticism`（history：史源分级/独立见证互证/断代显式/**沉默入账**）· `argument-reconstruction`（philosophy：前提-结论重构/立场声明/反例坦诚）· `concept-definition`（political-science：概念先行防 concept stretching/方法声明/**案例选择留痕**）· `safety-argumentation`（ai-safety：L0–L5/红队留痕/**拒答≠无能力**）。各只命中本域——判别力由构造保证；router +4、source-map +4；三语任务句实测入守卫（域信号词表是路由的真相源，测试句必须用域内词汇）。
+- **刻意不加（逐项带理由）。** scope 泄漏（M6.11/M1 已载）· GUI/computer-use（P19 已裁、无 affordance）· 身份凭证（R271/M6.11 路径）· **个人数据/合规（8 轴无 data-sensitivity affordance——引擎演化 lead，与 D3 同型）**· arts-design（需溯源的创作方法一手材料）· D3 原样 · 谱系能力（plan-first/evidence-instruments 已覆盖）。
+- **结构结论。** 8 轴向量上的 (a)-move **接近饱和**；下一批能力的正门是 (b)-move（引擎 affordance：interpretive/modality/data-sensitivity），每次付两次代价（P16.6 先例），按触发逐个开。
+- **登记。** 交付 `review/capability-expansion-2026-10.md`；cycles **P52**（+4 能力）；`P52DomainCapabilityTest` 2 守卫；AGENTS.md 计数 408 → 410。
+- **状态。** 测试 **408 → 410** 全过；`cycle audit` **48 轮 · 0 硬 · 0 缺口**；`capabilities --write` + `catalog --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P51：研究构思轮 —— research-question-generation（填 P18 洞）· M5.11 校准深化 · 电池升为例行
 
 - **入口与扫荡（用户指定 After42）。** 三篇一手：R272（After42 项目页全文：solve-refine-critique、有趣占比 3%→33%、模型评审召回 65–80%/集成 80%、行为反馈有效声明偏好无效、97/100 组合式）+ R273（Stanford 2409.04109 全文：novelty 升 feasibility 平、总分与可行性相关仅 r=0.097、**LLM 自评低于人类互评且「可能是拿方差换偏差」**、多样性平台期 4000→200、执行忠实性缺口）+ R274/R275（AI Scientist 谱系 listed，批判评估 2502.14297 录为警示）。

@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**39 capabilities · 9 modules (M0–M8)**
+**43 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -275,6 +275,30 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** artifact ∈ {plan} (产物)
 - **Modules · 关联模块:** M2, M3, M4, M5
 - **Why · 理由:** Fills the P18 hole (plan-artifact tasks had no dedicated capability); the taste-calibration duty binds where a human-expert consensus is available. The ideation discipline, from three first-party studies: (a) oversample-then-filter with DECLARED criteria (After42: 3% -> 33% interesting share); (b) solve-refine-critique -- 'solving is essential to asking good questions', and per M5.14 the failed solve attempts are the signal; (c) novelty and feasibility are scored SEPARATELY (Stanford: novelty up, feasibility flat; overall score barely correlates with feasibility, r=0.097); (d) model-judge taste must be CALIBRATED against expert consensus where available (agreement below human-human baseline without criteria; 65-80% recall with criteria + ensembles; 'cannot yet replace human research taste') and personalization comes from behavioral feedback, not stated preferences; (e) diversity is tracked -- generation plateaus (4000 seeds -> 200 unique) and inference-time scaling bottleneck on duplicates; homogenization is a named risk. Humans gate the final selection (M0.4/M0.8).
+
+### `source-criticism` — Source criticism (historical method) · 史源批判（史学方法）
+
+- **Fires when · 触发条件:** domain ∈ {history} (领域)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** P27's judged discriminator for the history domain (史源批判·断代显式·沉默入账): every historical claim carries its source's position in the primary/secondary/report hierarchy; independent witnesses are corroborated before a claim is asserted; dating is explicit (a claim without its period is unanchored); silence in the sources is recorded as an evidence state, not skipped — 'the material is silent' is a valid result (M4.13's historical form). Content sourced in review/basic-disciplines-schools-2026-10.md.
+
+### `argument-reconstruction` — Argument reconstruction (philosophical method) · 论证重构（哲学方法）
+
+- **Fires when · 触发条件:** domain ∈ {philosophy} (领域)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** P27's judged discriminator for the philosophy domain (论证重构·立场声明·反例坦诚): arguments are reconstructed in explicit premise-conclusion form before evaluation; the author's own stance is declared rather than smuggled; counterexamples are engaged honestly (the strongest version of the opponent's argument is stated before it is answered). Content sourced in review/basic-disciplines-schools-2026-10.md.
+
+### `concept-definition` — Concept-first case discipline (political-science method) · 概念先行的案例纪律（政治学方法）
+
+- **Fires when · 触发条件:** domain ∈ {political-science} (领域)
+- **Modules · 关联模块:** M3, M4
+- **Why · 理由:** P27's judged discriminator for the political-science domain (概念界定·方法声明·案例选择留痕): concepts are defined before cases are selected (concept stretching is the failure mode); the method is declared with its assumptions (M3.13's political-science form); case selection is logged with its rules so the selection itself is auditable. Content sourced in review/basic-disciplines-schools-2026-10.md.
+
+### `safety-argumentation` — Safety argumentation (AI-safety gate structure) · 安全论证（AI 安全门禁结构）
+
+- **Fires when · 触发条件:** domain ∈ {ai-safety} (领域)
+- **Modules · 关联模块:** M3, M6
+- **Why · 理由:** P29's judged discriminator for the ai-safety domain (L0-L5 安全论证门禁结构): the safety property and threat model are stated before capability claims are tested (M3.10 instruments), red-team attempts are logged with their coverage (M3.15's precision/recall form), and 'the model refused' is distinguished from 'the capability is absent'. Content sourced in review/interdisciplinary-frontier-domains-2026-10.md.
 
 ---
 

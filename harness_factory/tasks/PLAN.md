@@ -453,6 +453,15 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **刻意不加。** 不加 novelty-assessment 独立能力（新能力的组成部分）；AI Scientist 谱系（listed）不落门禁义务，第三方批判评估（2502.14297）录为警示；ResearchAgent 无解析 id 只留名。
 - **登记。** capabilities 38 → **39**；references **§AB**（R272–R275）+ bib；source-map/router 行；交付 `review/research-ideation-2026-10.md`；`P51IdeationGuardTest` 守卫；测试计数见 PROGRESS。
 
+## P52 · 能力开拓轮（2026-10-28，已做）：四个域键控能力——P27/P29 预命名的学科纪律落地
+
+> 用户指示「全面探索还有哪些新能力可纳入」。内部覆盖矩阵 + 前沿确认后，最合法的一批 (a)-move 浮出：**P27/P29 判别力表格预命名但从未落地的四条学科纪律**。
+
+- **落地（4 条，各只命中本域——判别力由构造保证）。** `source-criticism`（history：史源分级/互证/断代显式/**沉默入账**）· `argument-reconstruction`（philosophy：前提-结论重构/立场声明/反例坦诚）· `concept-definition`（political-science：概念先行/方法声明/案例留痕）· `safety-argumentation`（ai-safety：L0–L5/红队留痕/拒答≠无能力）。router +4、source-map +4。
+- **刻意不加（逐项带理由）。** scope 泄漏（M6.11/M1 已载）· GUI（P19 已裁）· 身份凭证（R271/M6.11 路径）· **个人数据（无 data-sensitivity affordance——引擎演化 lead，与 D3 同型）**· arts-design（需溯源的创作方法一手材料）· D3 原样 · 谱系能力（已被覆盖）。
+- **结构结论。** 8 轴向量上的 (a)-move **接近饱和**；下一批的正门是 (b)-move（引擎 affordance），每次付两次代价（P16.6 先例）、按触发逐个开。
+- **登记。** capabilities 39 → **43**；交付 `review/capability-expansion-2026-10.md`；`P52DomainCapabilityTest` 守卫；测试计数见 PROGRESS。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

@@ -20,6 +20,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Capability-expansion round (P52) - four domain-keyed capabilities that P27/P29 pre-named.** Internal coverage
+  matrix (34 domains x 39 capabilities; 19 unkeyed domains, most OR-bypassed) plus a frontier confirmation found the
+  cheapest legal (a)-moves: the disciplines that P27/P29's discriminating-power tables NAMED as the justification
+  for their domains but never landed as capabilities - `source-criticism` (history), `argument-reconstruction`
+  (philosophy), `concept-definition` (political-science), `safety-argumentation` (ai-safety). Each fires only on its
+  domain (discrimination by construction) and makes the domain's gate content plan-visible and router-reachable
+  (39 → 43). Non-additions recorded per candidate: scope leakage (M6.11/M1), GUI (P19), agent identity (R271/M6.11),
+  personal-data (no data-sensitivity affordance - an engine-evolution lead like D3), arts-design (needs a sourced
+  creative-method primary), qualitative-rigour (D3 unchanged). Structural conclusion: (a)-moves on the existing
+  8-axis vector are near saturation; the next batch's door is engine affordances, paid for twice (P16.6 precedent),
+  opened per trigger. Deliverable: `review/capability-expansion-2026-10.md`.
 - **Research-ideation round (P51) - new capability `research-question-generation` (fills the P18 plan-artifact
   hole), M5.11 calibration deepening, and the battery made a standing routine.** Entry point: the user-supplied
   After42 study ("Can AI Propose Interesting Research Questions?"), read in full with the Stanford large-scale

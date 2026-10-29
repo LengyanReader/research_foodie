@@ -3,13 +3,13 @@
 > **Generated** from the catalogs + the CLI + the skill index -- **do not edit by hand**; run `harness map --write` (also refreshed by `harness catalog --write`).
 > **生成文档**：由 SSOT 与 CLI 生成，**请勿手改**；用 `harness map --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**9 modules (M0–M8) · 39 capabilities · 35 domains · 213 catalog entries · 30 CLI subcommands**
+**9 modules (M0–M8) · 43 capabilities · 35 domains · 213 catalog entries · 30 CLI subcommands**
 
 ---
 
 ## 中文速览
 
-这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 39 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、35 个学科域的产物类型与来源要求（§6）、213 条工具目录按类对应模块（§7）、30 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
+这张地图把 harness_factory 的**部件与装配过程**放在一页：一张**能力架构图**（§2：任务 → 8 轴特征 → 43 条能力 → 9 个模块 → 产物 → 演化回路）、每个模块的**责任边界**（§4：管什么 / **不**负责什么 / 载着哪些能力）、两条**实跑出来的**任务样例（§3：同样的流水线，换任务就换答案）、每条能力的**触发条件 + 买到了什么**（§5）、35 个学科域的产物类型与来源要求（§6）、213 条工具目录按类对应模块（§7）、30 个 CLI 子命令（§8），以及 SSOT → 生成视图的同步关系（§10–§11）。
 
 整份文档**由代码生成**（`harness map --write`），`tests/test_harness_map.py` 做漂移守卫：图、表、样例读的是同一批数据，改 SSOT 后重生成即可，不会出现「文档说一套、代码做一套」。
 
@@ -18,7 +18,7 @@
 | surface · 面 | count | SSOT | view |
 |---|---|---|---|
 | Core modules | 9 (M0–M8) | `data/modules.json` | `core/00-index.md` |
-| Capabilities | 39 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
+| Capabilities | 43 | `data/capabilities.json` | [`CAPABILITIES.md`](CAPABILITIES.md) |
 | Domains | 35 (34 + `general`) | `data/domains.json` | `domains/<id>/README.md` |
 | Tool catalog | 213 (12 classes × 62 kinds) | `data/harnesses.json` | [`review/harness-index.md`](review/harness-index.md) |
 | Rubrics | 36 | `data/rubrics.json` | `domains/excellence/standard-ladder.md` |
@@ -45,7 +45,7 @@ flowchart TD
     T["任务 · goal"]
     REF["① 入口 · L0 常驻引用 SKILL.md<br/>或 L1 python -m harness_factory"]
     V["② 分类 · 8 轴特征向量<br/>horizon · verifiability · stakes · grounding<br/>artifact · tool_surface · collaboration · domain"]
-    subgraph CAPS["③ 能力层 · 39 条"]
+    subgraph CAPS["③ 能力层 · 43 条"]
         A0["always · 总是 3"]
         A1["horizon · 时间跨度 15"]
         A2["verifiability · 可验证性 6"]
@@ -54,10 +54,10 @@ flowchart TD
         A5["artifact · 产物 10"]
         A6["tool_surface · 工具面 7"]
         A7["collaboration · 协作 3"]
-        A8["domain · 领域 12"]
+        A8["domain · 领域 16"]
     end
     M["命中集合 + 注解 annotate<br/>只解释模块为何相关，不覆盖选择（M0.4）"]
-    MODS["④ 模块 M0–M8（数字 = 关联能力数）<br/>M0 元原则 3 · M1 上下文工程 2 · M2 长时程 agent 7<br/>M3 验证与门禁 22 · M4 来源与完整性 15 · M5 自演化 8<br/>M6 工具与技能 10 · M7 变更治理 7 · M8 协作与会话 7"]
+    MODS["④ 模块 M0–M8（数字 = 关联能力数）<br/>M0 元原则 3 · M1 上下文工程 2 · M2 长时程 agent 7<br/>M3 验证与门禁 26 · M4 来源与完整性 18 · M5 自演化 8<br/>M6 工具与技能 11 · M7 变更治理 7 · M8 协作与会话 7"]
     O1["⑤ 产物 · AGENTS.md · tasks/*<br/>PLAN · PROGRESS · decisions · gates · ledger"]
     O2["⑤ 产物 · .harness/*<br/>manifest · pointer · 能力台账 · PROVENANCE · check.py"]
     E["⑥ 演化 M5 · 采集信号 → 提案"]
@@ -94,14 +94,14 @@ flowchart TD
 
 - 六层自上而下单向流动；只有一条回边（⑥ 演化），而且**必须过人工闸门**才回到入口。
 - `always` 组由**任务本身**触发（不经向量判断），其余八组各由对应的分类轴触发。
-- 能力层按**触发轴**计数：一条能力可同时看多个轴（`traceable-sources` 同时看 `grounding` 与 `artifact`），故各轴之和 63 > 39，不是重复计算错误。
+- 能力层按**触发轴**计数：一条能力可同时看多个轴（`traceable-sources` 同时看 `grounding` 与 `artifact`），故各轴之和 67 > 43，不是重复计算错误。
 - 图由 `harness_map.render_architecture()` 现算，不手绘；改 catalog 即改图。
 
 | 层 | 装什么 | 关键约束 | 代码 / SSOT |
 |---|---|---|---|
 | ① 入口 | L0 常驻引用（`SKILL.md`，免安装）· L1 命令行 | 两形态**等价**，读的是同一批文件 | `SKILL.md` · `cli.py` |
 | ② 分类 | 8 轴特征向量 | 只**描述**任务，不编造任务内容（M0.4） | `classify.py` · `spec.py` |
-| ③ 能力 | 39 条可复用要求 | 命中即**注解**，永不覆盖模块选择（M0.4） | `data/capabilities.json` |
+| ③ 能力 | 43 条可复用要求 | 命中即**注解**，永不覆盖模块选择（M0.4） | `data/capabilities.json` |
 | ④ 模块 | M0–M8 规则本体 | 按依赖排序，后序假定前序 | `data/modules.json` · `core/` |
 | ⑤ 产物 | `AGENTS.md` · `tasks/*` · `.harness/*` | 必须能自证：`check` / `gate` 可跑 | `derive.py` · `assemble.py` · `templates/` |
 | ⑥ 演化 | 信号 → 提案 → 闸门 → 日志 | 只观察/提议，不直接改 SSOT（M5） | `evolution.py` · `data/cycles.json` |
@@ -152,10 +152,10 @@ flowchart TD
 | M0 | Meta-principles · 元原则 | Truth and traceability outrank speed; automate only observe/record/rank | Names no workflow, tool or domain method - it only ranks principles when they collide.<br/>*不提供流程、工具或领域方法；只在原则冲突时排优先级。* | 3 | `core/01-meta-principles.md` |
 | M1 | Context engineering · 上下文工程 | Context is a finite, scarce resource - curate, don't dump | Does not judge what is true or what counts as done - only what enters the window.<br/>*不判断真假与验收标准，只管什么进入窗口。* | 2 | `core/02-context-engineering.md` |
 | M2 | Long-running agents · 长时程 agent | Externalize memory; advance incrementally; make every run resumable | Does not verify results or choose direction - only keeps state resumable and runs idempotent.<br/>*不判定结果或方向；只保证可恢复、可续跑、可重入。* | 7 | `core/03-long-running-agents.md` |
-| M3 | Verification & gates · 验证与门禁 | Define done before work; verify the verifier; hard vs soft gates | Does not decide what to build or where evidence comes from - it defines and enforces done.<br/>*不决定做什么、不负责取证；只定义并执行 done。* | 22 | `core/04-verification-and-gates.md` |
-| M4 | Provenance & integrity · 来源与完整性 | Every fact traceable to a primary source; uncertain means uncertain | Does not audit code correctness or guarantee the conclusion is true - it makes claims traceable and expression reviewable.<br/>*不审计代码、不担保结论为真；只让断言可溯源、表达可复核。* | 15 | `core/05-provenance-and-integrity.md` |
+| M3 | Verification & gates · 验证与门禁 | Define done before work; verify the verifier; hard vs soft gates | Does not decide what to build or where evidence comes from - it defines and enforces done.<br/>*不决定做什么、不负责取证；只定义并执行 done。* | 26 | `core/04-verification-and-gates.md` |
+| M4 | Provenance & integrity · 来源与完整性 | Every fact traceable to a primary source; uncertain means uncertain | Does not audit code correctness or guarantee the conclusion is true - it makes claims traceable and expression reviewable.<br/>*不审计代码、不担保结论为真；只让断言可溯源、表达可复核。* | 18 | `core/05-provenance-and-integrity.md` |
 | M5 | Self-evolution · 自演化 | signal -> audit -> mutation -> journal, human-gated | Never edits an SSOT or publishes on its own - it proposes, gates and journals.<br/>*不自行改 SSOT 或发布；只提案、过闸、记账。* | 8 | `core/06-self-evolution.md` |
-| M6 | Tools & skills · 工具与技能 | Minimal toolset; biased errors; skills load progressively | Sets no policy or permissions - it shapes interfaces, minimality and load order.<br/>*不定权限与流程；只定工具接口、最小集与加载顺序。* | 10 | `core/07-tools-and-skills.md` |
+| M6 | Tools & skills · 工具与技能 | Minimal toolset; biased errors; skills load progressively | Sets no policy or permissions - it shapes interfaces, minimality and load order.<br/>*不定权限与流程；只定工具接口、最小集与加载顺序。* | 11 | `core/07-tools-and-skills.md` |
 | M7 | Change governance · 变更治理 | Single source of truth; reviewable diffs; no unsolicited destructive acts | Produces no content - it makes changes visible, reviewable and revertible.<br/>*不生产内容；只让变更可见、可复核、可回退。* | 7 | `core/08-change-governance.md` |
 | M8 | Collaboration & sessions · 协作与会话 | Explicit contracts; escalate decisions; hand off with state | Does not grade the work or set the bar - it makes contracts, escalation and handoff explicit.<br/>*不评判质量、不设定标准；只把契约、升级与交接写明白。* | 7 | `core/09-collaboration-and-sessions.md` |
 
@@ -165,16 +165,16 @@ flowchart TD
 - **M0 元原则**（3）：`baseline-discipline`, `ambition-elevation`, `bidirectional-capability-flow`
 - **M1 上下文工程**（2）：`baseline-discipline`, `context-budget-policy`
 - **M2 长时程 agent**（7）：`resumable-memory`, `long-horizon-autonomy-control`, `context-budget-policy`, `durable-execution`, `loop-discipline`, `graph-orchestration`, `research-question-generation`
-- **M3 验证与门禁**（22）：`verification-gate`, `high-stakes-guardrails`, `reproducible-experiments`, `long-horizon-autonomy-control`, `frontier-standard`, `sandboxed-execution`, `ambition-elevation`, `expert-instruments`, `durable-execution`, `cost-budget-caps`, `eval-driven-development`, `loop-discipline`, `formal-verification`, `dimensional-analysis`, `empirical-measurement`, `statistical-inference`, `certified-computation`, `ontology-as-contract`, `evidence-bounded-generation`, `component-ablation`, `model-portfolio-discipline`, `research-question-generation`
-- **M4 来源与完整性**（15）：`traceable-sources`, `reproducible-experiments`, `expert-instruments`, `untrusted-content-discipline`, `formal-verification`, `empirical-measurement`, `statistical-inference`, `ontology-as-contract`, `entity-resolution`, `evidence-bounded-generation`, `schema-evolution`, `prose-polish`, `expression-design`, `model-portfolio-discipline`, `research-question-generation`
+- **M3 验证与门禁**（26）：`verification-gate`, `high-stakes-guardrails`, `reproducible-experiments`, `long-horizon-autonomy-control`, `frontier-standard`, `sandboxed-execution`, `ambition-elevation`, `expert-instruments`, `durable-execution`, `cost-budget-caps`, `eval-driven-development`, `loop-discipline`, `formal-verification`, `dimensional-analysis`, `empirical-measurement`, `statistical-inference`, `certified-computation`, `ontology-as-contract`, `evidence-bounded-generation`, `component-ablation`, `model-portfolio-discipline`, `research-question-generation`, `source-criticism`, `argument-reconstruction`, `concept-definition`, `safety-argumentation`
+- **M4 来源与完整性**（18）：`traceable-sources`, `reproducible-experiments`, `expert-instruments`, `untrusted-content-discipline`, `formal-verification`, `empirical-measurement`, `statistical-inference`, `ontology-as-contract`, `entity-resolution`, `evidence-bounded-generation`, `schema-evolution`, `prose-polish`, `expression-design`, `model-portfolio-discipline`, `research-question-generation`, `source-criticism`, `argument-reconstruction`, `concept-definition`
 - **M5 自演化**（8）：`self-improving-loop`, `reproducible-experiments`, `frontier-standard`, `bidirectional-capability-flow`, `eval-driven-development`, `gap-seeking`, `component-ablation`, `research-question-generation`
-- **M6 工具与技能**（10）：`tool-use`, `sandboxed-execution`, `portable-skills`, `expert-instruments`, `cross-field-crew`, `untrusted-content-discipline`, `loop-discipline`, `formal-verification`, `dimensional-analysis`, `certified-computation`
+- **M6 工具与技能**（11）：`tool-use`, `sandboxed-execution`, `portable-skills`, `expert-instruments`, `cross-field-crew`, `untrusted-content-discipline`, `loop-discipline`, `formal-verification`, `dimensional-analysis`, `certified-computation`, `safety-argumentation`
 - **M7 变更治理**（7）：`baseline-discipline`, `sandboxed-execution`, `bidirectional-capability-flow`, `untrusted-content-discipline`, `cost-budget-caps`, `schema-evolution`, `model-portfolio-discipline`
 - **M8 协作与会话**（7）：`human-review-gate`, `high-stakes-guardrails`, `long-horizon-autonomy-control`, `frontier-standard`, `ambition-elevation`, `cross-field-crew`, `graph-orchestration`
 
 </details>
 
-## 5 · 能力 · Capabilities（39）
+## 5 · 能力 · Capabilities（43）
 
 一条能力是**可复用的要求**：任务的向量命中它的 `when`，它就规定「这件事必须做到什么」，并**注解**已启用的模块（M0.4）。`要点` 取 `why` 的**首句**；完整要求（多条句子的能力）见 [`CAPABILITIES.md`](CAPABILITIES.md)。
 
@@ -219,6 +219,10 @@ flowchart TD
 | `component-ablation` | Component ablation: a module earns its place · 组件消融：组件须自证其位 | M3, M5 | horizon ∈ {multi_session} (时间跨度) and verifiability ∈ {high} (可验证性) | A harness grows by accretion and never shrinks, so module count starts reading as capability |
 | `model-portfolio-discipline` | Model portfolio: choose per stage, measure on your own task · 模型组合：按阶段选型，在自己的任务上测量 | M3, M4, M7 | domain ∈ {model-selection} (领域) | A model choice is a measurement, not a rank |
 | `research-question-generation` | Research-question generation (ideation with calibrated taste) · 研究问题生成（带校准品味的构思） | M2, M3, M4, M5 | artifact ∈ {plan} (产物) | Fills the P18 hole (plan-artifact tasks had no dedicated capability); the taste-calibration duty binds where a human-expert consensus is available |
+| `source-criticism` | Source criticism (historical method) · 史源批判（史学方法） | M3, M4 | domain ∈ {history} (领域) | P27's judged discriminator for the history domain (史源批判·断代显式·沉默入账): every historical claim carries its source's position in the primary/secondary/report hierarchy; independent witnesses are corroborated before a claim is asserted; dating is explicit (a claim without its period is unanchored); silence in the sources is… |
+| `argument-reconstruction` | Argument reconstruction (philosophical method) · 论证重构（哲学方法） | M3, M4 | domain ∈ {philosophy} (领域) | P27's judged discriminator for the philosophy domain (论证重构·立场声明·反例坦诚): arguments are reconstructed in explicit premise-conclusion form before evaluation; the author's own stance is declared rather than smuggled; counterexamples are engaged honestly (the strongest version of the opponent's argument is stated before it… |
+| `concept-definition` | Concept-first case discipline (political-science method) · 概念先行的案例纪律（政治学方法） | M3, M4 | domain ∈ {political-science} (领域) | P27's judged discriminator for the political-science domain (概念界定·方法声明·案例选择留痕): concepts are defined before cases are selected (concept stretching is the failure mode); the method is declared with its assumptions (M3.13's political-science form); case selection is logged with its rules so the selection itself is audit… |
+| `safety-argumentation` | Safety argumentation (AI-safety gate structure) · 安全论证（AI 安全门禁结构） | M3, M6 | domain ∈ {ai-safety} (领域) | P29's judged discriminator for the ai-safety domain (L0-L5 安全论证门禁结构): the safety property and threat model are stated before capability claims are tested (M3.10 instruments), red-team attempts are logged with their coverage (M3.15's precision/recall form), and 'the model refused' is distinguished from 'the capability… |
 
 ## 6 · 学科域 · Domains
 
