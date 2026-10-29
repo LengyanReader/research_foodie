@@ -1359,6 +1359,28 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P50",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Experiment battery: three more paired trials (unit-tests 0.552 vs 1.0, proof-verification 0.0 vs 1.0, bayesian-stats 0.2 vs 1.0) - five families now measured",
+      "title_zh": "行实验组：三组新配对试验（unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 · bayesian-stats 0.2 vs 1.0）——五族已测",
+      "note": "The user asked for many usage-side experiments grounded in reliable frontier practice. The battery design (review/experiment-battery-2026-10.md) grounds each of the seven scoreboard families in a benchmark tradition: RHB hidden recomputation + LHTB replay-based grading for unit-tests (the judge's hidden replay suite is written FIRST and the conditions' own tests are not the grade), compile-is-acceptance (miniF2F practice; M3.19's machine-checkable form) for proof-verification, and Registered-Reports/M3.11 independent re-derivation for bayesian-stats. Three new trials run with the environment's capabilities (Lean 4 toolchain installed; numpy/scipy available; declared-synthetic seeded data): unit-tests A 0.552 (16/29 hidden cases; missing spec rules: leading zeros, empty build, whitespace, v-prefix, non-ASCII; no precedence helper) vs B 1.0 (its independently-written acceptance tests caught a real bug - all-digit prerelease ids are numeric and must reject leading zeros - iterate-until-green); proof-verification A 0.0 (the unverified proof fails compilation: rfl non-closure + looping simp) vs B 1.0 (exit 0 after one compile-fix iteration, zero escapes); bayesian-stats A 0.2 (numbers happen to match the normal approximation at n=500 but no prior, no diagnostics, no provenance, an unsupported reliability assertion) vs B 1.0 (the judge's independent re-derivation reproduces the interval exactly; simulation cross-check agrees). Findings: the judge's own hidden suite had an outcome-validity defect (interface assumption) fixed BEFORE scoring - M3.19 applies to the experiment design itself; harness 5/5 across all five measured families (bare mean 0.19 vs harness 1.0); no emitted-template gaps exposed this round (honest negative: no evidence for new clauses or capabilities). 12 real traces in the tool home; trace-audit correctly silent on each scaled pair.",
+      "slices": [
+        "P50.1 - the battery design: seven families x grounding practice x judge design x feasibility (environment probe: Lean 4 installed, numpy/scipy available)",
+        "P50.2 - trial 3 (unit-tests/semver, hidden replay): judge-first suite archived, judge's own outcome-validity defect found and fixed before scoring, gaming scan clean; A 0.552 vs B 1.0",
+        "P50.3 - trial 4 (Lean proof): A archived unverified then compiled by the judge (fails) vs B compiled to acceptance (exit 0, no escapes); trial 5 (Beta-Binomial): judge re-derivation reproduces B exactly, A 0.2; receipts as scaled traces #7-#12 (12 total)",
+        "P50.4 - the battery doc results + findings sections; guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

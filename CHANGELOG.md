@@ -20,6 +20,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Experiment battery (P50) - three more paired trials; five families measured, harness 5/5.** The battery grounds
+  each scoreboard family in a benchmark tradition: unit-tests anchored in RHB hidden recomputation + LHTB
+  replay-based grading (the judge's hidden suite is archived FIRST; the conditions' own tests are not the grade),
+  proof-verification in compile-is-acceptance (miniF2F practice; the environment's Lean 4 toolchain), bayesian-stats
+  in Registered-Reports/M3.11 independent re-derivation. Results (all with scale-declared receipts): unit-tests
+  bare 0.552 (16/29 hidden cases) vs harness 1.0 - whose independently-written acceptance tests caught a real bug
+  (all-digit prerelease ids are numeric and must reject leading zeros); proof-verification bare 0.0 (the unverified
+  proof fails compilation) vs harness 1.0 (exit 0, zero escapes, one iteration); bayesian-stats bare 0.2 (numbers
+  happen to match; no prior, no diagnostics, no provenance) vs harness 1.0 (the judge's independent re-derivation
+  reproduces the interval exactly). Cross-family conclusion: the harness's contribution is verifiability and
+  diagnostics, not point-estimate accuracy. The judge's own hidden suite had an outcome-validity defect (interface
+  assumption) fixed before scoring - M3.19 applied to the experiment design itself. Honest negative: no
+  emitted-template gaps exposed - no evidence for new clauses or capabilities. 12 real traces in the tool home.
+  Deliverable: `review/experiment-battery-2026-10.md`.
 - **Three-front push (P47/P48/P49) - scale fix, second paired trial, ACS deep read.** P47 closes P45.R1: effect
   receipts may declare `detail.scale: [lo, hi]`; the low-outcome rule compares scaled receipts by NORMALIZED score
   (low_max_normalized 0.4 - 1.0 on [0,1] is perfect, 1.0 on [0,5] is low) while scale-less receipts keep the

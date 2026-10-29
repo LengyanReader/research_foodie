@@ -911,5 +911,22 @@ class P49AcsGuardTest(unittest.TestCase):
         self.assertIn("[R271]", frontier, "deep-read follow-up not marked done")
 
 
+class P50BatteryGuardTest(unittest.TestCase):
+    """P50: the experiment battery - three new paired trials, five families measured."""
+
+    def test_battery_doc_carries_results_and_findings(self):
+        doc = _read(HARNESS / "review/experiment-battery-2026-10.md")
+        for token in ("0.552", "16/29", "逐位复现", "隐藏重放", "编译即接受",
+                      "独立重推导", "12 条真实轨迹", "5/5", "0.19"):
+            self.assertIn(token, doc, f"battery doc lost {token!r}")
+
+    def test_hidden_replay_suite_exists_and_is_judge_first(self):
+        suite = (HARNESS / "updates/dogfood/p50-battery/trial3-unit-tests/hidden_replay.py")
+        if suite.exists():  # gitignored; only asserted when present on this machine
+            text = suite.read_text(encoding="utf-8")
+            self.assertIn("Hidden replay suite", text)
+            self.assertIn("NOT the grade", text)
+
+
 if __name__ == "__main__":
     unittest.main()

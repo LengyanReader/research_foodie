@@ -433,6 +433,16 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **P49 · ACS 深读（R271，v0.1.0）。** 观察项链条闭环（P20 观察 → P43 落地页 → 本轮正文）。**裁决：M6.11 深化**——ACS 把「授权在具体实参上」物化为强制架构（19 钩子 + allow/deny/**modify**/ask/defer；modify=实参重写；确定性层永远先行、LLM 层从属；ask=人类门协议化）；其 v0.1.0 自报缺口（未认证线缆、**fail-open 默认**）正是本库 default-fail 原则所禁的反模式——警示随范例一并落地。刻意不加：无 policy-enforcement 能力；预-1.0 自声明标准不落门禁义务（M0.2）。
 - **登记。** cycles **P47/P48/P49**（P49 +1 参考 R271）；**P45.R1 → done_in P47**；M6.11 深化句（core/07）+ levers + source-map + frontier 注记；交付 `review/acs-deep-read-2026-10.md` + 配对试验文档 §5；测试 **396 → 403**。
 
+## P50 · 行实验组轮（2026-10-28，已做）：三组新配对试验——五族已测，harness 5/5
+
+> 用户指示「基于可靠前沿设计使用侧实验并充分测试」。电池设计锚定前沿评测实践：unit-tests 锚 **RHB 隐藏重算 + LHTB 重放评分**（判分者先行、条件自带测试不算分）；proof-verification 锚 **miniF2F 编译即接受**；bayesian-stats 锚 **Registered Reports / M3.11 独立重推导**。
+
+- **Trial 3（unit-tests，semver 解析）**：A **0.552**（16/29 隐藏用例；漏前导零/空 build/空白/v 前缀/非 ASCII 等规格规则；无优先级助手）vs B **1.0**（验收测试先行抓到真 bug：全数字预发布 id 属 numeric 须拒前导零——编译-迭代至绿）。**判分者自身的套件初版有结果有效性缺陷**（接口假定），先修判分者再判分——M3.19 的活案例。
+- **Trial 4（Lean 4 证明）**：A **0.0**（未验证证明编译失败：rfl 不闭合 + simp 循环）vs B **1.0**（exit 0、零逃逸、一次迭代）。环境探测发现 Lean 工具链可用——proof-verification 族的天然机器判分落地。
+- **Trial 5（Beta-Binomial）**：A **0.2**（正态近似数值偶然接近，但无先验/无诊断/无来源/无根据断言）vs B **1.0**（判分者 scipy 独立重推导**逐位复现**区间 + 模拟互证）。**跨族结论一致：harness 的贡献是可检验性与诊断，不是点估计准确度。**
+- **累计。** 五族已测（P45/P48/P50）：harness **5/5**，裸奔均值 0.19 vs 1.0；**12 条真实轨迹**；trace-audit 对各对正确静默。**诚实负面结果**：本轮未发现发射物缺口——无新子句/能力的证据（五族的发射纪律都够用）。
+- **登记。** 交付 `review/experiment-battery-2026-10.md`（全组设计 + 结果 + 发现）；cycles **P50**（0/0/0/0）；守卫随 docs_integrity；剩余两族（deep-research/kg-dh）queued。
+
 **排队中、未排期的候选轮**（不预分配编号：上一轮 P19 编号被本轮占用，预分配只会再次作废。2026-10-28 用户授权后的裁决已登记进 roadmap：**D7 已排队**（触发已满足：golden-set 审计，基于 R254 全文，可选用已核验的发布池作素材——上游许可先过）；**D1 阶段 C 可排**（第一份 measured 收据已落，开轮即跑 M5.12 消融梯）；**生态扫描 → defer 为 P28.R1**（提案留 updates/、判据原样，触发：某轮需要生态锚点或用户点名要生态扫描）。建议顺序：下一个真实任务继续 dogfood（轨迹积累 → trace-audit 模式浮现）→ D7 → D1 阶段 C。）
 - ~~**自用轮（dogfood）。**~~ **已开并关闭为 P21（2026-10-23）**：10 处缺陷全修（5 处四缺陷命中、5 处跨文档漂移），不新增子句；M4.17 可操作性仍待一轮真正消费模型输出的工作检验。
 - **D1 设计文档已提案（2026-10-23，`updates/2026-10-23-trace-driven-evolution-design.md`，未入版本控制）。** 按 D1 验收标准点名 trace schema（6 事件 / 3 采集点，本地 + 可匿名）、留出集（= 记分轮产物；阶段 A/B 不需留出集可先动工，阶段 C 须等记分轮）与回滚路径（只追加 / updates 可删 / git revert / 哈希重放）；待用户确认后开 **D1a**（阶段 A：schema + 采集）。

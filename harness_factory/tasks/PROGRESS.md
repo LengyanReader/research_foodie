@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-10-28 · P50：行实验组轮 —— 三组新配对试验，五族已测（harness 5/5）
+
+- **开轮依据。** 用户指示「基于可靠前沿设计使用侧实验、充分测试、提升能力」。电池设计锚定前沿评测实践：unit-tests 锚 **RHB 隐藏重算 + LHTB 重放评分**（判分者先行、条件自带测试不算分）、proof-verification 锚 **miniF2F 编译即接受**（M3.19 的机器形态）、bayesian-stats 锚 **Registered Reports / M3.11 独立重推导**。环境探测：**Lean 4 工具链可用**（elan 装 v4.35.0）+ numpy/scipy——三族全可行。
+- **Trial 3（semver 解析）。** 判分者隐藏套件先行存档；**判分者自身初版有结果有效性缺陷**（元组接口假定 → dict 崩）先修再判（M3.19 活案例）。A **0.552**（16/29；漏前导零/空 build/空白/v 前缀/非 ASCII；无优先级助手）vs B **1.0**（独立写出的验收测试抓到真 bug：全数字预发布 id 属 numeric 须拒前导零；迭代至绿；无特判——RHB 作弊扫描干净）。
+- **Trial 4（Lean 4）。** A **0.0**（未验证证明编译失败：rfl 不闭合 + simp 循环——M0.3 在证明族量化）vs B **1.0**（exit 0，一次编译-迭代修复，零 sorry/admit/native_decide）。
+- **Trial 5（Beta-Binomial，声明的合成数据）。** A **0.2**（正态近似数值偶然接近，但无先验/无诊断/无来源/「近似可靠」无根据；置信 vs 可信混用）vs B **1.0**（判分者 scipy 独立重推导**逐位复现**区间 + 模拟互证；先验/诊断/来源齐全）。
+- **五族累计。** harness **5/5 全胜**（P45/P48/P50），裸奔均值 **0.19** vs **1.0**；**12 条真实轨迹**（每对一低一高、带尺度）；trace-audit 各对正确静默。**跨族一致结论：harness 的贡献是可检验性与诊断，不是点估计准确度。**
+- **诚实负面结果。** 本轮未发现发射物缺口——五族 harness 全满分，无新子句/能力证据（发射纪律：验收先行/门禁/溯源在五族都够用）。
+- **登记。** 交付 `review/experiment-battery-2026-10.md`（全组设计 + 三组结果 + 五条发现；deep-research/kg-dh queued）；cycles **P50**（0/0/0/0）；`P50BatteryGuardTest` 2 守卫；AGENTS.md 计数 403 → 405。
+- **状态。** 测试 **403 → 405** 全过；`cycle audit` **46 轮 · 0 硬 · 0 缺口**。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P47+P48+P49：三组推进 —— 尺度修复 · 第二组配对试验 · ACS 深读
 
 - **P47（P45.R1 修复）。** effect 收据可声明 `scale: [lo, hi]`；low-outcome 规则按**归一化分数**判低（`low_max_normalized: 0.4`），无尺度收据保持 legacy 原值检查（歧义写明）；scoreboard 收据同样接受可选 scale。trace.py 校验 + trace_audit.py 比较 + 规则 why + scoreboard.py 四处落地，+3 守卫。
