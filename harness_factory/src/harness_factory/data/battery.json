@@ -142,7 +142,7 @@
     },
     {
       "task_id": "deep-research",
-      "status": "pending",
+      "status": "done",
       "grounding": "citation-verifiability on a deeper topic (abs-page resolution, as P45 but multi-hop)",
       "judge_checks": [
         "E1 citations resolve",
@@ -159,7 +159,12 @@
         "task": "A multi-hop research question whose answer requires following 2+ citation hops (e.g., a claim in a 2026 paper that rests on a 2024 paper's result - both must resolve).",
         "conditions": "A bare: one-pass answer. B harness: verify every hop.",
         "judge": "fetch-based, as P45 plus hop verification."
-      }
+      },
+      "results": {
+        "A-bare": 0.4,
+        "B-harness": 1.0
+      },
+      "round": "P56"
     }
   ]
 }

@@ -20,6 +20,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Battery complete 7/7 (P56) - the deep-research multi-hop trial claimed from the registry and executed.** The
+  registry-driven loop ran end to end without human steering: `battery --next` handed over the last pending family;
+  the trial traced a genuine 3-hop chain (the 2026 compaction theory's Theorem 1 -> its cited basis, Roughgarden's
+  2016 textbook -> the 2015 arXiv lecture notes, all resolving) plus the production-classification table and the
+  case-study numbers. Bare 0.4: the case-study numbers were right from memory but the hop-2 citation was FABRICATED
+  in its precise attribution (Kalyanasundaram-Schnitger 1992 named where the paper cites Roughgarden's textbook) and
+  the production classification was wrong twice - the topic survives, the citation does not; multi-hop resolution is
+  the minimum bar for citation integrity. Harness 1.0 with both errors corrected in-artifact and two guessed-URL 404s
+  honestly recorded. 16 real traces; the experiment registry is complete across all seven families.
 - **Matching-rate round (P55) - the routing battery extended to 36 cases (en+zh), three matching defects fixed,
   and a standalone `harness classify` intent command.** Honest baseline: P18's routing battery last ran against the
   2026-10-20 surface; since then six domains, fourteen capabilities and new cues landed without a regression. The

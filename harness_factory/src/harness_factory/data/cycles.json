@@ -1502,6 +1502,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P56",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Battery complete 7/7: the deep-research multi-hop trial claimed from the registry and executed (bare 0.4 vs harness 1.0)",
+      "title_zh": "电池七族全满：从注册表领取 deep-research 多跳试验并执行（裸奔 0.4 vs harness 1.0）",
+      "note": "The registry-driven self-experimentation loop ran end to end: 'harness battery --next' handed over the last pending family (deep-research, multi-hop citation-verifiability), the harness was emitted for the trial task, both conditions executed, scaled receipts harvested (traces #15/#16), and the registry flipped - 7/7 families done. The question traced a genuine multi-hop chain: Context Compaction Theory (2026) grounds its Theorem 1 in set-disjointness one-way communication complexity, citing [37] Roughgarden (2016) 'Communication Complexity (for Algorithm Designers)', Foundations and Trends TCS 11(3-4):217-404, whose arXiv preprint (1509.06257, 2015) resolves; the production classification is GEN = Codex/Gemini CLI, SELECT+GEN = Claude Code/OpenCode (tool result), SELECT = message/token/code-symbol truncation tools; the Appendix A case study: compaction endpoint errors 0.505-0.555 near random guess vs 0.02 un-compacted, Bloom filter near-optimal. Bare condition scored 0.4: the case-study numbers were correct from memory, but the hop-2 citation was FABRICATED in its precise attribution (named Kalyanasundaram-Schnitger 1992 STOC where the paper cites Roughgarden's textbook - the topic right, the citation invented), Claude Code misclassified as pure SELECT, and OpenCode claimed absent. The harness condition closed the 3-hop chain with two fetches plus a search (two guessed URLs 404'd - recorded per the no-guessing rule) and corrected both errors in-artifact. Findings: (1) memory fabricates PRECISE attributions - the topic survives, the citation does not; multi-hop resolution is the minimum bar for citation integrity; (2) the registry loop works without human steering: claim -> execute -> receipts -> flip.",
+      "slices": [
+        "P56.1 - claimed from the registry via 'battery --next'; harness emitted and checked",
+        "P56.2 - both conditions executed: bare from memory (archived unverified) vs harness with per-hop fetches (2608.01326 HTML; Roughgarden located via search after two guessed-URL 404s; 1509.06257 abs resolved)",
+        "P56.3 - scaled receipts as traces #15/#16; registry flipped 7/7; battery doc results table extended to seven families"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

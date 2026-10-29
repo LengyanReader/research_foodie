@@ -917,7 +917,7 @@ class P50BatteryGuardTest(unittest.TestCase):
     def test_battery_doc_carries_results_and_findings(self):
         doc = _read(HARNESS / "review/experiment-battery-2026-10.md")
         for token in ("0.552", "16/29", "逐位复现", "隐藏重放", "编译即接受",
-                      "独立重推导", "12 条真实轨迹", "5/5", "0.19"):
+                      "独立重推导", "16 条真实轨迹", "7/7", "0.19"):
             self.assertIn(token, doc, f"battery doc lost {token!r}")
 
     def test_hidden_replay_suite_exists_and_is_judge_first(self):
