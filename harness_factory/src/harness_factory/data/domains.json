@@ -61,7 +61,8 @@
     "signals": [
       "research",
       "literature",
-      "survey",
+      "literature survey",
+      "survey paper",
       "paper",
       "cite",
       "citation",
@@ -569,7 +570,10 @@
       "政治",
       "政策",
       "民族志",
-      "治理"
+      "治理",
+      "field survey",
+      "interviews",
+      "survey research"
     ],
     "overlaps": {
       "economics-finance": "经济社会学",

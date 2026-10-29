@@ -39,6 +39,8 @@ _HIGH_VERIFIABILITY = [
     "tests",
     "eval",
     "evaluation",
+    "experiment",
+    "experiments",
     "metric",
     "benchmark",
     "compile",
@@ -46,6 +48,7 @@ _HIGH_VERIFIABILITY = [
     "unit test",
     "测试",
     "评测",
+    "实验",
     "指标",
     "基准",
 ]

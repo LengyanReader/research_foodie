@@ -20,6 +20,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Matching-rate round (P55) - the routing battery extended to 36 cases (en+zh), three matching defects fixed,
+  and a standalone `harness classify` intent command.** Honest baseline: P18's routing battery last ran against the
+  2026-10-20 surface; since then six domains, fourteen capabilities and new cues landed without a regression. The
+  standing battery (all domains, key capabilities, intent edges, precision negatives) found three real defects on
+  first run, all fixed: experiment/experiments/实验 missing from the high-verifiability cues (zh experimental tasks
+  never reached reproducible-experiments); social-science lacking English field-method signals (field
+  survey/questionnaire/interviews added, questionnaire then ceded to psychology by the one-owner distinctiveness
+  guard); and generic 'survey' ownership disambiguated (literature survey/survey paper vs field survey/survey
+  research). `harness classify --task` gives intent inspection (8-axis vector + matched capabilities) its own
+  command. Assessment of the R0-R5/brief/meta-prompt side: the refinement machinery is fidelity-guarded; what was
+  missing was commandability (now closed) and the regression loop (matching-rate changes now fail CI).
 - **Coverage audit (P54) - four dimensions (disciplines / thinking modes / paradigms / experience) + the
   thinking-modes section.** Honest answer to "is the discipline coverage exhausted": no, and exhaustion is not the
   goal - the criterion is entries that change gate content (M0.5/P27), with probe-domains as the standing

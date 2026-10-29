@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-10-28 · P55：匹配率轮 —— 路由电池扩至 36 例 · 三处命中缺口修复 · classify 命令
+
+- **开轮依据。** 用户两问：匹配率/命中率如何保证需求匹配到最合适的能力；meta prompt/意图分析/需求分析是否足够优化。诚实现状：P18 电池停在 2026-10-20 的面上（此后 +6 域 +14 能力未回归），且无独立意图检查命令。
+- **路由电池（`tests/test_routing_battery.py`，常设回归入 CI）。** 35 个域/能力用例（双语、全域覆盖、含新域与 plan 构思触发）+ horizon/collaboration 意图边界 + 精度反例。首轮实测抓到 **3 处真缺陷，全修**：① `experiment/experiments/实验` 缺席高可验证词表（实验性工作本就是 high——zh 实验任务从未命中 reproducible-experiments）；② social-science 缺英文田野方法信号（+field survey/questionnaire/interviews；questionnaire 随后按 one-owner 守卫**让渡给 psychology**——守卫网自证）；③ 泛词 `survey` 所有权消歧（research 收紧为 literature survey/survey paper，social-science 加 survey research——P18 精度原则用于 P27 所有权案例）。
+- **`harness classify --task`（意图分析命令面）。** 8 轴向量 + 命中能力清单，不跑 derive/emit——意图检查有了独立入口（此前只能跑完整管线）。
+- **meta prompt/R0–R5/brief 评估结论。** 需求精炼机与 brief 是意图分析层，已有 fidelity 守卫（P12）；缺的是可命令化（classify 补上）与回归环（电池入 CI——匹配率改动会红）；修正回路兜底 = re_derive 轨迹规则。
+- **登记。** `P55RoutingBatteryTest`（routing battery 文件 5 用例）；cycles **P55**（0/0/0/0）；PLAN P55 章节；AGENTS.md 计数 415 → 420（首次误写 423，按实际数修正）。
+- **状态。** 测试 **415 → 420** 全过；`cycle audit` **51 轮 · 0 硬 · 0 缺口**；`catalog --write` + `map --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P54：覆盖审计轮 —— 学科/思维方式/范式/经验四维审计 + 思维方式节
 
 - **开轮依据。** 用户问「学科范围与各领域思维方式/知识/范式/经验是否穷尽」。**诚实回答：没有，且不应以穷尽为目标**——判据是「能改变门禁内容才入」（M0.5/P27），穷尽式收录违反 M0.6。结构保障：probe-domains 常设自动发现 + M5.11 缺口寄存器 + roadmap 触发。

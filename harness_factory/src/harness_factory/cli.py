@@ -131,6 +131,12 @@ def build_parser() -> argparse.ArgumentParser:
     battery_p.add_argument("--next", action="store_true", help="print the next pending family's full spec")
     battery_p.add_argument("--json", action="store_true")
 
+    classify_p = sub.add_parser(
+        "classify", help="intent inspection (P55): the 8-axis feature vector + matched capabilities, no plan emitted"
+    )
+    classify_p.add_argument("--task", required=True, help="the task text to classify")
+    classify_p.add_argument("--json", action="store_true")
+
     trace_audit_p = sub.add_parser(
         "trace-audit", help="audit recorded traces into mutation proposals (D1 stage B, offline)"
     )
@@ -631,6 +637,26 @@ def _cmd_collect(args: argparse.Namespace) -> int:
         print(json.dumps({"project": args.project, "copied": copied, "rejected": rejected}))
     else:
         print(f"collect @ {args.project} -> copied {copied}, rejected {rejected}")
+    return 0
+
+
+def _cmd_classify(args: argparse.Namespace) -> int:
+    from .classify import classify
+    from .capabilities import match as match_caps
+
+    task = TaskSpec(text=args.task)
+    vector = classify(task)
+    matched = [entry["id"] for entry in match_caps(vector)]
+    if args.json:
+        print(json.dumps({
+            "features": {k: getattr(vector, k) for k in FEATURE_FIELDS if k != "source"},
+            "capabilities": matched,
+        }, ensure_ascii=False, indent=2))
+        return 0
+    print(f"Task   : {args.task}")
+    print(f"Domain : {vector.domain}")
+    print("Features:", ", ".join(f"{k}={getattr(vector, k)}" for k in FEATURE_FIELDS if k != "source"))
+    print("Capabilities:", ", ".join(matched) if matched else "(none)")
     return 0
 
 
@@ -1417,6 +1443,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_scoreboard(args)
     if args.command == "battery":
         return _cmd_battery(args)
+    if args.command == "classify":
+        return _cmd_classify(args)
     if args.command == "trace-audit":
         return _cmd_trace_audit(args)
     if args.command == "probe-domains":

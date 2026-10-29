@@ -1481,6 +1481,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P55",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Matching-rate round: the routing battery extended to 36 cases (en+zh), three defects fixed, and a standalone classify command for intent inspection",
+      "title_zh": "匹配率轮：路由电池扩至 36 例（双语），修三处命中缺口，新增独立 classify 意图检查命令",
+      "note": "The user asked to optimize the matching/hit rate (user need -> the most appropriate harness capability) and to assess whether the meta-prompt / intent-analysis / requirements-analysis side is sufficiently optimized. Honest baseline: P18's routing battery ran against the 2026-10-20 surface (32 families); since then 6 domains, 14 capabilities, the P31 intersection mechanism, and new cues landed WITHOUT the battery being extended, and no standalone intent-inspection command existed. Landed: (1) tests/test_routing_battery.py - the standing matching-rate regression: 35 domain/capability cases (en+zh, one-two per family across all domains incl. the six new ones and the plan-artifact ideation trigger) plus horizon/collaboration intent edges and a capability-precision case (a coding task must not fire prose-polish/source-criticism/ideation). First run found THREE real defects, all fixed: (a) 'experiment/experiments/实验' were missing from the high-verifiability cues - experimental work IS high-verifiability, so reproducible-experiments never fired on zh experimental tasks; (b) social-science had no English field-method signals - added field survey/questionnaire/interviews, with 'questionnaire' then CEDED to psychology by the one-owner distinctiveness guard (the guard did its job); (c) generic 'survey' ownership disambiguated - research keeps 'literature survey'/'survey paper', social-science adds 'survey research' (P18's precision principle applied to a P27 ownership case). (2) 'harness classify --task' - intent inspection (8-axis vector + matched capabilities) without running the full derive/emit pipeline; the intent-analysis command surface. Assessment of the R0-R5/brief/meta-prompt side: the refinement machinery (R0 restate -> R5 converge) and the brief are the intent-analysis layer and are fidelity-guarded; what was missing was commandability (now classify) and the regression loop (now the battery file - matching-rate changes fail CI). The re_derive trace rule remains the correction-loop backstop.",
+      "slices": [
+        "P55.1 - tests/test_routing_battery.py: 36-case standing regression (en+zh, all domains, key capabilities, intent edges, precision)",
+        "P55.2 - three matching defects fixed: verifiability cues += experiment/experiments/实验; social-science en field-method signals (+questionnaire ceded to psychology per the one-owner guard); survey ownership disambiguated (literature survey/survey paper vs field survey/survey research)",
+        "P55.3 - 'harness classify' command (intent inspection, real match API); P55RoutingBatteryTest guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

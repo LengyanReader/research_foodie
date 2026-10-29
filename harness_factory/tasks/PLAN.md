@@ -478,6 +478,15 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **四维缺口清单入册。** 学科：~35 未评估（判据门控 + probe-domains 常设）；思维方式：7 候选按触发（systems thinking 等）；范式：Lakatos 候选；经验/隐性：**被 D3 affordance 结构性挡住**（四维中唯一的引擎门）。
 - **登记。** 交付 `review/discipline-coverage-audit-2026-10.md`；cycles **P54**（0/0/0/0）；测试计数见 PROGRESS。
 
+## P55 · 匹配率轮（2026-10-28，已做）：路由电池扩至 36 例 · 三处命中缺口修复 · classify 意图检查命令
+
+> 用户两问：匹配率/命中率如何保证需求匹配到最合适的能力；meta prompt/意图分析/需求分析是否足够优化。**诚实现状：P18 电池停在 2026-10-20 的面上**（此后 +6 域 +14 能力未回归），且无独立意图检查命令。
+
+- **路由电池（`tests/test_routing_battery.py`，36 例常设回归）。** 全域双语覆盖 + 关键能力命中 + 意图边界（horizon/collaboration）+ 精度反例（编码任务不得漏发构思/史学能力）。首轮实测抓到 **3 处真缺陷，全修**：① `experiment/experiments/实验` 不在高可验证词表——实验性工作本就是 high，zh 实验任务从未命中 `reproducible-experiments`；② social-science 缺英文田野方法信号（+field survey/questionnaire/interviews；questionnaire 随后按 one-owner 守卫**让渡给 psychology**——守卫网自证）；③ 泛词 `survey` 所有权消歧（research 收紧为 literature survey/survey paper；social-science 加 survey research）。
+- **`harness classify --task`（意图分析命令面）。** 8 轴特征向量 + 命中能力清单，不跑 derive/emit——意图检查有了独立入口。
+- **meta prompt/R0–R5/brief 评估。** 需求精炼机（R0 重述→R5 收敛）与 brief 草案是意图分析层，已有 fidelity 守卫；缺的是**可命令化**（本轮 classify 补上）与**回归环**（电池文件入 CI——匹配率改动会红）。修正回路的兜底仍是 re_derive 轨迹规则。
+- **登记。** `P55RoutingBatteryTest`（并入 routing battery 文件 5 用例）；cycles **P55**（0/0/0/0）；测试 **415 → 423**。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |
