@@ -94,7 +94,28 @@ For **any** named method, M3.13 asks three questions — missing any one turns t
 | humanities (Chinese) · 人文（中文） | 经学与考据传统（汉学考据 vs 宋学义理）· Classical exegesis & evidential scholarship | 训诂先于义理；版本与校勘纪律；「实事求是，无征不信」 | 朱熹, *四书章句集注*, 1190; 顾炎武, *日知录*, 1670; 戴震, *孟子字义疏证*, 1777 | 每个诠释断言行可拆为**训诂层与义理层**；版本点名（呼应 TEI 编辑纪律 `[R146]`/`[R147]`）；引文落原书卷次 | prose gate（M4.10 跨语言意群 + M4.16 指针） | **done (prose gate)** |
 | psychology · 心理学 | Psychodynamic tradition · 精神分析传统 | 临床证据与理论主张分离；个案材料按数据对待（含其限度） | Freud, *Die Traumdeutung*, 1900 | 诠释性主张与经验性主张分行；个案作为证据时声明其选择与限度 | prose gate | **done (prose gate)** |
 
-**流派梳理的边界（写死）。** 行只管「在该传统内工作要守什么纪律」，不管流派优劣之争；每行 canonical source 为书目式经典（经典著作本身即一手材料）；若将来引用线上版本，须带访问日期（M0.1）。新增流派的判据与域相同：**能改变工作的门禁内容才入行**，仅「有名」不足（M0.5）。
+## Thinking modes · 跨领域思维方式（P54，2026-10-28）
+
+> 与流派表互补：流派 = 命名的**解读/论证传统**（隶属领域）；思维方式 = **跨领域的推理模式**（诊断、设计、估算……
+> 同一模式在多个领域里出现）。三件套格式相同：一手经典源（书目式）· 它要求什么 · 谁执行。判据同 M0.5：
+> 能改变门禁内容才入行。
+
+| Mode · 思维方式 | Fields · 出现的领域 | Canonical source · 经典源 | What it demands · 要求 | Enforced by · 执行者 | Status |
+|---|---|---|---|---|---|
+| Abduction · 溯因推理（最佳解释推断） | medicine · software debugging · history · 侦探推理 | Peirce, "Deduction, Induction, and Hypothesis", 1878; Josephson & Josephson, *Abductive Inference*, 1994 | 候选解释**先多生成**再按解释力比较；最佳解释≠真（竞争假设未被淘汰前不丢弃）；用**分辨力检验**区分假设（哪个预测能把它们分开） | prose gate；M3.15（检查的覆盖留痕） | **done (prose gate)** |
+| Differential diagnosis · 临床鉴别诊断 | medicine · debugging（根因分析同构） | Sackett et al., *Evidence-Based Medicine*, 1997; Croskerry, "A Universal Model of Diagnostic Reasoning", *Academic Medicine* 84(8), 2009 | 鉴别清单**在检查前**生成；检查按似然比选择（贝叶斯更新，`statistical-inference` 对接）；**premature closure** 是具名失效模式（首个说得通的解释不是终点） | `empirical-measurement` 数据半场 + prose gate | **done** |
+| Design iteration · 设计迭代 | arts-design · engineering · 产品 | Simon, *The Sciences of the Artificial*, 1969; Brown, *Change by Design*, 2009 | 原型先于论证（产物可反转、可弃）；受纳者测试是门（需求不是自明的）；迭代轮次与弃案留痕 | prose gate（arts-design 能力仍是 P52 记的 lead） | **done (prose gate)** |
+| Fermi estimation · 费米估算 | physics · engineering · 商业估算 | Weinstein & Adam, *Guesstimation*, 2008; Mahajan, *Street-Fighting Mathematics*, 2010 | 量纲一致（`dimensional-analysis` 对接）；**每因子的误差声明**、几何平均合并；结果只标数量级（方向性，M0 惯例） | `dimensional-analysis` | **done** |
+| Thought experiment · 思想实验 | physics · philosophy | Galileo, *Discorsi*, 1638; Sorensen, *Thought Experiments*, 1992 | 前提显式（它隔离了什么）；结论只及前提所及（**不得偷入经验内容**）；与真实实验的关系声明（证明可能性≠证明现实性） | prose gate（M3.13 方法声明对接） | **done (prose gate)** |
+| Explanation styles · 解释风格（范式维度） | 跨域：physics → 统一/覆盖律 · biology → 机制 · history → 叙事+因果链 · social science → 机制+统计规律 | Hempel, "Aspects of Scientific Explanation", 1965; Salmon, *Scientific Explanation and the Causal Structure of the World*, 1984; Craver, *Explaining the Brain*, 2007; White, *Metahistory*, 1973 | 「解释了」= **哪种解释**写明（覆盖律/机制/叙事不可互换）；反事实检验（改变因是否改变果）；领域错位的解释（用叙事冒充机制）标注 | prose gate（M3.13 对接） | **done (prose gate)** |
+| Comparative method · 比较方法 | comparative politics · literature · 比较生物学 | Mill, *A System of Logic*, 1843（求同求异法）; Przeworski & Teune, *The Logic of Comparative Social Inquiry*, 1970 | 比较维度先声明；案例选择规则留痕（`concept-definition` 对接）；**可比较性论证**（等同性跨案例成立才可比） | `concept-definition` + prose gate | **done** |
+
+**思维方式节的边界（写死）。** 同流派表：行只管「用这种模式工作要守什么纪律」；新增行的判据是**能改变门禁内容**
+（M0.5）。已知未入行的模式（候选，按触发逐个开）：systems thinking（系统科学域推迟项 P29）· genealogical
+method（谱系学）· action research · simulation/Monte-Carlo 思维 · network thinking · evolutionary
+variation-selection 思维 · cybernetics/control。它们或与既有行部分重叠、或需要先出现真实任务族。
+
+---**流派梳理的边界（写死）。** 行只管「在该传统内工作要守什么纪律」，不管流派优劣之争；每行 canonical source 为书目式经典（经典著作本身即一手材料）；若将来引用线上版本，须带访问日期（M0.1）。新增流派的判据与域相同：**能改变工作的门禁内容才入行**，仅「有名」不足（M0.5）。
 
 ---
 

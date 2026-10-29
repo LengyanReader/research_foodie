@@ -1461,6 +1461,26 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P54",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Coverage audit across four dimensions (disciplines / thinking modes / paradigms / experience) + the thinking-modes section",
+      "title_zh": "覆盖审计轮：学科/思维方式/范式/经验四维审计 + 思维方式节落地",
+      "note": "The user asked whether the discipline coverage and the ways of thinking/knowledge/paradigms/experience are exhausted. Honest answer: NO, and exhaustion is not the goal - the criterion is 'entries must change gate content' (M0.5/P27); exhaustive inclusion would bloat context with non-behavior-changing rows (M0.6). Four-dimension audit delivered (review/discipline-coverage-audit-2026-10.md): (1) disciplines - 34 domains covered, ~35 never-evaluated listed honestly (most are composition-covered; probe-domains is the standing auto-discovery), 8 recorded defers with triggers; (2) thinking modes - the biggest gap, LANDED: methodology-map gains a cross-disciplinary thinking-modes section with 7 rows in the schools-table format (abduction/inference-to-best-explanation, clinical differential diagnosis with premature-closure as the named failure mode, design iteration, Fermi estimation with per-factor error statements, thought experiments with no smuggled empirical content, explanation styles - covering-law/mechanistic/narrative are not interchangeable (the paradigm dimension), comparative method with comparability arguments); (3) paradigms - explanation-styles row fills the main gap, Lakatos programme judgment a candidate; (4) experience/tacit knowledge - structurally blocked by the D3 affordance (the only engine gate among the four dimensions). Known missing modes recorded as candidates with triggers (systems thinking, genealogical method, action research, simulation, network, variation-selection, cybernetics). Structural correction of the exhaustiveness framing: the library's target is not 'cover everything' but 'everything included changes gate content' + 'what is missed gets surfaced by mechanism' (probe-domains + M5.11 gap register + roadmap triggers).",
+      "slices": [
+        "P54.1 - the four-dimension audit with honest lists (35 never-evaluated disciplines; 8 defers; the D3 gate)",
+        "P54.2 - the thinking-modes section: 7 rows in methodology-map (same three-part format as the schools table; M0.5 criterion stated)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

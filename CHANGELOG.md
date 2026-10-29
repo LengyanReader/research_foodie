@@ -20,6 +20,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Coverage audit (P54) - four dimensions (disciplines / thinking modes / paradigms / experience) + the
+  thinking-modes section.** Honest answer to "is the discipline coverage exhausted": no, and exhaustion is not the
+  goal - the criterion is entries that change gate content (M0.5/P27), with probe-domains as the standing
+  auto-discovery and the M5.11 gap register as the surfacing mechanism. The four-dimension audit lists ~35
+  never-evaluated disciplines, 8 recorded defers, and the one structurally blocked dimension (experience/tacit
+  knowledge, gated by the D3 affordance). Landed: methodology-map gains a cross-disciplinary **thinking-modes**
+  section (7 rows, schools-table format): abduction, clinical differential diagnosis (premature closure named),
+  design iteration, Fermi estimation (per-factor error statements), thought experiments (no smuggled empirical
+  content), **explanation styles** (covering-law/mechanistic/narrative are not interchangeable - the main
+  paradigm-dimension fill), and the comparative method. 7 more modes recorded as candidates with triggers.
+  Deliverable: `review/discipline-coverage-audit-2026-10.md`.
 - **Experiment registry (P53) - the battery as data; self-experimentation made mechanical.** The user asked that the
   system be ABLE to explore, experiment, and verify on its own. `data/battery.json` holds all seven scoreboard
   families with pre-declared judge checks (M5.13), declared scales (P47), grounding practice, status, and results;

@@ -1021,5 +1021,23 @@ class P53BatteryRegistryTest(unittest.TestCase):
         self.assertIn("battery (experiment registry)", buf.getvalue())
 
 
+class P54ThinkingModesTest(unittest.TestCase):
+    """P54: the thinking-modes section in methodology-map (cross-disciplinary reasoning modes)."""
+
+    def test_seven_thinking_mode_rows_present(self):
+        text = _read(HARNESS / "reference/methodology-map.md")
+        self.assertIn("Thinking modes", text, "thinking-modes section missing")
+        for token in ("Abduction", "Differential diagnosis", "Design iteration",
+                      "Fermi estimation", "Thought experiment", "Explanation styles",
+                      "Comparative method", "Peirce", "premature closure",
+                      "Simon", "Hempel", "Przeworski"):
+            self.assertIn(token, text, f"thinking-mode row lost {token!r}")
+
+    def test_audit_doc_declares_non_exhaustion(self):
+        doc = _read(HARNESS / "review/discipline-coverage-audit-2026-10.md")
+        for token in ("没有", "穷尽", "M0.5", "probe-domains", "D3"):
+            self.assertIn(token, doc, f"coverage audit lost {token!r}")
+
+
 if __name__ == "__main__":
     unittest.main()
