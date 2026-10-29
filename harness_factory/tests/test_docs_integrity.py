@@ -928,5 +928,39 @@ class P50BatteryGuardTest(unittest.TestCase):
             self.assertIn("NOT the grade", text)
 
 
+class P51IdeationGuardTest(unittest.TestCase):
+    """P51: the ideation capability fills the P18 hole, M5.11 carries the calibration
+    evidence, and the battery is a standing routine with a DoD axis."""
+
+    def test_capability_fires_on_plan_artifacts(self):
+        from harness_factory.spec import TaskSpec
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        for txt in ("Draft a project plan with the research questions we should pursue",
+                    "Write a research proposal outlining the open questions, cite sources",
+                    "为我们的智能体记忆研究起草提案，提出值得研究的问题清单，注明来源"):
+            plan = derive(TaskSpec(text=txt), classify(TaskSpec(text=txt)))
+            self.assertIn("research-question-generation", plan.capabilities,
+                          f"the ideation capability did not fire: {txt!r}")
+
+    def test_m511_carries_the_calibration_numbers(self):
+        text = _read(HARNESS / "core/06-self-evolution.md")
+        for token in ("45.0-53.3%", "[R273]", "[R272]", "behavioral", "trading variance for bias"):
+            self.assertIn(token, text, f"M5.11 deepening lost {token!r}")
+
+    def test_battery_routine_is_standing(self):
+        self.assertTrue((HARNESS / "tasks/BATTERY.md").exists(), "tasks/BATTERY.md missing")
+        bat = _read(HARNESS / "tasks/BATTERY.md")
+        for token in ("M5.14", "scale", "M3.19", "trace-audit"):
+            self.assertIn(token, bat, f"battery routine lost {token!r}")
+        import json
+        d = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                       .read_text(encoding="utf-8"))
+        battery = next(e for e in d["definition_of_done"] if e["key"] == "battery")
+        self.assertFalse(battery["hard"], "the battery DoD axis must stay soft (non-retroactive)")
+        cyc = _read(HARNESS / "reference/capability-cycle.md")
+        self.assertIn("Battery step (P51, standing)", cyc)
+
+
 if __name__ == "__main__":
     unittest.main()

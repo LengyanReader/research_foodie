@@ -193,7 +193,7 @@ _ART_CUES: tuple[tuple[str, list[str]], ...] = (
             "随笔",
         ],
     ),
-    ("plan", ["proposal", "roadmap", "project plan", "行动计划", "路线图", "提案", "方案书"]),
+    ("plan", ["proposal", "roadmap", "project plan", "research questions", "研究问题", "行动计划", "路线图", "提案", "方案书"]),
 )
 
 # Grounding cues. "required" is raised only by an explicit demand for sources;

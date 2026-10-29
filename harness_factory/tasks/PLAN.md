@@ -443,6 +443,16 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **累计。** 五族已测（P45/P48/P50）：harness **5/5**，裸奔均值 0.19 vs 1.0；**12 条真实轨迹**；trace-audit 对各对正确静默。**诚实负面结果**：本轮未发现发射物缺口——无新子句/能力的证据（五族的发射纪律都够用）。
 - **登记。** 交付 `review/experiment-battery-2026-10.md`（全组设计 + 结果 + 发现）；cycles **P50**（0/0/0/0）；守卫随 docs_integrity；剩余两族（deep-research/kg-dh）queued。
 
+## P51 · 研究构思轮（2026-10-28，已做）：research-question-generation（填 P18 洞）· M5.11 校准深化 · 电池升为常设例行
+
+> 用户给定入口（After42）+ 两指示：广泛调研评估能力纳入；真实场景模拟使用升为例行。三篇一手精读（R272/R273 全文，R274/R275 listed 谱系锚）。
+
+- **新能力 `research-question-generation`**：键 `{artifact: plan}`（实战校验后取裸产物轴——域限制形式会漏掉域信号指向别处的真实 plan 任务）——**填补 P18 记录的 plan 产物空洞**（重访触发本轮生效）。五条纪律入 why：过采样-过滤带显式判据（3%→33%）· solve-refine-critique（解决是提问的前提，失败尝试是信号）· 新颖与可行**分开打分**（r=0.097）· 评判者须校准（对专家共识的召回；行为反馈≠声明偏好）· 多样性/去重率被追踪。人类把关最终选择。
+- **M5.11 深化**：LLM 自评低于人类互评（45.0–53.3% vs 56.1%）且「匹配人类一致性也不足以验证评判者——可能是拿方差换偏差」（R273）；判据+集成+**行为反馈**把召回提到 65–80%（R272）；多样性平台期（4000→200）与同质化风险。
+- **例行机制（指示一）**：`tasks/BATTERY.md` 常设程序（何时/跑什么/纪律/收据流）；DoD 新增**软轴 battery**（触能力/模板/域信号的轮次必须报告重跑与收据或说明不适用——cycle audit 可查，不追溯历史）；`capability-cycle.md` 轮次契约补电池步骤。
+- **刻意不加。** 不加 novelty-assessment 独立能力（新能力的组成部分）；AI Scientist 谱系（listed）不落门禁义务，第三方批判评估（2502.14297）录为警示；ResearchAgent 无解析 id 只留名。
+- **登记。** capabilities 38 → **39**；references **§AB**（R272–R275）+ bib；source-map/router 行；交付 `review/research-ideation-2026-10.md`；`P51IdeationGuardTest` 守卫；测试计数见 PROGRESS。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**38 capabilities · 9 modules (M0–M8)**
+**39 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -269,6 +269,12 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** domain ∈ {model-selection} (领域)
 - **Modules · 关联模块:** M3, M4, M7
 - **Why · 理由:** A model choice is a measurement, not a rank. Vendor tables compare different models at different effort levels, an alias silently moves to a new snapshot, and a safety policy can re-route the request to another model, so a leaderboard position does not transfer to your task. Declare the requirements matrix (quality, latency, cost, licence, privacy), pick a portfolio per stage rather than one model for the whole job, run a minimal fit-for-task evaluation on your own hold-out at a declared effort, and pass a hard decision gate with requested/served model ids, versions and effort settings recorded (M4.17). A tie goes to the cheaper tier; a change of tier or effort re-opens the evaluation. Compare on both sampling axes: post-training can sharpen single-shot accuracy (pass@1) while shrinking solution coverage (pass@K), so a base model with a light inference harness may be the better portfolio member when test-time budget is available.
+
+### `research-question-generation` — Research-question generation (ideation with calibrated taste) · 研究问题生成（带校准品味的构思）
+
+- **Fires when · 触发条件:** artifact ∈ {plan} (产物)
+- **Modules · 关联模块:** M2, M3, M4, M5
+- **Why · 理由:** Fills the P18 hole (plan-artifact tasks had no dedicated capability); the taste-calibration duty binds where a human-expert consensus is available. The ideation discipline, from three first-party studies: (a) oversample-then-filter with DECLARED criteria (After42: 3% -> 33% interesting share); (b) solve-refine-critique -- 'solving is essential to asking good questions', and per M5.14 the failed solve attempts are the signal; (c) novelty and feasibility are scored SEPARATELY (Stanford: novelty up, feasibility flat; overall score barely correlates with feasibility, r=0.097); (d) model-judge taste must be CALIBRATED against expert consensus where available (agreement below human-human baseline without criteria; 65-80% recall with criteria + ensembles; 'cannot yet replace human research taste') and personalization comes from behavioral feedback, not stated preferences; (e) diversity is tracked -- generation plateaus (4000 seeds -> 200 unique) and inference-time scaling bottleneck on duplicates; homogenization is a named risk. Humans gate the final selection (M0.4/M0.8).
 
 ---
 

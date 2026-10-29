@@ -20,6 +20,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Research-ideation round (P51) - new capability `research-question-generation` (fills the P18 plan-artifact
+  hole), M5.11 calibration deepening, and the battery made a standing routine.** Entry point: the user-supplied
+  After42 study ("Can AI Propose Interesting Research Questions?"), read in full with the Stanford large-scale
+  human study (arXiv:2409.04109). The new capability (keyed on `{artifact: plan}` after live testing; 38 → 39)
+  carries the five-discipline ideation content: oversample-then-filter with declared criteria (3% → 33%),
+  solve-refine-critique (failed solve attempts are the signal - M5.14's ideation form), novelty and feasibility
+  scored separately (r=0.097), judge calibration against expert consensus (behavioral feedback, not stated
+  preferences; LLM self-eval below human-human agreement - "trading variance for bias"), and diversity/dedup
+  tracking (4000 → 200 plateau; homogenization risk). M5.11 carries the calibration numbers. THE ROUTINE:
+  `tasks/BATTERY.md` makes simulated real-scenario usage a standing part of testing (when/what/disciplines/receipt
+  flow), the definition-of-done gains a soft **battery** axis (capability/template/signal-touching rounds report
+  re-run families and receipts), and the round contract gains the battery step. References group AB (R272-R275).
 - **Experiment battery (P50) - three more paired trials; five families measured, harness 5/5.** The battery grounds
   each scoreboard family in a benchmark tradition: unit-tests anchored in RHB hidden recomputation + LHTB
   replay-based grading (the judge's hidden suite is archived FIRST; the conditions' own tests are not the grade),

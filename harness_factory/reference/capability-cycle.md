@@ -62,6 +62,8 @@ A round is **not** a prose milestone. If the only artifact is a paragraph in `PL
 
 ## 2. The definition-of-done (seven axes)
 
+> **Battery step (P51, standing).** A round whose added block touches capabilities, templates, or domain signals re-runs the affected battery families (`tasks/BATTERY.md`; design: `review/experiment-battery-2026-10.md`) and reports the receipts — or records why a re-run is not applicable. The definition-of-done carries this as its soft **battery** axis.
+
 The bar is **data**, in `data/cycles.json` → `definition_of_done` (read it with `harness cycle dod`). `harness cycle audit` checks the hard axes and *reports* the soft ones.
 
 | axis | severity | means | how it is checked |

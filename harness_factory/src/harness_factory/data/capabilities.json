@@ -657,5 +657,19 @@
       "M7"
     ],
     "why": "A model choice is a measurement, not a rank. Vendor tables compare different models at different effort levels, an alias silently moves to a new snapshot, and a safety policy can re-route the request to another model, so a leaderboard position does not transfer to your task. Declare the requirements matrix (quality, latency, cost, licence, privacy), pick a portfolio per stage rather than one model for the whole job, run a minimal fit-for-task evaluation on your own hold-out at a declared effort, and pass a hard decision gate with requested/served model ids, versions and effort settings recorded (M4.17). A tie goes to the cheaper tier; a change of tier or effort re-opens the evaluation. Compare on both sampling axes: post-training can sharpen single-shot accuracy (pass@1) while shrinking solution coverage (pass@K), so a base model with a light inference harness may be the better portfolio member when test-time budget is available."
+  },
+  "research-question-generation": {
+    "title_en": "Research-question generation (ideation with calibrated taste)",
+    "title_zh": "研究问题生成（带校准品味的构思）",
+    "when": {
+      "artifact": "plan"
+    },
+    "modules": [
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ],
+    "why": "Fills the P18 hole (plan-artifact tasks had no dedicated capability); the taste-calibration duty binds where a human-expert consensus is available. The ideation discipline, from three first-party studies: (a) oversample-then-filter with DECLARED criteria (After42: 3% -> 33% interesting share); (b) solve-refine-critique -- 'solving is essential to asking good questions', and per M5.14 the failed solve attempts are the signal; (c) novelty and feasibility are scored SEPARATELY (Stanford: novelty up, feasibility flat; overall score barely correlates with feasibility, r=0.097); (d) model-judge taste must be CALIBRATED against expert consensus where available (agreement below human-human baseline without criteria; 65-80% recall with criteria + ensembles; 'cannot yet replace human research taste') and personalization comes from behavioral feedback, not stated preferences; (e) diversity is tracked -- generation plateaus (4000 seeds -> 200 unique) and inference-time scaling bottleneck on duplicates; homogenization is a named risk. Humans gate the final selection (M0.4/M0.8)."
   }
 }

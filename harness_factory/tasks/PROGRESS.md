@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-10-28 · P51：研究构思轮 —— research-question-generation（填 P18 洞）· M5.11 校准深化 · 电池升为例行
+
+- **入口与扫荡（用户指定 After42）。** 三篇一手：R272（After42 项目页全文：solve-refine-critique、有趣占比 3%→33%、模型评审召回 65–80%/集成 80%、行为反馈有效声明偏好无效、97/100 组合式）+ R273（Stanford 2409.04109 全文：novelty 升 feasibility 平、总分与可行性相关仅 r=0.097、**LLM 自评低于人类互评且「可能是拿方差换偏差」**、多样性平台期 4000→200、执行忠实性缺口）+ R274/R275（AI Scientist 谱系 listed，批判评估 2502.14297 录为警示）。
+- **新能力 `research-question-generation`（38 → 39）。** 触发 `{artifact: plan}`——**填补 P18 记录的 plan 产物空洞**（该重访触发本轮生效）。实战校验记录：域限制形式（plan×research/deep-research）会漏掉域信号指向别处的真实 plan 任务 → 取裸产物轴。五条纪律入 why：过采样-过滤带显式判据 · solve-refine-critique（失败尝试是信号，M5.14 构思版）· 新颖/可行分开打分 · 评判者校准（对专家共识的召回，行为反馈≠声明偏好）· 多样性/去重率被追踪。人类把关最终选择。classify 侧 plan 线索补 research questions/研究问题。
+- **M5.11 深化（core/06）。** 校准定量证据 + 「拿方差换偏差」警示 + 多样性平台期与同质化风险。
+- **例行机制（用户指示一：真实场景模拟使用升为例行）。** `tasks/BATTERY.md` 常设程序（何时/跑什么/纪律/收据流）；DoD 新增**软轴 battery**（cycle audit 可查，不追溯历史）；`capability-cycle.md` 轮次契约补电池步骤。
+- **刻意不加。** 不加 novelty-assessment 独立能力（新能力组成部分）；AI Scientist 谱系不落门禁义务；ResearchAgent 无解析 id 留名不录。
+- **登记。** references **§AB**（R272–R275）+ bib；source-map/router 行；交付 `review/research-ideation-2026-10.md`；cycles **P51**（+1 能力 / +4 参考）；`P51IdeationGuardTest` 3 守卫；AGENTS.md 计数 405 → 408。
+- **状态。** 测试 **405 → 408** 全过；`cycle audit` **47 轮 · 0 硬 · 0 缺口**；`catalog --write` + `capabilities --write` 重生成。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-28 · P50：行实验组轮 —— 三组新配对试验，五族已测（harness 5/5）
 
 - **开轮依据。** 用户指示「基于可靠前沿设计使用侧实验、充分测试、提升能力」。电池设计锚定前沿评测实践：unit-tests 锚 **RHB 隐藏重算 + LHTB 重放评分**（判分者先行、条件自带测试不算分）、proof-verification 锚 **miniF2F 编译即接受**（M3.19 的机器形态）、bayesian-stats 锚 **Registered Reports / M3.11 独立重推导**。环境探测：**Lean 4 工具链可用**（elan 装 v4.35.0）+ numpy/scipy——三族全可行。

@@ -36,6 +36,11 @@
       "key": "reachable",
       "hard": false,
       "check": "the doc that owns the pattern is listed by `harness skill` (the load index), so one instruction reaches it"
+    },
+    {
+      "key": "battery",
+      "hard": false,
+      "check": "a cycle whose added block touches capabilities, templates, or domain signals names the battery families (review/experiment-battery-2026-10.md) it re-ran and their receipts, or records why a re-run is not applicable"
     }
   ],
   "cycles": [
@@ -1378,6 +1383,34 @@
         "domains": [],
         "clauses": [],
         "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P51",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Research-ideation round: research-question-generation capability (fills the P18 plan-artifact hole), M5.11 calibration deepening, and the battery made a standing routine",
+      "title_zh": "研究构思轮：research-question-generation 能力（填补 P18 plan 产物空洞）+ M5.11 校准深化 + 电池升为常设例行",
+      "note": "User-supplied entry point (After42, 'Can AI Propose Interesting Research Questions?') plus a broad sweep. Read in full: R272 (After42: solve-refine-critique; interesting share 3%->33%; model judges 65-80% recall of expert consensus with criteria+ensembles, 80% ensemble - comparable to individual experts, not a replacement for human taste; behavioral feedback works, stated preferences do not; 97/100 initial proposals compositional) and R273 (Stanford, arXiv:2409.04109: LLM ideas more novel p<0.05 with feasibility flat, overall score barely correlates with feasibility r=0.097; LLM self-evaluation below human-human agreement 45.0-53.3% vs 56.1% with the 'trading variance for bias' caution; diversity plateau 4000->200 unique; execution faithfulness gap - agents skip or modify baseline steps, so results alone do not verify implementation faithfulness). R274/R275 (AI Scientist lineage) listed as landscape anchors with the third-party critical evaluation recorded as caution. Landed: NEW capability research-question-generation keyed {artifact: plan} - FILLING the P18-recorded hole (plan-artifact tasks had no dedicated capability; this revisit trigger fired; the trigger is the bare artifact axis after live testing showed a domain-restricted form missed real plan tasks whose domain signals point elsewhere) with the five-discipline ideation content (oversample-filter with declared criteria; solve-refine-critique; novelty and feasibility scored separately; judge calibration with recall reporting; diversity/dedup tracking; humans gate final selection); M5.11 deepened with the calibration numbers and the two ideation cautions; router row; source-map row. Non-additions: no separate novelty-assessment capability (component of the new one); no gate obligations from the AI Scientist lineage (listed; third-party critical evaluation recorded). THE ROUTINE (user instruction: make simulated real-scenario usage a standing part of testing): tasks/BATTERY.md - when to run (capability/template/signal-touching rounds; real-task closes; periodic), the seven families, the five disciplines, the receipt flow; DoD gains a SOFT battery axis (a cycle touching capabilities/templates/domains reports re-run families and receipts or why not - checkable by cycle audit, non-retroactive); capability-cycle.md's round contract gains the battery step.",
+      "slices": [
+        "P51.1 - the reads: After42 project page (R272) + Stanford arXiv:2409.04109 full text (R273); AI Scientist lineage resolved as listed anchors (R274/R275); ResearchAgent kept as a named lead (no resolvable id - no-guessing rule)",
+        "P51.2 - the landings: capabilities.json + research-question-generation (P18 hole; trigger = {artifact: plan} after live testing); M5.11 deepening (core/06); router row; source-map row; references group AB (R272-R275) + bib",
+        "P51.3 - the routine: tasks/BATTERY.md; DoD soft battery axis (cycles.json definition_of_done); capability-cycle.md round-contract battery step; P51IdeationGuardTest"
+      ],
+      "added": {
+        "capabilities": [
+          "research-question-generation"
+        ],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R272",
+          "R273",
+          "R274",
+          "R275"
+        ],
         "catalog_delta": 0,
         "outlets_delta": 0
       }
