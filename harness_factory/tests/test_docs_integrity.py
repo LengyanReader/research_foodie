@@ -991,5 +991,35 @@ class P52DomainCapabilityTest(unittest.TestCase):
             self.assertNotIn(cap, plan.capabilities, f"{cap!r} leaked into a coding task")
 
 
+class P53BatteryRegistryTest(unittest.TestCase):
+    """P53: the experiment registry - the battery as data, self-experimentation made mechanical."""
+
+    def test_registry_valid_and_complete(self):
+        from harness_factory import battery
+        self.assertEqual(battery.validate_battery(), [])
+        board = battery.load_battery()
+        self.assertEqual(len(board["families"]), 7, "expected all seven scoreboard families")
+        done = [f for f in board["families"] if f["status"] == "done"]
+        for fam in done:
+            self.assertIn("scale", fam) and self.assertIn("round", fam) and self.assertIn("results", fam)
+
+    def test_next_pending_returns_a_full_spec(self):
+        from harness_factory import battery
+        fam = battery.next_pending()
+        if fam is not None:
+            for field in ("judge_checks", "scale", "spec"):
+                self.assertIn(field, fam, f"pending family {fam['task_id']} lacks {field!r}")
+            self.assertTrue(fam["spec"].get("task"), "spec.task missing")
+
+    def test_cli_lists_the_registry(self):
+        from harness_factory import cli
+        import io, contextlib
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = cli.main(["battery"])
+        self.assertEqual(code, 0)
+        self.assertIn("battery (experiment registry)", buf.getvalue())
+
+
 if __name__ == "__main__":
     unittest.main()

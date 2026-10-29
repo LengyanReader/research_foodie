@@ -1,0 +1,165 @@
+{
+  "updated": "2026-10-28",
+  "note": "The experiment registry (P53): the battery (tasks/BATTERY.md) as data. Seven scoreboard families, each with its effect metric, declared scale, machine-checkable judge checks (declared BEFORE execution, M5.13), grounding practice, and status. Any agent session can pick the next pending family via 'harness battery --next', execute both conditions per the spec, and harvest scaled receipts - the self-experimentation loop. Done families keep their results and the round that ran them. A family is done only when BOTH conditions have receipts recorded in the tool home traces.",
+  "discipline": {
+    "predeclared_checks": "M5.13: judge checks are declared in this registry before the trial runs",
+    "judge_self_check": "M3.19: the judge's own suite/harness must pass its own validity gate before scoring",
+    "scaled_receipts": "P45.R1/P47: every receipt carries scale: [lo, hi]",
+    "honest_boundary": "N=1 per condition, same model same session (contamination acknowledged), token=proxy, directional signal only",
+    "failure_signal": "M5.14: failed attempts enter the pool with their diagnostics"
+  },
+  "families": [
+    {
+      "task_id": "lit-review",
+      "status": "done",
+      "grounding": "abs-page primary-source resolution",
+      "judge_checks": [
+        "E1 citations resolve",
+        "E2 claim-source consistency",
+        "E3 no unflagged fabricated ids",
+        "E4 provenance complete",
+        "E5 evidence-bounded claims"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.2,
+        "B-harness": 1.0
+      },
+      "round": "P45",
+      "traces": "tool home #3/#4"
+    },
+    {
+      "task_id": "model-choice",
+      "status": "done",
+      "grounding": "M4.17 decision-record structure (offline structural judge)",
+      "judge_checks": [
+        "E1 model id+version named",
+        "E2 tier as budget line",
+        "E3 held-out check declared before decision",
+        "E4 silence declared",
+        "E5 axis-attribution ready"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.0,
+        "B-harness": 1.0
+      },
+      "round": "P48",
+      "traces": "tool home #5/#6"
+    },
+    {
+      "task_id": "unit-tests",
+      "status": "done",
+      "grounding": "RHB hidden recomputation + LHTB replay-based grading (judge-first hidden suite; the conditions' own tests are not the grade)",
+      "judge_checks": [
+        "hidden-replay pass rate",
+        "gaming scan (version literals / special-casing)"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.552,
+        "B-harness": 1.0
+      },
+      "round": "P50",
+      "traces": "tool home #7/#8"
+    },
+    {
+      "task_id": "proof-verification",
+      "status": "done",
+      "grounding": "compile-is-acceptance (miniF2F practice; M3.19's machine-checkable form)",
+      "judge_checks": [
+        "lean exit 0",
+        "no sorry/admit/native_decide",
+        "no looping-simp warning"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.0,
+        "B-harness": 1.0
+      },
+      "round": "P50",
+      "traces": "tool home #9/#10"
+    },
+    {
+      "task_id": "bayesian-stats",
+      "status": "done",
+      "grounding": "Registered Reports / M3.11 independent re-derivation",
+      "judge_checks": [
+        "E1 interval reproduced by judge re-derivation",
+        "E2 prior declared",
+        "E3 diagnostics present",
+        "E4 data provenance declared",
+        "E5 claims bounded by the posterior"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.2,
+        "B-harness": 1.0
+      },
+      "round": "P50",
+      "traces": "tool home #11/#12"
+    },
+    {
+      "task_id": "kg-dh",
+      "status": "done",
+      "grounding": "M4.13 evidence-pointer resolution against the factory's own corpus (offline judge: pointer resolves, quoted content matches)",
+      "judge_checks": [
+        "E1 every answer assertion carries a pointer (file + location)",
+        "E2 every pointer resolves (file exists, location found)",
+        "E3 quoted/paraphrased content matches the pointer target",
+        "E4 silence recorded as silence where the corpus is silent",
+        "E5 provenance block present (access/check dates)"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "spec": {
+        "task": "Answer, with evidence pointers into the factory's own corpus (review/ + tasks/), the question: which rounds landed which clauses and capabilities for the ideation and verification families? Cover M3.18/M3.19/M5.13/M5.14 and research-question-generation, and state where the corpus is silent.",
+        "conditions": "A bare: one-pass answer from memory, no pointers required. B harness: evidence-bounded per M4.13 - every assertion carries a resolvable pointer, verified before answering.",
+        "judge": "offline: resolve each pointer against the corpus; check content match; count E1-E5."
+      },
+      "results": {
+        "A-bare": 0.0,
+        "B-harness": 1.0
+      },
+      "round": "P53"
+    },
+    {
+      "task_id": "deep-research",
+      "status": "pending",
+      "grounding": "citation-verifiability on a deeper topic (abs-page resolution, as P45 but multi-hop)",
+      "judge_checks": [
+        "E1 citations resolve",
+        "E2 claim-source consistency",
+        "E3 no unflagged fabricated ids",
+        "E4 provenance complete",
+        "E5 multi-hop chains: each hop's source verified"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "spec": {
+        "task": "A multi-hop research question whose answer requires following 2+ citation hops (e.g., a claim in a 2026 paper that rests on a 2024 paper's result - both must resolve).",
+        "conditions": "A bare: one-pass answer. B harness: verify every hop.",
+        "judge": "fetch-based, as P45 plus hop verification."
+      }
+    }
+  ]
+}

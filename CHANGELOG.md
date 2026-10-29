@@ -20,6 +20,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Experiment registry (P53) - the battery as data; self-experimentation made mechanical.** The user asked that the
+  system be ABLE to explore, experiment, and verify on its own. `data/battery.json` holds all seven scoreboard
+  families with pre-declared judge checks (M5.13), declared scales (P47), grounding practice, status, and results;
+  `battery.py` + `harness battery [--next] [--json]` let any agent session list the state, pick the next pending
+  family's full spec, execute both conditions, harvest scaled receipts, and flip the registry row. First
+  registry-driven trial (kg-dh, the factory's own corpus as knowledge base, offline pointer-resolution judge):
+  bare 0.0 - zero pointers and 3 of 4 round attributions wrong vs the corpus (memory-cited facts about the system's
+  own history, checkable and mostly wrong) - vs harness 1.0 (8/8 pointers resolve after the self-check caught an
+  imprecise path, correction recorded in the artifact). Receipts as traces #13/#14; 6/7 families done,
+  deep-research pending as the registry's live `--next` demo.
 - **Capability-expansion round (P52) - four domain-keyed capabilities that P27/P29 pre-named.** Internal coverage
   matrix (34 domains x 39 capabilities; 19 unkeyed domains, most OR-bypassed) plus a frontier confirmation found the
   cheapest legal (a)-moves: the disciplines that P27/P29's discriminating-power tables NAMED as the justification

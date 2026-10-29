@@ -18,7 +18,7 @@
 
 ## 2. What · 试验组（七族，锚定前沿评测实践）
 
-见 [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md) §1 总表。已测 5/7：
+见 [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md) §1 总表。**注册表（P53）**：实验状态是数据——`data/battery.json`（七族 × 判据 × 尺度 × 状态 × 结果）；`harness battery` 看全局，`harness battery --next` 打印下一个待测族的完整 spec（任何 agent 会话据此**自行**执行并回写收据，完成后 `battery.mark_done` 翻状态）。当前 **6/7 已测**（deep-research 待跑）：lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 · bayesian-stats 0.2 vs 1.0 · kg-dh 0.0 vs 1.0（裸奔 vs harness，scale [0,1]）。历史设计：
 lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 ·
 bayesian-stats 0.2 vs 1.0（裸奔 vs harness，scale [0,1]）。待跑：deep-research、kg-dh。
 

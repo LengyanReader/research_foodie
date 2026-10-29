@@ -125,6 +125,12 @@ def build_parser() -> argparse.ArgumentParser:
     scoreboard_p.add_argument("--task", default=None, help="run one task id instead of all")
     scoreboard_p.add_argument("--json", action="store_true")
 
+    battery_p = sub.add_parser(
+        "battery", help="the experiment registry (P53): battery status and the next pending trial spec"
+    )
+    battery_p.add_argument("--next", action="store_true", help="print the next pending family's full spec")
+    battery_p.add_argument("--json", action="store_true")
+
     trace_audit_p = sub.add_parser(
         "trace-audit", help="audit recorded traces into mutation proposals (D1 stage B, offline)"
     )
@@ -625,6 +631,40 @@ def _cmd_collect(args: argparse.Namespace) -> int:
         print(json.dumps({"project": args.project, "copied": copied, "rejected": rejected}))
     else:
         print(f"collect @ {args.project} -> copied {copied}, rejected {rejected}")
+    return 0
+
+
+def _cmd_battery(args: argparse.Namespace) -> int:
+    from . import battery
+
+    problems = battery.validate_battery()
+    if problems:
+        print("battery registry invalid:", "; ".join(problems), file=sys.stderr)
+        return 1
+    if args.next:
+        fam = battery.next_pending()
+        if fam is None:
+            print("no pending families - the battery is complete")
+            return 0
+        if args.json:
+            print(json.dumps(fam, ensure_ascii=False, indent=2))
+        else:
+            print(f"next pending family: {fam['task_id']}")
+            print(f"  grounding: {fam.get('grounding')}")
+            print(f"  scale: {fam.get('scale')}")
+            for i, check in enumerate(fam.get("judge_checks") or [], 1):
+                print(f"  check {i}: {check}")
+            spec = fam.get("spec") or {}
+            print(f"  task: {spec.get('task')}")
+            print(f"  conditions: {spec.get('conditions')}")
+            print(f"  judge: {spec.get('judge')}")
+            print("  execute both conditions, harvest scaled task_outcome receipts, then flip the registry row.")
+        return 0
+    board = battery.load_battery()
+    if args.json:
+        print(json.dumps(board, ensure_ascii=False, indent=2))
+    else:
+        print(battery.render(board))
     return 0
 
 
@@ -1375,6 +1415,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_collect(args)
     if args.command == "scoreboard":
         return _cmd_scoreboard(args)
+    if args.command == "battery":
+        return _cmd_battery(args)
     if args.command == "trace-audit":
         return _cmd_trace_audit(args)
     if args.command == "probe-domains":

@@ -462,6 +462,14 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **结构结论。** 8 轴向量上的 (a)-move **接近饱和**；下一批的正门是 (b)-move（引擎 affordance），每次付两次代价（P16.6 先例）、按触发逐个开。
 - **登记。** capabilities 39 → **43**；交付 `review/capability-expansion-2026-10.md`；`P52DomainCapabilityTest` 守卫；测试计数见 PROGRESS。
 
+## P53 · 实验注册表轮（2026-10-28，已做）：电池成为数据——自行探索与试验机械化
+
+> 用户指示「应该具备自行探索和实验、测试验证的能力」。落地：**实验注册表成为数据**（M0.5）+ CLI——任何 agent 会话可自行领取、执行、回写。
+
+- **注册表。** `data/battery.json`：七任务族 × 预声明判据（M5.13）× 声明尺度（P47）× 规格语料 × 状态 × 结果；`battery.py`（load/validate/next_pending/mark_done/render）+ `harness battery [--next] [--json]`。
+- **首次注册表驱动试验（kg-dh 族，离线指针判分，语料=本库自身）。** 裸奔 **0.0**：**零指针**，且 4 条轮次归属**错 3 条**（M3.19=P43 非 P50、M5.13=P34 非 P50、M5.14=P43 非 P39——凭记忆对系统自身历史的引用，可核验且错了大多数）vs harness **1.0**（8 指针全解析——指针自检抓住一处不精确路径，修正+修正记录入档；四条归属全部内容核验；沉默小节落地）。收据 = 轨迹 **#13/#14**（tool home 现 14 条真实轨迹）。**6/7 族完成**；deep-research 为注册表 `--next` 的活演示。
+- **登记。** `P53BatteryRegistryTest` 3 守卫；测试计数见 PROGRESS。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

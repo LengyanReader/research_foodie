@@ -1440,6 +1440,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P53",
+      "date": "2026-10-28",
+      "status": "done",
+      "title_en": "Experiment registry: the battery as data - self-experimentation made mechanical (harness battery CLI; kg-dh trial run through the registry)",
+      "title_zh": "实验注册表：电池成为数据——自行探索与试验机械化（harness battery CLI；kg-dh 试验经注册表执行）",
+      "note": "The user asked that the system be ABLE to explore, experiment, and verify on its own. Landing: data/battery.json - the experiment registry as DATA (M0.5), holding all seven scoreboard families with pre-declared judge checks (M5.13), declared scales (P47), grounding practice, status, and results; battery.py (load/validate/next_pending/mark_done/render) + CLI 'harness battery [--next] [--json]' - any agent session can list the state, pick the next pending family's full spec, execute both conditions, harvest scaled receipts, and flip the registry row; BATTERY.md now points at the registry. First registry-driven trial executed (kg-dh, against the factory's own corpus as the knowledge base, offline pointer-resolution judge): bare 0.0 - ZERO pointers, and 3 of 4 round attributions WRONG vs the corpus (M3.19=P43 not P50, M5.13=P34 not P50, M5.14=P43 not P39 - memory confidently misattributed) - vs harness 1.0 (8 pointers, all resolve AFTER the pointer self-check caught an imprecise path - data/capabilities.json vs src/harness_factory/data/capabilities.json - fixed with the correction recorded in the artifact; all four attributions content-verified; silence section grounded). Receipts as traces #13/#14 (tool home now 14 real traces); 6/7 families done, deep-research pending as the registry's live --next demo. The bare condition's round-misattribution finding is itself M5.14-pool material: memory-cited facts about the system's own history are checkable and were wrong 3-of-4.",
+      "slices": [
+        "P53.1 - the registry: data/battery.json (7 families, pre-declared checks, scales, statuses) + battery.py + CLI battery/--next/--json + validation (families match the scoreboard, done=f receipts, pending=spec)",
+        "P53.2 - the first registry-driven trial: kg-dh executed per spec (bare memory-cited vs harness pointer-verified, offline judge); A 0.0 (3-of-4 round misattributions, zero pointers) vs B 1.0 (8/8 pointers resolve after self-caught imprecision); receipts #13/#14; registry flipped",
+        "P53.3 - the records: BATTERY.md registry section; P53BatteryRegistryTest 3 guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
