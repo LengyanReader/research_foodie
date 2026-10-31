@@ -20,6 +20,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Org-practices sweep (P57) - Agent Skills governance to AAIF, superpowers' post-compaction reinjection adopted,
+  the three new AAIF standards cataloged.** The user asked which recent org practices/ideas (Anthropic, DeepSeek,
+  peers) can be incorporated. Read in full: Anthropic's donation of Agent Skills (name, logo, GitHub org, domain) to
+  the Agentic AI Foundation under the Linux Foundation (70+ platforms, 1M skills, ~280M installs - the emitted
+  SKILL.md format is now foundation-governed; P1's format-alignment call validated by adoption), and obra/superpowers
+  (MIT; 'mandatory workflows, not suggestions': TDD that deletes pre-test code, 4-phase systematic debugging,
+  two-stage subagent review) - of which ONE mechanism is adopted: the emitted AGENTS.md now instructs re-reading the
+  file and pointer entry_docs after ANY context compaction (reinjection, not memory; M1.11 exemplar). Listed: the
+  AAIF four-project announcement (Open Responses - cross-provider agent API; OpenEnv - standardized RL/agent
+  training-eval environments; OpenSandbox - the first standardized candidate for the A.3 #3 concrete-sandbox-backend
+  gap); DeepSeek V4.1-Flash/DeepInfer and Claude Opus 5.5 recorded as landscape/model notes. Catalog 213 -> 218;
+  sources +aaif; references group AC (R276-R278). Deliverable: `review/org-practices-sweep-2026-10-31.md`.
 - **Battery complete 7/7 (P56) - the deep-research multi-hop trial claimed from the registry and executed.** The
   registry-driven loop ran end to end without human steering: `battery --next` handed over the last pending family;
   the trial traced a genuine 3-hop chain (the 2026 compaction theory's Theorem 1 -> its cited basis, Roughgarden's

@@ -1,6 +1,18 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-28
+**Updated:** 2026-10-31
+
+---
+
+## 2026-10-31 · P57：机构实践扫荡轮 —— Agent Skills 治理入 AAIF · superpowers 机制采纳 · 三新标准入目录
+
+- **开轮依据。** 用户问 Anthropic/DeepSeek 等机构近期有无 harness 能力与 workflow 实践/创意可融入。多路检索 + 两篇全文（R276 AAIF 捐赠公告 · R277 superpowers 仓库）+ R278 listed（AAIF 四项目）+ DeepSeek/Opus 5.5 景观条目。
+- **治理事实（R276）。** Agent Skills 的名称/logo/GitHub org/域名全部捐入 **AAIF**（Linux Foundation；Anthropic/Block/OpenAI 共建，MCP 同门）：70+ 平台集成、1M 技能发布、~2.8 亿安装——**本库发射的 SKILL.md 格式现由中立基金会治理**，P1「格式对齐」的判断被采纳规模验证。
+- **机制采纳（R277 superpowers，Exemplar 级）。** 唯一入条款的机制：**压缩后重注入引导**——发射模板加一行「任何上下文压缩后，先重读本文件与 `.harness/pointer.json` 的 entry_docs 再继续」（M1.11 范例句入 core/02 + source-map 行）。其余同形佐证不改条款：TDD 删测试前代码（M0.3）、四阶段系统化调试（P54 临床鉴别行）、双阶段子代理评审（M8.10）、「mandatory workflows, not suggestions」（门禁姿态）。
+- **数据落地。** catalog 213 → **218**（superpowers（verified）/aaif/open-responses（protocol）/openenv（eval-framework）/**opensandbox**（protocol——A.3 #3 悬置的「具体沙箱后端」首个标准化候选））+ agentskills-standard 治理注记；sources +aaif（topics 对齐注册表、tracked 回链由双向守卫抓住补齐）；model-families Opus 5.5 注记（方向性，10-18）；references **§AC**（R276–R278）+ bib 3 条。
+- **不融入。** DeepSeek V4.1-Flash-1017/DeepInfer（模型/部署侧，无能力触发器；DeepInfer 记部署 lead）；Agent Teams 不重审（P42 全文结论仍立）；listed 级标准不落门禁义务（M0.2）；superpowers 其余技能与 plan-first/M0.3/M5.13 同形只作 Exemplar 引用（M0.5）。
+- **登记。** 交付 `review/org-practices-sweep-2026-10-31.md`；cycles **P57**（0/0/0/**3 参考**，catalog +5）；`P57OrgSweepTest` 3 守卫；AGENTS.md 计数 420 → 423。
+- **状态。** 测试 **420 → 423** 全过；`cycle audit` **53 轮 · 0 硬 · 0 缺口**；`catalog --write` + `map --write` 重生成。按默认指示 commit，不 push。
 
 ---
 

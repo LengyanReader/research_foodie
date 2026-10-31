@@ -3506,8 +3506,8 @@
         "M1",
         "M6"
       ],
-      "summary_en": "Open, portable skill format: a directory with SKILL.md (name + description frontmatter) loaded by progressive disclosure across many agent clients.",
-      "summary_zh": "开放可移植技能格式：含 SKILL.md（name+description 前言）的目录，按渐进披露在多客户端加载。",
+      "summary_en": "Open, portable skill format: a directory with SKILL.md (name + description frontmatter) loaded by progressive disclosure across many agent clients. Governance: donated to the Agentic AI Foundation (Linux Foundation) on 2026-10-22, alongside Open Responses/OpenEnv/OpenSandbox; 70+ platforms, 1M skills published, ~280M installs (Anthropic announcement).",
+      "summary_zh": "开放可移植技能格式：含 SKILL.md（name+description 前言）的目录，按渐进披露在多客户端加载。 治理：2026-10-22 捐入 Agentic AI Foundation（Linux Foundation），同批含 Open Responses/OpenEnv/OpenSandbox；70+ 平台、100 万技能发布、约 2.8 亿次安装。",
       "url": "https://agentskills.io/specification",
       "tracked": "agentskills",
       "verified": true,
@@ -5220,6 +5220,118 @@
         "toolchain",
         "reproducibility",
         "skills"
+      ]
+    },
+    {
+      "id": "superpowers",
+      "name": "Superpowers",
+      "name_zh": "Superpowers 技能框架",
+      "class": "skills-protocols",
+      "kind": "skill-library",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M3",
+        "M6",
+        "M7"
+      ],
+      "summary_en": "Methodology-driven skills framework for coding agents (obra): brainstorming gate, TDD with pre-test code deletion, 4-phase systematic debugging, subagent-driven development with two-stage review; skills auto-route via a bootstrap meta-skill reinjected after compaction.",
+      "summary_zh": "方法论驱动的编码 agent 技能框架（obra）：brainstorming 门、删除测试前代码的 TDD、四阶段系统化调试、双阶段评审的子代理开发；引导元技能在压缩后重注入。",
+      "url": "https://github.com/obra/superpowers",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "skills",
+        "methodology",
+        "tdd"
+      ]
+    },
+    {
+      "id": "aaif",
+      "name": "Agentic AI Foundation (AAIF)",
+      "name_zh": "智能体 AI 基金会",
+      "class": "skills-protocols",
+      "kind": "skills-ecosystem",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Linux Foundation-hosted neutral home for agent standards (co-founded by Anthropic, Block, OpenAI): hosts MCP and, since 2026-10-22, Agent Skills + Open Responses + OpenEnv + OpenSandbox (10 projects in its first year).",
+      "summary_zh": "Linux Foundation 旗下的 agent 标准中立之家（Anthropic/Block/OpenAI 共建）：托管 MCP，2026-10-22 起加 Agent Skills + Open Responses + OpenEnv + OpenSandbox（首年 10 个项目）。",
+      "url": "https://aaif.io",
+      "tracked": "aaif",
+      "verified": false,
+      "tags": [
+        "standards",
+        "governance"
+      ]
+    },
+    {
+      "id": "open-responses",
+      "name": "Open Responses",
+      "name_zh": "Open Responses",
+      "class": "skills-protocols",
+      "kind": "protocol",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M6",
+        "M8"
+      ],
+      "summary_en": "OpenAI-contributed AAIF project: a shared LLM API format for agents across providers, describing how applications exchange structured work with models (portability between vendors).",
+      "summary_zh": "OpenAI 捐入 AAIF 的项目：跨厂商 agent 的共享 LLM API 格式，定义应用与模型交换结构化工作的方式。",
+      "url": "https://aaif.io",
+      "tracked": "",
+      "verified": false,
+      "tags": [
+        "standards",
+        "api"
+      ]
+    },
+    {
+      "id": "openenv",
+      "name": "OpenEnv",
+      "name_zh": "OpenEnv",
+      "class": "evaluation",
+      "kind": "eval-framework",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3"
+      ],
+      "summary_en": "Hugging Face (with Meta) contributed AAIF project: standardized training/evaluation environments for reinforcement learning and agentic AI.",
+      "summary_zh": "Hugging Face（与 Meta）捐入 AAIF 的项目：面向强化学习与智能体 AI 的标准化训练/评测环境。",
+      "url": "https://aaif.io",
+      "tracked": "",
+      "verified": false,
+      "tags": [
+        "standards",
+        "environments"
+      ]
+    },
+    {
+      "id": "opensandbox",
+      "name": "OpenSandbox",
+      "name_zh": "OpenSandbox",
+      "class": "skills-protocols",
+      "kind": "protocol",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Alibaba-contributed AAIF project: a general-purpose sandbox platform for safely executing agent-generated code and actions in isolated environments - a concrete backend candidate for the sandboxed-execution posture.",
+      "summary_zh": "阿里捐入 AAIF 的项目：隔离环境中安全执行 agent 生成代码与动作的通用沙箱平台——sandboxed-execution 姿态的具体后端候选。",
+      "url": "https://aaif.io",
+      "tracked": "",
+      "verified": false,
+      "tags": [
+        "standards",
+        "sandbox"
       ]
     }
   ]

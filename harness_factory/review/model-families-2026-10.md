@@ -108,3 +108,5 @@ Recorded with the trigger that would reopen each, per M0.5.
 - **Vendor-reported numbers** (prices, effort-cost ratios, GraphWalks, OSWorld-2.0) are **not** peer-reviewed and are labelled wherever used; no clause depends on their exact value, only on the mechanism they evidence.
 - **OpenAI's model line is under-verified here by construction.** The row in §1 is a documentation row, not a model row. A later round with access to OpenAI's model pages should fill it — and, per M4.17, should record the access date with the model snapshot it describes.
 - **One session.** The mechanisms were read once, from announcement-level and docs-level text. Any clause that turns out to be vendor-specific (preserved thinking is the obvious candidate) already carries its scope in the text rather than being generalised silently.
+
+> **Update (2026-10-31, P57, listed):** Anthropic announced **Claude Opus 5.5** (2026-10-18) as leading agentic coding and knowledge work at ~40% lower run cost than Opus 5 (announcement page; directional, not independently verified — same posture as the original table's rows). The P19 follow-up for the OpenAI model row stays trigger-gated.

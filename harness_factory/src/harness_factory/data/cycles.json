@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-10-31",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -1521,6 +1521,31 @@
         "clauses": [],
         "references": [],
         "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P57",
+      "date": "2026-10-31",
+      "status": "done",
+      "title_en": "Org-practices sweep: Agent Skills governance to AAIF, superpowers' post-compaction reinjection adopted, the three new AAIF standards cataloged",
+      "title_zh": "机构实践扫荡轮：Agent Skills 治理入 AAIF、采纳 superpowers 压缩后重注入、AAIF 三新标准入目录",
+      "note": "The user asked which recent org practices/ideas (Anthropic, DeepSeek, peers) can be incorporated. Read in full: R276 (Anthropic's donation of Agent Skills - name, logo, GitHub org, agentskills.io domain - to the Agentic AI Foundation under the Linux Foundation, co-founded with Block and OpenAI, the same foundation as MCP; 70+ platforms, 1M skills published, ~280M installs) and R277 (obra/superpowers, MIT - 'mandatory workflows, not suggestions': TDD that deletes pre-test code, 4-phase systematic debugging, two-stage subagent review, plans 'clear enough for an enthusiastic junior engineer', and the bootstrap meta-skill RE-INJECTED at session start and after compaction). Listed: R278 (the AAIF four-project announcement: Agent Skills + Open Responses (OpenAI, cross-provider agent API format) + OpenEnv (HF/Meta, standardized RL/agent training-eval environments) + OpenSandbox (Alibaba, general-purpose sandbox platform for agent-generated code - the first standardized candidate for the A.3 #3 concrete-sandbox-backend gap); DeepSeek V4.1-Flash/DeepInfer and Claude Opus 5.5 recorded as landscape/model notes. Landed: (1) governance + adoption facts registered - agentskills-standard catalog note, AAIF entity in sources + catalog (218 entries, +5: superpowers/aaif/open-responses/openenv/opensandbox); (2) ONE mechanism adopted from superpowers: the emitted AGENTS.md now instructs re-reading the file and pointer entry_docs after ANY context compaction (reinjection, not memory - M1.11 exemplar added to core/02 + source-map); the rest of superpowers is Exemplar citation (TDD-deletes-pretest-code -> M0.3, two-stage review -> M8.10, systematic debugging -> P54's clinical differential mode); (3) DeepSeek items recorded as landscape leads (model/deployment side - no capability trigger). Non-additions: no new clauses from listed-grade standards (M0.2); Agent Teams not re-audited (P42 full-read stands).",
+      "slices": [
+        "P57.1 - the reads: AAIF donation announcement (R276) + superpowers repo (R277) in full; the four-project announcement (R278) + DeepSeek/Opus-5.5 as listed landscape",
+        "P57.2 - the data landings: catalog 213 -> 218 (+5, one verified) + agentskills-standard governance note + sources aaif entity; references group AC (R276-R278) + bib; model-families dated note",
+        "P57.3 - the mechanism + records: template post-compaction reinjection line; core/02 M1.11 exemplar + source-map; review/org-practices-sweep-2026-10-31.md; P57OrgSweepTest"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R276",
+          "R277",
+          "R278"
+        ],
+        "catalog_delta": 5,
         "outlets_delta": 0
       }
     }

@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-28 · 213 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-28 · 218 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -86,7 +86,7 @@ harness catalog claude-code           # detail one entry
 | `a-mem` | A-MEM · A-MEM | 记忆系统 | M2 | Xu et al. 2025 |
 | `letta-code` | Letta Code · Letta Code | 记忆系统 | M2, M5 | https://github.com/letta-ai/letta · tracked:letta |
 
-## Skills ecosystems & protocols · 技能生态与协议  (12)
+## Skills ecosystems & protocols · 技能生态与协议  (16)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -102,8 +102,12 @@ harness catalog claude-code           # detail one entry
 | `skills-sh` | skills.sh (`npx skills`) · skills.sh 技能目录 | index | M6 | https://skills.sh/ · tracked:vercel-skills |
 | `agentskills-standard` | Agent Skills standard · Agent Skills 标准 | 技能生态 | M1, M6 | https://agentskills.io/specification · tracked:agentskills |
 | `openclaw` | OpenClaw · OpenClaw | 技能生态 | M2, M6, M8 | https://github.com/openclaw/openclaw · tracked:openclaw |
+| `superpowers` | Superpowers · Superpowers 技能框架 | 技能沉淀 | M1, M3, M6, M7 | https://github.com/obra/superpowers |
+| `aaif` | Agentic AI Foundation (AAIF) · 智能体 AI 基金会 | 技能生态 | M1, M6 | https://aaif.io · tracked:aaif |
+| `open-responses` | Open Responses · Open Responses | 协议 | M6, M8 | https://aaif.io |
+| `opensandbox` | OpenSandbox · OpenSandbox | 协议 | M3, M6 | https://aaif.io |
 
-## Evaluation harnesses · 评测 harness  (11)
+## Evaluation harnesses · 评测 harness  (12)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -118,6 +122,7 @@ harness catalog claude-code           # detail one entry
 | `helm` | HELM · HELM | eval-framework | M3, M4 | https://github.com/stanford-crfm/helm |
 | `simple-evals` | simple-evals · simple-evals | eval-framework | M3 | https://github.com/openai/simple-evals |
 | `lighteval` | LightEval · LightEval | eval-framework | M3 | https://github.com/huggingface/lighteval |
+| `openenv` | OpenEnv · OpenEnv | eval-framework | M3 | https://aaif.io |
 
 ## Surveys (orientation) · 综述导航  (5)
 

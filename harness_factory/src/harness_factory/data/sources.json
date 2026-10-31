@@ -1009,6 +1009,22 @@
           "reproducibility"
         ],
         "why": "Hermetic per-project toolchain manager; ships an AI-coding-agent skill for reproducible, pinned environments."
+      },
+      {
+        "id": "aaif",
+        "name": "Agentic AI Foundation",
+        "kind": "other",
+        "url": "https://aaif.io",
+        "feed": "https://aaif.io/news/rss.xml",
+        "topics": [
+          "agent-skills-tools",
+          "agent-harness"
+        ],
+        "tags": [
+          "foundation",
+          "linux-foundation"
+        ],
+        "why": "Neutral home of MCP + Agent Skills + Open Responses + OpenEnv + OpenSandbox - the standards body governing the emitted harness's SKILL.md format."
       }
     ],
     "venues": [
@@ -3901,8 +3917,13 @@
         "kind": "other",
         "outlet_kind": "portal",
         "url": "https://www.dariah.eu/",
-        "topics": ["digital-humanities"],
-        "tags": ["infrastructure", "digital-humanities"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "infrastructure",
+          "digital-humanities"
+        ],
         "why": "The EU digital-humanities infrastructure: working groups, standards and training for computational humanities work.",
         "verified": true,
         "access": "2026-10-23",
@@ -3914,8 +3935,12 @@
         "kind": "other",
         "outlet_kind": "journal",
         "url": "https://academic.oup.com/dsh",
-        "topics": ["digital-humanities"],
-        "tags": ["journal"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "journal"
+        ],
         "why": "The flagship DH journal (OUP); peer-reviewed computational-humanities research.",
         "verified": false,
         "access": "2026-10-23",
@@ -3928,8 +3953,13 @@
         "kind": "other",
         "outlet_kind": "journal",
         "url": "https://culturalanalytics.org/",
-        "topics": ["digital-humanities"],
-        "tags": ["journal", "open-access"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "journal",
+          "open-access"
+        ],
         "why": "Open-access journal for the computational study of culture; publishes data and code alongside articles.",
         "verified": true,
         "access": "2026-10-23",
@@ -3941,8 +3971,13 @@
         "kind": "other",
         "outlet_kind": "journal",
         "url": "https://onlinelibrary.wiley.com/journal/15516709",
-        "topics": ["cognitive-science", "psychology"],
-        "tags": ["journal"],
+        "topics": [
+          "cognitive-science",
+          "psychology"
+        ],
+        "tags": [
+          "journal"
+        ],
         "why": "The Cognitive Science Society's journal; the field's flagship for computational and empirical cognition.",
         "verified": false,
         "access": "2026-10-23",
@@ -3955,8 +3990,13 @@
         "kind": "other",
         "outlet_kind": "journal",
         "url": "https://www.sciencedirect.com/journal/cognition",
-        "topics": ["cognitive-science", "psychology"],
-        "tags": ["journal"],
+        "topics": [
+          "cognitive-science",
+          "psychology"
+        ],
+        "tags": [
+          "journal"
+        ],
         "why": "Elsevier's cognitive journal; dense, single-mechanism studies - a high bar for falsifiable claims.",
         "verified": false,
         "access": "2026-10-23",
@@ -3969,8 +4009,13 @@
         "kind": "other",
         "outlet_kind": "journal",
         "url": "https://www.cell.com/trends/cognitive-sciences/home",
-        "topics": ["cognitive-science"],
-        "tags": ["journal", "review"],
+        "topics": [
+          "cognitive-science"
+        ],
+        "tags": [
+          "journal",
+          "review"
+        ],
         "why": "Cell Press review journal; short, curated takes on where cognitive science is moving.",
         "verified": false,
         "access": "2026-10-23",
@@ -3983,8 +4028,14 @@
         "kind": "other",
         "outlet_kind": "journal",
         "url": "https://direct.mit.edu/opmi",
-        "topics": ["cognitive-science", "psychology"],
-        "tags": ["journal", "open-access"],
+        "topics": [
+          "cognitive-science",
+          "psychology"
+        ],
+        "tags": [
+          "journal",
+          "open-access"
+        ],
         "why": "MIT Press open-access journal for the sciences of mind; the OA alternative to the paywalled flagships.",
         "verified": false,
         "access": "2026-10-23",
@@ -3997,8 +4048,14 @@
         "kind": "other",
         "outlet_kind": "database",
         "url": "https://ctext.org/",
-        "topics": ["digital-humanities"],
-        "tags": ["classical-chinese", "corpus", "api"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "classical-chinese",
+          "corpus",
+          "api"
+        ],
         "why": "Open-access digital library of pre-modern Chinese texts with a documented API (ctext.org/tools/api, JSON-RPC + data-writer). Site and API docs both 200 on probe 2026-10-28. Primary door for the 古籍整理 worked example in reference/tool-router.md.",
         "verified": true,
         "access": "2026-10-28",
@@ -4010,8 +4067,14 @@
         "kind": "other",
         "outlet_kind": "repository",
         "url": "https://cbeta.org/",
-        "topics": ["digital-humanities"],
-        "tags": ["buddhist-canon", "tei-xml", "open-data"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "buddhist-canon",
+          "tei-xml",
+          "open-data"
+        ],
         "why": "Digitized Chinese Buddhist canon (大正藏/卍續藏/嘉興藏 etc.) as TEI P5 XML; rolling releases (2026.R2, 2026-08). Site 200 on probe 2026-10-28; online reader cbetaonline.dila.edu.tw cert-failed from this network (unverified here). Attribution-based license.",
         "verified": true,
         "access": "2026-10-28",
@@ -4023,8 +4086,14 @@
         "kind": "other",
         "outlet_kind": "database",
         "url": "https://github.com/cbdb-project",
-        "topics": ["digital-humanities"],
-        "tags": ["prosopography", "relational-db", "api"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "prosopography",
+          "relational-db",
+          "api"
+        ],
         "why": "Relational DB of historical Chinese persons (~370k+ per the Harvard project page; grows with each release); GitHub org 200 on probe 2026-10-28 incl. unpunctuated-text segmentation models; official Open Web API (api.cbdb.org) SSL-blocked from this network; community Claude Code skill for the API listed on mcpmarket (page 200).",
         "verified": true,
         "access": "2026-10-28",
@@ -4037,8 +4106,14 @@
         "kind": "other",
         "outlet_kind": "repository",
         "url": "https://www.bdrc.io/",
-        "topics": ["digital-humanities"],
-        "tags": ["buddhist-texts", "iiif", "linked-open-data"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "buddhist-texts",
+          "iiif",
+          "linked-open-data"
+        ],
         "why": "28M+ pages of Buddhist documents (Tibetan/Sanskrit/Chinese) with IIIF + open linked data per the official site. SSL handshake failed from this probe (2026-10-28) - listed by official URL, reachability unverified here.",
         "verified": false,
         "access": "2026-10-28",
@@ -4051,8 +4126,14 @@
         "kind": "other",
         "outlet_kind": "portal",
         "url": "https://guji.nlc.cn/",
-        "topics": ["digital-humanities"],
-        "tags": ["ancient-books", "scans", "gateway"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "ancient-books",
+          "scans",
+          "gateway"
+        ],
         "why": "Free-browse portal of digitized 古籍善本 (images); the second-witness door for collation against machine-readable corpora. L 200 on probe 2026-10-28; no public API - manual intake into tasks.",
         "verified": true,
         "access": "2026-10-28",
@@ -4064,8 +4145,14 @@
         "kind": "other",
         "outlet_kind": "repository",
         "url": "https://zh.wikisource.org/",
-        "topics": ["digital-humanities"],
-        "tags": ["corpus", "api", "community-verified"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "corpus",
+          "api",
+          "community-verified"
+        ],
         "why": "Community-proofread classical and modern Chinese texts with MediaWiki API + dumps; provenance visible in page history. L 200 on probe 2026-10-28.",
         "verified": true,
         "access": "2026-10-28",
@@ -4077,8 +4164,15 @@
         "kind": "other",
         "outlet_kind": "portal",
         "url": "https://discovery.intern-ai.org.cn/",
-        "topics": ["digital-humanities"],
-        "tags": ["ancient-books", "llm", "ocr", "metered-api"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "ancient-books",
+          "llm",
+          "ocr",
+          "metered-api"
+        ],
         "why": "Classical-Chinese LLM/OCR service platform (端砚); portal 200 on probe 2026-10-28. API keys are metered (墨点 quota, shared RPM/TPM) - cost-budget gate applies before unattended runs.",
         "verified": true,
         "access": "2026-10-28",
@@ -4090,8 +4184,14 @@
         "kind": "other",
         "outlet_kind": "database",
         "url": "https://dict.sinica.edu.tw/",
-        "topics": ["digital-humanities"],
-        "tags": ["lexicon", "buddhist-chinese", "terminology"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "lexicon",
+          "buddhist-chinese",
+          "terminology"
+        ],
         "why": "Academia Sinica lexica portal (hosts 佛教漢語文獻詞典等专书词典类资源); exact product behind this URL not confirmed - SSL probe failed from this network on 2026-10-28. Registered as a lead, re-probe and confirm next round.",
         "verified": false,
         "access": "2026-10-28",
@@ -4104,8 +4204,13 @@
         "kind": "other",
         "outlet_kind": "database",
         "url": "http://marco.ihp.sjtu.edu.cn/",
-        "topics": ["digital-humanities"],
-        "tags": ["entity-search", "cbdb-adjacent"],
+        "topics": [
+          "digital-humanities"
+        ],
+        "tags": [
+          "entity-search",
+          "cbdb-adjacent"
+        ],
         "why": "Entity search over historical Chinese full texts (complements CBDB prosopography with text-side lookup); precise scope/period claim NOT verified - probe returned 502 on 2026-10-28, re-probe next round before relying on it.",
         "verified": false,
         "access": "2026-10-28",

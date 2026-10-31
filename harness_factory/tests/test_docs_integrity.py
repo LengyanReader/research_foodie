@@ -1039,5 +1039,37 @@ class P54ThinkingModesTest(unittest.TestCase):
             self.assertIn(token, doc, f"coverage audit lost {token!r}")
 
 
+class P57OrgSweepTest(unittest.TestCase):
+    """P57: the org-practices sweep - AAIF governance, superpowers reinjection, the new standards."""
+
+    def test_template_reinjection_line_present(self):
+        text = _read(HARNESS / "src/harness_factory/templates/AGENTS.md.tmpl")
+        self.assertIn("After any context compaction", text, "post-compaction reinjection line missing")
+        self.assertIn("pointer.json", text, "reinjection must name the pointer")
+
+    def test_m111_carries_the_reinjection_exemplar(self):
+        text = _read(HARNESS / "core/02-context-engineering.md")
+        self.assertIn("[R277]", text, "M1.11 lost the superpowers exemplar")
+        self.assertIn("reinjected after the pass", text)
+
+    def test_catalog_and_references_record_the_sweep(self):
+        cat = json.loads((HARNESS / "src/harness_factory/data/harnesses.json")
+                         .read_text(encoding="utf-8"))
+        ids = {e.get("id") for e in cat["harnesses"]}
+        for rid in ("superpowers", "aaif", "open-responses", "openenv", "opensandbox"):
+            self.assertIn(rid, ids, f"catalog entry missing: {rid}")
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## AC.", refs)
+        for ref in ("R276", "R277", "R278"):
+            self.assertIn(ref, refs)
+        bib = _read(HARNESS / "review/references.bib")
+        self.assertIn("anthropic2026skillsaaif", bib)
+        self.assertIn("vincent2026superpowers", bib)
+        srcs = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                          .read_text(encoding="utf-8"))
+        self.assertTrue(any(e.get("id") == "aaif" for e in srcs["groups"]["harnesses"]),
+                        "aaif source entity missing")
+
+
 if __name__ == "__main__":
     unittest.main()
