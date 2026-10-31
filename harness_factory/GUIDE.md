@@ -227,6 +227,16 @@ self-check: OK
 | `refresh-apply --accept …` | Human gate → proposal stubs. | 人工采纳候选。 |
 | `doctor` | Show resolved paths / config / LLM status. | 显示路径/配置/LLM 状态。 |
 | `self-update` | Refresh the tool's own catalog from defaults. | 从内置默认刷新自身目录。 |
+| `scoreboard` | Run the 7-task holdout: structural axes + per-task effect axis (P23/P24). | 跑 7 任务留出集：结构轴 + 每任务效果轴。 |
+| `battery [--next]` | The experiment registry: status / next pending trial spec (P53). | 实验注册表：状态 / 下一组待测试验的完整规格。 |
+| `classify --task …` | Intent inspection: the 8-axis vector + matched capabilities, no plan emitted (P55). | 意图检查：8 轴向量 + 命中能力，不落方案。 |
+| `trace-audit` | Audit recorded traces -> mutation proposals (D1 stage B). | 审计轨迹 -> 变异提案（只提案）。 |
+| `collect --project D` | Pull a project's local traces into the tool home. | 把项目本地轨迹拉回工具家。 |
+| `probe-domains` | Surface intel that no domain catches -> candidate domains (P29). | 无人认领的情报 -> 候选域提案。 |
+| `brief --task …` | Paste-ready task brief: a DRAFT to confirm, not a licence to start (P32). | 可粘贴的任务简报：待确认草案，非开工许可。 |
+| `init --from-brief F` | Emit the harness from a confirmed brief (P33). | 从已确认的简报生成 harness。 |
+| `full-update [--offline]` | The whole observe loop in one instruction (proposals only, P30). | 一句话跑完观察环（只提案）。 |
+| `cycle [audit\|roadmap\|show]` | The round registry: audit / roadmap / one round. | 轮次注册表：审计 / 路线图 / 单轮。 |
 
 Flags common to `derive`/`init` · 公共参数：`--domain --goal --project --horizon --verifiability --stakes --grounding --artifact --tool-surface --collaboration --llm --json` (`init` adds `--out --force`).
 

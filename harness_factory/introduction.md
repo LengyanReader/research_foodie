@@ -138,7 +138,9 @@ harness init --from-brief brief.md --out <dir>  # emit the harness from a confir
 harness harvest --dir <dir> --event task_outcome --detail '{"judge":"human","score":4}'  # record a verdict
 harness collect --project <dir>       # pull a project's local traces into the tool home
 harness trace-audit                   # audit traces -> mutation proposals (proposal-only)
-harness cycle audit                   # the round registry audit (39+ rounds, 0 hard, 0 gaps)
+harness battery [--next]              # the experiment registry: status / next pending trial (P53)
+harness classify --task "..."         # intent inspection: 8-axis vector + matched capabilities (P55)
+harness cycle audit                   # the round registry audit (50+ rounds, 0 hard, 0 gaps)
 harness full-update --offline         # the whole observe loop in one instruction
 ```
 
@@ -192,7 +194,7 @@ The knowledge base must not freeze. `harness refresh` runs `signal → audit →
 - **Human gate:** `refresh-apply` only writes merge stubs to `updates/proposals/`; a human edits the catalogs. Nothing is auto-merged, and everything is reversible by deleting `updates/`.
 - **Watermark:** the effective `since` date is persisted to `updates/state.json`, so repeated cycles only surface *new* items without passing `--since` each time.
 
-**Tracked entities (`data/sources.json`).** 237 entities across 8 groups (as of 2026-10-28) — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools), and **outlets** (per-field first-party portals/journals/databases/registries). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
+**Tracked entities (`data/sources.json`).** 238 entities across 8 groups (as of 2026-10-31) — **projects** (frontier labs + frameworks), **harnesses** (vendor agent SDKs/CLIs/protocols: Agents SDK, Claude Code, MCP, Gemini CLI, ADK, A2A, Llama Stack, …), **venues** (journals + arXiv), **people**, **self-media** (newsletters/podcasts/YouTube), **libraries** (Project Gutenberg, Standard Ebooks, Internet Archive, Open Library, HathiTrust, DOAB), **tools** (deep-research/search/academic/retrieval/crawl/screening/eval tools), and **outlets** (per-field first-party portals/journals/databases/registries). RSS/Atom feeds are used where one exists; YouTube `@handle` pages are resolved to channel feeds. `harness sources` lists them.
 
 **Intel (`harness intel`).** Pulls those feeds, scores relevance (topic keywords + entity mention + recency), tags by topic/entity, and writes a bilingual `updates/INTEL.md` + `updates/intel.jsonl`. Briefs are verbatim excerpts unless an LLM summary is configured (`llm.summarize`).
 
@@ -200,7 +202,7 @@ The knowledge base must not freeze. `harness refresh` runs `signal → audit →
 
 Scheduling (weekly): run `refresh.ps1` (now: refresh `--provider all --intel` then `evolve`); details in `tasks/REFRESH.md` (Task Scheduler / cron / GitHub Actions).
 
-**The trace-driven loop (D1, P22–P45).** Beyond the catalog-side loop, the factory consumes **execution traces**: an emitted harness records machine facts (a missed gate, a human correction, a capability that never fired, the task's final verdict with a judge and score) into `.harness/traces.jsonl`; `harness collect` pulls them into the tool home; `harness trace-audit` runs data-declared rules over them and emits **mutation proposals** (proposal-only, human-gated). Receipts carry a judge (`human` by default; `machine` only where the task family has a defined metric) — the machine records verdicts, it never makes them (M0.4). `harness full-update` chains the whole observe loop: intel → probe-domains → trace-audit → evolve → cycle audit → scoreboard.
+**The trace-driven loop (D1, P22–P53).** Beyond the catalog-side loop, the factory consumes **execution traces**: an emitted harness records machine facts (a missed gate, a human correction, a capability that never fired, the task's final verdict with a judge and score) into `.harness/traces.jsonl`; `harness collect` pulls them into the tool home; `harness trace-audit` runs data-declared rules over them and emits **mutation proposals** (proposal-only, human-gated). Receipts carry a judge (`human` by default; `machine` only where the task family has a defined metric) — the machine records verdicts, it never makes them (M0.4). `harness full-update` chains the whole observe loop: intel → probe-domains → trace-audit → evolve → cycle audit → scoreboard.
 
 **The measurement system (P23–P45).** `data/scoreboard.json` is the factory's own holdout: **7 canonical task families, each scored on five deterministic structural axes** (routing / capabilities / modules / structure / emission — 1.0 baseline pinned by tests, moves only by deliberate recorded edit) plus a per-task **effect axis** (`effect_metric`: the machine-scorable measure of whether the task actually went well — unmeasured until a real run records a receipt). The structural ablation baseline (P40/P44) ablated all 38 capabilities one at a time: **17 units are load-bearing** and protected; a paired trial (P45) ran bare vs harnessed on the same task — **0.2 vs 1.0 on citation-verifiability** (machine-judged; N=1, directional) — the first effect receipts, recorded as real traces.
 
@@ -265,6 +267,6 @@ and superseded decisions: `tasks/DISTRIBUTION.md` §8.
 
 **The live roadmap lives in [`tasks/PLAN.md`](tasks/PLAN.md)** (rounds, next-round worklist, non-goals) with the
 machine-readable registry in `data/cycles.json` (`harness cycle audit`). This section is deliberately a pointer,
-not a copy — a second rendering of the roadmap is a drift source (M0.5): rounds P0–P45 are done as of 2026-10-28,
+not a copy — a second rendering of the roadmap is a drift source (M0.5): rounds P0–P57 are done as of 2026-10-31,
 and [`CHANGELOG.md`](../CHANGELOG.md) records each round's counts and sources. Packaging history and the tool-form
 decision: [`tasks/DISTRIBUTION.md`](tasks/DISTRIBUTION.md).

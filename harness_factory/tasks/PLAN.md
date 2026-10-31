@@ -505,6 +505,15 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **目录与登记。** catalog 213 → **218**（superpowers · aaif · open-responses · openenv · **opensandbox**——A.3 #3 悬置的「具体沙箱后端」首个标准化候选）；sources +aaif；agentskills-standard 治理注记；model-families Opus 5.5 注记（方向性）；references **§AC**（R276–R278）+ bib；交付 `review/org-practices-sweep-2026-10-31.md`。
 - **不融入。** DeepSeek V4.1-Flash/DeepInfer（模型/部署侧，无能力触发器；DeepInfer 记 lead）；Agent Teams 不重审（P42 全文结论仍立）；listed 级标准不落门禁义务（M0.2）。
 
+## P58 · 文档刷新轮（2026-10-31，已做）：测量世代命令面四文档补齐 · 计数刷新 · 命令面守卫
+
+> 用户指示：更新相关文档；评估 README 用法是否需更新。审计发现：四份入口文档**无一提到 battery/classify**；GUIDE 缺整个测量世代命令面（停在 P1.7 世代）；introduction 两处计数过期。
+
+- **更新。** GUIDE 命令表 +10 行（scoreboard/battery/classify/trace-audit/collect/probe-domains/brief/init --from-brief/full-update/cycle）；两语 README quickstart 与 introduction quickstart 补 battery/classify；introduction 计数刷新（238 实体 · P0–P57 · trace 环节指针 P22–P53）。
+- **README 用法评估结论。** **两步用法块（常驻引用 + 任务句）保持原状**——它有 fidelity 守卫（QuickStartFidelityTest）、描述的是「怎么用」而非「里面有什么」，P47–P57 的内容演进不触碰它；需更新的只是 quickstart 命令清单（已补）。
+- **守卫。** `CommandSurfaceGuardTest`：五个关键命令 × 四份入口文档——关闭 P46 候选（zh README 曾三轮缺 full-update/brief，因为无守卫看命令清单）。
+- **登记。** cycles **P58**（0/0/0/0）；测试 **423 → 424**。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

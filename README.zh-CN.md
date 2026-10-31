@@ -78,6 +78,8 @@ harness full-update                      # 一句话跑完观察环 -> updates/F
 harness brief --task "…"                 # 可粘贴的任务简报：精炼字段 + 计划 + 首步行动 + 门禁
                                          #   （是待确认草案，不是开工许可 - P32）
 harness scoreboard                       # 本库自己的 7 任务留出集：结构轴 + 每任务效果轴
+harness classify --task "…"              # 意图检查：8 轴向量 + 命中能力（P55）
+harness battery [--next]                 # 实验注册表：状态 / 下一组待测试验规格（P53）
 harness harvest --dir <目录> --event task_outcome --detail '{"judge":"human","score":4}'
                                          # 记录任务收尾判决（M5.14：失败是必需信号）
 harness collect --project <目录>          # 把项目本地轨迹拉回工具家

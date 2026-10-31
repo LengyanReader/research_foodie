@@ -94,6 +94,8 @@ harness full-update                      # one instruction: the whole observe lo
 harness brief --task "…"                 # paste-ready task brief: refinement fields + plan + first actions + gates
                                          #   (a DRAFT to confirm, not a licence to start - P32)
 harness scoreboard                       # the factory's own 7-task holdout: structural axes + per-task effect axis
+harness classify --task "…"              # intent inspection: the 8-axis vector + matched capabilities (P55)
+harness battery [--next]                 # the experiment registry: status / next pending trial spec (P53)
 harness harvest --dir <dir> --event task_outcome --detail '{"judge":"human","score":4}'
                                          # record a task verdict (M5.14: failures are mandatory signal)
 harness collect --project <dir>          # pull a project's local traces into the tool home

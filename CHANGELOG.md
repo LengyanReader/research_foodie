@@ -20,6 +20,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Docs refresh (P58) - the measurement-era command surface documented everywhere, counts refreshed, and a
+  command-surface guard.** The user asked to refresh the docs and evaluate whether the README usage instructions
+  need updating. Audit: none of the four entry docs mentioned battery/classify (landed P53/P55), GUIDE lacked the
+  entire measurement-era command set, and introduction.md carried two stale counts. Landed: GUIDE's command table
+  +10 rows; both README quickstarts and the introduction quickstart gain battery/classify lines; introduction counts
+  refreshed. THE README USAGE EVALUATION: the two-step usage block (standing reference + task) stays AS-IS - it is
+  fidelity-guarded, describes how to use the factory rather than what it contains, and P47-P57 did not touch it;
+  only the quickstart command lists needed the two additions. Guard: CommandSurfaceGuardTest asserts five key
+  commands in all four entry docs (closing the P46 candidate - the zh README had lost full-update/brief for three
+  rounds because nothing watched the command lists).
 - **Org-practices sweep (P57) - Agent Skills governance to AAIF, superpowers' post-compaction reinjection adopted,
   the three new AAIF standards cataloged.** The user asked which recent org practices/ideas (Anthropic, DeepSeek,
   peers) can be incorporated. Read in full: Anthropic's donation of Agent Skills (name, logo, GitHub org, domain) to

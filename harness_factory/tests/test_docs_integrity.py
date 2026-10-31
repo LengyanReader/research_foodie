@@ -1071,5 +1071,31 @@ class P57OrgSweepTest(unittest.TestCase):
                         "aaif source entity missing")
 
 
+class CommandSurfaceGuardTest(unittest.TestCase):
+    """P58: the new-era commands must be documented in every entry doc.
+
+    The zh README lost full-update/brief for three rounds (P30/P32 fixed only
+    the EN side) and GUIDE lacked the entire measurement-era command set until
+    P58 - both drifts happened because no guard watched the command lists.
+    Five key commands, four entry docs, one check."""
+
+    _DOCS = ("README.md", "README.zh-CN.md", "harness_factory/introduction.md",
+             "harness_factory/GUIDE.md")
+    _COMMANDS = ("harness scoreboard", "harness trace-audit", "harness battery",
+                 "harness classify", "harness full-update")
+
+    def test_key_commands_documented_in_every_entry_doc(self):
+        missing = []
+        for doc in self._DOCS:
+            text = _read(ROOT / doc)
+            for cmd in self._COMMANDS:
+                # GUIDE's command table uses bare command names ("| `scoreboard` |"),
+                # the other three docs use the full "harness <cmd>" form.
+                bare = cmd.replace("harness ", "", 1)
+                if cmd not in text and f"`{bare}" not in text:
+                    missing.append(f"{doc}: {cmd}")
+        self.assertEqual(missing, [], "command-surface drift: " + "; ".join(missing))
+
+
 if __name__ == "__main__":
     unittest.main()

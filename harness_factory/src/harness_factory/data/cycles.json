@@ -1548,6 +1548,27 @@
         "catalog_delta": 5,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P58",
+      "date": "2026-10-31",
+      "status": "done",
+      "title_en": "Docs refresh: the measurement-era command surface documented everywhere, counts refreshed, and a command-surface guard",
+      "title_zh": "文档刷新轮：测量世代命令面四文档补齐 + 计数刷新 + 命令面守卫",
+      "note": "The user asked to refresh the docs and to evaluate whether the README usage instructions need updating. Audit finding: none of the four entry docs mentioned battery/classify (both landed P53/P55), GUIDE lacked the ENTIRE measurement-era command set (scoreboard/trace-audit/collect/full-update/brief/cycle/probe-domains - it stopped at the P1.7-era commands), and introduction.md carried two stale counts (237 entities -> 238; rounds P0-P45 -> P0-P57). Landed: GUIDE's command table +10 rows (scoreboard/battery/classify/trace-audit/collect/probe-domains/brief/init --from-brief/full-update/cycle); both README quickstarts + introduction quickstart gain battery/classify lines; introduction counts and the trace-loop section pointer refreshed. THE README USAGE EVALUATION: the two-step usage block (standing reference + task) stays AS-IS - it is fidelity-guarded (QuickStartFidelityTest), describes how to use the factory rather than what it contains, and its content did not change across P47-P57; only the quickstart command lists needed the two additions. Guard: CommandSurfaceGuardTest asserts five key commands in all four entry docs - closing the P46 candidate (the zh README had lost full-update/brief for three rounds because nothing watched the command lists).",
+      "slices": [
+        "P58.1 - the audit: command lists and counts across the four entry docs vs the CLI surface and SSOT",
+        "P58.2 - the updates: GUIDE +10 command rows; both README quickstarts + introduction quickstart gain battery/classify; introduction counts refreshed (238 entities, P0-P57)",
+        "P58.3 - the guard: CommandSurfaceGuardTest (five key commands x four entry docs); the README usage verdict recorded"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

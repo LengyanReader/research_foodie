@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-10-31 · P58：文档刷新轮 —— 测量世代命令面四文档补齐 · 计数刷新 · 命令面守卫
+
+- **开轮依据。** 用户指示：更新相关文档；评估 README 用法是否需更新。审计：四份入口文档**无一提到 battery/classify**（P53/P55 落的命令）；GUIDE 命令表停在 P1.7 世代（缺 scoreboard/trace-audit/collect/full-update/brief/cycle/probe-domains 整个测量世代命令面）；introduction 两处计数过期（237 实体 → 238、P0–P45 → P0–P57）。
+- **更新。** GUIDE 命令表 **+10 行**；两语 README quickstart 与 introduction quickstart 补 battery/classify 行；introduction 计数与 trace 环节指针（P22–P53）刷新。
+- **README 用法评估结论。** **两步用法块（常驻引用 + 任务句）保持原状**——有 fidelity 守卫（QuickStartFidelityTest）、描述「怎么用」而非「里面有什么」，P47–P57 的内容演进不触碰它；需更新的只是 quickstart 命令清单（已补）。
+- **守卫。** `CommandSurfaceGuardTest`：五个关键命令 × 四份入口文档（GUIDE 按裸命令名适配）——**关闭 P46 候选**（zh README 曾三轮缺 full-update/brief，因为无守卫看命令清单）。
+- **登记。** cycles **P58**（0/0/0/0）；PLAN P58 章节；AGENTS.md 计数 423 → 424。
+- **状态。** 测试 **423 → 424** 全过；`cycle audit` **54 轮 · 0 硬 · 0 缺口**。按默认指示 commit，不 push。
+
+---
+
 ## 2026-10-31 · P57：机构实践扫荡轮 —— Agent Skills 治理入 AAIF · superpowers 机制采纳 · 三新标准入目录
 
 - **开轮依据。** 用户问 Anthropic/DeepSeek 等机构近期有无 harness 能力与 workflow 实践/创意可融入。多路检索 + 两篇全文（R276 AAIF 捐赠公告 · R277 superpowers 仓库）+ R278 listed（AAIF 四项目）+ DeepSeek/Opus 5.5 景观条目。
