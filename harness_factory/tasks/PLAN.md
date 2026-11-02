@@ -514,6 +514,17 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **守卫。** `CommandSurfaceGuardTest`：五个关键命令 × 四份入口文档——关闭 P46 候选（zh README 曾三轮缺 full-update/brief，因为无守卫看命令清单）。
 - **登记。** cycles **P58**（0/0/0/0）；测试 **423 → 424**。
 
+## P59 · 渠道健康轮（2026-11-02，已做）：全面更新分诊揪出「主题无源」真缺陷 · 四处断门复探修复 · 覆盖 67%→91.7% · 审计假阳性修引擎
+
+> 用户「请开启这一轮的全面更新升级与进化」触发：`full-update` 六阶段全绿（intel 3395 · probe 5 簇 · trace 1 案 · evolve 27 审计 · audit 0-0 · scoreboard 1.0），随后逐分诊——审计行是线索不是事实（M0.3），每条都直连复探后才写 SSOT。编号说明：本轮原计划 P42，执行中发现 P42–P58 已被并行会话占用并推送，改记 **P59**。
+
+- **主题接线（本轮真缺陷）。** P35 的 scholarly-discovery、P41 的 mcp-skills-ecosystem + classical-texts-dh 三个主题登记时只写了 watchlist keywords，**没有任何 feed 实体挂 topics**——feed 路径永远无法把拉取归因到主题，evolve 覆盖率卡在 67%。接线：4 个 arXiv RSS 门 + neurips-blog 载 scholarly-discovery；14 实体载 mcp-skills-ecosystem（守卫收尾时揪出 survey 写 14 而 SSOT 只有 13——补 openai）；archive-blog 载 classical-texts-dh（部分，JSON/HTML 门户待真任务，P41.R1）。三个主题 id 补进 sources.json `topic_ids`（P41 登记时漏了注册表侧枚举，test_sources 抓住）。覆盖率 **67% → 91.7%**；ambition-and-agency **刻意不强接**（P59.R1）——主题靠挣得来源，来源不挣主题。
+- **断门复探（2026-11-02 直连）。** The Batch 门 404 → Ghost feed 已迁 `charonhub.deeplearning.ai/rss`（200 · 15 条 · 最新 10-30），改道；Anthropic **官方从无 RSS**（Turing Institute ai-rss-feeds 佐证）→ 改挂 BestBlogs RSSHub 镜像并如实标 discovery-grade（滞后 ~2 周、须回落原文）；meta-fair / aaif 404 无后继 → `feed:null` + note，走 LLM-discovery；arXiv 周末 200-空-feed 是正常公告节奏（why 加注防误报）；openai-swarm 休眠注记（last push 2026-04-15，未归档）。
+- **引擎修复。** `evolution.py` untracked_source 只比实体 url 域名——karpathy.github.io、latent.space 两条是已跟踪博客的假阳性（feed 域 ≠ canonical url）→ known 集并 url+feed+api 三域、www 视为呈现变体；blog.archive.org 是唯一真漏 → 注册新实体。
+- **新渠道（intake 门已过，带探测证据）。** neurips-blog（200 · 最新 10-25，论文环缺的会议侧声道）、archive-blog（200 · 最新 10-21）；端到端验证 `refresh --provider feed --dry-run` 2069 候选 / 1980 接受，mcp-skills-ecosystem=1000、classical-texts-dh=10 在流。
+- **刻意不做（M0.4/M0.5）。** 单轮证据不 retire（19 条 stale 是节奏噪声或已注记）；不新增能力/子句/目录（本轮修管道不长地图，catalog_delta 0）；trace 提案与 5 个厂商关键词簇只作观察。
+- **登记与守卫。** 交付 `review/feed-health-2026-11.md`；cycles **P59**（0/0/0/0）+ **P59.R1** 延项（meta-fair/aaif 复探 · ambition 诚实载体）；`P59FeedHealthTest` 5 守卫；introduction 实体计数 238→240；AGENTS.md 重排以独立 commit 落地（d56ae55，并行会话工件、经 suite 兼容验证后按用户决定分离提交）；测试 **424 → 429**；`cycle audit` **55 轮 · 0 硬 · 0 缺口**。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

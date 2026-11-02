@@ -1569,6 +1569,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P59",
+      "date": "2026-11-02",
+      "status": "done",
+      "title_en": "Feed-health round: the update loop's intake doors re-probed, four dead ones repaired, topic wiring closed, audit false positives fixed",
+      "title_zh": "渠道健康轮：重探更新环信息入口·修复四处断门·补齐主题接线·清除审计假阳性",
+      "note": "Opened by the user's standing 'full update/upgrade/evolution' instruction: one `full-update` tick (3395 intel / 5 clusters / 1 trace proposal / 27 audits / audit 0-0 / scoreboard 1.0), then per-item triage with direct probes 2026-11-02 - an audit row is a lead, not a fact (M0.3). Landed: (1) topic wiring - scholarly-discovery (P35) and mcp-skills-ecosystem + classical-texts-dh (P41) were registered as watchlist topics but NO entity carried them, so the feed path could never attribute pulls to them; now wired (coverage 67% -> 91.7%), ambition-and-agency deliberately left uncovered (P59.R1, no honest carrier - a topic earns sources, sources don't earn topics); the three new topic ids added to sources.json topic_ids (P41 registered watchlist topics without checking this registry-side enum - found by test_sources). (2) Dead doors: the-batch feed moved to charonhub.deeplearning.ai/rss/ (repointed, fresh); anthropic.com has NO official RSS (news/rss.xml 404) - repointed to the BestBlogs RSSHub mirror, labeled discovery-grade (resolve to originals, ~2wk lag); meta-fair + aaif feed doors 404 with no successor found - feed:null + notes, LLM-discovery path; arxiv weekend-gap semantics noted (200-but-empty Sun != dead feed); openai-swarm dormancy noted (last push 2026-04-15). (3) Engine: evolution.py untracked_source compared queue hosts to entity url only, re-flagging karpathy.github.io and latent.space which are tracked under different canonical urls - known set now unions url+feed+api hosts and treats www as presentation variant; blog.archive.org was the one genuine gap (new entity). (4) New channels past the intake gate with probe evidence: neurips-blog (RSS 200, newest 2026-10-25 - the conference-side channel the paper loop lacked), archive-blog (200, newest 2026-10-21). Deliberately NOT done (M0.4/M0.5): no source retired on one tick's evidence (19 stale rows are cadence noise or documented); no capability/clause/catalog entry (this round repairs pipes, does not grow the map); trace-audit proposal and 5 vendor-keyword clusters left as observations. Verified end-to-end: refresh --provider feed dry-run pulled 2069 candidates / 1980 accepted with mcp-skills-ecosystem=1000, classical-texts-dh=10 flowing. Companion survey: review/feed-health-2026-11.md.",
+      "slices": [
+        "P59.1 - full-update tick + triage of all 27 audits and the 5 domain clusters",
+        "P59.2 - direct probes of every flagged feed; repair/repoint/null+note decisions; topic wiring into sources.json",
+        "P59.3 - evolution.py untracked_source host-union fix + new channel registrations + survey"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1952,6 +1973,15 @@
       "title_en": "Give the effect receipt a declared scale; fix the low-outcome rule's threshold",
       "reason": "CLOSED in P47 (2026-10-28): effect receipts may declare detail.scale; the low-outcome rule compares normalized scores (low_max_normalized 0.4) for scaled receipts and keeps the documented legacy raw check for scale-less ones; verified live on the P48 pair (correctly silent).",
       "done_in": "P47"
+    },
+    {
+      "id": "P59.R1",
+      "status": "deferred",
+      "cycle": "P59",
+      "source": "P59 feed-health probes 2026-11-02 - two doors closed with no successor found, one topic without a carrier",
+      "title_en": "Re-probe the meta-fair / aaif feed doors; find an honest carrier for ambition-and-agency",
+      "reason": "ai.meta.com/blog/ and aaif.io answer 200 but publish no discoverable feed from this host (all candidate RSS paths 404); ambition-and-agency content (goal elevation, requirement refinement) has no tracked feed that genuinely carries it - force-wiring an unrelated entity would fake coverage",
+      "revisit_when": "a weekday tick (arXiv live) plus a network path where those hosts expose feeds, or an outlet-map/tool-router round names a source that actually publishes ambition-and-agency content"
     }
   ]
 }

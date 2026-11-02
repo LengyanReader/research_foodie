@@ -20,6 +20,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Feed-health round (P59) - the update loop's intake doors re-probed, four dead ones repaired, the
+  "topic without a source" defect closed, audit false positives fixed at the engine.** Opened by the user's
+  standing "full update/upgrade/evolution" instruction: one `full-update` tick (all six phases green), then per-item
+  triage where every audit claim was re-checked with a direct fetch before touching the SSOT. Landed: (1) TOPIC WIRING
+  - scholarly-discovery (P35) and mcp-skills-ecosystem + classical-texts-dh (P41) were registered as watchlist topics
+  but NO sources.json entity carried them, so the feed path could never attribute pulls to them; now wired
+  (evolve coverage **67% -> 91.7%**), and ambition-and-agency deliberately stays uncovered (roadmap P59.R1 - a topic
+  earns sources, sources don't earn topics). (2) DEAD DOORS - the-batch feed moved to charonhub.deeplearning.ai/rss
+  (repointed, fresh); anthropic.com publishes no official RSS - repointed to a BestBlogs RSSHub mirror labeled
+  discovery-grade; meta-fair + aaif doors 404 with no successor -> feed:null + notes; arXiv weekend-gap and
+  openai-swarm dormancy documented so the stale-source audit cannot mislead. (3) ENGINE - evolution.py untracked_source
+  now unions url+feed+api hosts and treats www as a presentation variant (two of three "untracked" findings were
+  already-tracked blogs arriving on their feed domain). (4) NEW CHANNELS past the intake gate: neurips-blog,
+  archive-blog (entities 238 -> 240). Deliberately NOT done (M0.4/M0.5): no source retired on one tick's evidence,
+  no capability/clause/catalog entry (this round repairs pipes, it does not grow the map). Verified end-to-end:
+  `refresh --provider feed` pulled 2069 candidates / 1980 accepted with the new topics flowing. Survey:
+  `review/feed-health-2026-11.md`. Guard: P59FeedHealthTest (5 checks; it also caught the survey claiming 14 MCP
+  carriers while the SSOT had 13 - openai now wired). Companion: the workspace AGENTS.md gained a restructured
+  layout (setup/session-end sections, test-pinned header) landed as its own commit, verified suite-compatible.
 - **Docs refresh (P58) - the measurement-era command surface documented everywhere, counts refreshed, and a
   command-surface guard.** The user asked to refresh the docs and evaluate whether the README usage instructions
   need updating. Audit: none of the four entry docs mentioned battery/classify (landed P53/P55), GUIDE lacked the

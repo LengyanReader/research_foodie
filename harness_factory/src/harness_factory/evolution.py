@@ -32,7 +32,12 @@ def _now() -> str:
 
 def _host(url: str) -> str:
     match = re.match(r"https?://([^/]+)/?", url or "")
-    return match.group(1).lower() if match else ""
+    if not match:
+        return ""
+    # www is a presentation variant of the same site (latent.space vs
+    # www.latent.space) - P59: the raw compare flagged a tracked blog forever.
+    host = match.group(1).lower()
+    return host[4:] if host.startswith("www.") else host
 
 
 #: The moving frontier must be re-checked at least this often (days).
@@ -149,8 +154,13 @@ def audit(
 
     # Discovery -> registry: accepted candidates from sources not yet tracked.
     if queue_rows:
-        known = {_host(e.get("url", "")) for _g, e in iter_entities(sources)}
-        known.discard("")
+        # A source counts as tracked when *any* of its declared hosts (homepage,
+        # feed, api) is known - candidates arrive on the feed domain
+        # (karpathy.github.io), which often differs from the canonical url
+        # (karpathy.ai). P59: the url-only check misfired on three already-
+        # tracked blogs (karpathy.github.io, latent.space vs www variant).
+        known = {h for _g, e in iter_entities(sources)
+                 for h in (_host(e.get("url", "")), _host(e.get("feed", "")), _host(e.get("api", ""))) if h}
         seen_hosts: set[str] = set()
         for row in queue_rows:
             host = _host(row.get("url", ""))

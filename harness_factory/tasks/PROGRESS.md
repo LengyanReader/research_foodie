@@ -1,6 +1,19 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-10-31
+**Updated:** 2026-11-02
+
+---
+
+## 2026-11-02 · P59：渠道健康轮 —— 全面更新分诊揪出「主题无源」· 四处断门修复 · 覆盖 67%→91.7% · 审计假阳性修引擎
+
+- **开轮依据。** 用户「请开启这一轮的全面更新升级与进化」：`full-update` 六阶段全绿（intel 3395 · probe 5 簇 · trace-audit 1 案 · evolve 27 审计 · cycle audit 0-0 · scoreboard 1.0）；逐条分诊，每条审计声称都直连复探后才写 SSOT（审计行是线索不是事实，M0.3）。编号：原计划 P42，发现 P42–P58 已被并行会话占用并推送，改记 **P59**。
+- **真缺陷：主题无源。** scholarly-discovery（P35）、mcp-skills-ecosystem / classical-texts-dh（P41）登记时只进 watchlist keywords，无实体挂 topics → feed 路径无法归因，覆盖率卡 67%。接线后 **91.7%**（4 arXiv 门 + neurips-blog；14 实体；archive-blog 部分）；三主题 id 补进 `topic_ids`（test_sources 抓住 P41 漏了注册表侧枚举）；ambition-and-agency 刻意不强接（**P59.R1**）。
+- **断门修复（探测证据在 survey 表）。** the-batch → charonhub 新门（200 · 最新 10-30）；anthropic 官方无 RSS → BestBlogs RSSHub 镜像（discovery-grade 如实降级标注）；meta-fair/aaif → feed:null + note；arXiv 周末空-feed 加注；swarm 休眠注记。新渠道过 intake 门：neurips-blog、archive-blog（实体 238→240）。
+- **引擎修复。** evolution.py untracked_source：known 集并 url+feed+api 域名、剔 www——消除 karpathy.github.io / latent.space 假阳性（两条本就跟踪中）；blog.archive.org 是唯一真漏。
+- **AGENTS.md 独立提交。** 工作区发现一份非本轮所作的 ≈150 行重排（mtime 11-02 18:25，对 P58 状态书写）；验证与 committed suite 兼容后，按用户决定先独立落地 `docs(agents)`（**d56ae55**）再进 P59——溯源诚实，轮提交保持最小。
+- **守卫与验证。** `P59FeedHealthTest` 5 守卫（其中接线守卫当场揪出 survey 写 14 而 SSOT 实为 13——补 openai 后归一）；`evolve --dry-run` 未跟踪 0；`refresh --provider feed --dry-run` 2069/1980，mcp=1000、dh=10 在流；catalog --write 重生成无变化（本轮不动目录，catalog_delta 0）。
+- **登记。** 交付 `review/feed-health-2026-11.md`；cycles **P59**（0/0/0/0）+ roadmap **P59.R1**；PLAN P59 章节；introduction 实体计数 238→240；AGENTS.md 计数 424 → 429。
+- **状态。** 测试 **424 → 429** 全过；`cycle audit` **55 轮 · 0 硬 · 0 缺口**。按默认指示 commit，不 push。
 
 ---
 

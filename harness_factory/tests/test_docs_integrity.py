@@ -1097,5 +1097,66 @@ class CommandSurfaceGuardTest(unittest.TestCase):
         self.assertEqual(missing, [], "command-surface drift: " + "; ".join(missing))
 
 
+class P59FeedHealthTest(unittest.TestCase):
+    """P59: the feed-health round - topic wiring closed, dead doors repaired,
+    audit false positives fixed. Pins the SSOT wiring so a later edit cannot
+    silently re-open a door or un-plug a topic carrier (the very defect P59
+    found: watchlist topics registered with no entity carrying them)."""
+
+    def test_survey_doc_carries_the_probe_facts(self):
+        doc = _read(HARNESS / "review/feed-health-2026-11.md")
+        for token in ("charonhub.deeplearning.ai/rss",
+                      "rsshub.bestblogs.dev/anthropic/news",
+                      "67% \u2192 91.7%", "2026-11-02",
+                      "no official RSS", "neurips-blog", "archive-blog",
+                      "ambition-and-agency", "topic earns sources"):
+            self.assertIn(token, doc, f"feed-health survey lost {token!r}")
+
+    def test_sources_topic_registry_and_wiring(self):
+        srcs = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                          .read_text(encoding="utf-8"))
+        for tid in ("mcp-skills-ecosystem", "classical-texts-dh",
+                    "scholarly-discovery"):
+            self.assertIn(tid, srcs["topic_ids"], f"{tid} missing from topic_ids")
+        by_id = {e["id"]: e for g in srcs["groups"].values() for e in g}
+        for eid in ("neurips-blog", "archive-blog"):
+            self.assertIn(eid, by_id, f"new channel {eid} missing")
+        mcp_carriers = [e for e in by_id.values()
+                        if "mcp-skills-ecosystem" in e.get("topics", [])]
+        self.assertGreaterEqual(len(mcp_carriers), 14,
+                                "mcp-skills-ecosystem wiring regressed below 14 carriers")
+        arxiv = by_id["arxiv-cs-ai"]
+        self.assertIn("scholarly-discovery", arxiv.get("topics", []),
+                      "arxiv door no longer carries scholarly-discovery")
+
+    def test_dead_doors_stay_repaired_or_honest(self):
+        srcs = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                          .read_text(encoding="utf-8"))
+        by_id = {e["id"]: e for g in srcs["groups"].values() for e in g}
+        self.assertIn("charonhub", by_id["the-batch"].get("feed", ""),
+                      "the-batch feed door regressed to the 404 path")
+        self.assertIn("bestblogs", by_id["anthropic"].get("feed", ""),
+                      "anthropic mirror door regressed to the 404 path")
+        for eid in ("meta-fair", "aaif"):
+            self.assertIsNone(by_id[eid].get("feed"),
+                              f"{eid} feed must stay null until a door is verified")
+
+    def test_engine_host_normalization_and_known_union(self):
+        from harness_factory import evolution
+        self.assertEqual(evolution._host("https://WWW.latent.space/"), "latent.space")
+        self.assertEqual(evolution._host(""), "")
+        text = _read(HARNESS / "src/harness_factory/evolution.py")
+        for token in ('e.get("feed", "")', 'e.get("api", "")'):
+            self.assertIn(token, text,
+                          f"untracked_source known-set lost the {token!r} union")
+
+    def test_p59_cycle_and_roadmap_registered(self):
+        d = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                       .read_text(encoding="utf-8"))
+        self.assertIn("P59", {c["id"] for c in d["cycles"]}, "P59 cycle missing")
+        self.assertIn("P59.R1", {r["id"] for r in d["roadmap"]},
+                      "P59.R1 deferred item missing")
+
+
 if __name__ == "__main__":
     unittest.main()

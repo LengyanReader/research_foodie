@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-11-02",
   "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`.",
   "topic_ids": [
     "agent-harness",
@@ -33,7 +33,10 @@
     "arts-design",
     "linguistics",
     "digital-humanities",
-    "cognitive-science"
+    "cognitive-science",
+    "mcp-skills-ecosystem",
+    "classical-texts-dh",
+    "scholarly-discovery"
   ],
   "groups": {
     "projects": [
@@ -46,7 +49,8 @@
         "topics": [
           "agent-harness",
           "evaluation-gates",
-          "agent-memory"
+          "agent-memory",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "lab",
@@ -59,17 +63,19 @@
         "name": "Anthropic",
         "kind": "post",
         "url": "https://www.anthropic.com/news",
-        "feed": "https://www.anthropic.com/news/rss.xml",
+        "feed": "https://rsshub.bestblogs.dev/anthropic/news",
         "topics": [
           "agent-harness",
           "agent-skills-tools",
-          "context-engineering"
+          "context-engineering",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "lab",
           "frontier"
         ],
-        "why": "Frontier lab; tools/skills and long-context agents."
+        "why": "Frontier lab; tools/skills and long-context agents.",
+        "note": "Official Anthropic RSS is gone (anthropic.com/news/rss.xml 404 on 2026-11-02; no official feed exists - per third-party surveys). Feed repointed to the BestBlogs RSSHub mirror (200, 10 items, newest 2026-10-17) - discovery-grade mirror only: resolve claims to anthropic.com originals (aggregator = discovery rule), freshness lags ~2 weeks."
       },
       {
         "id": "google-deepmind",
@@ -93,15 +99,17 @@
         "name": "Meta AI (FAIR)",
         "kind": "post",
         "url": "https://ai.meta.com/blog/",
-        "feed": "https://ai.meta.com/blog/rss/",
+        "feed": null,
         "topics": [
           "context-engineering",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "lab"
         ],
-        "why": "Open research; long-context and retrieval."
+        "why": "Open research; long-context and retrieval.",
+        "note": "Feed door closed 2026-11-02: ai.meta.com/blog/rss/ (and /blog/rss, /rss/, /blog/feed/) all 404; blog live at /blog/. Enters via LLM-discovery/manual until a feed reopens."
       },
       {
         "id": "microsoft-research",
@@ -126,7 +134,8 @@
         "feed": "https://huggingface.co/blog/feed.xml",
         "topics": [
           "agent-skills-tools",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "ecosystem"
@@ -324,7 +333,8 @@
         "feed": "https://www.openrouter.ai/blog/rss.xml",
         "topics": [
           "agent-skills-tools",
-          "evaluation-gates"
+          "evaluation-gates",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "models",
@@ -399,7 +409,8 @@
           "vendor",
           "openai"
         ],
-        "why": "Minimal handoff/agent primitive (superseded by Agents SDK)."
+        "why": "Minimal handoff/agent primitive (superseded by Agents SDK).",
+        "note": "Dormant: repo not archived but last push 2026-04-15, releases feed empty (2026-11-02) - legacy-pattern record, expected quiet."
       },
       {
         "id": "openai-codex-cli",
@@ -461,7 +472,8 @@
         "feed": "https://github.com/modelcontextprotocol/modelcontextprotocol/releases.atom",
         "topics": [
           "agent-skills-tools",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "vendor",
@@ -478,7 +490,8 @@
         "feed": "https://github.com/modelcontextprotocol/servers/releases.atom",
         "topics": [
           "agent-skills-tools",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "protocol",
@@ -495,7 +508,8 @@
         "feed": "https://github.com/modelcontextprotocol/registry/releases.atom",
         "topics": [
           "agent-skills-tools",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "protocol",
@@ -511,7 +525,8 @@
         "url": "https://blog.modelcontextprotocol.io/",
         "feed": "https://blog.modelcontextprotocol.io/index.xml",
         "topics": [
-          "agent-skills-tools"
+          "agent-skills-tools",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "protocol",
@@ -527,7 +542,8 @@
         "url": "https://github.com/anthropics/skills",
         "feed": "https://github.com/anthropics/skills/releases.atom",
         "topics": [
-          "agent-skills-tools"
+          "agent-skills-tools",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "vendor",
@@ -543,7 +559,8 @@
         "url": "https://github.com/vercel-labs/skills",
         "feed": "https://github.com/vercel-labs/skills/releases.atom",
         "topics": [
-          "agent-skills-tools"
+          "agent-skills-tools",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "skills",
@@ -872,7 +889,8 @@
         "api": "https://github.com/agentskills/agentskills",
         "topics": [
           "agent-skills-tools",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "standard",
@@ -1015,16 +1033,18 @@
         "name": "Agentic AI Foundation",
         "kind": "other",
         "url": "https://aaif.io",
-        "feed": "https://aaif.io/news/rss.xml",
+        "feed": null,
         "topics": [
           "agent-skills-tools",
-          "agent-harness"
+          "agent-harness",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "foundation",
           "linux-foundation"
         ],
-        "why": "Neutral home of MCP + Agent Skills + Open Responses + OpenEnv + OpenSandbox - the standards body governing the emitted harness's SKILL.md format."
+        "why": "Neutral home of MCP + Agent Skills + Open Responses + OpenEnv + OpenSandbox - the standards body governing the emitted harness's SKILL.md format.",
+        "note": "Feed door closed 2026-11-02: aaif.io/news/rss.xml 404, no discoverable <link rel=alternate> on the homepage (site itself 200). Re-probe next round (roadmap P42.R1); covered meanwhile by the mcp-skills-ecosystem watchlist topic."
       }
     ],
     "venues": [
@@ -1168,12 +1188,13 @@
         "feed": "http://export.arxiv.org/rss/cs.AI",
         "topics": [
           "agent-harness",
-          "self-evolving-agents"
+          "self-evolving-agents",
+          "scholarly-discovery"
         ],
         "tags": [
           "preprint"
         ],
-        "why": "Daily new AI preprints."
+        "why": "Daily new AI preprints - RSS-pullable door of the scholarly-discovery topic. Empty on weekend announcement gaps (no new-list Sun) - not a dead feed."
       },
       {
         "id": "arxiv-cs-cl",
@@ -1183,12 +1204,13 @@
         "feed": "http://export.arxiv.org/rss/cs.CL",
         "topics": [
           "context-engineering",
-          "provenance-integrity"
+          "provenance-integrity",
+          "scholarly-discovery"
         ],
         "tags": [
           "preprint"
         ],
-        "why": "Daily new NLP preprints."
+        "why": "Daily new NLP preprints - RSS-pullable door of the scholarly-discovery topic; weekend gaps are normal."
       },
       {
         "id": "arxiv-cs-lg",
@@ -1198,12 +1220,13 @@
         "feed": "http://export.arxiv.org/rss/cs.LG",
         "topics": [
           "self-evolving-agents",
-          "evaluation-gates"
+          "evaluation-gates",
+          "scholarly-discovery"
         ],
         "tags": [
           "preprint"
         ],
-        "why": "Daily new ML preprints."
+        "why": "Daily new ML preprints - RSS-pullable door of the scholarly-discovery topic; weekend gaps are normal."
       },
       {
         "id": "arxiv-cs-ma",
@@ -1213,12 +1236,13 @@
         "feed": "http://export.arxiv.org/rss/cs.MA",
         "topics": [
           "multi-agent-collaboration",
-          "agent-harness"
+          "agent-harness",
+          "scholarly-discovery"
         ],
         "tags": [
           "preprint"
         ],
-        "why": "Daily new multi-agent systems preprints; RSS verified 2026-10-27 (the loop's feed path)."
+        "why": "Daily new multi-agent systems preprints; RSS verified 2026-10-27 (the loop's feed path); RSS-pullable door of the scholarly-discovery topic - weekend gaps are normal."
       },
       {
         "id": "hf-papers",
@@ -1324,7 +1348,8 @@
         "feed": "https://simonwillison.net/atom/everything/",
         "topics": [
           "agent-skills-tools",
-          "evaluation-gates"
+          "evaluation-gates",
+          "mcp-skills-ecosystem"
         ],
         "tags": [
           "person"
@@ -1482,7 +1507,7 @@
         "name": "The Batch (DeepLearning.AI)",
         "kind": "newsletter",
         "url": "https://www.deeplearning.ai/the-batch/",
-        "feed": "https://www.deeplearning.ai/the-batch/feed/",
+        "feed": "https://charonhub.deeplearning.ai/rss/",
         "topics": [
           "agent-harness",
           "evaluation-gates"
@@ -1490,7 +1515,8 @@
         "tags": [
           "newsletter"
         ],
-        "why": "Weekly AI industry summary."
+        "why": "Weekly AI industry summary.",
+        "note": "Feed repointed 2026-11-02: the old /the-batch/feed/ door is 404; the Ghost CMS feed (fresh 15 items, newest 2026-10-30) lives on the charonhub subdomain."
       },
       {
         "id": "latent-space",
@@ -1506,6 +1532,40 @@
           "podcast"
         ],
         "why": "AI-engineer interviews and agent practice."
+      },
+      {
+        "id": "neurips-blog",
+        "name": "NeurIPS Blog",
+        "kind": "post",
+        "url": "https://blog.neurips.cc/",
+        "feed": "https://blog.neurips.cc/feed/",
+        "topics": [
+          "agent-harness",
+          "evaluation-gates",
+          "scholarly-discovery"
+        ],
+        "tags": [
+          "conference",
+          "media"
+        ],
+        "why": "Official NeurIPS blog - award/spotlight commentary and workshop news; the conference-side channel the paper-discovery loop was missing (probed 2026-11-02, RSS 200, 10 items, newest 2026-10-25; suggested by the evolve audit)."
+      },
+      {
+        "id": "archive-blog",
+        "name": "Internet Archive Blog",
+        "kind": "post",
+        "url": "https://blog.archive.org/",
+        "feed": "https://blog.archive.org/feed/",
+        "topics": [
+          "digital-humanities",
+          "provenance-integrity",
+          "classical-texts-dh"
+        ],
+        "tags": [
+          "repository",
+          "media"
+        ],
+        "why": "News from theArchive / Open Library / Scholarly Vessel ecosystem - primary channel for corpus-availability and long-term preservation claims used by digital-humanities and classical-texts work (probed 2026-11-02, RSS 200, 10 items, newest 2026-10-21)."
       }
     ],
     "libraries": [
