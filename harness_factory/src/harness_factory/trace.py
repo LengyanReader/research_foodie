@@ -39,6 +39,11 @@ EVENTS = frozenset(
         "check_fail",  # the emitted self-check failed
         "context_eviction",  # M1.10 eviction receipts aggregated
         "task_outcome",  # the task's final result as judged (P24): the result fact the six process events cannot carry
+        # P64 trace vocabulary v2: four new event types from the capability-system assessment
+        "context_pressure",  # the context window is approaching its limit (M1 budget discipline trigger)
+        "tool_error",  # an external tool call failed (distinct from gate_miss: the gate is ours, the tool is external)
+        "human_preference",  # a human expressed a preference without correcting an artifact ("next time do X" not "change this")
+        "latency_anomaly",  # a latency or cost anomaly was observed (M2.13 budget line)
     }
 )
 LEGACY_EVENT = "signal"  # lines recorded before P22 read back under this event

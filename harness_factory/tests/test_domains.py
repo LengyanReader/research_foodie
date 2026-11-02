@@ -66,7 +66,7 @@ class DomainsClassifyTest(unittest.TestCase):
             "measure the quantum particle cross-section": "physics",
             "run a clinical trial and diagnosis workflow": "medicine",
             "prove the theorem with a formal proof": "mathematics",
-            "close reading of an archive in philosophy": "humanities",
+            "close reading of an archive in philosophy": "reading",
             "draft a contract under this jurisdiction": "law",
             "prove the modal logic formula in this proof theory": "logic",
             "annotate the treebank and measure inter-annotator agreement": "linguistics",

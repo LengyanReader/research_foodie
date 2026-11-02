@@ -285,8 +285,15 @@ def domain_scores(text: str) -> list[tuple[str, int]]:
     for name, meta in _domains().items():
         if name == "general":
             continue
-        score = sum(1 for sig in meta.get("signals", []) if _sig_hit(sig, text))
-        scored.append((name, score))
+        score = 0
+        for sig in meta.get("signals", []):
+            if _sig_hit(sig, text):
+                # P64: multi-word signals are more specific than single-word
+                # ones ("comparative politics" > "politics"); a compound hit
+                # counts as 2 so domain-specific vocabulary outvotes generics.
+                score += 2 if " " in sig else 1
+        if score > 0:
+            scored.append((name, score))
     # Stable sort: ties keep the registry's insertion order (the historical
     # tie-break; alphabetical order would silently re-route tie cases).
     scored.sort(key=lambda pair: -pair[1])

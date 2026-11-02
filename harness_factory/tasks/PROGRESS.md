@@ -2,6 +2,23 @@
 
 **Updated:** 2026-11-02
 
+## 阅读提取试验（P62 延伸）——第八族入册，harness 8/8
+
+- **试验。** 任务：从 `reference/methodology-map.md` 提取全部 16 个命名流派及其经典源。双条件：裸奔（凭记忆列 14 个，缺 3+4 源不准）vs harness（重读文件逐行提取 16 个）。判分：school-name × source / 32。**裸奔 0.78 vs harness 0.94**（+16pp——最小 delta，因结构化文档提取是裸奔相对擅长的）。
+- **八族累计。** harness **8/8 全胜**；裸奔均值 **0.27** vs harness **0.99**（delta +0.73）。**结构性结论：harness 的贡献随可验证性变化——证明/选型/指针族 delta=1.0（裸奔完全失败），提取/综述族 delta=0.16–0.80（裸奔部分正确但缺溯源与界定）。harness 的价值不在让模型更聪明，而在让输出可检验。**
+- **登记。** 收据 = 轨迹 #21/#22（tool home 现 22 条真实轨迹）。
+
+## 2026-11-03 · P65：五方向升级轮 —— P64 评估的五个优化方向全部落地
+
+- **① 域 README 指针。** 发射 AGENTS.md 新增「Domain playbook」行指向 domains/<domain>/README.md。
+- **② 信号特异性加权。** 多词信号在 domain_scores() 中计 2 分——域专属词汇压过跨域泛词；修复 reading 域路由。
+- **③ 轨迹词表 v2。** 新增 4 种事件：context_pressure · tool_error · human_preference · latency_anomaly（7 → 11）。
+- **④ 自我模型现算。** self_model.py 从 SSOT 现算 M5.11 self-model，不再过期。
+- **⑤ 41 条能力操作程序。** capabilities.json 每条加 procedure 字段（3–7 步）；发射 AGENTS.md 渲染为 Operating procedures 节——操作化鸿沟闭合。
+- **状态。** 测试 436 全过；cycle audit **61 轮 · 0 硬 · 0 缺口**。按默认指示 commit，不 push。
+
+---
+
 ## 2026-11-02 · P60：周扫荡轮 —— 学界+业界三发现（ThinkingBox · QueenBee · LegoSR）
 
 - **开轮依据。** 用户先令扫学界（研究所/高校/机构），再补业界。本周 INTEL 3287 行挖出 **418 学术 + 7 业界**条目，能力形态最强三条入册。

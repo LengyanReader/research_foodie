@@ -17,6 +17,7 @@
 {{ task_text }}
 
 - **Domain:** {{ domain }} ({{ domain_zh }}) — {{ domain_summary }}
+- **Domain playbook:** read `harness_factory/domains/{{ domain }}/README.md` for domain-specific workflow, methods and gate text before starting work.
 - **Goal:** {{ goal }}
 
 ## Feature vector · 任务特征
@@ -43,6 +44,8 @@
 {{ capabilities_table }}
 
 > 推导依据（读了哪些规则、匹配了哪个 capability）见 `.harness/PROVENANCE.md`。
+
+{{ capability_procedures }}
 
 ## Evidence instrument · 证据仪器
 

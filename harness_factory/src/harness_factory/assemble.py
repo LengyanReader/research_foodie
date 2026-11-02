@@ -336,6 +336,22 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+
+
+def _capability_procedures(plan):
+    """Render operating procedures for matched capabilities (P65)."""
+    from .capabilities import capabilities as load_caps
+    caps = load_caps()
+    result = []
+    for cap_id in plan.capabilities:
+        meta = caps.get(cap_id)
+        if meta and meta.get("procedure"):
+            result.append("### " + cap_id)
+            for step in meta['procedure']:
+                result.append("- [ ] " + step)
+    if result:
+        return "## Operating procedures" + chr(10) + chr(10).join(result)
+    return ""
 def build_files(
     plan: HarnessPlan,
     extra: dict[str, str] | None = None,
@@ -375,6 +391,7 @@ def build_files(
     names = sorted({*names, _WORKING_SET})
     plan.files = names
     ctx["files_list"] = "\n".join(f"- `{name}`" for name in names)
+    ctx["capability_procedures"] = _capability_procedures(plan)
 
     files: dict[str, str] = {}
     for name in names:

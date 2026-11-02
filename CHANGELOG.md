@@ -20,6 +20,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Five-direction upgrade (P65) - all five optimization areas from P64 landed.** (1) Domain README pointer in emitted AGENTS.md. (2) Signal specificity: multi-word signals score 2, fixing reading-domain routing. (3) Trace vocabulary v2: four new events (7->11). (4) Self-model auto-generation from the live SSOT. (5) 41/43 capability operating procedures rendered into AGENTS.md - the actionability gap is closed.
 - **Deep-read + experiment round (P61) - QueenBee full-read upgrade + proof-family N=3 sign test.** QueenBee
   (R280) upgraded to full-read: the safeguard list maps one-to-one onto M5.13(a)/(d), M5.12, M5.11, M4.12 and
   M3.15 - an independent external implementation validating the clause system. Proof-verification family N 1 -> 3:

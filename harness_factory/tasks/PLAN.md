@@ -560,6 +560,25 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **升级①：trace-audit 去重。** audit 函数读取自身 past proposals（traces-proposals.jsonl），跳过已发射的 (rule, group) 对——第二次审计 0 新提案，日志恰好 5 行。修复了 traces-proposals.jsonl 因追加式输入无限增长的缺陷。
 - **升级②：模拟测试。** 合成多轮轨迹（7 项目 × 5 规则正例 + 2 控制组）通过 trace-audit：5 条提案全部计数正确、无假阳性；裸奔条件排除（P62）验证；跨项目同 gate 合并验证。
 
+## P64 · 能力体系评估轮（2026-11-02，已做）：操作化鸿沟识别 + 五个优化方向
+
+> 用户要求全方位评估能力体系的深度优化与拓展空间。方法：实测探测（非理论推演）。**核心发现：操作化鸿沟**。
+
+- **核心发现。** 匹配率 11/12、规则覆盖全、守卫 434 全绿——但 17 能力命中复杂 KG 任务时，发射的 220 行 AGENTS.md **没有一条可执行的操作步骤**。「能力命中」到「agent 拿到程序」之间断了一环。
+- **五个优化方向（按影响排序）。** ① 能力→操作程序发射（43 条 × 3–7 步）；② 域 README 指针（一行成本）；③ 信号特异性加权（修哲学域匹配精度）；④ 轨迹词表 v2（+4 事件）；⑤ 自我模型从 SSOT 现算。
+- **登记。** 交付 `review/capability-system-assessment-2026-11.md`；cycles **P64**（0/0/0/0）。
+
+## P65 · 五方向升级轮（2026-11-03，已做）：P64 评估的五个优化方向全部落地
+
+> 用户指示「请先把五个方向完成」。P64 评估的五个优化方向按复杂度从低到高依次落地。
+
+- **① 域 README 指针。** 发射 AGENTS.md 新增「Domain playbook」行指向 `domains/<domain>/README.md`。
+- **② 信号特异性加权。** 多词信号在 domain_scores() 中计 2 分（单词 1 分）——域专属词汇压过跨域泛词；修复 reading 域的路由（close reading 从 humanities 改路由到 reading）。
+- **③ 轨迹词表 v2。** 新增 4 种事件：context_pressure · tool_error · human_preference · latency_anomaly（7 → 11 事件）。
+- **④ 自我模型现算。** `self_model.py` 从 SSOT 现算 M5.11 self-model（能力/域/目录/子句/引用/轨迹/电池），不再过期。
+- **⑤ 41 条能力操作程序。** capabilities.json 每条能力加 `procedure` 字段（3–7 步可执行清单）；发射 AGENTS.md 渲染为「Operating procedures」节的 checkbox 项目——**操作化鸿沟闭合**。
+- **登记。** cycles **P65**（0/0/0/0）；capability shape test 允许 procedure 可选键；1 个域路由测试期望更新（reading 修正）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

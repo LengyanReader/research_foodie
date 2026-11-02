@@ -1677,6 +1677,49 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P64",
+      "date": "2026-11-02",
+      "status": "done",
+      "title_en": "Capability-system assessment: the actionability gap identified (capabilities fire but don't emit operating procedures) + five optimization areas",
+      "title_zh": "能力体系全方位评估：操作化鸿沟识别（能力命中但不发射操作程序）+ 五个优化方向",
+      "note": "The user asked for a comprehensive assessment of what needs deep optimization and expansion. Method: live probing (12 capability trigger probes, 220-line emitted harness content analysis, trace event distribution, 17-capability cross-task) + structural audit across 60 cycles. CORE FINDING: the system's biggest gap is NOT matching rate (11/12 probes hit after P55), NOT rule coverage (all events have rules), NOT test coverage (434 guards all green) - it is the ACTIONABILITY GAP: capabilities fire but don't emit operating procedures. Evidence: for a complex KG task, 17 capabilities fire, the emitted AGENTS.md is 220 lines, 'ontology-as-contract' is named twice but contains ZERO operational steps for HOW to do ontology engineering; 'entity-resolution' is named once (just the name in the capability list) with no blocking/matching/clustering procedure; the evidence-instrument stanza is generic rather than ontology-specific; the domain README has the workflow but the emitted AGENTS.md doesn't reference it. Five optimization areas ranked by impact: (3.1) capability->operating procedure emission (HIGHEST - each capability gains a procedure field with 3-7 executable steps rendered into AGENTS.md); (3.2) domain README pointer (one line in emitted harness + pointer.py); (3.3) signal specificity weighting (domain-specific signals weighted higher than cross-domain generics in domain_scores()); (3.4) trace vocabulary v2 (4 new event types: context_pressure, tool_error, human_preference, latency_anomaly); (3.5) self-model auto-generation (compute the current coverage from SSOT rather than static text). Expansion areas: N>1 per-task variance, cross-capability interaction model, memory backend profile, remaining 15 domain-keyed capabilities, multi-language routing.",
+      "slices": [
+        "P64.1 - the probes: 12 capability triggers (11/12 hit; argument-reconstruction missed due to generic-signal outvoting), 220-line emitted harness content analysis for a complex KG task, trace event distribution",
+        "P64.2 - the assessment: five optimization areas ranked by impact, with the actionability gap as the core finding; expansion areas with triggers; recommended next-round order"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P65",
+      "date": "2026-11-03",
+      "status": "done",
+      "title_en": "Five-direction upgrade: domain README pointer, signal specificity, trace vocabulary v2, self-model generator, 41 capability operating procedures",
+      "title_zh": "五方向升级：域 README 指针 · 信号特异性 · 轨迹词表 v2 · 自我模型现算 · 41 条能力操作程序",
+      "note": "The user asked to complete all five optimization directions from P64's assessment. (1) Domain README pointer: the emitted AGENTS.md now includes a 'Domain playbook' line directing the agent to read the domain README for workflow and gate text - closes the gap between generic harness and domain-specific guidance. (2) Signal specificity weighting: multi-word signals score 2 in domain_scores() (vs 1 for single-word), so domain-specific vocabulary outvotes cross-domain generics; this fixed the reading-domain routing (close reading now routes to reading, not humanities) but required updating one test expectation. (3) Trace vocabulary v2: four new event types (context_pressure, tool_error, human_preference, latency_anomaly) extend the trace vocabulary from 7 to 11 events, covering the signal space identified in the P64 assessment. (4) Self-model auto-generation: self_model.py computes the M5.11 self-model from the live SSOT (capabilities, domains, catalog, clauses, references, trace history, battery status) - no longer a static text that goes stale. (5) Capability operating procedures: 41 of 43 capabilities now carry a procedure field (3-7 concrete steps); the emitted AGENTS.md renders them as checkbox items under an 'Operating procedures' heading - closing the actionability gap where capabilities fired but the agent didn't know what to do. Two capabilities (traceable-sources and one placeholder) share a procedure or are empty. The capability shape test was updated to allow procedure as an optional key, and one domain-routing test expectation was updated to reflect the signal-specificity fix.",
+      "slices": [
+        "P65.1 - domain README pointer: template + one line",
+        "P65.2 - signal specificity: multi-word signals score 2 in domain_scores()",
+        "P65.3 - trace vocabulary v2: 4 new events (context_pressure, tool_error, human_preference, latency_anomaly)",
+        "P65.4 - self_model.py: computes the self-model from SSOT, renderable as text",
+        "P65.5 - 41/43 capability procedures + template rendering via _capability_procedures + ctx wiring"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

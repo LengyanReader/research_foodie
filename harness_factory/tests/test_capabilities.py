@@ -21,6 +21,7 @@ from harness_factory.spec import FEATURE_CHOICES, FEATURE_FIELDS, HORIZONS, Feat
 
 _ROOT = Path(__file__).resolve().parents[1]
 _REQUIRED = {"title_en", "title_zh", "when", "modules", "why"}
+_OPTIONAL = {"procedure"}
 _ALLOWED_WHEN_KEYS = set(FEATURE_FIELDS) | {"min_horizon", "any"}
 _BACKTICKED = re.compile(r"`([a-z][a-z0-9-]*)`")
 
@@ -39,7 +40,8 @@ class CapabilityShapeTest(unittest.TestCase):
         caps = _caps()
         self.assertTrue(caps)
         for cid, cap in caps.items():
-            self.assertEqual(_REQUIRED, set(cap), cid)
+            self.assertTrue(_REQUIRED <= set(cap), cid)
+            self.assertTrue(set(cap) <= _REQUIRED | _OPTIONAL, cid)
             self.assertTrue(cap["title_en"] and cap["title_zh"], cid)
             self.assertTrue(str(cap["why"]).strip(), cid)
 
