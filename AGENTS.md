@@ -1,75 +1,100 @@
 # AGENTS.md — research_foodie workspace principles
 
 > 工作区原则 · Workspace principles for AI coding assistants and contributors.
-> Derived from conventions observed in sibling workspaces (`cookbooks`, `m_flow`) and adapted for this repository.
 
-**Updated:** 2026-10-16
+**Updated:** 2026-11-02
+
+> **This file is test-pinned.** `harness_factory/tests/test_docs_integrity.py` (`CountDriftGuardTest`) and
+> `tests/test_standing_reference.py` (`QuickStartFidelityTest`) parse `AGENTS.md` and fail if the domain count,
+> the test count, the `Test gate` line (must name `PYTHONPATH=src`), or the standing-reference blockquote in
+> section 7 loses a required unit. After editing this file, run the suite before claiming done.
 
 ## 1. 语言政策 / Language policy
 
-- **中英双语为主 / English and Chinese are both primary languages**（覆盖 `cookbooks` 中 "English only" 的默认约定，用户已显式升级为双语）。
-- 每个正式文档（`harness_factory/**.md`）应同时提供：
-  - **Master body** — English by default（便于引用与检索）；
-  - **中文摘要/关键决策注释** — a Chinese executive summary or key-decision notes, usually as a `> 中文速览` block at the top, or a mirrored `## 中文` section for core design docs.
-- 代码、配置、标识符使用英文；文案与说明可双语。
-- 中文文件的既有内容保持原样；翻译须忠实，不堆砌术语。
+- **中英双语 / English and Chinese are both primary.** Default docs are English with a `> 中文速览` block or a
+  mirrored `## 中文` section for design docs; code, configs and identifiers stay English.
+- Preserve existing Chinese text as-is; translations must be faithful, not jargon-stuffed.
 
 ## 2. 仓库地图 / Repository map
 
 ```
-harness_factory/          项目主体 —— agent harness 模式库 + `harness` CLI（定位/用法见仓库根 README）
-  GUIDE.md                项目指南与示例（中英对照）
-  SKILL.md                agent 原生入口（硬规则 + 载入索引 + 输出契约）
-  CAPABILITIES.md         生成的能力总览（目的 + 各 harness 能力；`harness capabilities --write`）
-  HARNESS-MAP.md          生成的全景地图（模块 · 能力 · 学科域 · 目录 · CLI · 同步方式；`harness map --write`）
-  introduction.md         简介：是什么 · 心智模型 · Quickstart
-  core/                   跨域通用主干模式（M0–M8）
-  domains/                学科门类编排（34 学科 + general 兜底，10 faculties；含 writing 写作域）
-  review/                 文献综述 · harness 目录与索引（catalog · index · ambition-and-agency）
-  sources/                提炼溯源表（模式 ← 一手材料）
-  reference/              capability-router（情境→能力→模块→文件）· requirement-refinement（R0–R5 需求精炼与拔高）
-                          · capability-flow（双向：下放具体化 ⇄ 回流提炼）· derivation-rules（规则表的 agent 可读镜像）
-                          · evidence-instruments（命题→仪器→门禁）· methodology-map（领域→方法论→要求）
-                          · outlet-map（领域→信息源/门户/媒体）· cross-language（意群对齐与回译互证）
-                          · capability-cycle（能力轮次：缺口面→切片→完成定义→登记）
-  src/harness_factory/    工具源码 + data/*.json（SSOT）+ templates/
-  tests/                  标准库 unittest（无外部依赖）
-  tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT
-  updates/                循环产物（提案 · 情报 · 演化 · 案例；不入版本控制）
-  _archive/               旧目录归档（docs/ external/ tools/ …，已移出版本控制）
-AGENTS.md                  本文件 · 工作区原则
-README.md / README.zh-CN.md  项目入口（English / 中文）
-CHANGELOG.md              变更日志
-LICENSE                   MIT License
+harness_factory/          项目主体 —— agent harness 模式库 + `harness` CLI（入口见根 README）
+  SKILL.md                agent-native entry (cardinal rules + load-index + output contract) — authoritative
+  GUIDE.md                full guide + 10 worked examples (bilingual)
+  introduction.md         what it is · mental model · quickstart
+  CAPABILITIES.md         GENERATED — `harness capabilities --write` (do not hand-edit)
+  HARNESS-MAP.md          GENERATED — `harness map --write` (do not hand-edit)
+  core/                   cross-domain invariants M0–M8 (`01-meta-principles.md` first)
+  domains/                34 学科 + general 兜底 (10 faculties; includes `writing/`)
+  review/                 surveys · harness catalog/index · references.md/bib
+  sources/                source-map.md (pattern ← primary source)
+  reference/              capability-router · requirement-refinement · capability-flow · derivation-rules
+                          · evidence-instruments · methodology-map · outlet-map · cross-language
+                          · capability-cycle · tool-router
+  src/harness_factory/    tool source + data/*.json (SSOT) + templates/
+  tests/                  stdlib unittest (no external deps)
+  tasks/                  PLAN · PROGRESS · REFRESH · DISTRIBUTION · ASSESSMENT · BATTERY
+  updates/                cycle output (proposals/intel/evolution/cases) — gitignored, never hand-authored truth
+  _archive/               archived legacy material — gitignored, do not revive
+AGENTS.md                  本文件 · workspace principles (test-pinned)
+README.md / README.zh-CN.md  project entry (English / 中文)
+.github/workflows/ci.yml    the real gate definition (tests → cycle audit → CLI smoke → init/check/gate e2e)
 ```
 
-## 3. 质量门 / Quality gates
+## 3. Setup and commands
 
-- **引用即生命线 / Citations are the lifeline.** 任何事实性声明必须可溯源到一手资料（arXiv ID / DOI / 官方仓库 / 官方文档页），并在文档中给出来源与访问日期。无法验证的声明必须标记为 *unverified*，不得冒充事实。
-- **日期显式化 / Dates are explicit.** 所有"当前状态"类陈述带 `as of <date>`。
-- **价格与榜单数字视为方向性 / Pricing & leaderboard numbers are directional.** 如原文惯例，给范围并标注来源。
-- 文档审校：`rg`/grep 检查遗留占位符、未完成段落（`TODO`/`TBD`）、失效链接与不一致的日期。
-- **测试门禁 / Test gate：** `harness_factory/tests` 为纯标准库 unittest（当前 **424** 用例，`PYTHONPATH=src python -m unittest discover -s tests`；该数字由 `CountDriftGuardTest` 守护）。改动 `data/*.json`（SSOT）后须 `harness catalog --write` 重生成索引（同时刷新 `CAPABILITIES.md` + `HARNESS-MAP.md`）并全量跑测试；CI 见 `.github/workflows/ci.yml`。
+- Python ≥ 3.10; core CLI and tests have **zero external dependencies** (pytest/ruff/mypy are optional extras).
+- No install needed (L2 packaging is cancelled as a distribution channel). Run from `harness_factory/`:
+  `PYTHONPATH=src python -m harness_factory <cmd>` — bash alias: `alias harness='PYTHONPATH=src python -m harness_factory'`.
+  From the repo root use `PYTHONPATH=harness_factory/src …`.
+- Main commands: `derive`, `init --out <dir>`, `check --dir`, `gate --dir`, `harvest`, `profile`, `learn`,
+  `standard`, `catalog`, `cycle audit`, `evolve`, `full-update`, `scoreboard`, `brief`, `classify`, `battery`,
+  `collect`, `trace-audit`, `doctor`, `plugins --validate`, `skill`, `capabilities`, `map`.
+- Everything is offline except `refresh` / `intel` (RSS/YouTube) and the optional `HARNESS_LLM_*` classifier.
+- Two roots: tool home in user space (`%LOCALAPPDATA%\harness-factory`, override `HARNESS_HOME`) vs each target
+  project's emitted files. In path mode the home is optional.
 
-## 4. 约定 / Conventions
+## 4. Quality gates
 
-- **文件/文档命名**：小写、`-` 分隔（如 `standard-ladder.md`）。
-- **Markdown 规范**：ATX 标题、代码围栏带语言、表格用于结构化对比；每文档顶部给 `Updated: <date>`。
-- **提交信息**：Follow [Conventional Commits](https://www.conventionalcommits.org/)，如 `docs(guide): add references section`。
-- **不主动提交（No unsolicited commits）**：只有用户显式要求才 `git commit`。**已更新（2026-09-20，用户指示）**：日常文档/代码交付可**自动 commit**，但**绝不自动 push**；push 仅在被显式要求时进行。
-- **不新增无必要的文件**：优先编辑既有文件；新文档须服务于计划、追踪或交付物。
-- **避免冗余输出**：生成内容保持精炼、信息密度高。
+- **Test gate:** `PYTHONPATH=src python -m unittest discover -s tests` from `harness_factory/`
+  (当前 **424** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
+- Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
+- Changing `src/harness_factory/data/*.json` (the SSOT) requires `harness catalog --write` to regenerate
+  `CAPABILITIES.md` + `HARNESS-MAP.md`, then the full suite; the same drift guards will fail otherwise.
+- CI (`.github/workflows/ci.yml`) runs the suite on ubuntu+windows / py3.10+3.12, then `cycle audit`, a CLI smoke,
+  and an `init → check → gate → harvest → doctor → plugins --validate` e2e. Reproduce those steps for risky changes.
+- **引用即生命线 / Citations are the lifeline.** Every factual claim traces to a primary source (arXiv ID / DOI /
+  official repo / docs page) with an access date; otherwise mark it *unverified*. Dates explicit: `as of <date>`.
+  Pricing and leaderboard numbers are directional and sourced.
+- Generated docs, emitted harness files, and `AGENTS.md` all carry structural guards (balanced code fences, no
+  unfilled `{{ }}`, resolvable relative links, no raw assistant/tool markup). Don't paste tool-call traces into docs.
 
-## 5. 工作链路原则 / Workflow principles (为什么存在 tasks/PLAN.md 与 PROGRESS.md)
+## 5. Conventions
 
-- **计划先行、进度可查 (/plan-first, track-as-you-go)。** 任何多步骤任务先写入 `harness_factory/tasks/PLAN.md`，执行中把结果、修正、来源记入 `harness_factory/tasks/PROGRESS.md`。
-- **会话收尾轨迹纪律（P36 起）。** 每轮真实工作收尾时，把本会话的结构化事实记入轨迹（使用侧数据积累靠流程不靠记忆）：过程中的人为改写/门禁失灵 → `PYTHONPATH=harness_factory/src python -m harness_factory harvest --dir <项目> --event human_correction --detail '{…}'`；任务收尾判决 → `--event task_outcome --detail '{"judge":"human","score":<分>,"rubric":"<域>"}'`（判决由人做，机器只记录，M0.4）；再 `harness collect --project <项目>` 拉回工具家、`harness trace-audit` 出提案。观察而已，只入 `updates/`。
-- **一手资料优先 / Primary sources first。** 校对与规划一律回到官方仓库、论文原文、官方文档，而非二手转述。
-- **超出给定范围探索 / Explore beyond the stated scope（2026-10-28，用户指示）。** 接到研究/梳理类任务时，参考但不局限于用户给出的范围：围绕话题主动继续广泛探索、发现、研究，把找到的高质量渠道一并纳入，并保留探索检索的长期态度。
-- **工欲善其事必先利其器 / Sharpen the tools before every task family（2026-10-28，用户指示）。** 做任何一类任务之前，先按 `reference/tool-router.md` 把可用的 MCP server / Agent Skill / API / 数据集盘一遍：入表有门（intake quality gate，来源/维护/许可证/安全逐项核），后续有代谢（更新、退役、`P41.R1` 类回访）。
-- **成本敏感 / Cost-sensitive。** 默认选择开源/免费、本地可跑的工具；付费 API 仅在质量关键步骤使用（用户环境：本地 Win11 CPU + 可远程 GPU 平台）。
+- File names lowercase, `-` separated; ATX headings, language-tagged fences, tables for comparisons; docs carry
+  `Updated: <date>`.
+- Commits follow [Conventional Commits](https://www.conventionalcommits.org/) (`docs(guide): …`).
+- **Auto-commit allowed for daily doc/code delivery; never push** unless the user explicitly asks.
+- Prefer editing existing files; no new docs unless they serve a plan, tracking, or a deliverable.
+- **Proposals only.** `refresh`, `evolve`, `trace-audit`, `full-update` write proposals under `updates/`.
+  Never edit `data|core|domains|templates` directly to "close" a finding — accept through the human gate.
+- **Generalization rule.** A pattern earns a place only if it survives removal of its originating project; concrete
+  details are labelled *Exemplar*, never the definition.
+- Plan-first: multi-step work goes into `harness_factory/tasks/PLAN.md`, results/corrections into
+  `harness_factory/tasks/PROGRESS.md`.
 
-## 6. 给 agent 的指令词：先配置，再提任务 / Directive for an agent: configure first, then task
+## 6. Session-end discipline (easy to miss)
+
+- Record the session's structured facts instead of remembering them:
+  `PYTHONPATH=harness_factory/src python -m harness_factory harvest --dir <project> --event human_correction --detail '{…}'`
+  and `--event task_outcome --detail '{"judge":"human","score":<n>,"rubric":"<domain>"}'` (the human judges; the
+  machine only records — M0.4). Then `collect --project <project>` and `trace-audit` (proposal-only).
+- User standing directives: primary sources first; explore beyond the stated scope for research tasks; survey
+  available MCP servers/skills/APIs first per `reference/tool-router.md`; cost-sensitive (free/local first).
+- "全面更新 harness" / "full update" ⇒ `harness full-update` (intel → probe-domains → trace-audit → evolve →
+  cycle audit → scoreboard), all output as proposals in `updates/FULL-UPDATE.md`.
+
+## 7. 给 agent 的指令词：先配置，再提任务 / Directive for an agent: configure first, then task
 
 **Step 1 · 常驻引用（贴一次，整段对话有效；写进项目规则文件可跨对话与子体）。** 权威版本见 `harness_factory/SKILL.md`
 §"PASTE THIS EXACT INSTRUCTION"（含"停止使用"的撤销方式）；一句话版：
@@ -87,7 +112,6 @@ LICENSE                   MIT License
 **Step 2 · 任务（同一轮接着写，或下一轮再发均可）。** 直接写目标，或直接附上文件/目录/链接，例如：
 「为现有 Python 项目补全类型注解与单元测试，保证可验证闭环。」
 
-这样配置一次、任务一句，输入更省事。用它触发 **L0（agent 原生，免安装）** 用法；需要确定性复现时走 **L1**：
-`PYTHONPATH=harness_factory/src python -m harness_factory derive --task "…"`。
-说「**全面更新 harness**」→ 助手执行 `harness full-update`（或 L0 等效六步：intel → probe-domains → trace-audit →
-evolve → cycle audit → scoreboard），一句话触发完整观察环，产出全部只提案（`updates/FULL-UPDATE.md`）。
+Deriving a harness emits only `AGENTS.md`, `tasks/PLAN.md`, `tasks/PROGRESS.md`, `.harness/*` (incl.
+`capabilities.local.md`, `manifest.json`, `PROVENANCE.md`); verify with `harness check --dir <out>` (or
+`PYTHONPATH=<HF>/src …`). L0 = agent reads the docs; L1 = the CLI.
