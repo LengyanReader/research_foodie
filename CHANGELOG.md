@@ -20,6 +20,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Deep-read + experiment round (P61) - QueenBee full-read upgrade + proof-family N=3 sign test.** QueenBee
+  (R280) upgraded to full-read: the safeguard list maps one-to-one onto M5.13(a)/(d), M5.12, M5.11, M4.12 and
+  M3.15 - an independent external implementation validating the clause system. Proof-verification family N 1 -> 3:
+  two new theorem tasks (pow2_double, pow3_add) each run bare-vs-harness; ALL THREE show bare 0.0 (compile fails)
+  vs harness 1.0 (compile-iterate to acceptance, zero escapes); sign test 3/3 positive, p=0.25 (N=3, directional).
+  20 real traces. Cron parsing trial designed but deferred for budget.
 - **Weekly sweep (P60) - ThinkingBox, QueenBee, LegoSR: three capability-shaped finds from the week's academic and
   industry feeds.** Mined the week's INTEL (3287 rows: 418 academic-ish, 7 industry hits). ThinkingBox (Microsoft+HF,
   read in full): 507 stateful business workflows graded by terminal database state and side effects via the OpenEnv

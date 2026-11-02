@@ -535,6 +535,15 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **裁决。** 无新子句/能力（皆在既有辖域）；一致性度量入 N>1 试验设计候选；扫荡工具的 URL 串行教训入档（M3.19 扫荡版）。
 - **登记。** references **§AD**（R279–R281）+ bib；catalog 218 → **221**；D1 先例注记；交付 `review/weekly-sweep-2026-11-02.md`（含 9 条高质量 lead：EvoMemBench/M*/VerifyMAS/PrivacyFlow/SoK agentic RAG 等）。
 
+## P61 · 深读+实验轮（2026-11-02，已做）：QueenBee 全文级 + proof 族 N=3 符号检验
+
+> 用户指示「下一轮的实验、模拟、深读，务必充分充实扎实稳健」。深读 + 实验 + 统计三线并进。
+
+- **QueenBee 全文级（R280 升级）。** 安全机制清单与本库子句一一对应（held-out 接受门=M5.13(a)/(d)、方差感知信用=M5.12、洞见证伪=M5.11、结构去重=M4.12、motif 信用=M3.15）——独立外部实现验证子句系统。头条数据：自演化拓扑 RMSE −37.2%、消息 −74.2%、token −59.6%；Silo EM 0.539 vs 冷启 0.125。
+- **proof 族 N 1→3。** 两个新定理任务（pow2_double · pow3_add），各跑双条件。**裸奔 3/3 编译失败**（错误的 simp 参数、缺 Nat.zero_add、simp 循环）vs **harness 3/3 接受**（编译-迭代 3/1 轮，零逃逸）。**sign test 3/3 正、p=0.25**（N=3 功效最低，方向性——M5.12 自己的框架）；20 条真实轨迹。
+- **诚实边界。** N=3 任务、同模型同会话、无任务内重复（N>1-per-task 方差设计另按触发开轮）；cron 解析任务（parsing 族 N 1→2）已设计 defer 至下会话。
+- **登记。** cycles **P61**（0/0/0/0）；references R280 标记升级；AGENTS.md 计数 431 → 431（守卫已同步）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

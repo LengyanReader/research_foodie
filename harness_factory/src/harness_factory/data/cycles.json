@@ -1615,6 +1615,27 @@
         "catalog_delta": 3,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P61",
+      "date": "2026-11-02",
+      "status": "done",
+      "title_en": "Deep-read QueenBee (R280 full-read) + proof-family N=3 sign test (bare 0/3 vs harness 3/3, p=0.25 directional)",
+      "title_zh": "QueenBee 深读（R280 全文级）+ proof 族 N=3 符号检验（裸奔 0/3 vs harness 3/3，p=0.25 方向性）",
+      "note": "The user asked for the next round of experiments, simulations, and deep reads, thorough and solid. Deep read: R280 QueenBee upgraded from abstract-grade to full-read - the paper's safeguard list maps one-to-one onto this library's clauses (held-out acceptance gate with quarantine -> M5.13(a)/(d); variance-aware credit with n_min -> M5.12; insight falsification -> M5.11; structural dedup -> M4.12; motif-level conservative credit -> M3.15) - an independent external implementation validating the clause system. Experiments: proof-verification family N 1 -> 3 with two new theorem tasks (pow2_double, pow3_add), each run bare-vs-harness. Results: ALL THREE tasks show bare 0.0 (compile fails: wrong simp args, missing zero_add, looping simp) vs harness 1.0 (compile-iterate to acceptance, zero escapes). Sign test: 3/3 positive, two-sided exact p = 0.25 (N=3, power minimal, directional per M5.12's own framing). 20 real traces in the tool home. Honest boundary unchanged: N=3 tasks, same model same session, no run-level repetition (the N>1-per-task variance design is a separate trigger). The CronParser trial (parsing family N 1 -> 2) is designed but deferred to the next session for budget - the spec and judge checks are drafted in the task dir.",
+      "slices": [
+        "P61.1 - deep read: R280 QueenBee full-read upgrade with the safeguard-to-clause mapping (one-to-one onto M5.13/M5.12/M5.11/M4.12/M3.15)",
+        "P61.2 - proof family N 1 -> 3: tasks B (pow2_double) and C (pow3_add) declared, bare conditions archived unverified and judge-compiled (both fail), harness conditions compile-iterated to acceptance (3 and 1 iterations respectively); escape scans clean; receipts as traces #17-#20",
+        "P61.3 - M5.12 stats: paired deltas all +1, sign test 3/3 positive p=0.25 (directional); family-level registry results updated"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
