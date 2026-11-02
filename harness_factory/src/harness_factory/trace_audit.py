@@ -88,6 +88,12 @@ def audit(kb_root: str | Path, rules: list[dict[str, Any]] | None = None) -> lis
                 score = detail.get("score")
                 if not isinstance(score, (int, float)):
                     continue  # grade strings are human territory
+                # P62: the low-outcome rule evaluates the HARNESS condition only --
+                # the bare condition is the control, not the treatment (M5.12's
+                # paired design: a low bare score is expected, not a defect).
+                cond = detail.get("condition") or ""
+                if cond and "bare" in cond.lower():
+                    continue
                 scale = detail.get("scale")
                 if isinstance(scale, list) and len(scale) == 2 and scale[0] < scale[1]:
                     # Declared scale (P45.R1): compare the NORMALIZED score, so

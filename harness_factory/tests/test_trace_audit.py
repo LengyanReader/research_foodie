@@ -122,6 +122,36 @@ class AuditRulesTest(unittest.TestCase):
                                 detail={"judge": "human", "score": 1, "scale": [0, 1]})
         self.assertEqual(trace.validate(line), [])
 
+    def test_bare_condition_excluded_from_low_outcome_grouping(self):
+        # P62: the bare condition is the control arm (M5.12) - its low score is
+        # expected, not a harness defect. Two bare lows -> no proposal.
+        _write(self.tmp, [
+            trace.make_trace("task_outcome", project="p1", task="survey", harness="h",
+                             detail={"judge": "machine", "score": 0.2, "scale": [0, 1], "condition": "A-bare"}),
+            trace.make_trace("task_outcome", project="p2", task="survey", harness="h",
+                             detail={"judge": "machine", "score": 0.4, "scale": [0, 1], "condition": "A-bare"}),
+        ])
+        self.assertEqual(self._proposals("low-outcome"), [])
+
+    def test_harness_condition_lows_still_fire(self):
+        _write(self.tmp, [
+            trace.make_trace("task_outcome", project="p1", task="survey", harness="h",
+                             detail={"judge": "machine", "score": 0.2, "scale": [0, 1], "condition": "B-harness"}),
+            trace.make_trace("task_outcome", project="p2", task="survey", harness="h",
+                             detail={"judge": "machine", "score": 0.3, "scale": [0, 1], "condition": "B-harness"}),
+        ])
+        self.assertEqual(len(self._proposals("low-outcome")), 1)
+
+    def test_mixed_bare_plus_one_harness_is_below_threshold(self):
+        # bare excluded, harness count = 1 < min_count 2 -> no proposal
+        _write(self.tmp, [
+            trace.make_trace("task_outcome", project="p1", task="survey", harness="h",
+                             detail={"judge": "machine", "score": 0.1, "scale": [0, 1], "condition": "A-bare"}),
+            trace.make_trace("task_outcome", project="p2", task="survey", harness="h",
+                             detail={"judge": "machine", "score": 0.2, "scale": [0, 1], "condition": "B-harness"}),
+        ])
+        self.assertEqual(self._proposals("low-outcome"), [])
+
     def test_emit_writes_journal_and_report_only(self):
         _write(
             self.tmp,

@@ -544,6 +544,14 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **诚实边界。** N=3 任务、同模型同会话、无任务内重复（N>1-per-task 方差设计另按触发开轮）；cron 解析任务（parsing 族 N 1→2）已设计 defer 至下会话。
 - **登记。** cycles **P61**（0/0/0/0）；references R280 标记升级；AGENTS.md 计数 431 → 431（守卫已同步）。
 
+## P62 · 轨迹规则 v2 轮（2026-11-03，已做）：low-outcome 排除裸奔条件收据
+
+> full-update（11-02）暴露的活假阳性：low-outcome 规则把 P45 legacy 收据对（0.2 裸奔 + 1.0 harness）判为「2 次低结果」。**根因**：规则把对照组（裸奔）与处理组（harness）混入同一分组——裸奔低分是预期行为（M5.12 配对设计），不是 harness 缺陷。
+
+- **修复。** `trace_audit.py` 排除 `detail.condition` 含 `bare` 的收据；harness 侧低分照常触发。`trace-rules.json` why 注记更新。
+- **守卫。** +3 条件感知守卫（bare-only 静默 · harness-only 触发 · 混合不足阈值）。
+- **cron 解析试验（parsing 族 N 1→2）已设计 defer 至下会话**（规格/判据/隐藏套件框架在 task 目录）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |
