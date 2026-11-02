@@ -1183,5 +1183,23 @@ class P60WeeklySweepTest(unittest.TestCase):
         self.assertIn("QueenBee", d1r["reason"], "D1 stage-C precedent note missing")
 
 
+class P63SimulationGuardTest(unittest.TestCase):
+    """P63: the self-evolution deep upgrade - dedup and the simulation test."""
+
+    def test_trace_audit_has_dedup(self):
+        src = _read(HARNESS / "src/harness_factory/trace_audit.py")
+        self.assertIn("traces-proposals.jsonl", src, "dedup: past proposals not read")
+        self.assertIn("already emitted", src, "dedup comment missing")
+
+    def test_simulation_doc_recorded(self):
+        # the simulation is inline in P63's slices; the cycles entry is the record
+        import json
+        d = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                       .read_text(encoding="utf-8"))
+        p63 = next((c for c in d["cycles"] if c["id"] == "P63"), None)
+        self.assertIsNotNone(p63, "P63 not registered")
+        self.assertIn("5 proposals with correct counts", p63["note"], "simulation result not recorded")
+
+
 if __name__ == "__main__":
     unittest.main()

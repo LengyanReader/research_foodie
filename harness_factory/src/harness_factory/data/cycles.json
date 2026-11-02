@@ -1656,6 +1656,27 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P63",
+      "date": "2026-11-03",
+      "status": "done",
+      "title_en": "Self-evolution deep upgrade: trace-audit dedup + simulation test (5/5 rules correct, 0 false positives, dedup verified)",
+      "title_zh": "自演化深度升级：trace-audit 去重 + 模拟测试（5/5 规则正确 · 0 假阳性 · 去重验证）",
+      "note": "The user asked for a comprehensive deep upgrade and simulation test of the self-evolution (M5) capability. The M5 automation audit: 6 phases fully automated (full-update), 5 trace rules, 17 evolve audit types, the experiment registry (7/7), and 20 real traces - but two gaps: (1) trace-audit re-emitted identical proposals on every run because the traces are append-only and the audit never checked its own past emissions; (2) no simulation test had validated the rules engine end-to-end against synthetic multi-round traces. Landed: (1) trace-audit DEDUP: the audit function reads its own past proposals from traces-proposals.jsonl and skips any (rule, group) pair already emitted - the second audit on the same KB produces 0 new proposals, and the journal contains exactly the first-run lines; (2) SIMULATION TEST: synthetic multi-round traces exercising all 5 rules (gate-miss x6 across projects, capability-unused x3, re-derive x2, human_correction x2, low-outcome x2 harness-only) plus two controls (bare-condition lows excluded by P62; below-threshold gate misses merged into the same gate group) - the audit produced exactly 5 proposals with correct counts, no false positives, bare-condition lows excluded, and cross-project gate misses correctly merged.",
+      "slices": [
+        "P63.1 - M5 automation audit: what's automated (6 phases, 5 rules, 17 evolve types) vs semi-auto (battery, harvest, collect) vs manual (evolve-apply, clause edits, M5.10 rounds)",
+        "P63.2 - trace-audit dedup: the audit function reads traces-proposals.jsonl and skips already-emitted (rule, group) pairs; verified end-to-end (run 1 = 5 proposals, run 2 = 0, journal = 5 lines)",
+        "P63.3 - simulation test: synthetic multi-round traces through trace-audit, all 5 rules produce correct proposals with correct counts, no false positives, bare-condition exclusion verified"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [

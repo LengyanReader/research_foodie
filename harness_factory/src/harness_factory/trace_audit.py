@@ -128,6 +128,20 @@ def audit(kb_root: str | Path, rules: list[dict[str, Any]] | None = None) -> lis
                 }
             )
     proposals.sort(key=lambda p: (p["rule"], str(p["group"])))
+    # Dedup (P63): skip proposals already emitted in a previous run (the
+    # traces are append-only, so the same pattern fires every audit; without
+    # this, traces-proposals.jsonl grows with identical duplicates).
+    prior = Path(kb_root) / "updates" / "traces-proposals.jsonl"
+    if prior.exists():
+        seen = set()
+        for line in prior.read_text(encoding="utf-8").splitlines():
+            try:
+                prev = json.loads(line)
+                seen.add((prev.get("rule"), str(prev.get("group"))))
+            except Exception:
+                pass
+        proposals = [pr for pr in proposals
+                     if (pr.get("rule"), str(pr.get("group"))) not in seen]
     return proposals
 
 

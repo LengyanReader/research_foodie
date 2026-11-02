@@ -552,6 +552,14 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **守卫。** +3 条件感知守卫（bare-only 静默 · harness-only 触发 · 混合不足阈值）。
 - **cron 解析试验（parsing 族 N 1→2）已设计 defer 至下会话**（规格/判据/隐藏套件框架在 task 目录）。
 
+## P63 · 自演化深度升级轮（2026-11-03，已做）：trace-audit 去重 + 模拟测试
+
+> 用户指示「自我演化能力的全方位深度升级和模拟测试」。M5 自动化审计 + 两个升级 + 模拟验证。
+
+- **M5 自动化审计。** 全自动：full-update 六相 · 5 条 trace 规则 · 17 种 evolve 审计 · 实验注册表 · scoreboard；半自动：battery 试验 / harvest / collect / brief（需 agent 会话）；人工：evolve-apply / refresh-apply / 子句编辑 / M5.10 轮次。
+- **升级①：trace-audit 去重。** audit 函数读取自身 past proposals（traces-proposals.jsonl），跳过已发射的 (rule, group) 对——第二次审计 0 新提案，日志恰好 5 行。修复了 traces-proposals.jsonl 因追加式输入无限增长的缺陷。
+- **升级②：模拟测试。** 合成多轮轨迹（7 项目 × 5 规则正例 + 2 控制组）通过 trace-audit：5 条提案全部计数正确、无假阳性；裸奔条件排除（P62）验证；跨项目同 gate 合并验证。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |
