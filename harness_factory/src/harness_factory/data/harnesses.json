@@ -5333,6 +5333,72 @@
         "standards",
         "sandbox"
       ]
+    },
+    {
+      "id": "thinkingbox",
+      "name": "ThinkingBox",
+      "name_zh": "ThinkingBox",
+      "class": "evaluation",
+      "kind": "benchmark",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M3",
+        "M6"
+      ],
+      "summary_en": "Microsoft/HF agent sandbox and benchmark: 507 stateful business workflows graded by terminal database state and side effects (binary rewards via the OpenEnv adapter); 'a trajectory is a claim, database state is the evidence, repetition is the trust test'; 121,680 trials - 67.24% of failures exited cleanly yet 77.61% had wrong state; pass@1 vs 20/20-consistency diverge sharply.",
+      "summary_zh": "Microsoft/HF 智能体沙箱与基准：507 个有状态业务工作流，按终端数据库状态与副作用评分（经 OpenEnv 适配器出二元奖励）；「轨迹是主张，数据库状态是证据，重复是信任测试」；121,680 次试验——67.24% 的失败干净退出但 77.61% 状态错误；pass@1 与 20/20 一致性尖锐分化。",
+      "url": "https://huggingface.co/blog/microsoft/thinkingbox",
+      "tracked": "",
+      "verified": true,
+      "tags": [
+        "benchmark",
+        "stateful",
+        "openenv"
+      ]
+    },
+    {
+      "id": "queenbee",
+      "name": "QueenBee",
+      "name_zh": "QueenBee",
+      "class": "self-evolution",
+      "kind": "self-modifying",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M5",
+        "M8"
+      ],
+      "summary_en": "Harness-level recursive self-improvement for multi-agent systems: model weights frozen, communication topology evolved as executable programs; SFT-Bank (structural memory of execution diagnoses, design hypotheses, validation outcomes, historical programs) guides subsequent workflow generation - an independent implementation of this library's D1 shape.",
+      "summary_zh": "多智能体系统的 harness 级递归自改进：冻结模型权重、演化通信拓扑为可执行程序；SFT-Bank（执行诊断/设计假设/验证结果/历史程序的结构记忆）指导后续工作流生成——本库 D1 形态的独立外部实现。",
+      "url": "https://arxiv.org/abs/2606.27492",
+      "tracked": "",
+      "verified": false,
+      "tags": [
+        "topology",
+        "d1-precedent"
+      ]
+    },
+    {
+      "id": "legosr",
+      "name": "LegoSR",
+      "name_zh": "LegoSR",
+      "class": "discovery",
+      "kind": "research-agent",
+      "vendor": "",
+      "ecosystem": "open",
+      "maps_to": [
+        "M1",
+        "M6"
+      ],
+      "summary_en": "Agent-guided symbolic regression framework: the agent selects solvers and adapts searches using solver knowledge and lessons from past tasks; up to +29 percentage points over a generic agent with the same model, tools and budget.",
+      "summary_zh": "Agent 引导的符号回归框架：agent 依求解器知识与既往任务经验选择求解器、调整搜索；同模型同工具同预算下比通用 agent 高最多 29 个百分点。",
+      "url": "https://arxiv.org/abs/2610.33465",
+      "tracked": "",
+      "verified": false,
+      "tags": [
+        "scientific-discovery"
+      ]
     }
   ]
 }

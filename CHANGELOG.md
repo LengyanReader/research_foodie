@@ -20,6 +20,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 - **Counts.** **284 → 289 tests** (+5 guards). `cycle audit`: 0 hard, 0 gaps.
 
 ### Added
+- **Weekly sweep (P60) - ThinkingBox, QueenBee, LegoSR: three capability-shaped finds from the week's academic and
+  industry feeds.** Mined the week's INTEL (3287 rows: 418 academic-ish, 7 industry hits). ThinkingBox (Microsoft+HF,
+  read in full): 507 stateful business workflows graded by terminal database state and side effects via the OpenEnv
+  adapter - 'a trajectory is a claim, database state is the evidence, repetition is the trust test'; industrial-scale
+  corroboration of M3.18(c)'s replay discipline (121,680 trials: 67.24% of failures exited cleanly yet 77.61% had
+  wrong state); pass@1 vs 20/20-consistency diverge sharply (a consistency-metric candidate for the N>1 trial
+  design). QueenBee (abstract-grade): harness-level recursive self-improvement - weights frozen, communication
+  topology evolved as executable programs, SFT-Bank structural memory guiding subsequent generation - an independent
+  external implementation of this library's D1 shape, noted on the D1 roadmap as a stage-C precedent. LegoSR (listed):
+  agent-guided symbolic regression, +29pp. No new clauses/capabilities (all inside existing scope). Process lesson:
+  the intel-extraction script mismatched a title-URL pair - sweep tools re-verify their own extractions (M3.19's
+  sweep form). Catalog 218 -> 221; references group AD (R279-R281); nine high-quality leads recorded.
+  Deliverable: `review/weekly-sweep-2026-11-02.md`.
 - **Feed-health round (P59) - the update loop's intake doors re-probed, four dead ones repaired, the
   "topic without a source" defect closed, audit false positives fixed at the engine.** Opened by the user's
   standing "full update/upgrade/evolution" instruction: one `full-update` tick (all six phases green), then per-item

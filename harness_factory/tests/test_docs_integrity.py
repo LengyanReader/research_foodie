@@ -1158,5 +1158,30 @@ class P59FeedHealthTest(unittest.TestCase):
                       "P59.R1 deferred item missing")
 
 
+class P60WeeklySweepTest(unittest.TestCase):
+    """P60: the weekly sweep - ThinkingBox/QueenBee/LegoSR entered with their roles."""
+
+    def test_weekly_sweep_doc_carries_the_three_finds(self):
+        doc = _read(HARNESS / "review/weekly-sweep-2026-11-02.md")
+        for token in ("ThinkingBox", "QueenBee", "LegoSR", "77.61%", "SFT-Bank",
+                      "20/20", "OpenEnv"):
+            self.assertIn(token, doc, f"weekly sweep lost {token!r}")
+
+    def test_catalog_and_references_record_the_entries(self):
+        cat = json.loads((HARNESS / "src/harness_factory/data/harnesses.json")
+                         .read_text(encoding="utf-8"))
+        ids = {e.get("id") for e in cat["harnesses"]}
+        for rid in ("thinkingbox", "queenbee", "legosr"):
+            self.assertIn(rid, ids, f"catalog entry missing: {rid}")
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## AD.", refs)
+        for ref in ("R279", "R280", "R281"):
+            self.assertIn(ref, refs)
+        d1 = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                        .read_text(encoding="utf-8"))
+        d1r = next(r for r in d1["roadmap"] if r["id"] == "D1")
+        self.assertIn("QueenBee", d1r["reason"], "D1 stage-C precedent note missing")
+
+
 if __name__ == "__main__":
     unittest.main()

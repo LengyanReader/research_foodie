@@ -3,7 +3,7 @@
 > Generated from `src/harness_factory/data/harnesses.json` — **do not edit by hand**; run `harness catalog --write` to regenerate.
 > 由 `data/harnesses.json` 生成，**请勿手改**；用 `harness catalog --write` 重新生成。
 
-**Updated:** 2026-10-28 · 218 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
+**Updated:** 2026-10-28 · 221 entries · 12 classes · companion to `harness-catalog.md` (the prose taxonomy).
 
 ---
 
@@ -56,7 +56,7 @@ harness catalog claude-code           # detail one entry
 | `dspy` | DSPy · DSPy | agent SDK / 框架 | M6 | https://github.com/stanfordnlp/dspy · tracked:dspy |
 | `mistral-agents` | Mistral Agents API · Mistral Agents API | agent SDK / 框架 | M6, M7, M8 | https://docs.mistral.ai/capabilities/agents/ · tracked:mistral-agents |
 
-## Self-evolution methods · 自我演化方法  (15)
+## Self-evolution methods · 自我演化方法  (16)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -75,6 +75,7 @@ harness catalog claude-code           # detail one entry
 | `voyager` | Voyager · Voyager | 技能沉淀 | M5, M6 | arXiv:2305.16291 |
 | `hermes-agent` | Hermes Agent · Hermes Agent | 技能沉淀 | M2, M5, M6, M8 | https://github.com/NousResearch/hermes-agent · tracked:hermes-agent |
 | `hermit-file-first` | hermit (file-first) · hermit（文件优先） | 改自身脚手架 | M2, M5, M7 | https://github.com/benschrauwen/hermit · tracked:hermit-file-first |
+| `queenbee` | QueenBee · QueenBee | 改自身脚手架 | M5, M8 | https://arxiv.org/abs/2606.27492 |
 
 ## Memory & persistence · 记忆与持久化  (5)
 
@@ -107,7 +108,7 @@ harness catalog claude-code           # detail one entry
 | `open-responses` | Open Responses · Open Responses | 协议 | M6, M8 | https://aaif.io |
 | `opensandbox` | OpenSandbox · OpenSandbox | 协议 | M3, M6 | https://aaif.io |
 
-## Evaluation harnesses · 评测 harness  (12)
+## Evaluation harnesses · 评测 harness  (13)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -123,6 +124,7 @@ harness catalog claude-code           # detail one entry
 | `simple-evals` | simple-evals · simple-evals | eval-framework | M3 | https://github.com/openai/simple-evals |
 | `lighteval` | LightEval · LightEval | eval-framework | M3 | https://github.com/huggingface/lighteval |
 | `openenv` | OpenEnv · OpenEnv | eval-framework | M3 | https://aaif.io |
+| `thinkingbox` | ThinkingBox · ThinkingBox | 基准/评测器 | M3, M6 | https://huggingface.co/blog/microsoft/thinkingbox |
 
 ## Surveys (orientation) · 综述导航  (5)
 
@@ -141,7 +143,7 @@ harness catalog claude-code           # detail one entry
 | `saver` | SAVER (Safety in Self-Evolving Agents) · SAVER（自演化 agent 的安全） | 安全框架 | M0, M5, M8 | arXiv:2610.00093 |
 | `misevolution` | Misevolution (Emergent Risks in Self-evolving LLM Agents) · Misevolution（自演化 agent 的涌现风险） | 安全框架 | M0, M5, M8 | arXiv:2509.26354 |
 
-## Discovery / evidence & model search · 发现·证据与模型搜索  (5)
+## Discovery / evidence & model search · 发现·证据与模型搜索  (6)
 
 | id | name | kind | core modules | source |
 |---|---|---|---|---|
@@ -150,6 +152,7 @@ harness catalog claude-code           # detail one entry
 | `connected-papers` | Connected Papers · Connected Papers | graph-explorer | M1, M4 | https://www.connectedpapers.com/ |
 | `researchrabbit` | ResearchRabbit · ResearchRabbit | graph-explorer | M1, M4 | https://www.researchrabbit.ai/ |
 | `paperswithcode` | PapersWithCode · PapersWithCode | index | M1, M4 | https://paperswithcode.com/ |
+| `legosr` | LegoSR · LegoSR | 深研代理 / 产品 | M1, M6 | https://arxiv.org/abs/2610.33465 |
 
 ## Reading, acquisition & distillation · 读物阅读·获取与提炼  (20)
 

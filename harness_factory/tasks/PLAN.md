@@ -525,6 +525,16 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **刻意不做（M0.4/M0.5）。** 单轮证据不 retire（19 条 stale 是节奏噪声或已注记）；不新增能力/子句/目录（本轮修管道不长地图，catalog_delta 0）；trace 提案与 5 个厂商关键词簇只作观察。
 - **登记与守卫。** 交付 `review/feed-health-2026-11.md`；cycles **P59**（0/0/0/0）+ **P59.R1** 延项（meta-fair/aaif 复探 · ambition 诚实载体）；`P59FeedHealthTest` 5 守卫；introduction 实体计数 238→240；AGENTS.md 重排以独立 commit 落地（d56ae55，并行会话工件、经 suite 兼容验证后按用户决定分离提交）；测试 **424 → 429**；`cycle audit` **55 轮 · 0 硬 · 0 缺口**。
 
+## P60 · 周扫荡轮（2026-11-02，已做）：学界+业界三发现——ThinkingBox · QueenBee · LegoSR
+
+> 用户先令扫学界（研究所/高校/机构），再补业界。本周 INTEL 3287 行挖出 418 学术 + 7 业界条目，能力形态最强三条入册。
+
+- **ThinkingBox（R279，Microsoft+HF，全文）。** 507 有状态业务工作流 × 20 遍 × 18 LLM，按**终端数据库状态与副作用**评分（OpenEnv 适配器二元奖励）；「轨迹是主张，数据库状态是证据，重复是信任测试」——M3.18(c) 的工业规模佐证（67.24% 失败干净退出但 77.61% 状态错误）；**pass@1 与 20/20 一致性尖锐分化**（93.89% vs 13.41%）——一致性度量入 N>1 试验设计候选；~4/5 失败是工具处理非推理。
+- **QueenBee（R280，摘要级）。** 冻结权重、演化拓扑为可执行程序 + **SFT-Bank** 结构记忆库（诊断/假设/验证结果）——**D1 形态的独立外部实现**，D1 roadmap 增第三个 stage-C 先例。
+- **LegoSR（R281，listed）。** Agent 引导符号回归，+29pp。
+- **裁决。** 无新子句/能力（皆在既有辖域）；一致性度量入 N>1 试验设计候选；扫荡工具的 URL 串行教训入档（M3.19 扫荡版）。
+- **登记。** references **§AD**（R279–R281）+ bib；catalog 218 → **221**；D1 先例注记；交付 `review/weekly-sweep-2026-11-02.md`（含 9 条高质量 lead：EvoMemBench/M*/VerifyMAS/PrivacyFlow/SoK agentic RAG 等）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

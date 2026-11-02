@@ -57,7 +57,7 @@ README.md / README.zh-CN.md  project entry (English / 中文)
 ## 4. Quality gates
 
 - **Test gate:** `PYTHONPATH=src python -m unittest discover -s tests` from `harness_factory/`
-  (当前 **429** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
+  (当前 **431** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
 - Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
 - Changing `src/harness_factory/data/*.json` (the SSOT) requires `harness catalog --write` to regenerate
   `CAPABILITIES.md` + `HARNESS-MAP.md`, then the full suite; the same drift guards will fail otherwise.

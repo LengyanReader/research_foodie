@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31",
+  "updated": "2026-11-02",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -1590,6 +1590,31 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P60",
+      "date": "2026-11-02",
+      "status": "done",
+      "title_en": "Weekly sweep: ThinkingBox (industrial-scale state-grading), QueenBee (an independent D1 implementation), LegoSR - three capability-shaped finds",
+      "title_zh": "周扫荡轮：ThinkingBox（工业规模状态评分）· QueenBee（D1 的独立外部实现）· LegoSR——三条能力形态发现",
+      "note": "The user asked for frontier capabilities from top institutes/universities/organizations in the past week, then added industry. Mined the week's INTEL (3287 rows: 418 academic-ish, 7 industry hits) and entered the three most capability-shaped: R279 ThinkingBox (Microsoft+HF, READ IN FULL - 507 stateful business workflows graded by terminal database state and side effects via the OpenEnv adapter; 'a trajectory is a claim, database state is the evidence, repetition is the trust test'; 121,680 trials with 67.24% of failures exiting cleanly yet 77.61% having wrong state; pass@1 vs 20/20-consistency diverge sharply - Kimi-K3 93.89% at-least-once vs 13.41% consistent; ~4/5 failures are tool handling not reasoning; industrial-scale corroboration of M3.18(c)'s replay discipline and an OpenEnv-native evaluation-environment candidate for D1 stage C) - R280 QueenBee (abstract-grade - harness-level recursive self-improvement: weights frozen, communication topology evolved as executable programs, SFT-Bank structural memory of execution diagnoses/design hypotheses/validation outcomes guiding subsequent generation; an independent external implementation of this library's D1 shape, noted on the D1 roadmap as a stage-C precedent alongside R252/R256) - R281 LegoSR (listed; agent-guided symbolic regression, +29pp over a generic agent). Adjudication: no new clauses (ThinkingBox corroborates M3.18(c); QueenBee is a D1 precedent), no new capabilities (all three inside existing module scope); the consistency-vs-at-least-once metric is a scoreboard-design candidate recorded for the N>1 trial round. Process lesson: the intel-extraction script mismatched QueenBee's URL (took the adjacent row's link) - sweep tools must re-verify title-URL pairing (M3.19's sweep form). Leads recorded: EvoMemBench, M*, VerifyMAS, PrivacyFlow, SoK agentic RAG, Controllable User Simulation, plus industry items (OpenAI x ServiceNow, Legora, Patch the Planet, Willison's webframe).",
+      "slices": [
+        "P60.1 - the mine: 418 academic + 7 industry hits from the week's INTEL; top three selected by capability shape",
+        "P60.2 - the reads: ThinkingBox full (HF blog) with the URL-mismatch correction (2610.33465 is LegoSR); QueenBee located via search (2606.27492) and read at abstract grade; references group AD (R279-R281) + bib",
+        "P60.3 - the records: catalog +3 (thinkingbox verified/queenbee/legosr; 218 -> 221); D1 roadmap stage-C precedent note; review/weekly-sweep-2026-11-02.md; P60WeeklySweepTest"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R279",
+          "R280",
+          "R281"
+        ],
+        "catalog_delta": 3,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -1662,7 +1687,7 @@
       "cycle": null,
       "source": "ASSESSMENT A.3 #2",
       "title_en": "Trace-driven self-evolution",
-      "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code. P34 note: Harness Learning (R252) and VERA (R256) are first-party stage-C precedents **at abstract level** (learned proposer + verifier-gated edits); the design doc should engage them after the P34.R1 full-text reread",
+      "reason": "M5 is rules-and-proposals only; nothing consumes execution traces. Largest remaining structural gap, and the one most likely to produce misevolution - it needs a design doc before code. P34 note: Harness Learning (R252) and VERA (R256) are first-party stage-C precedents **at abstract level** (learned proposer + verifier-gated edits); the design doc should engage them after the P34.R1 full-text reread | P60 adds QueenBee (R280, abstract-grade) as another stage-C precedent: harness-level recursive self-improvement with a validation-gated structural memory bank (SFT-Bank) - an independent external implementation of this library's D1 shape.",
       "revisit_when": "stage C slice 1 DONE (P40: structural ablation baseline - protected set derived, holdout coverage gap named, ground sensitivity validated); the remaining slice is the effect-level ladder (performance+token axes) which requires real model runs on the scored tasks - needs the user's model environment or a batch of real dogfooded runs"
     },
     {
