@@ -17,7 +17,17 @@
 
 ---
 
-## 2026-10-31 · P58：文档刷新轮 —— 测量世代命令面四文档补齐 · 计数刷新 · 命令面守卫
+## 2026-11-02 · 全面更新运行（full-update 六相，含网络 intel）+ 人工裁决清单
+
+- **运行。** `harness full-update` 六相全绿：intel **3336 项**（一周积压，INTEL.md）· probe-domains **5 簇**（DOMAIN-PROBES.md）· trace-audit **1 提案**（TRACE-EVOLUTION.md）· evolve **17 提案**（EVOLUTION.md：1 high + 16 low）· cycle audit 0 硬 0 缺口 · scoreboard 7/7 @ 1.0。全部产出在 tool home `updates/`，只提案不落地（M0.4/M0.8）。
+- **裁决建议（待用户确认）。** ① **probe-domains 5 簇全部不开域**：簇键是厂商新闻词（openai/chatgpt/face/introducing/work），非任务族——按 M0.5「能改变路由或门禁内容才入域」不成立，记为信号观察；② **trace-audit 的 low-outcome 提案建议驳回**：它按 legacy 无尺度语义把 P45 收据对（0.2 裸奔 + 1.0 harness）判为「2 次低结果」——harness 侧是满分；**语义发现**：规则把基线收据与处理收据混入同一任务键，trace-rules v2 应按 `detail.condition` 分组或只评 harness 侧（登记 lead）；③ **evolve 高严重度 1 条**（add_source for uncovered_topic `ambition-and-agency`）——需用户点名信源（候选：After42/Stanford 研究已入 R272/R273，可在其上扩 topic）或 defer；④ **16 条 stale_source 低严重度**：慢速刊物（Nature/Science）每周无新项属正常；**唯一实质项是 agentskills 馈送已死**（GitHub org 已捐入 AAIF）——aaif 实体（含新 feed）已在 P57 加入，agentskills 旧条目可退役或保留为历史，待用户裁决。
+- **intel 线索（仅登记）。** GPT-6.1 Terra 发布（P19 模型表 lead）· ChatGPT「Dreaming」记忆功能（M2 相关产品实践 lead）· 其余为厂商产品新闻。
+- **机制 lead。** trace-audit 每次运行对同一 legacy 收据对重复发射相同提案（traces-proposals.jsonl 现有 6 条重复）——追加式输入未去重自身产出；小改进：audit 前读 past proposals 跳过相同 rule+group（登记，不开轮）。
+- **状态。** 本轮为例行运行 + 裁决清单；无 SSOT 变更、无新轮次编号。产出文件全在 tool home `updates/`（不入版本控制）。注：同日并行会话的 **P59（渠道健康轮）** 对同一 full-update 的输出做了更深的分诊与修复（馈送接线/引擎假阳性），本条只记录本会话这次运行与其裁决建议——两者互为补充。
+
+---
+
+· P58：文档刷新轮 —— 测量世代命令面四文档补齐 · 计数刷新 · 命令面守卫
 
 - **开轮依据。** 用户指示：更新相关文档；评估 README 用法是否需更新。审计：四份入口文档**无一提到 battery/classify**（P53/P55 落的命令）；GUIDE 命令表停在 P1.7 世代（缺 scoreboard/trace-audit/collect/full-update/brief/cycle/probe-domains 整个测量世代命令面）；introduction 两处计数过期（237 实体 → 238、P0–P45 → P0–P57）。
 - **更新。** GUIDE 命令表 **+10 行**；两语 README quickstart 与 introduction quickstart 补 battery/classify 行；introduction 计数与 trace 环节指针（P22–P53）刷新。
