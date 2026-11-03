@@ -17,7 +17,7 @@
 {{ task_text }}
 
 - **Domain:** {{ domain }} ({{ domain_zh }}) — {{ domain_summary }}
-- **Domain playbook:** read `harness_factory/domains/{{ domain }}/README.md` for domain-specific workflow, methods and gate text before starting work.
+{{ domain_playbook }}
 - **Goal:** {{ goal }}
 
 ## Feature vector · 任务特征
@@ -158,8 +158,12 @@ See `.harness/gates.md`. Gate strictness: **{{ gate_strictness }}**. Do not clai
 python .harness/check.py .
 ```
 
-**Trace (optional · 可选).** At phase boundaries, append machine-readable facts — `gate_miss` or
-`human_correction` — to `.harness/traces.jsonl`, one JSON line each:
+**Trace (optional · 可选).** At phase boundaries, append machine-readable facts to `.harness/traces.jsonl`, one JSON
+line each. The vocabulary (v2 · P66): process facts — `gate_miss`, `human_correction`, `re_derive`,
+`capability_unused`, `check_fail`, `context_eviction`; result facts — `task_outcome`; environment and
+directive facts — `context_pressure`, `tool_error` (carry `detail.tool`), `human_preference` (carry
+`detail.preference`), `latency_anomaly` (carry `detail.operation`) — the four v2 events are grouped by
+those detail keys in the factory's audit rules, so a receipt without them reads as nothing. Example:
 `{"v":1,"ts":"…","project":"…","task":"…","harness":"…","event":"gate_miss"}`. At task close, record
 one final `task_outcome` line carrying the verdict's source and value —
 `{"v":1,"ts":"…","project":"…","task":"…","harness":"…","event":"task_outcome","detail":{"judge":"human","score":4,"rubric":"…"},"session":"…"}`

@@ -21,7 +21,7 @@ from harness_factory.spec import FEATURE_CHOICES, FEATURE_FIELDS, HORIZONS, Feat
 
 _ROOT = Path(__file__).resolve().parents[1]
 _REQUIRED = {"title_en", "title_zh", "when", "modules", "why"}
-_OPTIONAL = {"procedure"}
+_OPTIONAL = {"procedure", "procedure_source"}
 _ALLOWED_WHEN_KEYS = set(FEATURE_FIELDS) | {"min_horizon", "any"}
 _BACKTICKED = re.compile(r"`([a-z][a-z0-9-]*)`")
 
@@ -477,3 +477,65 @@ class ModelPortfolioCapabilityTest(unittest.TestCase):
         self.assertNotIn("model-portfolio-discipline", _active())
         self.assertNotIn("model-portfolio-discipline", _active(domain="data-science"))
         self.assertNotIn("model-portfolio-discipline", _active(domain="software-engineering"))
+
+
+class ProcedureSurfaceTest(unittest.TestCase):
+    """P66: the capability->procedure surface P65 opened gets its last mile.
+
+    Every capability carries a checkable ``procedure`` and a
+    ``procedure_source`` naming the file the steps were distilled from (a
+    procedure without provenance is advice - citations are the lifeline), and
+    the emitted AGENTS.md actually renders the "Operating procedures" section
+    rather than leaving the field hostage to a shape test (P65 shipped the
+    emission unguarded; the two procedure-less capabilities were closed by
+    writing their procedures, not by exempting them).
+    """
+
+    def test_every_capability_has_a_nonempty_procedure(self):
+        for cid, cap in _caps().items():
+            proc = cap.get("procedure")
+            self.assertIsInstance(proc, list, cid)
+            self.assertTrue(proc, cid)
+            for step in proc:
+                self.assertIsInstance(step, str, cid)
+                self.assertTrue(step.strip(), cid)
+
+    def test_every_procedure_cites_a_file_that_exists(self):
+        for cid, cap in _caps().items():
+            src = cap.get("procedure_source")
+            self.assertIsInstance(src, str, cid)
+            self.assertTrue((_ROOT / src).is_file(), f"{cid} -> {src}")
+
+    def test_emitted_agents_renders_the_procedures_section(self):
+        from harness_factory.assemble import build_files
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        from harness_factory.spec import TaskSpec
+
+        task = TaskSpec(text="build an evaluated research pipeline over several sessions")
+        doc = build_files(derive(task, classify(task)))["AGENTS.md"]
+        self.assertIn("## Operating procedures", doc)
+        self.assertIn("- source: `", doc)  # every rendered procedure cites its origin
+
+    def test_general_fallback_playbook_line_resolves(self):
+        # P66: the Domain playbook line must never point at a file that does
+        # not exist; `general` is a registered fallback with no directory.
+        # factory_root is pinned to a non-checkout dir to simulate emission
+        # into a machine without the factory on disk (the pointer fallback).
+        import tempfile
+
+        from harness_factory.assemble import build_files
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        from harness_factory.spec import TaskSpec
+
+        with tempfile.TemporaryDirectory() as td:
+            task = TaskSpec(text="do the thing")
+            doc = build_files(derive(task, classify(task)), factory_root=td)["AGENTS.md"]
+            line = next(l for l in doc.splitlines() if "Domain playbook" in l)
+            self.assertIn("general fallback", line)
+            task2 = TaskSpec(text="build an evaluated research pipeline over several sessions")
+            doc2 = build_files(derive(task2, classify(task2)), factory_root=td)["AGENTS.md"]
+            line2 = next(l for l in doc2.splitlines() if "Domain playbook" in l)
+            self.assertIn("pointer.json", line2)  # resolves via the recorded factory root
+

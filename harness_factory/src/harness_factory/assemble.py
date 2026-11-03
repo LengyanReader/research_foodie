@@ -339,7 +339,7 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
 
 
 def _capability_procedures(plan):
-    """Render operating procedures for matched capabilities (P65)."""
+    """Render operating procedures for matched capabilities (P65, sourced P66)."""
     from .capabilities import capabilities as load_caps
     caps = load_caps()
     result = []
@@ -349,6 +349,9 @@ def _capability_procedures(plan):
             result.append("### " + cap_id)
             for step in meta['procedure']:
                 result.append("- [ ] " + step)
+            # P66: a procedure without a source is advice; cite where it was distilled from
+            if meta.get("procedure_source"):
+                result.append(f"- source: `{meta['procedure_source']}` (distilled)")
     if result:
         return "## Operating procedures" + chr(10) + chr(10).join(result)
     return ""
@@ -379,6 +382,26 @@ def build_files(
     if root is not None and not (root / "SKILL.md").is_file():
         root = None  # pinned to a directory that is not a factory checkout
     ctx["factory_root"] = root.as_posix() if root else "<harness_factory path>"
+
+    # P66: the Domain playbook line must resolve where it is read. The old
+    # template hardcoded a repo-relative path that dangled in every emitted
+    # external project and pointed at the nonexistent domains/general/README
+    # (general is the no-signal fallback, registered without a directory).
+    if plan.features.domain == "general":
+        ctx["domain_playbook"] = (
+            "- **Domain playbook:** general fallback — no domain-specific playbook; "
+            "the Modules table carries the workflow."
+        )
+    else:
+        pb_root = (
+            root.as_posix()
+            if root is not None
+            else "<harness_factory checkout: see .harness/pointer.json factory_root>"
+        )
+        ctx["domain_playbook"] = (
+            f"- **Domain playbook:** read `{pb_root}/domains/{plan.features.domain}/README.md` "
+            "for domain-specific workflow, methods and gate text before starting work."
+        )
 
     plugin_targets = plugins.domain_template_targets(plan.features.domain)
 

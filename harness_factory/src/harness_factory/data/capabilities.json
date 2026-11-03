@@ -14,7 +14,8 @@
       "Build-then-judge: the evaluator never writes the artifact",
       "Default-fail: every criterion starts false, evidence required to pass",
       "Hard gates mechanical, soft gates human-judged"
-    ]
+    ],
+    "procedure_source": "core/01-meta-principles.md"
   },
   "verification-gate": {
     "title_en": "Verification gate",
@@ -28,7 +29,8 @@
       "Write the acceptance test before the implementation",
       "Run the evaluator in a fresh context with no write access",
       "Spot-check the verifier against known cases"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "resumable-memory": {
     "title_en": "Resumable memory",
@@ -45,7 +47,8 @@
       "Write a structured handoff at session end",
       "Trust the artifact, not the recollection",
       "After compaction, re-read the summary and verify reachability"
-    ]
+    ],
+    "procedure_source": "core/03-long-running-agents.md"
   },
   "traceable-sources": {
     "title_en": "Traceable sources",
@@ -76,7 +79,8 @@
       "Record the access date",
       "Corroborate across independent sources",
       "Mark unverifiable as [unverified]"
-    ]
+    ],
+    "procedure_source": "core/05-provenance-and-integrity.md"
   },
   "self-improving-loop": {
     "title_en": "Self-improving loop",
@@ -92,7 +96,8 @@
       "Separate proposer from evaluator",
       "Gate edits with pre-declared criteria",
       "Revert on regression"
-    ]
+    ],
+    "procedure_source": "core/06-self-evolution.md"
   },
   "tool-use": {
     "title_en": "Tool use",
@@ -112,7 +117,8 @@
       "Declare the tool surface before starting",
       "Verify tool availability and rate limits",
       "Scope permissions to the concrete task"
-    ]
+    ],
+    "procedure_source": "core/07-tools-and-skills.md"
   },
   "human-review-gate": {
     "title_en": "Human review gate",
@@ -138,7 +144,8 @@
       "Route ambiguous decisions to a human",
       "Package context for review",
       "Record the approval and its basis"
-    ]
+    ],
+    "procedure_source": "core/09-collaboration-and-sessions.md"
   },
   "high-stakes-guardrails": {
     "title_en": "High-stakes guardrails",
@@ -155,7 +162,8 @@
       "Identify irreversible actions",
       "Declare a rollback path",
       "Default-fail: when uncertain, do not act"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "reproducible-experiments": {
     "title_en": "Reproducible experiments",
@@ -177,7 +185,8 @@
       "Pin the framework commit and data release",
       "Record the seed and hyperparameters",
       "Make it re-runnable from one command"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "long-horizon-autonomy-control": {
     "title_en": "Long-horizon autonomy control",
@@ -196,7 +205,8 @@
       "Define the autonomy envelope",
       "Escalate on boundary events",
       "Log autonomous decisions"
-    ]
+    ],
+    "procedure_source": "core/03-long-running-agents.md"
   },
   "frontier-standard": {
     "title_en": "Frontier standard / apex bar",
@@ -219,7 +229,15 @@
       "M5",
       "M8"
     ],
-    "why": "Measure output against the best-known standard, ratchet up monotonically, and track the moving frontier (M0.3/M0.5/M0.10); never self-declare excellence."
+    "why": "Measure output against the best-known standard, ratchet up monotonically, and track the moving frontier (M0.3/M0.5/M0.10); never self-declare excellence.",
+    "procedure": [
+      "Declare the objective and read the current bar: `harness standard list` / `harness standard show <objective>`.",
+      "Score the artifact against the checkable rubric (0..3): `harness standard score` - per-dimension, never a gestalt.",
+      "Rank the gaps largest-first and apply the registered lever that closes the top gap: `harness standard audit`.",
+      "Ratchet the floor only after the gap closed: `harness standard raise` (refuses a regression - the ratchet is monotonic).",
+      "When the field itself moved, mark the moving-frontier re-check: `harness standard frontier`."
+    ],
+    "procedure_source": "domains/excellence/README.md"
   },
   "sandboxed-execution": {
     "title_en": "Sandboxed / least-privilege execution",
@@ -244,7 +262,8 @@
       "State the mechanism",
       "State what it does NOT cover",
       "Default to deny when guardian unavailable"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "portable-skills": {
     "title_en": "Portable skills (Agent Skills format)",
@@ -264,7 +283,8 @@
       "Package skills as SKILL.md with name + description",
       "Route via a bootstrap meta-skill",
       "Re-inject the bootstrap after compaction"
-    ]
+    ],
+    "procedure_source": "core/07-tools-and-skills.md"
   },
   "ambition-elevation": {
     "title_en": "Ambition elevation (raise, then converge)",
@@ -282,7 +302,8 @@
       "Restate the ask (R0), check under-aimed (R1)",
       "Offer MVP/Elevated/Exploratory tiers (R3)",
       "Wait for human confirmation (R4)"
-    ]
+    ],
+    "procedure_source": "review/ambition-and-agency.md"
   },
   "expert-instruments": {
     "title_en": "Expert instruments (depth)",
@@ -306,7 +327,8 @@
     "procedure": [
       "Match instrument to claim type",
       "A claim with no named instrument is unverified"
-    ]
+    ],
+    "procedure_source": "reference/evidence-instruments.md"
   },
   "cross-field-crew": {
     "title_en": "Cross-field crew (range)",
@@ -325,7 +347,14 @@
       "M6",
       "M8"
     ],
-    "why": "Range comes from reframing nouns as verbs and convening a cognitively diverse crew (analyst / editor / red-team) to *do* the work the discipline does -- not to role-play a persona (M0.4/M8)."
+    "why": "Range comes from reframing nouns as verbs and convening a cognitively diverse crew (analyst / editor / red-team) to *do* the work the discipline does -- not to role-play a persona (M0.4/M8).",
+    "procedure": [
+      "Reframe the task's nouns as verbs and list the adjacent fields that already do that verb (range comes from the verb, not the noun).",
+      "Convene the crew roles the task is missing - analyst / editor / red-team - each owning one named artifact.",
+      "Run each role's output against its own gate before merging; disagreements between roles are signal, not noise (M8).",
+      "Integrate by naming the rival position and why it lost, never by averaging the crew."
+    ],
+    "procedure_source": "review/ambition-and-agency.md"
   },
   "bidirectional-capability-flow": {
     "title_en": "Bidirectional capability flow",
@@ -341,7 +370,8 @@
       "Keep task-specific notes in capabilities.local.md",
       "Propose generalisable patterns back (human-gated)",
       "Never edit data|core|domains|templates directly"
-    ]
+    ],
+    "procedure_source": "core/01-meta-principles.md"
   },
   "context-budget-policy": {
     "title_en": "Context budget policy",
@@ -369,7 +399,8 @@
       "Declare the context budget before starting",
       "Track the compaction count",
       "Prefer generation-style over selection-style"
-    ]
+    ],
+    "procedure_source": "core/02-context-engineering.md"
   },
   "untrusted-content-discipline": {
     "title_en": "Untrusted-content discipline",
@@ -400,7 +431,8 @@
       "Treat all retrieved content as untrusted",
       "Isolate from ground truth",
       "Grade from replayed artifacts, never self-reports"
-    ]
+    ],
+    "procedure_source": "core/05-provenance-and-integrity.md"
   },
   "durable-execution": {
     "title_en": "Durable execution",
@@ -417,7 +449,8 @@
       "Design for resumption",
       "Persist state between steps",
       "Handle partial failure"
-    ]
+    ],
+    "procedure_source": "core/03-long-running-agents.md"
   },
   "cost-budget-caps": {
     "title_en": "Cost budget caps",
@@ -441,7 +474,8 @@
       "Declare the cost budget before starting",
       "Track actual vs budget at phase boundaries",
       "Cross-tier = setting comparison"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "eval-driven-development": {
     "title_en": "Eval-driven development",
@@ -465,7 +499,8 @@
       "Define the evaluation before building",
       "Use a held-out set for promotion",
       "Report the protocol alongside the numbers"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "loop-discipline": {
     "title_en": "Loop discipline (termination · budget · no-progress)",
@@ -493,7 +528,8 @@
       "Declare the loop contract",
       "Write a stop condition before starting",
       "Record what each round contributes"
-    ]
+    ],
+    "procedure_source": "core/03-long-running-agents.md"
   },
   "graph-orchestration": {
     "title_en": "Graph orchestration (declared topology · typed state)",
@@ -517,7 +553,8 @@
       "Declare the control graph in prose",
       "Specify max rounds/edges/fan-in",
       "Record the topology before prompting"
-    ]
+    ],
+    "procedure_source": "core/03-long-running-agents.md"
   },
   "formal-verification": {
     "title_en": "Formal verification (machine-checked claims)",
@@ -546,7 +583,8 @@
       "State the property and axioms first",
       "Check every proof with the verifier",
       "Search for counterexamples"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "dimensional-analysis": {
     "title_en": "Dimensional & numerical discipline",
@@ -568,7 +606,8 @@
       "Check dimensional consistency",
       "Propagate uncertainty",
       "Report with units and uncertainty"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "empirical-measurement": {
     "title_en": "Empirical measurement & inference",
@@ -592,7 +631,8 @@
       "Declare the measurement framework",
       "Report effect size + interval + reliability",
       "Blind the scorer"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "statistical-inference": {
     "title_en": "Statistical inference (frame, convergence, interval)",
@@ -611,7 +651,8 @@
       "Declare the frame/model/priors",
       "Report convergence diagnostics",
       "Answer with an interval"
-    ]
+    ],
+    "procedure_source": "domains/statistics/README.md"
   },
   "certified-computation": {
     "title_en": "Certified computation (exact or independently re-derived)",
@@ -630,7 +671,8 @@
       "Compute with a certified method",
       "Never trust raw CAS output as proof",
       "Report the certificate"
-    ]
+    ],
+    "procedure_source": "domains/geometry-topology/README.md"
   },
   "ontology-as-contract": {
     "title_en": "Ontology as contract",
@@ -660,7 +702,8 @@
       "Map entities to schema types; reject untypeable",
       "Version the schema: additive diffs",
       "Reuse public vocabularies"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "entity-resolution": {
     "title_en": "Entity resolution with recorded aliases",
@@ -690,7 +733,8 @@
       "Match within blocks",
       "Cluster with an identity rule",
       "Route undecidable merges to human"
-    ]
+    ],
+    "procedure_source": "core/05-provenance-and-integrity.md"
   },
   "evidence-bounded-generation": {
     "title_en": "Evidence-bounded generation",
@@ -722,7 +766,8 @@
       "Every assertion carries a resolvable pointer",
       "Silence recorded as silence",
       "Claims bounded by what sources state"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "schema-evolution": {
     "title_en": "Versioned schema evolution",
@@ -751,7 +796,8 @@
       "Version the schema; additive diffs",
       "Validate existing data before migrating",
       "Log migration with rollback"
-    ]
+    ],
+    "procedure_source": "core/05-provenance-and-integrity.md"
   },
   "gap-seeking": {
     "title_en": "Self-model and gap-seeking",
@@ -767,7 +813,8 @@
       "Maintain a self-model with evidence",
       "Keep a gap register (mechanical + directional)",
       "One disconfirming check per round"
-    ]
+    ],
+    "procedure_source": "core/06-self-evolution.md"
   },
   "prose-polish": {
     "title_en": "Prose polish: write for the reader",
@@ -782,7 +829,8 @@
     "procedure": [
       "Fix the four searchable defects",
       "Readability score is a drift alarm, not a pass mark"
-    ]
+    ],
+    "procedure_source": "core/05-provenance-and-integrity.md"
   },
   "expression-design": {
     "title_en": "Expression design: choose the form before the words",
@@ -800,7 +848,8 @@
     "procedure": [
       "Choose the form before writing",
       "Form change may change what is checkable, never what is claimed"
-    ]
+    ],
+    "procedure_source": "core/05-provenance-and-integrity.md"
   },
   "component-ablation": {
     "title_en": "Component ablation: a module earns its place",
@@ -818,7 +867,8 @@
       "Ablate one unit at a time vs median",
       "Paired tests on performance AND cost",
       "Report a Pareto frontier"
-    ]
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
   },
   "model-portfolio-discipline": {
     "title_en": "Model portfolio: choose per stage, measure on your own task",
@@ -838,7 +888,8 @@
       "Record model id/version/tier (M4.17)",
       "Score on held-out set",
       "Same-tier comparison only"
-    ]
+    ],
+    "procedure_source": "domains/model-selection/README.md"
   },
   "research-question-generation": {
     "title_en": "Research-question generation (ideation with calibrated taste)",
@@ -859,7 +910,8 @@
       "Score novelty and feasibility separately",
       "Calibrate judge vs expert consensus",
       "Track dedup ratio"
-    ]
+    ],
+    "procedure_source": "core/03-long-running-agents.md"
   },
   "source-criticism": {
     "title_en": "Source criticism (historical method)",
@@ -877,7 +929,8 @@
       "Corroborate across witnesses",
       "Date every claim",
       "Record silence as evidence state"
-    ]
+    ],
+    "procedure_source": "domains/history/README.md"
   },
   "argument-reconstruction": {
     "title_en": "Argument reconstruction (philosophical method)",
@@ -894,7 +947,8 @@
       "Reconstruct in premise-conclusion form",
       "Declare your stance",
       "State the opponent strongly first"
-    ]
+    ],
+    "procedure_source": "domains/philosophy/README.md"
   },
   "concept-definition": {
     "title_en": "Concept-first case discipline (political-science method)",
@@ -911,7 +965,8 @@
       "Define concepts before selecting cases",
       "Declare the method",
       "Log case-selection rules"
-    ]
+    ],
+    "procedure_source": "domains/political-science/README.md"
   },
   "safety-argumentation": {
     "title_en": "Safety argumentation (AI-safety gate structure)",
@@ -928,6 +983,7 @@
       "State the property and threat model first",
       "Log red-team coverage",
       "Refusal != absence"
-    ]
+    ],
+    "procedure_source": "domains/ai-safety/README.md"
   }
 }

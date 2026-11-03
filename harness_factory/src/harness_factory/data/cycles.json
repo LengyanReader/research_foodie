@@ -1720,6 +1720,74 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P66",
+      "date": "2026-11-03",
+      "status": "done",
+      "title_en": "Wrap-up round: every P65 direction gets its last mile - self-model consumers, vocabulary-v2 three legs, playbook pointer resolution, procedure completion + provenance",
+      "title_zh": "收口轮：P65 五方向全部落地最后一公里——自我模型接消费者 · 词表 v2 三条腿 · 手册指针解析 · 程序补齐与溯源",
+      "note": "The 2026-11-03 capability-system assessment found P65's five directions half-landed (engine shipped, consumers/legs missing). P66 closes each with engine+data+guard+test and a live smoke: (1) self-model gained its consumers - the `self-model` CLI verb and full-update phase 7 (seven-phase chain) - and its fake fields were fixed (battery now reads battery.json, trace stats honor HARNESS_HOME); (2) trace vocabulary v2's four new events got all three legs - audit rules in trace-rules.json (grouped by detail.tool/preference/operation/task) + the AGENTS.md.tmpl contract naming required detail keys + rule tests; (3) the emitted Domain playbook line no longer dangles - general gets an honest fallback, real domains a path resolved against factory_root or the pointer.json fallback; (4) capability procedures went 41/43 to 43/43 (frontier-standard, cross-field-crew) and every procedure carries procedure_source backlinks (domain README or first-module core file, 3 overrides) rendered as '- source:' lines, with an existence guard + a resolution guard.",
+      "slices": [
+        "P66.1 - self-model: CLI verb + full-update phase 7 + battery/gap truth fix",
+        "P66.2 - vocabulary v2 legs: 4 audit rules + template contract + 19 rule tests",
+        "P66.3 - domain_playbook ctx var: general fallback / factory_root resolution",
+        "P66.4 - 43/43 procedures + procedure_source provenance + emission + guards"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P67",
+      "date": "2026-11-03",
+      "status": "done",
+      "title_en": "Registry metabolism: battery reconciles trials both ways (9/9), tie-break semantics pinned, evolution + CI simulations",
+      "title_zh": "注册表代谢：battery 双向对账（9/9）· 平票语义钉住 · 演化与 CI 模拟测试",
+      "note": "The P62 failure mode - trials ran, receipts existed, the registry never heard - became machinery: battery.json families carry trial_projects (SSOT binding to receipt project paths), battery.reconcile(board, traces) flags unregistered trials AND declared-without-receipts (paths normalized), validate_battery accepts non-scoreboard families only when feed-bound, and the two p62 families (reading-extraction 0.78/0.94, cron-parsing 0.727/1.0) were registered retroactively with the M5.13 gap acknowledged in-field: battery is 9/9. Docs corrected (BATTERY.md counts, assessment erratum block). Domain tie semantics pinned as a test (stable insertion-order sort) and the philosophy routing hole fixed honestly by compound signals (论证结构), not by exploiting the tie rule. Simulations: test_evolution_sim.py exercises every evolution.audit leg on synthetic registries incl. a zero-false-positive healthy case; the CI network job now asserts the feed flow actually collects (P59 lesson: assert the flow, do not eyeball the log).",
+      "slices": [
+        "P67.1 - battery.json 7->9 families + trial_projects on all nine",
+        "P67.2 - battery.reconcile both-direction diff + relaxed validate + mark_done date fix",
+        "P67.3 - docs errata: BATTERY.md counts + assessment 勘误 block",
+        "P67.4 - tie-break test + philosophy compound signals (2-1-1-1 win)",
+        "P67.5 - test_evolution_sim.py (12 tests) + CI collected>0 assertion"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 2,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P68",
+      "date": "2026-11-03",
+      "status": "done",
+      "title_en": "Beyond-harness tool ecosystem: primary-source scan of seven capability families, registered as the standing ai-tool-stack loop",
+      "title_zh": "harness 之外的工具生态：七能力族一手源扫描，注册为 ai-tool-stack 常转循环",
+      "note": "User directive: broadly/deeply find and integrate AI-era tools that directly strengthen LLM capability, with thorough simulation, as a mechanism that runs automatically every time. Delivered as a scan of seven families (memory layers, observability, code sandboxes, structured outputs, eval/red-team, gateways/local inference, guardrails) with EVERY claim resolved to a primary source (GitHub API metadata + official README/spec, accessed 2026-11-03): 13 entities registered in sources.json tools (mem0, graphiti, langfuse, otel-genai, e2b, instructor, outlines, promptfoo, litellm, vllm, nemo-guardrails, ms-graphrag + deepeval as an honest unverified lead), all 13 with pullable releases.atom feeds, under the new watchlist topic ai-tool-stack whose 8 queries drive LLM discovery every refresh. Three metabolism findings recorded with equal weight: MS GraphRAG self-declared maintenance mode (defunct-track, do-not-adopt), Mem0's headline benchmark scores are managed-platform numbers, LiteLLM/NeMo Guardrails licenses show NOASSERTION (intake gate fails until resolved). Sustainability uses zero new engine surface (M0.4): discover=refresh llm+feed, evaluate=intel+curate, register=evolve add_source proposals (human-gated M0.8), metabolize=stale_source/self-model coverage/cycle audit - the same seven-phase full-update loop. Survey: review/ai-tool-stack-scan-2026-11.md; standing family sheet: tool-router §4.1; guards: P68ToolEcosystemTest (6) + P68ToolStackSimTest (2).",
+      "slices": [
+        "P68.1 - primary-source scan of 7 families -> review/ai-tool-stack-scan-2026-11.md",
+        "P68.2 - 13 entities + ai-tool-stack topic registered in sources.json (all feed-pullable)",
+        "P68.3 - watchlist discovery topic (8 queries/18 keywords) -> auto-scan every full-update",
+        "P68.4 - tool-router §4.1 standing family + adoption-evidence rule (paired trial via P67 battery machinery)",
+        "P68.5 - guards + simulations (P68ToolEcosystemTest, P68ToolStackSimTest stale/healthy legs)"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 14,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -2112,6 +2180,33 @@
       "title_en": "Re-probe the meta-fair / aaif feed doors; find an honest carrier for ambition-and-agency",
       "reason": "ai.meta.com/blog/ and aaif.io answer 200 but publish no discoverable feed from this host (all candidate RSS paths 404); ambition-and-agency content (goal elevation, requirement refinement) has no tracked feed that genuinely carries it - force-wiring an unrelated entity would fake coverage",
       "revisit_when": "a weekday tick (arXiv live) plus a network path where those hosts expose feeds, or an outlet-map/tool-router round names a source that actually publishes ambition-and-agency content"
+    },
+    {
+      "id": "P68.R1",
+      "status": "deferred",
+      "cycle": "P68",
+      "source": "P68 scan - nine candidates surfaced as leads but not primary-verified within the round's budget",
+      "title_en": "Primary-verify DeepEval / Ragas / PydanticAI / BAML / XGrammar / Modal / Daytona / Arize Phoenix / LangSmith and intake per survey §3 format",
+      "reason": "the citations-lifeline rule bars half-verified rows: these appear in discovery leads but their license/activity/spec claims were not resolved to the producing repo this round, so they are queued for the standing ai-tool-stack scan rather than registered as facts (deepeval is the one pre-registered as an explicitly unverified lead so the feed pulls collect it)",
+      "revisit_when": "the next full-update's intel leg scores items on these entities, or an emitted harness needs an F4/F5 component and P68.R3's paired-trial protocol applies"
+    },
+    {
+      "id": "P68.R2",
+      "status": "deferred",
+      "cycle": "P68",
+      "source": "P68 GitHub API metadata 2026-11-03 - license shows NOASSERTION for BerriAI/litellm and NVIDIA-NeMo/Guardrails",
+      "title_en": "Resolve the LiteLLM and NeMo Guardrails license terms (intake gate §5 box)",
+      "reason": "both are high-value (gateway + guardrails) and actively pushed, but the tool-router quality gate fails on unresolved license/data terms - tracking their feeds is safe, adopting them into an emitted harness is not, until the actual LICENSE terms are read at source",
+      "revisit_when": "a derived harness wants a gateway or rails layer, or a refresh round's stale_source audit prompts a re-read"
+    },
+    {
+      "id": "P68.R3",
+      "status": "deferred",
+      "cycle": "P68",
+      "source": "P68 survey §5 + user directive '充分的模拟测试' - simulation pinned the loop, not yet the capability gain",
+      "title_en": "Pilot one structured-output (F4) and one OTel-genai telemetry (F2) integration in a derived harness, judged by a paired trial",
+      "reason": "registry membership is not adoption evidence: the honest claim is 'verified and tracked', while 'this tool strengthens a harness' requires the A-bare vs B-with-tool paired trial whose receipt project is then registered via battery.json trial_projects (the P67 metabolism machinery). Built for no consumer yet - M0.5 records the deferral rather than pre-wiring an engine path",
+      "revisit_when": "a real task family needs schema-valid step contracts or portable telemetry - candidate firsts: the cron-parsing family (F4 fits exactly) or the next deep-research trial (F2 fits the trace vocabulary)"
     }
   ]
 }

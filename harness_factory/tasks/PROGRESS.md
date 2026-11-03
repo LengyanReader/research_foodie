@@ -1,6 +1,34 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-02
+**Updated:** 2026-11-03
+
+## 2026-11-03 · P68：harness 外工具生态轮 —— 七能力族一手源扫描 · ai-tool-stack 常转循环
+
+- **用户指令。** 「凡可以加强提升大模型能力的 AI 时代工具，广泛深入探索发现并整合，完成充分模拟测试；把更新升级演化设为可持续机制，每次都自动运行。」
+- **调研。** 七族：记忆层 / 可观测 / 代码沙箱 / 结构输出 / 评测红队 / 网关与本地推理 / 护栏。**每条声明回一手源**（GitHub API 元数据 + 官方 README/规范页，访问 2026-11-03）；二手检索只作线索（引用即生命线）。
+- **入册。** `sources.json` tools +13 实体（mem0/graphiti/langfuse/otel-genai/e2b/instructor/outlines/promptfoo/litellm/vllm/nemo-guardrails/ms-graphrag + deepeval 明确标 unverified 线索），**13/13 带可拉 releases.atom feed**；新主题 **`ai-tool-stack`** 进 `topic_ids` + watchlist（8 查询/18 关键词）。直连验证：unknown-topic 实体 0、carriers 13、snapshot 缺口只剩 ambition-and-agency（P59.R1 既有刻意洞）。
+- **三条代谢事实（与正面发现同权登记）。** MS GraphRAG 自宣维护模式（`defunct-track`，勿作新依赖）；Mem0 榜单分（LoCoMo 92.5 等）属**托管平台**非 OSS SDK；LiteLLM/NeMo Guardrails 许可 **NOASSERTION**（入表门失败→P68.R2，只跟踪不采用）。
+- **可持续机制（零新发动机面，M0.4）。** discover=refresh llm+feed（主题查询每轮自动跑）→ evaluate=intel+curate → register=evolve add_source 提案（M0.8 人审）→ metabolize=stale_source/self-model/cycle audit——即七相 full-update 本身。`tool-router.md` 新增常转族 §4.1 + 采用证据规则（配对试验→battery `trial_projects`，P68.R3）。
+- **模拟测试。** `P68ToolEcosystemTest` 6 守卫（文档事实/注册/feed 可拉/watchlist/router 表/实时 snapshot）+ `P68ToolStackSimTest` 2 合成环（静默 feed→stale_source；健康接线→零假阳性零提案）。
+- **登记。** 交付 `review/ai-tool-stack-scan-2026-11.md`；cycles **P66/P67/P68** 三轮 + roadmap **P68.R1**（九条线索待一手核验：DeepEval/Ragas/PydanticAI/BAML/XGrammar/Modal/Daytona/Phoenix/LangSmith）**·R2**（许可）**·R3**（F4/F2 配对试验试点）。
+
+## 2026-11-03 · P67：注册表代谢轮 —— 试验与注册双向对账 · battery 9/9
+
+- **机件。** battery.json 九族全部带 `trial_projects`（SSOT 绑定收据工程路径）；`battery.reconcile()` 双向差集（跑了未登记 / 登记了无收据，路径反斜杠归一）；`validate_battery` 只放行带 feed 绑定的非计分板族；`mark_done` 日期 bug 修复。
+- **补账。** p62 两族追溯入册（reading-extraction 0.78→0.94 · cron-parsing 0.727→1.0，M5.13 缺口在字段内如实认领）：**battery 9/9**；真实轨迹对账两向皆空（tool home 24 条）。
+- **文档订正。** BATTERY.md 计数与七相环；评估文档加「勘误（P67）」块（9/9 vs 文内 7/7）。
+- **平票语义。** domain_scores 平票=注册表插入序稳定排序，`DomainTieBreakTest` 钉住；philosophy 路由洞用**复合信号**（"论证结构"）诚实修复（2-1-1-1 胜），不利用平票规则。
+- **模拟与 CI。** `test_evolution_sim.py` 12 测（每条 audit 腿 + 健康注册零假阳性）；CI 网络作业断言 `refresh collected > 0`（P59 教训：断言流程而非目测日志），离线 smoke 加 `self-model`。
+
+## 2026-11-03 · P66：收口轮 —— P65 五方向最后一公里
+
+- **① 自我模型接消费者。** `self-model` CLI 动词 + full-update 第 7 相（六→七相）；假字段修正（battery 读 battery.json、轨迹统计走 `config.home()` 认 HARNESS_HOME）。
+- **② 词表 v2 三条腿。** 4 新事件补全审计规则（按 detail.tool/preference/operation/task 分组）+ 模板合同（点名词表与必填键）+ 19 规则测。
+- **③ 手册指针不再悬空。** `{{ domain_playbook }}`：general 诚实兜底；真实域按 factory_root/pointer.json 解析（外部机测试钉 tmp factory_root）。
+- **④ 程序补齐与溯源。** procedures 41/43→**43/43**（frontier-standard · cross-field-crew）；43 条全部带 `procedure_source` 回链（域 README/首模块 core 文件，3 条 override），发射渲染 `- source:` 行；存在守卫 + 解析守卫。
+- **状态。** 全量 **477 测全过**（436→477）；`cycle audit` **64 轮 · 45 路线图项 · 0 硬 · 0 缺口**；catalog/capabilities/map 重生成。按默认指示 commit，不 push。
+
+---
 
 ## 阅读提取试验（P62 延伸）——第八族入册，harness 8/8
 

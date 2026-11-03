@@ -227,6 +227,7 @@ self-check: OK
 | `refresh-apply --accept …` | Human gate → proposal stubs. | 人工采纳候选。 |
 | `doctor` | Show resolved paths / config / LLM status. | 显示路径/配置/LLM 状态。 |
 | `self-update` | Refresh the tool's own catalog from defaults. | 从内置默认刷新自身目录。 |
+| `self-model [--json]` | The computed M5.11 self-model: live registry counts + the gap register (P65/P66). | 计算的自我模型：注册表现值 + 缺口台账。 |
 | `scoreboard` | Run the 7-task holdout: structural axes + per-task effect axis (P23/P24). | 跑 7 任务留出集：结构轴 + 每任务效果轴。 |
 | `battery [--next]` | The experiment registry: status / next pending trial spec (P53). | 实验注册表：状态 / 下一组待测试验的完整规格。 |
 | `classify --task …` | Intent inspection: the 8-axis vector + matched capabilities, no plan emitted (P55). | 意图检查：8 轴向量 + 命中能力，不落方案。 |

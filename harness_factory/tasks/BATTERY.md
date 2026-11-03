@@ -5,7 +5,7 @@
 > [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md)。它已入轮次完成定义
 > （`data/cycles.json` DoD 的软轴 **battery**）：触能力/模板/域信号的轮次必须报告重跑了哪些族、收据如何，或说明为何不适用。
 
-**Updated:** 2026-10-28 · **Owner:** 每 P 轮的执行者 · **收据流向:** tool home traces → trace-audit → 提案
+**Updated:** 2026-11-03 · **Owner:** 每 P 轮的执行者 · **收据流向:** tool home traces → trace-audit → 提案
 
 ## 1. When · 何时跑
 
@@ -14,13 +14,14 @@
 | 轮次的 added 块触及 **capabilities / templates / 域信号**（M5.10 契约） | 受影响任务族的配对试验（裸奔 vs harness），收据入轨迹 |
 | 发射模板或门禁文本变更 | 受影响族的 **B 条件回归**（harness 条件须保持满分——它就是模板的留出集） |
 | 每次真实任务收尾 | `harvest --event task_outcome`（含失败；M5.14）→ `collect` → `trace-audit` |
-| 周期性（随 refresh/full-update） | `harness scoreboard` + `trace-audit`（已入 full-update 六相环） |
+| 周期性（随 refresh/full-update） | `harness scoreboard` + `trace-audit`（已入 full-update 七相环，P66 起尾相为 self-model） |
 
-## 2. What · 试验组（七族，锚定前沿评测实践）
+## 2. What · 试验组（九族，锚定前沿评测实践）
 
-见 [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md) §1 总表。**注册表（P53）**：实验状态是数据——`data/battery.json`（七族 × 判据 × 尺度 × 状态 × 结果）；`harness battery` 看全局，`harness battery --next` 打印下一个待测族的完整 spec（任何 agent 会话据此**自行**执行并回写收据，完成后 `battery.mark_done` 翻状态）。当前 **6/7 已测**（deep-research 待跑）：lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 · bayesian-stats 0.2 vs 1.0 · kg-dh 0.0 vs 1.0（裸奔 vs harness，scale [0,1]）。历史设计：
+见 [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md) §1 总表。**注册表（P53）**：实验状态是数据——`data/battery.json`（族 × 判据 × 尺度 × 状态 × 结果 × 试验项目绑定）；`harness battery` 看全局，`harness battery --next` 打印下一个待测族的完整 spec（任何 agent 会话据此**自行**执行并回写收据，完成后 `battery.mark_done` 翻状态）。当前 **9/9 已测**：lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 · bayesian-stats 0.2 vs 1.0 · kg-dh 0.0 vs 1.0 · deep-research 0.4 vs 1.0 · reading-extraction 0.78 vs 0.94 · cron-parsing 0.727 vs 1.0（裸奔 vs harness，scale [0,1]）。
+**P67 代谢注记：** reading-extraction 与 cron-parsing 两族在 P62 已执行并留有双侧收据，但当时未入册——P67 追溯登记，并给全部九族绑定 `trial_projects`（试验项目 ↔ 注册表双向对账 `battery.reconcile`，守卫测试常驻）；两族的判据可见于收据（checks_total/defects）但未在跑前入册，M5.13 之缺口如实登记。历史设计：
 lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 ·
-bayesian-stats 0.2 vs 1.0（裸奔 vs harness，scale [0,1]）。待跑：deep-research、kg-dh。
+bayesian-stats 0.2 vs 1.0（裸奔 vs harness，scale [0,1]）。
 
 ## 3. How · 纪律（每一组都必须过）
 

@@ -998,8 +998,12 @@ class P53BatteryRegistryTest(unittest.TestCase):
         from harness_factory import battery
         self.assertEqual(battery.validate_battery(), [])
         board = battery.load_battery()
-        self.assertEqual(len(board["families"]), 7, "expected all seven scoreboard families")
+        # P67 metabolism: seven scoreboard families plus the two P62 trials
+        # (reading-extraction, cron-parsing) that ran with receipts but were
+        # never registered - the count moved 7 -> 9, retroactively.
+        self.assertEqual(len(board["families"]), 9, "expected all nine measured families")
         done = [f for f in board["families"] if f["status"] == "done"]
+        self.assertEqual(len(done), 9, "every registered family has both-condition receipts")
         for fam in done:
             self.assertIn("scale", fam) and self.assertIn("round", fam) and self.assertIn("results", fam)
 
@@ -1199,6 +1203,169 @@ class P63SimulationGuardTest(unittest.TestCase):
         p63 = next((c for c in d["cycles"] if c["id"] == "P63"), None)
         self.assertIsNotNone(p63, "P63 not registered")
         self.assertIn("5 proposals with correct counts", p63["note"], "simulation result not recorded")
+
+
+class P66WrapUpTest(unittest.TestCase):
+    """P66: the wrap-up round - every P65 direction gets its last mile."""
+
+    def test_self_model_has_consumers(self):
+        # M0.4: engine surface without a consumer is dead weight. P65 shipped
+        # self_model.py unconnected; P66 wired the CLI verb and the loop phase.
+        src = _read(HARNESS / "src/harness_factory/cli.py")
+        self.assertIn('"self-model"', src)
+        self.assertIn("_cmd_self_model", src)
+        fu = _read(HARNESS / "src/harness_factory/full_update.py")
+        self.assertIn('"self-model"', fu, "full-update does not run the self-model")
+
+    def test_self_model_cli_reports_the_live_registry(self):
+        import contextlib
+        import io
+
+        from harness_factory import cli
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = cli.main(["self-model"])
+        self.assertEqual(code, 0)
+        out = buf.getvalue()
+        self.assertIn("families done", out)
+        self.assertNotIn("all with effect_metric", out)  # the old constant line
+
+    def test_vocab_v2_template_contract_names_the_events(self):
+        tmpl = _read(HARNESS / "src/harness_factory/templates/AGENTS.md.tmpl")
+        for event in ("context_pressure", "tool_error", "human_preference", "latency_anomaly"):
+            self.assertIn(event, tmpl, f"template contract lost {event}")
+        for key in ("detail.tool", "detail.preference", "detail.operation"):
+            self.assertIn(key, tmpl, f"template contract lost {key}")
+
+    def test_playbook_line_no_longer_dangles(self):
+        tmpl = _read(HARNESS / "src/harness_factory/templates/AGENTS.md.tmpl")
+        self.assertNotIn("harness_factory/domains/{{ domain }}", tmpl,
+                         "hardcoded repo-relative playbook path is back")
+        self.assertIn("{{ domain_playbook }}", tmpl)
+
+    def test_p66_registered(self):
+        d = json.loads((HARNESS / "src/harness_factory/data/cycles.json")
+                       .read_text(encoding="utf-8"))
+        p66 = next((c for c in d["cycles"] if c["id"] == "P66"), None)
+        self.assertIsNotNone(p66, "P66 not registered")
+
+
+class P67RegistryMetabolismTest(unittest.TestCase):
+    """P67: the experiment registry metabolizes - executed paired trials and
+    registry rows reconcile in BOTH directions (the P62 failure: trials ran,
+    receipts existed, the registry never heard about it)."""
+
+    def test_battery_md_is_current(self):
+        bat = _read(HARNESS / "tasks/BATTERY.md")
+        self.assertIn("9/9", bat)
+        self.assertIn("trial_projects", bat)
+        self.assertNotIn("待跑：deep-research", bat, "stale pending list is back")
+
+    def test_assessment_carries_the_erratum(self):
+        doc = _read(HARNESS / "review/capability-system-assessment-2026-11.md")
+        self.assertIn("勘误（P67", doc, "the 9/9-vs-7/7 erratum was not filed")
+
+    def test_reconcile_flags_both_directions_simulated(self):
+        from harness_factory import battery, trace
+
+        lines = [
+            trace.make_trace("task_outcome", project="updates/dogfood/p99-mystery",
+                             task="mystery", harness="h",
+                             detail={"judge": "machine", "score": 1.0, "scale": [0, 1],
+                                     "condition": "A-bare"}),
+            trace.make_trace("task_outcome", project="updates/dogfood/p99-mystery",
+                             task="mystery", harness="h",
+                             detail={"judge": "machine", "score": 1.0, "scale": [0, 1],
+                                     "condition": "B-harness"}),
+        ]
+        board = {"families": [{"task_id": "lit-review",
+                               "trial_projects": ["updates/dogfood/p45-paired-trial"]}]}
+        rec = battery.reconcile(board, lines)
+        self.assertEqual(rec["unregistered_trials"], ["updates/dogfood/p99-mystery"])
+        self.assertEqual(rec["declared_without_receipts"], ["updates/dogfood/p45-paired-trial"])
+        # backslashes as the real traces record them must normalize to the same key
+        lines[0]["project"] = "updates\\dogfood\\p99-mystery"
+        rec = battery.reconcile(board, lines)
+        self.assertIn("updates/dogfood/p99-mystery", rec["unregistered_trials"])
+
+    def test_real_traces_reconcile_clean(self):
+        import os
+        from harness_factory import battery, config, trace
+
+        path = config.home() / trace.TRACES_REL
+        if not path.exists() and not os.environ.get("HARNESS_HOME"):
+            self.skipTest("no tool-home traces on this machine")
+        lines = trace.read_traces(path)
+        rec = battery.reconcile(traces_lines=lines)
+        self.assertEqual(rec["unregistered_trials"], [],
+                         "a paired trial ran without a registry row (P62's failure)")
+        self.assertEqual(rec["declared_without_receipts"], [],
+                         "a registry row names a trial the traces cannot show")
+
+
+class P68ToolEcosystemTest(unittest.TestCase):
+    """P68: the outside-harness AI tool stack is surveyed from primary sources and
+    wired into the standing loop - the scan must run itself every full-update
+    (discover via watchlist queries + feed pulls, evaluate, register, metabolize).
+    Pins the survey doc, the SSOT wiring, and the feed-pullability the loop needs."""
+
+    def test_survey_doc_carries_the_verified_facts(self):
+        doc = _read(HARNESS / "review/ai-tool-stack-scan-2026-11.md")
+        self.assertIsNotNone(doc, "the P68 survey doc is missing")
+        for token in ("2026-11-03", "maintenance mode", "NOASSERTION",
+                      "arXiv:2504.19413", "arXiv:2404.16130", "ai-tool-stack"):
+            self.assertIn(token, doc, f"survey lost the fact {token!r}")
+
+    def test_topic_registered_and_carried(self):
+        srcs = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                          .read_text(encoding="utf-8"))
+        self.assertIn("ai-tool-stack", srcs["topic_ids"], "topic not declared")
+        carriers = [e for e in srcs["groups"]["tools"]
+                    if "ai-tool-stack" in e.get("topics", [])]
+        self.assertGreaterEqual(len(carriers), 12,
+                                "the tool-stack scan result was un-registered")
+        ids = {e["id"] for e in carriers}
+        for eid in ("mem0", "graphiti", "langfuse", "otel-genai", "e2b",
+                    "instructor", "outlines", "promptfoo", "litellm", "vllm",
+                    "nemo-guardrails", "ms-graphrag"):
+            self.assertIn(eid, ids, f"verified tool {eid} missing from the registry")
+
+    def test_every_carrier_is_feed_pullable(self):
+        # The loop's discover leg pulls feeds; a carrier without one is a dead door
+        # for the feed provider (it would still be LLM-discoverable, but the
+        # deterministic half of the scan would silently skip it).
+        srcs = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                          .read_text(encoding="utf-8"))
+        for e in srcs["groups"]["tools"]:
+            if "ai-tool-stack" in e.get("topics", []):
+                self.assertTrue((e.get("feed") or "").startswith("https://"),
+                                f"{e['id']} carries the topic but no pullable feed")
+
+    def test_watchlist_topic_drives_discovery(self):
+        wl = json.loads((HARNESS / "src/harness_factory/data/watchlist.json")
+                        .read_text(encoding="utf-8"))
+        topic = next((t for t in wl["topics"] if t["id"] == "ai-tool-stack"), None)
+        self.assertIsNotNone(topic, "ai-tool-stack missing from the loop's watchlist")
+        self.assertTrue(topic.get("queries"), "queries empty - the LLM scan has no marching orders")
+        self.assertTrue(topic.get("keywords"), "keywords empty - relevance scoring has no signal")
+
+    def test_tool_router_sheet_names_the_family(self):
+        doc = _read(HARNESS / "reference/tool-router.md")
+        self.assertIn("ai-tool-stack", doc)
+        self.assertIn("4.1", doc, "the standing family section (§4.1) was removed")
+        self.assertIn("review/ai-tool-stack-scan-2026-11.md", doc,
+                      "the router sheet lost its pointer to the verified inventory")
+
+    def test_live_snapshot_covers_the_new_topic(self):
+        from harness_factory.evolution import iter_entities, snapshot
+
+        srcs = json.loads((HARNESS / "src/harness_factory/data/sources.json")
+                          .read_text(encoding="utf-8"))
+        wl = json.loads((HARNESS / "src/harness_factory/data/watchlist.json")
+                        .read_text(encoding="utf-8"))
+        m = snapshot(srcs, wl)
+        self.assertNotIn("ai-tool-stack", m["uncovered_topics"],
+                         "topic declared in the watchlist with no source carrying it")
 
 
 if __name__ == "__main__":

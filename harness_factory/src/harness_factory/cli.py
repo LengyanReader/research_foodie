@@ -256,6 +256,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     selfup_p.add_argument("--force", action="store_true", help="overwrite existing catalog files")
 
+    selfmod_p = sub.add_parser(
+        "self-model",
+        help="computed self-model (M5.11): live registry counts and the gap register",
+    )
+    selfmod_p.add_argument("--json", action="store_true", help="emit the full model as JSON")
+
     skill_p = sub.add_parser(
         "skill", help="print the agent load-index, or one module (agent-native entry)"
     )
@@ -1050,6 +1056,18 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     return 1 if home_err else 0
 
 
+def _cmd_self_model(args: argparse.Namespace) -> int:
+    """P66: the M5.11 self-model gets its consumer (was engine-only surface)."""
+    from . import self_model
+
+    model = self_model.generate()
+    if args.json:
+        print(json.dumps(model, ensure_ascii=False, indent=2))
+    else:
+        print(self_model.render(model))
+    return 0
+
+
 def _cmd_self_update(args: argparse.Namespace) -> int:
     from . import config
     from .journal import append_journal
@@ -1471,6 +1489,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_doctor(args)
     if args.command == "self-update":
         return _cmd_self_update(args)
+    if args.command == "self-model":
+        return _cmd_self_model(args)
     if args.command == "skill":
         return _cmd_skill(args)
     if args.command == "capabilities":

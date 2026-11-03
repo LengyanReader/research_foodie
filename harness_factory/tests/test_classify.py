@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from harness_factory.classify import classify
+from harness_factory.classify import classify, domain_scores
 from harness_factory.spec import TaskSpec
 
 
@@ -80,6 +80,36 @@ class ClassifyTest(unittest.TestCase):
 
     def test_grounding_stays_preferred_without_a_cue(self):
         self.assertNotEqual(classify(TaskSpec(text="bake a cake")).grounding, "required")
+
+
+class DomainTieBreakTest(unittest.TestCase):
+    """P67: the domain-score ordering is a documented contract, not an accident.
+
+    ``domain_scores`` sorts by score descending; TIES keep the registry's
+    insertion order (a stable sort - alphabetical re-routing would silently
+    move probe cases). The philosophy probe (the P64 assessment's precision
+    miss) is pinned here as the standing regression for signal specificity.
+    """
+
+    PROBE = "把关于认识论的论文论证结构整理成研究笔记"
+
+    def test_ties_are_stable_in_registry_order(self):
+        from harness_factory.registry import domains as _domains
+        scores = domain_scores(self.PROBE)
+        order = list(_domains())
+        # every equal-score run must follow the registry's insertion order
+        for i in range(len(scores) - 1):
+            (d1, s1), (d2, s2) = scores[i], scores[i + 1]
+            if s1 == s2:
+                self.assertLess(order.index(d1), order.index(d2),
+                                f"{d1} and {d2} tied but re-ordered")
+
+    def test_philosophy_probe_beats_generic_neighbours(self):
+        scores = domain_scores(self.PROBE)
+        self.assertEqual(scores[0][0], "philosophy")
+        self.assertGreater(scores[0][1], scores[1][1])  # not a tie anymore
+        feats = classify(TaskSpec(text=self.PROBE))
+        self.assertEqual(feats.domain, "philosophy")
 
 
 if __name__ == "__main__":

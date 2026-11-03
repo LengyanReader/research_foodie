@@ -38,6 +38,7 @@ jobs:
           python -m harness_factory --version
           python -m harness_factory sources --json > /dev/null
           python -m harness_factory evolve --dry-run
+          python -m harness_factory self-model --json > /dev/null
       - name: End-to-end emitted harness (init -> check -> gate -> harvest -> doctor)
         working-directory: harness_factory
         env:
@@ -68,7 +69,13 @@ jobs:
         working-directory: harness_factory
         env:
           PYTHONPATH: src
-        run: python -m harness_factory refresh --provider feed --verify --dry-run --max-items 30
+        shell: bash
+        run: |
+          python -m harness_factory refresh --provider feed --verify --dry-run --max-items 30 --json > refresh.json
+          # P67: the feed flow must actually collect - a silent zero across 200+
+          # tracked sources means the doors are dead (the P59 feed-health lesson:
+          # assert the flow, do not eyeball the log).
+          python -c "import json; s=json.load(open('refresh.json')); assert s['collected'] > 0, f'feed flow dead: {s}'; print('feed-flow OK: collected=', s['collected'])"
       - name: Intel from the same feeds
         working-directory: harness_factory
         env:

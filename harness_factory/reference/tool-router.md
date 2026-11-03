@@ -3,7 +3,7 @@
 > 工欲善其事，必先利其器。做任何一类任务之前，先查"这个任务族有哪些可用的器"：MCP 服务器、Agent Skills、数据 API、模型与仪器；按质量门评估；登记进 SSOT；之后持续更新、代谢（退役失效者）。
 > Before executing a task family, survey its tool ecosystem (MCP servers, Agent Skills, data APIs, instruments), score candidates through a quality gate, register them in the SSOT, then keep them fresh — the tooling analogue of the outlet/evidence maps.
 
-**Updated:** 2026-10-28 · Load via `harness skill tool-router`. Machine-readable truth: `data/harnesses.json` (class `skills-protocols`), `data/sources.json` (feeds + `outlets`), `data/watchlist.json` (discovery topics). Related: [`capability-router.md`](capability-router.md) (situation→capability), [`evidence-instruments.md`](evidence-instruments.md) (claim→instrument), [`outlet-map.md`](outlet-map.md) (field→information outlet).
+**Updated:** 2026-11-03 (P68: §4.1 AI 工具栈 standing family + `ai-tool-stack` discovery topic) · Load via `harness skill tool-router`. Machine-readable truth: `data/harnesses.json` (class `skills-protocols`), `data/sources.json` (feeds + `outlets`), `data/watchlist.json` (discovery topics). Related: [`capability-router.md`](capability-router.md) (situation→capability), [`evidence-instruments.md`](evidence-instruments.md) (claim→instrument), [`outlet-map.md`](outlet-map.md) (field→information outlet).
 
 ---
 
@@ -62,7 +62,22 @@ A full instantiation of §1–§2 for one task family. Swap the rows; keep the c
 
 ## 4. Other task families · 开新表模板
 
-Rows for coding/web-automation/data-analysis tooling should be added the same way — one table per family, each door probed with a date, each count directional. The capability layer already routes *when to use tools* (`capability-router`: `tool-use`, `sandboxed-execution`, `portable-skills`, `untrusted-content-discipline`); this file answers *which tools exist and are trustworthy right now*. Seed candidates per family come from watchlist topics (`mcp-skills-ecosystem`, `classical-texts-dh`) — discovery is wired into the update loop, not manual.
+Rows for coding/web-automation/data-analysis tooling should be added the same way — one table per family, each door probed with a date, each count directional. The capability layer already routes *when to use tools* (`capability-router`: `tool-use`, `sandboxed-execution`, `portable-skills`, `untrusted-content-discipline`); this file answers *which tools exist and are trustworthy right now*. Seed candidates per family come from watchlist topics (`mcp-skills-ecosystem`, `classical-texts-dh`, `ai-tool-stack`) — discovery is wired into the update loop, not manual.
+
+### 4.1 AI 工具栈 · The outside-harness component stack (task family #2, P68)
+
+The standing scan for **capability-adding tools the harness can use but must not pretend it built**: memory layers, observability, code sandboxes, structured outputs, eval/red-team runners, gateways/local inference, guardrails. Full verified inventory with licenses, activity dates and *not-for* columns: [`review/ai-tool-stack-scan-2026-11.md`](../review/ai-tool-stack-scan-2026-11.md) (as of 2026-11-03). Registered in `sources.json` group `tools` under topic `ai-tool-stack` — 13 entities, every one with a pullable `releases.atom` feed.
+
+The loop is the mechanism, not this table (每次自动运行):
+
+| Step | Auto-runner | Human gate |
+|---|---|---|
+| Discover | `refresh --provider llm` runs the `ai-tool-stack` queries every round; `--provider feed` pulls the 13 registered releases feeds | — |
+| Evaluate | relevance scoring (`intel`) + intake gate §5 against primary sources | candidate queue (`curate`) |
+| Register | accepted candidates surface as `add_source`/`untracked_source` proposals from `evolve` | **M0.8 — proposals are never auto-applied** |
+| Metabolize | `evolve` flags stale/uncovered topics; `self-model` re-measures coverage; `cycle audit` catches drift; defunct entries retire in place (`defunct-track`, GraphRAG first instance) | errata recorded in the survey doc |
+
+Adoption evidence rule: a tool enters an emitted harness only after a **paired trial** (A-bare vs B-with-tool) whose receipt project is registered in `battery.json` `trial_projects` (P67 metabolism) — pilot queued as roadmap **P68.R3**.
 
 ## 5. Intake quality gate · 入表质量门
 

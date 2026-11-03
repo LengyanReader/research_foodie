@@ -1,6 +1,6 @@
 {
   "updated": "2026-11-03",
-  "note": "Rules auditor for D1 stage B (P25): turns recorded traces into mutation proposals. Each rule names the trace event, the pattern (grouping keys + min count), the proposed mutation (M5.3 vocabulary) and the target. The auditor only proposes (updates/traces-proposals.jsonl + TRACE-EVOLUTION.md) - never touches data|core|domains|templates (M0.4/M0.8). Patterns come from the D1 design doc §3; the low-outcome rule is the P24 effect axis feeding back. 'score_max' rules fire only on numeric scores; grade strings are human territory. P45.R1: task_outcome receipts may declare detail.scale ([lo, hi]); scaled receipts are compared by normalized score (low_max_normalized), unscaled ones keep the legacy raw score_max check.",
+  "note": "Rules auditor for D1 stage B (P25): turns recorded traces into mutation proposals. Each rule names the trace event, the pattern (grouping keys + min count), the proposed mutation (M5.3 vocabulary) and the target. The auditor only proposes (updates/traces-proposals.jsonl + TRACE-EVOLUTION.md) - never touches data|core|domains|templates (M0.4/M0.8). Patterns come from the D1 design doc §3; the low-outcome rule is the P24 effect axis feeding back. 'score_max' rules fire only on numeric scores; grade strings are human territory. P45.R1: task_outcome receipts may declare detail.scale ([lo, hi]); scaled receipts are compared by normalized score (low_max_normalized), unscaled ones keep the legacy raw score_max check. P66: the vocabulary-v2 events (context_pressure, tool_error, human_preference, latency_anomaly) each carry an audit rule - an event without a rule is a sensor nothing reads.",
   "rules": [
     {
       "id": "gate-miss-repeat",
@@ -48,6 +48,42 @@
       "target": "the harness of the task family named by detail.task",
       "why": "P24's effect axis feeding back: two measured low outcomes on the same task family is evidence the emitted harness does not achieve its effect, not just that its structure is wrong. P45.R1: receipts that declare detail.scale ([lo, hi]) are compared by their NORMALIZED score (low_max_normalized); scale-less receipts fall back to the raw score_max check - a known ambiguity, so declaring the scale is the fix (an M3.19 outcome-validity point on the effect axis itself). P62: receipts whose detail.condition contains 'bare' are excluded from grouping entirely - the bare condition is the control arm (M5.12's paired design), not a harness defect.",
       "low_max_normalized": 0.4
+    },
+    {
+      "id": "context-pressure-repeat",
+      "event": "context_pressure",
+      "group_by": "task",
+      "min_count": 3,
+      "mutation": "Deepen",
+      "target": "the context-budget policy (M1.10 eviction/re-injection) of the task named by task",
+      "why": "P66 vocabulary-v2 rule: three or more pressure receipts on the same task say the budget line as configured is wrong - what gets evicted and re-injected is a design decision, not a model-size fact. The clause to deepen is the one that chose the budget."
+    },
+    {
+      "id": "tool-error-repeat",
+      "event": "tool_error",
+      "group_by": "detail.tool",
+      "min_count": 3,
+      "mutation": "Register",
+      "target": "a tool-router verdict (quality-gate entry or demotion) for the tool named by detail.tool",
+      "why": "P66 vocabulary-v2 rule: an external tool failing three or more times is a fact about the tool's intake metabolism - the tool-router registry (reference/tool-router.md) must own an explicit verdict row, because an unowned tool keeps failing silently."
+    },
+    {
+      "id": "human-preference-repeat",
+      "event": "human_preference",
+      "group_by": "detail.preference",
+      "min_count": 2,
+      "mutation": "Promote",
+      "target": "the preference named by detail.preference into a standing rule or harness default",
+      "why": "P66 vocabulary-v2 rule: a preference voiced twice without a correction attached is a standing directive, not a one-off taste (the standing-reference mechanism, P33); leaving it in session memory loses it at compaction (M1.11)."
+    },
+    {
+      "id": "latency-anomaly-repeat",
+      "event": "latency_anomaly",
+      "group_by": "detail.operation",
+      "min_count": 3,
+      "mutation": "Deepen",
+      "target": "the M2.13 budget line for the operation named by detail.operation",
+      "why": "P66 vocabulary-v2 rule: three or more anomalies on the same operation mean its budget line is unenforceable - deepen the clause to carry a checkable ceiling (or route the operation to a cheaper implementation), instead of re-litigating each spike."
     }
   ]
 }

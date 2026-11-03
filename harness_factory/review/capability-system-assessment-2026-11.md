@@ -8,6 +8,12 @@
 
 **Updated:** 2026-11-02 · **Method:** 实测探测 + 结构审计 + 60 轮回溯
 
+> **勘误（P67, 2026-11-03）.** §1 "实验电池 9 族 9/9" 写作时与 SSOT 不符：当日 `data/battery.json` 仅登记 7 族
+> （P62 的 reading-extraction 与 cron-parsing 两族已执行、双侧收据在轨迹，但未入册；P62-ext 提交信息称 8/8，
+> 亦与注册表不符）。7 族当时的账面为 7/7 全胜。P67 追溯登记两族并为全族绑定 `trial_projects` 后，九族 9/9
+> 方为事实（现值见 `battery.json` 与 `tasks/BATTERY.md`）。此差异正是 P67 注册表代谢轮立轮的根据：
+> **文档陈述须经注册表守卫才可入册**（新增双向对账 `battery.reconcile` + 守卫测试）。
+
 ## 1. What works · 已验证的能力面
 
 | 面板 | 证据 |

@@ -168,5 +168,67 @@ class AuditRulesTest(unittest.TestCase):
                          ["TRACE-EVOLUTION.md", "traces-proposals.jsonl", "traces.jsonl"])
 
 
+class VocabularyV2RulesTest(unittest.TestCase):
+    """P66, third leg of the vocabulary-v2 contract: every event the trace
+    vocabulary accepts, an audit rule must read (a sensor nothing reads is
+    dead weight). Simulated receipts - no real trace data touched."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def _proposals(self, by_rule=None):
+        proposals = trace_audit.audit(self.tmp)
+        if by_rule:
+            return [p for p in proposals if p["rule"] == by_rule]
+        return proposals
+
+    def test_every_v2_event_has_an_audit_rule(self):
+        ruled = {r["event"] for r in trace_audit.load_rules()}
+        for event in ("context_pressure", "tool_error", "human_preference", "latency_anomaly"):
+            self.assertIn(event, ruled)
+
+    def test_context_pressure_repeat_fires_and_below_is_silent(self):
+        _write(self.tmp, [
+            trace.make_trace("context_pressure", project=f"p{i}", task="kg-build", harness="h",
+                             detail={"tokens_used": 180_000}) for i in range(3)])
+        self.assertEqual(len(self._proposals("context-pressure-repeat")), 1)
+        p = self._proposals("context-pressure-repeat")[0]
+        self.assertEqual(p["group"], "kg-build")
+        self.assertEqual(p["mutation"], "Deepen")
+
+    def test_tool_error_repeat_groups_by_tool(self):
+        _write(self.tmp, [
+            trace.make_trace("tool_error", project="p", task=f"t{i}", harness="h",
+                             detail={"tool": "cron-parser", "error": "ValueError"}) for i in range(3)])
+        proposals = self._proposals("tool-error-repeat")
+        self.assertEqual(len(proposals), 1)
+        self.assertEqual(proposals[0]["group"], "cron-parser")
+        self.assertEqual(proposals[0]["mutation"], "Register")
+
+    def test_human_preference_repeat_promotes_standing_directives(self):
+        _write(self.tmp, [
+            trace.make_trace("human_preference", project=f"p{i}", task="t", harness="h",
+                             detail={"preference": "answer in Chinese first"}) for i in range(2)])
+        proposals = self._proposals("human-preference-repeat")
+        self.assertEqual(len(proposals), 1)
+        self.assertEqual(proposals[0]["mutation"], "Promote")
+        self.assertEqual(proposals[0]["count"], 2)
+
+    def test_latency_anomaly_repeat_fires_per_operation(self):
+        _write(self.tmp, [
+            trace.make_trace("latency_anomaly", project=f"p{i}", task="t", harness="h",
+                             detail={"operation": "catalog-embed", "ms": 9000}) for i in range(3)])
+        self.assertEqual(len(self._proposals("latency-anomaly-repeat")), 1)
+
+    def test_v2_receipts_without_detail_keys_read_as_nothing(self):
+        # tool_error groups by detail.tool: a receipt without it cannot be
+        # attributed to a tool, so it must stay below the rules (the template
+        # contract names the required detail keys for exactly this reason).
+        _write(self.tmp, [
+            trace.make_trace("tool_error", project=f"p{i}", task="t", harness="h",
+                             detail={"error": "boom"}) for i in range(5)])
+        self.assertEqual(self._proposals("tool-error-repeat"), [])
+
+
 if __name__ == "__main__":
     unittest.main()

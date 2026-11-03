@@ -2,7 +2,7 @@
 
 ``harness full-update`` chains every proposal-only half-ring the factory has:
 intel (network, skippable) -> probe-domains -> trace-audit -> evolve ->
-cycle audit -> scoreboard, then writes one bilingual report
+cycle audit -> scoreboard -> self-model, then writes one bilingual report
 ``updates/FULL-UPDATE.md``. Every phase is failure-isolated: a failing phase
 reports its error and the rest still run (a phase that fails silently would
 fake completeness - M0.3). Nothing here mutates the SSOT; every output is a
@@ -125,6 +125,24 @@ def run_full_update(
         return {"overall": round(overall, 4), "n_tasks": len(reports)}
 
     _phase(report, "scoreboard", _sb)
+
+    # 7. self-model - the computed mirror of the registry (P66: M5.11 gets its
+    # consumer in the loop; observe-only, it asserts nothing but what the SSOT says)
+    from . import self_model
+
+    def _self() -> dict[str, Any]:
+        model = self_model.generate()
+        gaps = model["gaps"]
+        return {
+            "capabilities": model["capabilities"]["total"],
+            "battery": f"{model['battery']['done']}/{model['battery']['families']}",
+            "traces": model["traces"]["total"],
+            "gap_domains": len(gaps["domains_without_capability"]),
+            "gap_procedures": len(gaps["caps_without_procedure"]),
+            "gap_topics": gaps["uncovered_topics"],
+        }
+
+    _phase(report, "self-model", _self)
 
     write_report(root, report)
     return report

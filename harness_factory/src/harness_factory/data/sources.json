@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-02",
-  "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`.",
+  "updated": "2026-11-03",
+  "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`. P68: the `tools` group gained the verified outside-harness tool stack (topic `ai-tool-stack`, survey `review/ai-tool-stack-scan-2026-11.md`).",
   "topic_ids": [
     "agent-harness",
     "self-evolving-agents",
@@ -36,7 +36,8 @@
     "cognitive-science",
     "mcp-skills-ecosystem",
     "classical-texts-dh",
-    "scholarly-discovery"
+    "scholarly-discovery",
+    "ai-tool-stack"
   ],
   "groups": {
     "projects": [
@@ -2100,6 +2101,216 @@
           "report"
         ],
         "why": "Deep-research report benchmark."
+      },
+      {
+        "id": "mem0",
+        "name": "Mem0",
+        "kind": "repo",
+        "url": "https://github.com/mem0ai/mem0",
+        "feed": "https://github.com/mem0ai/mem0/releases.atom",
+        "topics": [
+          "agent-memory",
+          "ai-tool-stack"
+        ],
+        "tags": [
+          "memory-layer",
+          "apache-2.0"
+        ],
+        "why": "Drop-in agent memory layer (Apache-2.0, arXiv:2504.19413; paper id from the repo's own citation block). Verified 2026-11-03: README scopes the LoCoMo 92.5 / LongMemEval 94.4 headline scores to the managed PLATFORM, not the OSS SDK - treat those numbers as directional. Not for: verifiable per-token cost claims; hosted platform is metered."
+      },
+      {
+        "id": "graphiti",
+        "name": "Graphiti (Zep)",
+        "kind": "repo",
+        "url": "https://github.com/getzep/graphiti",
+        "feed": "https://github.com/getzep/graphiti/releases.atom",
+        "topics": [
+          "agent-memory",
+          "ai-tool-stack"
+        ],
+        "tags": [
+          "temporal-knowledge-graph",
+          "apache-2.0"
+        ],
+        "why": "Temporal context graphs: facts carry validity windows, every derived fact traces to episodes (raw source data) - same provenance discipline as M5. Verified 2026-11-03 via GitHub API: Apache-2.0, pushed 2026-11-01, 32,455 stars. Not for: a managed service - that is Zep/Konig (README split)."
+      },
+      {
+        "id": "langfuse",
+        "name": "Langfuse",
+        "kind": "repo",
+        "url": "https://github.com/langfuse/langfuse",
+        "feed": "https://github.com/langfuse/langfuse/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "observability",
+          "otel",
+          "mit-core"
+        ],
+        "why": "Self-hostable LLM trace/eval platform; MIT core, ee/ folders excluded (README, 2026-11-03); OTel-based ingestion is the interop door. Not for: audit itself - traces are exposure, gates stay ours (M6.11)."
+      },
+      {
+        "id": "otel-genai",
+        "name": "OpenTelemetry GenAI semantic conventions",
+        "kind": "repo",
+        "url": "https://github.com/open-telemetry/semantic-conventions-genai",
+        "feed": "https://github.com/open-telemetry/semantic-conventions-genai/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "provenance-integrity"
+        ],
+        "tags": [
+          "standard",
+          "observability"
+        ],
+        "why": "Vendor-neutral spans/metrics/events conventions for GenAI clients AND MCP (README, 2026-11-03) - the contract our traces could emit toward without lock-in. Not for: collection/storage - conventions need a backend."
+      },
+      {
+        "id": "e2b",
+        "name": "E2B",
+        "kind": "repo",
+        "url": "https://github.com/e2b-dev/E2B",
+        "feed": "https://github.com/e2b-dev/E2B/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "agent-skills-tools"
+        ],
+        "tags": [
+          "sandbox",
+          "apache-2.0",
+          "metered"
+        ],
+        "why": "Open-source SDK for cloud code-execution sandboxes (Apache-2.0, pushed 2026-11-02 per GitHub API). The isolation guarantee is a backend claim (M6.11); hosted compute is metered - cost cap before unattended runs."
+      },
+      {
+        "id": "instructor",
+        "name": "Instructor",
+        "kind": "repo",
+        "url": "https://github.com/567-labs/instructor",
+        "feed": "https://github.com/567-labs/instructor/releases.atom",
+        "topics": [
+          "ai-tool-stack"
+        ],
+        "tags": [
+          "structured-output",
+          "mit"
+        ],
+        "why": "Pydantic-validated extraction with auto-retry across providers incl. ollama/* local (README, MIT, 2026-11-03). Download/star counts are README self-claims - directional. Not for: agent runtimes (README routes those to PydanticAI)."
+      },
+      {
+        "id": "outlines",
+        "name": "Outlines",
+        "kind": "repo",
+        "url": "https://github.com/dottxt-ai/outlines",
+        "feed": "https://github.com/dottxt-ai/outlines/releases.atom",
+        "topics": [
+          "ai-tool-stack"
+        ],
+        "tags": [
+          "structured-output",
+          "constrained-generation"
+        ],
+        "why": "Constrained generation to JSON schema/regex/CFG - structural validity by construction, complements Instructor's retry-based validation (Apache-2.0 per GitHub API 2026-11-03). Cadence slower since 2026-09-21 push; enterprise libraries sold separately (README)."
+      },
+      {
+        "id": "promptfoo",
+        "name": "promptfoo",
+        "kind": "repo",
+        "url": "https://github.com/promptfoo/promptfoo",
+        "feed": "https://github.com/promptfoo/promptfoo/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "red-teaming",
+          "mit",
+          "ci"
+        ],
+        "why": "Declarative prompt/agent/RAG tests + red-team scans with CLI/CI integration (MIT, pushed 2026-11-03 per GitHub API) - nearest external instrument to our `gate`. Not for: proof of capability - paired trials stay the standard of evidence."
+      },
+      {
+        "id": "litellm",
+        "name": "LiteLLM",
+        "kind": "repo",
+        "url": "https://github.com/BerriAI/litellm",
+        "feed": "https://github.com/BerriAI/litellm/releases.atom",
+        "topics": [
+          "ai-tool-stack"
+        ],
+        "tags": [
+          "gateway",
+          "cost-tracking",
+          "license-check"
+        ],
+        "why": "AI gateway: 100+ providers behind OpenAI-format API with cost tracking/guardrails (fits the cost-sensitive default). License shows NOASSERTION via GitHub API 2026-11-03 - intake gate §5 fails until terms are read (roadmap P68.R2). Proxy = new trusted surface (key custody)."
+      },
+      {
+        "id": "vllm",
+        "name": "vLLM",
+        "kind": "repo",
+        "url": "https://github.com/vllm-project/vllm",
+        "feed": "https://github.com/vllm-project/vllm/releases.atom",
+        "topics": [
+          "ai-tool-stack"
+        ],
+        "tags": [
+          "inference",
+          "apache-2.0",
+          "self-hosted"
+        ],
+        "why": "High-throughput LLM serving engine for local/remote-GPU deployment - the self-hosted leg of the M3/M7 cost gate (Apache-2.0, pushed 2026-11-03 per GitHub API). Not for: CPU-only laptops - needs GPU access."
+      },
+      {
+        "id": "nemo-guardrails",
+        "name": "NeMo Guardrails",
+        "kind": "repo",
+        "url": "https://github.com/NVIDIA-NeMo/Guardrails",
+        "feed": "https://github.com/NVIDIA-NeMo/Guardrails/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "guardrails",
+          "license-check"
+        ],
+        "why": "Programmable dialog/topic/safety/jailbreak rails as pre-gates (pushed 2026-11-03 per GitHub API). License shows NOASSERTION - verify terms before adoption (P68.R2). Rails are advisory, not a sandbox."
+      },
+      {
+        "id": "ms-graphrag",
+        "name": "Microsoft GraphRAG",
+        "kind": "repo",
+        "url": "https://github.com/microsoft/graphrag",
+        "feed": "https://github.com/microsoft/graphrag/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "retrieval-grounding"
+        ],
+        "tags": [
+          "retrieval",
+          "defunct-track"
+        ],
+        "why": "Community-summarized graph retrieval methodology (arXiv:2404.16130); README warns 2026-11-03 it is 'largely in maintenance mode, won't be accepting new PRs' - track the pattern, do NOT adopt as a new dependency; Graphiti is the active temporal-graph alternative. Indexing is LLM-expensive (README's own warning)."
+      },
+      {
+        "id": "deepeval",
+        "name": "DeepEval",
+        "kind": "repo",
+        "url": "https://github.com/confident-ai/deepeval",
+        "feed": "https://github.com/confident-ai/deepeval/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "unverified"
+        ],
+        "why": "Discovery lead from P68 searches (confident-ai/deepeval); NOT yet primary-verified this round - feed registered so the standing scan collects it, license/activity to be confirmed before any adoption claim (roadmap P68.R1)."
       }
     ],
     "outlets": [

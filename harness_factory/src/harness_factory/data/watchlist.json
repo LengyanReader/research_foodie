@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-11-03",
   "cadence": "weekly",
-  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery.",
+  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt.",
   "topics": [
     {
       "id": "agent-harness",
@@ -74,6 +74,12 @@
       "name_zh": "古籍整理数字人文工具",
       "queries": ["CBETA CBDB ctext API digital humanities classical Chinese", "classical Chinese OCR ancient books digitization model", "SikuBERT ancient text NER segmentation", "buddhist canon linked open data BDRC"],
       "keywords": ["classical chinese", "古籍", "digital humanities", "cbeta", "cbdb", "ctext", "TEI", "pretraining", "ancient books", "collation", "句读", "断句"]
+    },
+    {
+      "id": "ai-tool-stack",
+      "name_zh": "AI 工具栈（harness 外组件工具）",
+      "queries": ["new agent memory layer open source release 2026", "LLM observability OpenTelemetry GenAI conventions adoption", "agent code execution sandbox release E2B Modal Daytona", "structured output generation library release constrained decoding", "LLM evaluation red teaming framework release promptfoo deepeval ragas", "AI gateway model routing litellm release", "open source LLM inference engine vllm sglang llama.cpp release", "LLM guardrails toolkit jailbreak defense release"],
+      "keywords": ["memory layer", "temporal knowledge graph", "observability", "opentelemetry", "genai conventions", "sandbox", "code execution", "structured output", "constrained generation", "pydantic", "eval harness", "red teaming", "gateway", "model routing", "inference engine", "guardrails", "apache-2.0", "release"]
     }
   ],
   "frontier_probes": [

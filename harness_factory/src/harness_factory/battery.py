@@ -1,8 +1,9 @@
 """The experiment registry (P53): the battery as data, so any agent session can
 pick up, execute, and record the next trial without being told which one.
 
-Self-experimentation, mechanically: ``data/battery.json`` holds the seven
-scoreboard families with pre-declared judge checks (M5.13), declared scales
+Self-experimentation, mechanically: ``data/battery.json`` holds the measured
+task families (the scoreboard set plus bound extra families, P67) with
+pre-declared judge checks (M5.13), declared scales
 (P47), grounding practice, and status. ``harness battery`` lists the state;
 ``harness battery --next`` prints the full spec of the next pending family for
 an agent to execute; receipts flow back as scaled traces (M5.14 pool) and the
@@ -13,6 +14,7 @@ one: the spec, the criteria, and the report format are all in the data.
 
 from __future__ import annotations
 
+import datetime as _dt
 import json
 from functools import lru_cache
 from pathlib import Path
@@ -56,8 +58,21 @@ def validate_battery(board: dict[str, Any] | None = None) -> list[str]:
         if tid in seen:
             problems.append(f"duplicate family {tid!r}")
         seen.add(tid)
+        # P67: families beyond the scoreboard set are allowed only when bound
+        # to their receipts' home trial projects (trial_projects) - the
+        # registry<->traces reconciliation that the cron-parsing and
+        # reading-extraction trials showed was missing.
+        tps = fam.get("trial_projects")
         if scoreboard_ids is not None and tid not in scoreboard_ids:
-            problems.append(f"{tid}: not a scoreboard task id")
+            if not tps:
+                problems.append(f"{tid}: not a scoreboard task id and not bound to trial_projects")
+        if tps is not None:
+            if not (isinstance(tps, list) and all(isinstance(p, str) and p for p in tps)):
+                problems.append(f"{tid}: trial_projects must be a list of project paths")
+            else:
+                for p in tps:
+                    if not _norm_path(p).startswith("updates/dogfood"):
+                        problems.append(f"{tid}: trial project {p!r} outside updates/dogfood")
         status = fam.get("status")
         if status not in ("done", "pending"):
             problems.append(f"{tid}: status must be done|pending, got {status!r}")
@@ -89,6 +104,45 @@ def next_pending(board: dict[str, Any] | None = None) -> dict[str, Any] | None:
     return None
 
 
+def _norm_path(p: str) -> str:
+    return p.replace("\\", "/").strip("/").lower()
+
+
+def paired_projects(traces_lines: list[dict[str, Any]]) -> set[str]:
+    """Projects whose task_outcome receipts cover BOTH conditions (a trial ran)."""
+    conds: dict[str, set[str]] = {}
+    for line in traces_lines:
+        if line.get("event") != "task_outcome":
+            continue
+        cond = (line.get("detail") or {}).get("condition")
+        if cond:
+            conds.setdefault(_norm_path(line.get("project", "")), set()).add(cond)
+    return {p for p, c in conds.items() if {"A-bare", "B-harness"} <= c}
+
+
+def reconcile(board: dict[str, Any] | None = None,
+              traces_lines: list[dict[str, Any]] | None = None) -> dict[str, list[str]]:
+    """Bidirectional registry<->receipts metabolism (P67).
+
+    ``unregistered_trials``: paired receipts whose project is bound to no
+    family - an experiment that ran but was never filed (the P62 failure mode:
+    cron-parsing and reading-extraction executed with receipts, no registry
+    row). ``declared_without_receipts``: registered trial projects with no
+    paired receipts - a row claiming a run that the traces cannot show.
+    Observe-only: it lists facts, a human decides what to register (M0.4/M0.8).
+    """
+    board = board or load_battery()
+    declared: set[str] = set()
+    for fam in board.get("families") or []:
+        for proj in fam.get("trial_projects") or []:
+            declared.add(_norm_path(proj))
+    paired = paired_projects(traces_lines or [])
+    return {
+        "unregistered_trials": sorted(paired - declared),
+        "declared_without_receipts": sorted(declared - paired),
+    }
+
+
 def mark_done(task_id: str, results: dict[str, float], round_id: str,
               board_path: Path | None = None) -> None:
     """Flip a family to done after both receipts are recorded (caller harvests
@@ -101,7 +155,7 @@ def mark_done(task_id: str, results: dict[str, float], round_id: str,
     fam["status"] = "done"
     fam["results"] = dict(results)
     fam["round"] = round_id
-    board["updated"] = "2026-10-28"
+    board["updated"] = _dt.date.today().isoformat()  # was hardcoded 2026-10-28 (P66)
     Path(path).write_text(json.dumps(board, ensure_ascii=False, indent=2) + "\n",
                           encoding="utf-8", newline="\n")
 
