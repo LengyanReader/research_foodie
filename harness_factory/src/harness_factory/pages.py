@@ -38,6 +38,7 @@ from pathlib import Path
 from typing import Any
 
 from . import trend
+from .md2html import convert, render_page
 
 OUT_REL = "docs/index.html"
 NOJEKYLL_REL = "docs/.nojekyll"
@@ -105,7 +106,6 @@ def _load_toolstack() -> list[dict[str, Any]]:
 def collect() -> dict[str, Any]:
     """Assemble every figure the page shows, from the SSOT + committed snapshot."""
     from . import self_model
-
     model = self_model.generate()
 
     # P65-ext: paired-trial results, clause distribution, trace events
@@ -154,6 +154,31 @@ def collect() -> dict[str, Any]:
         "trace_events": trace_events,
         "trace_total": trace_total,
     }
+
+
+
+def generate_doc_pages(docs_dir: Path) -> list[Path]:
+    """Render ARTICLES' markdown sources into standalone HTML pages (P65-ext).
+
+    Each article gets a styled HTML page with nav back to the dashboard.
+    Returns the list of generated file paths."""
+    from .md2html import convert, render_page
+    generated = []
+    nav = [("← Dashboard", "index.html")]
+    for label_zh, label_en, md_rel in ARTICLES:
+        md_path = Path(__file__).resolve().parent.parent.parent / "review" / md_rel
+        if not md_path.exists():
+            continue
+        md_text = md_path.read_text(encoding="utf-8")
+        body = convert(md_text)
+        title = label_en or label_zh
+        html = render_page(title, body, nav)
+        out_name = md_rel.replace(".md", ".html")
+        out_path = docs_dir / out_name
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(html, encoding='utf-8', newline='\n')
+        generated.append(out_path)
+    return generated
 
 
 # --------------------------------------------------------------------------- svg bits
@@ -634,6 +659,8 @@ def run(root: "str | Path | None" = None, *, write: bool = False,
         path = Path(out) if out else default_out()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(html_text, encoding="utf-8")
+        docs_dir = path.parent
+        result["doc_pages"] = [q.name for q in generate_doc_pages(docs_dir)]
         (path.parent / ".nojekyll").write_text("", encoding="utf-8")  # keep _files, disable Jekyll
         result["wrote"] = str(path)
     return result
