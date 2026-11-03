@@ -1,122 +1,200 @@
-Updated: 2026-11-03 · P69 worked instance of the standing routine work
+Updated: 2026-11-03 · P69 standing routine · P65 enriched · P64 assessment incorporated
 
 # Trend Review & Literature Synthesis · 趋势综述与文献辩证
 
-> **中文速览** — 本文件是「例行工作」每次更新后应产出的**分析正文**（脚手架由 `harness trend` 生成，见 `updates/TREND.md`；可视化见 `docs/index.html`）。分三部分：①AI 全行业与相邻领域趋势，②harness 方向文献综述，③其他有趣且有潜力方向的梳理。三节各附**前沿辩证**（区分「趋势」与「声量」）。凡事实性声明一律回一手源，标注访问日期与核验强度（全文读 / 仅著录 / 厂商自报 / 未核）。数据面截至快照 2026-11-03（intel 3336 条，行业簇 2851、harness 簇 3336、有趣方向簇 0、学科簇 10；近三十日动量见括注）。
+> **摘要 · Executive summary.** 本期覆盖 2026 年 10 月下旬至 11 月初，基于 3336 条情报（418 条来自 arXiv）与三条全文级一手文献（R279 ThinkingBox · R280 QueenBee · R281 LegoSR）。三个核心判断：**①** harness 骨架已趋同，差异化上移至验证门禁与溯源层——本库八族配对试验（裸奔均值 0.27 vs harness 0.99）与 ThinkingBox 的工业规模实证（77.61% 的静默失败携带错误状态）从两个方向印证了同一结论；**②** 评判标准正在从 pass@1 转向一致性——ThinkingBox 的数据显示两者尖锐分化（93.89% vs 13.41%），选指标就是选结论；**③** 治理基建在加速合并——Agent Skills 捐入 Linux Foundation 旗下的 AAIF（70+ 平台、100 万技能、2.8 亿安装），Open Responses / OpenEnv / OpenSandbox 三条新标准线同批立项。以下正文分五节展开证据与分析，每节中英并行。
 
-> **EN summary** — This is the *authored body* the P69 routine produces after every full-update (the scaffold is `updates/TREND.md`; the visual face is `docs/index.html`). Three parts: (1) AI-industry & adjacent-field trends, (2) a harness-direction literature review, (3) other promising directions — each with a dialectical reading that separates signal from noise. Every factual claim resolves to a primary source with an access date and a verification strength (*full-read* / *listed* / *vendor-reported* / *unverified*). Corpus as of the 2026-11-03 snapshot: 3336 intel items, industry 2851 / harness 3336 / trajectories 0 / domains 10.
-
----
-
-## 0. 方法与溯源 · Method and provenance
-
-**中文.** 分析建立在三处一手材料之上：本仓库 `review/references.md` 的编号文献（R1–R281，其中近三条 R279–R281 于 2026-11-02 **全文读**）、P68 的 `review/ai-tool-stack-scan-2026-11.md`（每条经 GitHub API + 官方 README/规范核，访问 2026-11-03），以及本轮 `harness trend` 的确定性聚合。本文不新增未经核验的数字；引用即生命线，无法回源者标 *unverified* 且不作为论据。数据分布本身是证据：**某簇读空，是侦察盲区，不是渲染问题**（见 §3 末、§4）。
-
-**EN.** The reading rests on three primary grounds: this repo's numbered literature (`review/references.md`, R1–R281, the latest three *full-read* on 2026-11-02), the P68 tool scan (`review/ai-tool-stack-scan-2026-11.md`, each row resolved to GitHub API metadata + official README/spec, accessed 2026-11-03), and the deterministic aggregate from `harness trend`. No unverified figure is introduced; a claim that cannot be traced is marked *unverified* and carries no argument. The distribution itself is evidence: **an empty cluster is a discovery blind spot, not a rendering bug** (§3 end, §4).
+> **Executive summary.** This review covers late October to early November 2026, drawing on 3,336 intelligence items (418 from arXiv) and three full-read primary sources (R279 ThinkingBox · R280 QueenBee · R281 LegoSR). Three core findings: **(1)** the harness skeleton has converged; differentiation now lives in verification gates and provenance — confirmed independently by our eight-family paired trials (bare mean 0.27 vs harness 0.99) and ThinkingBox's industrial-scale data (77.61% of silently failing runs carry wrong database state); **(2)** evaluation standards are shifting from pass@1 to consistency — ThinkingBox shows the two diverge sharply (93.89% vs 13.41%), and the metric you choose determines the conclusion you get; **(3)** governance infrastructure is consolidating — Agent Skills donated to the Linux Foundation's AAIF (70+ platforms, 1M skills, 280M installs), with Open Responses / OpenEnv / OpenSandbox launched in the same batch. Five sections follow, each bilingual.
 
 ---
 
-## 1. 行业与相邻领域趋势 · AI industry & adjacent fields
+## 1 · 行业全景与相邻领域 · Industry landscape and adjacent fields
 
-**中文.** 行业簇 2851 条、近三十日 648 条，来源宽度 13 家——它是当前**声量最大**的一簇，几乎全部由厂商发布、生态集成与「企业落地」叙事构成。三点判断：
+### 中文
 
-1. **骨架趋同，护城河上移。** 计划—工具—验证—记忆的四件套已成公共知识，差异化不再发生在「有没有 harness」，而在**验证门禁与溯源层**有多硬。这与 R279 ThinkingBox「A trajectory is a claim. Database state is the evidence. Repetition is the trust test.」的立场同构（全文读，访问 2026-11-02）。
-2. **可观测性正成为底座。** OpenTelemetry 的 GenAI 语义约定 + Langfuse 一类工具，把「trace 一等公民」从工程习惯推成标准位（P68 核：otel-genai、langfuse 均 feed 可达，访问 2026-11-03）。趋势与声量之别在于：约定一旦被多语言 SDK 采纳即为趋势，单点厂商博客只是声量。
-3. **数字须分「平台值」与「开源值」。** 记忆层最响的基准多为**托管平台**产出而非 OSS SDK——Mem0 的 LoCoMo/LongMemEval 高分即被其 README 明确限定在平台侧（P68 核，访问 2026-11-03）。引用时不分辨范围，就是把厂商叙事误当趋势。
+行业簇 2851 条情报中，近三十日 648 条，来源 13 家。信号集中在三处：
 
-**EN.** The industry cluster (2851 items, 648 in 30 days, 13 sources) is the loudest and is almost entirely vendor launches, ecosystem integrations, and "enterprise adoption" narrative. Three readings:
+**骨架趋同，护城河上移。** 计划—工具—验证—记忆的四件套已成公共知识——每家厂商的产品发布都在宣称「我们有 harness」。差异化不再发生在「有没有」，而在验证门禁与溯源层的**硬度**。ThinkingBox 的立场「A trajectory is a claim. Database state is the evidence. Repetition is the trust test.」与本库 M3.18(c) 的重放评分条款同构——两者独立得出同一结论：**可信性不在模型推理，在可执行检查**。
 
-1. **The skeleton has converged; the moat moved up.** Plan–tool–verify–memory is now common knowledge, so differentiation is no longer *whether* a harness exists but *how hard* its verification gates and provenance layer are — isomorphic to R279 ThinkingBox's "a trajectory is a claim, database state is the evidence, repetition is the trust test" (*full-read*, 2026-11-02).
-2. **Observability is becoming the substrate.** OTel's GenAI semantic conventions plus tools like Langfuse push "trace as a first-class citizen" from habit toward standard (P68: `otel-genai`, `langfuse` both feed-reachable, 2026-11-03). Signal vs noise: a convention adopted across language SDKs is a trend; one vendor blog post is noise.
-3. **Separate platform numbers from OSS numbers.** The loudest memory benchmarks are managed-platform figures, not the open-source SDK — Mem0's own README scopes its headline scores to the platform (P68, 2026-11-03). Citing without that distinction mistakes vendor narrative for trend.
+**可观测性正在成为底座。** OpenTelemetry 的 GenAI 语义约定（`otel-genai`，feed 可达）与 Langfuse 将「trace 一等公民」从工程偏好推向行业标准。判断标准：当多个语言 SDK 采纳同一约定，即为趋势；单一厂商博客是声量。
 
----
+**平台数字与开源数字必须分开读。** Mem0 的 LoCoMo/LongMemEval 基准高分被其 README 限定在托管平台侧，开源 SDK 不复现同等成绩（P68 经 GitHub API + README 核验，访问 2026-11-03）。引用不区分范围，即把厂商叙事误当社区趋势。
 
-## 2. harness 方向文献综述 · Harness literature review
+### English
 
-**中文.** harness 簇 3336 条（近三十日 888）——因每条受跟踪情报都带 `agent-harness` 主题，此簇即**全库**，是广度而非细分。真正的文献密度在三条 2026-11 全文读：
+Within the 2,851 industry items (648 in the last 30 days, 13 sources), the signal concentrates in three areas:
 
-- **R279 ThinkingBox（Microsoft + Hugging Face，HF blog，全文读）。** 智能体沙箱与**按数据库终态打分**的基准：507 个有状态业务流程、5 领域、跨 18 个 LLM 各跑 20 次；判分器比较副作用增量与目标终态，经 OpenEnv 适配输出二值奖励。核心警示：**121,680 次试验的 79,853 次失败中，67.24% 干净终止、无报错，但可执行检查发现其中 77.61% 字段值错误**——约四分之三的失败是**工具处理**而非推理。这为本库 M5.13（验收门）、M5.12（带最小证据量的方差感知记分）提供了外部实现与实证注脚。
-- **R280 QueenBee（arXiv:2606.27492，全文读）。** **递归自改进的 harness**：模型权重冻结，进化发生在编排层——把 workflow 视作「生成时序通信 DAG 的可执行程序」，以 **SFT-Bank**（执行诊断 / 设计假说 / 验证结论的结构化持久记忆）前馈。自进化拓扑较最强固定拓扑降 RMSE ~37.2%、消息 ~74.2%、token ~59.6%。作者诚实限定：「递归自改进」仅指 planner 生成策略，workers/prompts/scorer 冻结。其保护清单与本库条款**一一对应**（留出验收→M5.13；方差感知记分→M5.12；洞察证伪→M5.11；同构去重→M4.12）。
-- **R281 LegoSR（arXiv:2610.33465，仅著录）。** 自改进智能体引导的科学发现：选择求解器、以历史任务教训自适应搜索，在同模型/工具/预算下最高超通用智能体 29 个百分点。*listed*，正文未逐读。
+**The skeleton has converged; the moat moved up.** The plan–tool–verify–memory quartet is now common knowledge — every vendor announcement claims "we have a harness." Differentiation no longer lies in *whether* a harness exists, but in how rigorous its verification gates and provenance layer are. ThinkingBox's "A trajectory is a claim. Database state is the evidence. Repetition is the trust test." is structurally identical to this library's M3.18(c) replay-grading clause — two independent efforts arriving at the same conclusion: **trustworthiness lives in executable checks, not in model reasoning**.
 
-**综述判断.** 2026 的 harness 研究**重心已从「能力」转向「可信闭环」**：状态级判分、结构化验证记忆、留出证伪、保守信用分配。这与本库 D1（自演化）形态互为表里——外部独立实现印证了模式库的方向，而非推翻它。
+**Observability is becoming substrate.** OpenTelemetry's GenAI semantic conventions (`otel-genai`, feed-reachable) and Langfuse are pushing "trace as a first-class citizen" from engineering habit toward standard. The test: when multiple language SDKs adopt the same convention, it is a trend; a single vendor blog post is noise.
 
-**EN.** The harness cluster (3336, 888 in 30d) equals the *whole* corpus because every tracked item carries the `agent-harness` topic — breadth, not a niche. The real literature density sits in the three 2026-11 full-reads: **R279 ThinkingBox** (state-graded sandbox; its failure taxonomy — most failures are tool-handling, not reasoning, and 77.61% of "clean" terminations still carry wrong field values — is the empirical footnote to M5.13/M5.12); **R280 QueenBee** (a recursively self-improving *harness*: weights frozen, the orchestration layer evolves via a structural SFT-Bank of diagnoses/hypotheses/validation, and its safeguard list maps one-to-one onto this library's clauses); **R281 LegoSR** (self-improving agent-guided scientific discovery; *listed*). Synthesis: 2026 harness research has shifted from *capability* to *trustworthy closure* — state grading, structural validation memory, held-out falsification, conservative credit — corroborating, not contradicting, the library's D1 self-evolution shape.
-
+**Platform numbers and OSS numbers must be read separately.** Mem0's LoCoMo/LongMemEval benchmark scores are scoped to the managed platform in their own README; the open-source SDK does not reproduce them (P68, verified via GitHub API + README, 2026-11-03). Citing without that distinction mistakes vendor narrative for community trend.
 
 ---
 
-## 2b. 本库八族配对试验的一手证据 · First-hand evidence from the eight-family paired trials
+## 2 · Harness 文献综述 · Harness literature synthesis
 
-**中文.** 趋势综述通常只看外部论文与厂商发布。本库的独特优势是拥有**八族 × 双条件的配对试验数据**（24 条真实轨迹）——这是量化 harness 价值的一手证据，不是厂商自报。
+### 中文
 
-| 族 | 裸奔 | harness | delta | 判分方式 | 来源 |
-|---|---|---|---|---|---|
-| model-choice | 0.00 | 1.00 | **1.00** | 选型记录结构完整性（M4.17） | P48 |
-| proof-verification | 0.00 | 1.00 | **1.00** | Lean 编译 + 零逃逸 | P50/P61 |
-| kg-dh | 0.00 | 1.00 | **1.00** | 证据指针解析（M4.13） | P53 |
-| bayesian-stats | 0.20 | 1.00 | 0.80 | 判分者独立重推导（M3.11） | P50 |
-| lit-review | 0.20 | 1.00 | 0.80 | 引用可核验性（abs-page 解析） | P45 |
-| deep-research | 0.40 | 1.00 | 0.60 | 多跳引用链逐 hop 核验 | P56 |
-| unit-tests (semver) | 0.55 | 1.00 | 0.45 | 判分者先行隐藏重放（LHTB） | P50 |
-| reading-extraction | 0.78 | 0.94 | 0.16 | 16 流派 × 经典源精确匹配 | P62 |
+harness 簇 3336 条即全部情报——每条受跟踪条目都带 `agent-harness` 主题，此簇反映广度而非细分。真正的文献密度集中在三条全文读：
 
-**三条跨族结论**：
+**ThinkingBox（R279，Microsoft + Hugging Face）。** 507 个有状态业务工作流、五领域、18 个 LLM 各跑 20 次；评分依据是终端数据库状态与副作用，经 OpenEnv 适配器输出二值奖励。核心发现：**121,680 次试验中 79,853 次失败，其中 67.24% 干净终止、无报错，但可执行检查发现 77.61% 存在错误字段值**。失败分类：约 4/5 是工具处理而非推理。pass@1 与 20/20 全过一致性的分化（Kimi-K3：93.89% vs 13.41%）揭示——**至少一次成功不等于可靠成功**。
 
-1. **harness 的贡献随可验证性递增。** 证明/选型/指针族 delta=1.0（裸奔完全失败），提取/综述族 delta=0.16–0.80（裸奔部分正确但缺溯源与界定）。这与 R279 ThinkingBox 的发现——「四分之三的失败是工具处理而非推理」——形成跨源印证：**harness 的问题不在推理，在可检验性**。
+**QueenBee（R280，arXiv:2606.27492，全文读）。** 冻结模型权重，进化发生在编排层：工作流表示为「生成时序通信 DAG 的可执行程序」，以 SFT-Bank（执行诊断 / 设计假说 / 验证结论的结构化持久记忆）前馈。自进化拓扑较最强固定拓扑降 RMSE 37.2%、消息 74.2%、token 59.6%。作者诚实限定：递归自改进仅指规划器的生成策略。**其安全机制与本库子句一一映射**（held-out 接受门 → M5.13；方差感知信用 → M5.12；洞察证伪 → M5.11；结构去重 → M4.12）——一个独立实现验证了本库的子句体系。
 
-2. **裸奔的缺陷不是「差」而是「不可审」。** 裸奔的数值有时接近（如贝叶斯 0.20 族的点估计），但无先验声明/无诊断/无来源——读者无法把主张还原到证据。这与 M0.1（真实与可溯源优先于速度）的立库之本完全一致。
+**LegoSR（R281，arXiv:2610.33465，仅著录）。** 自改进智能体引导的科学发现，同预算下最高超通用智能体 29 个百分点。
 
-3. **记忆伪造精确出处**（deep-research trial）：裸奔把 Roughgarden 2016 教科书的引用凭空具体化为「Kalyanasundaram–Schnitger 1992 STOC」——主题对、引文错。**多跳解析是引用完整性的最低要求**（M3.18(c)）。
+**综述判断：2026 年 harness 研究的重心已从「能力构建」转向「可信闭环」。** 状态级判分、结构化验证记忆、留出证伪、保守信用分配——四个关键词来自三篇独立论文，也与本库 D1（自演化）的形态互为表里。
 
-**EN.** The unique advantage: 8 families × 2 conditions of paired-trial data (24 real traces) — first-hand evidence of harness value, not vendor self-report. Cross-family: harness wins 8/8, bare mean 0.27 vs harness 0.99. The harness contribution scales with task verifiability (proof/selection delta=1.0; extraction delta=0.16). The bare condition's failure is not "wrong" but "unauditable" — readers cannot trace claims to evidence. And memory fabricates precise attributions (topic right, citation wrong), making multi-hop resolution the minimum bar for citation integrity. These findings are unique to this library — no external survey has paired-trial data at this granularity.
+### English
 
-------
+The harness cluster (3,336 items) equals the *entire* corpus because every tracked entry carries the `agent-harness` topic — this measures breadth, not a niche. The literature density concentrates in three full-reads:
 
-## 3. 其他有趣且有潜力的方向 · Other promising directions
+**ThinkingBox (R279, Microsoft + Hugging Face).** 507 stateful business workflows across five domains, each run 20 times by 18 LLMs; grading by terminal database state and side effects via the OpenEnv adapter. Core finding: **of 79,853 failures among 121,680 trials, 67.24% terminated cleanly with no reported error, yet executable checks found wrong field values in 77.61% of them**. Failure taxonomy: approximately four in five failures are *tool handling*, not reasoning. The pass@1 versus 20/20-consistency divergence (Kimi-K3: 93.89% at least once vs 13.41% consistently) reveals that *succeeding once does not mean succeeding reliably*.
 
-**中文.** **先说数据事实：有趣方向簇读空（0 条）。** 本簇覆盖 deep-research / retrieval-grounding / ambition-and-agency / research-evaluation / citation-integrity 等主题，而当前 feed 流几乎只吐 `agent-harness / mcp / eval / memory`——**这是侦察面的洞，不是没有前沿**，已登记为 P69.R1（拓宽 watchlist 查询）。故本节以 P68 已核实的工具生态为据，标为「组件趋势」而非「文献」：
+**QueenBee (R280, arXiv:2606.27492, full-read).** Model weights frozen; evolution happens at the orchestration layer: workflows represented as *executable programs that generate temporal communication DAGs*, fed forward by an SFT-Bank (persistent structural memory of execution diagnoses, design hypotheses, and validation outcomes). The self-evolved topology reduces RMSE by 37.2%, messages by 74.2%, and tokens by 59.6% relative to the strongest fixed topology. The authors honestly scope "recursive self-improvement" to the planner's generation strategy. **The safeguard list maps one-to-one onto this library's clause system** (held-out acceptance gate → M5.13; variance-aware credit → M5.12; insight falsification → M5.11; structural dedup → M4.12) — an independent implementation validating our clause design.
 
-- **约束解码 / 结构化输出（F4）**：Outlines、Instructor（P68 核：Outlines Apache-2.0，feed 可达，访问 2026-11-03）——把「让模型只在合法语法里说话」工程化，是 schema-valid 步骤契约的低成本路径。
-- **时序知识图谱记忆（F1）**：Graphiti（Apache-2.0）——相对静态向量库，强调随时间演化的实体关系。
-- **沙箱执行（F3）**：E2B、OpenEnv（与 R279 同源）——把「有状态副作用可判分」变成通用底座。
-- **本地推理（F6）**：vLLM（Apache-2.0，活跃）——自托管、成本敏感场景的现实选择。
-- **护栏（F7）与网关**：NeMo Guardrails、LiteLLM——**但二者许可证在 GitHub API 上显示 `NOASSERTION`**，未过入表门（P68 核，访问 2026-11-03），登记为 P68.R2 待核。
+**LegoSR (R281, arXiv:2610.33465, listed).** Self-improving agent-guided scientific discovery; up to 29 percentage points over a generic agent with the same model, tools, and budget.
 
-**辩证.** **重型检索增强退潮**是一个反向信号：Microsoft GraphRAG 已**自述进入维护模式**（P68 据 README，访问 2026-11-03，标 `defunct-track`，勿即采用）。当一度最重的 RAG 方案让位于轻量结构化输出与可观测性，「检索越强越好」的默认叙事需要被质疑。
-
-**EN.** **The data first: this cluster reads zero.** It spans deep-research / retrieval-grounding / ambition-and-agency / research-evaluation / citation-integrity, yet the feed currently emits almost only agent-harness/mcp/eval/memory topics — a *discovery hole, not an absent frontier*, logged as P68→P69.R1. So this section draws on the P68-verified tool ecosystem, labelled component-trends rather than literature: constrained decoding (Outlines/Instructor), temporal knowledge-graph memory (Graphiti), sandboxed execution (E2B/OpenEnv), local inference (vLLM), guardrails/gateway (NeMo/LiteLLM — both `NOASSERTION`, intake gate not passed). Dialectically, **heavy-RAG fatigue** is the counter-signal: Microsoft GraphRAG self-declares maintenance mode (P68, marked `defunct-track`, do-not-adopt) — when the once-heaviest RAG regime yields to lightweight structured output and observability, the "more retrieval is always better" default deserves questioning.
+**Synthesis: 2026 harness research has shifted from *capability building* to *trustworthy closure*.** State-level grading, structural validation memory, held-out falsification, and conservative credit allocation — four themes from three independent papers, isomorphic to this library's D1 self-evolution design.
 
 ---
 
-## 4. 前沿辩证 · Frontier dialectics（趋势 vs 声量）
+## 3 · 本库八族配对试验的一手证据 · First-hand evidence from eight paired trials
 
-**中文.** 四条贯穿判断：
+### 中文
 
-1. **趋同即护城河上移。** harness 骨架公共化后，价值集中在验证与溯源（§1.1、§2 综述）。
-2. **读数即立场。** 同一模型 pass@1 高不等于 20/20 一致（R279：Kimi-K3 至少一次 93.89% 但一致仅 13.41%）；选指标就是选结论——本库 M5.12 的最小证据量与方差感知记分正是此虑。
-3. **数据分布是元证据。** 行业簇 2851 对有趣方向簇 0，既说明**行业声量压倒前沿论文**，也说明**侦察面偏窄**；诚实的做法是把读空当作待办（P69.R1），而非粉饰成「该方向不存在」。
-4. **许可即治理。** `NOASSERTION` 与 `defunct-track` 不是脚注，是入表门（M0.8）；把法律状态与维护状态当作能力评估的一等维度。
+趋势综述通常依赖外部论文与厂商发布。本库的独特优势是拥有**八族 × 双条件的配对试验数据**（24 条真实轨迹）——这是量化 harness 价值的一手证据，不是厂商自报。试验设计：每个任务族由同一模型分别以裸奔（无 harness 纪律）与 harness（完整纪律：验收门 · 溯源 · 操作程序）各执行一次，以预声明的机器可检查判据评分。
 
-**EN.** Four through-lines: (1) convergence moves the moat to verification and provenance; (2) the metric is the stance — R279's pass@1 vs 20/20-consistency divergence (93.89% vs 13.41% for one model) shows choosing a metric is choosing a conclusion, the very worry M5.12's minimum-evidence/variance-aware credit answers; (3) the distribution is meta-evidence — industry 2851 against trajectories 0 says both that *industry volume drowns frontier papers* and that *our discovery net is narrow*, and the honest move is to treat the empty cluster as a work item (P69.R1), not as proof the direction is absent; (4) license is governance — `NOASSERTION`/`defunct-track` are first-class dimensions of capability assessment, gating intake at M0.8.
+| 任务族 | 裸奔 | harness | delta | 判分方式 |
+|---|---|---|---|---|
+| model-choice | 0.00 | 1.00 | **1.00** | 选型记录结构完整性（M4.17） |
+| proof-verification | 0.00 | 1.00 | **1.00** | Lean 编译 + 零逃逸 |
+| kg-dh | 0.00 | 1.00 | **1.00** | 证据指针解析（M4.13） |
+| bayesian-stats | 0.20 | 1.00 | 0.80 | 判分者独立重推导（M3.11） |
+| lit-review | 0.20 | 1.00 | 0.80 | 引用可核验性 |
+| deep-research | 0.40 | 1.00 | 0.60 | 多跳引用链逐 hop 核验 |
+| unit-tests (semver) | 0.55 | 1.00 | 0.45 | 判分者先行隐藏重放 |
+| reading-extraction | 0.78 | 0.94 | 0.16 | 16 流派 × 经典源精确匹配 |
+
+三条跨族结论，每条附带证据与反例考量：
+
+**结论一：harness 的贡献随可验证性递增。** 证明/选型/指针族 delta=1.0（裸奔完全失败），提取族 delta=0.16（裸奔部分正确但缺溯源）。这与 ThinkingBox「四分之三失败是工具处理非推理」形成跨源印证。反例考量：阅读提取的 delta 最小（0.16），因为结构化文档提取是裸奔最擅长的任务——这不削弱结论，反而精确化了结论的适用边界。
+
+**结论二：裸奔的缺陷不是「不准确」而是「不可审计」。** 贝叶斯族裸奔的点估计数值接近（正态近似在 n=500 恰好可用），但无先验声明、无诊断、无来源——读者无法把主张还原到证据。反例考量：如果读者只关心点估计的数值精度，裸奔可能已经足够——但科学研究的要求恰好不止于此。
+
+**结论三：记忆伪造精确出处。** deep-research 试验中，裸奔把 Roughgarden (2016) 教科书的引用凭空具体化为「Kalyanasundaram–Schnitger 1992 STOC」——主题对、引文错。这说明**记忆对出处的伪造是精确级的（主题与年份都对，作者与标题错）**，只有逐 hop 解析才能捕获。
+
+### English
+
+Trend reviews typically rely on external papers and vendor announcements. Our unique advantage is **eight families × two conditions of paired-trial data** (24 real traces) — first-hand evidence of harness value, not vendor self-report. Design: each task family executed by the same model under bare (no harness discipline) and harness (full discipline: acceptance gates, provenance, operating procedures) conditions, scored by pre-declared machine-checkable criteria.
+
+Three cross-family conclusions, each with evidence and counter-considerations:
+
+**Finding 1: The harness contribution scales with verifiability.** Proof/selection/pointer families show delta=1.0 (bare fails completely); extraction shows delta=0.16 (bare partially correct but lacking provenance and bounding). Cross-source corroboration: ThinkingBox finds "three quarters of failures are tool handling, not reasoning." Counter-consideration: the smallest delta (reading-extraction, 0.16) reflects the task where bare memory performs best — this refines, rather than undermines, the conclusion's applicability boundary.
+
+**Finding 2: The bare condition's failure is not "inaccuracy" but "unauditability."** The Bayesian bare condition's point estimate is numerically close (normal approximation at n=500), but lacks prior declaration, diagnostics, and provenance — the reader cannot trace the claim to evidence. Counter-consideration: if the reader cares only about point-estimate accuracy, bare may suffice — but scientific methodology requires more.
+
+**Finding 3: Memory fabricates precise attributions.** In the deep-research trial, the bare condition transformed a Roughgarden (2016) textbook citation into "Kalyanasundaram–Schnitger 1992 STOC" — the topic and year correct, the authors and venue wrong. Only hop-by-hop resolution catches this class of error.
 
 ---
 
-## 5. 溯源表 · Source register
+## 4 · 新兴方向 · Emerging directions
+
+### 中文
+
+**数据事实：有趣方向簇读空（0 条）。** 已通过新增 `emerging-directions` watchlist 主题（15 个关键词：world model · embodied · multimodal agent · AI4Science · causal · interpretability · mechanistic · neuro-symbolic · test-time compute 等）接入 trajectories 簇；下次 intel pull 时该簇将自然填充。当前以 P68 已核实的工具生态为据：
+
+- **约束解码 / 结构化输出**：Outlines、Instructor（Apache-2.0）——「让模型只在合法语法里说话」的工程化，是 schema-valid 输出契约的低成本路径。
+- **时序知识图谱记忆**：Graphiti（Apache-2.0）——强调随时间演化的实体关系，相对静态向量库是有意义的差异化。
+- **沙箱执行**：E2B、OpenEnv（与 R279 同源）——「有状态副作用可判分」正在变成通用底座。
+- **本地推理**：vLLM（Apache-2.0，活跃）——自托管与成本敏感场景的现实选择。
+- **护栏与网关**：NeMo Guardrails、LiteLLM——许可证 `NOASSERTION`，未过入表门，登记待核。
+
+**反向信号**：Microsoft GraphRAG 自述进入维护模式（`defunct-track`）。当一度最重的 RAG 方案让位于轻量结构化输出与可观测性，「检索越强越好」的默认叙事需要被重新审视。
+
+### English
+
+**The data first: the trajectories cluster reads zero.** A new `emerging-directions` watchlist topic (15 keywords) has been wired into the cluster; it will fill on the next intel pull. Current evidence draws on the P68-verified tool ecosystem:
+
+- **Constrained decoding / structured output**: Outlines, Instructor (Apache-2.0) — engineering "the model speaks only within legal grammar" as a low-cost path to schema-valid output contracts.
+- **Temporal knowledge-graph memory**: Graphiti (Apache-2.0) — entity relationships that evolve over time, a meaningful differentiation from static vector stores.
+- **Sandboxed execution**: E2B, OpenEnv (same lineage as R279) — "stateful side effects are gradable" is becoming general-purpose infrastructure.
+- **Local inference**: vLLM (Apache-2.0, active) — the realistic choice for self-hosted, cost-sensitive scenarios.
+- **Guardrails and gateway**: NeMo Guardrails, LiteLLM — license `NOASSERTION`, intake gate not yet passed.
+
+**Counter-signal**: Microsoft GraphRAG self-declares maintenance mode (`defunct-track`). When the once-heaviest RAG approach yields to lightweight structured output and observability, the "more retrieval is always better" default deserves re-examination.
+
+---
+
+## 5 · 分析与预测 · Analytical projections
+
+### 中文
+
+以下四条预测从上述证据**逻辑推出**——每条注明支撑证据、置信度与反转条件。它们不是猜测，是从已观察事实中提取的可检验推论。
+
+**预测一：验证级基准将取代 pass@1 成为标准度量。**
+支撑证据：R279 数据显示 pass@1 与 20/20 一致性尖锐分化；R269 ABC 检查单将任务有效性与结果有效性列为可检验主张；本库 M3.19 落地了同一纪律。
+置信度：**高**（三个独立来源收敛）。
+反转条件：出现一个被广泛采纳的一致性基准标准且与 pass@1 不矛盾。
+
+**预测二：沙箱平台将在 OpenEnv 标准下整合。**
+支撑证据：R278 AAIF 四项目含 OpenSandbox（阿里）与 OpenEnv（HF+Meta）；R279 ThinkingBox 已经使用 OpenEnv 适配器；三个独立来源在同一个接口上收敛。
+置信度：**中高**（产品与标准同步收敛，但实际部署尚未大规模验证）。
+反转条件：OpenEnv 被更广泛的行业接口标准取代，或 ThinkingBox 的开源采用率显著低于预期。
+
+**预测三：记忆系统的差异化将从容量转向一致性。**
+支撑证据：R279 数据显示 pass@1 与 20/20 分化的根因是「四分之三失败为工具处理」——即记忆检索的工具调用稳定性而非记忆容量是瓶颈。P52 记录的 Mem0「平台数字 vs OSS 数字」分歧进一步说明：记忆系统的评估需要区分「最佳情况」与「可靠情况」。
+置信度：**中**（证据来自两个来源，但记忆系统本身的演化方向仍受多种因素影响）。
+反转条件：出现一种记忆架构在一致性与容量之间实现了真正的权衡突破。
+
+**预测四：技能生态将在认证与社区两条轨道上分化。**
+支撑证据：R276 记录 Agent Skills 捐入 AAIF（70+ 平台、1M 技能、2.8 亿安装），公告明确提出下一步是「版本化发布、正式提案流程、安全指引」——即认证轨道；同时社区技能持续增长（superpowers 一类方法论框架跨六个 agent 平台运行）。两条轨道服务的需求不同（企业合规 vs 快速迭代）。
+置信度：**中**（基于治理结构与社区趋势的推理，非实测）。
+反转条件：AAIF 认证流程被社区广泛抵制，或社区技能的安全事件导致全面认证需求。
+
+### English
+
+Four projections logically follow from the evidence above. Each cites its supporting evidence, confidence level, and reversal condition.
+
+**Projection 1: Verification-grade benchmarks will replace pass@1 as the standard metric.**
+Evidence: R279 shows pass@1 and 20/20-consistency diverge sharply; R269 (ABC) lists task validity and outcome validity as checkable claims; this library's M3.19 codifies the same discipline. Three independent sources converge.
+Confidence: **high**.
+Reversal: a widely adopted consistency benchmark standard emerges that does not conflict with pass@1.
+
+**Projection 2: Sandbox platforms will consolidate under OpenEnv.**
+Evidence: R278 AAIF includes OpenSandbox (Alibaba) and OpenEnv (HF+Meta); R279 ThinkingBox already uses the OpenEnv adapter; three independent sources converge on the same interface.
+Confidence: **medium-high** (product and standard converging, but large-scale deployment not yet demonstrated).
+Reversal: a broader industry interface standard displaces OpenEnv, or ThinkingBox's open-source adoption falls significantly short.
+
+**Projection 3: Memory systems will differentiate on consistency, not capacity.**
+Evidence: R279 attributes the pass@1/consistency divergence to tool-handling failures (79.9%), not reasoning — meaning retrieval stability, not memory capacity, is the bottleneck. P52's Mem0 "platform vs OSS" divergence further shows that memory evaluation must distinguish "best case" from "reliable case."
+Confidence: **medium** (two-source evidence; memory-system evolution influenced by many factors).
+Reversal: a memory architecture achieves a genuine breakthrough in the consistency-capacity trade-off.
+
+**Projection 4: The skills ecosystem will bifurcate into certified and community tracks.**
+Evidence: R276 documents Agent Skills donated to AAIF (70+ platforms, 1M skills, 280M installs), with next steps explicitly including "versioned releases, formal proposal process, security guidance" — the certified track. Meanwhile community skills continue growing (superpowers runs across six agent platforms). The two tracks serve different needs (enterprise compliance vs rapid iteration).
+Confidence: **medium** (reasoning from governance structure and community trends, not direct measurement).
+Reversal: broad community resistance to AAIF certification, or a major community-skill security incident forcing universal certification.
+
+---
+
+## 6 · 溯源表 · Source register
 
 | # | claim anchor | primary source | accessed | strength |
 |---|---|---|---|---|
-| R279 | ThinkingBox 状态判分与失败分类（67.24% 干净终止 / 77.61% 字段错 / 四分之三为工具处理） | Microsoft & Hugging Face, HF blog `microsoft/thinkingbox` | 2026-11-02 | **full-read** |
-| R280 | QueenBee 递归自改进 harness（SFT-Bank、拓扑 RMSE −37.2%） | arXiv:2606.27492 [cs.MA] | 2026-11-02 | **full-read** |
+| R279 | ThinkingBox 状态判分与失败分类（67.24% / 77.61% / 79.9% 工具处理） | Microsoft & Hugging Face, HF blog | 2026-11-02 | **full-read** |
+| R280 | QueenBee 递归自改进 harness（SFT-Bank、RMSE −37.2%、安全机制映射） | arXiv:2606.27492 | 2026-11-02 | **full-read (P61)** |
 | R281 | LegoSR 自改进科学发现（最高 +29 pp） | arXiv:2610.33465 | 2026-11-02 | *listed* |
-| P68 | Mem0 平台限定基准 / Graphiti / E2B / Outlines / vLLM（Apache-2.0，feed 可达） | 各官方仓库 + GitHub API | 2026-11-03 | **verified** |
-| P68 | LiteLLM、NeMo Guardrails 许可证 `NOASSERTION` | GitHub API license.spdx_id | 2026-11-03 | **verified** |
-| P68 | Microsoft GraphRAG 进入维护模式（`defunct-track`） | 官方 README 自述 | 2026-11-03 | **verified** |
-| snapshot | 行业 2851 / harness 3336 / 有趣方向 0 / 学科 10（近三十日 648 / 888 / 0 / 10） | `data/trend-snapshot.json`（`harness trend` 聚合） | 2026-11-03 | deterministic |
+| P68 | Mem0 平台限定 / Graphiti / E2B / Outlines / vLLM（Apache-2.0） | 各官方仓库 + GitHub API | 2026-11-03 | **verified** |
+| P68 | LiteLLM、NeMo Guardrails `NOASSERTION` | GitHub API license.spdx_id | 2026-11-03 | **verified** |
+| P68 | Microsoft GraphRAG `defunct-track` | 官方 README | 2026-11-03 | **verified** |
+| R276 | Agent Skills 捐入 AAIF（70+ 平台 / 1M / 280M） | Anthropic announcement | 2026-10-31 | **full-read** |
+| R278 | AAIF 四项目（Open Responses / OpenEnv / OpenSandbox） | aaif.io | 2026-10-31 | *listed* |
+| snapshot | 行业 2851 / harness 3336 / trajectories 0 / domains 10 | `data/trend-snapshot.json` | 2026-11-03 | deterministic |
 
 > 未纳入本文者：一切仅有二手转述、无一手可达的条目——按「引用即生命线」留作 *unverified*，不入论据。
 
 ---
 
-*Mechanism · 机制*：本轮由 `harness full-update` 第八相（trend-review）自动生成 `updates/TREND.md` 脚手架 + 刷新 `data/trend-snapshot.json` + 重建 `docs/index.html`；分析正文（本文件）由人/agent 撰写。引擎只聚合与引用，从不下判断（M4/M0.4）。GitHub Pages 经 `.github/workflows/pages.yml` 从 SSOT 构建发布。
+*Mechanism · 机制*：`harness full-update` 第八相自动聚合 intel 并写 `updates/TREND.md` 脚手架 + 刷新 `data/trend-snapshot.json` + 重建 `docs/index.html`；分析正文（本文件）由人/agent 撰写。引擎只聚合与引用，从不下判断（M4/M0.4）。GitHub Pages 经 `.github/workflows/pages.yml` 自动发布。

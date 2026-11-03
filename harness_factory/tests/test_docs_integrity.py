@@ -1414,8 +1414,8 @@ class P69RoutineTest(unittest.TestCase):
     def test_authored_analysis_covers_the_three_asks(self):
         doc = _read(HARNESS / "review/trend-review-2026-11-03.md")
         self.assertIsNotNone(doc, "the routine's worked-instance doc is missing")
-        for part in ("行业与相邻领域趋势", "harness 方向文献综述",
-                     "其他有趣且有潜力的方向", "前沿辩证", "溯源表"):
+        for part in ("行业全景与相邻领域", "Harness 文献综述",
+                     "新兴方向", "分析与预测", "溯源表"):
             self.assertIn(part, doc, f"the review lost {part!r}")
         # citations-lifeline: it must anchor to the repo's full-read literature
         for anchor in ("R279", "R280", "arXiv:2606.27492", "引用即生命线", "unverified"):
