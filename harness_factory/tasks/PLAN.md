@@ -579,6 +579,27 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **⑤ 41 条能力操作程序。** capabilities.json 每条能力加 `procedure` 字段（3–7 步可执行清单）；发射 AGENTS.md 渲染为「Operating procedures」节的 checkbox 项目——**操作化鸿沟闭合**。
 - **登记。** cycles **P65**（0/0/0/0）；capability shape test 允许 procedure 可选键；1 个域路由测试期望更新（reading 修正）。
 
+## Routine · 例行工作规程（P69 起，常转 / standing）
+
+> 用户 2026-11-03 指示：把「每次更新后写一篇全行业趋势分析 + harness 方向文献综述 + 其他有趣潜力方向梳理」设为**例行工作**，完整全面深度准确、一手源考证、前沿辩证、中英双语、准确典雅简明无损；并「直接形成 HTML 页面放 GitHub 部署浏览」，「伴随足够可视化、信息图，表达更多更准确更生动的信息」。
+
+每次更新后按此规程走（引擎只聚合、引用、可视化；**分析由人或 agent 撰写**——M4）：
+
+1. **跑机件。** `harness full-update`（第八相 `trend-review` 自动：聚合 `updates/intel.jsonl` → 写 `updates/TREND.md` 脚手架 → 刷新受版本控制的 `data/trend-snapshot.json` 桥 → 重生成 `docs/index.html`）。
+2. **撰写正文。** 复制四簇结构到 `review/trend-review-<date>.md`：①全行业与相关领域趋势 ②harness 方向文献综述（优先引本库 `review/references.md` R1–R<最新>）③其他有趣潜力方向；每条形实声明回一手源、带访问日期，未核验标 *unverified*（引用即生命线）；每个被看好的方向给最强反例（区分「趋势」与「声量」，M5.11 证伪）。读空簇如实写（如 P69 trajectories=0 → P69.R1）。
+3. **刷新可视化页。** `harness trend --write && harness pages --write` 重生成快照与 `docs/index.html`（KPI/仪表/动量环/分组条/证据带/工具矩阵/时间线，纯标准库、内联 SVG、零外部资产）。
+4. **收尾仪式。** `harness catalog --write`（重生成 CAPABILITIES/HARNESS-MAP/harness-index）→ `cycle audit` → CHANGELOG → **commit（绝不 push）**。Pages 部署经 `.github/workflows/pages.yml`（push main 从 SSOT 构建 `docs/` 并 deploy）；首次启用需用户在 Settings→Pages→Source: GitHub Actions 选择一次。
+
+## P69 · 例行工作常转轮（2026-11-03，已做）：趋势综述循环 · GitHub Pages 信息图仪表盘
+
+> 用户三段指示（例行综述 + HTML 页面部署 + 足够可视化/信息图）。全部落在既有机制上，零新发动机面（M0.4）：新增 `trend.py`/`pages.py` 本身即消费者。
+
+- **① `trend.py`（聚合与溯源）。** 把 `updates/intel.jsonl` 按主题**多归属**聚成四综述簇（industry · harness · trajectories · domains）+ 近三十日动量窗，写 `updates/TREND.md` 脚手架（每行带出处链接，不摘要——正因如此分析正文须回一手源核验）；`to_snapshot`/`save_snapshot`/`load_snapshot` 维护**受版本控制的 `data/trend-snapshot.json`** 桥（未跟踪的实时流经此入册才抵达 CI 构建的页面）。
+- **② `pages.py`（可视化）。** `docs/index.html` 为**单文件自足**页（纯标准库、内联 SVG、**零 `<script>`/`<link>`/`<img>`**→Pages 首字节即渲）：KPI 卡 + 三仪表（操作规程/学科域挂接/实验电池覆盖）+ **动量环**（各簇近三十日占比，与绝对量分组条互补）+ 来源广度卡 + **工程证据带**（实验族分段格 + 轨迹事件条）+ 缺口台账（含**未挂接域点名** chips）+ P68 ai-tool-stack 家族矩阵（许可/状态点）+ 近期情报时间线。所有数字构建时从 SSOT 现算（M5.11，绝不手抄）。
+- **③ CLI + full-update 第八相。** `harness trend`/`harness pages`（`--json`/`--write`）；`full-update` 相位 8 `trend-review`（失败隔离、只写 root，不动 SSOT）。`.github/workflows/pages.yml` push main 从 SSOT 构建部署；`ci.yml` 离线页构建步断言「零外部资产」。
+- **④ 正文工作样例 + 浏览器 QA。** 撰 `review/trend-review-2026-11-03.md`（六节中英带引，回 R279/R280/R281 + P68 已核事实）；a11y 几何 QA 驱动动量环/去重/响应式修正。
+- **登记。** cycles **P69**（0/0/0/0）+ roadmap **P69.R1**（trajectories 簇读空→加宽侦察 watchlist）**·R2**（启用 Pages 并首部署验证——推送/开启为用户显式动作）**·R3**（正文摘录引上仪表盘，守 M4/引用即生命线）。新增测试 `test_trend`(9)+`test_pages`(13, 含动量环/分段/chips)+`P69RoutineTest`(7)；**506 → 510 tests**；`cycle audit` 65 轮 0 硬 0 洞。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

@@ -1788,6 +1788,29 @@
         "catalog_delta": 14,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P69",
+      "date": "2026-11-03",
+      "status": "done",
+      "title_en": "Standing routine work: a trend-review loop (industry + harness-literature + promising-directions) plus a self-contained GitHub-Pages dashboard with SVG infographics",
+      "title_zh": "例行工作常转：趋势综述循环（行业+harness文献+有趣方向）与自带 SVG 信息图的 GitHub Pages 仪表盘",
+      "note": "User directive: after every update, produce (a) an AI-industry & adjacent-field trend analysis, (b) a harness-direction literature review, (c) a survey of other interesting/promising AI directions - complete, primary-source grounded, dialectical about the frontier, bilingual, lossless - then turn it into a browsable HTML page deployed on GitHub Pages with enough visualization/infographics to say more, more precisely, more vividly. Landed as full-update phase 8 (trend-review), reusing existing machinery only (M0.4): trend.py buckets updates/intel.jsonl into four review clusters (industry/harness/trajectories/domains) with multi-membership breadth + a 30-day momentum window, writes the updates/TREND.md scaffold and refreshes the committed data/trend-snapshot.json bridge (the untracked live stream reaches the CI-built page only through this checked-in roll-up); pages.py renders docs/index.html as ONE self-contained file (pure stdlib, inline SVG gauges/bars/timeline/tool-matrix, ZERO <script>/<link>/<img> so Pages renders on the first byte) visualizing the computed self-model, the gap register, the trend clusters, the P68 ai-tool-stack family matrix with license/status dots, and a recent-intel timeline. The analysis BODY is authored (not engine-generated) into review/trend-review-<date>.md; the engine aggregates and cites, never opines. Deploy: .github/workflows/pages.yml builds docs/ from the SSOT on push to main (configure-pages + deploy-pages); a CI step rebuilds the page offline and asserts it carries zero external assets. Browser QA (a11y geometry) drove five fixes: agent-harness rebalanced out of industry, responsive HTML grouped bars replacing the fixed-scale SVG, timeline deduped by url, KPI orphan-card grid, and a visible sliver for near-zero clusters. New: trend.py + pages.py + 22 sim tests (test_trend, test_pages) + trend-snapshot.json + docs/; suite 477->499.",
+      "slices": [
+        "P69.1 - trend.py: four-cluster aggregate (multi-membership) + TREND.md scaffold + committed snapshot bridge",
+        "P69.2 - pages.py: self-contained SVG dashboard (self-model/gaps/clusters/tool-stack/timeline/dialectics)",
+        "P69.3 - CLI trend/pages verbs + full-update phase 8 (contained to root; committed refresh via --write)",
+        "P69.4 - .github/workflows/pages.yml deploy + a ci.yml offline page-build guard (asserts zero external assets)",
+        "P69.5 - authored review/trend-review-2026-11-03.md (worked instance) + AGENTS routine section + 22 sim tests"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -2207,6 +2230,33 @@
       "title_en": "Pilot one structured-output (F4) and one OTel-genai telemetry (F2) integration in a derived harness, judged by a paired trial",
       "reason": "registry membership is not adoption evidence: the honest claim is 'verified and tracked', while 'this tool strengthens a harness' requires the A-bare vs B-with-tool paired trial whose receipt project is then registered via battery.json trial_projects (the P67 metabolism machinery). Built for no consumer yet - M0.5 records the deferral rather than pre-wiring an engine path",
       "revisit_when": "a real task family needs schema-valid step contracts or portable telemetry - candidate firsts: the cron-parsing family (F4 fits exactly) or the next deep-research trial (F2 fits the trace vocabulary)"
+    },
+    {
+      "id": "P69.R1",
+      "status": "deferred",
+      "cycle": "P69",
+      "source": "P69 live aggregate: the trajectories cluster reads 0 items while sources.json carries deep-research/retrieval-grounding/ambition-and-agency topics",
+      "title_en": "Widen the watchlist so the 'other promising directions' cluster actually receives intel (deep-research, retrieval/grounding, agent agency/ambition), then re-measure",
+      "reason": "a cluster that aggregates zero is an honest gap, not a bug - the feed stream currently emits almost only agent-harness/mcp/eval/memory topics, so the trajectory survey has no raw material. The fix is discovery-query breadth (watchlist), not page cosmetics; leaving it visible is the M5.11 falsification check",
+      "revisit_when": "the next refresh round - add queries/feeds for the trajectory topics and confirm the cluster stops reading zero"
+    },
+    {
+      "id": "P69.R2",
+      "status": "deferred",
+      "cycle": "P69",
+      "source": "user directive '放在这个github的来部署和浏览' - the workflow exists but Pages is not yet enabled/pushed",
+      "title_en": "Enable GitHub Pages (Settings -> Source: GitHub Actions) and confirm the first deploy of docs/index.html live",
+      "reason": "the build+deploy workflow and the offline artifact are committed, but enabling Pages and pushing are the user's explicit-only actions (never auto-push); this item is the human-gate handoff for the live URL",
+      "revisit_when": "the user asks to push/deploy - then verify the deployed page and wire an adoption-evidence update if the visualization is used externally"
+    },
+    {
+      "id": "P69.R3",
+      "status": "deferred",
+      "cycle": "P69",
+      "source": "P69 mechanism - the page visualizes the aggregate but not the authored prose yet",
+      "title_en": "Surface the authored review/trend-review-<date>.md (its headline judgments + citation anchors) inside the dashboard, not just the raw clusters",
+      "reason": "the engine should aggregate and the human should analyze; the open question is the honest bridge - embedding curated excerpts (with per-claim source links) without the engine pretending to have done the reasoning. Design must keep M4 (no silent LLM rewrite) and the citations lifeline",
+      "revisit_when": "the routine has produced two or three dated reviews and a stable excerpt format emerges worth templating"
     }
   ]
 }

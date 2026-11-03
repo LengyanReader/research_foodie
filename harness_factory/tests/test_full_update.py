@@ -18,7 +18,7 @@ class FullUpdateTest(unittest.TestCase):
         self.assertEqual(
             names,
             ["intel", "probe-domains", "trace-audit", "evolve", "cycle-audit",
-             "scoreboard", "self-model"],  # P66: the self-model closes the loop
+             "scoreboard", "self-model", "trend-review"],  # P66 self-model, P69 trend-review
         )
         self.assertEqual(report["phases"][0]["status"], "skipped")
         for phase in report["phases"][1:]:

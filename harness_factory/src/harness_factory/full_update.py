@@ -2,8 +2,8 @@
 
 ``harness full-update`` chains every proposal-only half-ring the factory has:
 intel (network, skippable) -> probe-domains -> trace-audit -> evolve ->
-cycle audit -> scoreboard -> self-model, then writes one bilingual report
-``updates/FULL-UPDATE.md``. Every phase is failure-isolated: a failing phase
+cycle audit -> scoreboard -> self-model -> trend-review, then writes one
+bilingual report ``updates/FULL-UPDATE.md``. Every phase is failure-isolated: a failing phase
 reports its error and the rest still run (a phase that fails silently would
 fake completeness - M0.3). Nothing here mutates the SSOT; every output is a
 proposal for a human (M0.4/M0.8). This is the "say it once" form of the loop:
@@ -143,6 +143,24 @@ def run_full_update(
         }
 
     _phase(report, "self-model", _self)
+
+    # 8. trend-review - the routine work's raw material (P69): aggregate this run's
+    # intel into the four review clusters, drop the TREND.md scaffold and rebuild the
+    # dashboard, both CONTAINED under root (never touching the committed SSOT; the
+    # operator's `harness trend --write` / `harness pages --write` refresh those).
+    from . import pages, trend
+
+    def _trend() -> dict[str, Any]:
+        agg = trend.run(root, write=True)
+        page = pages.run(write=True, out=str(Path(root) / "docs" / "index.html"))
+        return {
+            "clusters": agg["clusters"],
+            "recent_30d": agg["recent_30d"],
+            "wrote": agg["wrote"],
+            "page_bytes": page["bytes"],
+        }
+
+    _phase(report, "trend-review", _trend)
 
     write_report(root, report)
     return report

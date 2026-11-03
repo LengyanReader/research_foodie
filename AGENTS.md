@@ -27,6 +27,7 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   core/                   cross-domain invariants M0–M8 (`01-meta-principles.md` first)
   domains/                34 学科 + general 兜底 (10 faculties; includes `writing/`)
   review/                 surveys · harness catalog/index · references.md/bib
+                          · trend-review-<date>.md — the routine's authored deep-analysis (bilingual, cited, dialectical)
   sources/                source-map.md (pattern ← primary source)
   reference/              capability-router · requirement-refinement · capability-flow · derivation-rules
                           · evidence-instruments · methodology-map · outlet-map · cross-language
@@ -38,7 +39,9 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   _archive/               archived legacy material — gitignored, do not revive
 AGENTS.md                  本文件 · workspace principles (test-pinned)
 README.md / README.zh-CN.md  project entry (English / 中文)
-.github/workflows/ci.yml    the real gate definition (tests → cycle audit → CLI smoke → init/check/gate e2e)
+docs/index.html             GENERATED — the browsable Pages dashboard (`harness pages --write`; self-contained, inline SVG, zero external assets; CI rebuilds it from the SSOT)
+.github/workflows/ci.yml    the real gate definition (tests → cycle audit → trend/pages build → CLI smoke → init/check/gate e2e)
+.github/workflows/pages.yml publishes docs/ to GitHub Pages on push to main
 ```
 
 ## 3. Setup and commands
@@ -49,7 +52,7 @@ README.md / README.zh-CN.md  project entry (English / 中文)
   From the repo root use `PYTHONPATH=harness_factory/src …`.
 - Main commands: `derive`, `init --out <dir>`, `check --dir`, `gate --dir`, `harvest`, `profile`, `learn`,
   `standard`, `catalog`, `cycle audit`, `evolve`, `full-update`, `scoreboard`, `brief`, `classify`, `battery`,
-  `collect`, `trace-audit`, `doctor`, `plugins --validate`, `skill`, `capabilities`, `map`.
+  `collect`, `trace-audit`, `doctor`, `plugins --validate`, `skill`, `capabilities`, `map`, `self-model`, `trend`, `pages`.
 - Everything is offline except `refresh` / `intel` (RSS/YouTube) and the optional `HARNESS_LLM_*` classifier.
 - Two roots: tool home in user space (`%LOCALAPPDATA%\harness-factory`, override `HARNESS_HOME`) vs each target
   project's emitted files. In path mode the home is optional.
@@ -57,10 +60,17 @@ README.md / README.zh-CN.md  project entry (English / 中文)
 ## 4. Quality gates
 
 - **Test gate:** `PYTHONPATH=src python -m unittest discover -s tests` from `harness_factory/`
-  (当前 **477** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
+  (当前 **510** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
 - Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
 - Changing `src/harness_factory/data/*.json` (the SSOT) requires `harness catalog --write` to regenerate
   `CAPABILITIES.md` + `HARNESS-MAP.md`, then the full suite; the same drift guards will fail otherwise.
+- **例行工作 / Routine work (P69):** after every `full-update` (phase 8 `trend-review`) the loop aggregates
+  `updates/intel.jsonl` into the four review clusters, writes `updates/TREND.md`, refreshes the committed
+  `data/trend-snapshot.json`, and rebuilds `docs/index.html`. The deep analysis itself (industry trends ·
+  harness-direction literature review · other promising directions — complete, primary-source grounded,
+  dialectical, bilingual) is *authored* into `review/trend-review-<date>.md`; run `harness trend --write &&
+  harness pages --write` to refresh the committed snapshot + page, then commit. GitHub Pages deploys via
+  `.github/workflows/pages.yml` (enable Settings → Pages → Source: GitHub Actions, then push).
 - CI (`.github/workflows/ci.yml`) runs the suite on ubuntu+windows / py3.10+3.12, then `cycle audit`, a CLI smoke,
   and an `init → check → gate → harvest → doctor → plugins --validate` e2e. Reproduce those steps for risky changes.
 - **引用即生命线 / Citations are the lifeline.** Every factual claim traces to a primary source (arXiv ID / DOI /

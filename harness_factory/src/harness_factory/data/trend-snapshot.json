@@ -1,0 +1,207 @@
+{
+  "generated": "2026-11-03",
+  "horizon": "2026-10-04",
+  "items": 3336,
+  "untracked": 0,
+  "clusters": {
+    "industry": {
+      "title": "AI industry & adjacent fields · 全行业与相关领域趋势",
+      "count": 2851,
+      "recent": 648,
+      "sources": 13,
+      "top": [
+        {
+          "rel": 3.5,
+          "date": "2026-10-22",
+          "source": "Simon Willison",
+          "title": "Donating Agent Skills to the Agentic AI Foundation",
+          "url": "https://simonwillison.net/2026/Oct/22/donating-agent-skills/"
+        },
+        {
+          "rel": 3.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "StrictPRMBench: A Replayable Evaluation Benchmark for Auditing Fixed-Score PRM Aggregation",
+          "url": "https://arxiv.org/abs/2610.41333"
+        },
+        {
+          "rel": 3.0,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "Quantile Propagation Planning for Budgeted Tail-Risk Evaluation",
+          "url": "https://arxiv.org/abs/2610.41351"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.CL (new)",
+          "title": "RangeSWA: Training-Free Length Extrapolation for Continuous Diffusion Language Models",
+          "url": "https://arxiv.org/abs/2610.42084"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.CL (new)",
+          "title": "DAMI: Dual-Axis Memory Initialization for Enhanced Long-Context Retrieval in Gated Linear Attention",
+          "url": "https://arxiv.org/abs/2610.41994"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.CL (new)",
+          "title": "From Association to Causation: Improving Retrieval Precision of Retrieval-Augmented Generation via Causal Relations and an Attention Mechanism",
+          "url": "https://arxiv.org/abs/2608.21702"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "Nonlinear Maps Between Irreducible Representations in Graph Neural Networks",
+          "url": "https://arxiv.org/abs/2610.41059"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "Leakage-Controlled Structure-Preserving Augmentation and Template-Aware Evaluation for Bangla Symptom-Based Disease Prediction",
+          "url": "https://arxiv.org/abs/2610.41733"
+        }
+      ]
+    },
+    "harness": {
+      "title": "Harness directions - literature review · harness 方向文献综述",
+      "count": 3336,
+      "recent": 888,
+      "sources": 53,
+      "top": [
+        {
+          "rel": 3.5,
+          "date": "2026-10-22",
+          "source": "Simon Willison",
+          "title": "Donating Agent Skills to the Agentic AI Foundation",
+          "url": "https://simonwillison.net/2026/Oct/22/donating-agent-skills/"
+        },
+        {
+          "rel": 3.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "StrictPRMBench: A Replayable Evaluation Benchmark for Auditing Fixed-Score PRM Aggregation",
+          "url": "https://arxiv.org/abs/2610.41333"
+        },
+        {
+          "rel": 3.0,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "Quantile Propagation Planning for Budgeted Tail-Risk Evaluation",
+          "url": "https://arxiv.org/abs/2610.41351"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.CL (new)",
+          "title": "RangeSWA: Training-Free Length Extrapolation for Continuous Diffusion Language Models",
+          "url": "https://arxiv.org/abs/2610.42084"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.CL (new)",
+          "title": "DAMI: Dual-Axis Memory Initialization for Enhanced Long-Context Retrieval in Gated Linear Attention",
+          "url": "https://arxiv.org/abs/2610.41994"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.CL (new)",
+          "title": "From Association to Causation: Improving Retrieval Precision of Retrieval-Augmented Generation via Causal Relations and an Attention Mechanism",
+          "url": "https://arxiv.org/abs/2608.21702"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "Nonlinear Maps Between Irreducible Representations in Graph Neural Networks",
+          "url": "https://arxiv.org/abs/2610.41059"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-02",
+          "source": "arXiv cs.LG (new)",
+          "title": "Leakage-Controlled Structure-Preserving Augmentation and Template-Aware Evaluation for Bangla Symptom-Based Disease Prediction",
+          "url": "https://arxiv.org/abs/2610.41733"
+        }
+      ]
+    },
+    "trajectories": {
+      "title": "Other promising trajectories · 其他有趣且有潜力的方向",
+      "count": 0,
+      "recent": 0,
+      "sources": 0,
+      "top": []
+    },
+    "domains": {
+      "title": "Field-by-field signals · 各学科领域信号",
+      "count": 10,
+      "recent": 10,
+      "sources": 1,
+      "top": [
+        {
+          "rel": 1.5,
+          "date": "2026-10-06",
+          "source": "Internet Archive Blog",
+          "title": "Who Is Government Information For? Information Stewardship Forum 2026 Report",
+          "url": "https://blog.archive.org/2026/10/06/who-is-government-information-for-information-stewardship-forum-2026-report/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-08",
+          "source": "Internet Archive Blog",
+          "title": "Internet Archive to Demo Wayback Machine at Friday’s Uniqlo Street Festival",
+          "url": "https://blog.archive.org/2026/10/08/internet-archive-to-demo-wayback-machine-at-fridays-uniqlo-street-festival/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-12",
+          "source": "Internet Archive Blog",
+          "title": "The People, Counted: Browse Raw Census Records at the Internet Archive",
+          "url": "https://blog.archive.org/2026/10/12/the-people-counted-browse-raw-census-records-at-the-internet-archive/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-14",
+          "source": "Internet Archive Blog",
+          "title": "Celebrating 2026 Internet Archive Artist in Residence: Christopher Burch",
+          "url": "https://blog.archive.org/2026/10/14/celebrating-2026-internet-archive-artist-in-residence-christopher-burch/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-14",
+          "source": "Internet Archive Blog",
+          "title": "Building the Hero Award: The Story Behind Taekyeom Lee’s 3D-Printed Model of the Internet Archive",
+          "url": "https://blog.archive.org/2026/10/14/building-the-hero-award/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-19",
+          "source": "Internet Archive Blog",
+          "title": "Annual Celebration 2026: Street Fair to Showcase Internet Archive’s Projects and Allies",
+          "url": "https://blog.archive.org/2026/10/19/annual-celebration-2026-street-fair-to-showcase-internet-archives-projects-and-allies/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-20",
+          "source": "Internet Archive Blog",
+          "title": "Internet Archive Honors Poynter and IRE for Preserving Local News Online",
+          "url": "https://blog.archive.org/2026/10/20/internet-archive-hero-award-2026/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-27",
+          "source": "Internet Archive Blog",
+          "title": "A Behind-the-Scenes Look at the Physical Archive",
+          "url": "https://blog.archive.org/2026/10/27/behind-the-scenes-physical-archive/"
+        }
+      ]
+    }
+  }
+}

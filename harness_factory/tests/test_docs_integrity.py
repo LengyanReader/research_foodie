@@ -1368,5 +1368,65 @@ class P68ToolEcosystemTest(unittest.TestCase):
                          "topic declared in the watchlist with no source carrying it")
 
 
+class P69RoutineTest(unittest.TestCase):
+    """P69: the standing routine work (trend review + Pages dashboard) must stay
+    wired end to end - the engine phase, the CLI verbs, the committed snapshot
+    bridge, the deploy workflow, the authored analysis, and the workspace doc -
+    and the published page must remain a self-contained, asset-free artifact."""
+
+    def test_full_update_wires_the_eighth_phase(self):
+        text = _read(HARNESS / "src/harness_factory/full_update.py")
+        self.assertIn('"trend-review"', text, "phase 8 (trend-review) was unwired")
+        self.assertIn("trend.run", text)
+        self.assertIn("pages.run", text, "the loop must also rebuild the dashboard")
+
+    def test_cli_exposes_trend_and_pages(self):
+        text = _read(HARNESS / "src/harness_factory/cli.py")
+        for token in ('"trend"', '"pages"', "_cmd_trend", "_cmd_pages"):
+            self.assertIn(token, text, f"CLI lost {token!r}")
+
+    def test_committed_snapshot_has_the_four_clusters(self):
+        snap = json.loads((HARNESS / "src/harness_factory/data/trend-snapshot.json")
+                          .read_text(encoding="utf-8"))
+        self.assertEqual(set(snap["clusters"]),
+                         {"industry", "harness", "trajectories", "domains"})
+        for pack in snap["clusters"].values():
+            self.assertTrue({"count", "recent", "top", "title"} <= set(pack))
+
+    def test_page_build_is_offline_guarded_and_deployed(self):
+        ci = _read(ROOT / ".github/workflows/ci.yml")
+        self.assertIn("pages --write", ci, "CI no longer rebuilds the page")
+        self.assertIn("zero external assets", ci, "CI lost the asset-free assertion")
+        pages = _read(ROOT / ".github/workflows/pages.yml")
+        self.assertIn("actions/deploy-pages", pages)
+        self.assertIn("actions/upload-pages-artifact", pages)
+
+    def test_published_page_is_self_contained(self):
+        doc = (ROOT / "docs" / "index.html")
+        self.assertTrue(doc.exists(), "the committed Pages artifact is missing")
+        html = doc.read_text(encoding="utf-8")
+        self.assertTrue(html.lstrip().lower().startswith("<!doctype html>"))
+        self.assertIsNone(re.search(r"(?i)<(script|link|img)[ >]", html),
+                          "the dashboard must carry zero external assets/JS")
+        self.assertIn("Harness Factory", html)
+        self.assertTrue((ROOT / "docs" / ".nojekyll").exists())
+
+    def test_authored_analysis_covers_the_three_asks(self):
+        doc = _read(HARNESS / "review/trend-review-2026-11-03.md")
+        self.assertIsNotNone(doc, "the routine's worked-instance doc is missing")
+        for part in ("行业与相邻领域趋势", "harness 方向文献综述",
+                     "其他有趣且有潜力的方向", "前沿辩证", "溯源表"):
+            self.assertIn(part, doc, f"the review lost {part!r}")
+        # citations-lifeline: it must anchor to the repo's full-read literature
+        for anchor in ("R279", "R280", "arXiv:2606.27492", "引用即生命线", "unverified"):
+            self.assertIn(anchor, doc, f"review lost anchor/source-discipline {anchor!r}")
+
+    def test_agents_md_documents_the_routine(self):
+        text = _read(ROOT / "AGENTS.md")
+        for token in ("例行工作 / Routine work", "docs/index.html", "pages.yml",
+                      "trend-review"):
+            self.assertIn(token, text, f"AGENTS.md no longer documents {token!r}")
+
+
 if __name__ == "__main__":
     unittest.main()

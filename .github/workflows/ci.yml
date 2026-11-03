@@ -29,6 +29,16 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m harness_factory cycle audit
+      - name: Pages + trend-review scaffold build (P69, offline from committed SSOT/snapshot)
+        working-directory: harness_factory
+        env:
+          PYTHONPATH: src
+        shell: bash
+        run: |
+          python -m harness_factory trend --json > /dev/null
+          python -m harness_factory pages --json
+          python -m harness_factory pages --write
+          python -c "import pathlib,re; h=pathlib.Path('../docs/index.html').read_text(encoding='utf-8'); assert h.lstrip().lower().startswith('<!doctype html>'); assert re.search(r'<svg', h); assert 'gbar' in h; assert not re.search(r'(?i)<(script|link|img)[ >]', h), 'page must carry zero external assets/JS'; print('page OK, bytes=', len(h))"
       - name: CLI smoke
         working-directory: harness_factory
         env:

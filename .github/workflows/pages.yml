@@ -1,0 +1,58 @@
+name: pages
+
+# Publishes the browsable dashboard (docs/index.html) to GitHub Pages.
+# The page is *built here* from the committed SSOT + data/trend-snapshot.json by
+# `harness pages --write`, so the deployed artifact can never drift from the data
+# it visualizes (no committed generated blob to keep in sync). The live intel stream
+# (updates/intel.jsonl) is untracked by design; it reaches the page only through the
+# committed snapshot that `harness trend --write` refreshes on the maintainer's box.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "harness_factory/src/harness_factory/pages.py"
+      - "harness_factory/src/harness_factory/trend.py"
+      - "harness_factory/src/harness_factory/self_model.py"
+      - "harness_factory/src/harness_factory/data/**"
+      - "harness_factory/review/**"
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build dashboard from committed SSOT + snapshot
+        working-directory: harness_factory
+        env:
+          PYTHONPATH: src
+        run: python -m harness_factory pages --write
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

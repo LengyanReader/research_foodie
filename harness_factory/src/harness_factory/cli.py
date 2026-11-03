@@ -159,7 +159,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     full_p = sub.add_parser(
         "full-update",
-        help="the whole observe loop in one instruction: intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard (proposals only)",
+        help="the whole observe loop in one instruction: intel -> probe-domains -> trace-audit -> evolve -> cycle audit -> scoreboard -> self-model -> trend-review (proposals only)",
     )
     full_p.add_argument(
         "--root", "--data-dir", dest="root", default=None,
@@ -261,6 +261,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="computed self-model (M5.11): live registry counts and the gap register",
     )
     selfmod_p.add_argument("--json", action="store_true", help="emit the full model as JSON")
+
+    trend_p = sub.add_parser(
+        "trend",
+        help="trend-review scaffold (P69): bucket updates/intel.jsonl into the four review clusters -> updates/TREND.md + committed data/trend-snapshot.json",
+    )
+    trend_p.add_argument(
+        "--root", "--data-dir", dest="root", default=None,
+        help="knowledge-base dir with updates/intel.jsonl (default: user home)",
+    )
+    trend_p.add_argument("--write", action="store_true", help="write TREND.md + refresh the snapshot")
+    trend_p.add_argument("--json", action="store_true", help="emit the aggregate as JSON")
+
+    pages_p = sub.add_parser(
+        "pages",
+        help="build the GitHub-Pages dashboard (P69): self-model + gaps + trend clusters + AI tool-stack -> docs/index.html (inline SVG, no external assets)",
+    )
+    pages_p.add_argument("--write", action="store_true", help="write docs/index.html (+ .nojekyll)")
+    pages_p.add_argument("--out", default=None, help="output path (default: <repo root>/docs/index.html)")
+    pages_p.add_argument("--json", action="store_true", help="emit the build summary as JSON")
 
     skill_p = sub.add_parser(
         "skill", help="print the agent load-index, or one module (agent-native entry)"
@@ -1068,6 +1087,51 @@ def _cmd_self_model(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_trend(args: argparse.Namespace) -> int:
+    """P69: the routine-work scaffold - aggregate this run's intel into the four
+    review clusters; --write drops TREND.md + refreshes the committed snapshot."""
+    from . import config, trend
+
+    if args.root:
+        kb_root = args.root
+    else:
+        config.ensure_home()
+        kb_root = str(config.home())
+    if args.json:
+        from .trend import aggregate, _load_intel
+
+        print(json.dumps(aggregate(_load_intel(kb_root)), ensure_ascii=False, indent=2))
+        return 0
+    out = trend.run(kb_root, write=args.write, commit_snapshot=args.write)
+    print("trend-review aggregate · 趋势综述聚合")
+    for cid, n in out["clusters"].items():
+        rec = out.get("recent_30d", {}).get(cid, "?")
+        print(f"  {cid:<14} items={n:<5} recent30d={rec}")
+    print(f"  untracked={out['untracked']}  total={out['items']}")
+    if args.write:
+        print(f"  wrote {out['wrote']} + data/{out['snapshot_wrote']} (committed bridge for the page)")
+        print("  next · 下一步：据 TREND.md 撰写 review/trend-review-<date>.md（中英、一手引用、前沿辩证）")
+    return 0
+
+
+def _cmd_pages(args: argparse.Namespace) -> int:
+    """P69: build the GitHub-Pages dashboard from the SSOT + committed snapshot."""
+    from . import pages
+
+    if args.json:
+        print(json.dumps(pages.run(write=False), ensure_ascii=False, indent=2))
+        return 0
+    res = pages.run(write=args.write, out=args.out)
+    print("pages dashboard · 页仪表盘")
+    print(f"  capabilities={res['capabilities']}  tools={res['tools']}  trend_clusters={res['trend_clusters']}  html={res['bytes']}B")
+    if args.write:
+        print(f"  wrote {res['wrote']} (+ .nojekyll)")
+        print("  deploy · 部署：push 后由 .github/workflows/pages.yml 自动构建并发布（或 Settings→Pages→Branch: docs）")
+    else:
+        print("  (dry run; add --write to emit docs/index.html)")
+    return 0
+
+
 def _cmd_self_update(args: argparse.Namespace) -> int:
     from . import config
     from .journal import append_journal
@@ -1491,6 +1555,10 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_self_update(args)
     if args.command == "self-model":
         return _cmd_self_model(args)
+    if args.command == "trend":
+        return _cmd_trend(args)
+    if args.command == "pages":
+        return _cmd_pages(args)
     if args.command == "skill":
         return _cmd_skill(args)
     if args.command == "capabilities":
