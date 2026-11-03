@@ -60,7 +60,7 @@ CLUSTERS: list[dict[str, Any]] = [
         "id": "trajectories",
         "title_en": "Other promising trajectories · 其他有趣且有潜力的方向",
         "topics": {"deep-research", "retrieval-grounding", "ambition-and-agency",
-                   "research-evaluation", "citation-integrity"},
+                   "research-evaluation", "citation-integrity", "emerging-directions"},
     },
     {
         "id": "domains",

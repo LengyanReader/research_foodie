@@ -6,86 +6,303 @@
     {
       "id": "agent-harness",
       "name_zh": "Agent 外壳/脚手架",
-      "queries": ["agent harness design", "agentic scaffold architecture", "autonomous agent loop", "harness learning test-time adaptation"],
-      "keywords": ["harness", "agent loop", "scaffold", "orchestration", "agent architecture", "dev-primitives", "resident llm"]
+      "queries": [
+        "agent harness design",
+        "agentic scaffold architecture",
+        "autonomous agent loop",
+        "harness learning test-time adaptation"
+      ],
+      "keywords": [
+        "harness",
+        "agent loop",
+        "scaffold",
+        "orchestration",
+        "agent architecture",
+        "dev-primitives",
+        "resident llm"
+      ]
     },
     {
       "id": "self-evolving-agents",
       "name_zh": "自演化 agent",
-      "queries": ["self-evolving agents", "self-improving agent", "automated agent design", "verifiable environments agentic co-evolution"],
-      "keywords": ["self-evolv", "self-improv", "self-referential", "godel", "seal", "adas", "evolution", "co-evolution", "revision sequence"]
+      "queries": [
+        "self-evolving agents",
+        "self-improving agent",
+        "automated agent design",
+        "verifiable environments agentic co-evolution"
+      ],
+      "keywords": [
+        "self-evolv",
+        "self-improv",
+        "self-referential",
+        "godel",
+        "seal",
+        "adas",
+        "evolution",
+        "co-evolution",
+        "revision sequence"
+      ]
     },
     {
       "id": "context-engineering",
       "name_zh": "上下文工程",
-      "queries": ["context engineering LLM agents", "long context management", "context compaction agents"],
-      "keywords": ["context engineering", "context window", "compaction", "retrieval", "attention"]
+      "queries": [
+        "context engineering LLM agents",
+        "long context management",
+        "context compaction agents"
+      ],
+      "keywords": [
+        "context engineering",
+        "context window",
+        "compaction",
+        "retrieval",
+        "attention"
+      ]
     },
     {
       "id": "agent-memory",
       "name_zh": "Agent 记忆",
-      "queries": ["agent memory long-term", "episodic memory LLM", "memory management agents 2026"],
-      "keywords": ["memory", "episodic", "semantic memory", "persistent state", "resumable"]
+      "queries": [
+        "agent memory long-term",
+        "episodic memory LLM",
+        "memory management agents 2026"
+      ],
+      "keywords": [
+        "memory",
+        "episodic",
+        "semantic memory",
+        "persistent state",
+        "resumable"
+      ]
     },
     {
       "id": "agent-skills-tools",
       "name_zh": "工具与技能",
-      "queries": ["agent skills", "tool use LLM", "progressive disclosure skills agents"],
-      "keywords": ["skill", "tool use", "function calling", "progressive disclosure", "tool surface"]
+      "queries": [
+        "agent skills",
+        "tool use LLM",
+        "progressive disclosure skills agents"
+      ],
+      "keywords": [
+        "skill",
+        "tool use",
+        "function calling",
+        "progressive disclosure",
+        "tool surface"
+      ]
     },
     {
       "id": "evaluation-gates",
       "name_zh": "评测与门禁",
-      "queries": ["LLM agent evaluation", "agent verifier reward", "process reward model agents", "scaling agentic verification long-horizon"],
-      "keywords": ["evaluation", "gate", "verifier", "reward model", "benchmark", "self-check", "consensus", "rollout"]
+      "queries": [
+        "LLM agent evaluation",
+        "agent verifier reward",
+        "process reward model agents",
+        "scaling agentic verification long-horizon"
+      ],
+      "keywords": [
+        "evaluation",
+        "gate",
+        "verifier",
+        "reward model",
+        "benchmark",
+        "self-check",
+        "consensus",
+        "rollout"
+      ]
     },
     {
       "id": "provenance-integrity",
       "name_zh": "来源与完整性",
-      "queries": ["LLM citation faithfulness", "attribution hallucination detection", "provenance agents"],
-      "keywords": ["provenance", "citation", "attribution", "faithfulness", "grounding", "unverified"]
+      "queries": [
+        "LLM citation faithfulness",
+        "attribution hallucination detection",
+        "provenance agents"
+      ],
+      "keywords": [
+        "provenance",
+        "citation",
+        "attribution",
+        "faithfulness",
+        "grounding",
+        "unverified"
+      ]
     },
     {
       "id": "multi-agent-collaboration",
       "name_zh": "多智能体协作",
-      "queries": ["multi-agent collaboration LLM", "agent handoff protocols", "agent teams orchestration"],
-      "keywords": ["multi-agent", "handoff", "collaboration", "protocol", "delegation"]
+      "queries": [
+        "multi-agent collaboration LLM",
+        "agent handoff protocols",
+        "agent teams orchestration"
+      ],
+      "keywords": [
+        "multi-agent",
+        "handoff",
+        "collaboration",
+        "protocol",
+        "delegation"
+      ]
     },
     {
       "id": "ambition-and-agency",
       "name_zh": "野心与主动性",
-      "queries": ["raising ambition with AI agents", "requirement refinement and goal elevation LLM", "goal setting theory specific difficult goals"],
-      "keywords": ["ambition", "elevate", "stretch goal", "goal setting", "requirement refinement", "outside judge", "expert instrument"]
+      "queries": [
+        "raising ambition with AI agents",
+        "requirement refinement and goal elevation LLM",
+        "goal setting theory specific difficult goals"
+      ],
+      "keywords": [
+        "ambition",
+        "elevate",
+        "stretch goal",
+        "goal setting",
+        "requirement refinement",
+        "outside judge",
+        "expert instrument"
+      ]
     },
     {
       "id": "scholarly-discovery",
       "name_zh": "论文发现与检索渠道",
-      "queries": ["hugging face daily papers trending this week", "new arXiv cs.MA multi-agent papers", "semantic scholar paper graph agent harness 2026", "openalex works on LLM agent evaluation"],
-      "keywords": ["arxiv", "hugging face papers", "semantic scholar", "google scholar", "openalex", "dblp", "alphaxiv", "paper discovery", "preprint"]
+      "queries": [
+        "hugging face daily papers trending this week",
+        "new arXiv cs.MA multi-agent papers",
+        "semantic scholar paper graph agent harness 2026",
+        "openalex works on LLM agent evaluation"
+      ],
+      "keywords": [
+        "arxiv",
+        "hugging face papers",
+        "semantic scholar",
+        "google scholar",
+        "openalex",
+        "dblp",
+        "alphaxiv",
+        "paper discovery",
+        "preprint"
+      ]
     },
     {
       "id": "mcp-skills-ecosystem",
       "name_zh": "工具生态（MCP/技能）",
-      "queries": ["new MCP servers official registry", "Agent Skills ecosystem adoption 2026", "MCP security tool poisoning advisory", "MCP registry vs directories smithery glama pulsemcp"],
-      "keywords": ["mcp", "model context protocol", "agent skills", "skill", "registry", "tool discovery", "progressive disclosure", "tool poisoning", "marketplace"]
+      "queries": [
+        "new MCP servers official registry",
+        "Agent Skills ecosystem adoption 2026",
+        "MCP security tool poisoning advisory",
+        "MCP registry vs directories smithery glama pulsemcp"
+      ],
+      "keywords": [
+        "mcp",
+        "model context protocol",
+        "agent skills",
+        "skill",
+        "registry",
+        "tool discovery",
+        "progressive disclosure",
+        "tool poisoning",
+        "marketplace"
+      ]
     },
     {
       "id": "classical-texts-dh",
       "name_zh": "古籍整理数字人文工具",
-      "queries": ["CBETA CBDB ctext API digital humanities classical Chinese", "classical Chinese OCR ancient books digitization model", "SikuBERT ancient text NER segmentation", "buddhist canon linked open data BDRC"],
-      "keywords": ["classical chinese", "古籍", "digital humanities", "cbeta", "cbdb", "ctext", "TEI", "pretraining", "ancient books", "collation", "句读", "断句"]
+      "queries": [
+        "CBETA CBDB ctext API digital humanities classical Chinese",
+        "classical Chinese OCR ancient books digitization model",
+        "SikuBERT ancient text NER segmentation",
+        "buddhist canon linked open data BDRC"
+      ],
+      "keywords": [
+        "classical chinese",
+        "古籍",
+        "digital humanities",
+        "cbeta",
+        "cbdb",
+        "ctext",
+        "TEI",
+        "pretraining",
+        "ancient books",
+        "collation",
+        "句读",
+        "断句"
+      ]
     },
     {
       "id": "ai-tool-stack",
       "name_zh": "AI 工具栈（harness 外组件工具）",
-      "queries": ["new agent memory layer open source release 2026", "LLM observability OpenTelemetry GenAI conventions adoption", "agent code execution sandbox release E2B Modal Daytona", "structured output generation library release constrained decoding", "LLM evaluation red teaming framework release promptfoo deepeval ragas", "AI gateway model routing litellm release", "open source LLM inference engine vllm sglang llama.cpp release", "LLM guardrails toolkit jailbreak defense release"],
-      "keywords": ["memory layer", "temporal knowledge graph", "observability", "opentelemetry", "genai conventions", "sandbox", "code execution", "structured output", "constrained generation", "pydantic", "eval harness", "red teaming", "gateway", "model routing", "inference engine", "guardrails", "apache-2.0", "release"]
+      "queries": [
+        "new agent memory layer open source release 2026",
+        "LLM observability OpenTelemetry GenAI conventions adoption",
+        "agent code execution sandbox release E2B Modal Daytona",
+        "structured output generation library release constrained decoding",
+        "LLM evaluation red teaming framework release promptfoo deepeval ragas",
+        "AI gateway model routing litellm release",
+        "open source LLM inference engine vllm sglang llama.cpp release",
+        "LLM guardrails toolkit jailbreak defense release"
+      ],
+      "keywords": [
+        "memory layer",
+        "temporal knowledge graph",
+        "observability",
+        "opentelemetry",
+        "genai conventions",
+        "sandbox",
+        "code execution",
+        "structured output",
+        "constrained generation",
+        "pydantic",
+        "eval harness",
+        "red teaming",
+        "gateway",
+        "model routing",
+        "inference engine",
+        "guardrails",
+        "apache-2.0",
+        "release"
+      ]
+    },
+    {
+      "id": "emerging-directions",
+      "keywords": [
+        "world model",
+        "embodied",
+        "multimodal agent",
+        "AI4Science",
+        "scientific discovery",
+        "causal",
+        "interpretability",
+        "mechanistic",
+        "constraint satisfaction",
+        "neuro-symbolic",
+        "test-time compute",
+        "inference scaling",
+        "agent safety",
+        "surreal",
+        "emergent"
+      ]
     }
   ],
   "frontier_probes": [
-    { "id": "adjacent-1", "query": "emerging AI agent paradigms 2026", "why": "boundary expansion" },
-    { "id": "adjacent-2", "query": "agent sandboxing and safety 2026", "why": "risk surface" },
-    { "id": "adjacent-3", "query": "computer-use and browser agents 2026", "why": "tool surface frontier" },
-    { "id": "adjacent-4", "query": "world models and planning agents 2026", "why": "adjacent paradigm" }
+    {
+      "id": "adjacent-1",
+      "query": "emerging AI agent paradigms 2026",
+      "why": "boundary expansion"
+    },
+    {
+      "id": "adjacent-2",
+      "query": "agent sandboxing and safety 2026",
+      "why": "risk surface"
+    },
+    {
+      "id": "adjacent-3",
+      "query": "computer-use and browser agents 2026",
+      "why": "tool surface frontier"
+    },
+    {
+      "id": "adjacent-4",
+      "query": "world models and planning agents 2026",
+      "why": "adjacent paradigm"
+    }
   ]
 }

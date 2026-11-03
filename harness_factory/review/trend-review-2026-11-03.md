@@ -44,7 +44,35 @@ Updated: 2026-11-03 · P69 worked instance of the standing routine work
 
 **EN.** The harness cluster (3336, 888 in 30d) equals the *whole* corpus because every tracked item carries the `agent-harness` topic — breadth, not a niche. The real literature density sits in the three 2026-11 full-reads: **R279 ThinkingBox** (state-graded sandbox; its failure taxonomy — most failures are tool-handling, not reasoning, and 77.61% of "clean" terminations still carry wrong field values — is the empirical footnote to M5.13/M5.12); **R280 QueenBee** (a recursively self-improving *harness*: weights frozen, the orchestration layer evolves via a structural SFT-Bank of diagnoses/hypotheses/validation, and its safeguard list maps one-to-one onto this library's clauses); **R281 LegoSR** (self-improving agent-guided scientific discovery; *listed*). Synthesis: 2026 harness research has shifted from *capability* to *trustworthy closure* — state grading, structural validation memory, held-out falsification, conservative credit — corroborating, not contradicting, the library's D1 self-evolution shape.
 
+
 ---
+
+## 2b. 本库八族配对试验的一手证据 · First-hand evidence from the eight-family paired trials
+
+**中文.** 趋势综述通常只看外部论文与厂商发布。本库的独特优势是拥有**八族 × 双条件的配对试验数据**（24 条真实轨迹）——这是量化 harness 价值的一手证据，不是厂商自报。
+
+| 族 | 裸奔 | harness | delta | 判分方式 | 来源 |
+|---|---|---|---|---|---|
+| model-choice | 0.00 | 1.00 | **1.00** | 选型记录结构完整性（M4.17） | P48 |
+| proof-verification | 0.00 | 1.00 | **1.00** | Lean 编译 + 零逃逸 | P50/P61 |
+| kg-dh | 0.00 | 1.00 | **1.00** | 证据指针解析（M4.13） | P53 |
+| bayesian-stats | 0.20 | 1.00 | 0.80 | 判分者独立重推导（M3.11） | P50 |
+| lit-review | 0.20 | 1.00 | 0.80 | 引用可核验性（abs-page 解析） | P45 |
+| deep-research | 0.40 | 1.00 | 0.60 | 多跳引用链逐 hop 核验 | P56 |
+| unit-tests (semver) | 0.55 | 1.00 | 0.45 | 判分者先行隐藏重放（LHTB） | P50 |
+| reading-extraction | 0.78 | 0.94 | 0.16 | 16 流派 × 经典源精确匹配 | P62 |
+
+**三条跨族结论**：
+
+1. **harness 的贡献随可验证性递增。** 证明/选型/指针族 delta=1.0（裸奔完全失败），提取/综述族 delta=0.16–0.80（裸奔部分正确但缺溯源与界定）。这与 R279 ThinkingBox 的发现——「四分之三的失败是工具处理而非推理」——形成跨源印证：**harness 的问题不在推理，在可检验性**。
+
+2. **裸奔的缺陷不是「差」而是「不可审」。** 裸奔的数值有时接近（如贝叶斯 0.20 族的点估计），但无先验声明/无诊断/无来源——读者无法把主张还原到证据。这与 M0.1（真实与可溯源优先于速度）的立库之本完全一致。
+
+3. **记忆伪造精确出处**（deep-research trial）：裸奔把 Roughgarden 2016 教科书的引用凭空具体化为「Kalyanasundaram–Schnitger 1992 STOC」——主题对、引文错。**多跳解析是引用完整性的最低要求**（M3.18(c)）。
+
+**EN.** The unique advantage: 8 families × 2 conditions of paired-trial data (24 real traces) — first-hand evidence of harness value, not vendor self-report. Cross-family: harness wins 8/8, bare mean 0.27 vs harness 0.99. The harness contribution scales with task verifiability (proof/selection delta=1.0; extraction delta=0.16). The bare condition's failure is not "wrong" but "unauditable" — readers cannot trace claims to evidence. And memory fabricates precise attributions (topic right, citation wrong), making multi-hop resolution the minimum bar for citation integrity. These findings are unique to this library — no external survey has paired-trial data at this granularity.
+
+------
 
 ## 3. 其他有趣且有潜力的方向 · Other promising directions
 
