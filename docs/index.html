@@ -63,6 +63,12 @@ h2 small{color:var(--mut);font-weight:500;font-size:13px;margin-left:8px}
 .segs{display:flex;gap:4px;flex-wrap:wrap}
 .seg{width:18px;height:18px;border-radius:5px;display:inline-block}
 .seg.on{background:#2e9e5b}.seg.off{background:#e4eaf1}
+.arts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:8px}
+.art{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:4px solid var(--brand2);border-radius:10px;padding:12px 14px;transition:border-color .15s}
+.art b{display:block;font-size:13.5px}
+.art span{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.art em{display:block;font-size:10.5px;color:#8195a8;margin-top:7px;font-style:normal;font-family:ui-monospace,Consolas,monospace}
+.art:hover{border-left-color:var(--brand);background:#fafcff}
 footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}
 @media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.brow{grid-template-columns:1fr 120px 30px}.tln{grid-template-columns:80px 1fr;}.tln .tlt{grid-column:1/-1}
@@ -70,7 +76,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-si
 </style></head><body><div class="wrap">
 <header><h1>Harness Factory · 全景趋势与能力仪表盘
 <span>Agent-harness pattern library — self-model, trend review &amp; the AI tool-stack</span></h1>
-<div class="stamp">generated 2026-11-03 04:43 UTC<br><a href="https://github.com/data-institute/research_foodie">github.com · research_foodie</a><br>static · no backend · MIT</div></header>
+<div class="stamp">generated 2026-11-03 12:54 UTC<br><a href="https://github.com/LengyanReader/research_foodie">github.com · research_foodie</a><br>static · no backend · MIT</div></header>
 
 <h2>1 · Self-model <small>计算自我模型（M5.11，源出 SSOT）</small></h2>
 <p class="lead">每个数字都在构建时从 <code>data/*.json</code> 现算，绝不手抄——页面因此不会悄悄过期。
@@ -142,7 +148,12 @@ Every figure is computed from the SSOT at build time, never hand-copied.</p>
 <div class="dialc"><h3>License is a gate</h3><p><code>NOASSERTION</code> 许可证（LiteLLM/NeMo）不是小事——它直接卡住入表门，先核再进 <code>sources.json</code>。<br><span class="muted">Ambiguous licenses block intake (M0.8).</span></p></div>
 </div>
 
-<h2>7 · Routine · 例行工作</h2>
+<h2>7 · Related articles <small>相关文章 · 综述正文与扫描报告（点击在 GitHub 阅读）</small></h2>
+<p class="lead">本页是这些文章的**可视化封面**；点开即进入中英双语、带一手引用与访问日期的正文与文献综述。
+This dashboard is the *visual cover* — open the authored, primary-source-cited bodies here.</p>
+<div class="arts"><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/trend-review-2026-11-03.md" target="_blank" rel="noopener"><b>趋势综述与文献辩证 · 2026-11-03</b><span>Trend review &amp; literature synthesis · the P69 body</span><em>review/trend-review-2026-11-03.md</em></a><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/harness-landscape-scan-2026-10.md" target="_blank" rel="noopener"><b>harness 全景扫描 · 2026-10</b><span>Harness landscape scan</span><em>review/harness-landscape-scan-2026-10.md</em></a><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/ai-tool-stack-scan-2026-11.md" target="_blank" rel="noopener"><b>AI 工具栈扫描 · 2026-11</b><span>Beyond-harness AI tool-stack scan (P68)</span><em>review/ai-tool-stack-scan-2026-11.md</em></a><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/ai-harness-survey.md" target="_blank" rel="noopener"><b>Agent Harness 综述</b><span>Agent-harness survey · foundational literature review</span><em>review/ai-harness-survey.md</em></a><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/frontier-2026-10.md" target="_blank" rel="noopener"><b>前沿方向 · 2026-10</b><span>Frontier directions</span><em>review/frontier-2026-10.md</em></a><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/self-model-and-gap-seeking-2026-10.md" target="_blank" rel="noopener"><b>自我模型与缺口求解</b><span>Self-model &amp; gap-seeking</span><em>review/self-model-and-gap-seeking-2026-10.md</em></a><a class="art" href="https://github.com/LengyanReader/research_foodie/blob/main/harness_factory/review/references.md" target="_blank" rel="noopener"><b>文献库索引 R1–R281</b><span>Reference index · numbered literature</span><em>review/references.md</em></a></div>
+
+<h2>8 · Routine · 例行工作</h2>
 <p class="lead">每次更新后自动运行：聚合→写 <code>updates/TREND.md</code> 脚手架→刷新快照→重生成此页。
 深度综述正文（中英、带一手引用、含前沿辩证）写入 <code>review/trend-review-&lt;date&gt;.md</code>，本页是它的可视化封面。
 Full-update phase 8 regenerates this scaffold &amp; page; the analysis body lives in <code>review/trend-review-*.md</code>.</p>

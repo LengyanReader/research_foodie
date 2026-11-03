@@ -14,7 +14,10 @@ that visualizes, as inline SVG infographics, everything the loop already compute
   breadth cards, backed by total vs recent-30-day volume bars,
 * the **AI tool-stack** (the P68 ``ai-tool-stack`` scan) as a family matrix with a
   license/status dot per tool,
-* a **recent-intel timeline** stitched from the snapshot rows.
+* a **recent-intel timeline** stitched from the snapshot rows, and
+* **clickable entries to the related articles** (the authored trend-review body, the
+  landscape & tool-stack scans, the harness survey, the reference index) -- linked to
+  the rendered markdown on GitHub, since Pages serves only ``docs/``.
 
 Why stdlib-only SVG (no plotly/chart.js/matplotlib): the whole test suite is pure
 ``unittest`` with zero external deps (a hard project rule), and GitHub Pages hosts
@@ -38,7 +41,22 @@ from . import trend
 
 OUT_REL = "docs/index.html"
 NOJEKYLL_REL = "docs/.nojekyll"
-REPO_URL = "https://github.com/data-institute/research_foodie"
+REPO_URL = "https://github.com/LengyanReader/research_foodie"
+BRANCH = "main"
+
+#: Related articles the dashboard is the *visual cover* for -- the authored, cited
+#: review/literature bodies. Links resolve to the rendered markdown on GitHub
+#: (GitHub Pages serves only ``docs/``, so the ``.md`` bodies live in the repo).
+#: Presentation-layer curation; a test guards that every path exists (no dead link).
+ARTICLES: list[tuple[str, str, str]] = [
+    ("趋势综述与文献辩证 · 2026-11-03", "Trend review & literature synthesis · the P69 body", "trend-review-2026-11-03.md"),
+    ("harness 全景扫描 · 2026-10", "Harness landscape scan", "harness-landscape-scan-2026-10.md"),
+    ("AI 工具栈扫描 · 2026-11", "Beyond-harness AI tool-stack scan (P68)", "ai-tool-stack-scan-2026-11.md"),
+    ("Agent Harness 综述", "Agent-harness survey · foundational literature review", "ai-harness-survey.md"),
+    ("前沿方向 · 2026-10", "Frontier directions", "frontier-2026-10.md"),
+    ("自我模型与缺口求解", "Self-model & gap-seeking", "self-model-and-gap-seeking-2026-10.md"),
+    ("文献库索引 R1–R281", "Reference index · numbered literature", "references.md"),
+]
 
 #: P68 tool-stack families (survey ai-tool-stack-scan-2026-11.md F1-F7) -> members.
 #: Presentation-layer grouping; the survey doc owns the taxonomy narrative.
@@ -264,6 +282,22 @@ def tool_matrix(tools: list[dict[str, Any]]) -> str:
     return "".join(out)
 
 
+def articles_html(articles: list[tuple[str, str, str]] = ARTICLES) -> str:
+    """Clickable entries to the related article bodies (rendered markdown on GitHub).
+    Anchors keep the page self-contained -- the ban is on <script>/<link>/<img>, not
+    on links, which is what lets a reader reach the full cited review from the cover."""
+    out = ['<div class="arts">']
+    for zh, en, rel in articles:
+        url = f"{REPO_URL}/blob/{BRANCH}/harness_factory/review/{rel}"
+        out.append(
+            f'<a class="art" href="{_esc(url)}" target="_blank" rel="noopener">'
+            f'<b>{_esc(zh)}</b><span>{_esc(en)}</span>'
+            f'<em>review/{_esc(rel)}</em></a>'
+        )
+    out.append("</div>")
+    return "".join(out)
+
+
 # --------------------------------------------------------------------------- render
 
 def render_html(data: dict[str, Any]) -> str:
@@ -379,6 +413,12 @@ h2 small{{color:var(--mut);font-weight:500;font-size:13px;margin-left:8px}}
 .segs{{display:flex;gap:4px;flex-wrap:wrap}}
 .seg{{width:18px;height:18px;border-radius:5px;display:inline-block}}
 .seg.on{{background:#2e9e5b}}.seg.off{{background:#e4eaf1}}
+.arts{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:8px}}
+.art{{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:4px solid var(--brand2);border-radius:10px;padding:12px 14px;transition:border-color .15s}}
+.art b{{display:block;font-size:13.5px}}
+.art span{{display:block;font-size:12px;color:var(--mut);margin-top:2px}}
+.art em{{display:block;font-size:10.5px;color:#8195a8;margin-top:7px;font-style:normal;font-family:ui-monospace,Consolas,monospace}}
+.art:hover{{border-left-color:var(--brand);background:#fafcff}}
 footer{{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}}
 @media(max-width:820px){{.kpis{{grid-template-columns:repeat(2,1fr)}}}}
 @media(max-width:640px){{.brow{{grid-template-columns:1fr 120px 30px}}.tln{{grid-template-columns:80px 1fr;}}.tln .tlt{{grid-column:1/-1}}
@@ -442,7 +482,12 @@ Every figure is computed from the SSOT at build time, never hand-copied.</p>
 <div class="dialc"><h3>License is a gate</h3><p><code>NOASSERTION</code> 许可证（LiteLLM/NeMo）不是小事——它直接卡住入表门，先核再进 <code>sources.json</code>。<br><span class="muted">Ambiguous licenses block intake (M0.8).</span></p></div>
 </div>
 
-<h2>7 · Routine · 例行工作</h2>
+<h2>7 · Related articles <small>相关文章 · 综述正文与扫描报告（点击在 GitHub 阅读）</small></h2>
+<p class="lead">本页是这些文章的**可视化封面**；点开即进入中英双语、带一手引用与访问日期的正文与文献综述。
+This dashboard is the *visual cover* — open the authored, primary-source-cited bodies here.</p>
+{articles_html()}
+
+<h2>8 · Routine · 例行工作</h2>
 <p class="lead">每次更新后自动运行：聚合→写 <code>updates/TREND.md</code> 脚手架→刷新快照→重生成此页。
 深度综述正文（中英、带一手引用、含前沿辩证）写入 <code>review/trend-review-&lt;date&gt;.md</code>，本页是它的可视化封面。
 Full-update phase 8 regenerates this scaffold &amp; page; the analysis body lives in <code>review/trend-review-*.md</code>.</p>

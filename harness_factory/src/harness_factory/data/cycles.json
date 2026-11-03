@@ -2242,21 +2242,21 @@
     },
     {
       "id": "P69.R2",
-      "status": "deferred",
+      "status": "done",
       "cycle": "P69",
       "source": "user directive '放在这个github的来部署和浏览' - the workflow exists but Pages is not yet enabled/pushed",
       "title_en": "Enable GitHub Pages (Settings -> Source: GitHub Actions) and confirm the first deploy of docs/index.html live",
-      "reason": "the build+deploy workflow and the offline artifact are committed, but enabling Pages and pushing are the user's explicit-only actions (never auto-push); this item is the human-gate handoff for the live URL",
-      "revisit_when": "the user asks to push/deploy - then verify the deployed page and wire an adoption-evidence update if the visualization is used externally"
+      "reason": "RESOLVED 2026-11-03: the user enabled Pages and asked to push; the first deploy of docs/index.html was verified live at https://lengyanreader.github.io/research_foodie/ (HTTP 200). The build+deploy workflow and offline artifact were already committed.",
+      "revisit_when": "if Pages stops serving (source mis-set) or an adoption-evidence update is wanted once the visualization is used externally"
     },
     {
       "id": "P69.R3",
-      "status": "deferred",
+      "status": "done",
       "cycle": "P69",
       "source": "P69 mechanism - the page visualizes the aggregate but not the authored prose yet",
       "title_en": "Surface the authored review/trend-review-<date>.md (its headline judgments + citation anchors) inside the dashboard, not just the raw clusters",
-      "reason": "the engine should aggregate and the human should analyze; the open question is the honest bridge - embedding curated excerpts (with per-claim source links) without the engine pretending to have done the reasoning. Design must keep M4 (no silent LLM rewrite) and the citations lifeline",
-      "revisit_when": "the routine has produced two or three dated reviews and a stable excerpt format emerges worth templating"
+      "reason": "RESOLVED 2026-11-03 (honest bridge = link, not engine-authored excerpts): the dashboard §7 now carries clickable entries to the authored bodies (trend-review body, landscape & tool-stack scans, harness survey, reference index), linked to the rendered markdown on GitHub with a dead-link guard. This keeps M4 (the engine surfaces and points, never opines) and the citations lifeline while making the prose reachable from the cover.",
+      "revisit_when": "the routine has produced two or three dated reviews and a stable excerpt format emerges worth templating inline (headline judgments + per-claim source anchors rendered onto the page, not just linked)"
     }
   ]
 }

@@ -10,7 +10,8 @@
 - **分析正文（引擎只聚合引用、不下判断 M4）。** 撰写 `review/trend-review-2026-11-03.md`：三部分各附前沿辩证，凡声明回一手源——引本库全文读 R279 ThinkingBox（状态判分/失败分类）、R280 QueenBee（递归自改进 harness，保护清单一一映射 M5.13/5.12/5.11/M4.12）、R281 LegoSR + P68 已核工具事实（GraphRAG 维护模式、Mem0 平台限定分、NOASSERTION 许可）。
 - **部署。** `.github/workflows/pages.yml`：push main 时从 SSOT 构建 docs/（configure-pages + deploy-pages）；`ci.yml` 加离线页构建步并断言「零外部资产」。经典 `/docs` 路径亦可（docs/ 未被忽略）。
 - **浏览器 QA（a11y 几何）驱动五修。** agent-harness 移出 industry、定标 SVG 换响应式 HTML 分组条、时间线按 url 去重、KPI 网格消孤卡、近零簇留可见细条。
-- **测试。** 新增 `test_trend`（9，合成注入聚合/快照/脚手架/根内写出）+ `test_pages`（13，零资产/双语/转义/去重/离线无快照仍构建）+ `P69RoutineTest`（7 接线守卫：第八相/CLI/快照四簇/CI+pages.yml/已发页面自足/正文三段/AGENTS 记录）；full-update 相位表加 trend-review。**499→506→510**（用户「足够可视化/信息图」指示追加动量环/分段格/域点名，`test_pages` 13→17）；catalog/map/capabilities 重生成；cycle audit：65 轮 0 硬 0 洞。
+- **相关文章入口 + 链接修正（用户「配置页面中的相关入口，可以访问」）。** 仪表盘新增 §7「相关文章」卡片，7 条入口链至已渲染的 GitHub markdown（trend-review 正文 · harness 全景扫描 · AI 工具栈扫描 · agent-harness 综述 · 前沿方向 · 自我模型 · 文献库索引）——Pages 只托管 `docs/`，正文 `.md` 活在仓库，故链至 blob 页（锁链仍满足自足不变：只禁 `<script>/<link>/<img>`，`<a>` 允许）。修 `REPO_URL`：旧值误指 `data-institute`，现改真实 `LengyanReader/research_foodie`。守卫：死链检查（每条 `review/*` 路径必须存在）+ blob 渲染断言 + 仓地址断言（`test_pages` 17→20）。
+- **测试。** 新增 `test_trend`（9，合成注入聚合/快照/脚手架/根内写出）+ `test_pages`（20，零资产/双语/转义/去重/离线无快照仍构建/动量环/分段/域 chip/相关文章）+ `P69RoutineTest`（7 接线守卫：第八相/CLI/快照四簇/CI+pages.yml/已发页面自足/正文三段/AGENTS 记录）；full-update 相位表加 trend-review。**499→506→510→513**；catalog/map/capabilities 重生成；cycle audit：65 轮 0 硬 0 洞。
 - **登记。** cycles P69 + roadmap **P69.R1**（有趣方向簇读空→加宽 watchlist）**·R2**（启用 Pages 并首部署验证——推送/开启为用户显式动作）**·R3**（把正文摘录引上仪表盘，须守住 M4/引用即生命线）。
 
 ## 2026-11-03 · P68：harness 外工具生态轮 —— 七能力族一手源扫描 · ai-tool-stack 常转循环

@@ -180,6 +180,29 @@ class RenderTest(unittest.TestCase):
         self.assertIn("&lt;img", html)
 
 
+class ArticlesTest(unittest.TestCase):
+    def test_every_related_article_path_exists_no_dead_link(self):
+        base = Path(__file__).resolve().parent.parent / "review"
+        self.assertTrue(pages.ARTICLES)
+        for _zh, _en, rel in pages.ARTICLES:
+            self.assertTrue((base / rel).exists(), f"dead link: review/{rel}")
+
+    def test_articles_render_as_github_blob_links_and_stay_self_contained(self):
+        html = pages.render_html({
+            "generated": "2026-11-03 00:00 UTC", "self_model": _sm(),
+            "trend": _snap(),
+            "tools": [_tool("mem0", "Mem0", "F1", "ok")],
+        })
+        self.assertIn("Related articles", html)
+        self.assertIn(f"{pages.REPO_URL}/blob/{pages.BRANCH}/harness_factory/review/"
+                      f"trend-review-2026-11-03.md", html)
+        self.assertEqual(html.count('class="art"'), len(pages.ARTICLES))
+        self.assertNotRegex(html, r"(?i)<(script|link|img)[ >]")  # anchors allowed, assets not
+
+    def test_repo_url_points_at_the_real_repo(self):
+        self.assertEqual(pages.REPO_URL, "https://github.com/LengyanReader/research_foodie")
+
+
 class BuildTest(unittest.TestCase):
     def test_default_out_is_docs_index_at_repo_root(self):
         self.assertEqual(pages.default_out().name, "index.html")
