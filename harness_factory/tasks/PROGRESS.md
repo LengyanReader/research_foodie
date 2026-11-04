@@ -2,6 +2,17 @@
 
 **Updated:** 2026-11-04
 
+## 2026-11-03 · KG 构建模拟试验（P65-ext）—— 四 DH 能力同时测试
+
+- **试验设计。** 源文本 = 本库自身三篇综述段落（ThinkingBox/QueenBee/LegoSR），要求抽取实体与关系、声明本体 schema、归一身份、构建带源指针的知识图。四条 DH 能力同时测试：ontology-as-contract（schema 先行 M4.11）· entity-resolution（身份归一）· evidence-bounded-generation（逐 triple 带指针 M4.13）· schema-evolution（版本检查）。
+- **schema v1 预声明。** 5 Entity types（Paper/Organization/Method/Metric/Person）× 5 Relation types（authored_by/evaluated_on/improves_over/uses_method/introduces），每类型带 identity rule（M4.12）。工作前声明（M5.13）。
+- **双条件结果。** 裸奔 **0.4**：凭记忆仅提 5 个实体 + 3 个关系，无 schema、无源指针、无身份归一、无版本检查。harness **1.0**：schema 先行 → 重读源文本 → 14 个实体 + 10 个 triple 全部带 review/ 源指针 → 身份归一检查（Hugging Face 同一 ✓ · Microsoft 不合并 ✓）→ schema 版本检查（v1 足够，沉默即证据 M4.13）→ 沉默记录（无 ThinkingBox vs QueenBee 直接比较）。
+- **判分脚本教训（M3.19 扫荡版）。** 判分脚本初版用窄正则匹配 triple 格式 → 对条件 B 的中文表述和 Markdown 表格格式均不匹配 → 两个条件都误判为 0.40。人工重验后修正：裸奔 0.4 / harness 1.0。**判分器的输出格式必须匹配被测物的实际格式。**
+- **轨迹。** 收据 = 轨迹 #27/#28（tool home 现 **28 条真实轨迹**）。
+- **登记。** 产物在 `updates/dogfood/p65-kg-simulation/`（gitignored）；PROGRESS 本条目为记录。按默认指示 commit，不 push。
+
+---
+
 ## 2026-11-04 · P71：具身外壳整合轮 —— 评估 uni-robot-agent 论文 · 落 M2.14 流水执行 + 无特权输入门禁
 
 - **用户指令。** 「全面评估这篇文章提及的工作可以如何整合进来（微信公众号学术头条转述链接）……可以按照你的建议实现即可，并进行充分实验、模拟和测试，保证效果」；用户随后补一手论文链接 arXiv:2611.01560。
