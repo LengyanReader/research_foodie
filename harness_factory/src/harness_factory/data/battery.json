@@ -284,6 +284,56 @@
       "trial_projects": [
         "updates/dogfood/p65-comprehensive"
       ]
+    },
+    {
+      "task_id": "source-criticism",
+      "status": "done",
+      "grounding": "source hierarchy + corroboration + dating + silence recording (P27 discipline)",
+      "judge_checks": [
+        "E1 source hierarchy",
+        "E2 corroboration quality",
+        "E3 explicit dating",
+        "E4 silence recorded",
+        "E5 cross-source reconciliation"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.4,
+        "B-harness": 1.0
+      },
+      "round": "P65-ext",
+      "traces": "tool home",
+      "trial_projects": [
+        "updates/dogfood/p65-capability-expansion/source-criticism"
+      ]
+    },
+    {
+      "task_id": "argument-reconstruction",
+      "status": "done",
+      "grounding": "premise-conclusion form + stance declaration + counterexample engagement (P27 discipline)",
+      "judge_checks": [
+        "E1 premise-conclusion completeness",
+        "E2 stance declared",
+        "E3 counterexample engaged",
+        "E4 logical validity",
+        "E5 language register"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.2,
+        "B-harness": 1.0
+      },
+      "round": "P65-ext",
+      "traces": "tool home",
+      "trial_projects": [
+        "updates/dogfood/p65-capability-expansion/argument-reconstruction"
+      ]
     }
   ]
 }
