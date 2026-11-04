@@ -1845,6 +1845,34 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P71",
+      "date": "2026-11-04",
+      "status": "done",
+      "title_en": "Integrate uni-robot-agent (embodied robot-use harness): register R291, add core/03 M2.14 pipelined execution, and a no-privileged-input fair-attribution gate",
+      "title_zh": "整合 uni-robot-agent（具身机器人使用外壳）：登记 R291、新增 core/03 M2.14 流水化执行、并立无特权输入公平归因门禁",
+      "note": "User directive: assess how the paper a WeChat write-up reported (arXiv:2611.01560, uni-robot-agent; Tsinghua + UC Berkeley) could be integrated, then implement with experiments/simulation. Re-verified against primary sources: the arXiv abs page (v2, CC BY 4.0) and the Open-RUA/uni-robot-agent repo (LICENSE read = MIT, releases.atom feed HTTP 200). Registered reference R291 (references.md §AF Embodied & robot-use harnesses + references.bib yuan2026democratizing) and a sources.json tools entry. This is the physical-domain counterpart to P70's digital agent-capability evaluation: its four design principles map onto the library - Unified tool interfaces (core/02), Efficient overlap of reasoning with execution (new core/03 clause M2.14), Realistic no-privileged-input state grading (evidence-instruments gate 6), Modular replaceable runtime/tools/backends (core/07). The failure taxonomy (visual understanding / spatial grounding / geometric encoding / embodied reasoning) is recorded as an external crosswalk for battery A-bare failure attribution. The watchlist agent-harness topic was widened with embodied/robot-use probes so full-update re-surfaces this direction. Per M0.4 no robotics domain or robot backend was built; the deferred decision is a roadmap item. Every benchmark figure (RoboDojo 31.39 vs the published GPT-6 Astra-RoboProbe 28.97, the 19 real tasks, the four capabilities) is *reported, not replicated* - none is asserted as this factory's own capability, and the WeChat headline's over-claim is corrected in references §AF and survey §7. Suite 525->535 (P71EmbodiedHarnessTest +8 content guards; EmbodiedGradingTest +2 pass^k environment-grading simulation, following the P63/P70 sim-test precedent).",
+      "slices": [
+        "P71.1 - primary-source verify (arXiv abs + repo LICENSE/feed); register R291 in references.md §AF + references.bib",
+        "P71.2 - sources.json tools += uni-robot-agent (MIT, feed 200, topics agent-harness/evaluation-gates)",
+        "P71.3 - core/03 M2.14 pipelined-execution clause (+ checklist row, anti-pattern, source-map row), cites R291",
+        "P71.4 - evidence-instruments gate 6 no-privileged-input fair attribution + embodied state-grading extension + four-capability taxonomy",
+        "P71.5 - watchlist agent-harness widened for embodied/robot-use discovery; survey §7 + BATTERY embodied crosswalk",
+        "P71.6 - P71EmbodiedHarnessTest (+8 guards) + EmbodiedGradingTest pass^k environment-grading sim (+2); catalog/pages regen + cycle audit"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [
+          "M2.14"
+        ],
+        "references": [
+          "R291"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -2300,6 +2328,24 @@
       "title_en": "Execute the agent-eval-reliability paired trial (n>=k repeats per task, environment-state graded) and flip the family to done with real receipts",
       "reason": "The bar is set but not run: pass^k needs each task repeated k times with receipts, so on the current single-run-per-task stream it reads thin. Running it is a real model-judgment task the registry never executes itself; the spec is ready via 'harness battery --next'. Leaving results empty until then is the M5.11/M5.13 discipline (observe, never fabricate).",
       "revisit_when": "the next battery round - run the paired A-bare/B-harness repeats into updates/dogfood/p70-agent-eval-reliability, harvest task_outcome receipts, recompute harness passk, then battery.mark_done"
+    },
+    {
+      "id": "P71.R1",
+      "status": "planned",
+      "cycle": "P71",
+      "source": "P71 integrated the embodied fair-attribution rule (evidence-instruments gate 6, R291) but did not execute a physical trial",
+      "title_en": "Run the physical A-bare/B-harness paired trial - grade environment end-state on robot-use tasks, k repeats, ground the agent-eval-reliability family with the four-capability failure attribution",
+      "reason": "The bar is set but not run: this factory ships no robot backend (M0.4), and results are left empty until a real repeated, environment-state-graded trial is harvested (M5.11/M5.13 observe-never-fabricate).",
+      "revisit_when": "the next battery round that can run repeated tasks against a uni-robot-agent/RoboDojo integration, harvest task_outcome environment verdicts, recompute harness passk, then battery.mark_done"
+    },
+    {
+      "id": "P71.R2",
+      "status": "deferred",
+      "cycle": "P71",
+      "source": "P71 integration-map decision point 5 (standalone embodied domain)",
+      "title_en": "A standalone domains/robotics-embodied/ playbook",
+      "reason": "Deferred per M0.4: no consumer routes to an embodied-robotics domain yet, and the harness patterns currently live in core/03 M2.14 + evidence-instruments gate 6 + the survey §7 extension; a domain would add engine surface with no reader.",
+      "revisit_when": "two or more embodied/physical harness patterns accumulate and the capability-router should send robot-use tasks to their own domain playbook"
     }
   ]
 }

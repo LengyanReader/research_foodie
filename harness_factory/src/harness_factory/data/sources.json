@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-03",
-  "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`. P68: the `tools` group gained the verified outside-harness tool stack (topic `ai-tool-stack`, survey `review/ai-tool-stack-scan-2026-11.md`).",
+  "updated": "2026-11-04",
+  "note": "Tracked entities for the intel/self-update loop, plus a curated `outlets` group = the per-field information landscape (portals · journals · preprint servers · databases/registries · repositories · media). `feed` URLs are best-effort canonical feeds; verify reachability with `harness refresh --provider feed --verify`. Outlets carry `outlet_kind` + `why` + `not_for` + `verified` + `access` (see `reference/outlet-map.md`). YouTube channels are resolved to their RSS via `resolve: youtube`. P68: the `tools` group gained the verified outside-harness tool stack (topic `ai-tool-stack`, survey `review/ai-tool-stack-scan-2026-11.md`). P70: `tools` gained the eval-framework stack (Inspect/OpenAI-Evals/SWE-bench/HELM/Terminal-Bench; refs R282–R290). P71: `tools` gained uni-robot-agent — an embodied robot-use harness (MIT, releases feed 200, ref R291).",
   "topic_ids": [
     "agent-harness",
     "self-evolving-agents",
@@ -2395,6 +2395,24 @@
           "benchmark"
         ],
         "why": "Hard realistic terminal-work benchmark (2.0 = 89 tasks), each graded by per-task pytest; leaderboard reports harness + model together (Apache-2.0, LICENSE read 2026-11-04; paper R289). Distinct from the Long-Horizon Terminal-Bench pointer R246."
+      },
+      {
+        "id": "uni-robot-agent",
+        "name": "uni-robot-agent",
+        "kind": "repo",
+        "url": "https://github.com/Open-RUA/uni-robot-agent",
+        "feed": "https://github.com/Open-RUA/uni-robot-agent/releases.atom",
+        "topics": [
+          "agent-harness",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "mit",
+          "harness",
+          "embodied"
+        ],
+        "why": "Unified open-weight robot-use agent harness (Tsinghua + UC Berkeley; paper R291). Four design principles map to this library: Unified tool interfaces/feedback (core/02), Efficient overlap of reasoning with tool execution (core/03 M2.14), Realistic no-privileged-input state grading (evidence-instruments), Modular replaceable runtime/tools/backends (core/07). MIT, LICENSE read 2026-11-04; releases feed HTTP 200; RoboDojo/RoboUse/RoboLab sim integrations, real-robot (ARX One/Franka) coming soon."
       }
     ],
     "outlets": [

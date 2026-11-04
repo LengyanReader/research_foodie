@@ -1431,5 +1431,85 @@ class P69RoutineTest(unittest.TestCase):
             self.assertIn(token, text, f"AGENTS.md no longer documents {token!r}")
 
 
+class P71EmbodiedHarnessTest(unittest.TestCase):
+    """P71 integrated uni-robot-agent (arXiv:2611.01560, R291) — an embodied
+    robot-use harness.  Content-presence guards: the registration, the core/03
+    M2.14 pipelined-execution clause, the no-privileged-input fair-attribution
+    gate in evidence-instruments, the widened watchlist probe, and the survey /
+    battery crosswalk.  Scores stay *reported, not replicated* — none is
+    asserted as this factory's own capability.
+    """
+
+    def test_r291_registered_in_references(self):
+        text = _read(HARNESS / "review/references.md")
+        self.assertIsNotNone(text)
+        self.assertIn("## AF.", text, "\u00a7AF group missing")
+        for token in ("R291", "uni-robot-agent", "Democratizing Robot-Use Agents", "arXiv:2611.01560"):
+            self.assertIn(token, text, f"{token!r} missing from references.md")
+        self.assertIn("R291: **2026-11-04**", text, "\u00a7AF access-date header missing")
+        self.assertIn("R1\u2013R291", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to R291")
+
+    def test_r291_in_bibtex(self):
+        bib = _read(HARNESS / "review/references.bib")
+        self.assertIsNotNone(bib)
+        self.assertIn("yuan2026democratizing", bib)
+        self.assertIn("2611.01560", bib)
+
+    def test_tool_registered_with_verified_feed_and_license(self):
+        data = json.loads((HARNESS / "src/harness_factory/data/sources.json").read_text(encoding="utf-8"))
+        tools = {t["id"]: t for t in data["groups"]["tools"]}
+        self.assertIn("uni-robot-agent", tools)
+        t = tools["uni-robot-agent"]
+        self.assertTrue(t["feed"].endswith("releases.atom"), "feed must be a pullable releases atom")
+        self.assertIn("mit", [x.lower() for x in t["tags"]], "license tag missing")
+        self.assertTrue(set(t["topics"]) <= set(data["topic_ids"]), "tool topic not in topic_ids enum")
+        self.assertIn("agent-harness", t["topics"])
+
+    def test_core03_pipelining_clause_anchored(self):
+        text = _read(HARNESS / "core/03-long-running-agents.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M2.14", text)
+        self.assertIn("Pipelined execution: overlap reasoning with tool execution (M2.14)", text, "M2.14 title missing")
+        self.assertIn("R291", text, "M2.14 unsourced")
+        self.assertIn("preserve order", text)
+        self.assertIn("(M2.14, M2.11)", text.split("## Checklist")[1], "no M2.14 checklist row")
+        self.assertIn("Serial inference-then-execute", text, "M2.14 anti-pattern missing")
+
+    def test_evidence_instruments_fair_attribution_gate(self):
+        text = _read(HARNESS / "reference/evidence-instruments.md")
+        self.assertIsNotNone(text)
+        self.assertIn("\u00a7AF", text, "source header not extended to \u00a7AF")
+        self.assertIn("withhold privileged inputs", text, "gate 6 missing")
+        self.assertIn("no-privileged-input", text)
+        self.assertIn("R291", text)
+        for cap in ("visual understanding", "spatial grounding", "geometric encoding", "embodied reasoning"):
+            self.assertIn(cap, text, f"failure-taxonomy term {cap!r} missing")
+
+    def test_watchlist_agent_harness_widened_for_embodied(self):
+        data = json.loads((HARNESS / "src/harness_factory/data/watchlist.json").read_text(encoding="utf-8"))
+        ah = next(t for t in data["topics"] if t["id"] == "agent-harness")
+        joined = " ".join(ah["queries"] + ah["keywords"]).lower()
+        for token in ("robot-use", "embodied"):
+            self.assertIn(token, joined, f"agent-harness probe not widened with {token!r}")
+
+    def test_survey_and_battery_embodied_crosswalk(self):
+        survey = _read(HARNESS / "review/harness-evaluation-benchmarks-2026-11.md")
+        self.assertIsNotNone(survey)
+        self.assertIn("Embodied extension", survey)
+        self.assertIn("R291", survey)
+        battery = _read(HARNESS / "tasks/BATTERY.md")
+        self.assertIsNotNone(battery)
+        self.assertIn("R291", battery)
+        self.assertIn("\u5177\u8eab\u6620\u5c04", battery, "battery embodied note missing")
+
+    def test_p71_registered_in_cycle_ledger(self):
+        from harness_factory import cycle
+        entry = next((c for c in cycle.cycles() if c["id"] == "P71"), None)
+        self.assertIsNotNone(entry, "P71 absent from cycles.json")
+        self.assertEqual("done", entry["status"])
+        self.assertIn("M2.14", entry["added"]["clauses"])
+        self.assertIn("R291", entry["added"]["references"])
+
+
 if __name__ == "__main__":
     unittest.main()

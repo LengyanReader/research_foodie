@@ -1,7 +1,7 @@
 # M2 · Long-Running Agents · 长时程 agent
 > Work that spans more sessions than fit in one context window.
 > 跨越多个会话、超出单个上下文窗口的工作。
-**Updated:** 2026-10-20
+**Updated:** 2026-11-04
 
 ---
 
@@ -29,7 +29,9 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 12. **Declared memory backend + resume protocol (M2.12).** "We externalise state" is not a design. Name the **backend** (repo files; a database; a vector or graph store; a hosted memory service), its **durability and read cost**, the **write granularity** (one checkpoint per verified increment), and the **resume protocol**: the ordered list of files/steps a cold process reads first, what it does when the backend is unreachable, and what it must state before acting. The cheapest store that survives the interruption wins; anything derivable from the ledger is a cache, not a source of truth (M2.9, M0.5).
 13. **Effort is a budget line, not a quality setting (M2.13).** Vendors now sell reasoning as a dial — low/medium/high/xhigh/max, or a thinking-token budget — and the dial is priced. On Claude Opus 5.5 the *default* (medium) effort was reported to match Opus 5 at max effort for roughly a fifth of the cost, and an external evaluator reported that low effort matched its higher settings on half the output `[R239]`. Two failures follow. **Max-effort-by-default** spends the budget where no gate can see it, and it also destroys comparison: the same release's benchmark table compares one model at xhigh effort against another at high effort, which is a statement about settings, not about models `[R239]`. **Set effort per stage, against the gate** (M3): spend it where a check can reject the output, keep it low where the work is mechanical, and record the effort beside the model id so the run can be reproduced (M4.17). The cost curve is not linear either — cached input on the same model costs a small fraction of fresh input ($0.20 vs $4 per million tokens on Opus 5.5 `[R239]`), so context layout is part of the budget decision, not an afterthought.
 
-> **中文**：状态外部化（计划/进度/台账/决策）；一次一增量并落盘；冷启动可续接；步骤幂等（计算与提交分离）；agent 自维护交接文档；重置 vs 压缩要显式选择并记录；心跳/进度；预算超限即检查点停；人工件登记表；**循环契约**（先写终止目标态 + 步数预算 + 每步真值校验，并检测「无进展」即停）；**显式控制图**（类型化共享状态 · 节点/条件边 · 冻结输入扇出 · 显式扇入合并 · 每共享值单一属主 · 逐节点检查点，可恢复/回滚/取消）；**显式记忆后端 + 恢复协议**（存哪里 · 多贵 · 一次增量一检查点 · 冷启动按序读回，可推导者皆为缓存）；**努力是预算行不是质量档**——推理档位（low/medium/high/xhigh/max 或思考 token 预算）价格不同，按阶段对着门禁花：能被检查驳回的环节给高，机械环节给低，并把档位与模型 id 一起记录（否则不同档位的对比只是在比设置，不是在比模型）。
+14. **Pipelined execution: overlap reasoning with tool execution (M2.14).** An agent loop alternates *model thinks* → *tool runs*; when each waits on the other, wall-clock is the **sum** of model time and tool time. Where the next inference does not depend on the current call's result, **overlap them** — but **preserve order for operations that touch one shared resource** (the same arm, the same file, the same budget line), and keep every step deterministic/replayable (M2.11), or you have traded an implicit topology for a race. This is not parallel work discovered by the prompt (the anti-pattern below); it is a **declared, resource-aware schedule** in the runtime. The embodied harness `uni-robot-agent` makes it a first-class design principle — "overlap agent reasoning with tool execution while preserving order for operations that share robot resources" `[R291]` — and the same posture pays off wherever a slow tool call gates a fast model turn (robot actuation, browser round-trips, batched code execution); it also pairs with **replaceable** runtime/tool/backend seams (`core/07`).
+
+> **中文**：状态外部化（计划/进度/台账/决策）；一次一增量并落盘；冷启动可续接；步骤幂等（计算与提交分离）；agent 自维护交接文档；重置 vs 压缩要显式选择并记录；心跳/进度；预算超限即检查点停；人工件登记表；**循环契约**（先写终止目标态 + 步数预算 + 每步真值校验，并检测「无进展」即停）；**显式控制图**（类型化共享状态 · 节点/条件边 · 冻结输入扇出 · 显式扇入合并 · 每共享值单一属主 · 逐节点检查点，可恢复/回滚/取消）；**显式记忆后端 + 恢复协议**（存哪里 · 多贵 · 一次增量一检查点 · 冷启动按序读回，可推导者皆为缓存）；**努力是预算行不是质量档**——推理档位（low/medium/high/xhigh/max 或思考 token 预算）价格不同，按阶段对着门禁花：能被检查驳回的环节给高，机械环节给低，并把档位与模型 id 一起记录（否则不同档位的对比只是在比设置，不是在比模型）；**流水化执行（M2.14）**——当下一次推理不依赖当前工具调用的结果时，让推理与执行重叠，省掉串行等待，但对触碰同一资源（同一机械臂/同一文件/同一预算行）的动作严格保序、每步可复现（M2.11），否则只是把隐式拓扑换成了竞态；这是运行时里**声明式、资源感知**的调度，而非 prompt 自己发现的并行；机器人驱动、浏览器往返、批处理代码等「慢工具卡快模型」的场景最受益，并配合可替换的运行时/工具/后端接缝（core/07）`[R291]`。
 
 ## Checklist
 - [ ] A cold process can resume the task from on-disk state alone.
@@ -43,6 +45,7 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 - [ ] The memory backend, its read cost and the resume protocol are written down, and a cold session follows them (M2.12).
 - [ ] Anything the ledger already implies is treated as a rebuildable cache, not a second source of truth (M2.12, M0.5).
 - [ ] Effort/thinking is set per stage against the gate, and recorded with the model id (M2.13, M4.17).
+- [ ] Inference and tool execution overlap where that does not violate resource order, and the overlap is a declared schedule, not an emergent race (M2.14, M2.11).
 
 ## Anti-patterns
 - **In-memory-only state.** Progress lost on interruption.
@@ -56,6 +59,7 @@ A single window cannot hold a multi-day task. If the plan, the progress, and the
 - **Cache and ledger both editable.** Two writable copies of one fact means the drift is already scheduled (M0.5).
 - **Max-effort by default.** Paying the top reasoning tier on every step, including the mechanical ones, then reporting the total as the cost of the task (M2.13).
 - **Cross-effort comparison.** Ranking two models measured at different effort levels or thinking budgets — the difference belongs to the settings (M2.13).
+- **Serial inference-then-execute.** Paying model-time *plus* tool-time on every step when a declared, order-preserving schedule could overlap them (M2.14).
 
 ## See also
 `01-meta-principles.md` (M0.7, M0.5) · `02-context-engineering.md` (M1) · `04-verification-and-gates.md` (M3) · `09-collaboration-and-sessions.md` (M8).

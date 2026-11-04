@@ -2,6 +2,16 @@
 
 **Updated:** 2026-11-04
 
+## 2026-11-04 · P71：具身外壳整合轮 —— 评估 uni-robot-agent 论文 · 落 M2.14 流水执行 + 无特权输入门禁
+
+- **用户指令。** 「全面评估这篇文章提及的工作可以如何整合进来（微信公众号学术头条转述链接）……可以按照你的建议实现即可，并进行充分实验、模拟和测试，保证效果」；用户随后补一手论文链接 arXiv:2611.01560。
+- **一手源考证。** WebFetch 撞微信「环境异常」反爬墙→派 Browser 子体渲染全文取到论文指针；核 arXiv abs 页 *Democratizing Robot-Use Agents*（`uni-robot-agent`；清华 丁宁/刘知远/徐梦迪/周伯文 × Berkeley Pieter Abbeel；v2、CC BY 4.0、28 作者）+ 官方仓库 `Open-RUA/uni-robot-agent`（读 **MIT** LICENSE、`releases.atom` 200、branch `main`）。**纠正转述夸大**：公众号标题「GPT-6 Astra 竟输给 Qwen3.8-Flash-Next」——论文主张严格限定于「无特权输入 · 单基准 RoboDojo · 对比对方已发表结果」，是外壳组织力演示、非通用能力排序。
+- **进 SSOT。** `references.md` §**AF** Embodied & robot-use harness 加 **R291**（bib `yuan2026democratizing` 同步，头部/中文速览范围改 R1–R291）；`sources.json` tools **+1** uni-robot-agent（48→49，topic `agent-harness`+`evaluation-gates`，tags eval/mit/harness/embodied）。所有数字（RoboDojo 31.39 vs 已发表 GPT-6 Astra-RoboProbe 28.97、19 真机任务、四类能力）一律标 **reported, not replicated**——绝不当作本库能力。
+- **子句/仪器落地（论文四原则→本库，两条成真实工件）。** `core/03` 加 **M2.14 Pipelined execution**（推理与工具执行重叠、共享机器人资源严格保序、每步可复现；补足 implicit-topology 反模式）+ 检查项 + 反模式 + `sources/source-map.md` 行；`reference/evidence-instruments.md` 加具身外延 + **门禁 6 无特权输入·公平归因**（勿注入仿真器真值/成功信号/任务专用 skill 再把增益当能力报）+ 四类失败分类（视觉理解·空间定位·几何编码·具身推理，相关性≠因果）——把 P70 数字域代理能力评测延到**物理域**（RoboDojo 判环境终态，同 OSWorld/Terminal-Bench 习语）。
+- **接上常转。** `watchlist.json` 的 **agent-harness** 主题加宽（+robot-use/embodied/sim-to-real 探针）使 `full-update` 再发现该方向；综述 `review/harness-evaluation-benchmarks-2026-11.md` 加 §7 具身外延；`tasks/BATTERY.md` 加具身映射注。**R290→R291 引脚对账**（`pages.py` ARTICLES 标签、`trend.py` 脚手架文、`test_pages.py` fixture+assert）。
+- **边界（M0.4）。** 不建 robotics 域、不建机器人后端；独立 `domains/robotics-embodied/` 作 **P71.R2 延期**；物理 A-bare/B-harness 配对试验排 **P71.R1**。
+- **测试。** 新增 `P71EmbodiedHarnessTest`（8 内容守卫：R291 入册/bib/工具 feed+license/M2.14 锚定/门禁 6 公平归因/watchlist 加宽/综述+BATTERY 具身交叉/cycle 入册）+ `EmbodiedGradingTest`（2 pass^k 环境判分仿真：判环境态非自报、不可用判读作薄数据非静默失败，仿 P63/P70 先例）。`catalog --write`+`pages --write` 重生成。**525 → 535 测试全绿**；`cycle audit`：**67 轮 · 51 路线图项 · 0 硬问题 · 0 缺口**（P71 入册 + P71.R1 排期 + P71.R2 延期）。commit（**绝不 push**）。
+
 ## 2026-11-04 · P70：基准锚定的能力评测轮 —— 登记 agent 评测题库/框架 · 新增 pass^k 可靠性仪器
 
 - **用户指令。** 「广泛检索和梳理和 harness 能力相关的评测的题库、benchmark 等等相关工具，来充分测试和提升现有的能力体现」。

@@ -57,7 +57,7 @@ ARTICLES: list[tuple[str, str, str]] = [
     ("Agent Harness 综述", "Agent-harness survey · foundational literature review", "ai-harness-survey.md"),
     ("前沿方向 · 2026-10", "Frontier directions", "frontier-2026-10.md"),
     ("自我模型与缺口求解", "Self-model & gap-seeking", "self-model-and-gap-seeking-2026-10.md"),
-    ("文献库索引 R1–R290", "Reference index · numbered literature", "references.md"),
+    ("文献库索引 R1–R291", "Reference index · numbered literature", "references.md"),
     ("AI Agent 能力前沿深度分析 · 2026-11", "Deep analysis: the agent capability frontier", "ai-landscape-analysis-2026-11.md"),
 ]
 

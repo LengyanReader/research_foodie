@@ -1,6 +1,6 @@
 # Agent-capability evaluation · benchmarks, test-banks & harnesses — a landscape scan for P70
 
-**Updated:** 2026-11-04 · **Status:** research findings — **applied as round P70 on 2026-11-04** (registry: `data/cycles.json` P70). · **Scope:** the external ecosystem that *tests* agent/harness capability — public **benchmarks / test-banks**, the **evaluation harnesses** that run them, and the **grading semantics** — read against this factory's own capability demonstration (`data/battery.json` 9 families · `data/scoreboard.json` 7 tasks × 5 axes · watchlist `evaluation-gates`), as of R29 / R185 / R243 / R279 and 43 catalogued tools (2026-11-04).
+**Updated:** 2026-11-04 · **Status:** research findings — **applied as round P70 on 2026-11-04** (registry: `data/cycles.json` P70); **extended by P71 to the embodied/physical domain** (`uni-robot-agent` [R291], see §7 below). · **Scope:** the external ecosystem that *tests* agent/harness capability — public **benchmarks / test-banks**, the **evaluation harnesses** that run them, and the **grading semantics** — read against this factory's own capability demonstration (`data/battery.json` 9 families · `data/scoreboard.json` 7 tasks × 5 axes · watchlist `evaluation-gates`), as of R29 / R185 / R243 / R279 and 43 catalogued tools (2026-11-04).
 
 > 中文速览：这是 **P70 全网扫描轮**（observe 半环）。目标不是再攒一个榜单，而是回答两个问题：**外部拿什么考 agent 的能力**（题库/benchmark），以及**这套考法反过来对本库「能力体现」提出什么新要求**。三分对象：**① 题库/benchmark**（SWE-bench R29、τ-bench/τ²-bench、GAIA、OSWorld、WebArena、AgentBench、HELM R185、HAL、Terminal-Bench 2.0、RE-Bench、FORCE-Bench）；**② 评测框架/runner**（Inspect AI·UK AISI、OpenAI Evals、promptfoo/deepeval、HAL orchestrator）；**③ 判分语义**（**pass^k 可靠性**、**数据库状态判分** ThinkingBox R279、**harness 不披露即不可比** R243、**基准污染/HF 泄漏**）。一手来源逐条核验、带访问日期，未深读标 *listed*。
 > **对本库的落点（提升能力体现）**：单次通过率（pass@1）不足以证「能力」——同一任务连跑 k 次的 **pass^k**、以**终态/断言**而非模型自述判分、以及**防污染**检查，才与本库既有的 M5.11 证伪、M5.12 方差敏感、M5.13 留出与「judge_checks 先于执行声明」同构。于是本轮：新基准登记入 `sources.json`/`references.md`（R282–R290），加宽 `evaluation-gates` 侦察主题使常转 `full-update` 能摄取新榜单，并在证据仪器表落一行 **agent 能力评测** 仪器 + 一个 **PENDING 试验族**（spec 就绪、`results` 留空＝不臆造）+ 纯标准库 `passk.py`（从既有 `task_outcome` 轨迹算 pass^k）。
@@ -84,3 +84,17 @@ Applying `reference/integration-map` §0: P70 is **data + one instrument hook**,
 ## 6 · Source register · 出处
 
 Full IEEE entries in `review/references.md` **§AE (R282–R290)**; BibTeX in `references.bib`. Access date for all: **2026-11-04**. Cross-references into existing numbers: SWE-bench **R29**, HELM **R185**, harness-disclosure thesis **R243**, ThinkingBox state-grading **R279**.
+
+---
+
+## 7 · Embodied extension (P71, 2026-11-04) · 具身外延
+
+The grading semantics above generalise from digital agents to **physical robot use** via `uni-robot-agent` [R291] (Tsinghua + UC Berkeley; repo MIT-licensed, registered in `sources.json.tools`). A robot-use agent *is* an agent harness whose “environment” is a robot, so every instrument in this scan survives the translation:
+
+- **State grading** (§2c; R279/R285/R289) → RoboDojo grades the **environment’s reported outcome** (physical end-state), not the model’s say-so — the same idiom one level down from the digital computer.
+- **Harness disclosure** (R243) → the headline result is *precisely a harness result*: an out-of-the-box **Qwen3.8-Flash-Next + uni-robot-agent = 31.39** vs the *published* **GPT-6 Astra + RoboProbe = 28.97**, neither meaningful without naming scaffold + model + benchmark together. **Reported, not replicated.**
+- **No-privileged-input fair attribution** → the methodological core: the agent is given **no simulator depth and no task-verifier feedback**, and no task-specific skill is hand-written, so the score measures *organised information + general capability*, not injected ground truth. Codified as **gate 6** in `reference/evidence-instruments.md`.
+- **Pipelined execution** (core/03 M2.14) → “overlap agent reasoning with tool execution while preserving order for shared robot resources” is a positive long-running-agent efficiency pattern, complementing the *implicit-topology* anti-pattern.
+- **Failure taxonomy → battery attribution** → **visual understanding · spatial grounding · geometric encoding · embodied reasoning**, offered as a useful external crosswalk for the A-bare failure classification (the authors explicitly decline a causal reading).
+
+**Scope boundary:** real-robot integrations (ARX One, Franka) are *coming soon* and the public package ships no supported physical workflow; we register the **harness patterns** and one reference number, and do **not** build a robot backend (M0.4). The WeChat headline “GPT-6 Astra 竟输给了 Qwen3.8-Flash-Next” overstates the claim, which is scoped to *no-privileged-input · single-benchmark · vs-published-result* — a harness-organisation demonstration, not a general capability ranking.

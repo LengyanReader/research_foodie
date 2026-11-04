@@ -1,7 +1,7 @@
 {
   "updated": "2026-11-04",
   "cadence": "weekly",
-  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt. P70: `evaluation-gates` widened with benchmark/leaderboard/pass^k/terminal-bench/contamination probes so agent-capability test-banks (SWE-bench, OSWorld, GAIA, τ-bench, HAL, Terminal-Bench) surface on every cycle.",
+  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt. P70: `evaluation-gates` widened with benchmark/leaderboard/pass^k/terminal-bench/contamination probes so agent-capability test-banks (SWE-bench, OSWorld, GAIA, τ-bench, HAL, Terminal-Bench) surface on every cycle. P71: `agent-harness` widened with embodied/robot-use probes (uni-robot-agent, RoboDojo, sim-to-real) so physical robot-use harnesses surface alongside digital ones.",
   "topics": [
     {
       "id": "agent-harness",
@@ -10,7 +10,9 @@
         "agent harness design",
         "agentic scaffold architecture",
         "autonomous agent loop",
-        "harness learning test-time adaptation"
+        "harness learning test-time adaptation",
+        "robot-use agent harness",
+        "embodied agent unified harness"
       ],
       "keywords": [
         "harness",
@@ -19,7 +21,10 @@
         "orchestration",
         "agent architecture",
         "dev-primitives",
-        "resident llm"
+        "resident llm",
+        "robot-use",
+        "embodied",
+        "sim-to-real"
       ]
     },
     {

@@ -23,7 +23,7 @@ def _sm(**over):
         "domains": {"total": 34},
         "catalog": {"total": 221},
         "clauses": {"anchored_total": 44},
-        "references": {"total": 290},
+        "references": {"total": 291},
         "cycles": {"total": 64},
         "battery": {"families": 9, "done": 9, "updated": "2026-11-01"},
         "traces": {"total": 24, "events": {}},
@@ -155,7 +155,7 @@ class RenderTest(unittest.TestCase):
         html = self._html()
         self.assertIn("<svg", html)                 # gauges
         self.assertEqual(html.count('class="gbar"'), 4)  # four clusters
-        self.assertIn("R290", html)
+        self.assertIn("R291", html)
         self.assertIn("9/9", html)
 
     def test_page_adds_momentum_rings_evidence_strip_and_domain_chips(self):

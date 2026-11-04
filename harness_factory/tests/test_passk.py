@@ -120,5 +120,42 @@ class PassKEndToEndTest(unittest.TestCase):
             self.assertGreater(rep["pass_at_1"], rep["pass_k"])
 
 
+class EmbodiedGradingTest(unittest.TestCase):
+    """P71: uni-robot-agent [R291] grades the ENVIRONMENT's reported outcome
+    (its SDK's ``task_success``), never the agent's ``agent_finished`` self-report,
+    and an *unavailable* verdict is simply not recorded (thinner data, not a silent
+    fail).  These prove the P70 pass^k instrument already honours that discipline on
+    SYNTHETIC embodied receipts — no robot is run and no score is this factory's own.
+    """
+
+    def _env_receipt(self, task: str, task_success) -> dict:
+        # Adapter convention (evidence-instruments gate 6 / R291): the receipt's
+        # ``passed`` carries the ENVIRONMENT verdict, not the model's claim.
+        return {
+            "event": "task_outcome",
+            "project": "updates/dogfood/p71-embodied",
+            "task": task,
+            "harness": "uni-robot-agent",
+            "detail": {"passed": task_success, "scale": [0, 1]},
+        }
+
+    def test_environment_verdict_not_agent_self_report(self):
+        # Agent CLAIMED completion but the physical end-state says failure -> the
+        # receipt is graded from the environment, so it is NOT a pass.
+        self.assertFalse(passk.is_success(self._env_receipt("stack_bowls", False)["detail"]))
+        self.assertTrue(passk.is_success(self._env_receipt("stack_bowls", True)["detail"]))
+
+    def test_unavailable_verdict_thins_data_not_counts_as_fail(self):
+        # Two episodes were run, but only ONE had a graded environment verdict; the
+        # other's ``task_success`` was None so the adapter records NO receipt.  One
+        # run per task never reaches k=2 -> pass^k withheld, honestly "not measurable"
+        # (M5.12) rather than inflating the denominator with a fabricated fail.
+        outcomes = [self._env_receipt("pick_place", True)]
+        rep = passk.reliability(outcomes, k=2)
+        self.assertEqual(rep["tasks_measured"], 0)
+        self.assertIsNone(rep["pass_k"])
+        self.assertIn("not measurable", passk.render(rep))
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

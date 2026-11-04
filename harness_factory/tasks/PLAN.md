@@ -611,6 +611,18 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **收尾**：`harness catalog --write` 重生成 → 全量 `unittest`（含新守卫）→ `cycle audit` → CHANGELOG/PROGRESS/AGENTS 计数 → commit（**绝不 push**）。
 - **状态（已收尾 2026-11-04）**：全部落地。§AE R282–R290 入册（bib 同步，交叉引用不重入）；`sources.json` tools +5 评测框架；`evaluation-gates` 加宽至 7 查询/13 关键词；`passk.py` + `harness passk` 从实时轨迹算 pass^k（24 条真收据：pass@1 0.545 vs pass^2 0.022，诚实低可靠性）；`evidence-instruments.md` 加代理能力评测行+专节；`battery.json` PENDING 第十族（判据先声明、结果留空）+ `reconcile` 跳过 pending；综述入 `pages.ARTICLES`+F5、docs 重生成。`test_passk` 12 合成仿真测试；**513 → 525 测试全绿**；`cycle audit` **66 轮 · 49 路线图 · 0 硬 · 0 洞**（P70 入册 + P70.R1 待跑）。
 
+## P71 · 具身外壳整合轮（2026-11-04，已做）：整合 uni-robot-agent（具身机器人使用外壳）论文
+
+> 用户指示：「全面评估这篇文章提及的工作可以如何整合进来……按照你的建议实现即可，并进行充分实验、模拟和测试，保证效果」。来源为微信公众号「学术头条」一篇转述 → 回一手源 arXiv:2611.01560（*Democratizing Robot-Use Agents*，uni-robot-agent；清华 丁宁/刘知远/徐梦迪/周伯文 × Berkeley Pieter Abbeel）+ 官方仓库 Open-RUA/uni-robot-agent（**MIT**、`releases.atom` 200、branch `main`）。这是 **P70 数字域代理能力评测的物理域对应**——其四条设计原则逐一对应本库：Unified 工具接口→core/02；Efficient 推理∥执行流水→**新子句 core/03 M2.14**；Realistic 无特权输入·环境状态判分→`evidence-instruments.md` 新门禁 6；Modular 可替换运行时/工具/后端→core/07。
+
+- **评估先行**：给出贡献→落点映射表 + 纠正转述偏差（公众号标题「GPT-6 Astra 竟输给了 Qwen3.8-Flash-Next」夸大；论文主张严格限定于「无特权输入·单基准·对比对方已发表结果」，是外壳组织力演示、非通用能力排序）。
+- **登记 SSOT**：新参考文献 **R291**（§AF Embodied & robot-use harnesses 组，bib `yuan2026democratizing`）；`sources.json.tools` 增工具 **uni-robot-agent**（48→49，MIT·feed 200·topic `agent-harness`+`evaluation-gates`）。分数（RoboDojo 31.39 vs 已发表 GPT-6 Astra-RoboProbe 28.97、19 真机任务、四类能力）一律标 *reported, not replicated*——**绝不当作本库能力**。
+- **子句/仪器落地**：`core/03` 加 **M2.14 Pipelined execution**（推理与工具执行重叠、共享资源严格保序、每步可复现；补足 implicit-topology 反模式）+ 检查项 + 反模式 + source-map 行；`reference/evidence-instruments.md`「代理能力评测」专节延申出 **门禁 6 无特权输入公平归因** + 具身环境态判分 + 四类失败分类（视觉理解·空间定位·几何编码·具身推理，相关性≠因果）外部对照。
+- **接上常转**：`watchlist.json` 的 **agent-harness** 主题加宽（robot-use / embodied / sim-to-real 探针）使 `full-update` 再发现该方向；综述 `review/harness-evaluation-benchmarks-2026-11.md` 加「具身外延」§7；`tasks/BATTERY.md` 加「具身映射」注（A-bare 臂模板 + 四类失败分类对照）。
+- **边界（M0.4）**：不建 robotics 域、不建机器人后端；决策点 5（独立 `domains/robotics-embodied/`）按建议**延期**，折叠进相邻子句。
+- **收尾**：`catalog --write` + `pages --write` 重生成 → 全量 `unittest`（含新守卫）→ `cycle audit` → CHANGELOG/PROGRESS/AGENTS 计数 → commit（**绝不 push**）。
+- **状态（已收尾 2026-11-04）**：全部落地。§AF R291 入册（bib 同步）；`sources.json` tools +1 uni-robot-agent；`core/03` 加 M2.14 子句 + source-map 行（锚定子句现 **45** 条）；`evidence-instruments` 加具身外延 + 门禁 6；`watchlist` `agent-harness` 加宽；综述 §7 + BATTERY 具身映射。**525 → 535 测试全绿**（+8 `P71EmbodiedHarnessTest` 内容守卫、+2 `EmbodiedGradingTest` 环境判分仿真）；`cycle audit` **67 轮 · 51 路线图 · 0 硬 · 0 洞**（P71 入册 + P71.R1 具身配对试验已排期 + P71.R2 独立具身域延期）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |
