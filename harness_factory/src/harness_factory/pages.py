@@ -57,6 +57,7 @@ ARTICLES: list[tuple[str, str, str]] = [
     ("前沿方向 · 2026-10", "Frontier directions", "frontier-2026-10.md"),
     ("自我模型与缺口求解", "Self-model & gap-seeking", "self-model-and-gap-seeking-2026-10.md"),
     ("文献库索引 R1–R281", "Reference index · numbered literature", "references.md"),
+    ("AI Agent 能力前沿深度分析 · 2026-11", "Deep analysis: the agent capability frontier", "ai-landscape-analysis-2026-11.md"),
 ]
 
 #: P68 tool-stack families (survey ai-tool-stack-scan-2026-11.md F1-F7) -> members.
