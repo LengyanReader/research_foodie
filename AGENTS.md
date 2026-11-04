@@ -64,6 +64,9 @@ docs/index.html             GENERATED — the browsable Pages dashboard (`harnes
 - Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
 - Changing `src/harness_factory/data/*.json` (the SSOT) requires `harness catalog --write` to regenerate
   `CAPABILITIES.md` + `HARNESS-MAP.md`, then the full suite; the same drift guards will fail otherwise.
+- **文档源唯一性 / Doc source uniqueness (P65-ext):** `review/*.md` 是所有文档内容的唯一可编辑源（SSOT）；
+  `docs/*.html` 是 `harness pages --write` 从 .md 确定性生成的派生视图。更新流程：编辑 .md → 运行 pages --write →
+  HTML 自动重生成。**不要直接编辑 docs/*.html**。
 - **例行工作 / Routine work (P69):** after every `full-update` (phase 8 `trend-review`) the loop aggregates
   `updates/intel.jsonl` into the four review clusters, writes `updates/TREND.md`, refreshes the committed
   `data/trend-snapshot.json`, and rebuilds `docs/index.html`. The deep analysis itself (industry trends ·

@@ -350,16 +350,16 @@ def tool_matrix(tools: list[dict[str, Any]]) -> str:
 
 
 def articles_html(articles: list[tuple[str, str, str]] = ARTICLES) -> str:
-    """Clickable entries to the related article bodies (rendered markdown on GitHub).
-    Anchors keep the page self-contained -- the ban is on <script>/<link>/<img>, not
-    on links, which is what lets a reader reach the full cited review from the cover."""
+    """Clickable entries to the related article bodies (local rendered HTML pages).
+    Each article has been converted to a standalone HTML page in docs/ by
+    generate_doc_pages(); links point to the local .html files."""
     out = ['<div class="arts">']
     for zh, en, rel in articles:
-        url = f"{REPO_URL}/blob/{BRANCH}/harness_factory/review/{rel}"
+        local = rel.replace(".md", ".html")
         out.append(
-            f'<a class="art" href="{_esc(url)}" target="_blank" rel="noopener">'
+            f'<a class="art" href="{_esc(local)}">'
             f'<b>{_esc(zh)}</b><span>{_esc(en)}</span>'
-            f'<em>review/{_esc(rel)}</em></a>'
+            f'<em>{_esc(local)}</em></a>'
         )
     out.append("</div>")
     return "".join(out)
@@ -619,7 +619,7 @@ Every figure is computed from the SSOT at build time, never hand-copied.</p>
 <div class="dialc"><h3>License is a gate</h3><p><code>NOASSERTION</code> 许可证（LiteLLM/NeMo）不是小事——它直接卡住入表门，先核再进 <code>sources.json</code>。<br><span class="muted">Ambiguous licenses block intake (M0.8).</span></p></div>
 </div>
 
-<h2>7 · Related articles <small>相关文章 · 综述正文与扫描报告（点击在 GitHub 阅读）</small></h2>
+<h2>7 · Related articles <small>相关文章 · 综述正文与扫描报告（本站阅读）</small></h2>
 <p class="lead">本页是这些文章的**可视化封面**；点开即进入中英双语、带一手引用与访问日期的正文与文献综述。
 This dashboard is the *visual cover* — open the authored, primary-source-cited bodies here.</p>
 {articles_html()}
@@ -661,6 +661,9 @@ def run(root: "str | Path | None" = None, *, write: bool = False,
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(html_text, encoding="utf-8")
         docs_dir = path.parent
+        # Source uniqueness (M0.5): review/*.md is the SSOT; docs/*.html is a
+        # deterministic derived view. Same .md input always produces the same
+        # .html output. Update flow: edit .md -> harness pages --write -> regenerated.
         result["doc_pages"] = [q.name for q in generate_doc_pages(docs_dir)]
         (path.parent / ".nojekyll").write_text("", encoding="utf-8")  # keep _files, disable Jekyll
         result["wrote"] = str(path)

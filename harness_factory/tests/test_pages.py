@@ -187,17 +187,20 @@ class ArticlesTest(unittest.TestCase):
         for _zh, _en, rel in pages.ARTICLES:
             self.assertTrue((base / rel).exists(), f"dead link: review/{rel}")
 
-    def test_articles_render_as_github_blob_links_and_stay_self_contained(self):
+    def test_articles_link_to_local_html_pages(self):
+        """P65-ext: articles link to local rendered .html pages, not GitHub .md blobs."""
         html = pages.render_html({
             "generated": "2026-11-03 00:00 UTC", "self_model": _sm(),
             "trend": _snap(),
             "tools": [_tool("mem0", "Mem0", "F1", "ok")],
         })
         self.assertIn("Related articles", html)
-        self.assertIn(f"{pages.REPO_URL}/blob/{pages.BRANCH}/harness_factory/review/"
-                      f"trend-review-2026-11-03.md", html)
+        # every article links to a local .html file, not a GitHub blob URL
+        self.assertNotIn(f"{pages.REPO_URL}/blob/", html, "GitHub blob links must not appear")
         self.assertEqual(html.count('class="art"'), len(pages.ARTICLES))
-        self.assertNotRegex(html, r"(?i)<(script|link|img)[ >]")  # anchors allowed, assets not
+        # check a specific link points to the local page
+        self.assertIn('href="trend-review-2026-11-03.html"', html)
+        self.assertNotRegex(html, r"(?i)<(script|link|img)[ >]")  # self-contained
 
     def test_repo_url_points_at_the_real_repo(self):
         self.assertEqual(pages.REPO_URL, "https://github.com/LengyanReader/research_foodie")
