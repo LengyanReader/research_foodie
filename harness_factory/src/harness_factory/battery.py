@@ -134,6 +134,11 @@ def reconcile(board: dict[str, Any] | None = None,
     board = board or load_battery()
     declared: set[str] = set()
     for fam in board.get("families") or []:
+        if fam.get("status") == "pending":
+            # P70: a pending family names a *planned* trial_project, not one that
+            # ran. It asserts no receipts yet, so it must not surface as
+            # declared_without_receipts (that would flag a plan as a phantom run).
+            continue
         for proj in fam.get("trial_projects") or []:
             declared.add(_norm_path(proj))
     paired = paired_projects(traces_lines or [])

@@ -1001,9 +1001,12 @@ class P53BatteryRegistryTest(unittest.TestCase):
         # P67 metabolism: seven scoreboard families plus the two P62 trials
         # (reading-extraction, cron-parsing) that ran with receipts but were
         # never registered - the count moved 7 -> 9, retroactively.
-        self.assertEqual(len(board["families"]), 9, "expected all nine measured families")
+        # P70: a 10th family (agent-eval-reliability) is registered PENDING
+        # with pre-declared judge_checks but no results - the bar is set,
+        # the run is not yet executed (M5.11: no fabricated score).
+        self.assertEqual(len(board["families"]), 10, "expected nine measured families + one pending")
         done = [f for f in board["families"] if f["status"] == "done"]
-        self.assertEqual(len(done), 9, "every registered family has both-condition receipts")
+        self.assertEqual(len(done), 9, "every registered DONE family has both-condition receipts")
         for fam in done:
             self.assertIn("scale", fam) and self.assertIn("round", fam) and self.assertIn("results", fam)
 

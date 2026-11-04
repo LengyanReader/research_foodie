@@ -1,6 +1,16 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-03
+**Updated:** 2026-11-04
+
+## 2026-11-04 · P70：基准锚定的能力评测轮 —— 登记 agent 评测题库/框架 · 新增 pass^k 可靠性仪器
+
+- **用户指令。** 「广泛检索和梳理和 harness 能力相关的评测的题库、benchmark 等等相关工具，来充分测试和提升现有的能力体现」。
+- **一手源考证。** arXiv `id_list` GET 解析每条编号、GitHub `LICENSE` + `releases.atom` 核每个工具（访问 2026-11-04）→ 综述 `review/harness-evaluation-benchmarks-2026-11.md`（三分法：题库 · 评测框架 · 判分语义）。登记 `references.md` §**AE** R282–R290（τ-bench、τ²-bench、GAIA、OSWorld、WebArena、AgentBench、HAL、Terminal-Bench 2.0、RE-Bench），`references.bib` 同步；SWE-bench（R29）/HELM（R185）/harness-披露（R243）/ThinkingBox（R279）作**交叉引用不重入**。
+- **进 SSOT 工具 + 侦察面加宽。** `sources.json` tools **+5** 评测框架（Inspect AI=MIT、OpenAI Evals=MIT、HELM=Apache-2.0 维护模式、SWE-bench=MIT、Terminal-Bench=Apache-2.0，均带可拉 feed）→ `full-update` 每轮可发现新基准；`evaluation-gates` 主题加宽至 7 查询 / 13 关键词（benchmark·leaderboard·pass^k·terminal-bench·contamination）。
+- **提升能力体现的核心＝真仪器、非造分。** 新增 `passk.py`：按 τ-bench/ThinkingBox 口径 \(\binom{c}{k}/\binom{n}{k}\)（对 \(n\ge k\) 的任务取均值）从**实时** `task_outcome` 轨迹流算 **pass^k**；`harness passk` 在 24 条真实收据上报 **pass@1 0.545 vs pass^2 0.022**——诚实的低可靠性发现（M5.11 证伪；背离本身就是 τ-bench 警示的不可靠情形）。判分优先读收据显式信号，读不出即不计入（不猜 M0.4）；样本不足读作「不可测」（M5.12）。
+- **口径落仪器表。** `reference/evidence-instruments.md` 加 **代理能力评测** 行 + 专节：判**终端/环境状态**非自报、报 **pass^k** 而非只 pass@1、**披露外壳**（模型×脚手架×基准，HAL/R243）、查**污染**、判据先于执行（M5.13）。
+- **注册待跑第十族。** `battery.json` 加 PENDING `agent-eval-reliability`：spec + `judge_checks` 先声明、`results` **留空**（未跑＝不臆造，M5.11）；`battery.reconcile` **跳过 pending 族**（计划不声称已有收据）——实跑轨迹对账测试仍绿。守卫 `test_docs_integrity` 族数 9→10（done 仍 9）。
+- **接线 + 文档。** 综述入 `pages.ARTICLES` + F5 家族；`catalog --write` + `pages --write` 重生成（docs/ 现 9 篇正文页 + 仪表盘，references 标 R1–R290）。新增 `test_passk` 12 合成仿真测试（仿 P63 先例）。**513 → 525 测试全绿**。`cycle audit`：**66 轮 · 49 路线图项 · 0 硬问题 · 0 缺口**；P70 入册 + P70.R1（跑 pass^k 配对重复试验后翻 done）。
 
 ## 2026-11-03 · P69：例行工作常转轮 —— 趋势综述循环 · GitHub Pages 信息图仪表盘
 

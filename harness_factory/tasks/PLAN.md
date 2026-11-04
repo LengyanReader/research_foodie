@@ -600,6 +600,17 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **④ 正文工作样例 + 浏览器 QA。** 撰 `review/trend-review-2026-11-03.md`（六节中英带引，回 R279/R280/R281 + P68 已核事实）；a11y 几何 QA 驱动动量环/去重/响应式修正。
 - **登记。** cycles **P69**（0/0/0/0）+ roadmap **P69.R1**（trajectories 簇读空→加宽侦察 watchlist）**·R2**（启用 Pages 并首部署验证——推送/开启为用户显式动作）**·R3**（正文摘录引上仪表盘，守 M4/引用即生命线）。新增测试 `test_trend`(9)+`test_pages`(13, 含动量环/分段/chips)+`P69RoutineTest`(7)；**506 → 510 tests**；`cycle audit` 65 轮 0 硬 0 洞。
 
+## P70 · 评测题库与基准接入轮（2026-11-04，已做）：harness 能力评测的 benchmark / 题库 / 工具梳理与接入
+
+> 用户指示：「广泛检索和梳理与 harness 能力相关的评测题库、benchmark 等工具，充分测试和提升现有能力体现」。这是 **observe+assimilate 半环**：一手来源梳理外部 agent 评测生态 → 与本库 SSOT（battery 9 族 / scoreboard 7×5 / evaluation-gates）做覆盖差集 → 把**可核验的外部基准**登记入册并**接上常转机件**，同时把「能力体现」的评测口径从单次通过率**升级为可靠性口径**（pass^k / 状态判分 / 防污染），全部零改判分引擎、只走既有登记面。
+
+- **梳理面（survey）**`review/harness-evaluation-benchmarks-2026-11.md`：三类对象分开——① **题库/benchmark**（SWE-bench 已录 R29、τ-bench/τ²-bench、GAIA、OSWorld、WebArena、AgentBench、HELM 已录 R185、HAL、Terminal-Bench 2.0、RE-Bench、FORCE-Bench），按「判什么」建谱系（可判终态 / 可判过程 / 人评混合）；② **评测框架/runner**（Inspect AI·UK AISI、OpenAI Evals、promptfoo·deepeval 已录、HAL orchestrator）；③ **门禁语义**（pass^k 可靠性、数据库状态判分 ThinkingBox R279、harness 未披露即不可比 R243、基准污染/HF 泄漏）。中英对照、逐条回一手源带访问日期（2026-11-04），未深读者标 *listed*。
+- **登记 SSOT**：新参考文献 **R282–R290**（§AE 组）；`sources.json.tools` 增 **4–5 个 feed 可拉取评测工具**（inspect-ai MIT / openai-evals MIT / swe-bench feed / helm Apache-2.0·maintenance / terminal-bench Apache-2.0），topic 挂 `evaluation-gates`+`ai-tool-stack`，tags 含 `eval`。**只登记一手核验过的实体**（未核验者留 survey 正文 *listed*，不入 feed）。
+- **接上常转**：加宽 `watchlist.json` 的 **evaluation-gates** 主题 queries/keywords（agent benchmark / leaderboard / pass^k / terminal-bench / OSWorld…），使 `full-update` 情报流把新基准摄取进 harness 簇；trend CLUSTERS 无需新增枚举（evaluation-gates 已在 harness topics 集合）。
+- **提升能力体现（核心）**：`reference/evidence-instruments.md` 增一行「agent 能力评测」仪器（instrument = 多次 rollout 的 pass^k + 状态/断言判分 + 防污染检查），落到 `battery.json` 一个 **PENDING 族**（spec 就绪、judge_checks 先声明、`results` 留空＝不臆造），配套 `passk.py`（纯标准库：从既有 `task_outcome` 轨迹算 pass^k）与一个**模拟测试**（合成轨迹证明口径可运行，仿 P63 模拟测试先例）。
+- **收尾**：`harness catalog --write` 重生成 → 全量 `unittest`（含新守卫）→ `cycle audit` → CHANGELOG/PROGRESS/AGENTS 计数 → commit（**绝不 push**）。
+- **状态（已收尾 2026-11-04）**：全部落地。§AE R282–R290 入册（bib 同步，交叉引用不重入）；`sources.json` tools +5 评测框架；`evaluation-gates` 加宽至 7 查询/13 关键词；`passk.py` + `harness passk` 从实时轨迹算 pass^k（24 条真收据：pass@1 0.545 vs pass^2 0.022，诚实低可靠性）；`evidence-instruments.md` 加代理能力评测行+专节；`battery.json` PENDING 第十族（判据先声明、结果留空）+ `reconcile` 跳过 pending；综述入 `pages.ARTICLES`+F5、docs 重生成。`test_passk` 12 合成仿真测试；**513 → 525 测试全绿**；`cycle audit` **66 轮 · 49 路线图 · 0 硬 · 0 洞**（P70 入册 + P70.R1 待跑）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

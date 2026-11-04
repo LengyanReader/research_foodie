@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-03",
-  "note": "The experiment registry (P53): the battery (tasks/BATTERY.md) as data. Each family carries its effect metric, declared scale, machine-checkable judge checks (declared BEFORE execution, M5.13), grounding practice, and status. Any agent session can pick the next pending family via 'harness battery --next', execute both conditions per the spec, and harvest scaled receipts - the self-experimentation loop. Done families keep their results and the round that ran them. A family is done only when BOTH conditions have receipts recorded in the tool home traces. P67 metabolism: the parsing and reading-extraction families ran in P62 but were never registered here (the receipts existed, the registry row did not - the M5.13 pre-declaration was partial: checks are visible in the receipts' checks_total/defects but were not filed in this registry before the run); registered retroactively with that gap acknowledged.",
+  "updated": "2026-11-04",
+  "note": "The experiment registry (P53): the battery (tasks/BATTERY.md) as data. Each family carries its effect metric, declared scale, machine-checkable judge checks (declared BEFORE execution, M5.13), grounding practice, and status. Any agent session can pick the next pending family via 'harness battery --next', execute both conditions per the spec, and harvest scaled receipts - the self-experimentation loop. Done families keep their results and the round that ran them. A family is done only when BOTH conditions have receipts recorded in the tool home traces. P67 metabolism: the parsing and reading-extraction families ran in P62 but were never registered here (the receipts existed, the registry row did not - the M5.13 pre-declaration was partial: checks are visible in the receipts' checks_total/defects but were not filed in this registry before the run); registered retroactively with that gap acknowledged. P70: a 10th family, agent-eval-reliability, is registered PENDING with judge_checks pre-declared but NO results - the benchmark-grounded pass^k reliability trial (τ-bench/ThinkingBox bar, references §AE R282-R290); its trial_project is a planned run, so reconcile skips pending families (a plan asserts no receipts yet).",
   "discipline": {
     "predeclared_checks": "M5.13: judge checks are declared in this registry before the trial runs",
     "judge_self_check": "M3.19: the judge's own suite/harness must pass its own validity gate before scoring",
@@ -234,6 +234,30 @@
       "registration": "retroactive (P67): ran unregistered; checks visible in the receipts, not pre-filed here",
       "trial_projects": [
         "updates/dogfood/p62-cron-parsing"
+      ]
+    },
+    {
+      "task_id": "agent-eval-reliability",
+      "status": "pending",
+      "grounding": "pass^k reliability over repeated runs of a fixed task with environment-state grading, harness disclosed (τ-bench [R282] / ThinkingBox [R279] bar; OSWorld [R285] / Terminal-Bench [R289] state grading; HAL [R288] model x scaffold x benchmark + contamination)",
+      "judge_checks": [
+        "success signal grades terminal/environment state, not model self-report",
+        "same task x same harness run >= k independent times, receipts recorded",
+        "pass^k computed from receipts via `harness passk` and reported alongside pass@1",
+        "harness (model x scaffold) disclosed on every receipt",
+        "contamination check: log shows no external benchmark lookup"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "spec": {
+        "task": "Pick one recurring factory task (e.g. lit-review citation resolution). Run it n>=k times under A-bare and n>=k times under B-harness, grading the terminal state each time (does the deliverable actually resolve its citations, not what the model claims).",
+        "conditions": "A bare: raw model, no harness gate, one-shot vs repeated. B harness: full factory loop (router -> gates -> provenance). The measured axis is reliability (pass^k), not the single best score.",
+        "judge": "machine: per-receipt state check feeds pass^k = mean over tasks with n>=k of C(c,k)/C(n,k) (see harness passk). Insufficient n reads as 'not measurable' (M5.11/M5.12) - results are observed, never fabricated; judge_checks are pre-declared here before any run (M5.13)."
+      },
+      "trial_projects": [
+        "updates/dogfood/p70-agent-eval-reliability"
       ]
     }
   ]

@@ -2311,6 +2311,90 @@
           "unverified"
         ],
         "why": "Discovery lead from P68 searches (confident-ai/deepeval); NOT yet primary-verified this round - feed registered so the standing scan collects it, license/activity to be confirmed before any adoption claim (roadmap P68.R1)."
+      },
+      {
+        "id": "inspect-ai",
+        "name": "Inspect (UK AI Security Institute)",
+        "kind": "repo",
+        "url": "https://github.com/UKGovernmentBEIS/inspect_ai",
+        "feed": "https://github.com/UKGovernmentBEIS/inspect_ai/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "mit",
+          "benchmark-runner"
+        ],
+        "why": "Framework for LLM evals from the UK AISI - composable solvers/scorers/datasets with 200+ pre-built evaluations, tool-use + multi-turn + model-graded scoring (MIT, LICENSE read 2026-11-04). Nearest external runner to our paired A-bare/B-harness idea. Not for: proof of capability - it scores a model under a stated harness; our paired trials stay the standard of evidence."
+      },
+      {
+        "id": "openai-evals",
+        "name": "OpenAI Evals",
+        "kind": "repo",
+        "url": "https://github.com/openai/evals",
+        "feed": "https://github.com/openai/evals/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "mit"
+        ],
+        "why": "Registry + runner of template and model-graded evals (MIT, LICENSE read 2026-11-04). Useful as a task-pack format to interoperate with. Not for: it is a catalogue of checks, not a benchmark of agent reliability (no pass^k by default)."
+      },
+      {
+        "id": "helm",
+        "name": "HELM (Stanford CRFM)",
+        "kind": "repo",
+        "url": "https://github.com/stanford-crfm/helm",
+        "feed": "https://github.com/stanford-crfm/helm/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "apache-2.0",
+          "maintenance"
+        ],
+        "why": "Holistic Evaluation of Language Models - standardized datasets/benchmarks + beyond-accuracy metrics (calibration, robustness, fairness, efficiency) under one interface (Apache-2.0, LICENSE read 2026-11-04); the framework behind reference R185. ENTERED MAINTENANCE MODE 2026-06-01 per the repo README - track, do not build new gates on it."
+      },
+      {
+        "id": "swe-bench",
+        "name": "SWE-bench",
+        "kind": "repo",
+        "url": "https://github.com/princeton-nlp/SWE-bench",
+        "feed": "https://github.com/princeton-nlp/SWE-bench/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "mit",
+          "benchmark"
+        ],
+        "why": "Real-GitHub-issue resolution benchmark (2 294 inst / Verified 500), graded by fail-to-pass test-suite run - the canonical coding-agent test-bank (MIT, LICENSE read 2026-11-04; paper is reference R29). Its 'Bash Only' view holds the harness fixed to isolate the model, echoing our R243 disclosure stance."
+      },
+      {
+        "id": "terminal-bench",
+        "name": "Terminal-Bench",
+        "kind": "repo",
+        "url": "https://github.com/harbor-framework/terminal-bench",
+        "feed": "https://github.com/harbor-framework/terminal-bench/releases.atom",
+        "topics": [
+          "ai-tool-stack",
+          "evaluation-gates"
+        ],
+        "tags": [
+          "eval",
+          "apache-2.0",
+          "benchmark"
+        ],
+        "why": "Hard realistic terminal-work benchmark (2.0 = 89 tasks), each graded by per-task pytest; leaderboard reports harness + model together (Apache-2.0, LICENSE read 2026-11-04; paper R289). Distinct from the Long-Horizon Terminal-Bench pointer R246."
       }
     ],
     "outlets": [

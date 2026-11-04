@@ -1,33 +1,65 @@
 <!doctype html><html lang="zh"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale-1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Frontier directions</title><style>
-:root{--ink:#16202b;--mut:#65788f;--line:#e4eaf1;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad}
+:root{--ink:#1a2332;--mut:#65788f;--line:#dde4ec;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad;--accent:#7b5ea7;--code-bg:#f0f4f8;--pre-bg:#1a2332;--pre-fg:#d4d4d4;--sidebar-w:260px}
 *{box-sizing:border-box}
-body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.65}
-.wrap{max-width:860px;margin:0 auto;padding:28px 20px 64px}
-h1{font-size:22px;border-bottom:2px solid var(--brand);padding-bottom:10px;margin:24px 0 16px}
-h2{font-size:17px;margin:28px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
-h3{font-size:15px;margin:20px 0 6px}
-p{margin:8px 0}
+body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.75;font-size:15.5px}
+.wrap{display:flex;max-width:1200px;margin:0 auto;min-height:100vh}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;font-size:13px}
+.sidebar h3{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:16px 0 6px}
+.sidebar a{display:block;color:var(--ink);text-decoration:none;padding:3px 8px;border-radius:4px;margin:1px 0;line-height:1.4}
+.sidebar a:hover{background:#eef2f7;color:var(--brand)}
+.sidebar a.lvl3{padding-left:20px;font-size:12.5px;color:var(--mut)}
+.sidebar a.active{color:var(--brand);font-weight:600;background:#e8f0fa}
+.content{flex:1;padding:32px 40px 64px;max-width:780px;min-width:0}
+.doc-header{border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:24px}
+.doc-header h1{font-size:22px;margin:0 0 4px;line-height:1.3}
+.doc-header .meta{font-size:12px;color:var(--mut);margin-top:4px}
+.back-nav{display:flex;gap:14px;padding:10px 0;margin-bottom:16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.back-nav a{font-size:13px;color:var(--brand);text-decoration:none}
+.back-nav a:hover{text-decoration:underline}
+h1{font-size:22px;line-height:1.3;margin:20px 0 12px}
+h2{font-size:18px;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 6px}
+p{margin:10px 0}
 a{color:var(--brand);text-decoration:none}
 a:hover{text-decoration:underline}
-code{background:#eef2f7;border-radius:4px;padding:1px 5px;font-size:0.9em;font-family:'Cascadia Code',monospace}
-pre{background:#1a2332;color:#d4d4d4;border-radius:8px;padding:14px 16px;overflow-x:auto;line-height:1.45}
+code{background:var(--code-bg);border-radius:4px;padding:1px 5px;font-size:.88em;font-family:'Cascadia Code','SF Mono',monospace}
+pre{background:var(--pre-bg);color:var(--pre-fg);border-radius:8px;padding:16px 18px;overflow-x:auto;line-height:1.5;font-size:13.5px;margin:14px 0}
 pre code{background:none;padding:0;color:inherit}
-table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px}
-th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+.tblwrap{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
 th{background:#f0f4f8;font-weight:600}
-blockquote{border-left:3px solid var(--brand);margin:12px 0;padding:6px 16px;background:#f0f4f8;border-radius:0 8px 8px 0}
-blockquote p{margin:4px 0}
-hr{border:none;border-top:1px solid var(--line);margin:24px 0}
-ul,ol{padding-left:24px;margin:8px 0}
-li{margin:4px 0}
-.nav{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
-.nav a{font-size:13px;color:var(--brand);text-decoration:none}
-.nav a:hover{text-decoration:underline}
-.meta{font-size:12px;color:var(--mut);margin-bottom:16px}
+tbody tr:nth-child(even){background:#fafbfc}
+blockquote{border-left:3px solid var(--brand);margin:14px 0;padding:10px 18px;background:#f0f4f8;border-radius:0 8px 8px 0}
+blockquote p{margin:6px 0}
+hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+ul,ol{padding-left:24px;margin:10px 0}
+li{margin:5px 0}
+.prevnext{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line)}
+.prevnext a{font-size:13px;color:var(--brand);text-decoration:none;padding:8px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.prevnext a:hover{background:#eef2f7}
+@media(max-width:900px){.sidebar{display:none}.content{padding:20px 16px 48px}}
 </style></head><body>
-<div class="wrap"><nav class="nav"><a href="index.html">← Dashboard</a></nav><div class="meta">Generated by harness-factory · docs/ · self-contained</div>
+<div class="wrap"><div class="sidebar"><h3>On this page</h3><a href="#中文速览" class="">中文速览</a>
+<a href="#1---method---方法" class="">1 · Method · 方法</a>
+<a href="#2---what-the-frontier-converged-on---本轮收敛点" class="">2 · What the frontier converged on · 本轮收敛点</a>
+<a href="#3---new-capabilities---新增能力-17---22--data-only" class="">3 · New capabilities · 新增能力（17 → 22, data-only）</a>
+<a href="#4---per-capability-notes---逐项说明" class="">4 · Per-capability notes · 逐项说明</a>
+<a href="#context-budget-policy" class="lvl3">`context-budget-policy`</a>
+<a href="#untrusted-content-discipline" class="lvl3">`untrusted-content-discipline`</a>
+<a href="#durable-execution" class="lvl3">`durable-execution`</a>
+<a href="#cost-budget-caps" class="lvl3">`cost-budget-caps`</a>
+<a href="#eval-driven-development" class="lvl3">`eval-driven-development`</a>
+<a href="#5---deliberately-not-adopted---暂不纳入-及理由" class="">5 · Deliberately not adopted · 暂不纳入（及理由）</a>
+<a href="#5b---deliberate-non-match---不匹配说明" class="">5b · Deliberate non-match · 不匹配说明</a>
+<a href="#6---verification-status---核验状态" class="">6 · Verification status · 核验状态</a>
+<a href="#6b---next-cycle-cues---下轮提示" class="">6b · Next-cycle cues · 下轮提示</a>
+<a href="#see-also---参见" class="">See also · 参见</a></div>
+<div class="content">
+<nav class="back-nav"><a href="index.html">← Dashboard</a></nav>
+<div class="doc-header"><h1>Frontier directions</h1><div class="meta">Generated by harness-factory · docs/ · <b>SSOT: review/ 的 .md 文件是唯一可编辑源；本页面为派生视图。</b></div></div>
 <h1>Frontier assimilation · 前沿整合（2026-10）</h1>
 <blockquote>
 <p>What the leading labs, security bodies, and practitioners converged on <b>this cycle</b>, and</p>
@@ -38,14 +70,14 @@ li{margin:4px 0}
 <p>每条声明都可溯源到 <code>references.md</code> §E（R84–R92）；已抓取的标注抓取，仅收录的标注 listed。</p>
 </blockquote>
 <hr>
-<h2>中文速览</h2>
+<h2 id="中文速览">中文速览</h2>
 <ul>
 <li><b>做法。</b> 先按观察—审计—提案的规矩（M0.4）抓一手材料：Anthropic 上下文工程、Chroma <i>Context Rot</i>、OWASP <i>Top 10 for Agentic Applications 2026</i>、MCP 安全最佳实践、CaMeL、Temporal <i>Durable AI</i>、METR 长任务时间视野、OpenTelemetry GenAI 语义约定、<i>Agent-as-a-Judge</i>。逐条核验抓取后，<b>只把真正缺的能力</b>写进 <code>data/capabilities.json</code>（SSOT），并 regenerate <code>CAPABILITIES.md</code>。</li>
 <li><b>结论。</b> 现有 17 项能力<b>覆盖</b>了「生成—评估分离」「最小高信号上下文」「来源可溯」等原则，但<b>没有</b>独立承载五件前沿共识：<b>上下文预算</b>、<b>不可信内容纪律</b>、<b>持久执行</b>、<b>成本硬上限</b>、<b>评测驱动开发</b>。新增这 5 项（17 → <b>22</b>），均为 <b>data-only</b>（改 JSON，不改代码），触发器彼此不重叠。</li>
 <li><b>诚实边界。</b> 这是<b>能力库</b>的扩展，不是新协议实现；评测/可观测性（OTel GenAI）<b>暂未</b>单列能力，理由见 §5。§E 中 R91（OTel 仓库）抓取超时，仅由一手检索确认 —— 标 <i>listed</i>。</li>
 </ul>
 <hr>
-<h2>1 · Method · 方法</h2>
+<h2 id="1---method---方法">1 · Method · 方法</h2>
 <p>The self-update loop (<code>harness refresh</code> / <code>evolve</code>) is <b>observe-only</b> (M0.4): it ranks and proposes, it never authors catalog content. This pass is the <i>apply</i> half, human-directed:</p>
 <pre><code>
 probe (websearch) → fetch primary → assess coverage vs corpus → extend SSOT (data/*) → regenerate → test
@@ -61,8 +93,8 @@ probe (websearch) → fetch primary → assess coverage vs corpus → extend SSO
 <ul>
 <li><b>Reversible.</b> Data + generated doc + docs. <code>git revert</code> one commit undoes the slice.</li>
 </ul>
-<h2>2 · What the frontier converged on · 本轮收敛点</h2>
-<table class="mdtable">
+<h2 id="2---what-the-frontier-converged-on---本轮收敛点">2 · What the frontier converged on · 本轮收敛点</h2>
+<div class="tblwrap"><table>
 <thead><tr><th>Signal · 信号</th><th>What is now settled · 现状</th><th>Mapped capability</th><th>Source</th></tr></thead>
 <tbody>
 <tr><td>Context is <b>not</b> uniform — recall degrades as input length grows</td><td>"Context rot" measured across 18 frontier models; haystack structure alone changes accuracy</td><td><code>context-budget-policy</code></td><td><code>[R84]</code>, <code>[R52]</code></td></tr>
@@ -70,10 +102,10 @@ probe (websearch) → fetch primary → assess coverage vs corpus → extend SSO
 <tr><td>Long work must survive <b>process death</b></td><td>Journal + deterministic replay; checkpoints are state recovery, <i>not</i> exactly-once</td><td><code>durable-execution</code></td><td><code>[R90]</code>, <code>[R89]</code></td></tr>
 <tr><td>Unattended loops <b>burn budget</b></td><td>Hard caps ("cut this off and return errors"), not soft warning emails</td><td><code>cost-budget-caps</code></td><td><code>[R85]</code></td></tr>
 <tr><td>Judge the <b>trajectory</b>, not just the output</td><td>Agentic evaluators give step-level feedback; agent runs are traced as spans</td><td><code>eval-driven-development</code></td><td><code>[R92]</code>, <code>[R91]</code></td></tr>
-</tbody></table>
-<h2>3 · New capabilities · 新增能力（17 → 22, data-only）</h2>
+</tbody></table></div>
+<h2 id="3---new-capabilities---新增能力-17---22--data-only">3 · New capabilities · 新增能力（17 → 22, data-only）</h2>
 <p>Added to <code>src/harness_factory/data/capabilities.json</code>; <code>CAPABILITIES.md</code> regenerated. <code>when</code> is the machine-checked trigger; <code>modules</code> are what it annotates (never enables — M0.4).</p>
-<table class="mdtable">
+<div class="tblwrap"><table>
 <thead><tr><th>capability</th><th>fires when</th><th>modules</th><th>grounded in</th></tr></thead>
 <tbody>
 <tr><td><code>context-budget-policy</code></td><td><code>horizon ≥ session</code> OR <code>tool_surface ∈ {read, read_write, external}</code></td><td>M1, M2</td><td><code>[R84]</code> <code>[R52]</code></td></tr>
@@ -81,22 +113,22 @@ probe (websearch) → fetch primary → assess coverage vs corpus → extend SSO
 <tr><td><code>durable-execution</code></td><td><code>horizon ≥ multi_session</code></td><td>M2, M3</td><td><code>[R90]</code> <code>[R89]</code></td></tr>
 <tr><td><code>cost-budget-caps</code></td><td><code>tool_surface = external</code> OR <code>horizon ≥ multi_session</code></td><td>M3, M7</td><td><code>[R85]</code></td></tr>
 <tr><td><code>eval-driven-development</code></td><td><code>verifiability = high</code> OR <code>horizon ≥ multi_session</code></td><td>M3, M5</td><td><code>[R92]</code> <code>[R91]</code></td></tr>
-</tbody></table>
+</tbody></table></div>
 <p>independent leading sources, (b) the corpus did not already carry as a <i>capability</i>, and (c) have a <b>distinct trigger</b> — no new row duplicates an existing one (see §5 for the deliberate non-additions).</p>
-<h2>4 · Per-capability notes · 逐项说明</h2>
-<h3><code>context-budget-policy</code></h3>
+<h2 id="4---per-capability-notes---逐项说明">4 · Per-capability notes · 逐项说明</h2>
+<h3 id="context-budget-policy"><code>context-budget-policy</code></h3>
 <p>The 2025–26 context-engineering thread (Anthropic <code>[R52]</code>) gained an empirical spine: Chroma's</p>
 <p>and even coherent haystack structure measurably degrading results. The harness implication is not "bigger windows" but a <b>policy</b>: write durable facts outside the window (M2), then select / compress / isolate per call, and compact <b>only</b> against a named, measured constraint.</p>
-<h3><code>untrusted-content-discipline</code></h3>
+<h3 id="untrusted-content-discipline"><code>untrusted-content-discipline</code></h3>
 <p>The lethal trifecta <code>[R42]</code> is now joined by institutional guidance and an architectural defense. OWASP's <i>Top 10 for Agentic Applications for 2026</i> (<code>ASI01</code>–<code>ASI10</code>) <code>[R86]</code> routes goal hijack, tool misuse, memory poisoning and rogue agents through one lens; the <b>MCP Security Best Practices</b> spec <code>[R87]</code> makes confused-deputy, token passthrough and local one-click installs concrete, testable failure modes; <b>CaMeL</b> <code>[R88]</code> shows a policy layer can keep untrusted data out of control flow. The capability keeps the discipline minimal:</p>
-<h3><code>durable-execution</code></h3>
+<h3 id="durable-execution"><code>durable-execution</code></h3>
 <p><code>resumable-memory</code> externalizes <b>knowledge</b>; this capability externalizes <b>execution semantics</b>. Temporal's <i>Durable AI</i> <code>[R90]</code> is the clearest statement: a worker crash must replay a journal to the last committed step, not re-run the day — and that is only crash-<i>safe</i> if side effects are idempotent, because a checkpoint is not an exactly-once guarantee. METR's time-horizon work <code>[R89]</code> supplies the reason this is now load-bearing rather than theoretical: the 50%-completion horizon keeps extending.</p>
-<h3><code>cost-budget-caps</code></h3>
+<h3 id="cost-budget-caps"><code>cost-budget-caps</code></h3>
 <p>Willison's Oct 3 2026 post <code>[R85]</code> — hard caps on pay-by-usage services, default-on, with a prominent "remove the cap" opt-in — is the newest idea in this batch. It is small, sharp, and actionable. The existing <code>sandboxed-execution</code> covers <i>what may run</i>; this covers <b>when it must stop</b>, which nothing else did.</p>
-<h3><code>eval-driven-development</code></h3>
+<h3 id="eval-driven-development"><code>eval-driven-development</code></h3>
 <p>LLM-as-a-judge and matches human baselines). OpenTelemetry's GenAI semantic conventions <code>[R91]</code> standardize how a run is traced (<code>invoke_agent → chat</code> → <code>execute_tool</code>), so the evidence exists to grade a <b>trajectory</b>. The capability ties <code>M3</code> (verified done) to M5: each recurring failure becomes a frozen golden case, and the judge is never the author.</p>
-<h2>5 · Deliberately not adopted · 暂不纳入（及理由）</h2>
-<table class="mdtable">
+<h2 id="5---deliberately-not-adopted---暂不纳入-及理由">5 · Deliberately not adopted · 暂不纳入（及理由）</h2>
+<div class="tblwrap"><table>
 <thead><tr><th>Candidate</th><th>Why held</th><th>Where it lives today</th></tr></thead>
 <tbody>
 <tr><td>Non-human identity / agent credentials</td><td>Overlaps <code>sandboxed-execution</code> (least privilege) + <code>untrusted-content-discipline</code>; better as a <i>lever</i>, not a duplicate capability</td><td>least-privilege note in <code>data/levers.json</code>; OWASP Top 10 <code>[R86]</code></td></tr>
@@ -104,14 +136,14 @@ probe (websearch) → fetch primary → assess coverage vs corpus → extend SSO
 <tr><td>Provider-side redundancy/drift of the GenAI semantic conventions (OTel)</td><td>Spec still <b>Development</b>; the harness needs <i>trace-first</i> evidence, not a pinned schema</td><td><code>[R91]</code>, noted</td></tr>
 <tr><td>EU AI Act / GPAI-code compliance mapping</td><td>Regulatory, environment-specific; not a generic capability</td><td>a <code>domains/</code> concern, later</td></tr>
 <tr><td>"Lethal trifecta" as its own capability</td><td>Superset already named here</td><td><code>untrusted-content-discipline</code></td></tr>
-</tbody></table>
+</tbody></table></div>
 <blockquote>
 <p>If run traces accumulate in <code>updates/</code> and are reused, the honest next step is a</p>
 <p><code>run-observability</code> capability — <b>only then</b>, not speculatively.</p>
 </blockquote>
-<h2>5b · Deliberate non-match · 不匹配说明</h2>
+<h2 id="5b---deliberate-non-match---不匹配说明">5b · Deliberate non-match · 不匹配说明</h2>
 <p><code>untrusted-content-discipline</code> fires on <code>grounding = required</code> but <b>not</b> on the default <code>grounding = preferred</code>; a plain local coding task with <code>read_write</code> tools should not pay for it. This is why it is not <code>always</code>: a capability that never discriminates is documentation, not a mechanism.</p>
-<h2>6 · Verification status · 核验状态</h2>
+<h2 id="6---verification-status---核验状态">6 · Verification status · 核验状态</h2>
 <ul>
 <li><b>Fetched and read (2026-10-18):</b> R84, R85, R86 (web page; the PDF was not downloaded),</li>
 </ul>
@@ -125,7 +157,7 @@ probe (websearch) → fetch primary → assess coverage vs corpus → extend SSO
 <li><b><code>[unverified]</code>:</b> nothing in §E is used as an unsourced fact; none is added to the</li>
 </ul>
 <p>  reference list unless fetched, listed, or previously verified.</p>
-<h2>6b · Next-cycle cues · 下轮提示</h2>
+<h2 id="6b---next-cycle-cues---下轮提示">6b · Next-cycle cues · 下轮提示</h2>
 <ul>
 <li>Watch the <b>OWASP Agentic Skills Top 10 (AST10)</b> / <i>Agent Control Standard (ACS)</i> — if</li>
 </ul>
@@ -138,11 +170,11 @@ probe (websearch) → fetch primary → assess coverage vs corpus → extend SSO
 <li>Probe <b>robustness of agent judges</b> (evaluation integrity) before trusting any golden set.</li>
 </ul>
 <p>  — LHTB's hidden fake-proof verifiers <code>[R246]</code> — is <i>listed</i> only).</p>
-<h2>See also · 参见</h2>
+<h2 id="see-also---参见">See also · 参见</h2>
 <ul>
 <li><a href="references.md"><code>references.md</code></a> §E (R84–R92) · <a href="references.bib"><code>references.bib</code></a>.</li>
 <li><a href="../CAPABILITIES.md"><code>CAPABILITIES.md</code></a> — the always-current generated list (22).</li>
 <li><a href="../reference/capability-router.md"><code>reference/capability-router.md</code></a> — <i>situation → capability → file</i>.</li>
 <li><a href="../sources/source-map.md"><code>sources/source-map.md</code></a> — pattern ← primary source.</li>
 </ul>
-</div></body></html>
+</div></div></body></html>

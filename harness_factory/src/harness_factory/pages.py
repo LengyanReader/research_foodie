@@ -51,12 +51,13 @@ BRANCH = "main"
 #: Presentation-layer curation; a test guards that every path exists (no dead link).
 ARTICLES: list[tuple[str, str, str]] = [
     ("趋势综述与文献辩证 · 2026-11-03", "Trend review & literature synthesis · the P69 body", "trend-review-2026-11-03.md"),
+    ("能力评测基准与题库综述 · 2026-11", "Agent-capability evaluation: benchmarks, test-banks & harnesses (P70)", "harness-evaluation-benchmarks-2026-11.md"),
     ("harness 全景扫描 · 2026-10", "Harness landscape scan", "harness-landscape-scan-2026-10.md"),
     ("AI 工具栈扫描 · 2026-11", "Beyond-harness AI tool-stack scan (P68)", "ai-tool-stack-scan-2026-11.md"),
     ("Agent Harness 综述", "Agent-harness survey · foundational literature review", "ai-harness-survey.md"),
     ("前沿方向 · 2026-10", "Frontier directions", "frontier-2026-10.md"),
     ("自我模型与缺口求解", "Self-model & gap-seeking", "self-model-and-gap-seeking-2026-10.md"),
-    ("文献库索引 R1–R281", "Reference index · numbered literature", "references.md"),
+    ("文献库索引 R1–R290", "Reference index · numbered literature", "references.md"),
     ("AI Agent 能力前沿深度分析 · 2026-11", "Deep analysis: the agent capability frontier", "ai-landscape-analysis-2026-11.md"),
 ]
 
@@ -67,7 +68,7 @@ FAMILIES: list[dict[str, Any]] = [
     {"code": "F2", "label": "Observability & tracing · 可观测", "ids": {"langfuse", "otel-genai"}},
     {"code": "F3", "label": "Sandboxed execution · 沙箱执行", "ids": {"e2b"}},
     {"code": "F4", "label": "Structured output · 结构化输出", "ids": {"instructor", "outlines"}},
-    {"code": "F5", "label": "Eval & red-team · 评测与红队", "ids": {"promptfoo", "deepeval"}},
+    {"code": "F5", "label": "Eval & red-team · 评测与红队", "ids": {"promptfoo", "deepeval", "inspect-ai", "openai-evals", "helm", "swe-bench", "terminal-bench"}},
     {"code": "F6", "label": "Gateway & inference · 网关与推理", "ids": {"litellm", "vllm"}},
     {"code": "F7", "label": "Guardrails · 护栏", "ids": {"nemo-guardrails"}},
     {"code": "!", "label": "Caution · 警示", "ids": {"ms-graphrag"}},
@@ -171,9 +172,9 @@ def generate_doc_pages(docs_dir: Path) -> list[Path]:
         if not md_path.exists():
             continue
         md_text = md_path.read_text(encoding="utf-8")
-        body = convert(md_text)
+        body, toc = convert(md_text)
         title = label_en or label_zh
-        html = render_page(title, body, nav)
+        html = render_page(title, body, toc=toc, nav_links=nav)
         out_name = md_rel.replace(".md", ".html")
         out_path = docs_dir / out_name
         out_path.parent.mkdir(parents=True, exist_ok=True)

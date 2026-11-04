@@ -5,7 +5,7 @@
 > [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md)。它已入轮次完成定义
 > （`data/cycles.json` DoD 的软轴 **battery**）：触能力/模板/域信号的轮次必须报告重跑了哪些族、收据如何，或说明为何不适用。
 
-**Updated:** 2026-11-03 · **Owner:** 每 P 轮的执行者 · **收据流向:** tool home traces → trace-audit → 提案
+**Updated:** 2026-11-04 · **Owner:** 每 P 轮的执行者 · **收据流向:** tool home traces → trace-audit → 提案
 
 ## 1. When · 何时跑
 
@@ -16,9 +16,11 @@
 | 每次真实任务收尾 | `harvest --event task_outcome`（含失败；M5.14）→ `collect` → `trace-audit` |
 | 周期性（随 refresh/full-update） | `harness scoreboard` + `trace-audit`（已入 full-update 七相环，P66 起尾相为 self-model） |
 
-## 2. What · 试验组（九族，锚定前沿评测实践）
+## 2. What · 试验组（九族已测 + 一族待跑，锚定前沿评测实践）
 
 见 [`review/experiment-battery-2026-10.md`](../review/experiment-battery-2026-10.md) §1 总表。**注册表（P53）**：实验状态是数据——`data/battery.json`（族 × 判据 × 尺度 × 状态 × 结果 × 试验项目绑定）；`harness battery` 看全局，`harness battery --next` 打印下一个待测族的完整 spec（任何 agent 会话据此**自行**执行并回写收据，完成后 `battery.mark_done` 翻状态）。当前 **9/9 已测**：lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 · bayesian-stats 0.2 vs 1.0 · kg-dh 0.0 vs 1.0 · deep-research 0.4 vs 1.0 · reading-extraction 0.78 vs 0.94 · cron-parsing 0.727 vs 1.0（裸奔 vs harness，scale [0,1]）。
+
+**P70 第十族（待跑 pending，判据已先声明、结果留空＝不臆造）：`agent-eval-reliability`** — 把外部基准的**可靠性口径**落成可跑试验：同一任务同种外壳独立跑 ≥k 次，按**终端/环境状态**（非模型自报）判分，用 `harness passk` 报 **pass@1 与 pass^k**（τ-bench [R282] / ThinkingBox [R279] 标尺；OSWorld [R285] / Terminal-Bench [R289] 状态判分；HAL [R288] 模型×外壳×基准披露 + 污染检查，见 references §AE R282–R290）。样本不足时读作「不可测」（M5.11/M5.12），绝不臆造分数。`battery.reconcile` 跳过 pending 族（计划不声称已有收据）。
 **P67 代谢注记：** reading-extraction 与 cron-parsing 两族在 P62 已执行并留有双侧收据，但当时未入册——P67 追溯登记，并给全部九族绑定 `trial_projects`（试验项目 ↔ 注册表双向对账 `battery.reconcile`，守卫测试常驻）；两族的判据可见于收据（checks_total/defects）但未在跑前入册，M5.13 之缺口如实登记。历史设计：
 lit-review 0.2 vs 1.0 · model-choice 0.0 vs 1.0 · unit-tests 0.552 vs 1.0 · proof-verification 0.0 vs 1.0 ·
 bayesian-stats 0.2 vs 1.0（裸奔 vs harness，scale [0,1]）。

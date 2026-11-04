@@ -1,33 +1,64 @@
 <!doctype html><html lang="zh"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale-1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agent-harness survey · foundational literature review</title><style>
-:root{--ink:#16202b;--mut:#65788f;--line:#e4eaf1;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad}
+:root{--ink:#1a2332;--mut:#65788f;--line:#dde4ec;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad;--accent:#7b5ea7;--code-bg:#f0f4f8;--pre-bg:#1a2332;--pre-fg:#d4d4d4;--sidebar-w:260px}
 *{box-sizing:border-box}
-body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.65}
-.wrap{max-width:860px;margin:0 auto;padding:28px 20px 64px}
-h1{font-size:22px;border-bottom:2px solid var(--brand);padding-bottom:10px;margin:24px 0 16px}
-h2{font-size:17px;margin:28px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
-h3{font-size:15px;margin:20px 0 6px}
-p{margin:8px 0}
+body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.75;font-size:15.5px}
+.wrap{display:flex;max-width:1200px;margin:0 auto;min-height:100vh}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;font-size:13px}
+.sidebar h3{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:16px 0 6px}
+.sidebar a{display:block;color:var(--ink);text-decoration:none;padding:3px 8px;border-radius:4px;margin:1px 0;line-height:1.4}
+.sidebar a:hover{background:#eef2f7;color:var(--brand)}
+.sidebar a.lvl3{padding-left:20px;font-size:12.5px;color:var(--mut)}
+.sidebar a.active{color:var(--brand);font-weight:600;background:#e8f0fa}
+.content{flex:1;padding:32px 40px 64px;max-width:780px;min-width:0}
+.doc-header{border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:24px}
+.doc-header h1{font-size:22px;margin:0 0 4px;line-height:1.3}
+.doc-header .meta{font-size:12px;color:var(--mut);margin-top:4px}
+.back-nav{display:flex;gap:14px;padding:10px 0;margin-bottom:16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.back-nav a{font-size:13px;color:var(--brand);text-decoration:none}
+.back-nav a:hover{text-decoration:underline}
+h1{font-size:22px;line-height:1.3;margin:20px 0 12px}
+h2{font-size:18px;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 6px}
+p{margin:10px 0}
 a{color:var(--brand);text-decoration:none}
 a:hover{text-decoration:underline}
-code{background:#eef2f7;border-radius:4px;padding:1px 5px;font-size:0.9em;font-family:'Cascadia Code',monospace}
-pre{background:#1a2332;color:#d4d4d4;border-radius:8px;padding:14px 16px;overflow-x:auto;line-height:1.45}
+code{background:var(--code-bg);border-radius:4px;padding:1px 5px;font-size:.88em;font-family:'Cascadia Code','SF Mono',monospace}
+pre{background:var(--pre-bg);color:var(--pre-fg);border-radius:8px;padding:16px 18px;overflow-x:auto;line-height:1.5;font-size:13.5px;margin:14px 0}
 pre code{background:none;padding:0;color:inherit}
-table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px}
-th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+.tblwrap{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
 th{background:#f0f4f8;font-weight:600}
-blockquote{border-left:3px solid var(--brand);margin:12px 0;padding:6px 16px;background:#f0f4f8;border-radius:0 8px 8px 0}
-blockquote p{margin:4px 0}
-hr{border:none;border-top:1px solid var(--line);margin:24px 0}
-ul,ol{padding-left:24px;margin:8px 0}
-li{margin:4px 0}
-.nav{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
-.nav a{font-size:13px;color:var(--brand);text-decoration:none}
-.nav a:hover{text-decoration:underline}
-.meta{font-size:12px;color:var(--mut);margin-bottom:16px}
+tbody tr:nth-child(even){background:#fafbfc}
+blockquote{border-left:3px solid var(--brand);margin:14px 0;padding:10px 18px;background:#f0f4f8;border-radius:0 8px 8px 0}
+blockquote p{margin:6px 0}
+hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+ul,ol{padding-left:24px;margin:10px 0}
+li{margin:5px 0}
+.prevnext{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line)}
+.prevnext a{font-size:13px;color:var(--brand);text-decoration:none;padding:8px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.prevnext a:hover{background:#eef2f7}
+@media(max-width:900px){.sidebar{display:none}.content{padding:20px 16px 48px}}
 </style></head><body>
-<div class="wrap"><nav class="nav"><a href="index.html">← Dashboard</a></nav><div class="meta">Generated by harness-factory · docs/ · self-contained</div>
+<div class="wrap"><div class="sidebar"><h3>On this page</h3><a href="#中文速览" class="">中文速览</a>
+<a href="#1--introduction---scope---引言与范围" class="">1. Introduction &amp; scope · 引言与范围</a>
+<a href="#2--what-is-a-harness----什么是-harness" class="">2. What is a harness? · 什么是 harness</a>
+<a href="#3--classification---分类总览" class="">3. Classification · 分类总览</a>
+<a href="#4--coding-harnesses---编码-harness" class="">4. Coding harnesses · 编码 harness</a>
+<a href="#5--orchestration-frameworks---编排框架" class="">5. Orchestration frameworks · 编排框架</a>
+<a href="#6--self-evolution--a-four-axis-analysis---自我演化的四个轴" class="">6. Self-evolution: a four-axis analysis · 自我演化的四个轴</a>
+<a href="#7--memory-as-the-substrate-of-evolution---记忆是演化的基底" class="">7. Memory as the substrate of evolution · 记忆是演化的基底</a>
+<a href="#8--skills-ecosystems---protocols---技能生态与协议" class="">8. Skills ecosystems &amp; protocols · 技能生态与协议</a>
+<a href="#9--evaluation-harnesses---评测-harness" class="">9. Evaluation harnesses · 评测 harness</a>
+<a href="#10--safety-of-self-evolution---自我演化的安全" class="">10. Safety of self-evolution · 自我演化的安全</a>
+<a href="#11--surveys---open-problems---综述与开放问题" class="">11. Surveys &amp; open problems · 综述与开放问题</a>
+<a href="#12--conclusion---结论" class="">12. Conclusion · 结论</a>
+<a href="#references---参考文献" class="">References · 参考文献</a></div>
+<div class="content">
+<nav class="back-nav"><a href="index.html">← Dashboard</a></nav>
+<div class="doc-header"><h1>Agent-harness survey · foundational literature review</h1><div class="meta">Generated by harness-factory · docs/ · <b>SSOT: review/ 的 .md 文件是唯一可编辑源；本页面为派生视图。</b></div></div>
 <h1>A Survey of AI Agent Harnesses and Self-Evolution Methods · AI agent harness 与自我演化方法综述</h1>
 <blockquote>
 <p>A narrative review of how agent harnesses are built, classified, and made to improve themselves — with a focus on self-evolution and its safety.</p>
@@ -35,17 +66,17 @@ li{margin:4px 0}
 <p>Companion to <code>harness-catalog.md</code> (exhaustive listing). <b>Updated:</b> 2026-10-12.</p>
 </blockquote>
 <hr>
-<h2>中文速览</h2>
+<h2 id="中文速览">中文速览</h2>
 <hr>
-<h2>1. Introduction & scope · 引言与范围</h2>
+<h2 id="1--introduction---scope---引言与范围">1. Introduction & scope · 引言与范围</h2>
 <p>The last decade moved from <i>models</i> to <i>systems</i>: an LLM alone produces text, but an <b>agent</b> acts — it plans, calls tools, reads files, and iterates. The layer that turns a model into a reliable worker is the <b>harness</b>. This survey organizes the field along two axes: (i) the <b>families</b> of harnesses that exist today, and (ii) the <b>self-evolution</b> methods that let a harness or agent improve over time. Section 2 defines the term; §3–§5 survey static harnesses; §6–§10 analyze self-evolution, memory, skills, evaluation, and safety; §11 lists open problems.</p>
-<h2>2. What is a harness? · 什么是 harness</h2>
+<h2 id="2--what-is-a-harness----什么是-harness">2. What is a harness? · 什么是 harness</h2>
 <p>A useful decomposition (Mollick; Böckeler/Fowler):</p>
 <blockquote>
 <p><b>model</b> (capability) → <b>app</b> (interface) → <b>harness</b> (tools + workflow + context management) → <b>agent</b> (the harness running in a loop)</p>
 </blockquote>
 <p>The adopting formulation is <b>"Agent = Model + Harness."</b> The harness supplies <i>feedforward</i> guides (specs, schemas, examples) and <i>feedback</i> sensors (tests, linters, gates) [P19, P20]. Empirically the harness often matters <i>more</i> than the model for real productivity — a claim echoed across the practitioner literature [P29, P30]. Karpathy's "Software 3.0" frames the context window itself as the programming substrate [P1–P4].</p>
-<h2>3. Classification · 分类总览</h2>
+<h2 id="3--classification---分类总览">3. Classification · 分类总览</h2>
 <p>Seven families (detailed in the catalog):</p>
 <ol>
 <li><b>Coding / software harnesses</b> — turn an LLM into a repo agent (e.g. Claude Code, Codex-style agents, <code>Aider</code>, <code>OpenHands</code>, <code>SWE-agent</code>).</li>
@@ -56,29 +87,29 @@ li{margin:4px 0}
 <li><b>Evaluation harnesses</b> — SWE-bench (Verified/Polyglot), Terminal-Bench, ARC-AGI, LiveCodeBench, LoCoMo/LongMemEval (§9).</li>
 <li><b>Surveys</b> — orientation maps of the field (§11; catalog §7).</li>
 </ol>
-<h2>4. Coding harnesses · 编码 harness</h2>
+<h2 id="4--coding-harnesses---编码-harness">4. Coding harnesses · 编码 harness</h2>
 <p>Coding is the field's proving ground because its outputs are <b>cheap to verify</b> (tests pass/fail), which the "verifiability spectrum" identifies as the precondition for fast agent improvement [P1]. Coding harnesses share a shape: a <b>loop</b> over (read → plan → edit → run → observe), a <b>minimal toolset</b> (shell, editor, test runner), and <b>context management</b> (search, maps, compaction). Two design tensions recur: <i>autonomy level</i> (autocomplete → single edit → whole repo) and <i>context strategy</i> (reset vs compaction vs subagents) [P2, P26].</p>
-<h2>5. Orchestration frameworks · 编排框架</h2>
+<h2 id="5--orchestration-frameworks---编排框架">5. Orchestration frameworks · 编排框架</h2>
 <p>Orchestration frameworks supply graph/state-machine execution, role abstraction (planner/worker/critic), and tool plumbing. They are mostly <b>static</b>: the graph is authored by humans. The self-evolution literature (§6) is largely a reaction to this — asking whether the <i>orchestration itself</i> can be discovered rather than hand-written.</p>
-<h2>6. Self-evolution: a four-axis analysis · 自我演化的四个轴</h2>
+<h2 id="6--self-evolution--a-four-axis-analysis---自我演化的四个轴">6. Self-evolution: a four-axis analysis · 自我演化的四个轴</h2>
 <p>We can place every self-evolution method on four axes.</p>
 <p>Concrete families: <b>scaffold/code self-modification</b> (ADAS, Gödel Agent, SICA, DGM); <b>evolutionary code search</b> (FunSearch, AlphaEvolve, OpenEvolve, CodeEvolve) [S10–S13]; <b>weight self-adaptation</b> (SEAL) [S5]; <b>inference-time self-correction</b> (Self-Refine, Reflexion) [S7, S8]; <b>skill-library growth</b> (Voyager) [S9].</p>
-<h2>7. Memory as the substrate of evolution · 记忆是演化的基底</h2>
+<h2 id="7--memory-as-the-substrate-of-evolution---记忆是演化的基底">7. Memory as the substrate of evolution · 记忆是演化的基底</h2>
 <p>Evolution requires somewhere for experience to <i>live</i>. Memory systems differ along extraction / management / storage / retrieval [M27]. Representative designs: <b>MemGPT/Letta</b> (OS-style tiered paging) [M28], <b>Mem0</b> (extraction + conflict detection + hybrid vector/graph store) [M19], <b>Zep/Graphiti</b> (bitemporal knowledge graph) [M20]. The survey field distinguishes <b>forms × functions × dynamics</b>, and stresses the shift <i>from storage to experience</i> [M18, M26]. In harness terms, memory is M2 (externalized state) + M4 (provenance) — without it, nothing can compound.</p>
-<h2>8. Skills ecosystems & protocols · 技能生态与协议</h2>
+<h2 id="8--skills-ecosystems---protocols---技能生态与协议">8. Skills ecosystems & protocols · 技能生态与协议</h2>
 <p>The emerging consensus is <b>progressive disclosure</b>: keep a small <b>index</b> in context (name, trigger, one-liner) and load a skill's <b>body</b> only when its trigger fires. Anthropic's <b>Agent Skills</b> — folders of <code>SKILL.md</code> plus scripts — instantiate this: metadata is the map, instructions are procedural knowledge, scripts are <i>executed, not read</i> [K24, K25]. <code>AGENTS.md</code> is the same idea for repo conventions. <b>MCP</b> standardizes tool access. This is M1 + M6, generalized.</p>
-<h2>9. Evaluation harnesses · 评测 harness</h2>
+<h2 id="9--evaluation-harnesses---评测-harness">9. Evaluation harnesses · 评测 harness</h2>
 <p>You cannot evolve without a scorer. Common benches: <b>SWE-bench Verified/Polyglot</b> (coding) [E29], <b>Terminal-Bench</b>, <b>ARC-AGI / ARC-AGI-3</b> (skill-acquisition <b>efficiency</b>, not just skill) [P12–P14], <b>LiveCodeBench</b>, and <b>LoCoMo/LongMemEval/MemoryArena</b> (memory). The design lesson from Chollet: measure <i>efficiency of skill acquisition</i>, or you optimize the wrong thing.</p>
-<h2>10. Safety of self-evolution · 自我演化的安全</h2>
+<h2 id="10--safety-of-self-evolution---自我演化的安全">10. Safety of self-evolution · 自我演化的安全</h2>
 <p>When "experience becomes reusable state, past events become future causes," new risks appear. <b>SAVER</b> offers a transition-centered framework <code>Substrate × Adaptation → Violation → Exposure → Response</code>, with the key insight that failures need <b>not</b> start from harmful information: legitimate state becomes unsafe when adaptation widens its <b>persistence, authority, or scope</b> beyond the conditions under which it was valid. Governance must therefore be <b>longitudinal</b> — trace to the originating transition, contain at the exposure surface, prevent re-emergence [SA21]. Empirically, <b>misevolution</b> shows memory evolution decaying refusal (−45% on a Qwen3-Coder agent) and tool evolution creating/reusing vulnerable tools (unsafe rate ~65.5%) while failing to reject malicious external tools (~93%) [SA22].</p>
 <blockquote>
 <p><b>Design rule.</b> Every self-evolution loop needs (i) an <b>admission gate</b> on what may become durable state, (ii) <b>provenance + authority + scope</b> on each such state, (iii) a <b>containment/revocation</b> path, and (iv) <b>human-gated</b> promotion for the highest-authority carriers (workflow rules, tool definitions, weights). This is <code>core/06-self-evolution.md</code> M5 + M0 + M8.</p>
 </blockquote>
-<h2>11. Surveys & open problems · 综述与开放问题</h2>
+<h2 id="11--surveys---open-problems---综述与开放问题">11. Surveys & open problems · 综述与开放问题</h2>
 <p>Orientation surveys organize the field along complementary cuts: <b>self-evolving agents</b> (components × timing) [SV14], <b>co-evolution</b> (agent–agent, agent–environment, meta) [SV15], <b>self-improvements</b> (update target × signal) [SV16], <b>agentic RL</b> [SV17], <b>memory</b> [SV18, M26], and <b>self-play</b> [SV23].</p>
-<h2>12. Conclusion · 结论</h2>
+<h2 id="12--conclusion---结论">12. Conclusion · 结论</h2>
 <p>The model is given; the <b>harness</b> determines whether capability becomes reliable work. Self-evolution is the frontier — and its hard problem is not capability but <b>governance</b>: admission, provenance, authority, scope, containment, and human gates. A harness that can learn from its failures <i>and</i> bound the blast radius of learning is the durable design.</p>
 <hr>
-<h2>References · 参考文献</h2>
+<h2 id="references---参考文献">References · 参考文献</h2>
 <p>Full, per-item IEEE citations live in <b><code>references.md</code></b>; the exhaustive classified listing (with 29 references) is in <b><code>harness-catalog.md</code> §References</b>. Bracketed labels above map as follows: <code>[P<i>]</code> → practitioner-playbook; <code>[S</i>]</code>/<code>[M<i>]</code>/<code>[E</i>]</code>/<code>[SA<i>]</code>/<code>[SV</i>]</code>/<code>[K*]</code> → catalog references 1–29. All access dates 2026-10-12.</p>
-</div></body></html>
+</div></div></body></html>

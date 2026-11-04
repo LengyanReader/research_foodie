@@ -281,6 +281,17 @@ def build_parser() -> argparse.ArgumentParser:
     pages_p.add_argument("--out", default=None, help="output path (default: <repo root>/docs/index.html)")
     pages_p.add_argument("--json", action="store_true", help="emit the build summary as JSON")
 
+    passk_p = sub.add_parser(
+        "passk",
+        help="reliability of recorded task outcomes as pass^k (P70): read the task_outcome trace stream and report pass@1 vs pass^k (the τ-bench / ThinkingBox bar)",
+    )
+    passk_p.add_argument("--k", type=int, default=2, help="reliability exponent (default: 2)")
+    passk_p.add_argument(
+        "--root", "--home", dest="root", default=None,
+        help="knowledge-base dir with updates/traces.jsonl (default: user home)",
+    )
+    passk_p.add_argument("--json", action="store_true", help="emit the report as JSON")
+
     skill_p = sub.add_parser(
         "skill", help="print the agent load-index, or one module (agent-native entry)"
     )
@@ -1087,6 +1098,18 @@ def _cmd_self_model(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_passk(args: argparse.Namespace) -> int:
+    """P70: pass^k reliability over the live task_outcome stream (the benchmark bar)."""
+    from . import passk
+
+    rep = passk.run(args.root, k=args.k)
+    if args.json:
+        print(json.dumps(rep, ensure_ascii=False, indent=2))
+    else:
+        print(passk.render(rep))
+    return 0
+
+
 def _cmd_trend(args: argparse.Namespace) -> int:
     """P69: the routine-work scaffold - aggregate this run's intel into the four
     review clusters; --write drops TREND.md + refreshes the committed snapshot."""
@@ -1559,6 +1582,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_trend(args)
     if args.command == "pages":
         return _cmd_pages(args)
+    if args.command == "passk":
+        return _cmd_passk(args)
     if args.command == "skill":
         return _cmd_skill(args)
     if args.command == "capabilities":

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -1811,6 +1811,40 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P70",
+      "date": "2026-11-04",
+      "status": "done",
+      "title_en": "Benchmark-grounded capability evaluation: register the agent-eval test-banks/frameworks and add a pass^k reliability instrument",
+      "title_zh": "基准锚定的能力评测：登记 agent 评测题库/框架，并加入 pass^k 可靠性仪器",
+      "note": "User directive: broadly search and synthesize the test-banks / benchmarks / eval tooling related to harness capability, to thoroughly test and raise the existing capability demonstration. Primary-source verified (arXiv id_list GET + GitHub LICENSE/feeds). Registered 9 reference entries (references.md §AE R282-R290: tau-bench, tau2-bench, GAIA, OSWorld, WebArena, AgentBench, HAL, Terminal-Bench 2.0, RE-Bench; SWE-bench=R29 / HELM=R185 / harness-disclosure=R243 / ThinkingBox=R279 kept as cross-refs, not re-entered). 5 feed-pullable eval frameworks entered sources.json tools (Inspect AI=MIT, OpenAI Evals=MIT, HELM=Apache-2.0 maintenance-mode, SWE-bench=MIT, Terminal-Bench=Apache-2.0) so full-update surfaces new benchmarks; the evaluation-gates watchlist topic was widened with benchmark/leaderboard/pass^k/contamination probes. The capability-raising core is a real consumer-driven instrument, not a fabricated score: passk.py computes pass^k (tau-bench/ThinkingBar estimator C(c,k)/C(n,k) over task_outcome receipts) from the LIVE trace stream; harness passk reported pass@1 0.545 vs pass^2 0.022 over the 24 real receipts - an honest low-reliability finding (M5.11 falsification), the faithful way to raise the bar. Wired the reliability claim into evidence-instruments.md (agent-capability-evaluation row + section: state-grading, pass^k over pass@1, harness disclosure, contamination, judge-checks-before-execution). Registered a PENDING 10th battery family, agent-eval-reliability, with judge_checks pre-declared (M5.13) and results left empty (no fabricated run); battery.reconcile now skips pending families (a plan asserts no receipts yet). Survey doc review/harness-evaluation-benchmarks-2026-11.md. Suite 513->525 (+12 passk sim tests, following the P63 simulate-before-running precedent).",
+      "slices": [
+        "P70.1 - primary-source verification of benchmark/eval-tool licenses + arXiv ids; references.md §AE R282-R290 + references.bib parity",
+        "P70.2 - sources.json +5 eval frameworks (feed+license verified) + evaluation-gates watchlist widened for standing benchmark discovery",
+        "P70.3 - passk.py: pass^k reliability over task_outcome receipts + harness passk CLI verb (live-stream consumer, M0.4)",
+        "P70.4 - evidence-instruments.md agent-capability-evaluation row + section mapped to clauses (state-grading/pass^k/disclosure/contamination)",
+        "P70.5 - PENDING agent-eval-reliability battery family (spec+judge_checks pre-declared, results empty) + reconcile skips pending; test_docs_integrity counts 9->10",
+        "P70.6 - survey review/harness-evaluation-benchmarks-2026-11.md + wire into pages ARTICLES/F5 + docs regen + 12 passk sim tests"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R282",
+          "R283",
+          "R284",
+          "R285",
+          "R286",
+          "R287",
+          "R288",
+          "R289",
+          "R290"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -2257,6 +2291,15 @@
       "title_en": "Surface the authored review/trend-review-<date>.md (its headline judgments + citation anchors) inside the dashboard, not just the raw clusters",
       "reason": "RESOLVED 2026-11-03 (honest bridge = link, not engine-authored excerpts): the dashboard §7 now carries clickable entries to the authored bodies (trend-review body, landscape & tool-stack scans, harness survey, reference index), linked to the rendered markdown on GitHub with a dead-link guard. This keeps M4 (the engine surfaces and points, never opines) and the citations lifeline while making the prose reachable from the cover.",
       "revisit_when": "the routine has produced two or three dated reviews and a stable excerpt format emerges worth templating inline (headline judgments + per-claim source anchors rendered onto the page, not just linked)"
+    },
+    {
+      "id": "P70.R1",
+      "status": "planned",
+      "cycle": "P70",
+      "source": "P70 registered the agent-eval-reliability battery family PENDING - spec and judge_checks pre-declared, results empty (no live repeated run yet); the pass^k instrument reads the current stream (pass@1 0.545 / pass^2 0.022 over 24 receipts, mostly single-run tasks)",
+      "title_en": "Execute the agent-eval-reliability paired trial (n>=k repeats per task, environment-state graded) and flip the family to done with real receipts",
+      "reason": "The bar is set but not run: pass^k needs each task repeated k times with receipts, so on the current single-run-per-task stream it reads thin. Running it is a real model-judgment task the registry never executes itself; the spec is ready via 'harness battery --next'. Leaving results empty until then is the M5.11/M5.13 discipline (observe, never fabricate).",
+      "revisit_when": "the next battery round - run the paired A-bare/B-harness repeats into updates/dogfood/p70-agent-eval-reliability, harvest task_outcome receipts, recompute harness passk, then battery.mark_done"
     }
   ]
 }

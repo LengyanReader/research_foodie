@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "cadence": "weekly",
-  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt.",
+  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt. P70: `evaluation-gates` widened with benchmark/leaderboard/pass^k/terminal-bench/contamination probes so agent-capability test-banks (SWE-bench, OSWorld, GAIA, τ-bench, HAL, Terminal-Bench) surface on every cycle.",
   "topics": [
     {
       "id": "agent-harness",
@@ -98,7 +98,10 @@
         "LLM agent evaluation",
         "agent verifier reward",
         "process reward model agents",
-        "scaling agentic verification long-horizon"
+        "scaling agentic verification long-horizon",
+        "agent benchmark leaderboard pass^k reliability",
+        "SWE-bench OSWorld GAIA terminal-bench agent eval",
+        "environment state grading agent benchmark contamination"
       ],
       "keywords": [
         "evaluation",
@@ -108,7 +111,12 @@
         "benchmark",
         "self-check",
         "consensus",
-        "rollout"
+        "rollout",
+        "pass^k",
+        "test-bank",
+        "leaderboard",
+        "terminal-bench",
+        "contamination"
       ]
     },
     {

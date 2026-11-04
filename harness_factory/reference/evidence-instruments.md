@@ -6,7 +6,7 @@
 > **命题类型 → 仪器 → 目录中的工具 → 门禁必须看到的证据**。凡是超出「我读到过」的断言，都按本表选仪器。
 > Same paths as every factory doc — these are **the harness-factory's** files, not your project's.
 
-**Updated:** 2026-10-20 · Load via `harness skill evidence-instruments`. Machine-readable truth: `data/harnesses.json` (class `instruments`, 68 entries / 25 kinds). Sources: `review/references.md` §G–§J (formal & empirical instruments), §M (knowledge-engineering & digital-humanities instruments) and §N–§P (reasoners, prose instruments).
+**Updated:** 2026-11-04 · Load via `harness skill evidence-instruments`. Machine-readable truth: `data/harnesses.json` (class `instruments`, 68 entries / 25 kinds). Sources: `review/references.md` §G–§J (formal & empirical instruments), §M (knowledge-engineering & digital-humanities instruments), §N–§P (reasoners, prose instruments), and §AE (agent-capability benchmarks & eval frameworks, R282–R290; P70).
 
 ---
 
@@ -51,6 +51,23 @@
 | An assertion grounded in a corpus · 断言在语料中有据 | Graph construction + provenance model · 图谱构建 + 溯源模型 | `microsoft-graphrag`, `neo4j` | Each named assertion resolves to a source span or record id, or is recorded as a defect; ungrounded candidates are not kept (`[R141]`, `[R148]`) |
 | Historical text transcribed from an image · 图版转写 | HTR engine + model record · 手写识别引擎 + 模型记录 | `transkribus`, `escriptorium` | The transcription, the model id/version used, and a stated or measured character-error rate (`[R153]`, `[R154]`) |
 | Prose is readable and in the right register · 文字可读、语域正确 | Declared style linter + readability *alarm* · 声明的风格 linter + 可读性*警报* | `vale`, `languagetool`, `textstat` | A clean run of the **declared** rules (never "taste"), plus a term-consistency check and a punctuation standard for the language; a readability score is a drift alarm, **not** an approval, and a reader still judges the result (`[R192]`–`[R200]`) |
+| Agent capability end-to-end (a scaffold *enables* / *improves* a task) · 代理能力端到端 | Paired bare/harness battery + `pass^k` reliability + environment-state grading · 裸/外壳配对试 + pass^k 可靠性 + 环境状态判分 | *(CLI `harness passk`; `battery.json`/`scoreboard.json`; tools registry — not `instruments`)* `[R282]` `[R283]` `[R279]` `[R288]` | Terminal/**environment state** graded (not model self-report); **pass^k** over *k* consistent runs reported alongside pass@1; harness **disclosed**; log **contamination** checked; judge-checks declared before execution (M5.13) |
+
+---
+
+## Agent capability evaluation · 代理能力评测
+
+**When:** the deliverable claims a harness/scaffold *enables* or *improves* an agent task — an **end-to-end capability** claim, not a single measured quantity. This is the claim the factory is most tempted to overreach, so its bar is the strictest.
+**Instrument:** a paired bare/harness battery (`data/battery.json`, `harness battery --next` emits the pending trial spec) and the reliability estimator **`pass^k`** (`harness passk`) computed over recorded `task_outcome` receipts (`updates/traces.jsonl`). External reference benchmarks supply the *calibration bar*, never the factory's own score: τ-bench `[R282]` / τ²-bench `[R283]` (conversational tool-use, the pass^k origin), OSWorld `[R285]` / WebArena `[R286]` / GAIA `[R284]` / Terminal-Bench `[R289]` (environment-graded), AgentBench `[R287]` and HELM `[R185]` (multi-suite), and the large-scale **HAL** study `[R288]` (model × scaffold × benchmark). The consistency discipline is `[R279]` (ThinkingBox).
+
+**Gate.**
+1. **Grade the terminal / environment state, not the model's self-report** — a task counts as succeeded only if the world ends in the required state (OSWorld/WebArena/ThinkingBox). "The model said it finished" is not evidence.
+2. **Report pass^k, not pass@1 alone** — reliability is the probability of *k* independent successes, estimated per task as \(\binom{c}{k}/\binom{n}{k}\) and averaged over tasks with \(n \ge k\). The divergence between a high pass@1 and a low pass^k **is** the untrustworthy case τ-bench surfaced (airline domain 0.46 → 0.22 under repeat). Report pass@1, pass^k, and the gap; on \(n<k\) data say *not measurable* (M5.12/M5.11), never infer.
+3. **Disclose the harness** — model × scaffold × benchmark together (HAL `[R288]`, library thesis `[R243]`, Terminal-Bench reports harness+model as one). A capability number without its scaffold is meaningless: the scaffold is part of the measurement.
+4. **Check for contamination** — inspect the run log for benchmark lookups; HAL caught agents searching HuggingFace for the answer, and found *higher reasoning reduced accuracy* in the majority of runs. A contaminated score is not a capability score.
+5. **Judge-checks declared before execution and held out** (M5.13): a battery family is only executable once `judge_checks` exist; `results` are observed, never fabricated (empty reads are honest, M5.11).
+
+> Anti-pattern: quoting a **public benchmark's** pass-rate as the factory's own capability. External benchmarks set the bar; the factory claims only what its own paired battery + `pass^k` measurement observed, with the harness named. · 反模式：把公开榜单分数当作自身能力；外部基准只是标尺。
 
 ---
 
