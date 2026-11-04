@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "note": "The experiment registry (P53): the battery (tasks/BATTERY.md) as data. Each family carries its effect metric, declared scale, machine-checkable judge checks (declared BEFORE execution, M5.13), grounding practice, and status. Any agent session can pick the next pending family via 'harness battery --next', execute both conditions per the spec, and harvest scaled receipts - the self-experimentation loop. Done families keep their results and the round that ran them. A family is done only when BOTH conditions have receipts recorded in the tool home traces. P67 metabolism: the parsing and reading-extraction families ran in P62 but were never registered here (the receipts existed, the registry row did not - the M5.13 pre-declaration was partial: checks are visible in the receipts' checks_total/defects but were not filed in this registry before the run); registered retroactively with that gap acknowledged. P70: a 10th family, agent-eval-reliability, is registered PENDING with judge_checks pre-declared but NO results - the benchmark-grounded pass^k reliability trial (τ-bench/ThinkingBox bar, references §AE R282-R290); its trial_project is a planned run, so reconcile skips pending families (a plan asserts no receipts yet).",
   "discipline": {
     "predeclared_checks": "M5.13: judge checks are declared in this registry before the trial runs",
@@ -333,6 +333,31 @@
       "traces": "tool home",
       "trial_projects": [
         "updates/dogfood/p65-capability-expansion/argument-reconstruction"
+      ]
+    },
+    {
+      "task_id": "kg-construction",
+      "status": "done",
+      "grounding": "KG construction simulation: schema declaration, entity extraction, identity resolution, triple sourcing (four DH capabilities simultaneously)",
+      "judge_checks": [
+        "E1 schema first",
+        "E2 identity resolved",
+        "E3 evidence-bounded triples",
+        "E4 schema versioned",
+        "E5 provenance present"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.4,
+        "B-harness": 1.0
+      },
+      "round": "P65-ext",
+      "traces": "tool home",
+      "trial_projects": [
+        "updates/dogfood/p65-kg-simulation"
       ]
     }
   ]
