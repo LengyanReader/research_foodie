@@ -79,6 +79,14 @@
 
 ---
 
+## 2026-11-02 · 综合能力评估试验（P65-ext）——第十族入册，harness 10/10
+
+- **试验。** 任务：跨三维度（task validity · outcome validity · harness disclosure）的评估方法论分析，要求 3+ 一手源 + 结构化对比表 + 配置披露。这是一个**多能力交叉**任务：同时触发 traceable-sources + evidence-bounded-generation + verification-gate + prose-polish + expression-design。
+- **结果。** 裸奄 **0.8** vs harness **1.0**（+0.2，最小 delta——评估方法论是 LLM 训练分布内的任务）。裸奄缺结构化对比表 + 仅 2 arXiv 来源 + 无结构化溯源表。**十族累计：harness 10/10 全胜，裸奄均值 0.37 vs 0.99，26 条真实轨迹。**
+- **对抗性测试。** scoreboard 3× 完全一致（确定性验证）；RHB 六类 exploit 在发射的 harness 中均未检测到（好的结果）。
+
+---
+
 ## 2026-11-02 · P60：周扫荡轮 —— 学界+业界三发现（ThinkingBox · QueenBee · LegoSR）
 
 - **开轮依据。** 用户先令扫学界（研究所/高校/机构），再补业界。本周 INTEL 3287 行挖出 **418 学术 + 7 业界**条目，能力形态最强三条入册。
