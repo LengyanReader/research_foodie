@@ -1511,5 +1511,23 @@ class P71EmbodiedHarnessTest(unittest.TestCase):
         self.assertIn("R291", entry["added"]["references"])
 
 
+class P66WSPTest(unittest.TestCase):
+    """P66: M5.13 scope extended to cover weight-space programming."""
+
+    def test_m513_names_three_modalities(self):
+        text = _read(HARNESS / "core/06-self-evolution.md")
+        for token in ("weight-space programming", "[R282]", "M5.13(d)",
+                      "0.016%", "MATH-500"):
+            self.assertIn(token, text, f"M5.13 scope extension lost {token!r}")
+
+    def test_references_have_r282(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("R282", refs)
+        self.assertIn("Weight-Space Programming", refs)
+        self.assertIn("MIT CSAIL", refs)
+        bib = _read(HARNESS / "review/references.bib")
+        self.assertIn("takehi2026wsp", bib)
+
+
 if __name__ == "__main__":
     unittest.main()
