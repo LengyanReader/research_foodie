@@ -623,11 +623,11 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **收尾**：`catalog --write` + `pages --write` 重生成 → 全量 `unittest`（含新守卫）→ `cycle audit` → CHANGELOG/PROGRESS/AGENTS 计数 → commit（**绝不 push**）。
 - **状态（已收尾 2026-11-04）**：全部落地。§AF R291 入册（bib 同步）；`sources.json` tools +1 uni-robot-agent；`core/03` 加 M2.14 子句 + source-map 行（锚定子句现 **45** 条）；`evidence-instruments` 加具身外延 + 门禁 6；`watchlist` `agent-harness` 加宽；综述 §7 + BATTERY 具身映射。**525 → 535 测试全绿**（+8 `P71EmbodiedHarnessTest` 内容守卫、+2 `EmbodiedGradingTest` 环境判分仿真）；`cycle audit` **67 轮 · 51 路线图 · 0 硬 · 0 洞**（P71 入册 + P71.R1 具身配对试验已排期 + P71.R2 独立具身域延期）。
 
-## P66 · 权重空间编程轮（2026-11-05，已做）：M5.13 范围扩展——第三种自改进模态
+## P72 · 权重空间编程轮（2026-11-05，已做）：M5.13 范围扩展——第三种自改进模态
 
 > 用户指定入口（rikiyat.github.io WSP 博文，MIT CSAIL）。**核心发现：LLM 直接读写网络权重（无梯度、无优化器）是脚手架自编辑与梯度训练之间的第三种自改进模态**——挑战 P15 训练方法论边界。
 
-- **落地。** M5.13 scope note 扩展："harness 自身编辑"现在显式覆盖三种模态——脚手架/提示编辑（原范围）· 梯度权重更新（P15 边界）· **权重空间编程**（LLM 直接读写权重）。验收门与拒绝边界（M5.13(d)）对三种模态同等适用。references **§AE**（R282）+ bib；source-map M5.13 行。
+- **落地。** M5.13 scope note 扩展："harness 自身编辑"现在显式覆盖三种模态——脚手架/提示编辑（原范围）· 梯度权重更新（P15 边界）· **权重空间编程**（LLM 直接读写权重）。验收门与拒绝边界（M5.13(d)）对三种模态同等适用。references **§AG**（R292）+ bib；source-map M5.13 行；`cycles.json` 注册 P72（68 轮 · 51 路线图 · 0 硬 · 0 洞）。
 - **刻意不加。** 不加新子句（M5.13 已覆盖概念）；不加新能力（self-improving-loop 已存在）；P15 边界脚注而非重写（WSP 仍处 "sparks" 阶段，未成熟到需要独立子句）。
 
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）

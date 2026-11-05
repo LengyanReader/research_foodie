@@ -131,7 +131,7 @@ def run_full_update(
     from . import self_model
 
     def _self() -> dict[str, Any]:
-        model = self_model.generate()
+        model = self_model.generate(home=root)
         gaps = model["gaps"]
         return {
             "capabilities": model["capabilities"]["total"],

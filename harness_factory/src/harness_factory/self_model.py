@@ -21,7 +21,7 @@ def _load(name: str) -> Any:
     return json.loads(data_file(name).read_text(encoding="utf-8"))
 
 
-def generate() -> dict[str, Any]:
+def generate(home: Path | None = None) -> dict[str, Any]:
     """Compute the self-model from the SSOT."""
     caps = _load("capabilities.json")
     doms = _load("domains.json")
@@ -63,7 +63,7 @@ def generate() -> dict[str, Any]:
     uncovered_topics = _uncovered_topics()
 
     # trace health
-    trace_stats = _trace_stats()
+    trace_stats = _trace_stats(home=home)
 
     return {
         "capabilities": {"total": len(capabilities), "ids": capabilities},
@@ -118,21 +118,12 @@ def _trace_stats(home: "Path | None" = None) -> dict[str, Any]:
 
     root = Path(home) if home is not None else config.home()
     traces = root / _tr.TRACES_REL
-    if not traces.exists():
-        return {"total": 0, "events": {}}
+    items = _tr.read_traces(traces)
     events: dict[str, int] = {}
-    total = 0
-    for line in traces.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        try:
-            d = json.loads(line)
-            e = d.get("event", "?")
-            events[e] = events.get(e, 0) + 1
-            total += 1
-        except Exception:
-            pass
-    return {"total": total, "events": events}
+    for d in items:
+        e = d.get("event", "?")
+        events[e] = events.get(e, 0) + 1
+    return {"total": len(items), "events": events}
 
 
 def render(model: dict[str, Any]) -> str:

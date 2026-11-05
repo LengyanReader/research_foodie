@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "note": "SSOT for the capability-expansion cycles - the P-cycles that grow this factory. A cycle is one round of capability expansion/deepening/update/evolution: it reads the gap surface, ranks candidates, ships slices, and must satisfy the definition-of-done below before it is recorded as done. Every id in a cycle's `added` block is re-checked against the live SSOT by `harness cycle audit`; anything a cycle deliberately did NOT add is a `roadmap` entry with a reason and a revisit trigger, so deferrals cannot be silently forgotten. The cycle ids follow `tasks/PLAN.md` (the single naming authority); PLAN's `P2` sub-slices are folded in here by content, and rounds before P6 are collapsed into `baseline` because they were not recorded while they ran (git history is the record).",
   "definition_of_done": [
     {
@@ -1869,6 +1869,30 @@
         ],
         "references": [
           "R291"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
+    },
+    {
+      "id": "P72",
+      "date": "2026-11-05",
+      "status": "done",
+      "title_en": "Weight-space programming round: M5.13 scope extended to cover LLM-directed weight edits as a third self-improvement modality",
+      "title_zh": "权重空间编程轮：M5.13 范围扩展——将 LLM 直接读写权重纳入第三种自改进模态",
+      "note": "User-supplied entry point (rikiyat.github.io WSP blog post; MIT CSAIL, Takehi et al., 2026-11-02). Introduces Weight-Space Programming (WSP): an LLM directly reads and writes network weights without gradients, optimizers, or tools. Challenges the P15 training-methodology boundary which assumed weight-level = gradient-based. WSP is a THIRD category between scaffold self-editing and gradient training. Key evidence: 0.016% weight edit raised MATH-500 from 7.9% to 48.1%; zero-shot networks beat PPO trained for 100M steps. M5.13 scope note extended to explicitly cover three modalities (scaffold, gradient, weight-space); the acceptance gate and rejection bound (M5.13(d)) apply equally. Cites R292 (MIT CSAIL; blog post, read in full; logs at github.com/RikiyaT/lm_understand-logs).",
+      "slices": [
+        "P72.1 - primary-source verify (MIT CSAIL blog + logs repo); register R292 in references.md §AG + references.bib",
+        "P72.2 - core/06 M5.13 scope note extension to three self-improvement modalities (scaffold / gradient / weight-space), citing R292",
+        "P72.3 - sources/source-map.md M5.13 row update; PLAN.md and PROGRESS.md alignment",
+        "P72.4 - P72WSPTest structural integrity guards; catalog/pages regen + cycle audit"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [
+          "R292"
         ],
         "catalog_delta": 0,
         "outlets_delta": 0

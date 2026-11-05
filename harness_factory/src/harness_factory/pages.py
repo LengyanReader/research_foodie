@@ -136,13 +136,13 @@ def collect() -> dict[str, Any]:
     trace_events: dict[str, int] = {}
     trace_total = 0
     try:
-        th = Path.home() / "AppData" / "Local" / "harness-factory" / "updates" / "traces.jsonl"
-        if th.exists():
-            for line in th.read_text(encoding="utf-8").splitlines():
-                if line.strip():
-                    ev = json.loads(line).get("event", "?")
-                    trace_events[ev] = trace_events.get(ev, 0) + 1
-                    trace_total += 1
+        from . import config, trace as _tr
+        th = config.home() / _tr.TRACES_REL
+        items = _tr.read_traces(th)
+        for it in items:
+            ev = it.get("event", "?")
+            trace_events[ev] = trace_events.get(ev, 0) + 1
+        trace_total = len(items)
     except Exception:
         pass
 

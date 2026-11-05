@@ -146,10 +146,14 @@ def read_traces(path: str | Path) -> list[dict[str, Any]]:
     """Read a traces file. Legacy lines (free text, or JSON without a valid
     ``event``) read back as ``{"event": "signal", ...}`` so pre-P22 records stay usable."""
     path = Path(path)
-    if not path.exists():
+    try:
+        if not path.exists():
+            return []
+        raw_lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError:
         return []
     out: list[dict[str, Any]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in raw_lines:
         line = line.strip()
         if not line:
             continue

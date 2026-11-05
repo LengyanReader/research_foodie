@@ -1,6 +1,15 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-04
+**Updated:** 2026-11-05
+
+## 2026-11-05 · P72：权重空间编程轮 —— M5.13 范围扩展 · 将 LLM 直接读写权重纳入第三种自改进模态
+
+- **背景与一手源。** 用户提供 MIT CSAIL Rikiya Takehi et al. 2026-11-02 博文《Sparks of Weight-Space Programming: LLMs can natively read & write neural network weights》（日志仓库 github.com/RikiyaT/lm_understand-logs），全文通读。
+- **核心论断与证据。** LLM 原生直接读写神经网络权重（无需梯度、反传与外部优化器）是介于「脚手架/提示自编辑」与「梯度权重微调（P15 边界）」之间的第三种自改进模态。实验证据：0.016% 权重编辑使 Qwen3.5-0.8B MATH-500 从 7.9% 提升至 48.1%、GSM8K 13.8%→67.1%、IFEval 21.0%→62.3%；零阶网络在 MinAtar 击败 100M 步 PPO；GPT-6 Astra 仅从 17,253 个权重中即识别出 PPO 策略训练的游戏。
+- **边界与诚实局限。** 非循环小模型（Gemma 3 270M）无法改善（编辑只能消除隐藏能力的障碍，无法凭空创造模型缺失的能力）；前向评估预算部分等同于环境反馈。
+- **SSOT 落地。** 登记 `references.md` §**AG** Weight-Space Programming R292（bib `takehi2026wsp` 关联同步）；`core/06` M5.13 scope note 扩展，明确自改进验收门槛与拒绝边界（M5.13(d)）同等适用于三种模态；`sources/source-map.md` M5.13 行对账；`data/cycles.json` 注册 P72（68 轮 · 51 路线图 · 0 硬 · 0 洞）。
+- **沙盒鲁棒性修复。** 统一 `self_model.py`、`full_update.py`、`pages.py` 的轨迹读取为 `trace.read_traces`，增加 `OSError` 容错，消除 Windows 沙盒受限环境下的 `PermissionError`；`test_docs_integrity` 轨迹对账增加空流安全跳过。
+- **测试与审计。** 537 用例全绿，`cycle audit` 0 硬问题 0 缺口。
 
 ## 2026-11-03 · KG 构建模拟试验（P65-ext）—— 四 DH 能力同时测试
 

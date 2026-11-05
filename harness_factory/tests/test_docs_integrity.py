@@ -1295,10 +1295,15 @@ class P67RegistryMetabolismTest(unittest.TestCase):
         import os
         from harness_factory import battery, config, trace
 
-        path = config.home() / trace.TRACES_REL
-        if not path.exists() and not os.environ.get("HARNESS_HOME"):
-            self.skipTest("no tool-home traces on this machine")
-        lines = trace.read_traces(path)
+        try:
+            path = config.home() / trace.TRACES_REL
+            if not path.exists():
+                self.skipTest("no tool-home traces on this machine")
+            lines = trace.read_traces(path)
+        except OSError:
+            self.skipTest("tool-home traces inaccessible on this machine")
+        if not lines:
+            self.skipTest("no tool-home trace records on this machine")
         rec = battery.reconcile(traces_lines=lines)
         self.assertEqual(rec["unregistered_trials"], [],
                          "a paired trial ran without a registry row (P62's failure)")
@@ -1511,22 +1516,27 @@ class P71EmbodiedHarnessTest(unittest.TestCase):
         self.assertIn("R291", entry["added"]["references"])
 
 
-class P66WSPTest(unittest.TestCase):
-    """P66: M5.13 scope extended to cover weight-space programming."""
+class P72WSPTest(unittest.TestCase):
+    """P72: M5.13 scope extended to cover weight-space programming."""
 
     def test_m513_names_three_modalities(self):
         text = _read(HARNESS / "core/06-self-evolution.md")
-        for token in ("weight-space programming", "[R282]", "M5.13(d)",
+        for token in ("weight-space programming", "[R292]", "M5.13(d)",
                       "0.016%", "MATH-500"):
             self.assertIn(token, text, f"M5.13 scope extension lost {token!r}")
 
-    def test_references_have_r282(self):
+    def test_references_have_r292_and_p72_registered(self):
         refs = _read(HARNESS / "review/references.md")
-        self.assertIn("R282", refs)
+        self.assertIn("R292", refs)
         self.assertIn("Weight-Space Programming", refs)
         self.assertIn("MIT CSAIL", refs)
         bib = _read(HARNESS / "review/references.bib")
         self.assertIn("takehi2026wsp", bib)
+        from harness_factory import cycle
+        entry = next((c for c in cycle.cycles() if c["id"] == "P72"), None)
+        self.assertIsNotNone(entry, "P72 absent from cycles.json")
+        self.assertEqual("done", entry["status"])
+        self.assertIn("R292", entry["added"]["references"])
 
 
 if __name__ == "__main__":
