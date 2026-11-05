@@ -630,6 +630,22 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **落地。** M5.13 scope note 扩展："harness 自身编辑"现在显式覆盖三种模态——脚手架/提示编辑（原范围）· 梯度权重更新（P15 边界）· **权重空间编程**（LLM 直接读写权重）。验收门与拒绝边界（M5.13(d)）对三种模态同等适用。references **§AG**（R292）+ bib；source-map M5.13 行；`cycles.json` 注册 P72（68 轮 · 51 路线图 · 0 硬 · 0 洞）。
 - **刻意不加。** 不加新子句（M5.13 已覆盖概念）；不加新能力（self-improving-loop 已存在）；P15 边界脚注而非重写（WSP 仍处 "sparks" 阶段，未成熟到需要独立子句）。
 
+## P73 · 认知自主学习轮（2026-11-05，已收尾）：整合 Dupoux, LeCun & Malik (arXiv:2603.15381) —— M2.15 认识性元控制与 Evo-Devo 支架理论
+
+> 用户指定入口：arXiv:2603.15381 (*Why AI systems don't learn and what to do about it: Lessons on autonomous learning from cognitive science*, Emmanuel Dupoux, Yann LeCun, Jitendra Malik, 2026-03-16)。**核心发现：当前 AI（静态 LLM + 外部脚手架）缺乏真正的自主连续学习；作者提出 A-B-M 三系统（System A 观察、System B 行为、System M 元控制）与 Evo-Devo（演化-发育）支架理论。**
+
+- **边界辨析（M0.4/P15）：** 论文探讨的是底层基础模型/潜空间世界模型（JEPA）的学习架构，本库绝不越界去训练世界模型或写仿真器。其在外壳层的深刻映射在于：
+  1. **System M 元控制**：现行 Agent 框架多为机械线性 ReAct；外壳层必须引入**认识性动作（Epistemic Actions，降低不确定性）与实用性动作（Pragmatic Actions，改变状态）的动态切换**。
+  2. **Evo-Devo 支架假说**：生物从非零起步，演化硬编码了发育支架；Harness（`AGENTS.md` + 门禁规则 + 检查脚本）即是赋予模型的**演化发育先验支架**，为其自主发育与任务探索划定安全与真值边界。
+- **落地内容：**
+  - **SSOT 登记：** `references.md` 新增 §AH R293 + `references.bib` 同步（范围 R1–R293）。
+  - **子句落地：** `core/03-long-running-agents.md` 新增 **M2.15 Epistemic meta-control: dynamically switch between exploratory observation and pragmatic action (System M)**（认识性元控制：动态切换探索性观察与实用性行动）+ 检查项 + 反模式（盲目实用重试 Blind pragmatic looping）+ source-map 行（锚定子句升至 **46** 条）。
+  - **理论综述：** 编写 `review/cognitive-autonomous-learning-2026-11.md`，深度梳理 A-B-M 范式、LeCun 对脚手架的批评与外壳辩证反驳、以及 Evo-Devo 支架理论的工程映射。
+  - **侦察面加宽：** `data/watchlist.json` 扩充认知自主学习与元控制探针。
+  - **循环与守卫：** `data/cycles.json` 注册 P73；新增 `P73CognitiveLearningTest` 结构与内容守卫；`catalog --write` + `pages --write` 派生重生成；更新 `AGENTS.md` 测试门禁计数；全量测试全绿。
+- **收尾**：`catalog --write` + `pages --write` 重生成 → 全量 `unittest`（含新守卫）→ `cycle audit` → CHANGELOG/PROGRESS/AGENTS 计数 → commit + **push（用户 2026-11-05 明确指示「完成后，都 push 吧」）**。
+- **状态（已收尾 2026-11-05）**：续接被中断会话，全部落地。§AH R293 入册（bib `dupoux2026whyaidontlearn` 同步、范围 R1–R293）；`core/03` M2.15 子句 + 检查项 + 反模式 + source-map 行（锚定子句现 **46** 条）；综述 `review/cognitive-autonomous-learning-2026-11.md` 入 `pages.ARTICLES`；`watchlist` `self-evolving-agents` 加宽（meta-control/epistemic/autonomous-learning/surprise）。**537 → 545 测试全绿**（+8 `P73CognitiveLearningTest`）；`cycle audit` **69 轮 · 52 路线图 · 0 硬 · 0 洞**（P73 入册 + P73.R1 认识性切换门机械化为已排期）。严守 M0.4/P15：不建世界模型/JEPA 训练器/仿真器。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

@@ -1897,6 +1897,32 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P73",
+      "status": "done",
+      "date": "2026-11-05",
+      "title_en": "Cognitive autonomous learning round: M2.15 epistemic meta-control + the Evo-Devo scaffold justification",
+      "title_zh": "认知自主学习轮：M2.15 认识性元控制 + Evo-Devo 发育支架辩护",
+      "added": {
+        "clauses": [
+          "M2.15"
+        ],
+        "references": [
+          "R293"
+        ],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P73.1 - primary-source verify (arXiv abs 2603.15381, Dupoux/LeCun/Malik, v1 2026-03-16, CC BY 4.0); register R293 in references.md §AH + references.bib",
+        "P73.2 - core/03 M2.15 epistemic meta-control clause (pragmatic vs epistemic action split; System M switches mode on high-surprise divergence) + checklist row + anti-pattern 'Blind pragmatic looping', citing R293",
+        "P73.3 - review/cognitive-autonomous-learning-2026-11.md synthesis (A-B-M architecture, Evo-Devo scaffold thesis, harness-necessity argument, comparative spectrum R279/R280/R291/R292); wired into pages.ARTICLES + trend pin",
+        "P73.4 - source-map M2.15 row; watchlist self-evolving-agents widened with meta-control/epistemic/autonomous-learning probes; P73CognitiveLearningTest guards; catalog/pages regen + cycle audit"
+      ],
+      "note": "User-supplied entry point arXiv:2603.15381 (*Why AI systems don't learn and what to do about it*, Emmanuel Dupoux, Yann LeCun, Jitendra Malik, 2026-03-16, cs.AI, CC BY 4.0; abs page read). A continuation of an interrupted session that had already drafted the landing. The paper is a cognitive-science critique: static LLMs + external scaffolding do not learn continuously/autonomously; it proposes a tri-system architecture - System A (learning from observation / JEPA-style latent world model), System B (active behavioral learning), System M (a meta-controller driven by intrinsic signals: prediction error, surprise, uncertainty, novelty - that dynamically arbitrates between observing and acting) - and the Evo-Devo (evolutionary-developmental) scaffolding thesis: organisms never start tabula rasa; evolution hardwires developmental scaffolds within which experience self-organizes safely. Harness mapping (two landed): the System-M principle becomes core/03 M2.15 epistemic meta-control (classify actions into pragmatic [state mutation, System B] vs epistemic [uncertainty reduction, System A]; on high-surprise divergence interrupt blind pragmatic retries and force an epistemic observation step before further mutation), and the whole library gains an Evo-Devo justification (the harness is the computational developmental scaffold, not an embarrassing workaround). STRICT BOUNDARY (M0.4/P15): the paper's foundational contribution is base-model training + world models + sensorimotor simulation - none is fabricated here (no JEPA trainer, no latent predictive loss, no simulator); the absorbed value is structural/methodological only. Discovery surface widened so full-update re-finds the autonomous-learning/meta-control line. Reference R293 registered (§AH); survey review/cognitive-autonomous-learning-2026-11.md authored and surfaced on the dashboard."
     }
   ],
   "roadmap": [
@@ -2370,6 +2396,15 @@
       "title_en": "A standalone domains/robotics-embodied/ playbook",
       "reason": "Deferred per M0.4: no consumer routes to an embodied-robotics domain yet, and the harness patterns currently live in core/03 M2.14 + evidence-instruments gate 6 + the survey §7 extension; a domain would add engine surface with no reader.",
       "revisit_when": "two or more embodied/physical harness patterns accumulate and the capability-router should send robot-use tasks to their own domain playbook"
+    },
+    {
+      "id": "P73.R1",
+      "status": "planned",
+      "cycle": "P73",
+      "source": "P73 integration - M2.15 lands as advisory pattern; a mechanical gate is the natural next slice",
+      "title_en": "Operationalize M2.15 into an emitted gate: a mechanical surprise->epistemic-switch check",
+      "reason": "M2.15 currently lands as a pattern + checklist row + anti-pattern (advisory). A runtime-enforceable check - block further state-mutating tool calls until a diagnostic/epistemic read is recorded after a failed assertion or unexpected tool return - would turn it from guidance into a gated invariant, mirroring the M2 loop-contract and the P71 no-privileged-input gate. Deferred so P73 stays content-only and honest about what the harness can mechanically observe (needs a trace vocabulary event for surprise/observation).",
+      "revisit_when": "an emitted harness needs to enforce the pragmatic/epistemic switch mechanically, or the trace vocabulary gains a surprise/observation event"
     }
   ]
 }

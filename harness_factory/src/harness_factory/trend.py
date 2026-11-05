@@ -183,7 +183,7 @@ def render(model: dict[str, Any]) -> str:
         "3. 辩证面：每个被看好的方向给出最强反例/局限（如本仓库 GraphRAG 维护模式先例）；区分「趋势」与「声量」。"
     )
     lines.append(
-        "4. harness 文献综述优先引用仓库既有参考库（`review/references.md` R1–R291+），新增文献按最新 §… 分节续编。"
+        "4. harness 文献综述优先引用仓库既有参考库（`review/references.md` R1–R293+），新增文献按最新 §… 分节续编。"
     )
     lines.append(
         "5. 新来源/新实体过 tool-router §5 入表门后入 `sources.json`（人审 M0.8）。"

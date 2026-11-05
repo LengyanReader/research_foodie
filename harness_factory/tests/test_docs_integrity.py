@@ -1452,7 +1452,7 @@ class P71EmbodiedHarnessTest(unittest.TestCase):
         for token in ("R291", "uni-robot-agent", "Democratizing Robot-Use Agents", "arXiv:2611.01560"):
             self.assertIn(token, text, f"{token!r} missing from references.md")
         self.assertIn("R291: **2026-11-04**", text, "\u00a7AF access-date header missing")
-        self.assertIn("R1\u2013R291", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to R291")
+        self.assertIn("R1\u2013R293", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to the current top reference")
 
     def test_r291_in_bibtex(self):
         bib = _read(HARNESS / "review/references.bib")
@@ -1537,6 +1537,85 @@ class P72WSPTest(unittest.TestCase):
         self.assertIsNotNone(entry, "P72 absent from cycles.json")
         self.assertEqual("done", entry["status"])
         self.assertIn("R292", entry["added"]["references"])
+
+
+class P73CognitiveLearningTest(unittest.TestCase):
+    """P73 integrated Dupoux, LeCun & Malik (arXiv:2603.15381, R293) - a
+    cognitive-science critique of static AI learning plus the A-B-M tri-system /
+    Evo-Devo scaffolding blueprint.  The harness-level landing is core/03 M2.15
+    (epistemic meta-control: switch between observation and action on surprise).
+    Content-presence guards only: the paper's foundational model-training scope
+    is NOT implemented here (M0.4 / P15 boundary) - no JEPA trainer, no world
+    model, no simulator.  Nothing is asserted as this factory's own capability.
+    """
+
+    def test_r293_registered_in_references(self):
+        text = _read(HARNESS / "review/references.md")
+        self.assertIsNotNone(text)
+        self.assertIn("## AH.", text, "\u00a7AH group missing")
+        for token in ("R293", "Why AI systems don't learn", "arXiv:2603.15381",
+                      "Dupoux", "LeCun", "Malik"):
+            self.assertIn(token, text, f"{token!r} missing from references.md")
+        self.assertIn("R293: **2026-11-05**", text, "\u00a7AH access-date header missing")
+        self.assertIn("R1\u2013R293", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to R293")
+
+    def test_r293_in_bibtex(self):
+        bib = _read(HARNESS / "review/references.bib")
+        self.assertIsNotNone(bib)
+        self.assertIn("dupoux2026whyaidontlearn", bib)
+        self.assertIn("2603.15381", bib)
+
+    def test_core03_epistemic_metacontrol_clause_anchored(self):
+        text = _read(HARNESS / "core/03-long-running-agents.md")
+        self.assertIsNotNone(text)
+        self.assertIn("M2.15", text)
+        self.assertIn(
+            "Epistemic meta-control: dynamically switch between observation and action (M2.15)",
+            text, "M2.15 title missing")
+        self.assertIn("R293", text, "M2.15 unsourced")
+        self.assertIn("pragmatic", text.lower())
+        self.assertIn("epistemic", text.lower())
+        self.assertIn("(M2.15)", text.split("## Checklist")[1], "no M2.15 checklist row")
+        self.assertIn("Blind pragmatic looping", text, "M2.15 anti-pattern missing")
+        # the foundational-training scope is explicitly NOT claimed (M0.4 / P15)
+        self.assertNotIn("JEPA training loop implemented", text)
+
+    def test_source_map_m215_row(self):
+        text = _read(HARNESS / "sources/source-map.md")
+        self.assertIsNotNone(text)
+        m215 = [ln for ln in text.splitlines() if "M2.15" in ln]
+        self.assertTrue(m215, "no M2.15 row in source-map.md")
+        self.assertIn("R293", m215[0], "M2.15 source-map row missing R293 provenance")
+
+    def test_survey_cognitive_autonomous_learning(self):
+        survey = _read(HARNESS / "review/cognitive-autonomous-learning-2026-11.md")
+        self.assertIsNotNone(survey, "P73 survey body missing")
+        for token in ("System A", "System B", "System M", "Evo-Devo",
+                      "2603.15381", "R293", "epistemic"):
+            self.assertIn(token, survey, f"survey missing {token!r}")
+        # boundary honored: no base-model training fabricated
+        self.assertIn("No model training fabrication", survey)
+
+    def test_watchlist_self_evolving_widened_for_metacontrol(self):
+        data = json.loads((HARNESS / "src/harness_factory/data/watchlist.json").read_text(encoding="utf-8"))
+        se = next(t for t in data["topics"] if t["id"] == "self-evolving-agents")
+        joined = " ".join(se["queries"] + se["keywords"]).lower()
+        for token in ("meta-control", "epistemic", "autonomous learning"):
+            self.assertIn(token, joined, f"self-evolving-agents probe not widened with {token!r}")
+
+    def test_survey_wired_into_dashboard(self):
+        from harness_factory import pages
+        rels = [r for (_zh, _en, r) in pages.ARTICLES]
+        self.assertIn("cognitive-autonomous-learning-2026-11.md", rels,
+                      "P73 survey not surfaced on the related-articles dashboard")
+
+    def test_p73_registered_in_cycle_ledger(self):
+        from harness_factory import cycle
+        entry = next((c for c in cycle.cycles() if c["id"] == "P73"), None)
+        self.assertIsNotNone(entry, "P73 absent from cycles.json")
+        self.assertEqual("done", entry["status"])
+        self.assertIn("M2.15", entry["added"]["clauses"])
+        self.assertIn("R293", entry["added"]["references"])
 
 
 if __name__ == "__main__":

@@ -2,6 +2,17 @@
 
 **Updated:** 2026-11-05
 
+## 2026-11-05 · P73：认知自主学习轮 —— 整合 Dupoux/LeCun/Malik (arXiv:2603.15381) · M2.15 认识性元控制与 Evo-Devo 支架
+
+- **用户指令。** 「请不要忘记使用自己库的能力」＋「刚才在另一 session 升级中断了，请检查是否可继续，需求是评估 arXiv:2603.15381 及其同类是否值得整合」＋「完成后都 push」。先读 `SKILL.md` + `capability-router` 入常驻引用，再续接被中断会话。
+- **中断态盘点。** HEAD `bd7a4fc`（P72 已入册）；工区未提交草拟：core/03 M2.15、references.md §AH R293 + bib、source-map M2.15 行、PLAN §P73、新综述 `cognitive-autonomous-learning-2026-11.md`。缺：cycles.json 登记、守卫测试、watchlist 加宽、R293 引脚对账（P71 的 `R1–R291` 硬断言因综述区范围行升至 `R1–R293` 而红）。
+- **一手源考证。** arXiv abs 页 2603.15381v1（Dupoux, LeCun, Malik；cs.AI；2026-03-16；CC BY 4.0）已核：标题/作者/摘要与 A-B-M 三系统（System A 观察·System B 行为·System M 由预期差/惊奇/不确定性/新颖性驱动的内生元控制）+ Evo-Devo 发育支架假说均回一手文本。公众号转述无（本次直接回 paper）。
+- **边界严守（M0.4/P15）。** 论文的根本贡献在底层基础模型训练 + 世界模型 + 感知运动仿真——本库**一律不臆造**（不写 JEPA 训练器、潜空间预测损失、仿真器）；吸取的是结构性/方法学价值。无新域、无新能力、不声称为本库自有能力。
+- **子句落地。** `core/03` 加 **M2.15 Epistemic meta-control**（动作分实用性[变状态·System B] vs 认识性[降不确定性·System A]；高预期差时打断盲目实用重试、强制认识性观察步）+ 检查项 + 反模式 **Blind pragmatic looping** + source-map 行（锚定子句升至 46）。Evo-Devo 为整个库提供「外壳＝计算发育先验支架」的认知科学辩护。
+- **登记与接上常转。** `references.md` §**AH** R293（bib `dupoux2026whyaidontlearn`、范围 R1–R293）；新综述 `review/cognitive-autonomous-learning-2026-11.md`（A-B-M · Evo-Devo · 外壳必要性 · 与 R279/R280/R291/R292 横向谱系）入 `pages.ARTICLES` 仪表盘；`watchlist` `self-evolving-agents` 主题加宽（meta-control · epistemic · autonomous learning · surprise）；`cycles.json` 注册 P73 + **P73.R1**（把 M2.15 机械化为 surprise→epistemic 切换门，已排期）。
+- **引脚对账。** R291→R293：`pages.py` ARTICLES 标签、`trend.py` 脚手架文、`test_pages.py` fixture+assert、`test_docs_integrity.py` P71 区范围断言（顺带修 P72 遗留的显示滞后）。
+- **测试。** 新增 `P73CognitiveLearningTest`（8 内容守卫：R293 入册/bib/M2.15 锚定+检查项+反模式/source-map/综述正文/watchlist 加宽/仪表盘接线/cycle 入册）。`catalog --write`+`pages --write` 重生成。**537 → 545 测试全绿**；`cycle audit`：**69 轮 · 52 路线图项 · 0 硬问题 · 0 缺口**。commit 后按用户明确指示 **push**。
+
 ## 2026-11-05 · P72：权重空间编程轮 —— M5.13 范围扩展 · 将 LLM 直接读写权重纳入第三种自改进模态
 
 - **背景与一手源。** 用户提供 MIT CSAIL Rikiya Takehi et al. 2026-11-02 博文《Sparks of Weight-Space Programming: LLMs can natively read & write neural network weights》（日志仓库 github.com/RikiyaT/lm_understand-logs），全文通读。
