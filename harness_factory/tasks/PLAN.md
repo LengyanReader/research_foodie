@@ -646,6 +646,14 @@ Detail for the sourcing items: `updates/2026-10-19-paper-roundup-proposal.md` (l
 - **收尾**：`catalog --write` + `pages --write` 重生成 → 全量 `unittest`（含新守卫）→ `cycle audit` → CHANGELOG/PROGRESS/AGENTS 计数 → commit + **push（用户 2026-11-05 明确指示「完成后，都 push 吧」）**。
 - **状态（已收尾 2026-11-05）**：续接被中断会话，全部落地。§AH R293 入册（bib `dupoux2026whyaidontlearn` 同步、范围 R1–R293）；`core/03` M2.15 子句 + 检查项 + 反模式 + source-map 行（锚定子句现 **46** 条）；综述 `review/cognitive-autonomous-learning-2026-11.md` 入 `pages.ARTICLES`；`watchlist` `self-evolving-agents` 加宽（meta-control/epistemic/autonomous-learning/surprise）。**537 → 545 测试全绿**（+8 `P73CognitiveLearningTest`）；`cycle audit` **69 轮 · 52 路线图 · 0 硬 · 0 洞**（P73 入册 + P73.R1 认识性切换门机械化为已排期）。严守 M0.4/P15：不建世界模型/JEPA 训练器/仿真器。
 
+## P67 · Agent 评测生态轮（2026-11-05，已做）：评估者独立性 · 层级不可迁移 · 建域呼吁
+
+> Princeton/Normal Computing 71 页综述（R283，Oct 19 2026）是本期最被讨论的 agent 评测论文。三篇入册（R283 全文读 landing page · R284 DeepMind 政策文 · R285 HOB listed）。
+
+- **M3.18(a) 深化。** 评估者独立性：谁资助、模型访问权、CoT 追踪权限、发布自由——结构性偏差因素（R283）。
+- **M3.19 深化。** 评估层级不可迁移：任务级 → agent 级 → 人机交互级 → 机构级，一层结论不能自动迁移到另一层（R283）。
+- **不融入。** 无新子句（M3.18/M3.19 已有框架，深化即可）；无新能力（评测生态是治理面，非任务族判别面）。
+
 **排队中、未排期的候选轮**（**2026-10-28 push 前刷新——现行队列**，逐项带触发；历史条目保留于下，编号不预分配）
 
 | 候选 | 状态 | 触发 / 前置 |

@@ -1618,5 +1618,27 @@ class P73CognitiveLearningTest(unittest.TestCase):
         self.assertIn("R293", entry["added"]["references"])
 
 
+class P67EvalEcosystemTest(unittest.TestCase):
+    """P67: evaluator independence and scope non-transferability."""
+
+    def test_m318a_has_evaluator_independence(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        for token in ("evaluator independence", "[R283]", "CoT trace access"):
+            self.assertIn(token, text, f"M3.18(a) lost {token!r}")
+
+    def test_m319_has_scope_declaration(self):
+        text = _read(HARNESS / "core/04-verification-and-gates.md")
+        self.assertIn("Scope must also be declared", text, "M3.19 scope non-transferability missing")
+
+    def test_references_have_group_AF(self):
+        refs = _read(HARNESS / "review/references.md")
+        self.assertIn("## AF.", refs)
+        for ref in ("R283", "R284", "R285"):
+            self.assertIn(ref, refs)
+        bib = _read(HARNESS / "review/references.bib")
+        for key in ("chen2026emerging", "deepmind2026conjecture"):
+            self.assertIn(key, bib)
+
+
 if __name__ == "__main__":
     unittest.main()
