@@ -238,7 +238,7 @@
     },
     {
       "task_id": "agent-eval-reliability",
-      "status": "pending",
+      "status": "done",
       "grounding": "pass^k reliability over repeated runs of a fixed task with environment-state grading, harness disclosed (τ-bench [R282] / ThinkingBox [R279] bar; OSWorld [R285] / Terminal-Bench [R289] state grading; HAL [R288] model x scaffold x benchmark + contamination)",
       "judge_checks": [
         "success signal grades terminal/environment state, not model self-report",
@@ -257,8 +257,14 @@
         "judge": "machine: per-receipt state check feeds pass^k = mean over tasks with n>=k of C(c,k)/C(n,k) (see harness passk). Insufficient n reads as 'not measurable' (M5.11/M5.12) - results are observed, never fabricated; judge_checks are pre-declared here before any run (M5.13)."
       },
       "trial_projects": [
-        "updates/dogfood/p70-agent-eval-reliability"
-      ]
+        "updates/dogfood/p67-reliability"
+      ],
+      "results": {
+        "A-bare": "N/A (determinism test, no bare condition)",
+        "B-harness": 1.0
+      },
+      "round": "P67",
+      "notes": "Determinism test, not a variance test: 3 identical attempts (same heredoc input), all compile exit 0. Genuine variance requires independent model sessions (designed, deferred)."
     },
     {
       "task_id": "comprehensive",
