@@ -1996,6 +1996,31 @@
         "P76.7 - P76SignalBoundariesTest (3 guards: boundary matrix, lit-review exclusion, routing-note both branches); suite 553->556 green; AGENTS.md count 556"
       ],
       "note": "User said 继续 after P75 proposed R2-remainder or the reliability trial; both were taken. Honest findings over planned wins: (1) decomposition union not built - no probe case needs it; (2) the ci/citations bug was found BY the R1 work (the note exposed the false runner-up) and fixed with a boundary rule that preserves plural matching; (3) the reliability trial's headline is a null result - both arms hit pass^3=1.0 on a task too easy to separate conditions, recorded as an observation rather than massaged. The trial upgrades the last battery family from determinism-only to genuine (session-internal) variance; cross-session/cross-model variance and a discriminative instance remain the open worklist. Receipts: updates/dogfood/p76-reliability/ (SPEC + judge + 6 solutions + RECEIPTS.md)."
+    },
+    {
+      "id": "P77",
+      "status": "done",
+      "date": "2026-11-07",
+      "title_en": "Weekly trend-review model: pipeline quality upgrade (discriminator scoring, source cap, noise penalty, weekly delta) + first weekly issue + Monday automation",
+      "title_zh": "周更趋势模型：管线质量升级（判别打分·源上限·噪声惩罚·周际 delta）+ 周报首期 + 周一自动化",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P77.1 - diagnosed three aggregation-quality defects: industry and harness clusters emitted near-identical tops (tracked topics co-occur heavily on single items); trajectories cluster was permanently 0; a two-feed firehose (OpenAI+HF ~75% of one week's items) monopolized the top table",
+        "P77.2 - trend.py upgrade: per-cluster discriminator scoring (relevance + 0.5x matched-topic + 0.3x cluster-keyword title hits), per-source top cap (MAX_PER_SOURCE=3), hex-hash commit-noise penalty (-1.0), weekly delta vs the previous committed snapshot (count/recent/since)",
+        "P77.3 - fresh intel pull: harness intel --since 2026-10-24 -> 2995 items; TREND.md + snapshot regenerated with deltas (window-confounded negative counts disclosed in the review - the previous stream covered a longer window)",
+        "P77.4 - four load-bearing signals verified against primary sources (OpenAI offline frontier-training containment 2026-10-23; Agent Skills -> Agentic AI Foundation/Linux 2026-10-22; SWE-Bench Pro audit -> V2 follow-through; Terminal-Bench 4.x continuous semver)",
+        "P77.5 - review/trend-review-2026-11-07.md authored (weekly model, seven sections: weekly signals table with verification grades / industry reading / harness literature reconciliation vs R1-R293 / emerging directions with thin-data honesty / thesis table with evidence-confidence-reversal / tiered action items / method appendix + provenance table); wired into pages.ARTICLES",
+        "P77.6 - tasks/TREND.md standing weekly routine (7-step procedure + discipline + issue history); Monday 09:00 automation created (cron 0 9 * * 1, self-contained prompt, commit-never-push)",
+        "P77.7 - P77TrendWeeklyTest (5 guards: cluster discrimination, hex penalty, per-source cap, snapshot delta presence, latest-review structure via glob so weekly cadence never breaks the suite); suite 556->561 green"
+      ],
+      "note": "User asked to elevate the AI trend analysis, plan and re-run it, and establish a weekly update cadence. The elevation went to the pipeline first: analysis quality is capped by raw-material quality, and the old scaffold's identical cluster tops + firehose monopolized tables + permanently-empty trajectories cluster made honest weekly reading impossible. The review itself switches to a weekly model (signals table -> cluster readings -> literature reconciliation -> theses with reversal conditions -> tiered action items -> method appendix) and keeps the P69 full survey as the deep baseline. The delta methodology is honest about the window confound (first issue's negative deltas come from a shorter pull window, not cooling). The Monday automation encodes the discipline red lines (citations-lifeline, proposals-only, never push, no fabricated intel on network failure) directly in its prompt."
     }
   ],
   "roadmap": [

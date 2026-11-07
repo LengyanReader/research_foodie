@@ -25,6 +25,7 @@ registered in ``tasks/PLAN.md`` (§Routine) and ``AGENTS.md`` §6.
 from __future__ import annotations
 
 import datetime as _dt
+import re
 import json
 from pathlib import Path
 from typing import Any
@@ -74,6 +75,52 @@ CLUSTERS: list[dict[str, Any]] = [
 ]
 
 
+#: P77: per-cluster discriminator keywords (lowercase, matched against the item
+#: title). Tracked topics co-occur heavily — one feed item routinely carries
+#: ``agent-harness`` AND ``mcp-skills-ecosystem`` — so global relevance alone
+#: made the industry and harness clusters emit near-identical top rows. The
+#: cluster's own vocabulary must win its top: +0.5 per matched tracked topic
+#: (depth in this cluster) and +0.3 per keyword hit (title says the cluster's
+#: language). The engine still only ranks and cites — never opines (M0.4).
+CLUSTER_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "industry": ("foundation model", "frontier", "release", "funding", "benchmark",
+                 "adoption", "infrastructure", "compute", "gpu", "pricing",
+                 "api", "open-source", "open source"),
+    "harness": ("agent", "harness", "scaffold", "context", "memory", "tool",
+                "mcp", "skill", "eval", "provenance", "citation", "multi-agent",
+                "reliability", "gate", "verification", "workflow", "coding"),
+    "trajectories": ("deep research", "retrieval", "grounding", "research question",
+                     "hypothesis", "discovery", "ai scientist", "literature",
+                     "evidence", "survey", "open science", "autonomous"),
+    "domains": ("physics", "chemistry", "biology", "medicine", "clinical",
+                "climate", "hydrology", "mathematics", "theorem", "statistics",
+                "economic", "psychology", "legal", "law", "education",
+                "linguistic", "archive", "manuscript"),
+}
+
+#: P77: at most this many top rows per source, so a two-feed firehose
+#: (OpenAI + Hugging Face carried ~75% of one week's items) cannot monopolize
+#: the scaffold's top table and the review reads the field, not the firehose.
+MAX_PER_SOURCE = 3
+
+
+_HEX_HASH = re.compile(r"[0-9a-f]{8,}")
+
+
+def _cluster_score(item: dict[str, Any], cluster_id: str, matched_topics: set[str]) -> float:
+    base = float(item.get("relevance") or 0.0)
+    title = (item.get("title") or "").lower()
+    keywords = CLUSTER_KEYWORDS.get(cluster_id, ()) + tuple(matched_topics)
+    kw_hits = sum(1 for k in keywords if k in title)
+    score = base + 0.5 * len(matched_topics) + 0.3 * kw_hits
+    # P77: commit-feed noise ("fix(ui): localize skill 9a3ae43f...") carries
+    # tracker vocabulary in commit subjects; a hex hash in the title marks the
+    # item as machinery, not signal.
+    if _HEX_HASH.search(title):
+        score -= 1.0
+    return score
+
+
 def _load_intel(root: str | Path) -> list[dict[str, Any]]:
     path = Path(root) / INTEL_REL
     if not path.exists():
@@ -102,28 +149,43 @@ def aggregate(items: list[dict[str, Any]], *, top: int = 15,
         ref_date = _dt.date.today()
     horizon = (ref_date - _dt.timedelta(days=recent_days)).isoformat()
 
-    buckets = {c["id"]: [] for c in CLUSTERS}
+    buckets: dict[str, list[tuple[set[str], dict[str, Any]]]] = {c["id"]: [] for c in CLUSTERS}
     untracked = 0
     for it in items:
         topics = set(it.get("topics") or [])
         matched = False
         for cluster in CLUSTERS:
-            if topics & cluster["topics"]:
-                buckets[cluster["id"]].append(it)
+            overlap = topics & cluster["topics"]
+            if overlap:
+                buckets[cluster["id"]].append((overlap, it))
                 matched = True  # multi-membership: keep checking the other clusters
         if not matched:
             untracked += 1
 
-    def _pack(rows: list[dict[str, Any]]) -> dict[str, Any]:
-        recent = [r for r in rows if (r.get("published") or "")[:10] >= horizon]
-        recent.sort(key=lambda r: (-(r.get("relevance") or 0.0),
-                                   r.get("published") or ""), reverse=False)
+    def _pack(rows: list[tuple[set[str], dict[str, Any]]], cluster_id: str) -> dict[str, Any]:
+        recent = [r for r in rows if (r[1].get("published") or "")[:10] >= horizon]
+        scored = sorted(
+            recent,
+            key=lambda pair: (-_cluster_score(pair[1], cluster_id, pair[0]),
+                              (pair[1].get("published") or ""),),
+        )
+        # P77: source-diversity cap — at most MAX_PER_SOURCE rows per source.
+        picked: list[dict[str, Any]] = []
+        per_source: dict[str, int] = {}
+        for _topics, it in scored:
+            src = it.get("entity_name") or it.get("entity") or "?"
+            if per_source.get(src, 0) >= MAX_PER_SOURCE:
+                continue
+            per_source[src] = per_source.get(src, 0) + 1
+            picked.append(it)
+            if len(picked) >= top:
+                break
         return {
             "count": len(rows),
             "recent": len(recent),
-            "entities": sorted({r.get("entity_name") or r.get("entity") or "?"
+            "entities": sorted({r[1].get("entity_name") or r[1].get("entity") or "?"
                                 for r in rows}),
-            "top": recent[:top],
+            "top": picked,
         }
 
     return {
@@ -131,8 +193,25 @@ def aggregate(items: list[dict[str, Any]], *, top: int = 15,
         "horizon": horizon,
         "items": len(items),
         "untracked": untracked,
-        "clusters": {c["id"]: _pack(buckets[c["id"]]) for c in CLUSTERS},
+        "clusters": {c["id"]: _pack(buckets[c["id"]], c["id"]) for c in CLUSTERS},
     }
+
+
+def _attach_deltas(model: dict[str, Any], previous: dict[str, Any] | None) -> None:
+    """P77: weekly movement — per-cluster count/recent deltas vs the committed
+    snapshot. A trend review reads *change*, not totals; without this the
+    weekly writer had to diff two JSON files by hand."""
+    if not previous or not isinstance(previous.get("clusters"), dict):
+        return
+    for cid, pack in model["clusters"].items():
+        old = previous["clusters"].get(cid) or {}
+        if not isinstance(old, dict) or "count" not in old:
+            continue
+        pack["delta"] = {
+            "count": pack["count"] - int(old.get("count") or 0),
+            "recent": pack["recent"] - int(old.get("recent") or 0),
+            "since": (previous.get("generated") or "?")[:10],
+        }
 
 
 def render(model: dict[str, Any]) -> str:
@@ -155,8 +234,13 @@ def render(model: dict[str, Any]) -> str:
         cluster = by_id[cid]
         lines.append(f"## {cluster['title_en']}")
         lines.append("")
+        delta = pack.get("delta")
+        movement = ""
+        if delta:
+            movement = (f"  ·  Δ vs {delta['since']}: count {delta['count']:+d},"
+                        f" recent {delta['recent']:+d}")
         lines.append(f"items={pack['count']}  recent(30d)={pack['recent']}  "
-                     f"sources={len(pack['entities'])}")
+                     f"sources={len(pack['entities'])}{movement}")
         lines.append("")
         if pack["top"]:
             lines.append("| rel | published | source | title | link |")
@@ -207,7 +291,7 @@ def to_snapshot(model: dict[str, Any], *, top: int = 8) -> dict[str, Any]:
         "clusters": {},
     }
     for cid, pack in model["clusters"].items():
-        snap["clusters"][cid] = {
+        entry = {
             "title": by_id[cid]["title_en"],
             "count": pack["count"],
             "recent": pack["recent"],
@@ -223,6 +307,9 @@ def to_snapshot(model: dict[str, Any], *, top: int = 8) -> dict[str, Any]:
                 for r in pack["top"][:top]
             ],
         }
+        if pack.get("delta"):
+            entry["delta"] = pack["delta"]
+        snap["clusters"][cid] = entry
     return snap
 
 
@@ -262,6 +349,7 @@ def run(
     ``harness trend --write`` (the close-out ritual), never by ``full-update``, which
     must not mutate the SSOT."""
     model = aggregate(_load_intel(root), top=top)
+    _attach_deltas(model, load_snapshot())
     out: dict[str, Any] = {"clusters": {c: p["count"] for c, p in model["clusters"].items()},
                           "untracked": model["untracked"], "items": model["items"],
                           "recent_30d": {c: p["recent"] for c, p in model["clusters"].items()}}

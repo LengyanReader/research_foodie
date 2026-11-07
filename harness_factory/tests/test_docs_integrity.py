@@ -1676,6 +1676,72 @@ class P76SignalBoundariesTest(unittest.TestCase):
         self.assertNotIn("Routing note", wide, "a wide win must stay silent (no noise)")
 
 
+class P77TrendWeeklyTest(unittest.TestCase):
+    """P77: the trend pipeline upgrades (per-cluster discriminator scoring,
+    per-source cap, hex-noise penalty, weekly delta) and the weekly review
+    model. The review guard globs the LATEST dated review so the weekly
+    cadence never breaks the suite."""
+
+    def test_cluster_scores_discriminate(self):
+        from harness_factory.trend import _cluster_score
+
+        harness_item = {"relevance": 1.0, "title": "Agent harness context engineering"}
+        industry_item = {"relevance": 1.0, "title": "Frontier lab funding round closes"}
+        self.assertGreater(
+            _cluster_score(harness_item, "harness", {"agent-harness"}),
+            _cluster_score(industry_item, "harness", set()),
+            "harness vocabulary must win the harness cluster over a generic industry item",
+        )
+
+    def test_hex_hash_titles_are_penalized(self):
+        from harness_factory.trend import _cluster_score
+
+        noisy = {"relevance": 2.0, "title": "fix(ui): localize skill 9a3ae43f5602"}
+        clean = {"relevance": 2.0, "title": "fix(ui): localize skill strings"}
+        self.assertLess(_cluster_score(noisy, "harness", set()),
+                        _cluster_score(clean, "harness", set()))
+
+    def test_top_rows_cap_per_source(self):
+        from collections import Counter
+
+        from harness_factory.trend import aggregate
+
+        firehose = [
+            {"title": f"agent eval paper {i}", "topics": ["agent-harness"],
+             "entity_name": "arXiv cs.CL (new)", "published": "2026-11-0%d" % (i + 1),
+             "relevance": 2.0, "url": "https://x/%d" % i}
+            for i in range(6)
+        ] + [
+            {"title": "harness release notes", "topics": ["agent-harness"],
+             "entity_name": "A Blog", "published": "2026-11-01",
+             "relevance": 1.0, "url": "https://y"},
+        ]
+        model = aggregate(firehose, top=15, now="2026-11-07")
+        tops = model["clusters"]["harness"]["top"]
+        per_source = Counter(t.get("entity_name") for t in tops)
+        self.assertLessEqual(max(per_source.values()), 3, "one firehose must not monopolize the top")
+
+    def test_committed_snapshot_carries_weekly_delta(self):
+        snap = json.loads((HARNESS / "src/harness_factory/data/trend-snapshot.json")
+                          .read_text(encoding="utf-8"))
+        for pack in snap["clusters"].values():
+            self.assertIn("delta", pack, "weekly movement must be recorded per cluster")
+            self.assertTrue({"count", "recent", "since"} <= set(pack["delta"]))
+
+    def test_latest_weekly_review_has_the_full_structure(self):
+        reviews = sorted((HARNESS / "review").glob("trend-review-*.md"))
+        self.assertTrue(reviews, "no trend review exists")
+        latest = _read(reviews[-1])
+        for part in ("本周信号", "行业全景", "Harness 文献综述", "新兴方向",
+                     "分析与预测", "行动项", "方法与数据附录", "溯源表"):
+            self.assertIn(part, latest, f"{reviews[-1].name} lost {part!r}")
+        # weekly model discipline: reversal conditions + provenance dates
+        self.assertIn("反转条件", latest, "every thesis must carry a reversal condition")
+        self.assertIn("访问日期", latest, "the provenance table must carry access dates")
+        # dialectics: at least one explicit counter-example section marker
+        self.assertIn("辩证", latest)
+
+
 class P73CognitiveLearningTest(unittest.TestCase):
     """P73 integrated Dupoux, LeCun & Malik (arXiv:2603.15381, R293) - a
     cognitive-science critique of static AI learning plus the A-B-M tri-system /

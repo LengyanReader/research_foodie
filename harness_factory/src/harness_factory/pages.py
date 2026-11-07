@@ -50,6 +50,7 @@ BRANCH = "main"
 #: (GitHub Pages serves only ``docs/``, so the ``.md`` bodies live in the repo).
 #: Presentation-layer curation; a test guards that every path exists (no dead link).
 ARTICLES: list[tuple[str, str, str]] = [
+    ("趋势周报 · 2026-11-07", "Weekly trend review, first issue of the weekly model (P77)", "trend-review-2026-11-07.md"),
     ("趋势综述与文献辩证 · 2026-11-03", "Trend review & literature synthesis · the P69 body", "trend-review-2026-11-03.md"),
     ("能力评测基准与题库综述 · 2026-11", "Agent-capability evaluation: benchmarks, test-banks & harnesses (P70)", "harness-evaluation-benchmarks-2026-11.md"),
     ("harness 全景扫描 · 2026-10", "Harness landscape scan", "harness-landscape-scan-2026-10.md"),

@@ -62,10 +62,17 @@ class SnapshotTest(unittest.TestCase):
     def test_snapshot_is_compact_and_caps_top(self):
         items = [_item(["agent-harness"], rel=3.0 - i * 0.1, url=f"https://x/{i}")
                  for i in range(20)]
+        for i, it in enumerate(items):
+            it["entity_name"] = f"src-{i % 5}"  # P77: varied sources so the top is fillable
         m = trend.aggregate(items, now="2026-11-01")
         snap = trend.to_snapshot(m, top=5)
         self.assertEqual(snap["clusters"]["harness"]["count"], 20)
         self.assertEqual(len(snap["clusters"]["harness"]["top"]), 5)
+        # P77: the per-source cap holds at snapshot level too (5 sources x max 3)
+        from collections import Counter
+
+        per_source = Counter(r["source"] for r in snap["clusters"]["harness"]["top"])
+        self.assertLessEqual(max(per_source.values()), 3)
         row = snap["clusters"]["harness"]["top"][0]
         self.assertEqual(set(row), {"rel", "date", "source", "title", "url"})
         self.assertEqual(snap["items"], 20)
