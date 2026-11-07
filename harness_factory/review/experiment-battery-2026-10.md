@@ -1,5 +1,9 @@
 # Experiment battery · 使用侧行实验组设计（P50 · D1 阶段 C）
 
+> **状态横幅（2026-11-07）：** 本文件是**历史设计**（冻结于 P50 的 7 族设计；下表的 "本轮/queued" 是当轮状态，
+> 不代表现状）。**现状以注册表为 SSOT**：`data/battery.json` 现有 **15/15 族已收口**（含 P65-ext 能力族、
+> P76 真方差升级的 agent-eval-reliability），活文档是 [`tasks/BATTERY.md`](../tasks/BATTERY.md) §2。
+
 > **中文速览。** 用户指示「基于可靠前沿的案例/benchmark/优秀工作，多多设计使用侧实验并充分测试」。本文件是**实验
 > 组总设计**：7 个记分任务族 × 各自锚定的前沿评测实践 × 机器判分设计 × 可行性。已跑 2 组（P45/P48），本轮新跑 3
 > 组（unit-tests / proof-verification / bayesian-stats），剩 2 组待条件。判分纪律全部对齐既有子句：**隐藏重放**

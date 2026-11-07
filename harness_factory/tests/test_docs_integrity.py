@@ -1260,9 +1260,11 @@ class P67RegistryMetabolismTest(unittest.TestCase):
 
     def test_battery_md_is_current(self):
         bat = _read(HARNESS / "tasks/BATTERY.md")
-        self.assertIn("9/9", bat)
+        self.assertIn("15/15", bat, "BATTERY.md must reflect the registry count")
         self.assertIn("trial_projects", bat)
         self.assertNotIn("待跑：deep-research", bat, "stale pending list is back")
+        self.assertIn("P76", bat, "the reliability family's genuine-variance upgrade must be recorded")
+        self.assertIn("不区分条件", bat, "the honest null result must stay visible")
 
     def test_assessment_carries_the_erratum(self):
         doc = _read(HARNESS / "review/capability-system-assessment-2026-11.md")

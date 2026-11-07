@@ -173,3 +173,37 @@ is visibility, which is now delivered).
 
 *Receipts: `updates/dogfood/p75-router-sim/` (RECEIPTS.md + two emitted harnesses);
 guards: `P75RouterMarginTest` (4 cases); suite 553 green.*
+
+## 8 · P76 增补 · 信号边界修复与可靠性试验（2026-11-07）
+
+The R1 routing note kept earning its keep after P75: wiring the margin into the emission
+**exposed a real matching bug** that the standing battery had masked.
+
+**缺陷 3 · 缩写信号的词首误命中（root-caused, fixed）。** The devops acronym signal `ci`
+matched "**ci**tations" — P55's word-start rule (`(?<![a-z0-9])ci`) blocks inside-word hits
+("exercises") but not word-initial prefixes ("citations", "cinema"). A literature-review
+task scored devops 1, which is exactly the kind of silent false positive the margin
+display was built to surface: the runner-up looked wrong, and it was. Fix
+(`classify.py::_sig_hit`): signals of ≤ 3 chars are acronyms and now also require a word
+end, with plural tolerance ("bugs" still matches `bug`; "buggy", "pcbuilder" do not
+match). An 11-case boundary matrix is guard-pinned (`P76SignalBoundariesTest`); the
+lit-review runner-up is no longer devops.
+
+**R1 完成于 emission 级。** A win of margin ≤ 1 with no declared intersection now renders
+a `Routing note · 路由提示` stanza in the emitted AGENTS.md (name the runner-up, check the
+other half); wide wins stay silent. Both branches verified with real `harness init`
+emissions.
+
+**可靠性试验的诚实零结果。** The last pending battery family (agent-eval-reliability)
+was upgraded from a determinism test to a genuine paired-variance trial: pre-declared
+spec + 10 hidden tests (M5.13/M3.19), same task × 3 independently sampled attempts ×
+both conditions. **pass^3 = 1.0 for BOTH arms, pass@1 = 1.0 for both** — the instance
+does not discriminate the conditions (observed, M5.11; variance is real: 6 distinct
+solution hashes, three implementation paths per arm). Scope: same-session same-model
+sampling variance; a discriminative instance (citation-resolution, where bare
+hallucinates from memory) and cross-session/cross-model variance remain open. Battery
+registry: 15/15 families closed.
+
+**评分影响。** D3 匹配精度 keeps **8.5** — the ci/citations fix strengthens the evidence
+base (another silent false positive eliminated at root) without new coverage to credit.
+The standing battery is now 46 cases + 3 P76 guards; suite **556** green.

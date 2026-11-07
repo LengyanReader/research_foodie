@@ -2,6 +2,17 @@
 
 **Updated:** 2026-11-07
 
+## 2026-11-07 · 文档刷新轮：BATTERY.md 对齐注册表真值 · 设计文档冻结横幅 · 评估报告 P76 增补
+
+- **用户指令。** 「更新一下相关文档，综述，等等」。
+- **盘点先行。** 逐文档对注册表（SSOT）与各入口文档核对：BATTERY.md 滞后最重（仍写「9/9 已测 + 第十族待跑」，实际 **15/15 全收口** 且 agent-eval-reliability 已于 P76 升格真方差）；GUIDE/introduction/README 只以命令形式提及 battery，无陈旧数字，不动。
+- **BATTERY.md §2 重写。** 九族流水账 → 15 行结果表（A/B 分 × 轮次 × 判分轴）；P76 可靠性族升级注记（pass^3 双臂 1.0 的诚实零结果 + 方差证据 + 下一轮 worklist：区分性实例与跨会话方差）；P71/P67 注记保留为历史。守卫测试同步：`test_battery_md_is_current` 改钉 **15/15 + P76 + 「不区分条件」可见**（原 9/9 断言本身已陈旧）。
+- **experiment-battery-2026-10.md 状态横幅。** 该文件冻结于 P50（表格 "本轮/queued" 是当轮态），加横幅指向注册表 SSOT 与 BATTERY.md §2，不重写历史。
+- **search-capability-assessment-2026-11.md §8（P76 增补）。** 缺陷 3（ci/citations 词首误命中）根因与修复、R1 emission 级收尾、可靠性试验零结果及其含义；D3 维持 8.5（证据加强而非新覆盖）。
+- **SSOT 规则补课。** P76 改过 `data/battery.json` 但未跑 `catalog --write`——本轮补跑（CAPABILITIES/HARNESS-MAP/harness-index 重生成）+ `pages --write`。
+- **测试。** **556 全绿**；`cycle audit`：**72 轮 · 0 硬问题 · 0 缺口**。
+
+
 ## 2026-11-07 · P76：信号边界 + 可靠性轮 —— ci/citations 词首误命中修复 · emission 路由提示 · 真方差试验（诚实的零结果）
 
 - **用户指令。** 「继续吧」（承接 P75 提出的两个方向：R2 收尾 + agent-eval-reliability 真方差试验）。
