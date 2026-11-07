@@ -13,6 +13,9 @@ Updated: 2026-11-07 · Round: P74 · Suite: 549 passing
 > "认识论"这样高特异性的学术词与"重构"这样的泛动词打平后输错（P74 已修复：≥3 汉字复合词按 2 分计）；
 > ② 裸"知识图谱"无域信号，短句路由落 general（P74 已修复：知识图谱/知识本体归 digital-humanities，与电池既有意图一致）。
 > 两缺陷均已根因修复并以回归钉固化（549 用例全绿）。
+> **P75 增补（2026-11-07，见 §7）**：R1 路由边际已落地（CLI 文本+JSON 双模式）；R2 的真实缺口重新定性——
+> 并集机制 P31 已存在，缺的是 5 条合法交叉声明（贝叶斯×临床、综述×比较政治、气候政策、眼动×统计、心理×统计，
+> 80→85 边），已补齐并以端到端 emission 模拟验证；反泄露（认识论×重构）保持被门控。重评分：D3 8.0→8.5，D4 5.0→5.5，总评 7.0→7.2。
 
 ## 1 · 评估对象与范围 / What was evaluated
 
@@ -37,10 +40,10 @@ capability. As of P74: **46 cases** (44 + 2 short-probe edges added this round).
 |---|---|---|---|
 | D1 语言覆盖 · Language coverage | **7.0** | en 348 + zh 218 signals; P74 removed the CJK scoring bias; zh content on 43/43 capabilities | ja/ko/de/fr/es/pt/ru/ar/hi: zero signals → `general` fallback |
 | D2 领域覆盖 · Domain coverage | **7.5** | 34/34 domains routable; 19/34 domain-keyed capabilities; artifact/stakes predicates cover the rest | 15 domains ride generic capabilities only |
-| D3 匹配精度 · Matching accuracy | **8.0** | battery 46/46; P74 probe 12/12 (was 10/12) | ties break by registry order (deterministic but arbitrary); no confidence margin output |
-| D4 检索深度 · Search depth | **5.0** | every stage is honest single-hop keyword/predicate matching | no semantic expansion, no multi-hop chaining, no query decomposition |
+| D3 匹配精度 · Matching accuracy | **8.0** → **8.5** (P75) | battery 46/46; P74 probe 12/12 (was 10/12) | ties break by registry order (deterministic but arbitrary); no confidence margin output |
+| D4 检索深度 · Search depth | **5.0** → **5.5** (P75) | every stage is honest single-hop keyword/predicate matching | no semantic expansion, no multi-hop chaining, no query decomposition |
 | D5 覆盖广度 · Breadth | **8.0** | 221 catalog entries · 259 source entities · R1–R293 (§A–§AH) · 43 capabilities · 46 clauses | no live web search inside the tool (deliberate: offline-first, agent owns retrieval) |
-| **总体 · Overall** | **7.0** | strong router, weak retriever — by design in the former, unaddressed in the latter | see §5 |
+| **总体 · Overall** | **7.0** → **7.2** (P75) | strong router, weak retriever — by design in the former, unaddressed in the latter | see §5 |
 
 ## 3 · 探针实测与两个缺陷 / The probe and the two defects it caught
 
@@ -91,11 +94,11 @@ a measurement that never happened). P74 resolves it honestly:
 **G1 · 深度：单跳是架构性事实（D4=5.0）。** No stage expands a query semantically or
 chains hops. The deliberate division of labor: the *agent* reasons multi-hop; the factory
 *routes*. But two cheap, in-character upgrades exist:
-- **R1（推荐 · 低成本）**: emit a **confidence margin** — `domain_scores` already computes
+- **R1（✅ P75 已落地）**: emit a **confidence margin** — `domain_scores` already computes
   the runner-up (P31 near-domain report); exposing the margin (e.g. `philosophy 4 vs
   research 1`) lets the agent decide when to consult the runner-up instead of trusting
   one winner silently.
-- **R2（中期）**: a **multi-hop router mode** — for compound tasks, emit the top-k domain
+- **R2（P75 部分落地）**: a **multi-hop router mode** — for compound tasks, emit the top-k domain
   scores and let derivation pull capabilities from *each*, instead of one domain + near-
   domain hints. The hook already exists; this is a derive-layer change.
 
@@ -133,3 +136,40 @@ pipeline on this machine on 2026-11-07 (`classify` over signal inventories loade
 `data/domains.json`; the 12-case probe; the 549-case suite). Signal counts: en 348 /
 zh 218 / other 1 (an arrow-glyph English signal, not a language). The "221 catalog ·
 259 sources · R1–R293" figures are from the live SSOT, not memory.*
+
+## 7 · P75 增补 · 路由边际与交叉域落地（2026-11-07）
+
+The P74 recommendations were tested against the actual pipeline before building, and the
+test changed the design:
+
+**R2 重新定性。** The P31 near-domain mechanism (`derive._attach_secondary_domains`) was
+already a two-threshold union engine: a declared-overlap neighbour scoring ≥1 is
+*reported*, one scoring ≥2 has its domain-keyed capabilities *unioned* into the plan, and
+the emitted AGENTS.md renders the stanza. The real gap was narrower: the
+**declared-overlap gate** blocked legitimate intersections. Quantified on probes —
+bayesian×clinical (medicine gated), review×comparative-politics (research gated),
+climate-policy (earth-environment gated), eye-tracking×statistics (gated via the
+psychology top). The anti-leak case (认识论×重构 → software-engineering gated) is the
+*same gate working correctly*, so the fix was data, not algorithm: **5 overlap
+declarations added** (80→85 edges), each a human judgment call, and the generic-collision
+case stays gated.
+
+**R1 落地。** `harness classify` now prints the routing line — `Routing : statistics (2) |
+runner-up: data-science (1) | margin 1` — and `--json` exposes `domain_scores` (top-3) +
+`margin` for machine gating. A 1-0 win and a 6-0 win are now different facts.
+
+**端到端模拟（emission level, not just unit level）。** Two harnesses emitted for real:
+- `init --task "用贝叶斯方法分析临床试验数据并评估疗效"` → AGENTS.md 交叉域节 renders
+  **both** data-science and medicine; `gate --dir` self-check OK.
+- `init --task "从认识论角度重构论证"` (negative) → zero software-engineering leakage,
+  playbook points at philosophy; `check --dir` OK.
+
+**诚实重评分。** D3 8.0→**8.5** (margin visible; 5 intersections unblocked; anti-leak
+guard-pinned). D4 5.0→**5.5** (top-k routing scores exposed; union coverage widened —
+but the matchers remain single-hop keyword/predicate; the agent still owns multi-hop).
+Overall 7.0→**7.2**. What would move D4 further is unchanged: query decomposition and
+semantic expansion stay out of scope for a zero-dependency CLI (G3's honest half-measure
+is visibility, which is now delivered).
+
+*Receipts: `updates/dogfood/p75-router-sim/` (RECEIPTS.md + two emitted harnesses);
+guards: `P75RouterMarginTest` (4 cases); suite 553 green.*

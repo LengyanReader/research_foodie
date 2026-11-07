@@ -1561,6 +1561,67 @@ class P72WSPTest(unittest.TestCase):
         self.assertIn("R292", entry["added"]["references"])
 
 
+class P75RouterMarginTest(unittest.TestCase):
+    """P75: the routing margin is visible evidence, and the P31 declared-overlap
+    gate now covers the legitimate intersections the P74 assessment found gated
+    (bayesian x clinical, review x comparative politics, climate policy,
+    behavioral experiments x statistics) while generic-verb collisions
+    (认识论 vs 重构) stay gated."""
+
+    def _plan(self, text: str):
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        from harness_factory.spec import TaskSpec
+
+        task = TaskSpec(text=text)
+        return derive(task, classify(task))
+
+    def test_classify_json_exposes_routing_margin(self):
+        from harness_factory import cli
+        import io, contextlib, json as _json
+
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = cli.main(["classify", "--task", "用贝叶斯方法分析临床试验数据并评估疗效", "--json"])
+        self.assertEqual(code, 0)
+        payload = _json.loads(buf.getvalue())
+        self.assertIn("domain_scores", payload, "R1: routing scores absent from --json")
+        self.assertIn("margin", payload)
+        self.assertEqual(payload["domain_scores"][0][0], "statistics")
+        # text mode names the runner-up too
+        buf2 = io.StringIO()
+        with contextlib.redirect_stdout(buf2):
+            cli.main(["classify", "--task", "用贝叶斯方法分析临床试验数据并评估疗效"])
+        self.assertIn("runner-up", buf2.getvalue())
+
+    def test_declared_intersections_are_reported(self):
+        cases = [
+            ("用贝叶斯方法分析临床试验数据并评估疗效", "medicine"),
+            ("写一篇气候政策的比较政治学文献综述", "research"),
+            ("为认知实验设计眼动实验并做统计分析", "statistics"),
+        ]
+        for txt, expected in cases:
+            plan = self._plan(txt)
+            reported = {e["domain"] for e in plan.secondary_domains}
+            self.assertIn(expected, reported,
+                          f"{expected} is a declared overlap of the routed domain "
+                          f"({plan.features.domain}) but was not reported for {txt!r}")
+
+    def test_union_still_adds_cross_domain_capabilities(self):
+        plan = self._plan("写一篇气候政策的比较政治学文献综述")
+        added = [c for e in plan.secondary_domains for c in e["added_capabilities"]]
+        self.assertIn("empirical-measurement", added,
+                      "the P31 union mechanism stopped adding the strong neighbour's capabilities")
+
+    def test_generic_collision_stays_gated(self):
+        plan = self._plan("从认识论角度重构论证")
+        self.assertEqual(plan.secondary_domains, [],
+                         "a generic-verb collision must not surface as a discipline intersection")
+        se_only = {"test-first-development"}
+        leaked = se_only & set(plan.capabilities)
+        self.assertEqual(leaked, set(), "software-engineering capabilities leaked into a philosophy task")
+
+
 class P73CognitiveLearningTest(unittest.TestCase):
     """P73 integrated Dupoux, LeCun & Malik (arXiv:2603.15381, R293) - a
     cognitive-science critique of static AI learning plus the A-B-M tri-system /

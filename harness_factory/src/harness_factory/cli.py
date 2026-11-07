@@ -677,22 +677,33 @@ def _cmd_collect(args: argparse.Namespace) -> int:
 
 
 def _cmd_classify(args: argparse.Namespace) -> int:
-    from .classify import classify
+    from .classify import classify, domain_scores
     from .capabilities import match as match_caps
 
     task = TaskSpec(text=args.task)
     vector = classify(task)
     matched = [entry["id"] for entry in match_caps(vector)]
+    # P75 (R1): the routing margin is evidence, not decoration — a domain that
+    # wins 6-0 is a different fact from one that wins 1-0, and the runner-up
+    # names what the near-domain report will consult (P31). Exposed in both
+    # output modes so humans read it and machines can gate on it.
+    scores = domain_scores(args.task.lower())
+    runner_up = scores[1] if len(scores) > 1 else None
     if args.json:
         print(json.dumps({
             "features": {k: getattr(vector, k) for k in FEATURE_FIELDS if k != "source"},
             "capabilities": matched,
+            "domain_scores": scores[:3],
+            "margin": (scores[0][1] - runner_up[1]) if runner_up else scores[0][1] if scores else None,
         }, ensure_ascii=False, indent=2))
         return 0
     print(f"Task   : {args.task}")
     print(f"Domain : {vector.domain}")
     print("Features:", ", ".join(f"{k}={getattr(vector, k)}" for k in FEATURE_FIELDS if k != "source"))
     print("Capabilities:", ", ".join(matched) if matched else "(none)")
+    if scores:
+        ru = f" | runner-up: {runner_up[0]} ({runner_up[1]})" if runner_up else ""
+        print(f"Routing : {scores[0][0]} ({scores[0][1]}){ru} | margin {scores[0][1] - (runner_up[1] if runner_up else scores[0][1])}")
     return 0
 
 

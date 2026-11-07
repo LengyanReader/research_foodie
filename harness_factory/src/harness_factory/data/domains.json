@@ -1049,7 +1049,8 @@
     ],
     "overlaps": {
       "psychology": "行为与机制的实证交界",
-      "linguistics": "心理语言学"
+      "linguistics": "心理语言学",
+      "statistics": "行为实验设计与分析"
     }
   },
   "statistics": {
@@ -1117,7 +1118,9 @@
     "overlaps": {
       "mathematics": "数理统计",
       "data-science": "统计学习",
-      "economics-finance": "计量经济学"
+      "economics-finance": "计量经济学",
+      "medicine": "临床试验统计",
+      "psychology": "心理统计与实验设计"
     }
   },
   "geometry-topology": {
@@ -1306,7 +1309,9 @@
     "overlaps": {
       "social-science": "政治社会学",
       "law": "公法与宪政",
-      "economics-finance": "政治经济学"
+      "economics-finance": "政治经济学",
+      "research": "政治学文献综述与研究设计",
+      "earth-environment": "气候政策"
     }
   },
   "ai-safety": {

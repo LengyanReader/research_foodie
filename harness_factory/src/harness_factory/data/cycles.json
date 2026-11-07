@@ -1947,6 +1947,30 @@
         "P74.6 - synthetic regression test_control_arm_none_receipted_by_one_arm added to P67RegistryMetabolismTest"
       ],
       "note": "User asked: 全面评估一下目前的搜索能力是否足够完善，能否做到在各种语言，领域等方面都能达到足够的准确度，深度，广度，等等各个评估维度评分. The evaluation is the deliverable (review/search-capability-assessment-2026-11.md); the two probe-caught defects were fixed at root in the same round rather than left as findings. The CJK weighting fix changes scoring for 68 zh signals (>=3 hanzi now score 2); the standing battery's expectations were designed with routing intent and all still pass, so the reweighting corrected only genuinely tied cases. The registry fix supersedes the uncommitted battery.json edit found in the working tree (which both broke validate_battery and fabricated a placeholder A-bare=0.0 — reverted). Scores: language 7.0, domain 7.5, accuracy 8.0, depth 5.0 (structural, single-hop by design), breadth 8.0; overall 7.0 with named recommendations R1/R2 for the depth gap."
+    },
+    {
+      "id": "P75",
+      "status": "done",
+      "date": "2026-11-07",
+      "title_en": "Router margin (R1) + intersection-declaration round: 5 overlap edges, CLI margin, end-to-end emission simulation",
+      "title_zh": "路由边际（R1）+ 交叉声明轮：5 条重叠边 · CLI 边际 · 端到端 emission 模拟",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P75.1 - probe-quantified the real R1/R2 gaps: the P31 union engine already existed; the declared-overlap gate blocked 4 legitimate intersections (bayesian x clinical, review x comparative politics, climate policy, eye-tracking x statistics) while correctly gating the generic-collision case (认识论 x 重构)",
+        "P75.2 - domains.json +5 overlap declarations (80->85 edges): statistics->medicine, political-science->research, political-science->earth-environment, cognitive-science->statistics, statistics->psychology",
+        "P75.3 - R1 landed: harness classify prints Routing line (domain + runner-up + margin); --json exposes domain_scores (top-3) + margin for machine gating",
+        "P75.4 - P75RouterMarginTest (4 guards): JSON margin exposure, 3 declared intersections reported, union mechanism alive (empirical-measurement via social-science), generic collision stays gated with zero SE leakage",
+        "P75.5 - end-to-end emission simulation: harness init on the intersection case renders BOTH halves in the AGENTS.md secondary stanza (gate --dir OK); the anti-leak negative shows zero SE leakage with playbook=philosophy (check --dir OK); receipts updates/dogfood/p75-router-sim/",
+        "P75.6 - assessment report §7 addendum with honest re-scoring (D3 8.0->8.5, D4 5.0->5.5, overall 7.0->7.2); catalog/pages regen; AGENTS.md count 553"
+      ],
+      "note": "User asked for 检测/充实/调整/模拟测试 on the P74 recommendations. Testing first changed the design: R2 was re-scoped from 'build multi-hop mode' to 'add the missing declared-overlap data' because P31's union engine already existed and the algorithm was right — the data was incomplete. R1 (margin visibility) landed in both CLI modes. The anti-leak property (generic-verb collisions must not surface as intersections) is now guard-pinned on both sides: the unit level (P75RouterMarginTest) and the emission level (init simulation with zero SE capability keywords). No capability/domain/clause additions: this round is routing-precision work, hence catalog_delta 0 despite the domains.json edit (overlaps are routing metadata, not catalog rows). Re-scores are conservative: D4 only +0.5 because the matchers remain single-hop by design."
     }
   ],
   "roadmap": [
