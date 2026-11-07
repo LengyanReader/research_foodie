@@ -1,6 +1,6 @@
-# 趋势周报 · 2026-11-07 · Trend review (weekly model, first issue)
+# Trend Review (weekly model, first issue) · 趋势周报（周更模型·首期）
 
-**Updated:** 2026-11-07 · **Round:** P77 · **数据窗口:** intel 2026-10-24 → 2026-11-07（2 周，2995 条）· **上一期:** [trend-review-2026-11-03.md](trend-review-2026-11-03.md)
+**Updated:** 2026-11-07 · **Round:** P77 · **Data window · 数据窗口:** intel 2026-10-24 → 2026-11-07 (2 weeks · 2 周, 2,995 items) · **Previous issue · 上一期:** [trend-review-2026-11-03.md](trend-review-2026-11-03.md)
 
 > **中文速览。** 本期起趋势综述改为**周更模型**：确定性管线（`harness intel` 拉流 → `harness trend` 四簇聚合 +
 > 周际动量 delta）供原材料，本文供分析。管线本身先做了三项质量升级（判别性打分 · 源多样性上限 · 噪声惩罚），
@@ -9,28 +9,47 @@
 > ② Agent Skills 标准捐入 Linux 基金会旗下 AAIF（Anthropic+Block+OpenAI 共建）；③ SWE-Bench Pro 审计的
 > 后续——V2 基准以"更干净、更难操纵"为卖点上世；④ Terminal-Bench 转向**持续语义版本**基准（4.x 连续演化）。
 > 四者共同指向同一判断：**评测与执行环境的"可信度工程"正在从论文话题变成行业基础设施**。分析详见 §5；
-> 对本库的行动项见 §6。周更规程见 `tasks/TREND.md`。
+> 对本库的行动项见 §6。周更规程见 `tasks/TREND.md`。每节中英并行。
+
+> **Executive summary.** From this issue the trend review moves to a **weekly model**: a deterministic
+> pipeline (`harness intel` feed pull → `harness trend` four-cluster aggregation + weekly delta) supplies the
+> raw material; this document supplies the analysis. The pipeline itself was upgraded first (discriminator
+> scoring · per-source diversity cap · noise penalty), because the old aggregation emitted near-identical
+> industry/harness tops and let a single firehose monopolize the table — analysis quality is capped by
+> raw-material quality. All four load-bearing signals this week are primary-verified: **(1)** OpenAI moved
+> frontier-model training to a fully **offline** environment (cybersecurity as a first-class control problem);
+> **(2)** the Agent Skills standard was donated to the Agentic AI Foundation under the Linux Foundation
+> (co-founded by Anthropic, Block, OpenAI); **(3)** the SWE-Bench Pro audit gained a follow-through — a V2
+> benchmark launched selling "cleaner, harder to game"; **(4)** Terminal-Bench moved to a **continuously
+> versioned** benchmark (4.x evolving). All four point the same way: **credibility engineering for evaluation
+> and execution environments is becoming industry infrastructure**, no longer a paper topic. Analysis in §5;
+> action items for this library in §6; the standing weekly procedure is `tasks/TREND.md`. Each section is
+> bilingual.
+
+---
 
 ## 1 · 本周信号 · Weekly signals
 
-| # | 信号 | 源 · 日期 | 一句话判读 | 核验 |
+| # | 信号 · Signal | 源 · Source · Date | 判读 · Reading | 核验 · Verified |
 |---|---|---|---|---|
-| 1 | OpenAI 前沿模型训练环境改为**离线无外网**，网络安全升格为一等控制问题（含红队演练） | [OpenAI blog](https://openai.com/index/securing-our-frontier-model-training-environment) · 2026-10-23 | 会写代码的模型 + 有外网的训练设施 = 承认的风险面；containment 成为训练基础设施的一部分 | ✅ 一手 |
-| 2 | Anthropic 把 **Agent Skills 标准**（名称/logo/GitHub org/agentskills.io 域名）捐给 Linux 基金会下的 **Agentic AI Foundation**（Anthropic+Block+OpenAI 共建） | [Simon Willison](https://simonwillison.net/2026/Oct/22/donating-agent-skills/) · 2026-10-22 | 技能生态从中立化走向**基金会治理**；标准竞争从"谁定义"转向"谁执行得好" | ✅ 一手 |
-| 3 | SWE-Bench Pro 审计后续：**V2 基准**（2026-10-16）以更干净、更难操纵为卖点，引用 OpenAI 审计（731 任务逐项核查） | [OpenAI blog](https://openai.com/index/separating-signal-from-noise-coding-evaluations)（审计 2026-07-08；V2 为窗口内后续） | 基准的双重有效性（任务有效性 vs 分数有效性）从学术批评变成**发布工程** | ✅ 一手（审计）；V2 *unverified*（转述） |
-| 4 | **Terminal-Bench 4.x** 持续语义版本演化（4.0 换 agent 环境，v4.1.0 点版本跟进），leaderboard 按 模型×agent 组合排名 | [tbench.ai](https://www.tbench.ai) · [repo](https://github.com/laude-institute/terminal-bench) | "基准即持续演化服务"——与 pass^k 可靠性口径（R282/R279）同构 | ✅ 一手（站点/仓库） |
-| 5 | MIT **VISTA**：把 context engineering 扩展到图像域的 agent 工作流 | The Batch · 2026-11-06 · [link](https://charonhub.deeplearning.ai/context-engineering-for-images/) | 上下文工程（M1）的证据面从纯文本扩到多模态 | feed 源 |
-| 6 | OpenAI 发布 **wet-lab 日常科学** agent 能力测量 | [OpenAI](https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science) · 2026-11-06 | 实验室操作类任务进入"可测量"清单——具身/湿域判分语义（P71 映射）的行业印证 | ✅ 一手 |
-| 7 | **skills.sh v1.7.2**（`npx skills` 生态）与 skills 市场工具持续发版 | intel 流 · 2026-11 窗口 | 技能分发基础设施在基金会化（信号 2）的同时**商品化** | feed 源 |
-| 8 | Microsoft Research：从**合成企业数据评测**到真实 Copilot 置信度 | [MSR blog](https://www.microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence/) · 2026-10-30 | 评测的"合成→真实"迁移问题（scope non-transferability 的行业版） | feed 源 |
+| 1 | OpenAI 前沿模型训练环境改为**离线无外网**，网络安全升格为一等控制问题（含红队演练） | [OpenAI blog](https://openai.com/index/securing-our-frontier-model-training-environment) · 2026-10-23 | 会写代码的模型 + 有外网的训练设施 = 承认的风险面；containment 成为训练基础设施的一部分 | ✅ primary |
+| 2 | Anthropic 把 **Agent Skills 标准**（名称/logo/GitHub org/agentskills.io 域名）捐给 Linux 基金会下的 **Agentic AI Foundation**（Anthropic+Block+OpenAI 共建） | [Simon Willison](https://simonwillison.net/2026/Oct/22/donating-agent-skills/) · 2026-10-22 | 技能生态从中立化走向**基金会治理**；标准竞争从"谁定义"转向"谁执行得好" | ✅ primary |
+| 3 | SWE-Bench Pro 审计后续：**V2 基准**（2026-10-16）以更干净、更难操纵为卖点，引用 OpenAI 审计（731 任务逐项核查） | [OpenAI blog](https://openai.com/index/separating-signal-from-noise-coding-evaluations)（audit 2026-07-08; V2 is the in-window follow-through） | 基准的双重有效性（任务有效性 vs 分数有效性）从学术批评变成**发布工程** | ✅ primary (audit); V2 *unverified* (secondhand) |
+| 4 | **Terminal-Bench 4.x** 持续语义版本演化（4.0 换 agent 环境，v4.1.0 点版本跟进），leaderboard 按 模型×agent 组合排名 | [tbench.ai](https://www.tbench.ai) · [repo](https://github.com/laude-institute/terminal-bench) | "基准即持续演化服务"——与 pass^k 可靠性口径（R282/R279）同构 | ✅ primary (site/repo) |
+| 5 | MIT **VISTA**：把 context engineering 扩展到图像域的 agent 工作流 | The Batch · 2026-11-06 · [link](https://charonhub.deeplearning.ai/context-engineering-for-images/) | 上下文工程（M1）的证据面从纯文本扩到多模态 | feed-sourced |
+| 6 | OpenAI 发布 **wet-lab 日常科学** agent 能力测量 | [OpenAI](https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science) · 2026-11-06 | 实验室操作类任务进入"可测量"清单——具身/湿域判分语义（P71 映射）的行业印证 | ✅ primary |
+| 7 | **skills.sh v1.7.2**（`npx skills` 生态）与 skills 市场工具持续发版 | intel stream · 2026-11 window | 技能分发基础设施在基金会化（信号 2）的同时**商品化** | feed-sourced |
+| 8 | Microsoft Research：从**合成企业数据评测**到真实 Copilot 置信度 | [MSR blog](https://www.microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence/) · 2026-10-30 | 评测的"合成→真实"迁移问题（scope non-transferability 的行业版） | feed-sourced |
 
-## 2 · 行业全景与相邻领域 · Industry & adjacent fields
+## 2 · 行业全景与相邻领域 · Industry landscape and adjacent fields
+
+### 中文
 
 数据基座：industry 簇 2546 条（30 天内 242），27 源。三条行业级主线：
 
-**基础设施的"安全内转"。** 信号 1 不是孤例而是方向：当模型能力足以操纵基础设施，训练/评测环境本身成为攻击面，
-头部实验室把 containment 内化为工程常项。对本库的映射是直接的——M6 工具面与沙箱纪律（M0.9）的行业正当性
-又添一层：**离线优先不只是成本选择，也是安全姿态**。
+**基础设施的"安全内转"。** 信号 1 不是孤例而是方向：当模型能力足以操纵基础设施，训练/评测环境本身成为
+攻击面，头部实验室把 containment 内化为工程常项。对本库的映射是直接的——M6 工具面与沙箱纪律（M0.9）的
+行业正当性又添一层：**离线优先不只是成本选择，也是安全姿态**。
 
 **标准治理的中立化。** 技能生态（信号 2、7）走出了"厂商标准 → 基金会标准"这一步。辩证面：基金会化解决
 "控制权"问题，不解决"质量"问题——skills 市场的良莠分布（本库 `.harness/skills/` 的 portable-skill 门禁
@@ -40,7 +59,31 @@
 （Terminal-Bench 的 semver 演化、SWE-Bench Pro V2 的防操纵声明）。这印证本库 P70 把 pass^k/状态判分/
 模型×外壳披露列为一等判据的判断——行业在向同一个方向收敛。
 
-## 3 · Harness 文献综述 · Harness-direction literature review
+### English
+
+Data base: 2,546 industry items (242 within 30 days), 27 sources. Three industry-level threads:
+
+**Security turns inward.** Signal 1 is a direction, not an outlier: once models are capable enough to
+manipulate infrastructure, the training/evaluation environment itself becomes the attack surface, and
+frontier labs internalize containment as routine engineering. The mapping to this library is direct — M6
+tool-surface and sandbox discipline (M0.9) gain another layer of industry justification: **offline-first is
+not just a cost choice, it is a security posture**.
+
+**Standards governance goes neutral.** The skills ecosystem (signals 2, 7) has taken the "vendor standard →
+foundation standard" step. The dialectical side: foundation governance solves *control*, not *quality* —
+the uneven distribution of the skills marketplace (which this library's `.harness/skills/` portable-skill
+gate exists for) does not improve merely because governance is neutral. **The trend-vs-noise test**: donating
+a standard is an event; ecosystem quality is a process.
+
+**Evaluation gets rebuilt as an industry function.** Read signals 3 and 4 together: benchmarks are moving
+from "static leaderboard" to "continuously evolving + auditable" service shape (Terminal-Bench's semver
+evolution, SWE-Bench Pro V2's anti-gaming posture). This confirms P70's decision to treat pass^k /
+state-based grading / model×scaffold disclosure as first-class judging criteria — the industry is converging
+on the same direction.
+
+## 3 · Harness 文献综述 · Harness literature synthesis
+
+### 中文
 
 本周信号与既有参考库（R1–R293）的对账，三条线：
 
@@ -56,7 +99,30 @@ dual validity 的工程化落地。**判断强化：**评测有效性是 2026 �
 对本库是"复核触发器"而非行动项：M1.11 的 compaction 预算论证基于文本 token，多模态上下文的预算语义
 尚未进入本库范围——登记为观察，不臆造（M0.4）。
 
+### English
+
+Reconciliation of this week's signals against the existing reference library (R1–R293), three threads:
+
+**Evaluation-ecosystem line (§AF, R283–R285).** The Princeton synthesis's "evaluator independence + scope
+non-transferability" got industry-level confirmation this week: signal 8 (synthetic→real Copilot) is
+scope non-transferability told in the first person; signal 3's V2 is benchmark dual validity shipping as
+release engineering. **Sharpened judgment:** evaluation validity is the *center* of the H2-2026 harness
+agenda, not its edge.
+
+**Reliability line (§AE, R282/R279).** Terminal-Bench's continuous-evolution model (signal 4) is isomorphic
+to τ-bench's pass^k bar — but it adds a new variable: **the benchmark's own version becomes an experimental
+variable** (4.0 changed the agent environment). This library's battery `scale` declarations and
+trial_projects bindings must recognize: comparing scores across versions is a scope error (a new sweep-form
+case for M3.19).
+
+**Context-engineering line (M1, R268/R277).** VISTA (signal 5) extends context engineering from text to
+image workflows. For this library it is a "review trigger", not an action item: M1.11's compaction-budget
+argument is built on text tokens; multimodal budget semantics are out of scope — recorded as an observation,
+not invented (M0.4).
+
 ## 4 · 新兴方向 · Emerging directions
+
+### 中文
 
 trajectories 簇本周 10 条（此前为 0——聚合升级后 retrieval-grounding 主题首次有命中），domains 簇仍只有
 Internet Archive 一源。**诚实声明：**这两簇的数据面还很薄，以下是"信号 + 推理"，不是"证据 + 结论"：
@@ -66,29 +132,69 @@ Internet Archive 一源。**诚实声明：**这两簇的数据面还很薄，�
 - **湿域/具身判分**（信号 6）：OSWorld/Terminal-Bench 的状态判分语义向物理域延伸（P71 已映射 RoboDojo），
   行业开始供给"日常科学"测量——这是本库 evidence-instruments 门禁 6 的行业对照。
 
+### English
+
+The trajectories cluster has 10 items this week (previously 0 — retrieval-grounding topics registered their
+first hits after the aggregation upgrade); the domains cluster still has a single source (Internet Archive).
+**Honest disclosure:** both clusters remain thin; what follows is "signal + reasoning", not "evidence +
+conclusion":
+
+- **Retrieval-augmented self-improvement** (GraphRAG v3.3.0 keeps shipping, against this library's known
+  maintenance-mode precedent): retrieval infrastructure remains an active supplier in the long-memory niche,
+  but "hot" and "sustainable" must be read separately — GraphRAG's maintenance status needs per-version
+  verification.
+- **Wet-lab / embodied grading** (signal 6): the state-grading semantics of OSWorld/Terminal-Bench extend
+  toward the physical domain (P71 already maps RoboDojo), and the industry is starting to supply
+  "everyday science" measurement — the industry counterpart to this library's evidence-instruments gate 6.
+
 ## 5 · 分析与预测 · Analysis & predictions
 
-| # | 论断 | 证据 | 置信 | 反转条件 |
+| # | 论断 · Thesis | 证据 · Evidence | 置信 · Confidence | 反转条件 · Reversal condition |
 |---|---|---|---|---|
-| T1 | **可信度工程基础设施化**：训练/评测/执行环境的 containment、审计、版本治理在 2026Q4-2027 成为头部 labs 的一等工程线，并出现事实标准（审计披露格式等） | 信号 1（训练环境离线化）+ 信号 3（基准审计→V2）+ 信号 4（semver 演化基准） | 中高 | 若 2027Q1 前无第二家 lab 跟进环境隔离披露，或 V2 类"防操纵基准"未形成品类 |
-| T2 | **技能生态双轨化**：基金会标准（AAIF）与商业市场并行，"可移植性门禁"成为消费侧的刚需——标准组织不管质量 | 信号 2 + 信号 7 | 中 | 若 AAIF 发布质量分级/认证计划（则质量由治理解决） |
-| T3 | **基准版本成为实验变量**：跨基准版本的分数比较被社区正式视为无效（类比 M3.19），leaderboard 语义转向"版本内排名" | 信号 4 的 semver 模式 + 信号 3 的审计-重估循环 | 中 | 若 Terminal-Bench 类基准发布跨版本可比性承诺 |
-| T4 | 评测从"跑分"转向"测量学"：环境状态判分 + pass^k + 披露三元组成为 agent 评测的默认口径 | R282–R289 既有锚点 + 本周信号 3/4/6/8 同向 | 中高 | 若行业回归单次 pass@1 排行榜叙事 |
+| T1 | **可信度工程基础设施化**：训练/评测/执行环境的 containment、审计、版本治理在 2026Q4-2027 成为头部 labs 的一等工程线，并出现事实标准 | 信号 1 + 3 + 4 | 中高 · Med-high | 若 2027Q1 前无第二家 lab 跟进环境隔离披露，或 V2 类基准未形成品类 |
+| T2 | **技能生态双轨化**：基金会标准与商业市场并行，"可移植性门禁"成为消费侧刚需——标准组织不管质量 | 信号 2 + 7 | 中 · Med | 若 AAIF 发布质量分级/认证计划 |
+| T3 | **基准版本成为实验变量**：跨基准版本比较被社区正式视为无效，leaderboard 语义转向"版本内排名" | 信号 4 的 semver 模式 + 信号 3 的审计-重估循环 | 中 · Med | 若 Terminal-Bench 类基准承诺跨版本可比 |
+| T4 | 评测从"跑分"转向"测量学"：环境状态判分 + pass^k + 披露三元组成为默认口径 | R282–R289 + 本周信号 3/4/6/8 同向 | 中高 · Med-high | 若行业因成本退回单次 pass@1 排行榜叙事 |
+
+### 中文（论断补充）
 
 **辩证面（每个被看好方向的强反例）：** T1 的反例是"安全 theater"风险——离线化可以只是声明而非实践，
 审计格式可以变成新的洗白载体；本库的应对是只认**可重放的披露**（LHTB 原则）。T4 的反例是测量学成本：
 pass^k × 状态判分比单次跑分贵一个数量级，预算压力可能让行业退回便宜口径。
 
+### English (thesis notes)
+
+**Dialectics (the strongest counter-example for each favored direction):** T1's counter-risk is *security
+theater* — offline isolation can be a declaration rather than a practice, and audit formats can become the
+next laundering vehicle; this library's response is to accept only **replayable disclosure** (the LHTB
+principle). T4's counter-risk is the cost of measurement culture: pass^k × state grading is an order of
+magnitude more expensive than a single leaderboard run, and budget pressure may push the industry back to
+the cheap metric.
+
 ## 6 · 对 harness 的行动项 · Action items for the harness
 
-1. **P77.R1（提案级）**：`data/watchlist.json` 的 trajectories 主题探针加宽（ai-scientist / autonomous-research /
-   wet-lab / lab-in-the-loop），下期验证 trajectories 簇能否脱离 1 源状态。
-2. **P77.R2（核对级）**：M3.19 增补一行"基准版本变量"注记（跨 semver 比较无效），引用本周边信号 4——
-   走提案流程，不直改 core/。
+### 中文
+
+1. **P77.R1（提案级）**：`data/watchlist.json` 的 trajectories 主题探针加宽（ai-scientist / autonomous-research / wet-lab / lab-in-the-loop），下期验证 trajectories 簇能否脱离 1 源状态。
+2. **P77.R2（核对级）**：M3.19 增补一行"基准版本变量"注记（跨 semver 比较无效），引用本周边信号 4——走提案流程，不直改 core/。
 3. **P77.R3（观察级）**：VISTA 类多模态上下文工程——登记观察；M1 预算语义多模态扩展不在本库范围。
 4. **P77.R4（已落地）**：管线三项升级（判别性打分/源上限/噪声惩罚 + 周际 delta）即本轮完成，见 §7。
 
+### English
+
+1. **P77.R1 (proposal):** widen the trajectories topic probes in `data/watchlist.json` (ai-scientist /
+   autonomous-research / wet-lab / lab-in-the-loop); next issue should show whether the trajectories
+   cluster escapes its one-source state.
+2. **P77.R2 (check):** add a "benchmark version variable" note to M3.19 (cross-semver score comparison is
+   invalid), citing this week's signal 4 — via the proposal flow, never a direct edit to core/.
+3. **P77.R3 (observation):** VISTA-style multimodal context engineering — logged as an observation;
+   multimodal extension of M1 budget semantics is out of scope for this library.
+4. **P77.R4 (landed):** the three pipeline upgrades (discriminator scoring / source cap / noise penalty +
+   weekly delta) shipped this round — see §7.
+
 ## 7 · 方法与数据附录 · Method & data appendix
+
+### 中文
 
 **管线（确定性，M0.4 引擎只聚合不评论）：** `harness intel --root . --since <date>` 拉跟踪源 RSS →
 `updates/intel.jsonl`（本窗口 2995 条）→ `harness trend --root . --write` 四簇聚合 → `updates/TREND.md` +
@@ -103,17 +209,37 @@ pass^k × 状态判分比单次跑分贵一个数量级，预算压力可能让�
 不代表热度下降——周际 delta 从下一期起才有干净的同窗口可比性。trajectories 簇此前恒 0 是聚合缺陷
 （已修），其 delta 记为"从 0 到 10"。
 
+### English
+
+**Pipeline (deterministic; the engine aggregates and cites, never opines — M0.4):** `harness intel --root .
+--since <date>` pulls tracked RSS feeds → `updates/intel.jsonl` (2,995 items this window) →
+`harness trend --root . --write` aggregates the four clusters → `updates/TREND.md` +
+`data/trend-snapshot.json` (with weekly deltas). The analysis (this document) is authored; every
+load-bearing claim resolves to a primary source.
+
+**P77 pipeline upgrades (landed this week):** (1) **discriminator scoring** — cluster score = global
+relevance + 0.5 × matched-topic + 0.3 × cluster-keyword title hits (tracked topics co-occur heavily; the
+industry and harness tops used to be near-identical); (2) **source-diversity cap** — at most 3 top rows per
+source (OpenAI+HF carried ~75% of one week's items); (3) **noise penalty** — commit-feed items whose title
+contains an 8+-hex-char hash score −1.0; (4) **weekly momentum** — the snapshot records count/recent deltas
+against the previous snapshot, so the weekly review reads *change*, not totals.
+
+**Window-confound disclosure (honest boundary):** this issue's negative deltas (industry −305) are mainly a
+**window artifact** (the previous stream covered a longer period), not cooling — clean same-window
+comparability starts next issue. The trajectories cluster's previous 0 was an aggregation defect (fixed);
+its delta reads "0 → 10".
+
 ## 溯源表 · Provenance
 
-| 声明 | 一手源 | 访问日期 |
+| 声明 · Claim | 一手源 · Primary source | 访问日期 · Accessed |
 |---|---|---|
-| OpenAI 训练环境离线化 | [openai.com/index/securing-our-frontier-model-training-environment](https://openai.com/index/securing-our-frontier-model-training-environment) | 2026-11-07 |
-| Agent Skills → AAIF（Linux 基金会） | [simonwillison.net/2026/Oct/22/donating-agent-skills](https://simonwillison.net/2026/Oct/22/donating-agent-skills/)（转述一手公告） | 2026-11-07 |
-| SWE-Bench Pro 审计 | [openai.com/index/separating-signal-from-noise-coding-evaluations](https://openai.com/index/separating-signal-from-noise-coding-evaluations) | 2026-11-07 |
-| SWE-Bench Pro V2 | 第三方转述（*unverified*，未读原始发布页） | — |
+| OpenAI 训练环境离线化 · Offline frontier training env | [openai.com/index/securing-our-frontier-model-training-environment](https://openai.com/index/securing-our-frontier-model-training-environment) | 2026-11-07 |
+| Agent Skills → AAIF（Linux 基金会） | [simonwillison.net/2026/Oct/22/donating-agent-skills](https://simonwillison.net/2026/Oct/22/donating-agent-skills/)（转述一手公告 · reporting the primary announcement） | 2026-11-07 |
+| SWE-Bench Pro 审计 · audit | [openai.com/index/separating-signal-from-noise-coding-evaluations](https://openai.com/index/separating-signal-from-noise-coding-evaluations) | 2026-11-07 |
+| SWE-Bench Pro V2 | 第三方转述（*unverified*，未读原始发布页 · secondhand; original launch page not read） | — |
 | Terminal-Bench 4.x | [tbench.ai](https://www.tbench.ai) · [github.com/laude-institute/terminal-bench](https://github.com/laude-institute/terminal-bench) | 2026-11-07 |
-| wet-lab agent 测量 | [openai.com/index/measuring-how-ai-agents-handle-wet-lab-science](https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science) | 2026-11-07 |
-| Copilot 置信度评测 | [microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence](https://www.microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence/) | 2026-11-07 |
-| VISTA / skills.sh / GraphRAG v3.3.0 | intel 流条目（feed 源，URL 见 intel.jsonl） | 2026-11-07 |
+| wet-lab agent 测量 · measurement | [openai.com/index/measuring-how-ai-agents-handle-wet-lab-science](https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science) | 2026-11-07 |
+| Copilot 置信度评测 · confidence eval | [microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence](https://www.microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence/) | 2026-11-07 |
+| VISTA / skills.sh / GraphRAG v3.3.0 | intel 流条目（feed 源，URL 见 intel.jsonl · feed-sourced, URLs in intel.jsonl） | 2026-11-07 |
 
-*引用即生命线：✅ = 本会话一手核验；feed 源 = 管线抓取的原始 URL（未二次核验）；*unverified* = 未读到原始发布页。*
+*引用即生命线 · Citations are the lifeline：✅ = 本会话一手核验 · primary-verified this session；feed 源 = 管线抓取的原始 URL（未二次核验 · pipeline-fetched URL, not re-verified）；*unverified* = 未读到原始发布页 · original page not read。*

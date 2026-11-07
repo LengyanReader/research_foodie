@@ -38,6 +38,14 @@
 | kg-construction | 0.4 | 1.0 | P65-ext | KG 抽取四能力同时测 |
 | research-question-generation | 0.4 | 1.0 | P65-ext | 研究问题生成（第 11 族起trial_projects 软匹配） |
 
+**English summary · §2.** The registry (`data/battery.json`) is the SSOT: **15/15 families closed**, each
+with pre-declared judge criteria (M5.13), a `scale: [lo, hi]` receipt (P47), and a bound trial project
+(`battery.reconcile` reconciles both ways). Headline pattern — the harness arm holds 1.0 across families
+while bare ranges 0.0–0.8; the one exception is informative: agent-eval-reliability (P76) reached **pass^3 =
+1.0 on BOTH arms** because the task instance does not discriminate the conditions — recorded as an
+observation (M5.11), never massaged. Open worklist: a discriminative reliability instance
+(citation-resolution, where bare hallucinates from memory) and cross-session/cross-model variance.
+
 **P76 可靠性族升级（真方差，取代 P67 确定性检验）：** `agent-eval-reliability` 以预声明 SPEC + 10 条隐藏测试（先于尝试写定，M5.13/M3.19）跑真配对方差：同一任务 × 3 次独立采样 × 双条件。**pass^3 = 1.0 双臂——实例不区分条件**，按观察记录（M5.11），不做修饰；方差为真（6 个 solution 哈希全异，每臂三条实现路径互异）。诚实边界：同会话同模型采样方差（行为学模拟 house 方法，P65 KG 先例）；收据按 `(project, task, harness)` 分组由 `harness passk` 计算。**下一轮 worklist：** 选判分可机判且 bare 有真实失败率的区分性实例（citation-resolution 类：bare 凭记忆易幻觉引用）+ 跨会话/跨模型方差（τ-bench 全设计 [R282/R279/R285/R288]，见 references §AE）。
 **P71 具身映射（历史，仍适用）：** 该族的物理域对应物 `uni-robot-agent` [R291] 给出两件可即刻迁移的东西——① **无特权输入**判据＝A-bare 臂的模板（特权变体须单列 B 臂，不得混入当能力）；② **四类失败分类**：视觉理解 · 空间定位 · 几何编码 · 具身推理（作者自陈为相关性非因果）。RoboDojo 以**环境终态**判分，与 OSWorld/Terminal-Bench 同构（见 `reference/evidence-instruments.md` 门禁 6）。
 **P67 代谢注记（历史）：** reading-extraction 与 cron-parsing 两族在 P62 已执行并留有双侧收据但当时未入册——P67 追溯登记并给全部族绑定 `trial_projects`（`battery.reconcile` 双向对账，守卫测试常驻）；两族判据未在跑前入册，M5.13 之缺口如实登记。

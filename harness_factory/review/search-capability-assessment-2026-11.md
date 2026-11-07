@@ -137,7 +137,7 @@ pipeline on this machine on 2026-11-07 (`classify` over signal inventories loade
 zh 218 / other 1 (an arrow-glyph English signal, not a language). The "221 catalog ·
 259 sources · R1–R293" figures are from the live SSOT, not memory.*
 
-## 7 · P75 增补 · 路由边际与交叉域落地（2026-11-07）
+## 7 · P75 addendum · Routing margin & intersection declarations landed (2026-11-07) · P75 增补：路由边际与交叉域落地
 
 The P74 recommendations were tested against the actual pipeline before building, and the
 test changed the design:
@@ -171,10 +171,25 @@ Overall 7.0→**7.2**. What would move D4 further is unchanged: query decomposit
 semantic expansion stay out of scope for a zero-dependency CLI (G3's honest half-measure
 is visibility, which is now delivered).
 
+
+### 中文小结 · P75
+
+P74 的两条建议先对管线实测再动手，测试改变了设计：R2 重新定性——P31 并集引擎已存在，真实缺口是**声明重叠门**
+挡住合法交叉（而泛词碰撞被同一扇门正确挡住），修数据不修算法：**+5 条重叠声明**（80→85 边）。R1 落地：
+`harness classify` 打印路由边际（域 + runner-up + margin，文本/JSON 双模式）。端到端 emission 模拟：交叉
+案例的 AGENTS.md 交叉域节两半都渲染；反泄露负例零软工泄露。诚实重评分：D3 8.0→8.5，D4 5.0→5.5，总评 7.0→7.2。
+
+### 中文小结 · P76
+
+R1 的路由提示自己抓出真 bug：devops 缩写信号 `ci` 以词首命中 "citations"（P55 词首规则挡不住词首前缀）——
+≤3 字符信号加词尾边界 + 复数容差（"bugs" 仍中）。R1 完成 emission 级：窄胜（margin ≤ 1）渲染 Routing note，
+宽胜沉默。可靠性试验（预声明 + 10 条隐藏测试）：**pass^3 双臂 1.0——实例不区分条件**，按观察记录（M5.11）；
+方差为真（6 个 solution 哈希全异）。电池族升格真配对方差；区分性实例与跨会话方差留下一轮。
+
 *Receipts: `updates/dogfood/p75-router-sim/` (RECEIPTS.md + two emitted harnesses);
 guards: `P75RouterMarginTest` (4 cases); suite 553 green.*
 
-## 8 · P76 增补 · 信号边界修复与可靠性试验（2026-11-07）
+## 8 · P76 addendum · Signal-boundary fix & the reliability trial (2026-11-07) · P76 增补：信号边界修复与可靠性试验
 
 The R1 routing note kept earning its keep after P75: wiring the margin into the emission
 **exposed a real matching bug** that the standing battery had masked.

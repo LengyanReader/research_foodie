@@ -4,7 +4,7 @@
 > 常设程序**：何时跑、跑什么、纪律、产物流向。与 BATTERY.md（试验例行）同构：管线供原材料（M0.4 引擎只聚合），
 > 综述由 agent 撰写（引用即生命线）。自动调度：每周一 09:00 本地时间（CronCreate 已建，标题「AI 趋势周报例行更新」）。
 
-**Updated:** 2026-11-07 · **Owner:** 每 周一 的执行者（或任何 agent 会话）· **产物:** `review/trend-review-<date>.md` + `updates/TREND.md` + `data/trend-snapshot.json` + `docs/index.html`
+**Updated:** 2026-11-07 · **Owner:** 每 周一 的执行者（或任何 agent 会话）· the Monday runner (or any agent session) · bilingual per user directive 2026-11-07· **产物:** `review/trend-review-<date>.md` + `updates/TREND.md` + `data/trend-snapshot.json` + `docs/index.html`
 
 ## 1 · When · 何时跑
 
@@ -39,3 +39,34 @@
 |---|---|---|---|
 | 首期 | [review/trend-review-2026-11-07.md](../review/trend-review-2026-11-07.md) | 2026-10-24 → 11-07（2 周） | P77：管线三项升级 + delta 首用（窗口混杂已声明） |
 | （前身） | [review/trend-review-2026-11-03.md](../review/trend-review-2026-11-03.md) | — | P69 全量综述（非周更模型），保留为深版底稿 |
+
+## 5 · English · The weekly procedure in brief
+
+> **What.** Standing weekly routine for the AI trend review (user directive 2026-11-07: "elevate the trend
+> analysis and update it weekly"). Same shape as `BATTERY.md`: the deterministic pipeline supplies raw
+> material (the engine aggregates and cites, M0.4); the review is authored with a citations-lifeline.
+> Automated: **Mondays 09:00 local** (CronCreate, title 「AI 趋势周报例行更新」).
+
+**Seven steps.**
+
+1. **Pull** — `harness intel --root . --since <last Monday>` → `updates/intel.jsonl`. Offline: say so and
+   gather signals via WebSearch instead; never fabricate intel (M0.4).
+2. **Aggregate** — `harness trend --root . --write` → four clusters + weekly delta vs the previous
+   committed snapshot. Keep the window aligned (same `--since` weekday), else disclose the confound in §7.
+3. **Select load-bearing signals** — 5–10 from the TREND.md cluster tops (discriminator-scored, ≤3 rows per
+   source); **verify each against a primary source** (official blog / repo / arXiv page, with access date);
+   mark feed-sourced or *unverified* otherwise.
+4. **Author `review/trend-review-<date>.md`** — seven sections, **bilingual (### 中文 / ### English per
+   section, per the 2026-11-03 reference)**: weekly signals table → industry landscape → harness literature
+   reconciliation against R1–R293 → emerging directions (disclose thin data) → thesis table
+   (evidence · confidence · **reversal condition**) → tiered action items (proposal / check / observation —
+   proposals only, never a direct edit to core/data) → method appendix + provenance table (claim × primary
+   source × access date).
+5. **Wire** — add the issue to `pages.py` ARTICLES → `harness pages --write`.
+6. **Register** — cycles.json entry (P<number>) + `tasks/PROGRESS.md` + this file's §4 issue table.
+7. **Gate & commit** — full suite + `cycle audit` → commit. **Never push** (Pages deploys via pages.yml).
+
+**Discipline red lines.** Citations are the lifeline (M0.1/M0.2) · trend ≠ volume (an event is not a
+process) · dialectics mandatory (strongest counter-example per favored direction, M5.11) · honest deltas
+(window confounds disclosed; thin clusters stay thin on the page) · proposals only (M0.8) · the structure
+guard (`P77TrendWeeklyTest`) globs the LATEST dated review, so the weekly cadence never breaks the suite.
