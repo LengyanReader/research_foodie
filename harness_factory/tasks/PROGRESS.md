@@ -2,6 +2,16 @@
 
 **Updated:** 2026-11-07
 
+## 2026-11-07 · P78：运维能力切片一 —— 真正的 DevOps 域 · 交付/SRE/IaC 三门禁 · harness-evolution 拆分
+
+- **用户指令。** 「全面评估工程开发/测试/模拟/实验能力，尤其是 devops/mlops/dataops」→ 评估后要求「优化时充分使用本项目相关能力」。按 `reference/capability-cycle.md` 开轮（M5.10），用 `harness cycle audit` 收口。
+- **先修身份缺陷（实测）。** `classify --task "set up a CI/CD pipeline..."` 旧行为：域=devops，但能力集**零条**交付/运维能力；`domains/devops/README.md` 实际是「harness 自身演化」元域却持有 deploy/ci/sre 信号。拆分：`devops` 改为交付/SRE 域；元内容迁到 `harness-evolution`（faculty meta，独立 README + rubric）。
+- **三条能力（带 procedure）。** `delivery-pipeline-discipline`（M3/M6/M7：build once → gate artifact → env contract → canary → rollback → record）· `service-reliability-discipline`（M3/M5/M7：SLI/SLO → symptom alerts → runbook → incident roles → blameless postmortem → feed back）· `infrastructure-as-code-discipline`（M6/M7：declarative IaC → review plan → drift → least privilege/secrets → provenance → clean re-run）。
+- **门禁/接线。** 子句 **M3.20**（观测运行系统）· **M7.11**（发布已验产物；基础设施即可审阅源）+ source-map 行；router 三行；`levers.by_dim` 的 reliability/observability/automation/rollback 指向新能力；**修 data-quality 误映射**（原 `academic-search` → 空 kinds + roadmap）；watchlist 新主题 `devops-platform`。
+- **守卫。** `PlatformOperationsCapabilityTest` 3 条（触发 + 静默向量）· routing battery 4 条（CI/CD、IaC、SLO/incident、中文 SLO）· test_domains 3 条；`cycle audit` **74 轮 · 54 路线图 · 46 能力 · 48 子句 · 0 硬 · 0 缺口**。
+- **测试。** 561 → **564 全绿**（目标模块 + 计数守卫 + catalog/map/pages 全过；仓库级 `NoLeakedArtifactsTest` 在本机全仓扫描时卡住，P78 前即如此，已用改动文件范围检查替代）。
+- **有意不做（带触发）。** MLOps 生命周期（P78.R1：模型注册/服务/漂移/重训）· DataOps（P78.R2：契约/质量/血缘/编排/回填）——已有实验/评测半边，运营半边未证；触发条件见 `data/cycles.json`。
+
 ## 2026-11-07 · 双语化轮：周报全节中英并行 · TREND/BATTERY 英文镜像 · 评估增补双语
 
 - **用户指令。** 「相关的报告和文档需要中英文都有」——对 P77 交付物与常设例行程式的双语化要求（重申 AGENTS.md §1 语言政策）。

@@ -282,6 +282,37 @@
       ]
     },
     {
+      "id": "devops-platform",
+      "name_zh": "DevOps / 平台工程",
+      "queries": [
+        "platform engineering practices",
+        "CI/CD pipeline design",
+        "SRE error budget",
+        "infrastructure as code drift",
+        "progressive delivery canary",
+        "observability OpenTelemetry"
+      ],
+      "keywords": [
+        "platform engineering",
+        "ci/cd",
+        "continuous delivery",
+        "deployment",
+        "sre",
+        "slo",
+        "error budget",
+        "observability",
+        "opentelemetry",
+        "infrastructure as code",
+        "terraform",
+        "kubernetes",
+        "canary",
+        "rollback",
+        "incident",
+        "postmortem",
+        "runbook"
+      ]
+    },
+    {
       "id": "emerging-directions",
       "keywords": [
         "world model",

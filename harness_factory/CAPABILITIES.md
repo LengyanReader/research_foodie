@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**43 capabilities · 9 modules (M0–M8)**
+**46 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -113,6 +113,24 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** tool_surface ∈ {external} (工具面) OR stakes ∈ {high} (风险)
 - **Modules · 关联模块:** M3, M6, M7
 - **Why · 理由:** Anything that executes code or reaches the world declares an execution backend and a least-privilege posture (isolation, approval for irreversible acts) rather than running unconstrained (M0.4/M0.8).
+
+### `delivery-pipeline-discipline` — Delivery pipeline discipline · 交付流水线纪律
+
+- **Fires when · 触发条件:** domain ∈ {devops} (领域) and artifact ∈ {code} (产物)
+- **Modules · 关联模块:** M3, M6, M7
+- **Why · 理由:** A green build verifies an artifact, not a deployment: build once, gate the artifact, promote the same digest through environments, and make the release reversible (M3.20/M7.11).
+
+### `service-reliability-discipline` — Service reliability discipline · 服务可靠性纪律
+
+- **Fires when · 触发条件:** domain ∈ {devops} (领域)
+- **Modules · 关联模块:** M3, M5, M7
+- **Why · 理由:** A deployed service is a running claim: declare the user-visible SLI and SLO/error budget, alert on symptoms, keep a runbook, and turn every incident into evidence for the next gate (M3.20).
+
+### `infrastructure-as-code-discipline` — Infrastructure as code discipline · 基础设施即代码纪律
+
+- **Fires when · 触发条件:** domain ∈ {devops} (领域) and tool_surface ∈ {read_write, external} (工具面)
+- **Modules · 关联模块:** M6, M7
+- **Why · 理由:** Infrastructure is a governed source artifact: declarative, reviewable, drift-checked, least-privilege and supply-chain-aware (M7.11).
 
 ### `portable-skills` — Portable skills (Agent Skills format) · 可移植技能（Agent Skills 格式）
 

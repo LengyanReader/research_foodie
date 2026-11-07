@@ -4,7 +4,7 @@
 > the harness any task needs.**
 > 跨域提炼的 **agent harness 模式库**，外加一个**把任务编译成所需 harness**的可执行工具。
 
-**Updated:** 2026-10-16 · **Status:** active · **License:** MIT
+**Updated:** 2026-11-07 · **Status:** active · **License:** MIT
 
 > 中文速览：本仓库现聚焦 **`harness_factory/`**——一个「agent harness」模式库 + `harness` CLI。
 > *Harness* = 让 LLM 智能体在**跨会话、长时程、有限上下文**下把任务做稳的**一整套外部化方法**
@@ -238,8 +238,8 @@ harness_factory/          the project — pattern library + `harness` CLI (start
 │   ├── 07-tools-and-skills.md      工具接口 · 最小工具集 · 技能渐进加载
 │   ├── 08-change-governance.md     单一来源 · 提交卫生 · 部署治理
 │   └── 09-collaboration-and-sessions.md 会话协议 · 决策升级 · 多 agent 交接
-├── domains/              34 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
-│   ├── ai-safety/ deep-research/ research/ excellence/ knowledge-management/ (meta + methods)
+├── domains/              35 学科门类 + general 兜底（每域一个 README；含 `writing/` 写作域）
+│   ├── harness-evolution/ ai-safety/ deep-research/ research/ excellence/ knowledge-management/ (meta + methods)
 │   ├── data-science/ model-selection/ software-engineering/ devops/ engineering/ (engineering)
 │   ├── geometry-topology/ logic/ statistics/ (formal sciences)
 │   ├── physics/ chemistry/ biology/ earth-environment/ mathematics/ (natural sciences)

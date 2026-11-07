@@ -5,6 +5,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning: [S
 
 ## [Unreleased]
 
+### Added
+- **Operations capability slice 1 (P78).** Split the misnamed `devops` meta-domain into `harness-evolution` (the harness's own signal → audit → mutation → journal loop) and a real `devops` delivery/SRE domain; the old domain owned deploy/CI/SLO signals while its playbook taught self-evolution, so a CI/CD task derived zero operational capabilities. Added three capability-backed procedures — `delivery-pipeline-discipline`, `service-reliability-discipline`, `infrastructure-as-code-discipline` — anchored by **M3.20** (observe the running system) and **M7.11** (release the verified artifact; infrastructure is a reviewable, drift-checked source). Wired router rows, a `harness-evolution` rubric, lever corrections (data-quality no longer maps to `academic-search`), and watchlist topic `devops-platform`. Guards: 3 trigger/quiet tests, 4 routing-battery cases, 3 domain-routing cases. **561 → 564 tests**. `cycle audit`: 74 cycles, 54 roadmap items, 0 hard, 0 gaps. MLOps/DataOps deferred to P78.R1/R2 with triggers.
+
 ### Fixed
 - **Housekeeping - hand-maintained counts now guarded.** The workspace `AGENTS.md` claimed **27** domains and **242** tests
   while the SSOT carries **31** (30 disciplines + `general`, 10 faculties) and the suite ran **284**; its bare

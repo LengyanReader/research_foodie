@@ -85,6 +85,9 @@ class DomainsClassifyTest(unittest.TestCase):
         cases = {
             "add type hints and tests to a legacy python package": "software-engineering",
             "debug a production incident and write the postmortem": "devops",
+            "set up a CI/CD pipeline with canary deployment": "devops",
+            "manage infrastructure as code with terraform": "devops",
+            "run the harness evolution audit for the capability cycle": "harness-evolution",
             "design a poster series with a distinct visual identity": "arts-design",
             "write a short story in the style of Borges": "writing",
             "build an online course with exercises": "education",

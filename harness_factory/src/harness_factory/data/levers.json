@@ -328,27 +328,25 @@
         "M3",
         "M5"
       ],
-      "kinds": [
-        "eval-framework"
-      ],
-      "note": "Resume-from-checkpoint; retries for long-running work.",
+      "kinds": [],
+      "note": "Resume-from-checkpoint, retries and an SLO/error budget; use `service-reliability-discipline` (M3.20).",
       "claude": "Durable state + resume-from-checkpoint so minor tool failures don't cascade."
     },
     "observability": {
       "modules": [
-        "M2"
+        "M2",
+        "M3"
       ],
-      "kinds": [
-        "eval-framework"
-      ],
-      "note": "Full tracing of decisions and tool calls."
+      "kinds": [],
+      "note": "Trace decisions and tool calls, and declare service SLI/SLO plus symptom alerts; use `service-reliability-discipline`."
     },
     "automation": {
       "modules": [
-        "M6"
+        "M6",
+        "M7"
       ],
       "kinds": [],
-      "note": "Script it into CI."
+      "note": "Script the delivery path into CI/CD and keep it reviewable; use `delivery-pipeline-discipline`."
     },
     "rollback": {
       "modules": [
@@ -356,7 +354,7 @@
         "M7"
       ],
       "kinds": [],
-      "note": "Make every change reversible."
+      "note": "Make every change reversible; canary and roll back to the previous artifact digest (`delivery-pipeline-discipline`)."
     },
     "safety-factor": {
       "modules": [
@@ -440,12 +438,11 @@
     },
     "data-quality": {
       "modules": [
-        "M3"
+        "M3",
+        "M4"
       ],
-      "kinds": [
-        "academic-search"
-      ],
-      "note": "Provenance, coverage, cleaning."
+      "kinds": [],
+      "note": "Data contracts, boundary checks and lineage; no verified data-quality catalog kind is registered yet (P78 roadmap)."
     },
     "generality": {
       "modules": [

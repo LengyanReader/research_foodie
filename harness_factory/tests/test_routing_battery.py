@@ -26,7 +26,10 @@ BATTERY = [
     ("构建方志人物知识图谱，做检索增强问答，注明来源", "digital-humanities", "ontology-as-contract"),
     # engineering family
     ("add type hints and tests to a legacy python package", "software-engineering", None),
-    ("debug a production incident and write the postmortem", "devops", None),
+    ("debug a production incident and write the postmortem", "devops", "service-reliability-discipline"),
+    ("set up a CI/CD pipeline with canary deployment and rollback", "devops", "delivery-pipeline-discipline"),
+    ("manage our infrastructure as code with drift detection", "devops", "infrastructure-as-code-discipline"),
+    ("为线上服务建立 SLO 与告警，处理故障并写复盘", "devops", "service-reliability-discipline"),
     ("design a pcb for a low-power sensor", "engineering", None),
     ("which model should we use for this classification task?", "model-selection", "model-portfolio-discipline"),
     ("分析这份数据集并拟合模型，给出可复现的实验", "data-science", "reproducible-experiments"),

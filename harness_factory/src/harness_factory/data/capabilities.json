@@ -265,6 +265,82 @@
     ],
     "procedure_source": "core/04-verification-and-gates.md"
   },
+  "delivery-pipeline-discipline": {
+    "title_en": "Delivery pipeline discipline",
+    "title_zh": "交付流水线纪律",
+    "when": {
+      "domain": [
+        "devops"
+      ],
+      "artifact": "code"
+    },
+    "modules": [
+      "M3",
+      "M6",
+      "M7"
+    ],
+    "why": "A green build verifies an artifact, not a deployment: build once, gate the artifact, promote the same digest through environments, and make the release reversible (M3.20/M7.11).",
+    "procedure": [
+      "Build once and promote the same immutable artifact; record its digest.",
+      "Gate the artifact on the acceptance suite before any environment.",
+      "Declare the environment contract: config, secrets, versions, dependencies.",
+      "Release behind a canary or feature flag; name the abort signal first.",
+      "Roll back to the previous digest on the abort signal; never rebuild to roll back.",
+      "Record artifact digest, environment, approver and observed post-deploy signal."
+    ],
+    "procedure_source": "core/08-change-governance.md"
+  },
+  "service-reliability-discipline": {
+    "title_en": "Service reliability discipline",
+    "title_zh": "服务可靠性纪律",
+    "when": {
+      "domain": [
+        "devops"
+      ]
+    },
+    "modules": [
+      "M3",
+      "M5",
+      "M7"
+    ],
+    "why": "A deployed service is a running claim: declare the user-visible SLI and SLO/error budget, alert on symptoms, keep a runbook, and turn every incident into evidence for the next gate (M3.20).",
+    "procedure": [
+      "Name the user-visible SLI and its SLO/error budget before release.",
+      "Alert on symptoms (latency, errors, saturation), not on causes.",
+      "Keep a runbook: detection, triage, mitigation, escalation, rollback.",
+      "During an incident, assign roles and prefer mitigation before diagnosis.",
+      "Write a blameless postmortem with timeline, contributing causes and owned actions.",
+      "Feed the actions back into the gate, runbook and SLO."
+    ],
+    "procedure_source": "core/04-verification-and-gates.md"
+  },
+  "infrastructure-as-code-discipline": {
+    "title_en": "Infrastructure as code discipline",
+    "title_zh": "基础设施即代码纪律",
+    "when": {
+      "domain": [
+        "devops"
+      ],
+      "tool_surface": [
+        "read_write",
+        "external"
+      ]
+    },
+    "modules": [
+      "M6",
+      "M7"
+    ],
+    "why": "Infrastructure is a governed source artifact: declarative, reviewable, drift-checked, least-privilege and supply-chain-aware (M7.11).",
+    "procedure": [
+      "Declare infrastructure in versioned code; no console-only changes.",
+      "Review the plan/diff before apply; record who approved it.",
+      "Detect drift between declared and actual state; reconcile or escalate.",
+      "Apply least privilege and keep secrets out of code and diffs.",
+      "Record artifact/image provenance and the rollback target.",
+      "Re-run the same plan in a clean environment to prove reproducibility."
+    ],
+    "procedure_source": "core/08-change-governance.md"
+  },
   "portable-skills": {
     "title_en": "Portable skills (Agent Skills format)",
     "title_zh": "可移植技能（Agent Skills 格式）",

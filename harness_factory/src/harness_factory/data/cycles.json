@@ -2021,9 +2021,60 @@
         "P77.7 - P77TrendWeeklyTest (5 guards: cluster discrimination, hex penalty, per-source cap, snapshot delta presence, latest-review structure via glob so weekly cadence never breaks the suite); suite 556->561 green"
       ],
       "note": "User asked to elevate the AI trend analysis, plan and re-run it, and establish a weekly update cadence. The elevation went to the pipeline first: analysis quality is capped by raw-material quality, and the old scaffold's identical cluster tops + firehose monopolized tables + permanently-empty trajectories cluster made honest weekly reading impossible. The review itself switches to a weekly model (signals table -> cluster readings -> literature reconciliation -> theses with reversal conditions -> tiered action items -> method appendix) and keeps the P69 full survey as the deep baseline. The delta methodology is honest about the window confound (first issue's negative deltas come from a shorter pull window, not cooling). The Monday automation encodes the discipline red lines (citations-lifeline, proposals-only, never push, no fabricated intel on network failure) directly in its prompt."
+    },
+    {
+      "id": "P78",
+      "status": "done",
+      "date": "2026-11-07",
+      "title_en": "Operations capability slice 1: real DevOps domain + delivery/SRE/IaC gates",
+      "title_zh": "运维能力切片一：真正的 DevOps 域 + 交付/SRE/IaC 门禁",
+      "added": {
+        "clauses": [
+          "M3.20",
+          "M7.11"
+        ],
+        "references": [],
+        "capabilities": [
+          "delivery-pipeline-discipline",
+          "service-reliability-discipline",
+          "infrastructure-as-code-discipline"
+        ],
+        "domains": [
+          "harness-evolution"
+        ],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P78.1 - split the misnamed meta domain: `devops` now means delivery/SRE operations; harness self-evolution moved to `harness-evolution`",
+        "P78.2 - added three capability-backed procedures: delivery-pipeline-discipline, service-reliability-discipline, infrastructure-as-code-discipline",
+        "P78.3 - anchored clauses M3.20 (observe the running system) and M7.11 (release the verified artifact; infrastructure is a reviewable source) + source-map rows",
+        "P78.4 - router rows, harness-evolution rubric, lever corrections (data-quality no longer maps to academic-search), watchlist topic devops-platform",
+        "P78.5 - routing battery + trigger/quiet guards; regenerated catalog/map/pages",
+        "P78.6 - battery soft axis: routing battery and trigger guards re-run; no new task-family receipt, so no battery family re-run"
+      ],
+      "note": "User asked to optimize engineering/test/simulation/experiment coverage toward DevOps, MLOps and DataOps. Slice 1 fixes the load-bearing defect first: the old `devops` domain was a meta-domain for harness self-evolution while owning delivery signals, so a CI/CD/SLO/incident task routed to the wrong playbook and derived zero operational capabilities. The split gives delivery operations a real domain and three executable procedures; the self-evolution content keeps its home as `harness-evolution`. MLOps and DataOps are deferred with triggers rather than half-added."
     }
   ],
   "roadmap": [
+    {
+      "id": "P78.R1",
+      "status": "planned",
+      "cycle": "P78",
+      "source": "user ask 2026-11-07 / P78 assessment",
+      "title_en": "MLOps lifecycle domain + capability",
+      "reason": "the experiment/evaluation half exists (data-science, model-selection, reproducible-experiments, eval-driven-development), but model registry, serving, drift, retraining and lifecycle monitoring are absent",
+      "revisit_when": "a model-serving, drift or retraining task is requested, or a real model-deployment receipt exists"
+    },
+    {
+      "id": "P78.R2",
+      "status": "planned",
+      "cycle": "P78",
+      "source": "user ask 2026-11-07 / P78 assessment",
+      "title_en": "DataOps domain + capability",
+      "reason": "dataset registry and pipeline instruments exist, but data quality, contracts, lineage, orchestration, backfill and freshness have no domain, capability or verified catalog kind",
+      "revisit_when": "a data-pipeline, backfill or data-contract task is requested, or a data-quality tool is primary-source verified"
+    },
     {
       "id": "P12.1",
       "status": "done",

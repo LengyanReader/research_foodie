@@ -2,7 +2,7 @@
 
 > 工作区原则 · Workspace principles for AI coding assistants and contributors.
 
-**Updated:** 2026-11-02
+**Updated:** 2026-11-07
 
 > **This file is test-pinned.** `harness_factory/tests/test_docs_integrity.py` (`CountDriftGuardTest`) and
 > `tests/test_standing_reference.py` (`QuickStartFidelityTest`) parse `AGENTS.md` and fail if the domain count,
@@ -25,7 +25,7 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   CAPABILITIES.md         GENERATED — `harness capabilities --write` (do not hand-edit)
   HARNESS-MAP.md          GENERATED — `harness map --write` (do not hand-edit)
   core/                   cross-domain invariants M0–M8 (`01-meta-principles.md` first)
-  domains/                34 学科 + general 兜底 (10 faculties; includes `writing/`)
+  domains/                35 学科 + general 兜底 (10 faculties; includes `writing/`; `harness-evolution/` is the meta domain)
   review/                 surveys · harness catalog/index · references.md/bib
                           · trend-review-<date>.md — the routine's authored deep-analysis (bilingual, cited, dialectical)
   sources/                source-map.md (pattern ← primary source)
@@ -47,9 +47,14 @@ docs/index.html             GENERATED — the browsable Pages dashboard (`harnes
 ## 3. Setup and commands
 
 - Python ≥ 3.10; core CLI and tests have **zero external dependencies** (pytest/ruff/mypy are optional extras).
-- No install needed (L2 packaging is cancelled as a distribution channel). Run from `harness_factory/`:
-  `PYTHONPATH=src python -m harness_factory <cmd>` — bash alias: `alias harness='PYTHONPATH=src python -m harness_factory'`.
-  From the repo root use `PYTHONPATH=harness_factory/src …`.
+- No install needed (L2 packaging is cancelled as a distribution channel). Run from `harness_factory/`
+  (not the repo root): `PYTHONPATH=src python -m harness_factory <cmd>` — bash alias:
+  `alias harness='PYTHONPATH=src python -m harness_factory'`. From the repo root use `PYTHONPATH=harness_factory/src …`.
+- **Windows shells (this workspace's default is `cmd`).** The `PYTHONPATH=src` prefix is POSIX-only.
+  In `cmd`: `set PYTHONPATH=src && python -m harness_factory <cmd>`; in PowerShell:
+  `$env:PYTHONPATH="src"; python -m harness_factory <cmd>`. The same applies before `python -m unittest`.
+- The gate is stdlib `unittest` (what CI runs). `pytest` exists only in the optional `dev` extra; don't
+  assume it is installed, and don't report a pytest run as the project gate.
 - Main commands: `derive`, `init --out <dir>`, `check --dir`, `gate --dir`, `harvest`, `profile`, `learn`,
   `standard`, `catalog`, `cycle audit`, `evolve`, `full-update`, `scoreboard`, `brief`, `classify`, `battery`,
   `collect`, `trace-audit`, `doctor`, `plugins --validate`, `skill`, `capabilities`, `map`, `self-model`, `trend`, `pages`.
@@ -60,8 +65,10 @@ docs/index.html             GENERATED — the browsable Pages dashboard (`harnes
 ## 4. Quality gates
 
 - **Test gate:** `PYTHONPATH=src python -m unittest discover -s tests` from `harness_factory/`
-  (当前 **561** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
+  (当前 **564** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
 - Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
+  The whole suite is discoverable only from inside `harness_factory/`; running discovery from the repo
+  root does not put `src/` on the path and fails at import.
 - Changing `src/harness_factory/data/*.json` (the SSOT) requires `harness catalog --write` to regenerate
   `CAPABILITIES.md` + `HARNESS-MAP.md`, then the full suite; the same drift guards will fail otherwise.
 - **文档源唯一性 / Doc source uniqueness (P65-ext):** `review/*.md` 是所有文档内容的唯一可编辑源（SSOT）；

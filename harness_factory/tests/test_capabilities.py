@@ -227,6 +227,24 @@ class DisciplineCapabilityTest(unittest.TestCase):
         self.assertNotIn("empirical-measurement", _active(domain="physics"))
 
 
+class PlatformOperationsCapabilityTest(unittest.TestCase):
+    """P78: delivery, SRE and IaC are separate gates, not one generic 'devops' label."""
+
+    QUIET = dict(domain="devops", artifact="document", stakes="low", tool_surface="none")
+
+    def test_delivery_pipeline_for_code_ops(self):
+        self.assertNotIn("delivery-pipeline-discipline", _active(**self.QUIET))
+        self.assertIn("delivery-pipeline-discipline", _active(domain="devops", artifact="code"))
+
+    def test_service_reliability_needs_high_stakes(self):
+        self.assertNotIn("service-reliability-discipline", _active())
+        self.assertIn("service-reliability-discipline", _active(domain="devops"))
+
+    def test_infrastructure_as_code_needs_write_or_external_surface(self):
+        self.assertNotIn("infrastructure-as-code-discipline", _active(domain="devops", tool_surface="none"))
+        self.assertIn("infrastructure-as-code-discipline", _active(domain="devops", tool_surface="read_write"))
+
+
 class TriggerCoverageTest(unittest.TestCase):
     """P12: every capability left unguarded by the first `harness cycle audit`.
 

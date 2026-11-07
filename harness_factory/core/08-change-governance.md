@@ -24,8 +24,9 @@ Drift and lost work come from *untracked* change: a value defined in three place
 7. **Changelog & deprecation.** Keep a human-readable changelog; retire assets with a reason and a migration note (`Archive` mutation, M5).
 8. **Rollback path.** Every substantive change names how to undo it. Append-only ledgers + version control are the default substrate.
 9. **Config over code where possible.** Data-driven behavior changes (thresholds, enabled checks) are easier to review and revert than logic changes.
+10. **Release the artifact you verified; infrastructure is a reviewable source (M7.11).** **Build once** and promote the **same immutable artifact** (digest recorded) through environments; a rebuild per environment is a different artifact and an unverified change. Gate each promotion on the acceptance evidence, declare the **environment contract** (config, secrets, versions), and release behind a **canary or feature flag** whose **abort signal** and **rollback target** are named before promotion. Infrastructure is **declarative, versioned and reviewed like code**: detect drift against the declared state, apply least privilege, keep secrets out of code/diffs, and record image/artifact provenance. Official practitioner sources: SLSA v1.0 build provenance (slsa.dev, linked 2026-11-07); Terraform language docs on state and drift (developer.hashicorp.com/terraform, linked 2026-11-07).
 
-> **中文**：SSOT；可审阅可归因 diff；Conventional Commits；不擅自做破坏性动作（删除/强推/发布/花钱/联系人须人类门）；commit≠push（可自动 commit，绝不自动 push）；实验分支/沙箱/开关隔离；changelog + 弃用说明；回滚路径；能用配置就别改逻辑。
+> **中文**：SSOT；可审阅可归因 diff；Conventional Commits；不擅自做破坏性动作（删除/强推/发布/花钱/联系人须人类门）；commit≠push（可自动 commit，绝不自动 push）；实验分支/沙箱/开关隔离；changelog + 弃用说明；回滚路径；能用配置就别改逻辑。此外：**发布已验产物，基础设施即可审阅的源（M7.11）**——一次构建、以同一不可变产物（记录 digest）逐环境晋级；每环境重建即另一产物；晋级前声明环境契约、canary/开关的 abort 信号与回滚目标；基础设施声明式、版本化、可审阅，检测漂移、最小权限、机密不入代码，并记录镜像/产物来源。
 
 ## Checklist
 - [ ] Each fact/config/definition has exactly one canonical home.
@@ -35,6 +36,7 @@ Drift and lost work come from *untracked* change: a value defined in three place
 - [ ] Pushing/publishing is separate from committing.
 - [ ] Each change has a stated rollback path; changelog updated.
 - [ ] Every substantive change is a reviewable, attributable diff, and its journal entry names the undo (M7.10).
+- [ ] The release promotes the verified artifact digest, names the environment contract and rollback target, and infrastructure changes are reviewable and drift-checked (M7.11).
 
 ## Anti-patterns
 - **Shadow edits.** In-place rewrites with no diff and no author.
@@ -42,6 +44,8 @@ Drift and lost work come from *untracked* change: a value defined in three place
 - **Autonomous push/publish.** An agent shipping without authorization (M0.8).
 - **Irreversible merge.** Risky change straight to main with no isolation.
 - **No way back.** A change with no rollback and no record.
+- **Rebuild per environment.** Producing a different artifact for each environment and calling it the same release (M7.11).
+- **Console-only infrastructure.** A change made outside version control with no review, drift record or rollback (M7.11).
 
 ## See also
 `01-meta-principles.md` (M0.5, M0.9, M0.8) · `06-self-evolution.md` (M5) · `09-collaboration-and-sessions.md` (M8) · repo `AGENTS.md` §4 (commit conventions).

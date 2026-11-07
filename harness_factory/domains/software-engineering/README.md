@@ -11,7 +11,7 @@
 ---
 
 ## What this domain is for · 用途
-Deliver a change to a real codebase — a feature, a fix, a refactor — where scope is bounded, tests gate "done", the diff is reviewable, and history stays clean and reversible. Complements the `devops` domain (which governs the harness's own evolution).
+Deliver a change to a real codebase — a feature, a fix, a refactor — where scope is bounded, tests gate "done", the diff is reviewable, and history stays clean and reversible. Complements the `devops` domain (which governs delivery, SRE and infrastructure operations); the harness's own evolution lives in `harness-evolution`.
 
 ## Pipeline layers · 分层流水线
 | Layer | Step | Core modules | Notes |
@@ -41,4 +41,4 @@ Deliver a change to a real codebase — a feature, a fix, a refactor — where s
 - **Destructive git operations** without human authorization (M0.8).
 
 ## See also
-`../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md` · `../domains/devops/README.md`.
+`../core/00-index.md` · `../sources/source-map.md` · `../review/harness-catalog.md` · `../domains/devops/README.md` · `../domains/harness-evolution/README.md`.

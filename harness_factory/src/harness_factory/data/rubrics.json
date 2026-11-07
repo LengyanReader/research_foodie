@@ -332,6 +332,43 @@
       }
     ]
   },
+  "harness-evolution": {
+    "title_en": "Harness evolution quality",
+    "title_zh": "Harness 演化质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "signal-coverage",
+        "zh": "信号覆盖",
+        "weight": 0.2
+      },
+      {
+        "dim": "audit-rigor",
+        "zh": "审计严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "mutation-safety",
+        "zh": "变异安全",
+        "weight": 0.2
+      },
+      {
+        "dim": "journal",
+        "zh": "日志完整",
+        "weight": 0.15
+      },
+      {
+        "dim": "holdout",
+        "zh": "留出测量",
+        "weight": 0.15
+      },
+      {
+        "dim": "rollback",
+        "zh": "可回滚",
+        "weight": 0.1
+      }
+    ]
+  },
   "engineering": {
     "title_en": "Engineering quality",
     "title_zh": "工程质量",

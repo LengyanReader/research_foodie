@@ -54,6 +54,7 @@
 | safety-argumentation | ai-safety-domain discipline made plan-visible | P29 ai-safety L0-L5 · `review/interdisciplinary-frontier-domains-2026-10.md` · P52 distillation: `review/capability-expansion-2026-10.md` |
 | M3.18 | judge/verifier robustness before gating | `[R263]` (self-preference bias, perplexity artifact) · `[R264]` (RLVR gaming verifiers, IPT audit) · `[R265]` (Reward Hacking Benchmark) · `[R246]` (LHTB replay-based grading) | P39 distillation: `review/judge-robustness-2026-10.md` |
 | M3.19 | benchmark task validity + outcome validity | `[R269]` (ABC: 33% overestimation removed; isolation and grader failures) | P43 distillation: `review/frontier-sweep-2026-10-28.md` |
+| M3.20 | observe the running system (SLI/SLO, symptom alerts, runbook, blameless postmortem) | Google SRE Book *Service Level Objectives* (sre.google, linked 2026-11-07); DORA *Accelerate* delivery metrics (dora.dev, linked 2026-11-07) | P78 distillation: capability `service-reliability-discipline` |
 | M2 Externalized memory; M5 skill-library persistence | `review/harness-catalog.md` §4–3e (MemGPT/Letta, Mem0, Zep, A-MEM; Voyager skill library) | practitioner |
 | Self-evolution safety (admission/authority/scope/containment) | `review/harness-catalog.md` §8 (SAVER, Misevolution) | practitioner |
 | M6 Tools & skills (minimal toolset, progressive skills) | huayan `harness/tools.md`, `skills.md`; Anthropic Agent Skills posts; Openharness skill patterns | internal + practitioner |
@@ -66,6 +67,7 @@
 | M6.10 Skills are versioned, reusable methods loaded index-first (progressive disclosure) | Agent Skills open standard (agentskills.io; tracked as `agentskills` in `data/sources.json`, verified 2026-10-15 — Discovery → Activation → Execution) | vendor docs |
 | M6.11 Exposure is not authorization; a "sandbox" claim names its backend | OpenAI Agents SDK docs `[R241]` `[R242]` (read 2026-10-20: capability callbacks "cannot authorize a model-generated argument or resource selection"; sessions "do not themselves guarantee OS-level confinement") | vendor docs | · P49 adds `[R271]` (ACS: modify-disposition argument scoping, deterministic-first; fail-open default as the caution)
 | M7.10 Every governing change is a reviewable, attributable diff with a rollback path | Conventional Commits spec (conventionalcommits.org, linked from workspace `AGENTS.md` §4); Temporal durable execution `[R90]` (state journaled and replayable — the rollback substrate) | practitioner + academic |
+| M7.11 Release the verified artifact; infrastructure is a reviewable, drift-checked source | SLSA v1.0 build provenance (slsa.dev, linked 2026-11-07); Terraform language docs on state and drift (developer.hashicorp.com/terraform, linked 2026-11-07) | practitioner + official docs |
 | M8.11 Handoff passes through artifacts, not memory | Anthropic "Building effective agents" `[R93]` (handoffs: pass the distilled result, not the recollection) | practitioner | · P42 adds `[R266]` (A2A artifacts-not-messages, terminal-vs-interrupted states) and `[R250]` (Agent Teams file-locked task states)
 
 ---

@@ -189,11 +189,11 @@
       "data-science": "ML 工程"
     }
   },
-  "devops": {
-    "faculty": "engineering",
-    "title_en": "DevOps / meta",
-    "name_zh": "运维与元域",
-    "summary": "Harness self-evolution and change control",
+  "harness-evolution": {
+    "faculty": "meta",
+    "title_en": "Harness evolution / change control",
+    "name_zh": "Harness 演化与变更治理",
+    "summary": "Signal -> audit -> mutation -> journal for the harness itself",
     "workflow": [
       "Collect signals",
       "Audit",
@@ -204,31 +204,77 @@
     "artifact": "code",
     "grounding": "preferred",
     "signals": [
+      "harness evolution",
+      "self-evolve",
+      "self-improvement",
+      "capability cycle",
+      "signal audit",
+      "mutation journal",
+      "变更治理",
+      "自我演化",
+      "能力轮次",
+      "演化审计"
+    ],
+    "overlaps": {
+      "devops": "harness 自身的演化 vs 交付运维",
+      "research": "研究循环",
+      "software-engineering": "代码变更"
+    }
+  },
+  "devops": {
+    "faculty": "engineering",
+    "title_en": "DevOps / platform operations",
+    "name_zh": "DevOps / 平台运维域",
+    "summary": "Deliver, observe and run software safely: CI/CD, SRE, and infrastructure as code",
+    "workflow": [
+      "Build once",
+      "Gate the artifact",
+      "Promote by environment",
+      "Observe SLI/SLO",
+      "Incident & rollback",
+      "Postmortem & improve"
+    ],
+    "artifact": "code",
+    "grounding": "preferred",
+    "signals": [
       "deploy",
+      "deployment",
       "ci",
+      "ci/cd",
+      "continuous integration",
+      "continuous delivery",
       "pipeline",
       "infra",
+      "infrastructure",
       "ops",
       "运维",
       "部署",
       "devops",
+      "platform engineering",
       "incident",
       "postmortem",
       "on-call",
+      "runbook",
       "kubernetes",
       "docker",
       "terraform",
+      "drift detection",
       "monitoring",
       "observability",
       "sre",
+      "slo",
+      "sli",
+      "canary",
       "线上",
       "线上服务",
       "故障",
+      "复盘",
       "告警"
     ],
     "overlaps": {
       "software-engineering": "部署与运维",
-      "engineering": "基础设施"
+      "engineering": "基础设施",
+      "harness-evolution": "交付运维 vs harness 自身演化"
     }
   },
   "engineering": {
