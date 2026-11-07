@@ -2,6 +2,17 @@
 
 **Updated:** 2026-11-07
 
+## 2026-11-07 · P76：信号边界 + 可靠性轮 —— ci/citations 词首误命中修复 · emission 路由提示 · 真方差试验（诚实的零结果）
+
+- **用户指令。** 「继续吧」（承接 P75 提出的两个方向：R2 收尾 + agent-eval-reliability 真方差试验）。
+- **检测改变计划（两次）。** ① 分解并集（R2 part B）：12 个复合探针**零组双强域（≥2×≥2）**——没有激励案例，不建（YAGNI，反泄露风险不值）。② R1 的 emission 路由提示**暴露了一个真 bug**：devops 缩写信号 `ci` 以**词首**命中 "citations"，把 devops 记到文献综述任务上（P55 词首规则挡得住词中、挡不住词首前缀）。
+- **信号边界修复。** `_sig_hit`：≤3 字符 ASCII 信号加词尾 lookahead + 复数容差 s（"bugs" 仍中 "bug"）；11 例边界矩阵全绿；lit-review 的 runner-up 不再是 devops。
+- **R1 收尾（emission 级）。** 无声明交叉但窄胜（margin ≤ 1）时，emitted AGENTS.md 渲染 `Routing note · 路由提示`（点名 runner-up，建议核对另一半）；宽胜保持沉默。两分支均以真实 `init` emission 验证。
+- **真方差试验（电池最后一族升级）。** SPEC.md + 判分器（10 条隐藏测试）**先于尝试预声明**（M5.13/M3.19）；同一任务（chunk_equal）× 3 次独立采样 × 双条件。**pass^3 = 1.0 双臂、pass@1 = 1.0 双臂——实例不区分条件**，按观察记录（M5.11），不做修饰。方差为真：6 个 solution 哈希全异、每臂三条实现路径互异。诚实边界：同会话同模型采样方差；跨会话/跨模型与区分性实例留下一轮。回执走 trace API 按条件分组（harvest 的 manifest 哈希会破坏 passk 分组——已记录）。
+- **电池注册表。** agent-eval-reliability：control_arm=none 移除（真双臂）· 数值化 1.0/1.0 · trial_projects → p76-reliability（P67 确定性检验留档 traces）· round=P76。代谢对账干净。
+- **测试。** 553 → **556 全绿**；`cycle audit`：**72 轮 · 52 路线图项 · 0 硬问题 · 0 缺口**。
+
+
 ## 2026-11-07 · P75：路由边际与交叉域轮 —— R1 落地 · R2 重新定性（补数据而非改算法）· 端到端 emission 模拟
 
 - **用户指令。** 「请进行足够的检测，充实，调整和模拟测试」（针对 P74 的 R1/R2 建议）。

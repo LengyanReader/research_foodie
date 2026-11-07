@@ -261,12 +261,20 @@ def _sig_hit(signal: str, text: str) -> bool:
     missing the task that literally said devops. Latin signals must begin a word
     (inflections still match: ``deploy`` matches "deployment"); CJK and multi-word
     signals stay plain substrings, since Chinese has no word spaces.
+
+    P76: word-start alone still lets a short acronym match any word that merely
+    *begins* with it — ``ci`` matched "citations", putting devops on a
+    literature-review task. Signals of <= 3 chars are acronyms, so they also
+    require a word end ("ci pipeline" matches, "citations" does not), with an
+    optional plural "s" ("bugs" still matches ``bug``); longer signals keep the
+    inflection-friendly word-start rule.
     """
     if not signal.isascii() or " " in signal or "-" in signal:
         return signal in text
     pattern = _SIG_RES.get(signal)
     if pattern is None:
-        pattern = re.compile(r"(?<![a-z0-9])" + re.escape(signal))
+        tail = r"s?(?![a-z0-9])" if len(signal) <= 3 else ""
+        pattern = re.compile(r"(?<![a-z0-9])" + re.escape(signal) + tail)
         _SIG_RES[signal] = pattern
     return pattern.search(text) is not None
 

@@ -243,7 +243,24 @@ def _context(plan: HarnessPlan, params: dict[str, Any]) -> dict[str, Any]:
             + "\n"
         )
     else:
-        secondary_domains_stanza = ""
+        # P76 (R1 completion): with no declared intersection the emission used to
+        # carry no routing evidence at all. A narrow win (margin <= 1) is exactly
+        # the case where the agent should consult the runner-up before trusting
+        # the playbook; a wide win stays silent (no noise for confident routes).
+        from .classify import domain_scores as _ds
+
+        _scores = _ds((plan.task.text or "").lower())
+        if len(_scores) > 1 and _scores[0][1] - _scores[1][1] <= 1:
+            top, ru = _scores[0], _scores[1]
+            secondary_domains_stanza = (
+                "## Routing note · 路由提示\n\n"
+                f"No declared intersection, but the win is narrow: **{top[0]} ({top[1]})** over "
+                f"runner-up **{ru[0]} ({ru[1]})**. Before committing to the playbook below, check "
+                f"whether the task's other half is really {ru[0]} — if it is, say so in "
+                "tasks/PLAN.md and pull that domain's workflow in explicitly.\n"
+            )
+        else:
+            secondary_domains_stanza = ""
     evidence_instrument = _evidence_instrument(plan)
     workflow = domain_meta.get("workflow", [])
     workflow_list = "\n".join(f"{i + 1}. {step}" for i, step in enumerate(workflow))

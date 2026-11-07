@@ -1971,6 +1971,31 @@
         "P75.6 - assessment report §7 addendum with honest re-scoring (D3 8.0->8.5, D4 5.0->5.5, overall 7.0->7.2); catalog/pages regen; AGENTS.md count 553"
       ],
       "note": "User asked for 检测/充实/调整/模拟测试 on the P74 recommendations. Testing first changed the design: R2 was re-scoped from 'build multi-hop mode' to 'add the missing declared-overlap data' because P31's union engine already existed and the algorithm was right — the data was incomplete. R1 (margin visibility) landed in both CLI modes. The anti-leak property (generic-verb collisions must not surface as intersections) is now guard-pinned on both sides: the unit level (P75RouterMarginTest) and the emission level (init simulation with zero SE capability keywords). No capability/domain/clause additions: this round is routing-precision work, hence catalog_delta 0 despite the domains.json edit (overlaps are routing metadata, not catalog rows). Re-scores are conservative: D4 only +0.5 because the matchers remain single-hop by design."
+    },
+    {
+      "id": "P76",
+      "status": "done",
+      "date": "2026-11-07",
+      "title_en": "Signal-boundary + reliability round: acronym word-end fix, emission routing note, agent-eval-reliability genuine-variance trial",
+      "title_zh": "信号边界 + 可靠性轮：缩写词尾修复 · emission 路由提示 · agent-eval-reliability 真方差试验",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P76.1 - probe found the decomposition-union idea (R2 part B) has no motivating case: 12 compound probes produced zero double-strong (>=2 x >=2) domain pairs; not built (YAGNI + anti-leak risk unjustified)",
+        "P76.2 - probe found a real matching bug: the devops acronym signal ci matched 'citations' at word start, scoring devops on a literature-review task (P55's word-start rule stops inside-word hits but not word-initial prefixes)",
+        "P76.3 - fix: _sig_hit gives <=3-char ASCII signals a word-end lookahead with optional plural s (bugs still matches bug); 11-case boundary matrix green; lit-review runner-up no longer devops",
+        "P76.4 - R1 completed at the emission level: assemble renders a Routing note stanza when no declared intersection exists but the win is narrow (margin <= 1), naming the runner-up; wide wins stay silent; both branches verified via real init emissions",
+        "P76.5 - agent-eval-reliability genuine-variance trial (battery family upgraded from determinism-only): SPEC.md + judge/test_hidden.py + run_judge.py pre-declared BEFORE attempts (M5.13/M3.19); same task (chunk_equal) x 3 independently sampled attempts x both conditions; judge = 10 hidden tests on terminal state",
+        "P76.6 - results: pass^3 = 1.0 BOTH arms, pass@1 = 1.0 both - the instance does NOT discriminate (observed, M5.11); variance real (6 distinct solution hashes); receipts recorded via trace API with condition-grouped harness field; battery family upgraded to paired (control_arm removed, numeric results, trial_projects -> p76-reliability, round P76)",
+        "P76.7 - P76SignalBoundariesTest (3 guards: boundary matrix, lit-review exclusion, routing-note both branches); suite 553->556 green; AGENTS.md count 556"
+      ],
+      "note": "User said 继续 after P75 proposed R2-remainder or the reliability trial; both were taken. Honest findings over planned wins: (1) decomposition union not built - no probe case needs it; (2) the ci/citations bug was found BY the R1 work (the note exposed the false runner-up) and fixed with a boundary rule that preserves plural matching; (3) the reliability trial's headline is a null result - both arms hit pass^3=1.0 on a task too easy to separate conditions, recorded as an observation rather than massaged. The trial upgrades the last battery family from determinism-only to genuine (session-internal) variance; cross-session/cross-model variance and a discriminative instance remain the open worklist. Receipts: updates/dogfood/p76-reliability/ (SPEC + judge + 6 solutions + RECEIPTS.md)."
     }
   ],
   "roadmap": [

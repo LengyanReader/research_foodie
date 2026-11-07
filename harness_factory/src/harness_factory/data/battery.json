@@ -238,7 +238,6 @@
     },
     {
       "task_id": "agent-eval-reliability",
-      "control_arm": "none",
       "status": "done",
       "grounding": "pass^k reliability over repeated runs of a fixed task with environment-state grading, harness disclosed (τ-bench [R282] / ThinkingBox [R279] bar; OSWorld [R285] / Terminal-Bench [R289] state grading; HAL [R288] model x scaffold x benchmark + contamination)",
       "judge_checks": [
@@ -258,14 +257,14 @@
         "judge": "machine: per-receipt state check feeds pass^k = mean over tasks with n>=k of C(c,k)/C(n,k) (see harness passk). Insufficient n reads as 'not measurable' (M5.11/M5.12) - results are observed, never fabricated; judge_checks are pre-declared here before any run (M5.13)."
       },
       "trial_projects": [
-        "updates/dogfood/p67-reliability"
+        "updates/dogfood/p76-reliability"
       ],
       "results": {
-        "A-bare": "N/A (determinism test, no bare condition)",
+        "A-bare": 1.0,
         "B-harness": 1.0
       },
-      "round": "P67",
-      "notes": "Determinism test, not a variance test: 3 identical attempts (same heredoc input), all compile exit 0. Genuine variance requires independent model sessions (designed, deferred)."
+      "round": "P76",
+      "notes": "P76 genuine-variance run supersedes the P67 determinism run (updates/dogfood/p67-reliability: 3 identical heredoc inputs, all exit 0 - variance was zero by construction). P76: same task (chunk_equal per pre-declared SPEC.md) x 3 independent sampled attempts x both conditions, judge = 10 pre-declared hidden tests on terminal state (evaluator independent, M3.18). pass^3 = 1.0 BOTH arms, pass@1 = 1.0 both - the instance does NOT discriminate the conditions (observed, M5.11); variance is real (6 distinct solution hashes, three implementation paths per arm). Scope: same-session same-model sampling variance; cross-session/cross-model variance and a discriminative task instance remain open (next-round worklist)."
     },
     {
       "task_id": "comprehensive",

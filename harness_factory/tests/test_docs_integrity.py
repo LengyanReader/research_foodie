@@ -1622,6 +1622,58 @@ class P75RouterMarginTest(unittest.TestCase):
         self.assertEqual(leaked, set(), "software-engineering capabilities leaked into a philosophy task")
 
 
+class P76SignalBoundariesTest(unittest.TestCase):
+    """P76: short-acronym signals need word-END boundaries (ci matched
+    'citations', putting devops on a literature-review task), with plural
+    tolerance (bugs still matches bug); the R1 routing note reaches the
+    emission only on narrow wins (wide wins stay silent)."""
+
+    def test_acronym_boundary_matrix(self):
+        from harness_factory.classify import _sig_hit
+
+        cases = [
+            ("ci", "ci pipeline runs green", True),
+            ("ci", "literature review with citations", False),
+            ("doi", "resolve the doi first", True),
+            ("doi", "keep doing this", False),
+            ("bug", "fix the bugs", True),
+            ("bug", "buggy behavior", False),
+            ("bug", "submodule", False),
+            ("eeg", "eeg recording", True),
+            ("eeg", "eegs", True),
+            ("pcb", "pcb design", True),
+            ("pcb", "pcbuilder", False),
+        ]
+        bad = [(s, t, want, _sig_hit(s, t)) for s, t, want in cases if _sig_hit(s, t) != want]
+        self.assertEqual(bad, [], f"signal boundary mismatches: {bad}")
+
+    def test_lit_review_runner_up_is_not_devops(self):
+        from harness_factory.classify import domain_scores
+
+        scores = domain_scores("write a literature review with citations over several weeks".lower())
+        self.assertEqual(scores[0][0], "research")
+        self.assertNotIn("devops", [d for d, _ in scores],
+                         "the ci/citations false hit must stay dead")
+
+    def test_routing_note_only_on_narrow_wins(self):
+        from harness_factory.assemble import build_files
+        from harness_factory.classify import classify
+        from harness_factory.derive import derive
+        from harness_factory.spec import TaskSpec
+
+        def _stanza(text):
+            task = TaskSpec(text=text)
+            plan = derive(task, classify(task))
+            files = build_files(plan)
+            return files["AGENTS.md"]
+
+        narrow = _stanza("从认识论角度重构论证")
+        self.assertIn("Routing note", narrow, "a margin-1 win must surface the runner-up")
+        self.assertIn("software-engineering", narrow)
+        wide = _stanza("design a poster series with a distinct visual identity")
+        self.assertNotIn("Routing note", wide, "a wide win must stay silent (no noise)")
+
+
 class P73CognitiveLearningTest(unittest.TestCase):
     """P73 integrated Dupoux, LeCun & Malik (arXiv:2603.15381, R293) - a
     cognitive-science critique of static AI learning plus the A-B-M tri-system /
