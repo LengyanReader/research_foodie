@@ -275,6 +275,16 @@ def _has(text: str, keywords: list[str]) -> bool:
     return any(_sig_hit(k, text) for k in keywords)
 
 
+def _specificity(sig: str) -> int:
+    """P74: signal specificity weight (1 = generic, 2 = specific).
+
+    Multi-word English ("comparative politics") or a compound of 3+ hanzi
+    (认识论, 文献检索, 单元测试) marks discipline-specific vocabulary.
+    """
+    hanzi = sum(1 for ch in sig if "一" <= ch <= "鿿")
+    return 2 if " " in sig or hanzi >= 3 else 1
+
+
 def domain_scores(text: str) -> list[tuple[str, int]]:
     """Signal-score every domain, best first (``general`` excluded).
 
@@ -291,7 +301,14 @@ def domain_scores(text: str) -> list[tuple[str, int]]:
                 # P64: multi-word signals are more specific than single-word
                 # ones ("comparative politics" > "politics"); a compound hit
                 # counts as 2 so domain-specific vocabulary outvotes generics.
-                score += 2 if " " in sig else 1
+                # P74: Chinese has no spaces, so the space rule is blind to CJK
+                # specificity — a 3+-hanzi compound (认识论, 类型注解, 民族志) is
+                # a multi-morpheme discipline term while 2-char words (重构,
+                # 模型, 设计) are often generic. Hanzi-length mirrors the
+                # English multi-word rule; without it a specific academic term
+                # ties a generic verb and the tie-break misroutes (P74 probe:
+                # 认识论 vs 重构 → software-engineering).
+                score += _specificity(sig)
         if score > 0:
             scored.append((name, score))
     # Stable sort: ties keep the registry's insertion order (the historical

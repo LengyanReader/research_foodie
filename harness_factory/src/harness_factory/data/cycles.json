@@ -1923,6 +1923,30 @@
         "P73.4 - source-map M2.15 row; watchlist self-evolving-agents widened with meta-control/epistemic/autonomous-learning probes; P73CognitiveLearningTest guards; catalog/pages regen + cycle audit"
       ],
       "note": "User-supplied entry point arXiv:2603.15381 (*Why AI systems don't learn and what to do about it*, Emmanuel Dupoux, Yann LeCun, Jitendra Malik, 2026-03-16, cs.AI, CC BY 4.0; abs page read). A continuation of an interrupted session that had already drafted the landing. The paper is a cognitive-science critique: static LLMs + external scaffolding do not learn continuously/autonomously; it proposes a tri-system architecture - System A (learning from observation / JEPA-style latent world model), System B (active behavioral learning), System M (a meta-controller driven by intrinsic signals: prediction error, surprise, uncertainty, novelty - that dynamically arbitrates between observing and acting) - and the Evo-Devo (evolutionary-developmental) scaffolding thesis: organisms never start tabula rasa; evolution hardwires developmental scaffolds within which experience self-organizes safely. Harness mapping (two landed): the System-M principle becomes core/03 M2.15 epistemic meta-control (classify actions into pragmatic [state mutation, System B] vs epistemic [uncertainty reduction, System A]; on high-surprise divergence interrupt blind pragmatic retries and force an epistemic observation step before further mutation), and the whole library gains an Evo-Devo justification (the harness is the computational developmental scaffold, not an embarrassing workaround). STRICT BOUNDARY (M0.4/P15): the paper's foundational contribution is base-model training + world models + sensorimotor simulation - none is fabricated here (no JEPA trainer, no latent predictive loss, no simulator); the absorbed value is structural/methodological only. Discovery surface widened so full-update re-finds the autonomous-learning/meta-control line. Reference R293 registered (§AH); survey review/cognitive-autonomous-learning-2026-11.md authored and surfaced on the dashboard."
+    },
+    {
+      "id": "P74",
+      "status": "done",
+      "date": "2026-11-07",
+      "title_en": "Search & routing capability assessment: five-dimension scores + two root-caused routing defects fixed",
+      "title_zh": "搜索与路由能力评估：五维评分 + 两个根因修复的路由缺陷",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P74.1 - five-dimension probe run on this machine: language (en 348 / zh 216 signals, none for other languages), domain (19/34 domain-keyed capabilities), accuracy (12-case short probe: 10/12 pre-fix), depth (all five pipeline stages single-hop), breadth (221 catalog / 259 sources / R1-R293)",
+        "P74.2 - fix 1: CJK specificity weighting in classify.py (_specificity: >=3 hanzi scores 2, mirroring the English multi-word rule) — P65's space-based rule was blind to Chinese, letting generic 重构 tie specific 认识论 and misroute to software-engineering",
+        "P74.3 - fix 2: 知识图谱/知识本体 signals added to digital-humanities (bare KG tasks no longer fall to general; single ownership preserved vs knowledge-management's 知识库); both probes pinned as standing battery cases (battery 44→46)",
+        "P74.4 - registry contract conflict resolved honestly: control_arm=none declared for the agent-eval-reliability determinism family; validate_battery waives numeric A-bare (no fabricated 0.0, M0.4); reconcile receipts one-armed determinism bindings via receipted_projects; reverted the working tree's half-finished battery.json edit that inserted A-bare 0.0",
+        "P74.5 - review/search-capability-assessment-2026-11.md authored (five-dimension scores, overall 7.0/10, recommendations R1 confidence margin / R2 multi-hop derive mode / language and breadth boundaries); wired into pages.ARTICLES; catalog/pages regen; AGENTS.md count 548→549",
+        "P74.6 - synthetic regression test_control_arm_none_receipted_by_one_arm added to P67RegistryMetabolismTest"
+      ],
+      "note": "User asked: 全面评估一下目前的搜索能力是否足够完善，能否做到在各种语言，领域等方面都能达到足够的准确度，深度，广度，等等各个评估维度评分. The evaluation is the deliverable (review/search-capability-assessment-2026-11.md); the two probe-caught defects were fixed at root in the same round rather than left as findings. The CJK weighting fix changes scoring for 68 zh signals (>=3 hanzi now score 2); the standing battery's expectations were designed with routing intent and all still pass, so the reweighting corrected only genuinely tied cases. The registry fix supersedes the uncommitted battery.json edit found in the working tree (which both broke validate_battery and fabricated a placeholder A-bare=0.0 — reverted). Scores: language 7.0, domain 7.5, accuracy 8.0, depth 5.0 (structural, single-hop by design), breadth 8.0; overall 7.0 with named recommendations R1/R2 for the depth gap."
     }
   ],
   "roadmap": [

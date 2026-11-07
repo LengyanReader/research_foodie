@@ -238,6 +238,7 @@
     },
     {
       "task_id": "agent-eval-reliability",
+      "control_arm": "none",
       "status": "done",
       "grounding": "pass^k reliability over repeated runs of a fixed task with environment-state grading, harness disclosed (τ-bench [R282] / ThinkingBox [R279] bar; OSWorld [R285] / Terminal-Bench [R289] state grading; HAL [R288] model x scaffold x benchmark + contamination)",
       "judge_checks": [

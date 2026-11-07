@@ -59,6 +59,11 @@ BATTERY = [
     ("build the safety case for this alignment claim: state the threat model, run red-team capability evals", "ai-safety", "safety-argumentation"),
     ("draft a project plan with the research questions we should pursue", "research", "research-question-generation"),
     ("为我们的智能体记忆研究起草提案，提出值得研究的问题清单，注明来源", "general", "research-question-generation"),
+    # short-probe edges (P74): the battery above uses multi-signal sentences;
+    # these one-signal phrasings pin the CJK specificity weighting (认识论 must
+    # outvote the generic 重构) and bare 知识图谱 ownership.
+    ("构建知识图谱并注明来源", "digital-humanities", "ontology-as-contract"),
+    ("从认识论角度重构论证", "philosophy", "argument-reconstruction"),
     # intent edges (P36 regressions)
     ("write a literature review with citations over several weeks", "research", None),  # weeks -> multi_session, review != human_review
 ]

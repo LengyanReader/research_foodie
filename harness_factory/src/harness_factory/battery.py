@@ -84,9 +84,19 @@ def validate_battery(board: dict[str, Any] | None = None) -> list[str]:
             problems.append(f"{tid}: judge_checks must be declared before execution (M5.13)")
         if status == "done":
             results = fam.get("results") or {}
-            for cond in ("A-bare", "B-harness"):
-                if not isinstance(results.get(cond), (int, float)):
-                    problems.append(f"{tid}: done family missing numeric results.{cond}")
+            # P74: a determinism test has no bare condition to run — requiring a
+            # numeric A-bare would force fabricating a 0.0 (M0.4). Declare
+            # "control_arm": "none" instead and the bare check is waived; the
+            # harness arm stays numeric regardless.
+            control_arm = fam.get("control_arm")
+            if control_arm == "none":
+                if "A-bare" not in results:
+                    problems.append(f"{tid}: control_arm=none requires an explicit results.A-bare entry (use the string \"N/A ...\")")
+            else:
+                if not isinstance(results.get("A-bare"), (int, float)):
+                    problems.append(f"{tid}: done family missing numeric results.A-bare (or declare control_arm=none)")
+            if not isinstance(results.get("B-harness"), (int, float)):
+                problems.append(f"{tid}: done family missing numeric results.B-harness")
             if not fam.get("round"):
                 problems.append(f"{tid}: done family missing the round that ran it")
         if status == "pending" and not fam.get("spec"):
@@ -120,6 +130,20 @@ def paired_projects(traces_lines: list[dict[str, Any]]) -> set[str]:
     return {p for p, c in conds.items() if {"A-bare", "B-harness"} <= c}
 
 
+def receipted_projects(traces_lines: list[dict[str, Any]]) -> set[str]:
+    """P74: projects with at least one task_outcome receipt (any condition).
+
+    The one-armed counterpart of :func:`paired_projects`, used for
+    ``control_arm=none`` (determinism) families whose receipts are
+    B-harness-only by design.
+    """
+    out: set[str] = set()
+    for line in traces_lines:
+        if line.get("event") == "task_outcome" and line.get("project"):
+            out.add(_norm_path(line.get("project", "")))
+    return out
+
+
 def reconcile(board: dict[str, Any] | None = None,
               traces_lines: list[dict[str, Any]] | None = None) -> dict[str, list[str]]:
     """Bidirectional registry<->receipts metabolism (P67).
@@ -133,6 +157,7 @@ def reconcile(board: dict[str, Any] | None = None,
     """
     board = board or load_battery()
     declared: set[str] = set()
+    determinism: set[str] = set()
     for fam in board.get("families") or []:
         if fam.get("status") == "pending":
             # P70: a pending family names a *planned* trial_project, not one that
@@ -141,10 +166,18 @@ def reconcile(board: dict[str, Any] | None = None,
             continue
         for proj in fam.get("trial_projects") or []:
             declared.add(_norm_path(proj))
+            # P74: a control_arm=none family (determinism test) has no bare arm
+            # by design, so it can never show the BOTH-condition receipts that
+            # paired_projects demands. Its binding is receipted by any
+            # task_outcome instead — still trace-verified, just one-armed.
+            if fam.get("control_arm") == "none":
+                determinism.add(_norm_path(proj))
     paired = paired_projects(traces_lines or [])
+    receipted = receipted_projects(traces_lines or [])
     return {
         "unregistered_trials": sorted(paired - declared),
-        "declared_without_receipts": sorted(declared - paired),
+        "declared_without_receipts": sorted((declared - determinism) - paired
+                                            | (determinism - receipted)),
     }
 
 

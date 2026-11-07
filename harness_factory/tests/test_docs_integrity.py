@@ -1291,6 +1291,28 @@ class P67RegistryMetabolismTest(unittest.TestCase):
         rec = battery.reconcile(board, lines)
         self.assertIn("updates/dogfood/p99-mystery", rec["unregistered_trials"])
 
+    def test_control_arm_none_receipted_by_one_arm(self):
+        """P74: a determinism family (control_arm=none) is receipted by
+        B-harness-only traces; without the traces it still flags."""
+        from harness_factory import battery, trace
+
+        lines = [
+            trace.make_trace("task_outcome", project="updates/dogfood/p67-reliability",
+                             task="reliability-attempt-1", harness="h",
+                             detail={"judge": "machine", "score": 1.0, "scale": [0, 1],
+                                     "condition": "B-harness"}),
+        ]
+        det = {"task_id": "agent-eval-reliability", "status": "done",
+               "control_arm": "none",
+               "trial_projects": ["updates/dogfood/p67-reliability"]}
+        rec = battery.reconcile({"families": [det]}, lines)
+        self.assertNotIn("updates/dogfood/p67-reliability", rec["declared_without_receipts"],
+                         "one-armed determinism receipts must satisfy the binding")
+        rec = battery.reconcile({"families": [det]}, [])
+        self.assertEqual(rec["declared_without_receipts"], ["updates/dogfood/p67-reliability"])
+        # and the receipts must NOT read as an unregistered paired trial
+        self.assertEqual(rec["unregistered_trials"], [])
+
     def test_real_traces_reconcile_clean(self):
         import os
         from harness_factory import battery, config, trace

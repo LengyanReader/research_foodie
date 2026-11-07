@@ -60,6 +60,7 @@ ARTICLES: list[tuple[str, str, str]] = [
     ("文献库索引 R1–R293", "Reference index · numbered literature", "references.md"),
     ("AI Agent 能力前沿深度分析 · 2026-11", "Deep analysis: the agent capability frontier", "ai-landscape-analysis-2026-11.md"),
     ("认知自主学习与 Evo-Devo 支架 · 2026-11", "Cognitive autonomous learning & the Evo-Devo scaffold (P73)", "cognitive-autonomous-learning-2026-11.md"),
+    ("搜索与路由能力评估 · 2026-11", "Search & routing capability assessment, five dimensions (P74)", "search-capability-assessment-2026-11.md"),
 ]
 
 #: P68 tool-stack families (survey ai-tool-stack-scan-2026-11.md F1-F7) -> members.
