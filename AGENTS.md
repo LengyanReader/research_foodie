@@ -65,7 +65,7 @@ docs/index.html             GENERATED — the browsable Pages dashboard (`harnes
 ## 4. Quality gates
 
 - **Test gate:** `PYTHONPATH=src python -m unittest discover -s tests` from `harness_factory/`
-  (当前 **564** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
+  (当前 **566** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
 - Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
   The whole suite is discoverable only from inside `harness_factory/`; running discovery from the repo
   root does not put `src/` on the path and fails at import.

@@ -1676,6 +1676,40 @@ class P76SignalBoundariesTest(unittest.TestCase):
         self.assertNotIn("Routing note", wide, "a wide win must stay silent (no noise)")
 
 
+class P80ModelAxisTrialTest(unittest.TestCase):
+    """P80: the receipt model axis (P79.R4) lands end-to-end — harvest --model
+    writes trace.model={id,surface} (the R288/HAL model-x-scaffold idiom) — and
+    the citation-resolution discriminative instance is registered as done with
+    both arms' numeric results."""
+
+    def test_model_axis_roundtrip(self):
+        from harness_factory import trace
+
+        line = trace.make_trace(
+            "task_outcome", project="p//test", task="t", harness="h",
+            model={"id": "glm-5.3-flash (zai-start-plan)", "surface": "zcode-session"},
+            detail={"judge": "machine", "score": 1.0, "scale": [0, 1]},
+        )
+        self.assertEqual(line["model"]["id"], "glm-5.3-flash (zai-start-plan)")
+        self.assertEqual(line["model"]["surface"], "zcode-session")
+        # and without the flag the axis is absent (never guessed)
+        bare_line = trace.make_trace(
+            "task_outcome", project="p//test", task="t", harness="h",
+            detail={"judge": "machine", "score": 1.0, "scale": [0, 1]},
+        )
+        self.assertNotIn("model", bare_line, "the model axis must be explicit, never inferred")
+
+    def test_citation_resolution_family_registered_done(self):
+        data = json.loads((HARNESS / "src/harness_factory/data/battery.json")
+                          .read_text(encoding="utf-8"))
+        fam = next(f for f in data["families"] if f["task_id"] == "citation-resolution")
+        self.assertEqual(fam["status"], "done")
+        self.assertEqual(fam["results"], {"A-bare": 0.0, "B-harness": 1.0})
+        self.assertEqual(fam["round"], "P80")
+        self.assertIn("updates/dogfood/p80-citation-resolution", fam["trial_projects"])
+        self.assertIn("v1 (window-grab bug", fam["notes"], "the judge-erratum trail must be recorded in the registry")
+
+
 class P77TrendWeeklyTest(unittest.TestCase):
     """P77: the trend pipeline upgrades (per-cluster discriminator scoring,
     per-source cap, hex-noise penalty, weekly delta) and the weekly review

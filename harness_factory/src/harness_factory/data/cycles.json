@@ -2077,6 +2077,31 @@
         "P79.5 - tasks/TREND.md issue-2 table row; suite green; cycle audit clean; commit without push"
       ],
       "note": "Second weekly cycle. Renumbered P77-planned P78 -> P79 because a parallel session took P78 for the devops-domain capability slice (e8c4c71). The DeepSeek assessment the user attached is recorded in the review's section 4 with a four-part verdict: evidence-level integration correct; feed anchors stale (P79.R1); zero model-specific testing is a design boundary not an oversight, but the receipt model axis should be structured (P79.R4); V4's cheap long context loosens M1.11's premise and goes in as a scope-note proposal (P79.R3). All action items are proposals - nothing in data|core|domains|templates was touched directly. Untracked parallel-session artifacts (.arts/.kilo/resources) left alone."
+    },
+    {
+      "id": "P80",
+      "status": "done",
+      "date": "2026-11-09",
+      "title_en": "Evaluation round: receipt model axis (P79.R4) + citation-resolution discriminative paired trial (bare 0.0 vs harness 1.0)",
+      "title_zh": "评测轮：收据 model 轴（P79.R4）+ citation-resolution 区分性配对试验（bare 0.0 vs harness 1.0）",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P80.1 - P79.R4 landed: harvest --model MODEL_ID[@SURFACE] writes trace.model={id,surface} (the R288/HAL model-x-scaffold idiom); schema already had the field, the entry point and convention were missing",
+        "P80.2 - P79.R1 proposal validated against reality: DeepSeek-V4 releases feed is 404 (does not exist), V3/R1 feeds live-but-stale (200, 1 old entry each) - the re-anchor proposal must be revised to a non-repo source (API news feed) before it can land",
+        "P80.3 - P79.R2 probes measured on the real 3201-item corpus: FlashMLA/DeepEP/3FS/DSA = 0 hits, DeepInfer 1, sparse attention 5, KV cache 4 - safe to add (no false-positive flood), yield depends on new anchors; confirms the coverage defect from a second angle",
+        "P80.4 - citation-resolution discriminative paired trial (worklist item): SPEC + answer key + judge pre-declared before execution; 5-file synthetic corpus with a planted unresolvable citation C6 graded on DISCIPLINE; A-bare one-shot from memory vs B-harness source-read discipline",
+        "P80.5 - results: bare 0.0 vs harness 1.0 - all five bare errors plausible-wrong specifics (1500 vs 1200 ms, depth 3 vs 2, SE-3 vs SE-4, B=0.5 vs 0.6, LEDGER-v2 vs v1) and the trap confidently resolved to the nearest-sounding source; harness passed the trap by marking unverified",
+        "P80.6 - judge erratum trail per pre-declared protocol: v1 window-grab bug graded the harness intro block (0.8333), fixed to block grading and BOTH conditions re-graded (v2), then block-key fix (v2.1); lesson re-confirmed (P50/P65 precedent): validate the judge's interface assumptions against the graded artifact's actual format",
+        "P80.7 - battery family citation-resolution registered done (16/16); FIRST receipts with the structured model axis; synthetic guards P80ModelAxisTrialTest (axis round-trip + never-inferred + family registration); suite 564 green"
+      ],
+      "note": "User asked for full evaluation/testing/simulation/experiments after the P79 DeepSeek assessment. The round converted the assessment's testable items into evidence: the model axis landed and was used by its first receipts in the same session; the feed-re-anchor proposal was tested against reality and REVISED (V4 repo feed does not exist - honest proposal correction before it wastes a human-gate review); the probes were precision-tested on the real corpus; and the standing worklist's discriminative reliability instance was designed, pre-declared, executed and registered - closing the 'instance does not discriminate' gap P76 left open. The judge-bug journey (v1->v2.1) is itself a battery-quality datapoint: the pre-declared both-conditions-regrade protocol worked as designed."
     }
   ],
   "roadmap": [

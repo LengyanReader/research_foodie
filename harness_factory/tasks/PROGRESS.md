@@ -2,6 +2,17 @@
 
 **Updated:** 2026-11-09
 
+## 2026-11-09 · P80：评测轮 —— 收据 model 轴落地 · 提案对现实校准 · citation-resolution 区分性试验（bare 0.0 vs harness 1.0）
+
+- **用户指令。** 「请进行充分的评测，测试，模拟和实验」——把 P79 DeepSeek 评估的可测项转化为证据。
+- **P79.R4 落地。** `harvest --model MODEL_ID[@SURFACE]` → `trace.model={id,surface}`（R288/HAL model×scaffold 披露习语）；schema 早有字段，缺的是入口与惯例；守卫钉「缺省绝不推断」。同会话产生**首批带 model 轴的收据**。
+- **提案对现实校准（先测再提）。** P79.R1 实测：DeepSeek-V4 releases feed **404**（不存在），V3/R1 feed 活但旧（各 1 条旧目）——重锚提案修订为「追加 DeepSeek API news 源」而非换 V4 仓锚；P79.R2 探针在 3,201 条真实语料实测：FlashMLA/DeepEP/3FS/DSA 全 0 命中、sparse attention 5、KV cache 4——**可加（无假阳性），产出依赖新锚点**，从第二角度确证覆盖缺陷。
+- **citation-resolution 区分性试验（工作清单项，P76「不区分」缺口的补位）。** SPEC+答案键+判分器先于执行预声明；5 文件合成语料 + 圈套引文 C6（按**纪律**判分：解析到源=0，标注 unverified=1）。结果 **bare 0.0 vs harness 1.0**：bare 五错全是「貌似合理的具体错误」（1500/1200 ms · 深度3/2 · SE-3/SE-4 · B=0.5/0.6 · LEDGER-v2/v1），圈套被自信解析到最近主题源；harness 全指针 + 圈套按纪律标注。**工作清单的「幻觉模式」被精确捕获。**
+- **判分器勘误链（预声明协议生效）。** v1 窗口分段误抓 harness 序言块（0.8333）→ 按协议修 v2 块式分段**双条件全部重判** → v2.1 修块键。P50/P65 教训三度确认：判分者接口假定必须先对被测物实际格式验证。
+- **电池。** citation-resolution 注册 done（**16/16**）；notes 记录判分器勘误链与 model 轴首用。
+- **测试。** 564 → **566 全绿**（P80ModelAxisTrialTest 2 条）；`cycle audit`：**76 轮 · 0 硬问题 · 0 缺口**；AGENTS.md 计数 566。
+
+
 ## 2026-11-09 · P79：趋势周报第二期 —— 复现制度化 · 记忆/蜂群论文 · DeepSeek 整合专评
 
 - **触发。** 周一自动化例行（用户附带指令：全面更新升级进化 + 评估 DeepSeek 类 harness 能力的整合与测试现状）。

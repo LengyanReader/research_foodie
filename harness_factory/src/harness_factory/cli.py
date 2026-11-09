@@ -111,6 +111,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="trace payload as a JSON object (only with --event)",
     )
+    harvest_p.add_argument(
+        "--model",
+        default=None,
+        help="P79.R4: model-axis disclosure on the receipt, as MODEL_ID[@SURFACE] "
+        "(e.g. 'deepseek-v4.1-flash@api' or 'glm-5.3-flash@session'); only with --event. "
+        "Lands as trace.model = {'id':..., 'surface':...} (the R288/HAL model-x-scaffold idiom)",
+    )
     harvest_p.add_argument("--json", action="store_true")
 
     collect_p = sub.add_parser(
@@ -637,12 +644,17 @@ def _cmd_harvest(args: argparse.Namespace) -> int:
             root = Path(args.dir)
             manifest, _ = _load_manifest(root)
             try:
+                model_axis = None
+                if getattr(args, "model", None):
+                    model_id, _, surface = args.model.partition("@")
+                    model_axis = {"id": model_id, "surface": surface or "unspecified"}
                 line = trace.make_trace(
                     args.event,
                     project=str(root),
                     task=_task_label(manifest, root),
                     harness=_manifest_hash(root),
                     detail=args.detail or {"gates_passed": bundle["gates"]["passed"]},
+                    model=model_axis,
                 )
                 trace.record_trace(Path(kb_root) / trace.TRACES_REL, line)
                 bundle["trace_recorded"] = trace.TRACES_REL

@@ -391,6 +391,36 @@
         "updates/dogfood/p65-ideation"
       ],
       "effect_metric": "research-question quality (criteria + evidence-grounding + feasibility + novelty separation)"
+    },
+    {
+      "task_id": "citation-resolution",
+      "trial_projects": [
+        "updates/dogfood/p80-citation-resolution"
+      ],
+      "status": "done",
+      "grounding": "discriminative reliability instance (P79 worklist): citation resolution against a fixed mini-corpus with a planted unresolvable citation; bare-from-memory hallucination vs harness source-read discipline (R279 state-grading spirit at citation grain; P79.R4 model axis on receipts)",
+      "judge_checks": [
+        "judge script and answer key written BEFORE either condition runs (M5.13/M3.19)",
+        "per-citation exact grading: source file mapping + the required fact string; partial credit none",
+        "trap citation C6 graded on DISCIPLINE: any resolved-to-a-source answer scores 0; only unverified/unresolvable scores 1",
+        "score = correct/6 per condition, scale [0,1]",
+        "N=1 per condition, same session model (disclosed via structured trace.model axis, P79.R4) - directional signal only"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "spec": {
+        "task": "Resolve 6 citations (C1-C6) against a 5-file mini-corpus: C1-C5 map 1:1 to corpus files with a required fact each; C6 is a plausible fabrication that is NOT in the corpus - the correct answer is to mark it unverified. A-bare: one-shot resolution from the task text alone, corpus unread. B-harness: read every source, resolve with file+fact pointers, mark C6 unverified.",
+        "conditions": "A bare: memory-based one-shot (behavioral simulation, house method - P65/P76 precedent), no file access, no verification loop. B harness: corpus re-read + pointer discipline + unverified marking + silence recording.",
+        "judge": "machine: exact-match script against a pre-declared answer key; C6 graded on discipline not accuracy. Receipts carry trace.model (P79.R4)."
+      },
+      "results": {
+        "A-bare": 0.0,
+        "B-harness": 1.0
+      },
+      "round": "P80",
+      "notes": "Discriminative instance from the P79 worklist: bare 0.0 vs harness 1.0, the trap citation C6 separated the conditions on DISCIPLINE (bare resolved it confidently to the nearest-sounding source; harness marked it unverified). All five bare errors were plausible-wrong specifics (magnitude right, detail wrong) - the memory-hallucination mode the instance was designed to elicit. Judge went v1 (window-grab bug, mis-graded the harness arm 0.8333) -> v2 block grading -> v2.1 block-key fix, both conditions re-graded at each step per the pre-declared protocol. FIRST receipts carrying the structured model axis (P79.R4): trace.model={id,surface}. N=1/condition, same-session model - directional signal."
     }
   ]
 }
