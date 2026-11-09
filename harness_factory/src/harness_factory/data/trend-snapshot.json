@@ -1,14 +1,14 @@
 {
-  "generated": "2026-11-07",
-  "horizon": "2026-10-08",
-  "items": 2995,
+  "generated": "2026-11-09",
+  "horizon": "2026-10-10",
+  "items": 3201,
   "untracked": 0,
   "clusters": {
     "industry": {
       "title": "AI industry & adjacent fields · 全行业与相关领域趋势",
-      "count": 2546,
-      "recent": 242,
-      "sources": 27,
+      "count": 2709,
+      "recent": 400,
+      "sources": 28,
       "top": [
         {
           "rel": 2.5,
@@ -18,67 +18,95 @@
           "url": "https://github.com/harbor-framework/terminal-bench/releases/tag/v4.1.0"
         },
         {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.CL (new)",
+          "title": "Compaction, decay and reinforcement in a two-tier conversational memory: a paired evaluation against retrieval-augmented generation",
+          "url": "https://arxiv.org/abs/2611.09807"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.CL (new)",
+          "title": "Structure and Lineage Evidence for Vietnamese Statutory Article Retrieval on DRiLL",
+          "url": "https://arxiv.org/abs/2611.09200"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.CL (new)",
+          "title": "Adamas: Hadamard Sparse Attention for Efficient Long-Context Inference",
+          "url": "https://arxiv.org/abs/2510.18413"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.MA (new)",
+          "title": "s$^3$: Simple Scaling of Swarms via Cooperative Multi-agent RL",
+          "url": "https://arxiv.org/abs/2611.08615"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.MA (new)",
+          "title": "NeuroMAS: Multi-Agent Systems as Neural Networks with Joint Reinforcement Learning",
+          "url": "https://arxiv.org/abs/2605.16757"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "Langfuse",
+          "title": "v4.77.0",
+          "url": "https://github.com/langfuse/langfuse/releases/tag/v4.77.0"
+        },
+        {
           "rel": 2.0,
           "date": "2026-10-23",
           "source": "OpenAI",
           "title": "Securing our frontier model training environment",
           "url": "https://openai.com/index/securing-our-frontier-model-training-environment"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-09",
-          "source": "skills.sh / `npx skills` (vercel-labs/skills)",
-          "title": "v1.7.2",
-          "url": "https://github.com/vercel-labs/skills/releases/tag/v1.7.2"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-14",
-          "source": "OpenAI",
-          "title": "SentinelOne cuts malware analysis from weeks to hours",
-          "url": "https://openai.com/index/sentinelone"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-14",
-          "source": "OpenAI",
-          "title": "How Block is building AI-powered security with OpenAI technology",
-          "url": "https://openai.com/index/block-ai-powered-security"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-19",
-          "source": "MCP reference servers (modelcontextprotocol/servers)",
-          "title": "v1.0.0",
-          "url": "https://github.com/modelcontextprotocol/servers/releases/tag/v1.0.0"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-19",
-          "source": "skills.sh / `npx skills` (vercel-labs/skills)",
-          "title": "v1.7.3",
-          "url": "https://github.com/vercel-labs/skills/releases/tag/v1.7.3"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-25",
-          "source": "MCP reference servers (modelcontextprotocol/servers)",
-          "title": "v2.0.0",
-          "url": "https://github.com/modelcontextprotocol/servers/releases/tag/v2.0.0"
         }
       ],
       "delta": {
-        "count": 0,
-        "recent": 0,
+        "count": 163,
+        "recent": 158,
         "since": "2026-11-07"
       }
     },
     "harness": {
       "title": "Harness directions - literature review · harness 方向文献综述",
-      "count": 2945,
-      "recent": 436,
-      "sources": 60,
+      "count": 3151,
+      "recent": 621,
+      "sources": 64,
       "top": [
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.CL (new)",
+          "title": "L-MARS: Legal Multi-Agent System with Agentic Search and Citation-Faithfulness Audit",
+          "url": "https://arxiv.org/abs/2509.00761"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.CL (new)",
+          "title": "Compaction, decay and reinforcement in a two-tier conversational memory: a paired evaluation against retrieval-augmented generation",
+          "url": "https://arxiv.org/abs/2611.09807"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.MA (new)",
+          "title": "s$^3$: Simple Scaling of Swarms via Cooperative Multi-agent RL",
+          "url": "https://arxiv.org/abs/2611.08615"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.MA (new)",
+          "title": "NeuroMAS: Multi-Agent Systems as Neural Networks with Joint Reinforcement Learning",
+          "url": "https://arxiv.org/abs/2605.16757"
+        },
         {
           "rel": 1.5,
           "date": "2026-11-06",
@@ -101,80 +129,37 @@
           "url": "https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science"
         },
         {
-          "rel": 2.0,
-          "date": "2026-10-14",
-          "source": "OpenAI",
-          "title": "SentinelOne cuts malware analysis from weeks to hours",
-          "url": "https://openai.com/index/sentinelone"
-        },
-        {
-          "rel": 2.0,
-          "date": "2026-10-30",
-          "source": "Microsoft Research",
-          "title": "From synthetic enterprise data evaluations to real Microsoft Copilot AI confidence",
-          "url": "https://www.microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence/"
-        },
-        {
-          "rel": 1.0,
-          "date": "2026-11-03",
-          "source": "Hermes Agent (Nous Research)",
-          "title": "Hermes Agent v0.22.7",
-          "url": "https://github.com/NousResearch/hermes-agent/releases/tag/v0.22.7"
-        },
-        {
-          "rel": 1.0,
-          "date": "2026-11-05",
-          "source": "Hermes Agent (Nous Research)",
-          "title": "Hermes Agent v0.23.0 — The Hearth Release",
-          "url": "https://github.com/NousResearch/hermes-agent/releases/tag/v0.23.0"
-        },
-        {
-          "rel": 1.5,
-          "date": "2026-10-13",
-          "source": "Anthropic",
-          "title": "Anthropic opens Singapore office and signs MOU with the Government of Singapore",
-          "url": "https://www.anthropic.com/news/singapore-office-opening"
+          "rel": 2.5,
+          "date": "2026-11-09",
+          "source": "arXiv cs.CL (new)",
+          "title": "Structure and Lineage Evidence for Vietnamese Statutory Article Retrieval on DRiLL",
+          "url": "https://arxiv.org/abs/2611.09200"
         }
       ],
       "delta": {
-        "count": 0,
-        "recent": 0,
+        "count": 206,
+        "recent": 185,
         "since": "2026-11-07"
       }
     },
     "trajectories": {
       "title": "Other promising trajectories · 其他有趣且有潜力的方向",
       "count": 10,
-      "recent": 1,
+      "recent": 0,
       "sources": 1,
-      "top": [
-        {
-          "rel": 1.5,
-          "date": "2026-10-08",
-          "source": "Microsoft GraphRAG",
-          "title": "v3.3.0",
-          "url": "https://github.com/microsoft/graphrag/releases/tag/v3.3.0"
-        }
-      ],
+      "top": [],
       "delta": {
         "count": 0,
-        "recent": 0,
+        "recent": -1,
         "since": "2026-11-07"
       }
     },
     "domains": {
       "title": "Field-by-field signals · 各学科领域信号",
       "count": 10,
-      "recent": 9,
+      "recent": 8,
       "sources": 1,
       "top": [
-        {
-          "rel": 1.5,
-          "date": "2026-10-08",
-          "source": "Internet Archive Blog",
-          "title": "Internet Archive to Demo Wayback Machine at Friday’s Uniqlo Street Festival",
-          "url": "https://blog.archive.org/2026/10/08/internet-archive-to-demo-wayback-machine-at-fridays-uniqlo-street-festival/"
-        },
         {
           "rel": 1.5,
           "date": "2026-10-12",
@@ -188,11 +173,18 @@
           "source": "Internet Archive Blog",
           "title": "Celebrating 2026 Internet Archive Artist in Residence: Christopher Burch",
           "url": "https://blog.archive.org/2026/10/14/celebrating-2026-internet-archive-artist-in-residence-christopher-burch/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-10-14",
+          "source": "Internet Archive Blog",
+          "title": "Building the Hero Award: The Story Behind Taekyeom Lee’s 3D-Printed Model of the Internet Archive",
+          "url": "https://blog.archive.org/2026/10/14/building-the-hero-award/"
         }
       ],
       "delta": {
         "count": 0,
-        "recent": 0,
+        "recent": -1,
         "since": "2026-11-07"
       }
     }

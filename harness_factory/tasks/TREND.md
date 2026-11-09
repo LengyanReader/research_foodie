@@ -38,6 +38,7 @@
 | 期 | 文件 | 数据窗口 | 备注 |
 |---|---|---|---|
 | 首期 | [review/trend-review-2026-11-07.md](../review/trend-review-2026-11-07.md) | 2026-10-24 → 11-07（2 周） | P77：管线三项升级 + delta 首用（窗口混杂已声明） |
+| 第 2 期 | [review/trend-review-2026-11-09.md](../review/trend-review-2026-11-09.md) | 2026-11-02 → 11-09（1 周） | P79：首次例行自动化执行；DeepSeek 整合专评（feed 重锚提案 P79.R1）；P78 编号被并行会话占用顺延 |
 | （前身） | [review/trend-review-2026-11-03.md](../review/trend-review-2026-11-03.md) | — | P69 全量综述（非周更模型），保留为深版底稿 |
 
 ## 5 · English · The weekly procedure in brief

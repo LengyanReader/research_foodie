@@ -1,6 +1,16 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-07
+**Updated:** 2026-11-09
+
+## 2026-11-09 · P79：趋势周报第二期 —— 复现制度化 · 记忆/蜂群论文 · DeepSeek 整合专评
+
+- **触发。** 周一自动化例行（用户附带指令：全面更新升级进化 + 评估 DeepSeek 类 harness 能力的整合与测试现状）。
+- **周更管线。** `harness intel --since 2026-11-02` → **3,201 条**（7 日窗）；`trend --write` 四簇 + 周际 delta（+163/+206；窗口锚点混杂已声明）。四条承重信号一手核验：**MLRC 2026 升格 NeurIPS 官方 track** · 双层对话记忆（arXiv:2611.09807，compaction/decay/reinforcement vs RAG）· **s³ 蜂群协作 RL**（arXiv:2611.08615）· DeepSeek V4 线（V4.1-Flash 公测、11 月无新发布）。
+- **DeepSeek 整合专评（§4，四段式结论）。** ① 库内足迹：R181（GRPO）/R182（R1）/R265（RL 归因）+ 两条 feed + P57/P68 两轮引述——**证据级整合，姿势正确**（符合通则：模式须在移除 originating 项目后仍成立）。② 真实缺陷：**feed 锚点过时**——sources.json 两链仍指 V3/R1 仓库，V4 线（2026-02 起）完全脱管，本周 25 条 DeepSeek 情报全部来自旁路源 → P79.R1 重锚提案。③ **零专项测试**（15/15 族无 DeepSeek 执行模型）——设计边界而非遗漏（配对试验的处理变量是 harness 纪律，模型是背景常量），但收据 model 轴应结构化（P79.R4，兑现 R288/HAL 披露判据）。④ V4 长上下文（27% FLOPs/10% KV）松动 M1.11 前提 → P79.R3 范围注记提案。
+- **周报交付。** [trend-review-2026-11-09.md](../review/trend-review-2026-11-09.md)：七节全节中英并行；论断 T5–T7（复现制度化/记忆三件套收敛/多智能体换轨）+ T1 状态更新；行动项 P79.R1–R5 分档。入 ARTICLES + TREND 期次表。
+- **编号顺延。** 并行会话已取 **P78**（e8c4c71 运维能力切片：devops 域拆分 + delivery/SRE/IaC 三能力 + M3.20/M7.11）——本期顺延 P79，cycles.json 注记顺延原因；并行会话的未跟踪工件（.arts/.kilo/resources）不碰。
+- **测试与审计。** 全套件全绿；`cycle audit` 干净；提交不含 push。
+
 
 ## 2026-11-07 · P78：运维能力切片一 —— 真正的 DevOps 域 · 交付/SRE/IaC 三门禁 · harness-evolution 拆分
 

@@ -1,0 +1,207 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weekly trend review, issue 2: reproducibility institutionalized + DeepSeek integration assessment (P78)</title><style>
+:root{--ink:#1a2332;--mut:#65788f;--line:#dde4ec;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad;--accent:#7b5ea7;--code-bg:#f0f4f8;--pre-bg:#1a2332;--pre-fg:#d4d4d4;--sidebar-w:260px}
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.75;font-size:15.5px}
+.wrap{display:flex;max-width:1200px;margin:0 auto;min-height:100vh}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;font-size:13px}
+.sidebar h3{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:16px 0 6px}
+.sidebar a{display:block;color:var(--ink);text-decoration:none;padding:3px 8px;border-radius:4px;margin:1px 0;line-height:1.4}
+.sidebar a:hover{background:#eef2f7;color:var(--brand)}
+.sidebar a.lvl3{padding-left:20px;font-size:12.5px;color:var(--mut)}
+.sidebar a.active{color:var(--brand);font-weight:600;background:#e8f0fa}
+.content{flex:1;padding:32px 40px 64px;max-width:780px;min-width:0}
+.doc-header{border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:24px}
+.doc-header h1{font-size:22px;margin:0 0 4px;line-height:1.3}
+.doc-header .meta{font-size:12px;color:var(--mut);margin-top:4px}
+.back-nav{display:flex;gap:14px;padding:10px 0;margin-bottom:16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.back-nav a{font-size:13px;color:var(--brand);text-decoration:none}
+.back-nav a:hover{text-decoration:underline}
+h1{font-size:22px;line-height:1.3;margin:20px 0 12px}
+h2{font-size:18px;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 6px}
+p{margin:10px 0}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:var(--code-bg);border-radius:4px;padding:1px 5px;font-size:.88em;font-family:'Cascadia Code','SF Mono',monospace}
+pre{background:var(--pre-bg);color:var(--pre-fg);border-radius:8px;padding:16px 18px;overflow-x:auto;line-height:1.5;font-size:13.5px;margin:14px 0}
+pre code{background:none;padding:0;color:inherit}
+.tblwrap{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#f0f4f8;font-weight:600}
+tbody tr:nth-child(even){background:#fafbfc}
+blockquote{border-left:3px solid var(--brand);margin:14px 0;padding:10px 18px;background:#f0f4f8;border-radius:0 8px 8px 0}
+blockquote p{margin:6px 0}
+hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+ul,ol{padding-left:24px;margin:10px 0}
+li{margin:5px 0}
+.prevnext{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line)}
+.prevnext a{font-size:13px;color:var(--brand);text-decoration:none;padding:8px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.prevnext a:hover{background:#eef2f7}
+@media(max-width:900px){.sidebar{display:none}.content{padding:20px 16px 48px}}
+</style></head><body>
+<div class="wrap"><div class="sidebar"><h3>On this page</h3><a href="#1---本周信号---weekly-signals" class="">1 · 本周信号 · Weekly signals</a>
+<a href="#2---行业全景与相邻领域---industry-landscape-and-adjacent-fields" class="">2 · 行业全景与相邻领域 · Industry landscape and adjacent fields</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#3---harness-文献综述---harness-literature-synthesis" class="">3 · Harness 文献综述 · Harness literature synthesis</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#4---deepseek-线整合专评---deepseek-integration-assessment" class="">4 · DeepSeek 线整合专评 · DeepSeek integration assessment</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#5---分析与预测---analysis---predictions" class="">5 · 分析与预测 · Analysis &amp; predictions</a>
+<a href="#中文-论断补充" class="lvl3">中文（论断补充）</a>
+<a href="#english--thesis-notes" class="lvl3">English (thesis notes)</a>
+<a href="#6---对-harness-的行动项---action-items-for-the-harness" class="">6 · 对 harness 的行动项 · Action items for the harness</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#7---方法与数据附录---method---data-appendix" class="">7 · 方法与数据附录 · Method &amp; data appendix</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#溯源表---provenance" class="">溯源表 · Provenance</a></div>
+<div class="content">
+<nav class="back-nav"><a href="index.html">← Dashboard</a></nav>
+<div class="doc-header"><h1>Weekly trend review, issue 2: reproducibility institutionalized + DeepSeek integration assessment (P78)</h1><div class="meta">Generated by harness-factory · docs/ · <b>SSOT: review/ 的 .md 文件是唯一可编辑源；本页面为派生视图。</b></div></div>
+<h1>Trend Review (weekly issue 2) · 趋势周报（第二期）</h1>
+<blockquote>
+<p><b>中文速览。</b> 第二期周报。本周四条承重信号经一手核验：① <b>MLRC 2026 成为 NeurIPS 官方 track</b>（悉尼，</p>
+<p>12 月 6–13）——可复现性从挑战赛升格为制度；② <b>双层对话记忆</b>（compaction/decay/reinforcement，arXiv:</p>
+<p>2611.09807）与 RAG 配对评测——记忆机制论文与本库 M1/M2 条款同构；③ <b>s³ 蜂群协作 RL</b>（arXiv:2611.08615）</p>
+<p>——多智能体扩展的新叙事；④ <b>DeepSeek 线</b>：V4.1-Flash 公测（agent 能力 + Responses API + Codex 兼容），</p>
+<p>但<b>11 月无新发布</b>——借此对库内 DeepSeek 整合做了一次专评（§4）：证据级整合正确、源锚点过时（V3/R1 feed）、</p>
+<p>零专项测试（设计使然，model-agnostic）。观测/沙箱/网关基建的<b>版本节奏</b>（Langfuse 4 连发、E2B、LiteLLM LTS）</p>
+<p>本身成为信号：执行环境的商业化供给在加速。论断 T5–T7 见 §5；行动项 P78.R1–R4 见 §6。每节中英并行。</p>
+</blockquote>
+<blockquote>
+<p><b>Executive summary.</b> Second weekly issue. Four load-bearing signals primary-verified this week:</p>
+<p><b>(1)</b> MLRC 2026 became an <b>official NeurIPS track</b> (Sydney, Dec 6–13) — reproducibility is upgraded</p>
+<p>from challenge to institution; <b>(2)</b> a <b>two-tier conversational memory</b> paper (compaction / decay /</p>
+<p>reinforcement, arXiv:2611.09807, paired against RAG) — memory-mechanism work is converging on the exact</p>
+<p>clauses this library carries in M1/M2; <b>(3)</b> <b>s³: scaling swarms via cooperative multi-agent RL</b></p>
+<p>(arXiv:2611.08615) — a new scaling narrative for multi-agent systems; <b>(4)</b> the <b>DeepSeek line</b>:</p>
+<p>V4.1-Flash public beta (agent capabilities, Responses API, Codex compatibility), but **no November</p>
+<p>release** — taken as the occasion for a dedicated integration assessment (§4): the library's evidence-level</p>
+<p>integration posture is correct, the source anchors are stale (V3/R1 feeds), and DeepSeek-specific testing</p>
+<p>is zero (by design, model-agnostic). The <b>release cadence</b> of observability/sandbox/gateway infrastructure</p>
+<p>(Langfuse ×4, E2B, LiteLLM LTS) is itself a signal: commercial supply of execution environments is</p>
+<p>accelerating. Theses T5–T7 in §5; action items P78.R1–R4 in §6. Each section is bilingual.</p>
+</blockquote>
+<hr>
+<h2 id="1---本周信号---weekly-signals">1 · 本周信号 · Weekly signals</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>#</th><th>信号 · Signal</th><th>源 · Source · Date</th><th>判读 · Reading</th><th>核验 · Verified</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>MLRC 2026 升格为 NeurIPS 官方 track</b>（可复现性论文同期现场报告，悉尼 12/6–13）</td><td><a href="https://blog.neurips.cc/2026/05/04/mlrc-2026-reproducibility-as-an-official-track-at-neurips">NeurIPS blog</a> · <a href="https://reproml.org">reproml.org</a> · intel 2026-11-04</td><td>复现（M3.11 独立重推导）从社区活动变成<b>出版制度</b></td><td>✅ primary</td></tr>
+<tr><td>2</td><td><b>双层对话记忆</b>：compaction / decay / reinforcement，与 RAG 配对评测</td><td><a href="https://arxiv.org/abs/2611.09807">arXiv:2611.09807</a> · 2026-11-09</td><td>记忆机制研究收敛到「压缩 + 衰减 + 强化」三件套——M1.11/M2 的外部同构</td><td>✅ abs-level</td></tr>
+<tr><td>3</td><td><b>s³：蜂群的简单扩展</b>——协作式多智能体 RL，自主决定何时独立工作/何时共享</td><td><a href="https://arxiv.org/abs/2611.08615">arXiv:2611.08615</a> · 2026-11-05</td><td>多智能体扩展叙事从「拓扑设计」（R280 QueenBee）移向「训练共享策略」</td><td>✅ abs-level</td></tr>
+<tr><td>4</td><td><b>DeepSeek V4.1-Flash 公测</b>（agent 能力强化、原生 Responses API、Codex 兼容）；<b>11 月无新发布</b></td><td><a href="https://releasebot.io/updates/deepseek">ReleaseBot tracker</a> · 窗口内</td><td>DeepSeek 线进入平台兼容竞争（Responses/Codex）；本库借此做整合专评（§4）</td><td>✅ search-verified</td></tr>
+<tr><td>5</td><td><b>DeepSeek V4 技术报告</b>：1M 上下文为 agent 默认；V4-Pro 仅需 V3 的 <b>27% 单 token FLOPs / 10% KV cache</b></td><td><a href="https://huggingface.co/blog/deepseekv4">HF blog</a> · <a href="https://arxiv.org/html/2606.19348v1">arXiv:2606.19348</a> · (2026-04, feed-sourced)</td><td>长上下文成本崩塌——M1.11 的 compaction 预算前提被行业改变</td><td>✅ search-verified（feed 源入库）</td></tr>
+<tr><td>6</td><td><b>基建版本节奏</b>：Langfuse v4.73→77（一周 4 发）· E2B SDK 2.62→63 · LiteLLM 1.108 LTS 线</td><td>intel 流 · 11-03→11-08</td><td>观测/沙箱/网关三层执行环境供给全部高频发版——执行环境是<b>活的基建</b></td><td>feed-sourced</td></tr>
+<tr><td>7</td><td><b>skills.sh v1.7.5→1.7.6</b>（两周内双发）</td><td>intel 流 · 11-02/11-03</td><td>技能分发商品化持续（P77 T2 双轨化的市场轨证据）</td><td>feed-sourced</td></tr>
+<tr><td>8</td><td><b>Terminal-Bench v4.1.0</b>（11-06 发布，续 4.0 换环境后的点版本）</td><td>intel 流 · 上周已核 <a href="https://www.tbench.ai">tbench.ai</a></td><td>P77 论断 T3 的第二个数据点：semver 演化模式稳定</td><td>✅（上期一手）</td></tr>
+</tbody></table></div>
+<h2 id="2---行业全景与相邻领域---industry-landscape-and-adjacent-fields">2 · 行业全景与相邻领域 · Industry landscape and adjacent fields</h2>
+<h3 id="中文">中文</h3>
+<p>数据基座：industry 簇 2709 条（30 天内 400），28 源；周际 delta +163（窗口锚点不同，混杂声明见 §7）。</p>
+<p>（E2B 双发）、网关层（LiteLLM LTS 线）全部高速迭代。这不是三家公司的巧合，而是「agent 执行环境」作为 一个<b>商品类目</b>的成熟标志——供给了，就有人买；有人买，就发得快。辩证面：发版快 ≠ 质量稳，LTS 分支 （LiteLLM 1.108）的存在恰说明用户在要求稳定性——<b>快轨道与稳轨道的分化</b>是类目成熟的第二标志。</p>
+<p>一直引用「重放的才算」原则——制度界现在用出版位确认同一原则。预测（T5）：复现报告将开始要求<b>环境指纹</b> （pinned 依赖 + 硬件 + seed），与本库 battery 的 trial_projects 绑定同构。</p>
+<p>模型厂商开始按<b>执行生态兼容性</b>竞争，而非只按分数。11 月无新发布（截至本窗口）。</p>
+<h3 id="english">English</h3>
+<p>Data base: 2,709 industry items (400 within 30 days), 28 sources; weekly delta +163 (window-anchor differs from last issue — confound disclosed in §7).</p>
+<p>main thread: within one week the observability layer (Langfuse ×4), the sandbox layer (E2B ×2), and the gateway layer (LiteLLM LTS line) all iterated fast. That is not three coincidences; it is the maturation of "agent execution environment" as a <b>product category</b> — supply exists, demand exists, so shipping is fast. The dialectical side: fast shipping ≠ stable quality; the very existence of an LTS branch (LiteLLM 1.108) shows users demanding stability — <b>the fork between fast and stable tracks</b> is the second marker of a mature category.</p>
+<p>M3.11 (independent re-derivation) and M3.18(c) (replay grading) have been running on "only replays count" — the institutional world now confirms the same principle with publication slots. Prediction (T5): reproducibility reports will start requiring <b>environment fingerprints</b> (pinned dependencies + hardware + seeds), isomorphic to this library's trial_projects bindings.</p>
+<p>agent capabilities + Responses API + Codex compatibility — model vendors now compete on <b>execution-ecosystem compatibility</b>, not only on scores. No November release as of this window.</p>
+<h2 id="3---harness-文献综述---harness-literature-synthesis">3 · Harness 文献综述 · Harness literature synthesis</h2>
+<h3 id="中文">中文</h3>
+<p>三条对账线（R1–R293）：</p>
+<p>reinforcement（强化）——与本库 M1.11（compaction 预算 = 通信复杂度）+ M2 记忆层级几乎逐词对应，且其</p>
+<p>「记忆深度 = session/durable」二元选择提供了一个更细的外部参照（tiered memory），列为提案级观察。</p>
+<p>「训练共享策略」（协作 RL 学会何时共享）——两者分别对应本库 M8 的<b>结构面</b>与<b>策略面</b>。对账判断： QueenBee 的 safeguard 清单（held-out 门、方差感知记账）在 s³ 的 RL 设定下如何重现，是值得跟踪的问题。</p>
+<p>（评测转向测量学）：复现轨道要求的环境指纹与 pass^k 要求的重复运行，是同一枚硬币的两面。</p>
+<h3 id="english">English</h3>
+<p>Three reconciliation threads (R1–R293):</p>
+<p>almost word-for-word onto M1.11 (compaction budget = communication complexity) plus M2's memory tiers, and its <b>paired evaluation against RAG</b> is the external isomorph of this library's paired-trial methodology (A/B conditions) applied to memory design. Value: it gives M2's binary "memory depth = session/durable" choice a finer external reference (tiered memory) — logged as a proposal-level observation.</p>
+<p>(QueenBee's search space) to <i>training sharing policies</i> (cooperative RL learning when to share) — the two correspond to the <b>structural</b> and <b>policy</b> faces of M8. Reconciliation question worth tracking: how do QueenBee's safeguards (held-out acceptance gate, variance-aware credit) reappear under s³'s RL setting?</p>
+<p>evolution jointly reinforce P77 thesis T4 (evaluation shifting to measurement science): the environment fingerprints a reproducibility track demands and the repeated runs pass^k demands are two faces of the same coin.</p>
+<h2 id="4---deepseek-线整合专评---deepseek-integration-assessment">4 · DeepSeek 线整合专评 · DeepSeek integration assessment</h2>
+<h3 id="中文">中文</h3>
+<p>R265（reward-hacking 基准——DeepSeek V3 0.6% vs R1-Zero 13.9% 的 RL 归因证据）。情报源两条（<code>sources.json</code>： <code>deepseek</code> → DeepSeek-V3 releases feed；<code>deepseek-repos</code> → DeepSeek-R1 releases feed）。轮次两处：P57 机构 实践扫描（V4.1-Flash + DeepInfer 判为<b>模型/部署侧 lead</b>，能力面不触发）；P68 景观分析（V4.1 Flash 的 Terminal Bench 2.1 82.7 分、$0.14/M 成本作为「工具处理可训练」的论据）。</p>
+<p>项目后仍成立<b>；M4.17 只记录模型身份不据其路由。因此 DeepSeek 的正确整合姿势就是</b>证据级<b>（技术源、归因 数据、成本-性能参照），而非「DeepSeek 能力模块」——现状符合通则。</b>滞后在源锚点<b>：两条 feed 都锚在 V3/R1 仓库，V4 线（2026-02 起）完全不在跟踪面——本周 25 条 DeepSeek 情报全部来自</b>旁路源**（HF/Raschka/Mem0 等）， 主源静默。这是真实的覆盖缺陷（P78.R1 提案修正）。</p>
+<p>处理变量是 <b>harness 纪律</b>（裸奔 vs harness），模型是背景常量。诚实结论：<b>本库从未对「DeepSeek 模型 + 本库 harness」的组合做过任何模拟测试</b>。这不是遗漏而是边界：agent-eval-reliability 族的 judge_checks 已 要求「harness (model × scaffold) disclosed on every receipt」（R288/HAL 口径），但收据的 model 轴目前只进 notes 不进结构化字段——model 轴结构化是零成本改进（P78.R4）。若要做真 DeepSeek 组合测试：走 HARNESS_LLM_* 环境门（可选 LLM 分类器已支持外部模型），跑一轮配对试验，收据即自然披露 model×scaffold。</p>
+<p>一个量级，M1.11 的 compaction 预算论证（预算 = 通信复杂度）的<b>前提</b>（上下文昂贵）松动。不是推翻： 通信复杂度不只由 token 价格决定（噪声、注意力稀释、指令漂移仍在）；但「便宜长上下文改变预算权衡」值得 作为 M1.11 的一行范围注记提案（P78.R3），不直改 core/。</p>
+<h3 id="english">English</h3>
+<p>Layer-by-layer inventory:</p>
+<p>RLVR reasoning), R265 (reward-hacking benchmark — DeepSeek V3 0.6% vs R1-Zero 13.9% RL attribution). Two intel sources (<code>sources.json</code>: <code>deepseek</code> → DeepSeek-V3 releases feed; <code>deepseek-repos</code> → DeepSeek-R1 releases feed). Two round mentions: the P57 org-practices sweep (V4.1-Flash + DeepInfer judged</p>
+<p>Flash's Terminal Bench 2.1 82.7 at $0.14/M as evidence that tool handling is trainable).</p>
+<p>place only if it survives removal of the originating project; M4.17 records model identity without routing on it. So the <i>correct</i> integration posture for DeepSeek is exactly <b>evidence-level</b> (technique source, attribution data, cost-performance reference), not a "DeepSeek capability module" — the current state complies. <b>The lag is in source anchors</b>: both feeds point at the V3/R1 repos, while the V4 line (since Feb 2026) is entirely off the tracking surface — this week's 25 DeepSeek intel hits all arrived via</p>
+<p>model; the paired trials' treatment is the <b>harness discipline</b> (bare vs harness), the model a background constant. Honest conclusion: <b>this library has never simulation-tested the "DeepSeek model + this harness" combination.</b> That is a boundary, not an oversight: the agent-eval-reliability family's judge_checks already demand "harness (model × scaffold) disclosed on every receipt" (the R288/HAL idiom), but the model axis currently lives only in receipt notes, not a structured field — structuring it is a zero-cost improvement (P78.R4). A genuine DeepSeek combination test would go through the HARNESS_LLM_* env gate (the optional LLM classifier already supports external models), run one paired trial, and the receipts would disclose model×scaffold naturally.</p>
+<p>10% KV — if long context becomes an order of magnitude cheaper, the <b>premise</b> of M1.11's compaction-budget argument (context is expensive) loosens. Not an overthrow: communication complexity is set by more than token price (noise, attention dilution, instruction drift remain); but "cheap long context changes the budget trade-off" deserves a one-line scope note on M1.11 as a proposal (P78.R3), never a direct edit.</p>
+<h2 id="5---分析与预测---analysis---predictions">5 · 分析与预测 · Analysis & predictions</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>#</th><th>论断 · Thesis</th><th>证据 · Evidence</th><th>置信 · Confidence</th><th>反转条件 · Reversal condition</th></tr></thead>
+<tbody>
+<tr><td>T5</td><td><b>复现成为出版制度</b>：环境指纹（pinned 依赖+硬件+seed）成为复现报告的准入格式，并向常规论文扩散</td><td>信号 1（MLRC@NeurIPS）+ R279 的 pinned 框架/哈希先例</td><td>中 · Med</td><td>若 2027 年 MLRC 退回合作伙伴活动或指纹未成准入项</td></tr>
+<tr><td>T6</td><td><b>记忆机制三件套收敛</b>：compaction + decay + reinforcement 成为 agent 记忆的公共词表，取代「RAG vs 记忆」二分</td><td>信号 2 + Mem0 类产品的分层记忆供给</td><td>中 · Med</td><td>若主流框架仍以纯检索实现长会话且无衰减语义</td></tr>
+<tr><td>T7</td><td><b>多智能体扩展叙事换轨</b>：从「搜索最优拓扑」转向「RL 训练共享策略」，拓扑搜索被吸收为策略空间的一类</td><td>信号 3（s³）vs R280（QueenBee）的方法分工</td><td>中低 · Med-low</td><td>若 s³ 类方法在受控对比中不敌 QueenBee 类拓扑搜索（两者尚无正面比较）</td></tr>
+<tr><td>T1′</td><td>（P77 T1 状态更新）可信度工程基础设施化：<b> reinforced</b> —— MLRC 制度化为 T1 的复现维度添出版面证据</td><td>信号 1 + 8</td><td>维持中高 · holds</td><td>不变（P77 §5）</td></tr>
+</tbody></table></div>
+<h3 id="中文-论断补充">中文（论断补充）</h3>
+<p>过滤器，系统性放过难复现的软主张）；本库的对应是 M5.14（失败必须入信号）。T6 的反例——三件套词表可能 只是论文命名趋同，产品侧的真实记忆语义（Mem0 的托管平台 vs 开源 SDK 范围差，P68 已核验）并不随词表收敛。 T7 的反例——协作 RL 的训练成本可能让它只在基准场景划算，工程实践中拓扑搜索的样本效率仍占优；两者缺正面 比较，本判断按方法学信号而非实测给置信。</p>
+<h3 id="english--thesis-notes">English (thesis notes)</h3>
+<p>for <i>easily reproducible</i> papers (reproduction cost as an invisible filter that systematically spares hard-to-replicate soft claims); this library's counter is M5.14 (failures are mandatory signals). T6 — the three-part vocabulary may be paper-naming convergence only; real product memory semantics (Mem0's managed platform vs open-source SDK scope gap, verified in P68) do not converge with the vocabulary. T7 — cooperative RL's training cost may make it worthwhile only in benchmark settings; in engineering practice topology search may keep the sample-efficiency edge; no head-to-head comparison exists, so this thesis carries methodological-signal confidence, not measured confidence.</p>
+<h2 id="6---对-harness-的行动项---action-items-for-the-harness">6 · 对 harness 的行动项 · Action items for the harness</h2>
+<h3 id="中文">中文</h3>
+<ol>
+<li><b>P78.R1（提案级）</b>：<code>sources.json</code> 的 DeepSeek feed 重锚——<code>deepseek</code>/<code>deepseek-repos</code> 指向 V3/R1 仓库的 releases 已静默；提案改为 org 级 releases（<code>https://github.com/deepseek-ai</code> org feed）或追加 V4 仓库 feed。走人审门，不直改 data/。</li>
+<li><b>P78.R2（提案级）</b>：<code>watchlist.json</code> 加宽 DeepSeek 基建线探针（DeepInfer · FlashMLA · DeepEP · 3FS · sparse attention · KV cache）——开源基建是 harness 邻接面（推理效率=上下文工程底座）。</li>
+<li><b>P78.R3（提案级）</b>：M1.11 一行范围注记——「廉价长上下文改变 compaction 预算权衡（V4 类 27% FLOPs 先例）；通信复杂度仍由噪声/稀释/漂移共同决定」。</li>
+<li><b>P78.R4（结构化改进）</b>：battery 收据的 <b>model 轴结构化</b>（detail.model 字段），兑现 agent-eval-reliability 族「model × scaffold disclosed」判据的结构化落点；下次真实任务收尾起执行。</li>
+<li><b>P78.R5（观察级）</b>：双层记忆（2611.09807）与 s³（2611.08615）登记为 M1/M2、M8 的外部参照；若后续需要全读，按 R-group 续编流程入册。</li>
+</ol>
+<h3 id="english">English</h3>
+<ol>
+<li><b>P78.R1 (proposal):</b> re-anchor the DeepSeek feeds in <code>sources.json</code> — the V3/R1 release feeds are</li>
+</ol>
+<p>   silent; propose the org-level releases feed or a V4 repo feed. Human gate; never a direct data/ edit.</p>
+<ol>
+<li><b>P78.R2 (proposal):</b> widen the watchlist with DeepSeek open-infra probes (DeepInfer · FlashMLA ·</li>
+</ol>
+<p>   DeepEP · 3FS · sparse attention · KV cache) — the open-infrastructure line is harness-adjacent    (inference efficiency is context-engineering substrate).</p>
+<ol>
+<li><b>P78.R3 (proposal):</b> one-line scope note on M1.11 — "cheap long context changes the compaction-budget</li>
+</ol>
+<p>   trade-off (V4-class 27%-FLOPs precedent); communication complexity is still jointly set by noise,    dilution and drift."</p>
+<ol>
+<li><b>P78.R4 (structural):</b> give battery receipts a <b>structured model axis</b> (<code>detail.model</code>), landing the</li>
+</ol>
+<p>   agent-eval-reliability family's "model × scaffold disclosed" criterion in the schema; effective from the    next real-task close-out.</p>
+<ol>
+<li><b>P78.R5 (observation):</b> log the two-tier memory paper and s³ as external references for M1/M2 and M8;</li>
+</ol>
+<p>   full-read registration follows the R-group continuation flow if needed.</p>
+<h2 id="7---方法与数据附录---method---data-appendix">7 · 方法与数据附录 · Method & data appendix</h2>
+<h3 id="中文">中文</h3>
+<p>分析由 agent 撰写；承重信号逐条一手核验（✅ primary / abs-level / search-verified / feed-sourced 四级标注）。</p>
+<p>不可直接读作「热度上升」；从下一期起（上周一锚点逐周推移）窗口序列才开始干净衔接。trajectories/domains 两簇数据面仍薄（各 1 源），不硬编故事（P77.R1 探针加宽提案待人审）。</p>
+<p>WebSearch 核验（V4 2026-02~04 → V4 Pro 2026-08-13 → V4.1-Flash 2026-10 公测 → 11 月无新发布）；「零专项 测试」结论来自 15/15 电池族的收据盘查（无一族绑定 DeepSeek 执行模型）。</p>
+<h3 id="english">English</h3>
+<p><code>harness trend --root . --write</code> (discriminator scoring + per-source cap + hex-noise penalty + weekly delta) → TREND.md + snapshot. The analysis is authored; every load-bearing signal primary-verified (four grades: ✅ primary / abs-level / search-verified / feed-sourced).</p>
+<p>anchors differ, so the delta (+163/+206) must not be read as "rising heat"; clean sequential comparability starts next issue as the last-Monday anchor advances weekly. The trajectories/domains clusters remain thin (one source each); no stories are invented from them (the P77.R1 probe-widening proposal awaits the human gate).</p>
+<p>(references/sources/watchlist/data); the external timeline via WebSearch verification (V4 2026-02~04 → V4 Pro 2026-08-13 → V4.1-Flash public beta 2026-10 → no November release); the "zero dedicated testing" conclusion from a receipt sweep of all 15/15 battery families (none binds a DeepSeek execution model).</p>
+<h2 id="溯源表---provenance">溯源表 · Provenance</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>声明 · Claim</th><th>一手源 · Primary source</th><th>访问日期 · Accessed</th></tr></thead>
+<tbody>
+<tr><td>MLRC 2026 为 NeurIPS 官方 track</td><td><a href="https://blog.neurips.cc/2026/05/04/mlrc-2026-reproducibility-as-an-official-track-at-neurips">blog.neurips.cc/2026/05/04</a> · <a href="https://reproml.org">reproml.org</a></td><td>2026-11-09</td></tr>
+<tr><td>双层记忆论文</td><td><a href="https://arxiv.org/abs/2611.09807">arXiv:2611.09807</a></td><td>2026-11-09</td></tr>
+<tr><td>s³ 蜂群协作 RL</td><td><a href="https://arxiv.org/abs/2611.08615">arXiv:2611.08615</a></td><td>2026-11-09</td></tr>
+<tr><td>DeepSeek V4 技术报告与 1M 上下文</td><td><a href="https://huggingface.co/blog/deepseekv4">huggingface.co/blog/deepseekv4</a> · <a href="https://arxiv.org/html/2606.19348v1">arXiv:2606.19348</a></td><td>2026-11-09</td></tr>
+<tr><td>DeepSeek V4 Pro 发布（agent 能力）</td><td><a href="https://www.reuters.com/world/china/deepseek-releases-official-v4-pro-model-it-steps-up-expansion-2026-08-13">reuters.com</a>（转述 · secondhand）</td><td>2026-11-09</td></tr>
+<tr><td>V4.1-Flash 公测 / 11 月无新发布</td><td><a href="https://releasebot.io/updates/deepseek">releasebot.io/updates/deepseek</a>（tracker · search-verified）</td><td>2026-11-09</td></tr>
+<tr><td>Langfuse / E2B / LiteLLM / skills.sh 发版</td><td>intel 流条目（feed 源，URL 见 intel.jsonl）</td><td>2026-11-09</td></tr>
+<tr><td>Terminal-Bench v4.1.0</td><td>上期已核 <a href="https://www.tbench.ai">tbench.ai</a></td><td>2026-11-07</td></tr>
+</tbody></table></div>
+</div></div></body></html>

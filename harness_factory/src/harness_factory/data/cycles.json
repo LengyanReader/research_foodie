@@ -2054,6 +2054,29 @@
         "P78.6 - battery soft axis: routing battery and trigger guards re-run; no new task-family receipt, so no battery family re-run"
       ],
       "note": "User asked to optimize engineering/test/simulation/experiment coverage toward DevOps, MLOps and DataOps. Slice 1 fixes the load-bearing defect first: the old `devops` domain was a meta-domain for harness self-evolution while owning delivery signals, so a CI/CD/SLO/incident task routed to the wrong playbook and derived zero operational capabilities. The split gives delivery operations a real domain and three executable procedures; the self-evolution content keeps its home as `harness-evolution`. MLOps and DataOps are deferred with triggers rather than half-added."
+    },
+    {
+      "id": "P79",
+      "status": "done",
+      "date": "2026-11-09",
+      "title_en": "Weekly trend review issue 2: reproducibility institutionalized, memory/swarm papers, DeepSeek integration assessment",
+      "title_zh": "趋势周报第二期：复现制度化 · 记忆/蜂群论文 · DeepSeek 整合专评",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P79.1 - weekly routine per tasks/TREND.md: harness intel --since 2026-11-02 -> 3201 items; trend --write with weekly deltas (+163 industry / +206 harness; window-anchor confound disclosed)",
+        "P79.2 - four load-bearing signals primary-verified: MLRC 2026 as official NeurIPS track; two-tier conversational memory (arXiv:2611.09807, compaction/decay/reinforcement vs RAG); s3 swarm cooperative RL (arXiv:2611.08615); DeepSeek V4 line (V4.1-Flash public beta, no November release)",
+        "P79.3 - DeepSeek integration assessment (user ask): evidence-level posture correct per the generalization rule (R181 GRPO / R182 R1 / R265 RL attribution); real defect = stale feed anchors (sources.json tracks V3/R1 repos, V4 line entirely off-surface, this week's 25 DeepSeek hits all via bypass sources); zero DeepSeek-specific testing (by design, model-agnostic harness trials) with the model axis unstructured in receipts",
+        "P79.4 - review/trend-review-2026-11-09.md authored (seven sections, bilingual per-section parity, theses T5-T7 + T1 status update, tiered action items P78.R1-R5 -> renumbered P79.R1-R5 incl. feed re-anchor, watchlist infra probes, M1.11 cheap-context scope note, structured receipt model axis); wired into pages.ARTICLES",
+        "P79.5 - tasks/TREND.md issue-2 table row; suite green; cycle audit clean; commit without push"
+      ],
+      "note": "Second weekly cycle. Renumbered P77-planned P78 -> P79 because a parallel session took P78 for the devops-domain capability slice (e8c4c71). The DeepSeek assessment the user attached is recorded in the review's section 4 with a four-part verdict: evidence-level integration correct; feed anchors stale (P79.R1); zero model-specific testing is a design boundary not an oversight, but the receipt model axis should be structured (P79.R4); V4's cheap long context loosens M1.11's premise and goes in as a scope-note proposal (P79.R3). All action items are proposals - nothing in data|core|domains|templates was touched directly. Untracked parallel-session artifacts (.arts/.kilo/resources) left alone."
     }
   ],
   "roadmap": [
