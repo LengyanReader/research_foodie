@@ -421,6 +421,36 @@
       },
       "round": "P80",
       "notes": "Discriminative instance from the P79 worklist: bare 0.0 vs harness 1.0, the trap citation C6 separated the conditions on DISCIPLINE (bare resolved it confidently to the nearest-sounding source; harness marked it unverified). All five bare errors were plausible-wrong specifics (magnitude right, detail wrong) - the memory-hallucination mode the instance was designed to elicit. Judge went v1 (window-grab bug, mis-graded the harness arm 0.8333) -> v2 block grading -> v2.1 block-key fix, both conditions re-graded at each step per the pre-declared protocol. FIRST receipts carrying the structured model axis (P79.R4): trace.model={id,surface}. N=1/condition, same-session model - directional signal."
+    },
+    {
+      "task_id": "subagent-delegation",
+      "status": "done",
+      "grounding": "delegation-trust paired trial for the freshly upgraded graph-orchestration procedure (P81): result contract + two-stage review + acceptance discipline; two independent industrial implementations of the pattern (R277 superpowers, R295 deepseek-harness) make it generalization-grade",
+      "judge_checks": [
+        "result contract pre-declared (4 machine-checkable clauses) BEFORE either condition runs (M5.13)",
+        "the sub-agent draft is a FIXED artifact with exactly two planted contract violations; identical draft handed to both conditions",
+        "A-bare graded on its submitted deliverable as-is (no review step = the discipline under test); B-harness must show the two-stage review record AND submit a conforming deliverable",
+        "score = contract checks passed / 4 per condition, scale [0,1]",
+        "N=1 per condition, same session model, receipts carry the structured model axis (P79.R4)"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "spec": {
+        "task": "Delegate a zh technical summary to a sub-agent under a written result contract (3 sections with fixed titles, <=120 hanzi each, fixed glossary term 压缩预算, exact figure 27%). The sub-agent returns a draft violating 2 clauses (4 sections + wrong glossary term). A-bare: accept and submit as-is. B-harness: two-stage review (spec compliance -> quality), revise, submit.",
+        "conditions": "A bare: no review step (the absence IS the treatment). B harness: the graph-orchestration procedure steps 4-5 executed for real, review recorded.",
+        "judge": "machine: 4 contract checks (section count+titles, glossary term present/absent pair, figure present, per-section length) against the submitted deliverable."
+      },
+      "trial_projects": [
+        "updates/dogfood/p82-subagent-delegation"
+      ],
+      "results": {
+        "A-bare": 0.25,
+        "B-harness": 1.0
+      },
+      "round": "P82",
+      "notes": "Delegation-trust paired trial for the P81 graph-orchestration procedure upgrade: identical sub-agent draft with two planted contract violations handed to both conditions; bare (no review step) shipped both as-is (0.25), harness (two-stage review) caught both in stage 1 and merged a conforming revision after one minimal-diff round (1.0). Judge reads only the deliverable (M3.18); review record is process evidence. FIRST battery family whose treatment IS a capability-procedure upgrade - closes the loop from frontier evidence (R295 dsh + R277 superpowers) to landed procedure to measured effect. N=1/condition, same-session model, structured model axis on receipts (P79.R4)."
     }
   ]
 }

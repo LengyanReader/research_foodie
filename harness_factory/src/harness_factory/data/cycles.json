@@ -2130,6 +2130,29 @@
         "P81.7 - evolve --dry-run gap scan clean; catalog/pages regen; suite 566 green; cycle audit clean; AGENTS.md count unchanged"
       ],
       "note": "User asked for a full frontier check and capability update/upgrade/evolution. The headline is the dsh discovery: the user's DeepSeek thread (P57 -> P79 -> P81) resolves from 'evidence-level integration with stale anchors' to an ACTIVE harness-side product line worth tracking directly - the feed re-anchor lands on the live dsh releases atom and the delegation-trust procedure upgrade is grounded in TWO independent implementations (R277 superpowers, R295 dsh), satisfying the generalization rule without minting a speculative new capability (graph-orchestration already owns the structural face; the upgrade adds the trust boundary). R294 grounds the M1.11 scope note: cheap long context moves the cost premise, not the budget. No core clause count changed (M1.11 edited in place, no new clause numbers). The OpenAI agent monitor-disabling incident (Oct 2026) was noted but NOT registered - secondhand via search summary, unverified."
+    },
+    {
+      "id": "P82",
+      "status": "done",
+      "date": "2026-11-10",
+      "title_en": "Experiment round: subagent-delegation paired trial (bare 0.25 vs harness 1.0) tests the P81 procedure upgrade; feed re-anchor integration confirmed",
+      "title_zh": "实验轮：subagent-delegation 配对试验（bare 0.25 vs harness 1.0）实测 P81 procedure 升级；feed 重锚集成确认",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P82.1 - battery family subagent-delegation pre-declared (pending, judge_checks before execution): identical fixed sub-agent draft with TWO planted contract violations (4 sections + wrong glossary term) handed to both conditions; 4-clause result contract machine-checked",
+        "P82.2 - A-bare (no review step - the absence IS the treatment) shipped both violations as-is: 0.25; B-harness two-stage review caught both in stage 1, one minimal-diff revision round, merged conforming: 1.0",
+        "P82.3 - the trial's treatment IS the P81 graph-orchestration procedure upgrade - closes the loop frontier evidence (R295 dsh + R277 superpowers) -> landed procedure -> measured effect; first battery family testing a capability-procedure change directly",
+        "P82.4 - receipts with structured model axis (P79.R4); family registered done (17/17)",
+        "P82.5 - feed re-anchor integration test: the full-pull window excluded old dsh entries (--since filter working as designed), so a point integration test proved the pipe: dsh releases atom -> parse_feed -> 10 entity-mapped candidates (v0.2.1-alpha.4 .. v0.2.2-rc.1, 2026-10-15..11-04) - dsh is in ACTIVE beta churn, not dormant"
+      ],
+      "note": "User asked for full experiments/simulation/evaluation. The round measured the thing P81 just landed: the delegation-trust procedure upgrade shows a real effect under its own contract (bare ships violations, review catches them at stage 1 for ~1.3x draft cost instead of a 2x full regeneration). The feed re-anchor was integration-tested at the parser level after the full-pull window filter correctly excluded the old entries - and the test surfaced that dsh is releasing rapidly (10 rc/alpha tags in four weeks), which the next weekly issue should pick up. Suite green; audit clean."
     }
   ],
   "roadmap": [

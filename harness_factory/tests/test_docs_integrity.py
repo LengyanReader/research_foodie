@@ -1699,6 +1699,16 @@ class P80ModelAxisTrialTest(unittest.TestCase):
         )
         self.assertNotIn("model", bare_line, "the model axis must be explicit, never inferred")
 
+    def test_subagent_delegation_family_registered_done(self):
+        data = json.loads((HARNESS / "src/harness_factory/data/battery.json")
+                          .read_text(encoding="utf-8"))
+        fam = next(f for f in data["families"] if f["task_id"] == "subagent-delegation")
+        self.assertEqual(fam["status"], "done")
+        self.assertEqual(fam["results"], {"A-bare": 0.25, "B-harness": 1.0})
+        self.assertEqual(fam["round"], "P82")
+        self.assertIn("capability-procedure upgrade", fam["notes"],
+                      "the trial must record that its treatment IS the landed procedure upgrade")
+
     def test_citation_resolution_family_registered_done(self):
         data = json.loads((HARNESS / "src/harness_factory/data/battery.json")
                           .read_text(encoding="utf-8"))
