@@ -1,7 +1,7 @@
 {
   "updated": "2026-11-05",
   "cadence": "weekly",
-  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt. P70: `evaluation-gates` widened with benchmark/leaderboard/pass^k/terminal-bench/contamination probes so agent-capability test-banks (SWE-bench, OSWorld, GAIA, τ-bench, HAL, Terminal-Bench) surface on every cycle. P71: `agent-harness` widened with embodied/robot-use probes (uni-robot-agent, RoboDojo, sim-to-real) so physical robot-use harnesses surface alongside digital ones. P73: `self-evolving-agents` widened with cognitive autonomous-learning / meta-control probes (System A-B-M, epistemic vs pragmatic action switching, surprise-driven meta-control, Evo-Devo developmental scaffold) so the Dupoux-LeCun-Malik line of autonomous-learning architectures (arXiv:2603.15381) and its harness-level analogue M2.15 surface on every cycle.",
+  "notes": "Topics the self-update loop probes. Keywords drive relevance scoring; queries drive LLM discovery. P68: `ai-tool-stack` turns the outside-harness tool scan (memory/observability/sandbox/structured-output/eval/gateway/guardrails) into a standing loop topic - discover -> evaluate -> register -> metabolize runs every full-update without a human prompt. P70: `evaluation-gates` widened with benchmark/leaderboard/pass^k/terminal-bench/contamination probes so agent-capability test-banks (SWE-bench, OSWorld, GAIA, τ-bench, HAL, Terminal-Bench) surface on every cycle. P71: `agent-harness` widened with embodied/robot-use probes (uni-robot-agent, RoboDojo, sim-to-real) so physical robot-use harnesses surface alongside digital ones. P73: `self-evolving-agents` widened with cognitive autonomous-learning / meta-control probes (System A-B-M, epistemic vs pragmatic action switching, surprise-driven meta-control, Evo-Devo developmental scaffold) so the Dupoux-LeCun-Malik line of autonomous-learning architectures (arXiv:2603.15381) and its harness-level analogue M2.15 surface on every cycle. P81: ai-tool-stack widened with the DeepSeek open-infra/harness probes (deepinfer, flashmla, deepep, 3fs, deepseek-harness) and emerging-directions with the autonomous-science probes (P77.R1/P79.R2, precision-tested on the 2026-11-09 corpus: 0-5 hits each, no false-positive flood).",
   "topics": [
     {
       "id": "agent-harness",
@@ -278,7 +278,12 @@
         "inference engine",
         "guardrails",
         "apache-2.0",
-        "release"
+        "release",
+        "deepinfer",
+        "flashmla",
+        "deepep",
+        "3fs",
+        "deepseek-harness"
       ]
     },
     {
@@ -329,7 +334,11 @@
         "inference scaling",
         "agent safety",
         "surreal",
-        "emergent"
+        "emergent",
+        "ai scientist",
+        "autonomous research",
+        "wet lab",
+        "lab-in-the-loop"
       ]
     }
   ],

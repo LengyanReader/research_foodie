@@ -2102,6 +2102,34 @@
         "P80.7 - battery family citation-resolution registered done (16/16); FIRST receipts with the structured model axis; synthetic guards P80ModelAxisTrialTest (axis round-trip + never-inferred + family registration); suite 564 green"
       ],
       "note": "User asked for full evaluation/testing/simulation/experiments after the P79 DeepSeek assessment. The round converted the assessment's testable items into evidence: the model axis landed and was used by its first receipts in the same session; the feed-re-anchor proposal was tested against reality and REVISED (V4 repo feed does not exist - honest proposal correction before it wastes a human-gate review); the probes were precision-tested on the real corpus; and the standing worklist's discriminative reliability instance was designed, pre-declared, executed and registered - closing the 'instance does not discriminate' gap P76 left open. The judge-bug journey (v1->v2.1) is itself a battery-quality datapoint: the pre-declared both-conditions-regrade protocol worked as designed."
+    },
+    {
+      "id": "P81",
+      "status": "done",
+      "date": "2026-11-10",
+      "title_en": "Frontier check round: DeepSeek harness product line (dsh) discovered, R294/R295 registered, graph-orchestration delegation-trust upgrade, M1.11 cheap-context scope note",
+      "title_zh": "前沿核查轮：DeepSeek harness 产品线（dsh）发现 · R294/R295 入册 · graph-orchestration 委派信任升级 · M1.11 廉价长上下文注记",
+      "added": {
+        "clauses": [],
+        "references": [
+          "R294",
+          "R295"
+        ],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P81.1 - frontier scan: fresh intel pull (3201 items, no new items vs the 11-09 window - feeds quiet overnight) + targeted WebSearch (harness frameworks, DeepSeek line, Anthropic/OpenAI releases)",
+        "P81.2 - MAJOR FIND: DeepSeek ships a real open-source harness - deepseek-harness (dsh), 'Everything is a Plugin' on the Cordis meta-framework, MIT, orchestrates Claude Code/Codex as sub-agents (dev preview Aug 2026); the P79 'model/deployment-side only' verdict is superseded - the harness-side line exists and was entirely off the tracking surface",
+        "P81.3 - R294 (DeepSeek-V4 tech report: 1M agent context at 27% FLOPs / 10% KV vs V3) + R295 (deepseek-harness repo) registered in new group section AI; references header range -> R1-R295 (both test pins updated)",
+        "P81.4 - graph-orchestration procedure upgraded 3->5 steps: sub-agent handoffs carry minimal context + explicit result contracts with two-stage review (R277/R295 exemplars); per-sub-agent cost caps at delegation edges; parent owns accountability (the delegation-trust pattern now has two independent industrial implementations)",
+        "P81.5 - M1.11 scope note landed (P79.R3): cheap long context (V4-class 27%-FLOPs precedent) loosens the budget's cost premise; communication complexity still jointly set by noise/dilution/drift - re-derive the budget from the actual bottleneck",
+        "P81.6 - sources.json deepseek feed re-anchored to the live deepseek-harness releases atom (4 entries; V3/R1 feeds live-but-stale, V4 repo feed 404 - P79.R1 revised per reality); watchlist widened: ai-tool-stack += deepseek open-infra probes (deepinfer/flashmla/deepep/3fs/deepseek-harness), emerging-directions += autonomous-science probes (ai scientist/autonomous research/wet lab/lab-in-the-loop; P77.R1/P79.R2 precision-tested 0-5 hits)",
+        "P81.7 - evolve --dry-run gap scan clean; catalog/pages regen; suite 566 green; cycle audit clean; AGENTS.md count unchanged"
+      ],
+      "note": "User asked for a full frontier check and capability update/upgrade/evolution. The headline is the dsh discovery: the user's DeepSeek thread (P57 -> P79 -> P81) resolves from 'evidence-level integration with stale anchors' to an ACTIVE harness-side product line worth tracking directly - the feed re-anchor lands on the live dsh releases atom and the delegation-trust procedure upgrade is grounded in TWO independent implementations (R277 superpowers, R295 dsh), satisfying the generalization rule without minting a speculative new capability (graph-orchestration already owns the structural face; the upgrade adds the trust boundary). R294 grounds the M1.11 scope note: cheap long context moves the cost premise, not the budget. No core clause count changed (M1.11 edited in place, no new clause numbers). The OpenAI agent monitor-disabling incident (Oct 2026) was noted but NOT registered - secondhand via search summary, unverified."
     }
   ],
   "roadmap": [

@@ -266,7 +266,7 @@
         "name": "DeepSeek",
         "kind": "repo",
         "url": "https://github.com/deepseek-ai",
-        "feed": "https://github.com/deepseek-ai/DeepSeek-V3/releases.atom",
+        "feed": "https://github.com/deepseek-ai/deepseek-harness/releases.atom",
         "topics": [
           "agent-harness",
           "evaluation-gates"
@@ -274,7 +274,8 @@
         "tags": [
           "lab"
         ],
-        "why": "Open-weight reasoning models; agent/tooling repos."
+        "why": "Open-weight reasoning models; agent/tooling repos.",
+        "notes": " P81: feed re-anchored to the active harness-side line (deepseek-harness, 4 live release entries); the V3 releases feed is live but stale (P79.R1 revised - the V4 repo feed is 404)."
       },
       {
         "id": "moonshot-ai",

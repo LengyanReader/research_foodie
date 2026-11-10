@@ -1476,7 +1476,7 @@ class P71EmbodiedHarnessTest(unittest.TestCase):
         for token in ("R291", "uni-robot-agent", "Democratizing Robot-Use Agents", "arXiv:2611.01560"):
             self.assertIn(token, text, f"{token!r} missing from references.md")
         self.assertIn("R291: **2026-11-04**", text, "\u00a7AF access-date header missing")
-        self.assertIn("R1\u2013R293", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to the current top reference")
+        self.assertIn("R1\u2013R295", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to the current top reference")
 
     def test_r291_in_bibtex(self):
         bib = _read(HARNESS / "review/references.bib")
@@ -1794,7 +1794,7 @@ class P73CognitiveLearningTest(unittest.TestCase):
                       "Dupoux", "LeCun", "Malik"):
             self.assertIn(token, text, f"{token!r} missing from references.md")
         self.assertIn("R293: **2026-11-05**", text, "\u00a7AH access-date header missing")
-        self.assertIn("R1\u2013R293", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to R293")
+        self.assertIn("R1\u2013R295", text, "\u4e2d\u6587\u901f\u89c8 range not reconciled to R293")
 
     def test_r293_in_bibtex(self):
         bib = _read(HARNESS / "review/references.bib")

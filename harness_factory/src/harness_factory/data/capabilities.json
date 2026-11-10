@@ -628,7 +628,9 @@
     "procedure": [
       "Declare the control graph in prose",
       "Specify max rounds/edges/fan-in",
-      "Record the topology before prompting"
+      "Record the topology before prompting",
+      "Sub-agent handoffs carry minimal context and an explicit result contract; the parent reviews output in two stages (spec compliance, then quality) before merging [R277/R295 exemplars]",
+      "Per-sub-agent cost caps at every delegation edge (cost-budget-caps applied locally), and the parent - not the sub-agent - owns accountability for the merged result"
     ],
     "procedure_source": "core/03-long-running-agents.md"
   },

@@ -49,7 +49,7 @@ li{margin:5px 0}
 <a href="#3---harness-文献综述---harness-literature-synthesis" class="">3 · Harness 文献综述 · Harness literature synthesis</a>
 <a href="#中文" class="lvl3">中文</a>
 <a href="#english" class="lvl3">English</a>
-<a href="#4---deepseek-线整合专评---deepseek-integration-assessment" class="">4 · DeepSeek 线整合专评 · DeepSeek integration assessment</a>
+<a href="#4---新兴方向与-deepseek-线整合专评---emerging-directions---the-deepseek-in" class="">4 · 新兴方向与 DeepSeek 线整合专评 · Emerging directions &amp; the DeepSeek integration assessment</a>
 <a href="#中文" class="lvl3">中文</a>
 <a href="#english" class="lvl3">English</a>
 <a href="#5---分析与预测---analysis---predictions" class="">5 · 分析与预测 · Analysis &amp; predictions</a>
@@ -73,7 +73,7 @@ li{margin:5px 0}
 <p>——多智能体扩展的新叙事；④ <b>DeepSeek 线</b>：V4.1-Flash 公测（agent 能力 + Responses API + Codex 兼容），</p>
 <p>但<b>11 月无新发布</b>——借此对库内 DeepSeek 整合做了一次专评（§4）：证据级整合正确、源锚点过时（V3/R1 feed）、</p>
 <p>零专项测试（设计使然，model-agnostic）。观测/沙箱/网关基建的<b>版本节奏</b>（Langfuse 4 连发、E2B、LiteLLM LTS）</p>
-<p>本身成为信号：执行环境的商业化供给在加速。论断 T5–T7 见 §5；行动项 P78.R1–R4 见 §6。每节中英并行。</p>
+<p>本身成为信号：执行环境的商业化供给在加速。论断 T5–T7 见 §5；行动项 P79.R1–R4 见 §6。每节中英并行。</p>
 </blockquote>
 <blockquote>
 <p><b>Executive summary.</b> Second weekly issue. Four load-bearing signals primary-verified this week:</p>
@@ -87,7 +87,7 @@ li{margin:5px 0}
 <p>integration posture is correct, the source anchors are stale (V3/R1 feeds), and DeepSeek-specific testing</p>
 <p>is zero (by design, model-agnostic). The <b>release cadence</b> of observability/sandbox/gateway infrastructure</p>
 <p>(Langfuse ×4, E2B, LiteLLM LTS) is itself a signal: commercial supply of execution environments is</p>
-<p>accelerating. Theses T5–T7 in §5; action items P78.R1–R4 in §6. Each section is bilingual.</p>
+<p>accelerating. Theses T5–T7 in §5; action items P79.R1–R4 in §6. Each section is bilingual.</p>
 </blockquote>
 <hr>
 <h2 id="1---本周信号---weekly-signals">1 · 本周信号 · Weekly signals</h2>
@@ -126,19 +126,21 @@ li{margin:5px 0}
 <p>almost word-for-word onto M1.11 (compaction budget = communication complexity) plus M2's memory tiers, and its <b>paired evaluation against RAG</b> is the external isomorph of this library's paired-trial methodology (A/B conditions) applied to memory design. Value: it gives M2's binary "memory depth = session/durable" choice a finer external reference (tiered memory) — logged as a proposal-level observation.</p>
 <p>(QueenBee's search space) to <i>training sharing policies</i> (cooperative RL learning when to share) — the two correspond to the <b>structural</b> and <b>policy</b> faces of M8. Reconciliation question worth tracking: how do QueenBee's safeguards (held-out acceptance gate, variance-aware credit) reappear under s³'s RL setting?</p>
 <p>evolution jointly reinforce P77 thesis T4 (evaluation shifting to measurement science): the environment fingerprints a reproducibility track demands and the repeated runs pass^k demands are two faces of the same coin.</p>
-<h2 id="4---deepseek-线整合专评---deepseek-integration-assessment">4 · DeepSeek 线整合专评 · DeepSeek integration assessment</h2>
+<h2 id="4---新兴方向与-deepseek-线整合专评---emerging-directions---the-deepseek-in">4 · 新兴方向与 DeepSeek 线整合专评 · Emerging directions & the DeepSeek integration assessment</h2>
 <h3 id="中文">中文</h3>
+<p>（GraphRAG 维护线）持续供给但「热点≠可持续」的判断不变；湿域/具身判分（上期信号 6）的行业侧延续—— 执行环境类目的成熟（§2）使状态判分语义向物理域延伸的路径更可信。<b>本节主体是 DeepSeek 线整合专评</b> （用户附带指令，逐层清点如下）。</p>
 <p>R265（reward-hacking 基准——DeepSeek V3 0.6% vs R1-Zero 13.9% 的 RL 归因证据）。情报源两条（<code>sources.json</code>： <code>deepseek</code> → DeepSeek-V3 releases feed；<code>deepseek-repos</code> → DeepSeek-R1 releases feed）。轮次两处：P57 机构 实践扫描（V4.1-Flash + DeepInfer 判为<b>模型/部署侧 lead</b>，能力面不触发）；P68 景观分析（V4.1 Flash 的 Terminal Bench 2.1 82.7 分、$0.14/M 成本作为「工具处理可训练」的论据）。</p>
-<p>项目后仍成立<b>；M4.17 只记录模型身份不据其路由。因此 DeepSeek 的正确整合姿势就是</b>证据级<b>（技术源、归因 数据、成本-性能参照），而非「DeepSeek 能力模块」——现状符合通则。</b>滞后在源锚点<b>：两条 feed 都锚在 V3/R1 仓库，V4 线（2026-02 起）完全不在跟踪面——本周 25 条 DeepSeek 情报全部来自</b>旁路源**（HF/Raschka/Mem0 等）， 主源静默。这是真实的覆盖缺陷（P78.R1 提案修正）。</p>
-<p>处理变量是 <b>harness 纪律</b>（裸奔 vs harness），模型是背景常量。诚实结论：<b>本库从未对「DeepSeek 模型 + 本库 harness」的组合做过任何模拟测试</b>。这不是遗漏而是边界：agent-eval-reliability 族的 judge_checks 已 要求「harness (model × scaffold) disclosed on every receipt」（R288/HAL 口径），但收据的 model 轴目前只进 notes 不进结构化字段——model 轴结构化是零成本改进（P78.R4）。若要做真 DeepSeek 组合测试：走 HARNESS_LLM_* 环境门（可选 LLM 分类器已支持外部模型），跑一轮配对试验，收据即自然披露 model×scaffold。</p>
-<p>一个量级，M1.11 的 compaction 预算论证（预算 = 通信复杂度）的<b>前提</b>（上下文昂贵）松动。不是推翻： 通信复杂度不只由 token 价格决定（噪声、注意力稀释、指令漂移仍在）；但「便宜长上下文改变预算权衡」值得 作为 M1.11 的一行范围注记提案（P78.R3），不直改 core/。</p>
+<p>项目后仍成立<b>；M4.17 只记录模型身份不据其路由。因此 DeepSeek 的正确整合姿势就是</b>证据级<b>（技术源、归因 数据、成本-性能参照），而非「DeepSeek 能力模块」——现状符合通则。</b>滞后在源锚点<b>：两条 feed 都锚在 V3/R1 仓库，V4 线（2026-02 起）完全不在跟踪面——本周 25 条 DeepSeek 情报全部来自</b>旁路源**（HF/Raschka/Mem0 等）， 主源静默。这是真实的覆盖缺陷（P79.R1 提案修正）。</p>
+<p>处理变量是 <b>harness 纪律</b>（裸奔 vs harness），模型是背景常量。诚实结论：<b>本库从未对「DeepSeek 模型 + 本库 harness」的组合做过任何模拟测试</b>。这不是遗漏而是边界：agent-eval-reliability 族的 judge_checks 已 要求「harness (model × scaffold) disclosed on every receipt」（R288/HAL 口径），但收据的 model 轴目前只进 notes 不进结构化字段——model 轴结构化是零成本改进（P79.R4）。若要做真 DeepSeek 组合测试：走 HARNESS_LLM_* 环境门（可选 LLM 分类器已支持外部模型），跑一轮配对试验，收据即自然披露 model×scaffold。</p>
+<p>一个量级，M1.11 的 compaction 预算论证（预算 = 通信复杂度）的<b>前提</b>（上下文昂贵）松动。不是推翻： 通信复杂度不只由 token 价格决定（噪声、注意力稀释、指令漂移仍在）；但「便宜长上下文改变预算权衡」值得 作为 M1.11 的一行范围注记提案（P79.R3），不直改 core/。</p>
 <h3 id="english">English</h3>
+<p>source this week; what follows is signal + reasoning).<b> Retrieval-augmented self-improvement (the GraphRAG maintenance line) keeps supplying, with the "hot ≠ sustainable" judgment unchanged; the industry side of wet-lab/embodied grading (last issue's signal 6) continues — the maturing execution-environment category (§2) makes the state-grading-to-physical-domain path more credible. </b>The body of this section is the DeepSeek integration assessment** (user instruction, layer-by-layer below).</p>
 <p>Layer-by-layer inventory:</p>
 <p>RLVR reasoning), R265 (reward-hacking benchmark — DeepSeek V3 0.6% vs R1-Zero 13.9% RL attribution). Two intel sources (<code>sources.json</code>: <code>deepseek</code> → DeepSeek-V3 releases feed; <code>deepseek-repos</code> → DeepSeek-R1 releases feed). Two round mentions: the P57 org-practices sweep (V4.1-Flash + DeepInfer judged</p>
 <p>Flash's Terminal Bench 2.1 82.7 at $0.14/M as evidence that tool handling is trainable).</p>
 <p>place only if it survives removal of the originating project; M4.17 records model identity without routing on it. So the <i>correct</i> integration posture for DeepSeek is exactly <b>evidence-level</b> (technique source, attribution data, cost-performance reference), not a "DeepSeek capability module" — the current state complies. <b>The lag is in source anchors</b>: both feeds point at the V3/R1 repos, while the V4 line (since Feb 2026) is entirely off the tracking surface — this week's 25 DeepSeek intel hits all arrived via</p>
-<p>model; the paired trials' treatment is the <b>harness discipline</b> (bare vs harness), the model a background constant. Honest conclusion: <b>this library has never simulation-tested the "DeepSeek model + this harness" combination.</b> That is a boundary, not an oversight: the agent-eval-reliability family's judge_checks already demand "harness (model × scaffold) disclosed on every receipt" (the R288/HAL idiom), but the model axis currently lives only in receipt notes, not a structured field — structuring it is a zero-cost improvement (P78.R4). A genuine DeepSeek combination test would go through the HARNESS_LLM_* env gate (the optional LLM classifier already supports external models), run one paired trial, and the receipts would disclose model×scaffold naturally.</p>
-<p>10% KV — if long context becomes an order of magnitude cheaper, the <b>premise</b> of M1.11's compaction-budget argument (context is expensive) loosens. Not an overthrow: communication complexity is set by more than token price (noise, attention dilution, instruction drift remain); but "cheap long context changes the budget trade-off" deserves a one-line scope note on M1.11 as a proposal (P78.R3), never a direct edit.</p>
+<p>model; the paired trials' treatment is the <b>harness discipline</b> (bare vs harness), the model a background constant. Honest conclusion: <b>this library has never simulation-tested the "DeepSeek model + this harness" combination.</b> That is a boundary, not an oversight: the agent-eval-reliability family's judge_checks already demand "harness (model × scaffold) disclosed on every receipt" (the R288/HAL idiom), but the model axis currently lives only in receipt notes, not a structured field — structuring it is a zero-cost improvement (P79.R4). A genuine DeepSeek combination test would go through the HARNESS_LLM_* env gate (the optional LLM classifier already supports external models), run one paired trial, and the receipts would disclose model×scaffold naturally.</p>
+<p>10% KV — if long context becomes an order of magnitude cheaper, the <b>premise</b> of M1.11's compaction-budget argument (context is expensive) loosens. Not an overthrow: communication complexity is set by more than token price (noise, attention dilution, instruction drift remain); but "cheap long context changes the budget trade-off" deserves a one-line scope note on M1.11 as a proposal (P79.R3), never a direct edit.</p>
 <h2 id="5---分析与预测---analysis---predictions">5 · 分析与预测 · Analysis & predictions</h2>
 <div class="tblwrap"><table>
 <thead><tr><th>#</th><th>论断 · Thesis</th><th>证据 · Evidence</th><th>置信 · Confidence</th><th>反转条件 · Reversal condition</th></tr></thead>
@@ -155,31 +157,31 @@ li{margin:5px 0}
 <h2 id="6---对-harness-的行动项---action-items-for-the-harness">6 · 对 harness 的行动项 · Action items for the harness</h2>
 <h3 id="中文">中文</h3>
 <ol>
-<li><b>P78.R1（提案级）</b>：<code>sources.json</code> 的 DeepSeek feed 重锚——<code>deepseek</code>/<code>deepseek-repos</code> 指向 V3/R1 仓库的 releases 已静默；提案改为 org 级 releases（<code>https://github.com/deepseek-ai</code> org feed）或追加 V4 仓库 feed。走人审门，不直改 data/。</li>
-<li><b>P78.R2（提案级）</b>：<code>watchlist.json</code> 加宽 DeepSeek 基建线探针（DeepInfer · FlashMLA · DeepEP · 3FS · sparse attention · KV cache）——开源基建是 harness 邻接面（推理效率=上下文工程底座）。</li>
-<li><b>P78.R3（提案级）</b>：M1.11 一行范围注记——「廉价长上下文改变 compaction 预算权衡（V4 类 27% FLOPs 先例）；通信复杂度仍由噪声/稀释/漂移共同决定」。</li>
-<li><b>P78.R4（结构化改进）</b>：battery 收据的 <b>model 轴结构化</b>（detail.model 字段），兑现 agent-eval-reliability 族「model × scaffold disclosed」判据的结构化落点；下次真实任务收尾起执行。</li>
-<li><b>P78.R5（观察级）</b>：双层记忆（2611.09807）与 s³（2611.08615）登记为 M1/M2、M8 的外部参照；若后续需要全读，按 R-group 续编流程入册。</li>
+<li><b>P79.R1（提案级）</b>：<code>sources.json</code> 的 DeepSeek feed 重锚——<code>deepseek</code>/<code>deepseek-repos</code> 指向 V3/R1 仓库的 releases 已静默；提案改为 org 级 releases（<code>https://github.com/deepseek-ai</code> org feed）或追加 V4 仓库 feed。走人审门，不直改 data/。</li>
+<li><b>P79.R2（提案级）</b>：<code>watchlist.json</code> 加宽 DeepSeek 基建线探针（DeepInfer · FlashMLA · DeepEP · 3FS · sparse attention · KV cache）——开源基建是 harness 邻接面（推理效率=上下文工程底座）。</li>
+<li><b>P79.R3（提案级）</b>：M1.11 一行范围注记——「廉价长上下文改变 compaction 预算权衡（V4 类 27% FLOPs 先例）；通信复杂度仍由噪声/稀释/漂移共同决定」。</li>
+<li><b>P79.R4（结构化改进）</b>：battery 收据的 <b>model 轴结构化</b>（detail.model 字段），兑现 agent-eval-reliability 族「model × scaffold disclosed」判据的结构化落点；下次真实任务收尾起执行。</li>
+<li><b>P79.R5（观察级）</b>：双层记忆（2611.09807）与 s³（2611.08615）登记为 M1/M2、M8 的外部参照；若后续需要全读，按 R-group 续编流程入册。</li>
 </ol>
 <h3 id="english">English</h3>
 <ol>
-<li><b>P78.R1 (proposal):</b> re-anchor the DeepSeek feeds in <code>sources.json</code> — the V3/R1 release feeds are</li>
+<li><b>P79.R1 (proposal):</b> re-anchor the DeepSeek feeds in <code>sources.json</code> — the V3/R1 release feeds are</li>
 </ol>
 <p>   silent; propose the org-level releases feed or a V4 repo feed. Human gate; never a direct data/ edit.</p>
 <ol>
-<li><b>P78.R2 (proposal):</b> widen the watchlist with DeepSeek open-infra probes (DeepInfer · FlashMLA ·</li>
+<li><b>P79.R2 (proposal):</b> widen the watchlist with DeepSeek open-infra probes (DeepInfer · FlashMLA ·</li>
 </ol>
 <p>   DeepEP · 3FS · sparse attention · KV cache) — the open-infrastructure line is harness-adjacent    (inference efficiency is context-engineering substrate).</p>
 <ol>
-<li><b>P78.R3 (proposal):</b> one-line scope note on M1.11 — "cheap long context changes the compaction-budget</li>
+<li><b>P79.R3 (proposal):</b> one-line scope note on M1.11 — "cheap long context changes the compaction-budget</li>
 </ol>
 <p>   trade-off (V4-class 27%-FLOPs precedent); communication complexity is still jointly set by noise,    dilution and drift."</p>
 <ol>
-<li><b>P78.R4 (structural):</b> give battery receipts a <b>structured model axis</b> (<code>detail.model</code>), landing the</li>
+<li><b>P79.R4 (structural):</b> give battery receipts a <b>structured model axis</b> (<code>detail.model</code>), landing the</li>
 </ol>
 <p>   agent-eval-reliability family's "model × scaffold disclosed" criterion in the schema; effective from the    next real-task close-out.</p>
 <ol>
-<li><b>P78.R5 (observation):</b> log the two-tier memory paper and s³ as external references for M1/M2 and M8;</li>
+<li><b>P79.R5 (observation):</b> log the two-tier memory paper and s³ as external references for M1/M2 and M8;</li>
 </ol>
 <p>   full-read registration follows the R-group continuation flow if needed.</p>
 <h2 id="7---方法与数据附录---method---data-appendix">7 · 方法与数据附录 · Method & data appendix</h2>

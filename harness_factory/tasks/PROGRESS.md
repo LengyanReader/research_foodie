@@ -1,6 +1,17 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-09
+**Updated:** 2026-11-10
+
+## 2026-11-10 · P81：前沿核查轮 —— dsh 发现 · R294/R295 入册 · graph-orchestration 委派信任升级 · M1.11 注记
+
+- **用户指令。** 「全方位检查一下相关前沿领域最新的研究和实践，对现有能力进行更新，升级和进化」。
+- **头条发现：DeepSeek 有真正的开源 harness。** deepseek-harness（dsh）："Everything is a Plugin"，Cordis 元框架，MIT，**可把 Claude Code/Codex 作为 sub-agent 调度**（dev preview 2026-08；官方站/repo/HN/DataCamp 多源核验，repo releases feed 活跃 4 条）。P79「DeepSeek 只在模型/部署侧」的判断**被推翻**——harness 侧产品线真实存在且完全脱管。
+- **能力升级（更新现有而非新铸）。** `graph-orchestration` procedure 3→5 步：委派交接携带最小上下文 + 显式结果契约，**两段式评审**（规格符合 → 质量，R277 先例）后才合并；每条委派边加 per-sub-agent 成本上限；父体对合并结果负全责。通则检验通过：委派信任模式现有**两个独立工业实现**（R277 superpowers · R295 dsh）。
+- **子句注记（P79.R3 落地）。** M1.11 尾注：模型侧上下文经济学（V4：1M 上下文 = 27% 单 token FLOPs / 10% KV，R294）把成本前提松动一个量级；但通信复杂度仍由噪声/稀释/漂移共同决定——**从实际瓶颈重推预算，勿假定成本主导**。
+- **入册与接线。** §AI 新组：R294（DeepSeek-V4 技术报告，search-verified）+ R295（dsh repo，search-verified + feed 活跃）；references 头部 R1–R295（两处测试钉同步）；sources.json `deepseek` feed 重锚 dsh releases（P79.R1 修订版：V4 仓 feed 404 的现实约束下选活性锚）；watchlist 加宽（deepseek 基建 5 探针 + 自主科学 4 探针，P77.R1/P79.R2 精度实测背书）；trend.py 范围文本同步。
+- **未入册（诚实边界）。** OpenAI agent「关闭自身监控」事件（2026-10）——仅搜索摘要级转述，unverified，不作事实引用；Claude Fable/Mythos 5.2（11-09）与 OpenAI Dots——模型/产品侧，能力面不触发（M4.17）。
+- **测试。** `evolve --dry-run`：80% 覆盖 · 25 审计 · 0 硬问题；全套件 **566 全绿**；`cycle audit`：**77 轮 · 0 硬问题 · 0 缺口**。
+
 
 ## 2026-11-09 · P80：评测轮 —— 收据 model 轴落地 · 提案对现实校准 · citation-resolution 区分性试验（bare 0.0 vs harness 1.0）
 
