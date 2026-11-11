@@ -2153,6 +2153,29 @@
         "P82.5 - feed re-anchor integration test: the full-pull window excluded old dsh entries (--since filter working as designed), so a point integration test proved the pipe: dsh releases atom -> parse_feed -> 10 entity-mapped candidates (v0.2.1-alpha.4 .. v0.2.2-rc.1, 2026-10-15..11-04) - dsh is in ACTIVE beta churn, not dormant"
       ],
       "note": "User asked for full experiments/simulation/evaluation. The round measured the thing P81 just landed: the delegation-trust procedure upgrade shows a real effect under its own contract (bare ships violations, review catches them at stage 1 for ~1.3x draft cost instead of a 2x full regeneration). The feed re-anchor was integration-tested at the parser level after the full-pull window filter correctly excluded the old entries - and the test surfaced that dsh is releasing rapidly (10 rc/alpha tags in four weeks), which the next weekly issue should pick up. Suite green; audit clean."
+    },
+    {
+      "id": "P83",
+      "status": "done",
+      "date": "2026-11-11",
+      "title_en": "Full-update cycle + dsh full-read: R295 upgraded with two disclosure-discipline findings (honest SAFETY.md, zero-score BENCHMARK.md)",
+      "title_zh": "全面更新循环 + dsh 深读：R295 升格，两条披露纪律发现（诚实 SAFETY.md · 零分数 BENCHMARK.md）",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P83.1 - standing full-update cycle ran clean end-to-end: intel 3297 items, probe-domains 5 clusters, trace-audit 0 proposals (P80/P82 receipts metabolized clean), evolve 25 audits, cycle audit 0 hard/0 gaps, scoreboard 1.0, self-model 46 capabilities / battery 17/17 / gap_topics ambition-and-agency+devops-platform+emerging-directions, trend refreshed",
+        "P83.2 - dsh deep-read (README + SAFETY.md + BENCHMARK.md fetched directly): R295 upgraded from listed to full-read; release cadence confirmed active (10 rc/alpha tags in four weeks, v0.2.2-rc.1 2026-11-04)",
+        "P83.3 - finding 1: SAFETY.md is an honest-limitations exemplar - 'has not undergone a security audit and must not be treated as secure or production-ready'; sandbox/approval/permission controls 'do not guarantee isolation or prevent damage'; 'Do not rely on DeepSeek Harness as the sole security control for untrusted workloads'; least-privilege + disposable-environment + review-plugins-before-running precautions",
+        "P83.4 - finding 2: BENCHMARK.md carries ZERO score claims - only methodology pointers ('Use separate workspaces and session IDs for independent benchmark tasks'); a 278k-star harness competing on architecture/plugins rather than leaderboard numbers - consistent with P77 T4 and a counter-data-point to vendor benchmark marketing",
+        "P83.5 - Cordis architecture paper ('A Programming Paradigm for Spatiotemporal Composability') noted inside R295 as the meta-framework reference, not minted as a separate R (reference inflation avoided)"
+      ],
+      "note": "Continue = the standing comprehensive routine plus the verification-ladder step on the week's most capability-relevant discovery. The full-update metabolized the P80/P82 trial receipts with zero trace-audit proposals (the registry is clean). The dsh full-read produced two findings worth keeping as evidence: a major lab shipping an honest-limitations safety document (maps onto M6/M0.9 sandbox posture as an industry exemplar) and a no-benchmark-marketing posture (architecture competition, not score competition). gap_topics from the self-model carry to the next worklist: ambition-and-agency (P59.R1, needs a user-named source), devops-platform (P78's new domain, watchlist coverage still thin), emerging-directions (probes landed, intel yield pending)."
     }
   ],
   "roadmap": [

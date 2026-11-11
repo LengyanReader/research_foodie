@@ -1,6 +1,16 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-10
+**Updated:** 2026-11-11
+
+## 2026-11-11 · P83：全面更新循环 + dsh 深读 —— R295 升格 full-read · 两条披露纪律发现
+
+- **用户指令。** 「继续」——例行综合维护 + 对本周最相关发现的验证阶梯进阶。
+- **full-update 八相全过。** intel 3,297 条 · probe-domains 5 簇 · trace-audit **0 提案**（P80/P82 试验收据代谢干净——注册表无违规）· evolve 25 审计 · cycle audit 0 硬 0 缺口 · scoreboard **1.0**（7 任务）· self-model（46 能力 · 电池 17/17 · gap_topics：ambition-and-agency[P59.R1 待用户源] · devops-platform[P78 新域 watchlist 覆盖薄] · emerging-directions[探针已落，情报产出待验证]）· trend 重聚合。
+- **dsh 深读（R295 listed → full-read）。** README + SAFETY.md + BENCHMARK.md 直读：npm `@deepseek-ai/dsh` · Web UI 127.0.0.1:3080 · **~278k stars / ~25.8k commits** · Cordis 元框架（架构论文 *A Programming Paradigm for Spatiotemporal Composability* 记入 R295 条目内，不另铸 R 防膨胀）· 发布节奏活跃（四周 10 个 rc/alpha，v0.2.2-rc.1 = 2026-11-04）。
+- **发现 1：诚实局限声明典范。** SAFETY.md："has not undergone a security audit and must not be treated as secure or production-ready"；沙箱/审批/权限控制 "do not guarantee isolation or prevent damage"；"Do not rely on DeepSeek Harness as the sole security control for untrusted workloads"；最小权限 + 一次性环境 + 运行前审查插件。→ M6/M0.9 沙箱姿态的行业级同构样本。
+- **发现 2：零跑分营销。** BENCHMARK.md **无任何分数声明**——只有方法论指针（"Use separate workspaces and session IDs for independent benchmark tasks"）。278k-star 的 harness 靠架构与插件生态竞争而非榜单数字——与 P77 T4（评测转向测量学）一致，且是厂商跑分营销的**反例数据点**。
+- **测试。** 567 全绿；`cycle audit`：**79 轮 · 0 硬问题 · 0 缺口**；P81 未随车的 trend-snapshot 工作树状态一并入账。
+
 
 ## 2026-11-10 · P82：实验轮 —— subagent-delegation 配对试验实测 P81 procedure 升级（bare 0.25 vs harness 1.0）
 

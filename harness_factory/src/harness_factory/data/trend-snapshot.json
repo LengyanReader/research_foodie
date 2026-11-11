@@ -1,6 +1,6 @@
 {
-  "generated": "2026-11-09",
-  "horizon": "2026-10-10",
+  "generated": "2026-11-10",
+  "horizon": "2026-10-11",
   "items": 3201,
   "untracked": 0,
   "clusters": {
@@ -68,15 +68,15 @@
         }
       ],
       "delta": {
-        "count": 163,
-        "recent": 158,
-        "since": "2026-11-07"
+        "count": 0,
+        "recent": 0,
+        "since": "2026-11-09"
       }
     },
     "harness": {
       "title": "Harness directions - literature review · harness 方向文献综述",
       "count": 3151,
-      "recent": 621,
+      "recent": 620,
       "sources": 64,
       "top": [
         {
@@ -137,9 +137,9 @@
         }
       ],
       "delta": {
-        "count": 206,
-        "recent": 185,
-        "since": "2026-11-07"
+        "count": 0,
+        "recent": -1,
+        "since": "2026-11-09"
       }
     },
     "trajectories": {
@@ -150,8 +150,8 @@
       "top": [],
       "delta": {
         "count": 0,
-        "recent": -1,
-        "since": "2026-11-07"
+        "recent": 0,
+        "since": "2026-11-09"
       }
     },
     "domains": {
@@ -184,8 +184,8 @@
       ],
       "delta": {
         "count": 0,
-        "recent": -1,
-        "since": "2026-11-07"
+        "recent": 0,
+        "since": "2026-11-09"
       }
     }
   }
