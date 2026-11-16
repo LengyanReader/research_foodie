@@ -1,6 +1,18 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-11
+**Updated:** 2026-11-16
+
+## 2026-11-16 · P84：周报第三期 + 深度演化 —— harness engineering 学科化（R296）· M6.12 扩展面 · 三设计押注获实证
+
+- **用户指令。** 「请进行全方位的更新，升级，和深度演化，基于相关领域的最新发展」。
+- **周报补位（诚实记录）。** 自动化 11-09 首跑成功（runCount=1，产出 P79）；**11-16 计划触发未见产出**——本轮人工执行第三期，自动化保持启用（P84.R4：若下周一仍无产出，检查宿主会话常驻条件）。
+- **学科化头条（R296 入册，abs 级直读）。** Barbaste *Harness Engineering*（arXiv:2609.00006）：**11+1 生产级 coding harness / ~400 万行源码**——七规范子系统（loop·tools·context·safety·orchestration·extension surfaces）、29 复现模式、18 设计建议、90 行 MVH。综述家族（2605.18747 · 2604.25850 · 110+ 论文分类法 · awesome-agent-harness）记于条目内，不逐一入册（防膨胀）。
+- **深度演化：解剖对账（§3）。** 七子系统 ↔ M0–M8 映射：本库**盈余三轴** = memory（M2）/ provenance（M4）/ self-evolution（M5）——综述规范子系统未含，差异化所在；对方盈余轴 **extension surfaces** → 落地为 **M6.12**（P84.R1 按既定授权执行：扩展面在 M6 内显式命名——portable-skills 门禁·版本化·安全审查·可移植；**扩展只扩能力、永不扩权限**，M6.11 仍辖一切实参）。source-map 行同步。
+- **三项设计押注一篇获证。** ~4M 行生产源码：**零 agent 框架导入**（零依赖 CLI ✓）· **零向量嵌入检索**（"hand-rolled async loops and deterministic retrieval"，确定性信号匹配 ✓）· **Skills 9/11 胜 MCP 8/11**（portable-skills 优先 ✓）。辩证面保留：实测现状≠最优证明，记「押中一次」非「永远正确」。
+- **R295 生命周期增补。** dsh 1.54M DAU（SCMP 二手，方向非精度）· Super Agent 原型（11-02 二手）· v0.2.2-rc.2（11-11 feed）· **星数源间分歧记录**（repo 页 ~278k 一手 vs 博客 95k+；取 repo、不平均、不隐去）。
+- **论断。** T8 平台转向（"from tool to platform"，ACP 6 系统 + hosting 第三角色）· T9 学科固化（观察指标=实证研究比例而非综述数）；各自带反转条件与最强反例。
+- **测试。** 567 全绿；`cycle audit`：**80 轮 · 0 硬问题 · 0 缺口**（子句锚定数随 M6.12 +1）；TREND 期次表 +3 期行。
+
 
 ## 2026-11-11 · P83：全面更新循环 + dsh 深读 —— R295 升格 full-read · 两条披露纪律发现
 

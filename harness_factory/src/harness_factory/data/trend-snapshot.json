@@ -1,15 +1,22 @@
 {
-  "generated": "2026-11-10",
-  "horizon": "2026-10-11",
-  "items": 3201,
+  "generated": "2026-11-16",
+  "horizon": "2026-10-17",
+  "items": 3041,
   "untracked": 0,
   "clusters": {
     "industry": {
       "title": "AI industry & adjacent fields · 全行业与相关领域趋势",
-      "count": 2709,
-      "recent": 400,
-      "sources": 28,
+      "count": 2577,
+      "recent": 235,
+      "sources": 27,
       "top": [
+        {
+          "rel": 3.0,
+          "date": "2026-11-09",
+          "source": "Langfuse",
+          "title": "v4.77.0",
+          "url": "https://github.com/langfuse/langfuse/releases/tag/v4.77.0"
+        },
         {
           "rel": 2.5,
           "date": "2026-11-06",
@@ -19,45 +26,17 @@
         },
         {
           "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.CL (new)",
-          "title": "Compaction, decay and reinforcement in a two-tier conversational memory: a paired evaluation against retrieval-augmented generation",
-          "url": "https://arxiv.org/abs/2611.09807"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.CL (new)",
-          "title": "Structure and Lineage Evidence for Vietnamese Statutory Article Retrieval on DRiLL",
-          "url": "https://arxiv.org/abs/2611.09200"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.CL (new)",
-          "title": "Adamas: Hadamard Sparse Attention for Efficient Long-Context Inference",
-          "url": "https://arxiv.org/abs/2510.18413"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.MA (new)",
-          "title": "s$^3$: Simple Scaling of Swarms via Cooperative Multi-agent RL",
-          "url": "https://arxiv.org/abs/2611.08615"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.MA (new)",
-          "title": "NeuroMAS: Multi-Agent Systems as Neural Networks with Joint Reinforcement Learning",
-          "url": "https://arxiv.org/abs/2605.16757"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
+          "date": "2026-11-10",
           "source": "Langfuse",
-          "title": "v4.77.0",
-          "url": "https://github.com/langfuse/langfuse/releases/tag/v4.77.0"
+          "title": "v4.78.0",
+          "url": "https://github.com/langfuse/langfuse/releases/tag/v4.78.0"
+        },
+        {
+          "rel": 2.5,
+          "date": "2026-11-12",
+          "source": "Langfuse",
+          "title": "v4.79.0",
+          "url": "https://github.com/langfuse/langfuse/releases/tag/v4.79.0"
         },
         {
           "rel": 2.0,
@@ -65,48 +44,41 @@
           "source": "OpenAI",
           "title": "Securing our frontier model training environment",
           "url": "https://openai.com/index/securing-our-frontier-model-training-environment"
+        },
+        {
+          "rel": 2.0,
+          "date": "2026-11-10",
+          "source": "OpenAI",
+          "title": "Work at the Frontier: AI’s effect on freelance work",
+          "url": "https://openai.com/index/ai-effect-on-freelance-work"
+        },
+        {
+          "rel": 2.0,
+          "date": "2026-10-19",
+          "source": "OpenAI",
+          "title": "Advancing coding in low‑resource programming languages",
+          "url": "https://openai.com/index/low-resource-programming-languages"
+        },
+        {
+          "rel": 2.0,
+          "date": "2026-10-19",
+          "source": "MCP reference servers (modelcontextprotocol/servers)",
+          "title": "v1.0.0",
+          "url": "https://github.com/modelcontextprotocol/servers/releases/tag/v1.0.0"
         }
       ],
       "delta": {
-        "count": 0,
-        "recent": 0,
-        "since": "2026-11-09"
+        "count": -132,
+        "recent": -165,
+        "since": "2026-11-10"
       }
     },
     "harness": {
       "title": "Harness directions - literature review · harness 方向文献综述",
-      "count": 3151,
-      "recent": 620,
-      "sources": 64,
+      "count": 2991,
+      "recent": 445,
+      "sources": 61,
       "top": [
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.CL (new)",
-          "title": "L-MARS: Legal Multi-Agent System with Agentic Search and Citation-Faithfulness Audit",
-          "url": "https://arxiv.org/abs/2509.00761"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.CL (new)",
-          "title": "Compaction, decay and reinforcement in a two-tier conversational memory: a paired evaluation against retrieval-augmented generation",
-          "url": "https://arxiv.org/abs/2611.09807"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.MA (new)",
-          "title": "s$^3$: Simple Scaling of Swarms via Cooperative Multi-agent RL",
-          "url": "https://arxiv.org/abs/2611.08615"
-        },
-        {
-          "rel": 2.5,
-          "date": "2026-11-09",
-          "source": "arXiv cs.MA (new)",
-          "title": "NeuroMAS: Multi-Agent Systems as Neural Networks with Joint Reinforcement Learning",
-          "url": "https://arxiv.org/abs/2605.16757"
-        },
         {
           "rel": 1.5,
           "date": "2026-11-06",
@@ -129,17 +101,45 @@
           "url": "https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science"
         },
         {
-          "rel": 2.5,
+          "rel": 2.0,
+          "date": "2026-10-21",
+          "source": "OpenAI",
+          "title": "OpenAI models are coming to Google Cloud",
+          "url": "https://openai.com/index/openai-models-google-cloud"
+        },
+        {
+          "rel": 3.0,
           "date": "2026-11-09",
-          "source": "arXiv cs.CL (new)",
-          "title": "Structure and Lineage Evidence for Vietnamese Statutory Article Retrieval on DRiLL",
-          "url": "https://arxiv.org/abs/2611.09200"
+          "source": "Langfuse",
+          "title": "v4.77.0",
+          "url": "https://github.com/langfuse/langfuse/releases/tag/v4.77.0"
+        },
+        {
+          "rel": 2.0,
+          "date": "2026-11-15",
+          "source": "OpenClaw",
+          "title": "openclaw 2026.11.5-beta.3",
+          "url": "https://github.com/openclaw/openclaw/releases/tag/v2026.11.5-beta.3"
+        },
+        {
+          "rel": 2.0,
+          "date": "2026-10-30",
+          "source": "Microsoft Research",
+          "title": "From synthetic enterprise data evaluations to real Microsoft Copilot AI confidence",
+          "url": "https://www.microsoft.com/en-us/research/blog/from-synthetic-enterprise-data-evaluations-to-real-microsoft-copilot-ai-confidence/"
+        },
+        {
+          "rel": 1.5,
+          "date": "2026-11-13",
+          "source": "The Batch (DeepLearning.AI)",
+          "title": "How to Build an Agent Harness in One Prompt: Build agent harnesses for any LLM using the open source OpenWorker Agent Harness SDK",
+          "url": "https://charonhub.deeplearning.ai/how-to-build-an-agent-harness-in-one-prompt/"
         }
       ],
       "delta": {
-        "count": 0,
-        "recent": -1,
-        "since": "2026-11-09"
+        "count": -160,
+        "recent": -175,
+        "since": "2026-11-10"
       }
     },
     "trajectories": {
@@ -151,7 +151,7 @@
       "delta": {
         "count": 0,
         "recent": 0,
-        "since": "2026-11-09"
+        "since": "2026-11-10"
       }
     },
     "domains": {
@@ -162,30 +162,30 @@
       "top": [
         {
           "rel": 1.5,
-          "date": "2026-10-12",
+          "date": "2026-10-19",
           "source": "Internet Archive Blog",
-          "title": "The People, Counted: Browse Raw Census Records at the Internet Archive",
-          "url": "https://blog.archive.org/2026/10/12/the-people-counted-browse-raw-census-records-at-the-internet-archive/"
+          "title": "Annual Celebration 2026: Street Fair to Showcase Internet Archive’s Projects and Allies",
+          "url": "https://blog.archive.org/2026/10/19/annual-celebration-2026-street-fair-to-showcase-internet-archives-projects-and-allies/"
         },
         {
           "rel": 1.5,
-          "date": "2026-10-14",
+          "date": "2026-10-20",
           "source": "Internet Archive Blog",
-          "title": "Celebrating 2026 Internet Archive Artist in Residence: Christopher Burch",
-          "url": "https://blog.archive.org/2026/10/14/celebrating-2026-internet-archive-artist-in-residence-christopher-burch/"
+          "title": "Internet Archive Honors Poynter and IRE for Preserving Local News Online",
+          "url": "https://blog.archive.org/2026/10/20/internet-archive-hero-award-2026/"
         },
         {
           "rel": 1.5,
-          "date": "2026-10-14",
+          "date": "2026-10-27",
           "source": "Internet Archive Blog",
-          "title": "Building the Hero Award: The Story Behind Taekyeom Lee’s 3D-Printed Model of the Internet Archive",
-          "url": "https://blog.archive.org/2026/10/14/building-the-hero-award/"
+          "title": "A Behind-the-Scenes Look at the Physical Archive",
+          "url": "https://blog.archive.org/2026/10/27/behind-the-scenes-physical-archive/"
         }
       ],
       "delta": {
         "count": 0,
         "recent": 0,
-        "since": "2026-11-09"
+        "since": "2026-11-10"
       }
     }
   }

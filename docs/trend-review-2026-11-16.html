@@ -1,0 +1,189 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weekly trend review, issue 3: harness engineering becomes a survey-grade discipline (P84)</title><style>
+:root{--ink:#1a2332;--mut:#65788f;--line:#dde4ec;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad;--accent:#7b5ea7;--code-bg:#f0f4f8;--pre-bg:#1a2332;--pre-fg:#d4d4d4;--sidebar-w:260px}
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.75;font-size:15.5px}
+.wrap{display:flex;max-width:1200px;margin:0 auto;min-height:100vh}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;font-size:13px}
+.sidebar h3{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:16px 0 6px}
+.sidebar a{display:block;color:var(--ink);text-decoration:none;padding:3px 8px;border-radius:4px;margin:1px 0;line-height:1.4}
+.sidebar a:hover{background:#eef2f7;color:var(--brand)}
+.sidebar a.lvl3{padding-left:20px;font-size:12.5px;color:var(--mut)}
+.sidebar a.active{color:var(--brand);font-weight:600;background:#e8f0fa}
+.content{flex:1;padding:32px 40px 64px;max-width:780px;min-width:0}
+.doc-header{border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:24px}
+.doc-header h1{font-size:22px;margin:0 0 4px;line-height:1.3}
+.doc-header .meta{font-size:12px;color:var(--mut);margin-top:4px}
+.back-nav{display:flex;gap:14px;padding:10px 0;margin-bottom:16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.back-nav a{font-size:13px;color:var(--brand);text-decoration:none}
+.back-nav a:hover{text-decoration:underline}
+h1{font-size:22px;line-height:1.3;margin:20px 0 12px}
+h2{font-size:18px;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 6px}
+p{margin:10px 0}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:var(--code-bg);border-radius:4px;padding:1px 5px;font-size:.88em;font-family:'Cascadia Code','SF Mono',monospace}
+pre{background:var(--pre-bg);color:var(--pre-fg);border-radius:8px;padding:16px 18px;overflow-x:auto;line-height:1.5;font-size:13.5px;margin:14px 0}
+pre code{background:none;padding:0;color:inherit}
+.tblwrap{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#f0f4f8;font-weight:600}
+tbody tr:nth-child(even){background:#fafbfc}
+blockquote{border-left:3px solid var(--brand);margin:14px 0;padding:10px 18px;background:#f0f4f8;border-radius:0 8px 8px 0}
+blockquote p{margin:6px 0}
+hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+ul,ol{padding-left:24px;margin:10px 0}
+li{margin:5px 0}
+.prevnext{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line)}
+.prevnext a{font-size:13px;color:var(--brand);text-decoration:none;padding:8px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.prevnext a:hover{background:#eef2f7}
+@media(max-width:900px){.sidebar{display:none}.content{padding:20px 16px 48px}}
+</style></head><body>
+<div class="wrap"><div class="sidebar"><h3>On this page</h3><a href="#1---本周信号---weekly-signals" class="">1 · 本周信号 · Weekly signals</a>
+<a href="#2---行业全景与相邻领域---industry-landscape-and-adjacent-fields" class="">2 · 行业全景与相邻领域 · Industry landscape and adjacent fields</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#3---harness-文献综述---harness-literature-synthesis" class="">3 · Harness 文献综述 · Harness literature synthesis</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#4---新兴方向---emerging-directions" class="">4 · 新兴方向 · Emerging directions</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#5---分析与预测---analysis---predictions" class="">5 · 分析与预测 · Analysis &amp; predictions</a>
+<a href="#中文-论断补充" class="lvl3">中文（论断补充）</a>
+<a href="#english--thesis-notes" class="lvl3">English (thesis notes)</a>
+<a href="#6---对-harness-的行动项---action-items-for-the-harness" class="">6 · 对 harness 的行动项 · Action items for the harness</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#7---方法与数据附录---method---data-appendix" class="">7 · 方法与数据附录 · Method &amp; data appendix</a>
+<a href="#中文" class="lvl3">中文</a>
+<a href="#english" class="lvl3">English</a>
+<a href="#溯源表---provenance" class="">溯源表 · Provenance</a></div>
+<div class="content">
+<nav class="back-nav"><a href="index.html">← Dashboard</a></nav>
+<div class="doc-header"><h1>Weekly trend review, issue 3: harness engineering becomes a survey-grade discipline (P84)</h1><div class="meta">Generated by harness-factory · docs/ · <b>SSOT: review/ 的 .md 文件是唯一可编辑源；本页面为派生视图。</b></div></div>
+<h1>Trend Review (weekly issue 3) · 趋势周报（第三期）</h1>
+<blockquote>
+<p><b>中文速览。</b> 第三期（自动化 11-09 首跑成功、11-16 计划触发未见产出，本轮人工补位，自动化保持启用）。两条主线：</p>
+<p>① <b>"harness engineering" 已成综述级学科</b>——Barbaste 的 <i>Harness Engineering</i> 综述（arXiv:2609.00006，R296 新入册）</p>
+<p>解剖 <b>11+1 个生产级 coding harness / 约 400 万行源码</b>：七规范子系统（loop·tools·context·safety·orchestration·</p>
+<p>extension surfaces）、29 个复现设计模式、18 条设计建议、90 行最小可行 harness；头条实证：**无任何运行时引入</p>
+<p>agent 框架、无任何向量嵌入检索<b>（"hand-rolled async loops and deterministic retrieval"），且 </b>Skills 采用 9/11</p>
+<p>胜 MCP 8/11**——本库的零依赖 CLI + 确定性信号匹配 + portable-skills 姿态三条设计押注同时获得独立实证背书。</p>
+<p>② <b>dsh 规模化</b>：1.54M DAU（SCMP，二手）、v0.2.2-rc.2（11-11）、"Super Agent" 原型（11-02）；星数存在源间</p>
+<p>分歧（repo 页 ~278k vs 博客 95k+，取 repo 页为准并记录分歧）。论断 T8（平台转向）见 §5。对账与行动项见 §3/§6。</p>
+</blockquote>
+<blockquote>
+<p><b>Executive summary.</b> Issue 3 (the automation's 11-09 first fire succeeded; the 11-16 scheduled fire produced no</p>
+<p>output — this issue is the manual backfill, automation left armed). Two main threads: **(1) "harness engineering"</p>
+<p>is now a survey-grade discipline** — the Barbaste <i>Harness Engineering</i> survey (arXiv:2609.00006, R296 newly</p>
+<p>registered) dissects <b>11+1 production coding harnesses / ~4M lines of source</b>: seven canonical subsystems</p>
+<p>(loop · tools · context · safety · orchestration · extension surfaces), 29 recurring design patterns, 18 design</p>
+<p>recommendations, a 90-line minimum-viable harness; headline empirics: **no runtime imports an agentic framework</p>
+<p>and none uses vector-embedding retrieval** ("the field runs on hand-rolled async loops and deterministic</p>
+<p>retrieval"), and <b>Skills adoption 9/11 beats MCP 8/11</b> — three of this library's standing design bets</p>
+<p>(zero-dependency CLI, deterministic signal matching, portable-skills-first) got independent empirical backing in</p>
+<p>one paper. <b>(2) dsh at scale</b>: 1.54M DAU (SCMP, secondhand), v0.2.2-rc.2 (11-11), a "Super Agent" prototype</p>
+<p>(11-02); star counts disagree across sources (repo page ~278k vs a blog's 95k+ — repo page kept as primary, the</p>
+<p>disagreement recorded). Thesis T8 (the platform turn) in §5; reconciliation and action items in §3/§6.</p>
+</blockquote>
+<hr>
+<h2 id="1---本周信号---weekly-signals">1 · 本周信号 · Weekly signals</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>#</th><th>信号 · Signal</th><th>源 · Source · Date</th><th>判读 · Reading</th><th>核验 · Verified</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>Harness Engineering 综述</b>：11+1 系统 / ~4M 行源码研究；七规范子系统；29 模式；18 建议；90 行 MVH；纵向 re-diff</td><td><a href="https://arxiv.org/abs/2609.00006">arXiv:2609.00006</a>（abs 页直读）</td><td>"harness engineering" 的独立学科化标志——解剖学与模式目录同时成立</td><td>✅ abs-read</td></tr>
+<tr><td>2</td><td>综述头条实证：<b>无运行时引入 agent 框架、无向量嵌入代码检索</b>；"hand-rolled async loops and deterministic retrieval"</td><td>同上</td><td>零依赖 + 确定性检索不是本库的怪癖，是<b>领域的实测主流</b></td><td>✅ abs-read</td></tr>
+<tr><td>3</td><td><b>Skills 采用 9/11 胜 MCP 8/11</b>；行为策略「从提示散文迁移到配置」；"convergence becoming imitation"</td><td>同上</td><td>portable-skills 优先姿态获采用面数据背书；SSOT 数据化条款与「配置迁移」同构</td><td>✅ abs-read</td></tr>
+<tr><td>4</td><td><b>平台转向</b>："in the first half of 2026 the coding harness completed a turn from tool to platform"；ACP 出现于 6 系统，催生「第三角色：harness hosting」</td><td>同上</td><td>本库 T1/T4 线索的学科级表述；harness 成为被托管对象</td><td>✅ abs-read</td></tr>
+<tr><td>5</td><td><b>dsh 规模化</b>：1.54M DAU（上线 <3 月）；"Super Agent" 编码代理原型（对位 Claude Code）</td><td><a href="https://www.scmp.com/tech/big-tech/article/3373757/can-deepseek-challenge-openai-anthropic-ai-agents-harness-adoption-takes">SCMP</a>（二手）；<a href="https://www.siliconrepublic.com/machines/deepseek-rival-anthropic-new-coding-agent-ai-rivals-anthropic">SiliconRepublic</a>（11-02，二手）</td><td>dsh 从 dev preview 走到规模采用；R295 生命周期注记升级</td><td>✅ search-verified（二手转述）</td></tr>
+<tr><td>6</td><td><b>dsh v0.2.2-rc.2</b>（11-11）——rc 节奏延续</td><td>dsh releases feed（P81 重锚后入流）</td><td>四周 11 个 tag；beta 快速迭代未收敛</td><td>feed-sourced</td></tr>
+<tr><td>7</td><td>星数源间分歧：repo 页 ~278k（2026-11-11 直读）vs 博客 95k+</td><td>repo 页 vs <a href="https://flowtivity.ai/blog/deepseek-harness-open-source-agent-explained">flowtivity 博客</a></td><td>取 repo 页为准（一手），分歧如实记录——二手数字混用是常见引用病</td><td>✅（分歧已记录）</td></tr>
+<tr><td>8</td><td>综述家族成形：<i>Code as Agent Harness</i>（2605.18747）· <i>Agentic Harness Engineering: Observability</i>（2604.25850）· 110+ 论文分类法 · awesome-agent-harness（RUCAIBox）</td><td>arXiv / GitHub（搜索发现）</td><td>学科化的多源印证；本库避免逐一入册（引用膨胀），家族记于 R296 条目内</td><td>✅ search-verified（家族注记）</td></tr>
+</tbody></table></div>
+<h2 id="2---行业全景与相邻领域---industry-landscape-and-adjacent-fields">2 · 行业全景与相邻领域 · Industry landscape and adjacent fields</h2>
+<h3 id="中文">中文</h3>
+<p>数据基座：industry 簇 2,577 条（30 天内 235），28 源；delta −132（窗口锚点混杂：上张快照 11-10 生成、窗口更长—— 非热度判断依据，见 §7）。</p>
+<p>持续 rc 节奏、与 Claude Code 对位的产品线（Super Agent）。辩证面：DAU 是<b>二手转述</b>（SCMP），星数源间差近 3 倍—— 规模数据先记方向、不记精确值；真正一手的是 feed 里的 rc 节奏（每周 2–3 个 tag）。「dev preview + 破坏性变更声明 + 百万级采用」并存，本身就是平台转向（T8）的用户侧证据。</p>
+<h3 id="english">English</h3>
+<p>Data base: 2,577 industry items (235 within 30 days), 28 sources; delta −132 (window-anchor confound — the previous snapshot was generated 11-10 with a longer window; not a heat signal, see §7).</p>
+<p>secondhand 1.54M-DAU report, a sustained rc cadence, and a Claude Code-counterpart product line (Super Agent). Dialectics: the DAU figure is <b>secondhand</b> (SCMP) and star counts differ ~3x across sources — record direction, not precision; the first-hand fact is the feed's rc cadence (2–3 tags/week). "Dev preview + breaking-changes warning + million-scale adoption" coexisting is itself user-side evidence of the platform turn (T8).</p>
+<p>from commodity toward hosted platform.</p>
+<h2 id="3---harness-文献综述---harness-literature-synthesis">3 · Harness 文献综述 · Harness literature synthesis</h2>
+<h3 id="中文">中文</h3>
+<p>safety controls · orchestration · extension surfaces）映射：loop/tools→<b>M6</b>（loop-discipline、tool-use）； context management→<b>M1</b>；safety→<b>M0/M3/M7</b>（元原则·门禁·治理）；orchestration→<b>M8</b>（graph-orchestration）。 两个结构性发现：① <b>本库的盈余轴</b>——综述七子系统未把 memory（M2）、provenance（M4）、self-evolution（M5） 列为规范子系统，本库在这三轴上的持续投入是<b>差异化所在</b>，且各有实证背书（R268/R279 记忆线、M4 引用纪律线、 D1 自演化线）；② <b>对方的盈余轴</b>——"extension surfaces"（插件/技能扩展面）被列为规范子系统，而本库把它收纳在 M6 之内（portable-skills）。dsh 的"Everything is a Plugin"正是扩展面优先的极端形态。处置：<b>提案级</b>范围注记 （P84.R1），不新开模块——扩展面的纪律内容（版本化、安全审查、可移植门禁）本库已有，缺的只是把它从 M6 的 隐含位提到命名位。</p>
+<p>嵌入检索<b>——本库 AGENTS.md 的 stdlib-only 门与 classify.py 的确定性信号匹配，从「工程偏好」升格为「领域实测 主流」。这不结束辩证：综述观察的是 11 个系统的</b>现状<b>，不是最优解的</b>证明**——语义检索在长尾词汇上的优势 仍可能让下一代 harness 改判；记录为「押中一次」，不是「永远正确」。</p>
+<p>数据同向。与 R276/R278（AAIF 治理线）合并读：技能生态既有治理（基金会）又有采用（9/11）——T2 双轨论的 新证据点。</p>
+<h3 id="english">English</h3>
+<p>(loop · tools · context management · safety controls · orchestration · extension surfaces) maps: loop/tools→<b>M6</b>; context management→<b>M1</b>; safety→<b>M0/M3/M7</b>; orchestration→<b>M8</b>. Two structural findings: (1) <b>this library's surplus axes</b> — the survey's canonical subsystems do NOT include memory (M2), provenance (M4) or self-evolution (M5) as separate subsystems; this library's sustained investment there is its differentiation, each with empirical backing (R268/R279 memory; M4 citation discipline; the D1 self-evolution line). (2) <b>Their surplus axis</b> — "extension surfaces" is a canonical subsystem while this library hosts it inside M6 (portable-skills). dsh's "Everything is a Plugin" is extension-surface-first in the extreme. Disposition: a <b>proposal-level</b> scope note (P84.R1), not a new module — the discipline content (versioning, security review, portability gates) already exists here; what's missing is promoting it from M6's implicit slot to a named slot.</p>
+<p>of production harness source, <b>zero agentic-framework imports and zero vector-embedding retrieval</b> — this library's stdlib-only gate and classify.py's deterministic signal matching upgrade from "engineering preference" to "measured field mainstream". Dialectics stay open: the survey observed eleven systems' <i>status quo</i>, not a <i>proof of optimum</i> — semantic retrieval's long-tail advantage could still flip the next generation; recorded as "bet won once", not "right forever".</p>
+<p>as the adoption data. Read with R276/R278 (the AAIF governance line): the skills ecosystem now has both governance and adoption — a new datapoint for the T2 dual-track thesis.</p>
+<h2 id="4---新兴方向---emerging-directions">4 · 新兴方向 · Emerging directions</h2>
+<h3 id="中文">中文</h3>
+<p>诚实声明：trajectories/domains 两簇仍各 1 源（探针已落、产出待新锚点生效——devops-platform 的 17 个探针词 已充实，缺口在情报产出侧）。本周「新兴」主体是<b>学科化本身</b>：harness engineering 从工程实践升格为有综述、 有模式目录、有分类法的学科（信号 1/8）。次级方向：综述家族中的 <i>Code as Agent Harness</i>（2605.18747）主张 「代码即 harness」的本体论——与本库「emitted harness 就是文件树」的立场同构，记为观察。</p>
+<h3 id="english">English</h3>
+<p>Honest disclosure: the trajectories/domains clusters still have one source each (probes landed; yield awaits the re-anchored sources — devops-platform's 17 keywords are adequate, the gap is yield-side). This week's "emerging" story is <b>disciplinization itself</b>: harness engineering graduating from practice to a field with surveys, pattern catalogs and taxonomies (signals 1/8). Secondary: <i>Code as Agent Harness</i> (2605.18747) in the survey family argues a "code as the harness" ontology — isomorphic to this library's "an emitted harness is a file tree" stance; logged as an observation.</p>
+<h2 id="5---分析与预测---analysis---predictions">5 · 分析与预测 · Analysis & predictions</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>#</th><th>论断 · Thesis</th><th>证据 · Evidence</th><th>置信 · Confidence</th><th>反转条件 · Reversal condition</th></tr></thead>
+<tbody>
+<tr><td>T8</td><td><b>平台转向</b>：coding harness 在 2026 上半年完成「工具→平台」转向；harness 成为被托管对象（hosting 第三角色），竞争位从功能表转向生态位</td><td>R296 中心论断 + ACP 6/11 + dsh 托管化采用（二手 DAU）</td><td>中高 · Med-high</td><td>若托管 harness 的采用曲线在 2027H1 走平且自托管比例反升</td></tr>
+<tr><td>T9</td><td><b>学科固化</b>：harness engineering 在 12–18 个月内出现标准教科书式课程与专项会议/workshop</td><td>综述家族（110+ 论文分类法 · 多 survey 并发）</td><td>中 · Med</td><td>若综述家族引用衰减且无后续实证研究跟进</td></tr>
+<tr><td>T1″</td><td>（T1 状态更新）可信度工程基础设施化：<b>reinforced again</b>——R296 的 18 设计建议与 29 模式目录是「工程知识固化」的学科级形态</td><td>信号 1</td><td>维持中高 · holds</td><td>不变</td></tr>
+</tbody></table></div>
+<h3 id="中文-论断补充">中文（论断补充）</h3>
+<p>说明<b>一线在逃离框架</b>；平台层与运行时层的诉求可能分道扬镳（托管平台赢、框架库输）。T9 的反例——综述激增 也可以是领域过热的晚期信号（学科化与泡沫化在别的历史上多次共生）；观察指标是<b>实证研究比例</b>而非综述数量。 本库的对位动作：保持零依赖与可移植（不被任何平台层锁定），把「被托管」当部署选项而非架构前提。</p>
+<h3 id="english--thesis-notes">English (thesis notes)</h3>
+<p>survey's zero-framework empiric shows <b>the front line is fleeing frameworks</b>; platform-layer and runtime-layer interests may diverge (hosting platforms win, framework libraries lose). T9's counter — survey proliferation can be a late-stage overheat signal (disciplinization and bubble-formation have co-occurred elsewhere); the watch metric is the <b>ratio of empirical studies</b>, not survey count. This library's counter-move: stay zero-dependency and portable (locked into no platform layer), treat "being hosted" as a deployment option, never an architectural premise.</p>
+<h2 id="6---对-harness-的行动项---action-items-for-the-harness">6 · 对 harness 的行动项 · Action items for the harness</h2>
+<h3 id="中文">中文</h3>
+<ol>
+<li><b>P84.R1（提案级）</b>：M6 范围注记——「extension surfaces（插件/技能扩展面）是 R296 的规范子系统；本库将其收纳于 M6（portable-skills 门禁、版本化、安全审查、可移植），显式命名其在 M6 内的位置」；不新开模块。</li>
+<li><b>P84.R2（下轮全读候选）</b>：R296 的 29 模式目录 vs 本库 46 能力逐条对账（判别：已覆盖/部分覆盖/缺口）——学科模式目录是能力面最硬的外部对照表。</li>
+<li><b>P84.R3（观察级）</b>：devops-platform 探针已充实（17 词），缺口在情报产出侧——观察下两期是否随新锚点生效而回升，不再加词。</li>
+<li><b>P84.R4（运维注记）</b>：自动化 11-09 首跑成功（runCount=1，产出 P79）；11-16 计划触发未见产出——本轮人工补位，自动化保持启用；若下周一仍未见产出，考虑检查宿主会话常驻条件。</li>
+</ol>
+<h3 id="english">English</h3>
+<ol>
+<li><b>P84.R1 (proposal):</b> M6 scope note — "extension surfaces (plugin/skill extension plane) is an R296 canonical</li>
+</ol>
+<p>   subsystem; this library hosts it inside M6 (portable-skills gates, versioning, security review, portability)";    no new module.</p>
+<ol>
+<li><b>P84.R2 (next-round full-read candidate):</b> reconcile R296's 29-pattern catalog against this library's 46</li>
+</ol>
+<p>   capabilities line by line (covered / partial / gap) — a discipline-grade pattern catalog is the hardest external    checklist the capability face can get.</p>
+<ol>
+<li><b>P84.R3 (observation):</b> devops-platform probes are adequate (17 keywords); the gap is yield-side — watch the</li>
+</ol>
+<p>   next two issues as re-anchored sources take effect; no more keyword stuffing.</p>
+<ol>
+<li><b>P84.R4 (ops note):</b> the automation's 11-09 first fire succeeded (runCount=1, produced P79); the 11-16</li>
+</ol>
+<p>   scheduled fire produced no output — this issue is the manual backfill, automation left armed; if next Monday    again shows no output, check the host-session residency condition.</p>
+<h2 id="7---方法与数据附录---method---data-appendix">7 · 方法与数据附录 · Method & data appendix</h2>
+<h3 id="中文">中文</h3>
+<p>每源 ≤3 + hex 噪声惩罚 + 周际 delta）。承重信号核验四级标注（abs-read / search-verified / feed-sourced / 分歧已记录）。</p>
+<p>读作降温；且上期 full-update（11-11）的 trend 相以不同窗口计数（3,297），快照序列的干净衔接从本期锚点起算。</p>
+<p>本轮人工补位；自动化未删除、保持启用。</p>
+<p>不隐去任何一方。</p>
+<h3 id="english">English</h3>
+<p>(discriminator scoring + per-source cap + hex-noise penalty + weekly delta). Load-bearing signals carry four verification grades (abs-read / search-verified / feed-sourced / discrepancy-recorded).</p>
+<p>an earlier window start — the delta (−132/−160) must not be read as cooling; the 11-11 full-update's trend phase also counted a different window (3,297). Clean snapshot sequencing starts from this issue's anchor.</p>
+<p>P79; the 11-16 fire produced no output; this issue is the manual backfill; the automation remains enabled.</p>
+<p>blog's 95k+ is recorded as the disagreeing source; no averaging, nothing hidden.</p>
+<h2 id="溯源表---provenance">溯源表 · Provenance</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>声明 · Claim</th><th>一手源 · Primary source</th><th>访问日期 · Accessed</th></tr></thead>
+<tbody>
+<tr><td>Harness Engineering 综述（11+1 系统 / ~4M 行 / 七子系统 / 29 模式 / 零框架·零向量检索 / Skills 9/11 vs MCP 8/11 / 平台转向）</td><td><a href="https://arxiv.org/abs/2609.00006">arXiv:2609.00006</a>（abs 页直读）</td><td>2026-11-16</td></tr>
+<tr><td>dsh 1.54M DAU</td><td><a href="https://www.scmp.com/tech/big-tech/article/3373757/can-deepseek-challenge-openai-anthropic-ai-agents-harness-adoption-takes">scmp.com</a>（二手转述）</td><td>2026-11-16</td></tr>
+<tr><td>dsh "Super Agent" 原型（11-02）</td><td><a href="https://www.siliconrepublic.com/machines/deepseek-rival-anthropic-new-coding-agent-ai-rivals-anthropic">siliconrepublic.com</a>（二手）</td><td>2026-11-16</td></tr>
+<tr><td>dsh v0.2.2-rc.2（11-11）</td><td>dsh releases feed（P81 重锚）</td><td>2026-11-16</td></tr>
+<tr><td>星数分歧（~278k vs 95k+）</td><td>repo 页直读（2026-11-11）vs <a href="https://flowtivity.ai/blog/deepseek-harness-open-source-agent-explained">flowtivity.ai</a></td><td>2026-11-16</td></tr>
+<tr><td>综述家族（2605.18747 · 2604.25850 · 110+ 分类法 · awesome-agent-harness）</td><td>arXiv / GitHub（search-verified，家族注记于 R296）</td><td>2026-11-16</td></tr>
+</tbody></table></div>
+<p>feed-sourced = 管线抓取原始 URL；二手转述均标注、不冒充一手。*</p>
+</div></div></body></html>
