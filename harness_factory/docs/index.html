@@ -1,0 +1,172 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Harness Factory · 全景趋势与能力仪表盘</title>
+<meta name="description" content="Agent-harness pattern library — self-model, trend review, AI tool-stack: a self-contained bilingual dashboard.">
+<style>
+:root{--ink:#16202b;--mut:#65788f;--line:#e4eaf1;--bg:#f6f8fb;--card:#fff;--brand:#0b5cad;--brand2:#7b5ea7}
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI','Helvetica Neue','Noto Sans SC',sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.5}
+.wrap{max-width:1160px;margin:0 auto;padding:28px 20px 64px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid var(--brand);padding-bottom:14px}
+h1{font-size:24px;margin:0}h1 span{color:var(--mut);font-weight:500;font-size:15px;display:block;margin-top:4px}
+.stamp{font-size:12px;color:var(--mut);text-align:right}
+.stamp a{color:var(--brand);text-decoration:none}
+h2{font-size:17px;margin:34px 0 6px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2 small{color:var(--mut);font-weight:500;font-size:13px;margin-left:8px}
+.lead{color:var(--mut);font-size:13.5px;margin:2px 0 16px;max-width:70ch}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px}
+.kpi .v{font-size:30px;font-weight:800;color:var(--accent);line-height:1}
+.kpi .l b{display:block;font-size:12.5px;margin-top:6px}.kpi .l span{font-size:11px;color:var(--mut)}
+.gauges{display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin-top:8px}
+.gauge{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px 10px 8px}
+.gl b{display:block;font-size:13px}.gl span{font-size:11px;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:10px}
+.bars{margin-top:6px}.brow{display:grid;grid-template-columns:1fr 220px 34px;gap:10px;align-items:center;margin:6px 0;font-size:13px}
+.gbars{display:flex;flex-direction:column;gap:11px;margin-top:4px}
+.gbar{display:grid;grid-template-columns:minmax(150px,210px) 1fr auto;gap:12px;align-items:center}
+.glabel{font-size:13px;color:#234}
+.gtrack{position:relative;height:18px;background:#eef2f7;border-radius:6px;overflow:hidden}
+.gtotal{position:absolute;left:0;top:0;height:100%;background:#9db6d0;border-radius:6px}
+.grecent{position:absolute;left:0;top:0;height:100%;background:#0b5cad;border-radius:6px;opacity:.9}
+.gval{font-variant-numeric:tabular-nums;font-size:12px;min-width:80px;text-align:right}
+.gval b{color:#0b5cad;font-size:13px}.gval i{color:#65788f;font-style:normal;margin-left:9px}
+.bt{background:#eef2f7;border-radius:6px;height:14px;overflow:hidden}.bt i{display:block;height:100%}.bv{text-align:right;font-weight:700;color:var(--brand2)}
+.chip{display:inline-block;background:#f0e9f7;color:#5b3f86;border:1px solid #e0d3ee;border-radius:999px;padding:2px 10px;font-size:12px;margin:3px 4px 0 0}
+.chip.dom{background:#e7f0f7;color:#245b82;border:1px solid #cfe1ef}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:8px}
+.fam{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.fh{font-size:13.5px;font-weight:700;margin-bottom:8px}.fc{display:inline-block;background:var(--brand);color:#fff;border-radius:6px;padding:1px 7px;font-size:11px;margin-right:8px}
+.ft{display:flex;flex-wrap:wrap;gap:6px}
+.tool{display:inline-flex;align-items:center;gap:6px;font-size:12px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:3px 8px;background:#fafcff}
+.tool em{color:var(--mut);font-style:normal;font-size:10.5px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot.ok{background:#2e9e5b}.dot.warn{background:#e0a800}.dot.bad{background:#d1495b}
+.tool.ok{border-color:#bfe6cf}.tool.warn{border-color:#f0e0a8}.tool.bad{border-color:#efc2cb}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:0}
+.tln{display:grid;grid-template-columns:96px 130px 1fr;gap:10px;padding:7px 0 7px 16px;position:relative;font-size:12.5px;border-bottom:1px dashed var(--line)}
+.tln:before{content:'';position:absolute;left:-6px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--brand)}
+.tld{color:var(--mut);font-variant-numeric:tabular-nums}.tls{font-weight:600}.tlt{color:var(--brand);text-decoration:none}
+.legend{font-size:12px;color:var(--mut);margin-top:8px}.legend i{width:12px;height:12px;display:inline-block;vertical-align:-1px;border-radius:3px;margin:0 4px 0 12px}
+.muted{color:var(--mut)}code{background:#eef2f7;padding:1px 5px;border-radius:5px;font-size:12px}
+.dial{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:8px}
+.dialc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.dialc h3{margin:0 0 6px;font-size:14px}.dialc p{margin:0;font-size:13px;color:#33485e}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:16px}
+.tcard{display:flex;gap:12px;align-items:center;background:#fafcff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.ring{flex:none}
+.tlab{font-size:13px;font-weight:700;color:#234;line-height:1.25}
+.tnum{margin-top:3px}.tnum b{font-size:22px;color:var(--brand);font-variant-numeric:tabular-nums}.tnum span{font-size:12px;color:var(--mut);margin-left:6px}
+.tsrc{font-size:11px;color:var(--mut);margin-top:2px}
+.evstrip{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:16px}
+.evstrip .evh{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:6px}
+.segs{display:flex;gap:4px;flex-wrap:wrap}
+.seg{width:18px;height:18px;border-radius:5px;display:inline-block}
+.seg.on{background:#2e9e5b}.seg.off{background:#e4eaf1}
+.arts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:8px}
+.art{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:4px solid var(--brand2);border-radius:10px;padding:12px 14px;transition:border-color .15s}
+.art b{display:block;font-size:13.5px}
+.art span{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.art em{display:block;font-size:10.5px;color:#8195a8;margin-top:7px;font-style:normal;font-family:ui-monospace,Consolas,monospace}
+.art:hover{border-left-color:var(--brand);background:#fafcff}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.brow{grid-template-columns:1fr 120px 30px}.tln{grid-template-columns:80px 1fr;}.tln .tlt{grid-column:1/-1}
+.gbar{grid-template-columns:1fr auto}.gbar .glabel{grid-column:1/-1;margin-bottom:2px}}
+</style></head><body><div class="wrap">
+<header><h1>Harness Factory · 全景趋势与能力仪表盘
+<span>Agent-harness pattern library — self-model, trend review &amp; the AI tool-stack</span></h1>
+<div class="stamp">generated 2026-11-11 00:25 UTC<br><a href="https://github.com/LengyanReader/research_foodie">github.com · research_foodie</a><br>static · no backend · MIT</div></header>
+
+<h2>1 · Self-model <small>计算自我模型（M5.11，源出 SSOT）</small></h2>
+<p class="lead">每个数字都在构建时从 <code>data/*.json</code> 现算，绝不手抄——页面因此不会悄悄过期。
+Every figure is computed from the SSOT at build time, never hand-copied.</p>
+<div class="kpis">
+<div class="kpi" style="--accent:#0b5cad"><div class="v">46</div><div class="l"><b>能力</b><span>capabilities</span></div></div>
+<div class="kpi" style="--accent:#0b5cad"><div class="v">35</div><div class="l"><b>学科域</b><span>domains</span></div></div>
+<div class="kpi" style="--accent:#2e9e5b"><div class="v">221</div><div class="l"><b>harness 目录</b><span>catalog entries</span></div></div>
+<div class="kpi" style="--accent:#7b5ea7"><div class="v">38</div><div class="l"><b>锚定条款</b><span>clauses anchored</span></div></div>
+<div class="kpi" style="--accent:#7b5ea7"><div class="v">R295</div><div class="l"><b>文献编号</b><span>references</span></div></div>
+<div class="kpi" style="--accent:#e0821a"><div class="v">78</div><div class="l"><b>更新轮次</b><span>cycles</span></div></div>
+<div class="kpi" style="--accent:#2b8a8a"><div class="v">49</div><div class="l"><b>真实轨迹</b><span>traces</span></div></div>
+<div class="kpi" style="--accent:#d1495b"><div class="v">17/17</div><div class="l"><b>实验族完成</b><span>battery done</span></div></div>
+</div>
+<div class="gauges">
+<div class="gauge"><svg viewBox="0 0 120 120" width="120" height="120" role="img">
+<circle cx="60" cy="60" r="42" fill="none" stroke="#eef1f5" stroke-width="13"/>
+<circle cx="60" cy="60" r="42" fill="none" stroke="#0b5cad" stroke-width="13"
+ stroke-linecap="round" stroke-dasharray="263.9 263.9" transform="rotate(-90 60 60)"/>
+<text x="60" y="58" text-anchor="middle" font-size="24" font-weight="700" fill="#123">100%</text>
+<text x="60" y="76" text-anchor="middle" font-size="10" fill="#667">46/46</text></svg>
+<div class="gl"><b>操作规程覆盖</b><span>procedures / capabilities</span></div></div>
+<div class="gauge"><svg viewBox="0 0 120 120" width="120" height="120" role="img">
+<circle cx="60" cy="60" r="42" fill="none" stroke="#eef1f5" stroke-width="13"/>
+<circle cx="60" cy="60" r="42" fill="none" stroke="#0b5cad" stroke-width="13"
+ stroke-linecap="round" stroke-dasharray="150.8 263.9" transform="rotate(-90 60 60)"/>
+<text x="60" y="58" text-anchor="middle" font-size="24" font-weight="700" fill="#123">57%</text>
+<text x="60" y="76" text-anchor="middle" font-size="10" fill="#667">20/35</text></svg>
+<div class="gl"><b>学科域挂接</b><span>domains w/ capability</span></div></div>
+<div class="gauge"><svg viewBox="0 0 120 120" width="120" height="120" role="img">
+<circle cx="60" cy="60" r="42" fill="none" stroke="#eef1f5" stroke-width="13"/>
+<circle cx="60" cy="60" r="42" fill="none" stroke="#0b5cad" stroke-width="13"
+ stroke-linecap="round" stroke-dasharray="263.9 263.9" transform="rotate(-90 60 60)"/>
+<text x="60" y="58" text-anchor="middle" font-size="24" font-weight="700" fill="#123">100%</text>
+<text x="60" y="76" text-anchor="middle" font-size="10" fill="#667">17/17</text></svg>
+<div class="gl"><b>实验电池进度</b><span>experiment battery</span></div></div>
+</div>
+<div class="evstrip">
+<div><div class="evh">Battery families · 实验族完成度 17/17</div><div class="segs"><i class="seg on" title="family 1"></i><i class="seg on" title="family 2"></i><i class="seg on" title="family 3"></i><i class="seg on" title="family 4"></i><i class="seg on" title="family 5"></i><i class="seg on" title="family 6"></i><i class="seg on" title="family 7"></i><i class="seg on" title="family 8"></i><i class="seg on" title="family 9"></i><i class="seg on" title="family 10"></i><i class="seg on" title="family 11"></i><i class="seg on" title="family 12"></i><i class="seg on" title="family 13"></i><i class="seg on" title="family 14"></i><i class="seg on" title="family 15"></i><i class="seg on" title="family 16"></i><i class="seg on" title="family 17"></i></div></div>
+<div style="min-width:200px;flex:1"><div class="evh">Trace events · 真实轨迹事件分布</div><div class="bars"><div class="brow"><span class="bl">task_outcome</span><span class="bt"><i style="width:100%;background:#2b8a8a"></i></span><span class="bv">49</span></div></div></div>
+</div>
+
+<h2>2 · Gap register <small>缺口台账（诚实的负面）</small></h2>
+<div class="card"><div class="bars"><div class="brow"><span class="bl">domains without keyed capability · 域无挂接能力</span><span class="bt"><i style="width:100%;background:#7b5ea7"></i></span><span class="bv">15</span></div><div class="brow"><span class="bl">capabilities without procedure · 能力无操作规程</span><span class="bt"><i style="width:0%;background:#7b5ea7"></i></span><span class="bv">0</span></div><div class="brow"><span class="bl">topics no source carries · 主题无人携带</span><span class="bt"><i style="width:20%;background:#7b5ea7"></i></span><span class="bv">3</span></div></div>
+<div class="legend">未挂接主题 uncovered topics: <span class="chip">ambition-and-agency</span> <span class="chip">devops-platform</span> <span class="chip">emerging-directions</span></div>
+<div class="legend" style="margin-top:10px">域无挂接能力 domains without a keyed capability (15): <span class="chip dom">arts-design</span> <span class="chip dom">biology</span> <span class="chip dom">deep-research</span> <span class="chip dom">digital-humanities</span> <span class="chip dom">excellence</span> <span class="chip dom">harness-evolution</span> <span class="chip dom">humanities</span> <span class="chip dom">knowledge-management</span> <span class="chip dom">law</span> <span class="chip dom">linguistics</span> <span class="chip dom">logic</span> <span class="chip dom">mathematics</span> <span class="chip dom">reading</span> <span class="chip dom">software-engineering</span> <span class="chip dom">writing</span></div></div>
+
+<h2>3 · Trend-review clusters <small>趋势综述簇（industry · harness · trajectories · domains）</small></h2>
+<p class="lead">intel items <b>3201</b> · snapshot <b>2026-11-10</b> · untracked <b>0</b></p>
+<div class="tcards"><div class="tcard"><div class="tring"><svg class="ring" viewBox="0 0 62 62" width="62" height="62" role="img"><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#eef1f5" stroke-width="8"/><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#0b5cad" stroke-width="8" stroke-linecap="round" stroke-dasharray="23.2 157.1" transform="rotate(-90 31.0 31.0)"/><text x="31.0" y="35.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123">15%</text></svg></div><div class="tbody"><div class="tlab">AI industry &amp; adjacent fields</div><div class="tnum"><b>2709</b><span>400 · 30d</span></div><div class="tsrc">28 sources · 来源广度</div></div></div><div class="tcard"><div class="tring"><svg class="ring" viewBox="0 0 62 62" width="62" height="62" role="img"><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#eef1f5" stroke-width="8"/><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#0b5cad" stroke-width="8" stroke-linecap="round" stroke-dasharray="30.9 157.1" transform="rotate(-90 31.0 31.0)"/><text x="31.0" y="35.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123">20%</text></svg></div><div class="tbody"><div class="tlab">Harness directions - literature review</div><div class="tnum"><b>3151</b><span>620 · 30d</span></div><div class="tsrc">64 sources · 来源广度</div></div></div><div class="tcard"><div class="tring"><svg class="ring" viewBox="0 0 62 62" width="62" height="62" role="img"><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#eef1f5" stroke-width="8"/><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#0b5cad" stroke-width="8" stroke-linecap="round" stroke-dasharray="0.0 157.1" transform="rotate(-90 31.0 31.0)"/><text x="31.0" y="35.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123">0%</text></svg></div><div class="tbody"><div class="tlab">Other promising trajectories</div><div class="tnum"><b>10</b><span>0 · 30d</span></div><div class="tsrc">1 sources · 来源广度</div></div></div><div class="tcard"><div class="tring"><svg class="ring" viewBox="0 0 62 62" width="62" height="62" role="img"><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#eef1f5" stroke-width="8"/><circle cx="31.0" cy="31.0" r="25.0" fill="none" stroke="#0b5cad" stroke-width="8" stroke-linecap="round" stroke-dasharray="125.7 157.1" transform="rotate(-90 31.0 31.0)"/><text x="31.0" y="35.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123">80%</text></svg></div><div class="tbody"><div class="tlab">Field-by-field signals</div><div class="tnum"><b>10</b><span>8 · 30d</span></div><div class="tsrc">1 sources · 来源广度</div></div></div></div>
+<div class="card"><div class="gbars"><div class="gbar"><div class="glabel">AI industry &amp; adjacent fields</div><div class="gtrack" title="2709 total, 400 last 30d"><span class="gtotal" style="width:86.0%"></span><span class="grecent" style="width:12.7%"></span></div><div class="gval"><b>2709</b><i>400</i></div></div><div class="gbar"><div class="glabel">Harness directions - literature review</div><div class="gtrack" title="3151 total, 620 last 30d"><span class="gtotal" style="width:100.0%"></span><span class="grecent" style="width:19.7%"></span></div><div class="gval"><b>3151</b><i>620</i></div></div><div class="gbar"><div class="glabel">Other promising trajectories</div><div class="gtrack" title="10 total, 0 last 30d"><span class="gtotal" style="width:0.8%"></span><span class="grecent" style="width:0.0%"></span></div><div class="gval"><b>10</b><i>0</i></div></div><div class="gbar"><div class="glabel">Field-by-field signals</div><div class="gtrack" title="10 total, 8 last 30d"><span class="gtotal" style="width:0.8%"></span><span class="grecent" style="width:0.3%"></span></div><div class="gval"><b>10</b><i>8</i></div></div></div>
+<div class="legend">环 ring = 近三十日动量占比 momentum share·条 bars = <i style="background:#9db6d0"></i>total 总量 <i style="background:#0b5cad"></i>last 30d 近三十日</div></div>
+
+<h2>4 · Recent intel · timeline <small>近期情报时间线</small></h2>
+<div class="card"><div class="tl"><div class="tln"><span class="tld">2026-11-09</span><span class="tls">arXiv cs.CL (new)</span><a class="tlt" href="https://arxiv.org/abs/2611.09807" target="_blank" rel="noopener">Compaction, decay and reinforcement in a two-tier conversational memory: a p…</a></div><div class="tln"><span class="tld">2026-11-09</span><span class="tls">arXiv cs.CL (new)</span><a class="tlt" href="https://arxiv.org/abs/2611.09200" target="_blank" rel="noopener">Structure and Lineage Evidence for Vietnamese Statutory Article Retrieval on…</a></div><div class="tln"><span class="tld">2026-11-09</span><span class="tls">arXiv cs.CL (new)</span><a class="tlt" href="https://arxiv.org/abs/2510.18413" target="_blank" rel="noopener">Adamas: Hadamard Sparse Attention for Efficient Long-Context Inference</a></div><div class="tln"><span class="tld">2026-11-09</span><span class="tls">arXiv cs.MA (new)</span><a class="tlt" href="https://arxiv.org/abs/2611.08615" target="_blank" rel="noopener">s$^3$: Simple Scaling of Swarms via Cooperative Multi-agent RL</a></div><div class="tln"><span class="tld">2026-11-09</span><span class="tls">arXiv cs.MA (new)</span><a class="tlt" href="https://arxiv.org/abs/2605.16757" target="_blank" rel="noopener">NeuroMAS: Multi-Agent Systems as Neural Networks with Joint Reinforcement Le…</a></div><div class="tln"><span class="tld">2026-11-09</span><span class="tls">Langfuse</span><a class="tlt" href="https://github.com/langfuse/langfuse/releases/tag/v4.77.0" target="_blank" rel="noopener">v4.77.0</a></div><div class="tln"><span class="tld">2026-11-09</span><span class="tls">arXiv cs.CL (new)</span><a class="tlt" href="https://arxiv.org/abs/2509.00761" target="_blank" rel="noopener">L-MARS: Legal Multi-Agent System with Agentic Search and Citation-Faithfulne…</a></div><div class="tln"><span class="tld">2026-11-06</span><span class="tls">Terminal-Bench</span><a class="tlt" href="https://github.com/harbor-framework/terminal-bench/releases/tag/v4.1.0" target="_blank" rel="noopener">v4.1.0</a></div><div class="tln"><span class="tld">2026-11-06</span><span class="tls">The Batch (DeepLearning.AI)</span><a class="tlt" href="https://charonhub.deeplearning.ai/context-engineering-for-images/" target="_blank" rel="noopener">Context Engineering for Images: MIT researchers build VISTA, an agent harnes…</a></div><div class="tln"><span class="tld">2026-11-06</span><span class="tls">OpenAI</span><a class="tlt" href="https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science" target="_blank" rel="noopener">Measuring how AI agents handle everyday wet-lab science</a></div><div class="tln"><span class="tld">2026-10-23</span><span class="tls">OpenAI</span><a class="tlt" href="https://openai.com/index/securing-our-frontier-model-training-environment" target="_blank" rel="noopener">Securing our frontier model training environment</a></div><div class="tln"><span class="tld">2026-10-19</span><span class="tls">OpenAI</span><a class="tlt" href="https://openai.com/index/low-resource-programming-languages" target="_blank" rel="noopener">Advancing coding in low‑resource programming languages</a></div></div></div>
+
+<h2>5 · AI tool-stack <small>P68 harness 外组件工具栈（F1–F7，状态点=入表门信号）</small></h2>
+<div class="legend" style="margin:2px 0 6px">
+<i class="dot ok" style="border-radius:50%"></i>OSS 已核&nbsp;
+<i class="dot warn" style="border-radius:50%"></i>license/来源待核&nbsp;
+<i class="dot bad" style="border-radius:50%"></i>存疑（defunct/unverified）</div>
+<div class="grid"><div class="fam"><div class="fh"><span class="fc">F1</span>Memory &amp; state · 记忆与状态</div><div class="ft"><a class="tool ok" href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener" title="memory-layer apache-2.0"><i class="dot ok"></i>Mem0<em>OSS ok · 开源核</em></a><a class="tool ok" href="https://github.com/getzep/graphiti" target="_blank" rel="noopener" title="temporal-knowledge-graph apache-2.0"><i class="dot ok"></i>Graphiti (Zep)<em>OSS ok · 开源核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">F2</span>Observability &amp; tracing · 可观测</div><div class="ft"><a class="tool ok" href="https://github.com/langfuse/langfuse" target="_blank" rel="noopener" title="observability otel mit-core"><i class="dot ok"></i>Langfuse<em>OSS ok · 开源核</em></a><a class="tool ok" href="https://github.com/open-telemetry/semantic-conventions-genai" target="_blank" rel="noopener" title="standard observability"><i class="dot ok"></i>OpenTelemetry GenAI semantic conventions<em>OSS ok · 开源核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">F3</span>Sandboxed execution · 沙箱执行</div><div class="ft"><a class="tool ok" href="https://github.com/e2b-dev/E2B" target="_blank" rel="noopener" title="sandbox apache-2.0 metered"><i class="dot ok"></i>E2B<em>OSS ok · 开源核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">F4</span>Structured output · 结构化输出</div><div class="ft"><a class="tool ok" href="https://github.com/567-labs/instructor" target="_blank" rel="noopener" title="structured-output mit"><i class="dot ok"></i>Instructor<em>OSS ok · 开源核</em></a><a class="tool warn" href="https://github.com/dottxt-ai/outlines" target="_blank" rel="noopener" title="structured-output constrained-generation"><i class="dot warn"></i>Outlines<em>check · 待核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">F5</span>Eval &amp; red-team · 评测与红队</div><div class="ft"><a class="tool ok" href="https://github.com/promptfoo/promptfoo" target="_blank" rel="noopener" title="eval red-teaming mit ci"><i class="dot ok"></i>promptfoo<em>OSS ok · 开源核</em></a><a class="tool bad" href="https://github.com/confident-ai/deepeval" target="_blank" rel="noopener" title="eval unverified"><i class="dot bad"></i>DeepEval<em>flagged · 存疑</em></a><a class="tool ok" href="https://github.com/UKGovernmentBEIS/inspect_ai" target="_blank" rel="noopener" title="eval mit benchmark-runner"><i class="dot ok"></i>Inspect (UK AI Security Institute)<em>OSS ok · 开源核</em></a><a class="tool ok" href="https://github.com/openai/evals" target="_blank" rel="noopener" title="eval mit"><i class="dot ok"></i>OpenAI Evals<em>OSS ok · 开源核</em></a><a class="tool ok" href="https://github.com/stanford-crfm/helm" target="_blank" rel="noopener" title="eval apache-2.0 maintenance"><i class="dot ok"></i>HELM (Stanford CRFM)<em>OSS ok · 开源核</em></a><a class="tool ok" href="https://github.com/princeton-nlp/SWE-bench" target="_blank" rel="noopener" title="eval mit benchmark"><i class="dot ok"></i>SWE-bench<em>OSS ok · 开源核</em></a><a class="tool ok" href="https://github.com/harbor-framework/terminal-bench" target="_blank" rel="noopener" title="eval apache-2.0 benchmark"><i class="dot ok"></i>Terminal-Bench<em>OSS ok · 开源核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">F6</span>Gateway &amp; inference · 网关与推理</div><div class="ft"><a class="tool warn" href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener" title="gateway cost-tracking license-check"><i class="dot warn"></i>LiteLLM<em>license? · 待核</em></a><a class="tool ok" href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener" title="inference apache-2.0 self-hosted"><i class="dot ok"></i>vLLM<em>OSS ok · 开源核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">F7</span>Guardrails · 护栏</div><div class="ft"><a class="tool warn" href="https://github.com/NVIDIA-NeMo/Guardrails" target="_blank" rel="noopener" title="guardrails license-check"><i class="dot warn"></i>NeMo Guardrails<em>license? · 待核</em></a></div></div><div class="fam"><div class="fh"><span class="fc">!</span>Caution · 警示</div><div class="ft"><a class="tool bad" href="https://github.com/microsoft/graphrag" target="_blank" rel="noopener" title="retrieval defunct-track"><i class="dot bad"></i>Microsoft GraphRAG<em>flagged · 存疑</em></a></div></div></div>
+
+<h2>5b · Paired-trial results <small>配对试验结果（裸奔 vs harness）</small></h2>
+<p class="lead">No paired-trial data yet.</p>
+
+<h2>5c · Clause architecture <small>子句架构（M0–M8 分布）</small></h2>
+<p class="lead">No clause data.</p>
+
+<h2>5d · Trace events <small>轨迹事件分布（真实执行轨迹）</small></h2>
+<p class="lead">49 real execution traces from the experiment battery and dogfood sessions.</p><div style="display:flex;height:22px;border-radius:8px;overflow:hidden"><i style="width:100.0%;background:#0b5cad" title="task_outcome: 49"></i></div><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px"><div class="gl"><b style="color:#0b5cad">●</b> <span>task_outcome: 49 (100.0%)</span></div></div>
+
+<h2>6 · Frontier dialectics <small>前沿辩证（趋势 vs 声量）</small></h2>
+<div class="dial">
+<div class="dialc"><h3>结构收敛 ≠ 百花齐放</h3><p>模式库的核心判断：harness 的骨架（计划—工具—验证—记忆）在快速趋同，真正分化发生在验证门禁与溯源层。骨架趋同处，护城河在治理。<br><span class="muted">Skeletons converge; the moat is in gates &amp; provenance.</span></p></div>
+<div class="dialc"><h3>Memory: managed vs OSS</h3><p>记忆层最响的基准（如 Mem0 的 LoCoMo 92.5）多由<em>托管平台</em>而非开源 SDK 产出，引用须分辨范围。<br><span class="muted">Headline scores are often platform-scoped, not OSS.</span></p></div>
+<div class="dialc"><h3>Retrieval fatigue</h3><p>GraphRAG 进入维护模式是一信号：重型检索增强退潮，轻量结构化输出与可观测性上行。<br><span class="muted">Heavy RAG cools; structured output &amp; observability rise.</span></p></div>
+<div class="dialc"><h3>License is a gate</h3><p><code>NOASSERTION</code> 许可证（LiteLLM/NeMo）不是小事——它直接卡住入表门，先核再进 <code>sources.json</code>。<br><span class="muted">Ambiguous licenses block intake (M0.8).</span></p></div>
+</div>
+
+<h2>7 · Related articles <small>相关文章 · 综述正文与扫描报告（本站阅读）</small></h2>
+<p class="lead">本页是这些文章的**可视化封面**；点开即进入中英双语、带一手引用与访问日期的正文与文献综述。
+This dashboard is the *visual cover* — open the authored, primary-source-cited bodies here.</p>
+<div class="arts"><a class="art" href="trend-review-2026-11-09.html"><b>趋势周报 · 2026-11-09</b><span>Weekly trend review, issue 2: reproducibility institutionalized + DeepSeek integration assessment (P78)</span><em>trend-review-2026-11-09.html</em></a><a class="art" href="trend-review-2026-11-07.html"><b>趋势周报 · 2026-11-07</b><span>Weekly trend review, first issue of the weekly model (P77)</span><em>trend-review-2026-11-07.html</em></a><a class="art" href="trend-review-2026-11-03.html"><b>趋势综述与文献辩证 · 2026-11-03</b><span>Trend review &amp; literature synthesis · the P69 body</span><em>trend-review-2026-11-03.html</em></a><a class="art" href="harness-evaluation-benchmarks-2026-11.html"><b>能力评测基准与题库综述 · 2026-11</b><span>Agent-capability evaluation: benchmarks, test-banks &amp; harnesses (P70)</span><em>harness-evaluation-benchmarks-2026-11.html</em></a><a class="art" href="harness-landscape-scan-2026-10.html"><b>harness 全景扫描 · 2026-10</b><span>Harness landscape scan</span><em>harness-landscape-scan-2026-10.html</em></a><a class="art" href="ai-tool-stack-scan-2026-11.html"><b>AI 工具栈扫描 · 2026-11</b><span>Beyond-harness AI tool-stack scan (P68)</span><em>ai-tool-stack-scan-2026-11.html</em></a><a class="art" href="ai-harness-survey.html"><b>Agent Harness 综述</b><span>Agent-harness survey · foundational literature review</span><em>ai-harness-survey.html</em></a><a class="art" href="frontier-2026-10.html"><b>前沿方向 · 2026-10</b><span>Frontier directions</span><em>frontier-2026-10.html</em></a><a class="art" href="self-model-and-gap-seeking-2026-10.html"><b>自我模型与缺口求解</b><span>Self-model &amp; gap-seeking</span><em>self-model-and-gap-seeking-2026-10.html</em></a><a class="art" href="references.html"><b>文献库索引 R1–R293</b><span>Reference index · numbered literature</span><em>references.html</em></a><a class="art" href="ai-landscape-analysis-2026-11.html"><b>AI Agent 能力前沿深度分析 · 2026-11</b><span>Deep analysis: the agent capability frontier</span><em>ai-landscape-analysis-2026-11.html</em></a><a class="art" href="cognitive-autonomous-learning-2026-11.html"><b>认知自主学习与 Evo-Devo 支架 · 2026-11</b><span>Cognitive autonomous learning &amp; the Evo-Devo scaffold (P73)</span><em>cognitive-autonomous-learning-2026-11.html</em></a><a class="art" href="search-capability-assessment-2026-11.html"><b>搜索与路由能力评估 · 2026-11</b><span>Search &amp; routing capability assessment, five dimensions (P74)</span><em>search-capability-assessment-2026-11.html</em></a></div>
+
+<h2>8 · Routine · 例行工作</h2>
+<p class="lead">每次更新后自动运行：聚合→写 <code>updates/TREND.md</code> 脚手架→刷新快照→重生成此页。
+深度综述正文（中英、带一手引用、含前沿辩证）写入 <code>review/trend-review-&lt;date&gt;.md</code>，本页是它的可视化封面。
+Full-update phase 8 regenerates this scaffold &amp; page; the analysis body lives in <code>review/trend-review-*.md</code>.</p>
+
+<footer>Harness Factory · MIT · 中英双语 · 本页面纯标准库生成（无外部 JS/CSS，GitHub Pages 首字节即渲染）。
+Built from <code>harness_factory/src/harness_factory/data</code> SSOT + <code>trend-snapshot.json</code>; rebuilt by <code>harness full-update</code> and <code>.github/workflows/pages.yml</code>.</footer>
+</div></body></html>
