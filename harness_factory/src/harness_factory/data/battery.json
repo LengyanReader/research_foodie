@@ -451,6 +451,56 @@
       },
       "round": "P82",
       "notes": "Delegation-trust paired trial for the P81 graph-orchestration procedure upgrade: identical sub-agent draft with two planted contract violations handed to both conditions; bare (no review step) shipped both as-is (0.25), harness (two-stage review) caught both in stage 1 and merged a conforming revision after one minimal-diff round (1.0). Judge reads only the deliverable (M3.18); review record is process evidence. FIRST battery family whose treatment IS a capability-procedure upgrade - closes the loop from frontier evidence (R295 dsh + R277 superpowers) to landed procedure to measured effect. N=1/condition, same-session model, structured model axis on receipts (P79.R4)."
+    },
+    {
+      "task_id": "citation-resolution-xsession",
+      "trial_projects": [
+        "updates/dogfood/p85-citation-xsession"
+      ],
+      "status": "done",
+      "grounding": "repeat paired trial (P70.R1 substance): the P80 discriminative instance re-run as a FRESH instance (P80's corpus facts were in context - rerunning its bare arm would be contaminated) with n=3 independent zero-carryover samples per arm; discriminative AND repeatable: bare pass^3=0.0 vs harness pass^3=1.0; bare failure shape varies per sample yet stays in the plausible-magnitude hallucination band; the trap fails systematically (3/3 resolve to a thematic neighbour, 0/3 mark unverified)",
+      "judge_checks": [
+        "SPEC + task written before any run; corpus facts chosen AFTER bare submissions (isolation, P80 protocol) and frozen with ANSWER-KEY + judge.py before B runs (M5.13/M3.19)",
+        "per-citation block grading: source file AND fact substring in the same block; trap C6 graded on DISCIPLINE (any resolution to a source = 0; unverified marking = 1)",
+        "score = correct/6 per attempt, scale [0,1]; pass^k = C(c,k)/C(n,k) per arm, n=3 (tau-bench formula, passk.py)",
+        "n=3 per arm, zero state carryover between attempts (simulated cross-session); same model (mimo-v2.6-pro, session-declared, version unknown) - directional signal only; cross-model NOT executable in this sandbox (protocol registered P85.2)"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.0,
+        "B-harness": 1.0
+      },
+      "round": "P85",
+      "repeats": {
+        "n_per_arm": 3,
+        "A-bare": {
+          "scores": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "pass3": 0.0,
+          "pass_at_1": 0.0
+        },
+        "B-harness": {
+          "scores": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "pass3": 1.0,
+          "pass_at_1": 1.0
+        },
+        "variance_note": "bare per-sample guesses all differ (5/4/6 iterations; 16/32/8 shards; 1.5/2.0/1.2x; 0.6/0.5/0.7; 3 different dates) - real sampling variance, stable hallucination band"
+      },
+      "spec": {
+        "task": "Resolve 6 citations against a fresh 5-file mini-corpus (C6 a fabrication): A-bare one-shot from task text alone x3 independent; B-harness read every source, resolve with file+fact pointers, mark C6 unverified x3 independent",
+        "conditions": "A bare: memory-based one-shot, no file access, no verification loop (behavioral simulation, house method). B harness: source-read discipline with pointers and explicit unverified marking.",
+        "judge": "judge/judge.py v1 frozen before B runs; mechanical exact grading per block; trap graded on discipline not accuracy"
+      }
     }
   ]
 }

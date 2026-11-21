@@ -2205,6 +2205,27 @@
         "P84.7 - theses T8 (platform turn) and T9 (disciplinization) with reversal conditions; TREND issue table row; suite 567 green; audit clean"
       ],
       "note": "User asked for full update/upgrade/deep evolution on the week's developments. The deep-evolution core is the reconciliation: an independent survey-grade anatomy now exists for this library's subject matter, and the M0-M8 frame survives it with three surplus axes (memory/provenance/self-evolution) while adopting their named axis (extension surfaces -> M6.12). The zero-framework/zero-vector-retrieval/skills-beat-MCP empirics corroborate three standing design bets at once - recorded as bets won once, not permanent truths. P84.R2 (29-pattern catalog vs 46-capability line-by-line reconciliation) is the designated next deep-read. devops-platform watchlist confirmed adequate (17 keywords); its gap is yield-side."
+    },
+    {
+      "id": "P85",
+      "date": "2026-11-21",
+      "status": "done",
+      "title_en": "Repeat-trial round: cross-session variance, discriminative reliability, cross-model protocol",
+      "title_zh": "重复试验轮：跨会话方差 · 区分性可靠性 · 跨模型协议",
+      "note": "The evaluation's three experiment gaps closed in one round (simulated evaluation & experiments, per user directive). (1) The P85 repeat paired trial: the P80 discriminative instance re-run as a FRESH instance (P80's corpus facts were in context - its bare arm would be contaminated) with n=3 independent zero-carryover samples per arm; bare 0.0 x3 vs harness 1.0 x3 (pass^3 0.0 vs 1.0); bare failure shape varies per sample (5/4/6 iterations, 16/32/8 shards, 1.5/2.0/1.2x, 0.6/0.5/0.7, 3 dates) yet stays in the plausible-magnitude hallucination band, and the trap fails systematically (3/3 resolve to a thematic neighbour, 0/3 mark unverified). (2) The cross-session/cross-model variance protocol (review/variance-protocol-2026-11.md, tau-bench grounded): cross-session simulated lower bound ran; cross-model cell honestly registered as NOT executable in this single-model sandbox with a handoff procedure. (3) P70.R1 flipped done (its substance - repeats + receipts + passk recompute - delivered; the family flip it named was P76's). Battery family citation-resolution-xsession registered (18/18 done). Append-only receipt correction recorded: the first 6 receipts lacked detail.condition (P67 reconcile key); 6 corrected receipts appended, stream artifact disclosed in RECEIPTS.md.",
+      "slices": [
+        "P85.1 - repeat paired trial (updates/dogfood/p85-citation-xsession): SPEC+TASK pre-declared; A1-A3 written BEFORE corpus facts chosen (isolation, P80 protocol); corpus + ANSWER-KEY + judge.py frozen before B1-B3; judge v1 graded 6/6 in one pass; failure-shape variance table in RECEIPTS.md",
+        "P85.2 - variance protocol (review/variance-protocol-2026-11.md): model x condition x k design, pass^k estimator, M3.16/M4.17/M2.13 disclosure trio, honest status table (cross-model = not executable here), execution handoff for a second model surface; P70.R1 flipped done_in P85",
+        "P85.3 - receipts + registry: 6 task_outcome traces via trace API (detail.condition key, model axis mimo-v2.6-pro@behavioral-simulation); battery family citation-resolution-xsession registered (18/18); passk --k 3 recomputed (stream aggregate 0.675 consistent); append-only correction of the first shape-less receipts recorded"
+      ],
+      "added": {
+        "capabilities": [],
+        "domains": [],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
@@ -2672,12 +2693,12 @@
     },
     {
       "id": "P70.R1",
-      "status": "planned",
+      "status": "done",
       "cycle": "P70",
       "source": "P70 registered the agent-eval-reliability battery family PENDING - spec and judge_checks pre-declared, results empty (no live repeated run yet); the pass^k instrument reads the current stream (pass@1 0.545 / pass^2 0.022 over 24 receipts, mostly single-run tasks)",
       "title_en": "Execute the agent-eval-reliability paired trial (n>=k repeats per task, environment-state graded) and flip the family to done with real receipts",
       "reason": "The bar is set but not run: pass^k needs each task repeated k times with receipts, so on the current single-run-per-task stream it reads thin. Running it is a real model-judgment task the registry never executes itself; the spec is ready via 'harness battery --next'. Leaving results empty until then is the M5.11/M5.13 discipline (observe, never fabricate).",
-      "revisit_when": "the next battery round - run the paired A-bare/B-harness repeats into updates/dogfood/p70-agent-eval-reliability, harvest task_outcome receipts, recompute harness passk, then battery.mark_done"
+      "done_in": "P85 (repeat paired trial p85-citation-xsession: n=3/arm, pass^3 bare 0.0 vs harness 1.0, receipts + passk; cross-model = registered protocol)"
     },
     {
       "id": "P71.R1",
