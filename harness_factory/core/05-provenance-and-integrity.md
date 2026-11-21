@@ -66,6 +66,7 @@ An agent that can cite anything will cite anything. Two failure modes: (a) **uns
 - **Instruction injection.** Obeying text found in a fetched page.
 - **Overwrite history.** Editing a ledger so the prior state vanishes.
 - **God-mode tools.** One tool holding read-untrusted + secrets + outbound.
+- **Harness mimicry.** Presenting a runtime's identity as a first-party one (headers, prompt openings, tool-name casing) to ride another vendor's subscription or OAuth backend is a provenance violation at the identity layer: the attribution a downstream consumer reads is not the attribution that produced the work. The pattern is named and observed in the wild ("harness mimicry", Pi on Claude Code OAuth `[R296]`); if interoperation requires a foreign identity, say so explicitly in the provenance record — never default it (M0.1/M4).
 - **Word-for-word fidelity.** A literal, segment-by-segment rendering that shifts modality, scope or meaning, passed off as "faithful"; its siblings are the **false friend**, the **silent term substitution**, and citing only a translation as if it were the primary source (M4.10).
 - **Schema-after-the-fact.** Extracting first and then describing the types from what came out; the ontology becomes a description of the errors.
 - **Merge by label.** Treating identical names as identical entities (or one entity under two names as two), so the graph invents and splits people who never existed.

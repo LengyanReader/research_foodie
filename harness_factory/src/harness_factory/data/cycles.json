@@ -2277,6 +2277,32 @@
         "P87.5 - battery family citation-resolution-xmodel registered done (19/19); 6 receipts with the structured model axis (glm-5.3-flash); RECEIPTS.md records the protocol-level comparability scope honestly (instances differ per face; same-session zero-carryover approximation; n=3/arm directional)"
       ],
       "note": "User relayed the parallel session's pending item (the cross-model cell) and asked to continue. The handoff protocol was executed as prepared: this session's face (glm-5.3-flash on the zai-start-plan account) is a genuinely different model id from P85's mimo-v2.6-pro, so the cell fills with real data, not a re-run of the same face. The contamination audit came FIRST: both prior keys live in context, so the bare arm ran on fresh material per the P85 precedent. The cell's conclusion: the discipline delta (bare hallucination vs harness pointers+unverified-marking) is now evidenced on two independent model faces with identical pass^3 outcomes. The passk grouping carries n=6 per arm for the family task id? No - receipts were grouped under task=citation-resolution-xmodel at project p87-citation-xmodel, clean 3/3 per arm (the P85 malformed-receipt lesson applied: detail.condition present from the first write)."
+    },
+    {
+      "id": "P88",
+      "status": "done",
+      "date": "2026-11-21",
+      "title_en": "Capability-dimension completeness assessment: 29-pattern reconciliation (P84.R2 fulfilled), M1.12 prompt-cache boundaries + M4 harness-mimicry anti-pattern landed",
+      "title_zh": "能力维度完备性评估：29 模式逐条对账（P84.R2 兑现）· M1.12 提示缓存边界 + M4 harness-mimicry 反模式落地",
+      "added": {
+        "clauses": [
+          "M1.12"
+        ],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P88.1 - R296 full HTML fetched (251K chars) and section 13.1 (complete 29-pattern catalog, tables 11+12) + 13.2 (twin absences) read directly - R296 verification grade upgraded abs-read -> part-read; P84.R2 fulfilled",
+        "P88.2 - the 29 patterns reconciled line-by-line against 48 capabilities + M0-M8: exact 15 / partial 6 / by-design 2 / deliberate divergence 1 (model-family prompt matrix vs M4.17 record-not-route) / gaps 2; full table in review/capability-dimension-assessment-2026-11.md (six-dimension scores, overall 8.4/10)",
+        "P88.3 - M1.12 landed: prompt-cache boundaries are an engineering surface (most-stable first, byte-identical prefix above the first boundary, volatile tail last; broken prefix = full re-price) - composes with M1.11 economics (compaction decides what survives, the boundary decides where the stable part sits); generalization rule satisfied (provider-agnostic positional discipline); checklist line + Chinese blockquote updated",
+        "P88.4 - M4 harness-mimicry anti-pattern landed: identity spoofing to ride another vendor's subscription/OAuth backend is a provenance violation at the identity layer (R296 named pattern, Pi on Claude Code OAuth); interop requiring a foreign identity must be declared explicitly, never defaulted",
+        "P88.5 - partial-coverage items recorded NOT upgraded (polymorphic edits #4, context forking #12 deep semantics, session-tree #22): single-industrial-instance or substrate-implied - the generalization rule gates speculative clauses",
+        "P88.6 - assessment wired into ARTICLES + pages; source-map rows added (one label mis-assignment caught and fixed in-round: mimicry is an M4 anti-pattern, not M6.12); suite 576 green; audit 83 cycles 0 hard 0 gaps"
+      ],
+      "note": "User asked (1) whether the capability dimensions are complete and (2) to run this round's comprehensive update/upgrade/evolution. The evaluation used the hardest external checklist available - the R296 survey's 29-pattern catalog, fetched in full and reconciled line-by-line. Verdict: 8.4/10, near-complete with countable gaps, every gap either landed this round (M1.12, mimicry anti-pattern) or recorded with a promotion condition (second independent industrial instance required). The two landings satisfy the generalization rule: M1.12 is provider-agnostic positional discipline, and the mimicry anti-pattern is an identity-layer provenance violation independent of any single vendor. Three partial-coverage items deliberately NOT upgraded - recorded with promotion conditions instead of speculative clauses."
     }
   ],
   "roadmap": [
