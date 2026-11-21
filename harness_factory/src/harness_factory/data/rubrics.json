@@ -1205,12 +1205,36 @@
     "title_zh": "史学质量",
     "scale": "0-3 (0 = absent, 3 = at/above the bar)",
     "dimensions": [
-      {"dim": "source-criticism", "zh": "史源批判", "weight": 0.25},
-      {"dim": "periodization", "zh": "断代与分期声明", "weight": 0.2},
-      {"dim": "context-fidelity", "zh": "语境保真", "weight": 0.2},
-      {"dim": "counter-narrative", "zh": "反叙事与沉默", "weight": 0.15},
-      {"dim": "calibration", "zh": "校准", "weight": 0.1},
-      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+      {
+        "dim": "source-criticism",
+        "zh": "史源批判",
+        "weight": 0.25
+      },
+      {
+        "dim": "periodization",
+        "zh": "断代与分期声明",
+        "weight": 0.2
+      },
+      {
+        "dim": "context-fidelity",
+        "zh": "语境保真",
+        "weight": 0.2
+      },
+      {
+        "dim": "counter-narrative",
+        "zh": "反叙事与沉默",
+        "weight": 0.15
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
     ]
   },
   "philosophy": {
@@ -1218,12 +1242,36 @@
     "title_zh": "哲学质量",
     "scale": "0-3 (0 = absent, 3 = at/above the bar)",
     "dimensions": [
-      {"dim": "argument-reconstruction", "zh": "论证重构", "weight": 0.25},
-      {"dim": "position-declaration", "zh": "立场声明", "weight": 0.2},
-      {"dim": "counterexample-honesty", "zh": "反例坦诚", "weight": 0.2},
-      {"dim": "textual-fidelity", "zh": "文本忠实", "weight": 0.15},
-      {"dim": "calibration", "zh": "校准", "weight": 0.1},
-      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+      {
+        "dim": "argument-reconstruction",
+        "zh": "论证重构",
+        "weight": 0.25
+      },
+      {
+        "dim": "position-declaration",
+        "zh": "立场声明",
+        "weight": 0.2
+      },
+      {
+        "dim": "counterexample-honesty",
+        "zh": "反例坦诚",
+        "weight": 0.2
+      },
+      {
+        "dim": "textual-fidelity",
+        "zh": "文本忠实",
+        "weight": 0.15
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
     ]
   },
   "political-science": {
@@ -1231,12 +1279,36 @@
     "title_zh": "政治学质量",
     "scale": "0-3 (0 = absent, 3 = at/above the bar)",
     "dimensions": [
-      {"dim": "concept-definition", "zh": "概念界定", "weight": 0.25},
-      {"dim": "method-declaration", "zh": "方法声明", "weight": 0.2},
-      {"dim": "comparative-rigor", "zh": "比较严谨", "weight": 0.2},
-      {"dim": "case-selection", "zh": "案例选择", "weight": 0.15},
-      {"dim": "calibration", "zh": "校准", "weight": 0.1},
-      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+      {
+        "dim": "concept-definition",
+        "zh": "概念界定",
+        "weight": 0.25
+      },
+      {
+        "dim": "method-declaration",
+        "zh": "方法声明",
+        "weight": 0.2
+      },
+      {
+        "dim": "comparative-rigor",
+        "zh": "比较严谨",
+        "weight": 0.2
+      },
+      {
+        "dim": "case-selection",
+        "zh": "案例选择",
+        "weight": 0.15
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
     ]
   },
   "ai-safety": {
@@ -1244,12 +1316,110 @@
     "title_zh": "AI 安全质量",
     "scale": "0-3 (0 = absent, 3 = at/above the bar)",
     "dimensions": [
-      {"dim": "safety-case-structure", "zh": "安全论证结构", "weight": 0.25},
-      {"dim": "red-team-coverage", "zh": "红队覆盖", "weight": 0.2},
-      {"dim": "capability-measurement", "zh": "能力实测", "weight": 0.2},
-      {"dim": "residual-risk-honesty", "zh": "残余风险坦诚", "weight": 0.15},
-      {"dim": "calibration", "zh": "校准", "weight": 0.1},
-      {"dim": "clarity", "zh": "清晰", "weight": 0.1}
+      {
+        "dim": "safety-case-structure",
+        "zh": "安全论证结构",
+        "weight": 0.25
+      },
+      {
+        "dim": "red-team-coverage",
+        "zh": "红队覆盖",
+        "weight": 0.2
+      },
+      {
+        "dim": "capability-measurement",
+        "zh": "能力实测",
+        "weight": 0.2
+      },
+      {
+        "dim": "residual-risk-honesty",
+        "zh": "残余风险坦诚",
+        "weight": 0.15
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "mlops": {
+    "title_en": "MLOps quality",
+    "title_zh": "MLOps 质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "registry-record",
+        "zh": "注册记录完整",
+        "weight": 0.25
+      },
+      {
+        "dim": "drift-measurement",
+        "zh": "漂移实测",
+        "weight": 0.2
+      },
+      {
+        "dim": "retrain-gate",
+        "zh": "重训练门禁",
+        "weight": 0.2
+      },
+      {
+        "dim": "rollback-path",
+        "zh": "回滚路径",
+        "weight": 0.15
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
+    ]
+  },
+  "dataops": {
+    "title_en": "DataOps quality",
+    "title_zh": "DataOps 质量",
+    "scale": "0-3 (0 = absent, 3 = at/above the bar)",
+    "dimensions": [
+      {
+        "dim": "contract-declaration",
+        "zh": "契约声明",
+        "weight": 0.25
+      },
+      {
+        "dim": "lineage-traceability",
+        "zh": "血缘可溯",
+        "weight": 0.2
+      },
+      {
+        "dim": "quality-gates",
+        "zh": "质量门禁",
+        "weight": 0.2
+      },
+      {
+        "dim": "backfill-restate",
+        "zh": "回填与重述",
+        "weight": 0.15
+      },
+      {
+        "dim": "calibration",
+        "zh": "校准",
+        "weight": 0.1
+      },
+      {
+        "dim": "clarity",
+        "zh": "清晰",
+        "weight": 0.1
+      }
     ]
   }
 }

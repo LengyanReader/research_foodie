@@ -1251,7 +1251,9 @@
       "古籍",
       "方志",
       "碑刻",
-      "写本", "知识图谱", "知识本体"
+      "写本",
+      "知识图谱",
+      "知识本体"
     ],
     "overlaps": {
       "history": "数字化/编码/建库工作 vs 史学梳理——「方志/古籍」信号只指数字人文的编码工作"
@@ -1393,6 +1395,77 @@
     "overlaps": {
       "model-selection": "能力评测与选型共享评测面",
       "deep-research": "前沿安全研究"
+    }
+  },
+  "mlops": {
+    "faculty": "engineering",
+    "title_en": "MLOps",
+    "name_zh": "MLOps 域",
+    "summary": "Model lifecycle work: registry records, serving, drift monitoring, retraining gates - every model change is a governed, measurable event",
+    "workflow": [
+      "L0 Define the model artifact and its registry record",
+      "L1 Declare serving contract and traffic shape",
+      "L2 Monitor drift with named metrics and thresholds (M3.10)",
+      "L3 Gate retraining on measured drift, not schedule",
+      "L4 Record every promotion/rollback with model id + version (M4.17)",
+      "L5 Review the lifecycle ledger"
+    ],
+    "artifact": "mixed",
+    "grounding": "preferred",
+    "signals": [
+      "mlops",
+      "model registry",
+      "model serving",
+      "model drift",
+      "retraining",
+      "model monitoring",
+      "model lifecycle",
+      "model promotion",
+      "模型注册",
+      "模型服务",
+      "模型漂移",
+      "重训练",
+      "模型监控",
+      "模型生命周期"
+    ],
+    "overlaps": {
+      "dataops": "数据生命周期 vs 模型生命周期——数据契约/血缘属 dataops，模型注册/漂移属 mlops",
+      "model-selection": "选型（一次性决策）vs 生命周期治理（持续运营）",
+      "devops": "服务运维 vs 模型特有环节（漂移/重训练/注册）"
+    }
+  },
+  "dataops": {
+    "faculty": "engineering",
+    "title_en": "DataOps",
+    "name_zh": "DataOps 域",
+    "summary": "Data lifecycle work: quality contracts, lineage, backfills, freshness SLAs - every dataset change is a declared, checkable event",
+    "workflow": [
+      "L0 Declare the dataset contract (schema, ranges, freshness)",
+      "L1 Map lineage: sources -> transforms -> consumers",
+      "L2 Set quality checks at the contract boundaries (M3)",
+      "L3 Plan backfills and restate the ledger when data changes",
+      "L4 Verify freshness SLAs with measured timestamps",
+      "L5 Report quality/lineage as evidence, not assurance"
+    ],
+    "artifact": "dataset",
+    "grounding": "preferred",
+    "signals": [
+      "dataops",
+      "data quality",
+      "data contract",
+      "data lineage",
+      "backfill",
+      "data freshness",
+      "数据质量",
+      "数据契约",
+      "血缘",
+      "回填",
+      "数据时效"
+    ],
+    "overlaps": {
+      "mlops": "数据生命周期 vs 模型生命周期",
+      "data-science": "分析工作 vs 数据运营（契约/血缘/回填）",
+      "devops": "服务运维 vs 数据管道运营（质量契约/时效 SLA）"
     }
   }
 }

@@ -1,6 +1,24 @@
 # PROGRESS · 进度日志
 
-**Updated:** 2026-11-16
+**Updated:** 2026-11-21
+
+## 2026-11-21 · P85：重复试验轮 —— 跨会话方差 · 区分性可靠性 · 跨模型协议（模拟评测与实验）
+
+- **开轮依据。** 用户指示「全开吧，并做好充分的验证，模拟评测和实验」——评估的三条实验缺口（跨会话/跨模型方差 P70.R1 · 区分性可靠性实例 · 协议化）。
+- **P85.1 重复配对试验（`updates/dogfood/p85-citation-xsession/`）。** P80 区分性实例的**新实例复跑**（P80 语料事实已在上下文，重跑其 bare 臂即污染——隔离纪律决定必须换新实例）：SPEC+任务书先写 → **A1–A3 先于语料事实值写定** → 语料+答案键+judge 冻结 → B1–B3 → judge v1 一次判 6/6。**结果：bare 0.0×3 vs harness 1.0×3（pass^3 = 0.0 vs 1.0）**。失效形状方差表：三次猜测全不同（5/4/6 iterations、16/32/8 shards、1.5/2.0/1.2×、0.6/0.5/0.7、三个日期）但都落在「量级合理细节错」幻觉带；**圈套失败系统性**（3/3 自信解析到主题邻域、0/3 标 unverified）——这是 bare 臂的可靠性真相。
+- **P85.2 方差协议**（`review/variance-protocol-2026-11.md`，τ-bench 口径 [R282/R279/R288]）：模型×条件×k 设计 + M3.16/M4.17/M2.13 披露三件套；**跨会话**（模拟下界已跑，真实新会话 = 触发即跑）；**跨模型**本环境不可执行（单模型沙箱）——协议+交接程序登记，不冒充已测。**P70.R1 → done**（实质交付；其点名的家族翻转早已由 P76 执行）。
+- **P85.3 收据与注册。** 6 条 `task_outcome` 走 trace API（`detail.condition` 双臂键 + model 轴 mimo-v2.6-pro@behavioral-simulation）；battery 新家族 `citation-resolution-xsession`（**18/18 done**）；`passk --k 3` 流式复算一致。**追加式修正记录（M0.9）**：首批 6 条收据缺 `detail.condition`（P67 对账键）——补写 6 条正形、错形留流，RECEIPTS.md 如实披露（passk 每臂 n 读 6、估计值不变）。
+- **守卫自证的两处。** done_in 过长/带 revisit_when 残留 → 渲染测试当场抓住（P12 约定：done 项用 done_in **取代** revisit_when）；对账测试抓到收据形状缺键。均修。
+- **状态。** 测试 567 全过（P85 不增测试——试验本体在 updates/，注册表由既有 battery 守卫覆盖）；`cycle audit` 81 轮 · 0 硬 · 0 缺口。
+
+## 2026-11-21 · P86：机制轮 —— MLOps + DataOps 域 + M2.15 发射门（P78.R1/R2 + P73.R1）
+
+- **开轮依据。** 用户「全开」的机制线：三个 planned 项一次落地，充分验证。
+- **P78.R1/R2 落地。** `mlops` 域（注册/服务/漂移实测/重训练门禁/晋升回滚——每次模型变更是受治理可测量事件）+ 能力 `model-lifecycle-discipline`（M3/M6/M7）；`dataops` 域（契约先行/血缘可溯/回填重述/时效 SLA）+ 能力 `data-contract-discipline`（M3/M4/M7）。各带 README（L0–L5 接线 + 域特有风险 + 6 维 rubric）、overlaps 声明、router 行、`procedure_source`（P66 契约）。入口文档 35 → **37 学科**。
+- **P73.R1 落地（M2.15 操作化为发射门）。** trace 词表 v3 +2 事件（`surprise`/`epistemic_observation`）；`check.py` 新增 `_check_epistemic_switch`——**拒绝未闭合的 surprise**（下一个 surprise / task_outcome / 流末之前必须有认识性读）；AGENTS.md 模板增切换合同段（行为半场 + 机械半场）。**e2e 烟测双向**：open surprise → check FAIL（M2.15 文案）；闭合 → self-check OK。
+- **守卫自证的两处。** 信号唯一性守卫抓到 `drift detection` 与 devops 撞名（删，留 `model drift`）；P66 契约抓到新能力缺 `procedure_source`（溯源或没有——补指向域 README）。
+- **充分验证。** `tests/test_m215_gate.py` 9 守卫（门四态 + 词表校验 + 双域路由 + 互不遮蔽）；**B 条件回归 = scoreboard 7/7 全 1.0**（模板留出集无回归）；576 测试全过（567+9）；`cycle audit` **82 轮 · 0 硬 · 0 缺口**；视图重生成。三路线图项翻 done（P78.R1/R2/P73.R1，各带 done_in；目录工具类半场照实留 defer）。
+- **状态。** 按默认指示 commit，不 push。
 
 ## 2026-11-16 · P84：周报第三期 + 深度演化 —— harness engineering 学科化（R296）· M6.12 扩展面 · 三设计押注获实证
 

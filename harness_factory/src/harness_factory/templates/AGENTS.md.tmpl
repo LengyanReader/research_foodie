@@ -170,3 +170,12 @@ one final `task_outcome` line carrying the verdict's source and value —
 (`judge` is `human` or `machine`; a machine judge is only legitimate where the task family has a
 defined metric). A human runs `harness collect --project .` to pull them back to the factory
 (offline, never automatic).
+
+**Epistemic switch (M2.15 · v3 events).** When a divergence exceeds threshold — an unexpected tool
+return, a failed assertion, a schema mismatch — record `surprise` and **switch to epistemic mode before
+any further state-mutating work**: inspect diagnostics, read the source facts, resolve the ambiguity,
+and record the read as `epistemic_observation`. `harness check` refuses an *open* surprise: every
+`surprise` must be closed by an `epistemic_observation` before the next `surprise`, before
+`task_outcome`, or before the stream ends. Blind pragmatic retry is the anti-pattern this gate exists
+to catch. · 预期差超阈即记 `surprise` 并**先转认识性模式**（查诊断、读源头、消歧）再动手，诊断读记为
+`epistemic_observation`；未闭合的 surprise 会被 `harness check` 拒绝。

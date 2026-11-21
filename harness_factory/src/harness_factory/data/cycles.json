@@ -2226,26 +2226,54 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P86",
+      "date": "2026-11-21",
+      "status": "done",
+      "title_en": "Mechanism round: MLOps + DataOps domains and the M2.15 emitted gate",
+      "title_zh": "机制轮：MLOps + DataOps 域 + M2.15 发射门",
+      "note": "The evaluation's breadth/mechanism line (user directive: open all three, thorough verification + simulated evaluation + experiments). (1) P78.R1 landed: mlops domain (model registry, serving, drift measured against pre-declared thresholds, retraining gated on evidence, promotion/rollback with model id + version) + capability model-lifecycle-discipline (M3/M6/M7), overlaps declared (dataops/model-selection/devops), 6-dim rubric. (2) P78.R2 landed: dataops domain (contracts before pipelines, lineage for every value, backfills restate not rewrite) + capability data-contract-discipline (M3/M4/M7), overlaps declared, 6-dim rubric. (3) P73.R1 landed: M2.15 operationalized as an emitted gate - trace vocabulary v3 (surprise/epistemic_observation), check.py refuses an open surprise before the next surprise/task_outcome/stream end, AGENTS.md template carries the switch contract; e2e smoke verified both directions. One real signal collision caught by the uniqueness guard (drift detection shared with devops) and the procedure_source contract caught the new capabilities (provenance-or-nothing). Verification: 576 tests OK (incl. 9 new guards), scoreboard B-regression 7/7 = 1.0 (template holdout), routing+capability guards for both domains, cycle audit clean.",
+      "slices": [
+        "P86.1 - P78.R1: mlops domain + model-lifecycle-discipline (domains.json/rubrics.json/capabilities.json + README + router row; signal collision with devops fixed by dropping 'drift detection')",
+        "P86.2 - P78.R2: dataops domain + data-contract-discipline (same surfaces + README + router row)",
+        "P86.3 - P73.R1: M2.15 gate (trace.py v3 events; check.py _check_epistemic_switch; AGENTS.md.tmpl switch contract) + e2e smoke both directions",
+        "P86.4 - verification: tests/test_m215_gate.py (9 guards); scoreboard B-regression 7/7; views regenerated; entry-doc counts 35 -> 37 domains, 567 -> 576 tests (CountDriftGuard-enforced)"
+      ],
+      "added": {
+        "capabilities": [
+          "model-lifecycle-discipline",
+          "data-contract-discipline"
+        ],
+        "domains": [
+          "mlops",
+          "dataops"
+        ],
+        "clauses": [],
+        "references": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      }
     }
   ],
   "roadmap": [
     {
       "id": "P78.R1",
-      "status": "planned",
+      "status": "done",
       "cycle": "P78",
       "source": "user ask 2026-11-07 / P78 assessment",
       "title_en": "MLOps lifecycle domain + capability",
       "reason": "the experiment/evaluation half exists (data-science, model-selection, reproducible-experiments, eval-driven-development), but model registry, serving, drift, retraining and lifecycle monitoring are absent",
-      "revisit_when": "a model-serving, drift or retraining task is requested, or a real model-deployment receipt exists"
+      "done_in": "P86 (mlops domain + model-lifecycle-discipline capability landed: domains/mlops/README.md, 14 signals, 6-dim rubric, overlaps declared; routing + capability guards in tests/test_m215_gate.py; catalog-tool half stays deferred - no primary-source-verified data-quality tool yet)"
     },
     {
       "id": "P78.R2",
-      "status": "planned",
+      "status": "done",
       "cycle": "P78",
       "source": "user ask 2026-11-07 / P78 assessment",
       "title_en": "DataOps domain + capability",
       "reason": "dataset registry and pipeline instruments exist, but data quality, contracts, lineage, orchestration, backfill and freshness have no domain, capability or verified catalog kind",
-      "revisit_when": "a data-pipeline, backfill or data-contract task is requested, or a data-quality tool is primary-source verified"
+      "done_in": "P86 (dataops domain + data-contract-discipline capability landed: domains/dataops/README.md, 11 signals, 6-dim rubric, overlaps declared; routing + capability guards in tests/test_m215_gate.py; catalog kind for data-quality tools stays deferred)"
     },
     {
       "id": "P12.1",
@@ -2720,12 +2748,12 @@
     },
     {
       "id": "P73.R1",
-      "status": "planned",
+      "status": "done",
       "cycle": "P73",
       "source": "P73 integration - M2.15 lands as advisory pattern; a mechanical gate is the natural next slice",
       "title_en": "Operationalize M2.15 into an emitted gate: a mechanical surprise->epistemic-switch check",
       "reason": "M2.15 currently lands as a pattern + checklist row + anti-pattern (advisory). A runtime-enforceable check - block further state-mutating tool calls until a diagnostic/epistemic read is recorded after a failed assertion or unexpected tool return - would turn it from guidance into a gated invariant, mirroring the M2 loop-contract and the P71 no-privileged-input gate. Deferred so P73 stays content-only and honest about what the harness can mechanically observe (needs a trace vocabulary event for surprise/observation).",
-      "revisit_when": "an emitted harness needs to enforce the pragmatic/epistemic switch mechanically, or the trace vocabulary gains a surprise/observation event"
+      "done_in": "P86 (M2.15 operationalized as an emitted gate: trace vocabulary v3 gains surprise/epistemic_observation; check.py refuses an open surprise (before next surprise, task_outcome, or stream end); AGENTS.md template carries the switch contract; e2e smoke: open surprise fails check, closed passes; tests/test_m215_gate.py 6 gate guards)"
     }
   ]
 }

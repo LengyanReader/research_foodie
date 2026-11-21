@@ -44,6 +44,9 @@ EVENTS = frozenset(
         "tool_error",  # an external tool call failed (distinct from gate_miss: the gate is ours, the tool is external)
         "human_preference",  # a human expressed a preference without correcting an artifact ("next time do X" not "change this")
         "latency_anomaly",  # a latency or cost anomaly was observed (M2.13 budget line)
+        # P73.R1 (M2.15 operationalized): the pragmatic/epistemic switch pair
+        "surprise",  # divergence exceeded threshold (unexpected return, failed assertion) - System M must force an epistemic step
+        "epistemic_observation",  # the diagnostic/uncertainty-reducing read that closes a surprise before further mutation
     }
 )
 LEGACY_EVENT = "signal"  # lines recorded before P22 read back under this event

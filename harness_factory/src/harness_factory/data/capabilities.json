@@ -1063,5 +1063,45 @@
       "Refusal != absence"
     ],
     "procedure_source": "domains/ai-safety/README.md"
+  },
+  "model-lifecycle-discipline": {
+    "title_en": "Model lifecycle discipline (MLOps gates)",
+    "title_zh": "模型生命周期纪律（MLOps 门禁）",
+    "when": {
+      "domain": "mlops"
+    },
+    "modules": [
+      "M3",
+      "M6",
+      "M7"
+    ],
+    "why": "A model change is a governed, measurable event: registry records, drift measured against named thresholds, retraining gated on evidence, promotion/rollback recorded with model id + version (M4.17's lifecycle form).",
+    "procedure": [
+      "Write the registry record (id, version, training data lineage) before serving",
+      "Declare drift metrics and thresholds before monitoring (M3.10)",
+      "Gate retraining on measured drift, never on schedule alone",
+      "Record promotion and rollback with model id/version and reason (M4.17)"
+    ],
+    "procedure_source": "domains/mlops/README.md"
+  },
+  "data-contract-discipline": {
+    "title_en": "Data contract discipline (DataOps gates)",
+    "title_zh": "数据契约纪律（DataOps 门禁）",
+    "when": {
+      "domain": "dataops"
+    },
+    "modules": [
+      "M3",
+      "M4",
+      "M7"
+    ],
+    "why": "A dataset change is a declared, checkable event: the contract (schema, ranges, freshness) is written before the pipeline runs, lineage makes every value traceable to a source (M4's lifecycle form), and backfills restate the ledger rather than silently rewrite it (M0.9).",
+    "procedure": [
+      "Declare the data contract (schema, ranges, freshness SLA) before ingestion",
+      "Map lineage sources -> transforms -> consumers; every value traceable (M4)",
+      "Quality checks sit at contract boundaries; violations fail loud (M3)",
+      "Backfills restate with a dated correction entry, never silent rewrites (M0.9)"
+    ],
+    "procedure_source": "domains/dataops/README.md"
   }
 }

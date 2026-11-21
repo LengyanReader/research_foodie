@@ -3,7 +3,7 @@
 > **Generated** from `src/harness_factory/data/capabilities.json` + `modules.json` — **do not edit by hand**; run `harness capabilities --write` (also refreshed by `harness catalog --write`) to regenerate.
 > **生成文档**：由上述 SSOT 生成，**请勿手改**；用 `harness capabilities --write` 重新生成（`harness catalog --write` 亦会同步刷新）。
 
-**46 capabilities · 9 modules (M0–M8)**
+**48 capabilities · 9 modules (M0–M8)**
 
 ---
 
@@ -317,6 +317,18 @@ task text ──▶ feature vector ──▶ capability.match(when) ──▶ an
 - **Fires when · 触发条件:** domain ∈ {ai-safety} (领域)
 - **Modules · 关联模块:** M3, M6
 - **Why · 理由:** P29's judged discriminator for the ai-safety domain (L0-L5 安全论证门禁结构): the safety property and threat model are stated before capability claims are tested (M3.10 instruments), red-team attempts are logged with their coverage (M3.15's precision/recall form), and 'the model refused' is distinguished from 'the capability is absent'. Content sourced in review/interdisciplinary-frontier-domains-2026-10.md.
+
+### `model-lifecycle-discipline` — Model lifecycle discipline (MLOps gates) · 模型生命周期纪律（MLOps 门禁）
+
+- **Fires when · 触发条件:** domain ∈ {mlops} (领域)
+- **Modules · 关联模块:** M3, M6, M7
+- **Why · 理由:** A model change is a governed, measurable event: registry records, drift measured against named thresholds, retraining gated on evidence, promotion/rollback recorded with model id + version (M4.17's lifecycle form).
+
+### `data-contract-discipline` — Data contract discipline (DataOps gates) · 数据契约纪律（DataOps 门禁）
+
+- **Fires when · 触发条件:** domain ∈ {dataops} (领域)
+- **Modules · 关联模块:** M3, M4, M7
+- **Why · 理由:** A dataset change is a declared, checkable event: the contract (schema, ranges, freshness) is written before the pipeline runs, lineage makes every value traceable to a source (M4's lifecycle form), and backfills restate the ledger rather than silently rewrite it (M0.9).
 
 ---
 

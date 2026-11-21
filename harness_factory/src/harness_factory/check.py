@@ -140,5 +140,59 @@ def check_harness(root: str | Path) -> list[str]:
             problems.append(f"unrendered placeholder: {rel}")
 
     _check_working_set(root, plan, problems)
+    _check_epistemic_switch(root, problems)
 
     return problems
+
+
+def _check_epistemic_switch(root: Path, problems: list[str]) -> None:
+    """P73.R1 (M2.15 gate): every `surprise` must be closed by an
+    `epistemic_observation` before the next `surprise`, before `task_outcome`,
+    or before the stream ends.
+
+    The runtime distinguishes pragmatic actions (state mutation) from
+    epistemic ones (uncertainty reduction); when divergence fires, further
+    mutation must wait for a diagnostic read. This gate reads the project's
+    ``.harness/traces.jsonl`` and refuses an *open* surprise - the mechanical
+    half of the switch (the behavioural half is the AGENTS.md contract).
+    Absent file = nothing to check (traces are a runtime artifact).
+    """
+    path = root / ".harness" / "traces.jsonl"
+    if not path.exists():
+        return
+    try:
+        events = []
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                data = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(data, dict):
+                events.append(data.get("event"))
+    except OSError:
+        return
+    open_surprise = False
+    for event in events:
+        if event == "surprise":
+            if open_surprise:
+                problems.append(
+                    "traces.jsonl: surprise stacked without an epistemic_observation "
+                    "between (M2.15: switch to epistemic before further divergence)"
+                )
+            open_surprise = True
+        elif event == "epistemic_observation":
+            open_surprise = False
+        elif event == "task_outcome" and open_surprise:
+            problems.append(
+                "traces.jsonl: task_outcome recorded while a surprise is still open "
+                "(M2.15: close the divergence with an epistemic_observation first)"
+            )
+            open_surprise = False
+    if open_surprise:
+        problems.append(
+            "traces.jsonl: a surprise is left open at the end of the stream "
+            "(M2.15: record the epistemic_observation that resolved it)"
+        )

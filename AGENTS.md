@@ -25,7 +25,7 @@ harness_factory/          项目主体 —— agent harness 模式库 + `harness
   CAPABILITIES.md         GENERATED — `harness capabilities --write` (do not hand-edit)
   HARNESS-MAP.md          GENERATED — `harness map --write` (do not hand-edit)
   core/                   cross-domain invariants M0–M8 (`01-meta-principles.md` first)
-  domains/                35 学科 + general 兜底 (10 faculties; includes `writing/`; `harness-evolution/` is the meta domain)
+  domains/                37 学科 + general 兜底 (10 faculties; includes `writing/`; `harness-evolution/` is the meta domain)
   review/                 surveys · harness catalog/index · references.md/bib
                           · trend-review-<date>.md — the routine's authored deep-analysis (bilingual, cited, dialectical)
   sources/                source-map.md (pattern ← primary source)
@@ -65,7 +65,7 @@ docs/index.html             GENERATED — the browsable Pages dashboard (`harnes
 ## 4. Quality gates
 
 - **Test gate:** `PYTHONPATH=src python -m unittest discover -s tests` from `harness_factory/`
-  (当前 **567** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
+  (当前 **576** 用例; the number is parsed from this line by `CountDriftGuardTest`, so update it when the suite changes).
 - Single test: `PYTHONPATH=src python -m unittest tests.test_docs_integrity.CountDriftGuardTest -v`.
   The whole suite is discoverable only from inside `harness_factory/`; running discovery from the repo
   root does not put `src/` on the path and fails at import.
