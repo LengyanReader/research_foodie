@@ -2254,6 +2254,29 @@
         "catalog_delta": 0,
         "outlets_delta": 0
       }
+    },
+    {
+      "id": "P87",
+      "status": "done",
+      "date": "2026-11-21",
+      "title_en": "Cross-model cell filled: the P85 handoff protocol executed on a second model face (glm-5.3-flash) - discipline delta reproduces exactly (bare 0.0x3 vs harness 1.0x3)",
+      "title_zh": "跨模型格填格：P85 交接协议在第二模型面执行（glm-5.3-flash）——纪律差完全复现（bare 0.0×3 vs harness 1.0×3）",
+      "added": {
+        "clauses": [],
+        "references": [],
+        "capabilities": [],
+        "domains": [],
+        "catalog_delta": 0,
+        "outlets_delta": 0
+      },
+      "slices": [
+        "P87.1 - understood the parallel-session state (P85: repeat trial on mimo-v2.6-pro, n=3x2, pass^3 0.0 vs 1.0; P86: MLOps/DataOps domains + M2.15 emitted gate) and the one pending item: the cross-model cell, handoff protocol prepared per M0.4",
+        "P87.2 - contamination-audit-first: BOTH prior keys (P80: AG-SYS-25-117/1200ms/GULLWING-2/SE-4/31/0.6x-C/2024-09-30 and P85: 3 iterations/24 shards/2.4/0.42/2025-03-18) are in this session's context, so the SAME instance's bare arm would be contaminated - a FRESH instance was built instead (P85-vs-P80 precedent: protocol-level comparability, instances differ per face)",
+        "P87.3 - protocol executed in the declared isolation order on face glm-5.3-flash: bibliography face -> 3 independent zero-carryover bare samples (before corpus facts chosen) -> corpus/key/judge frozen (fact values differ from every bare guess AND both prior keys) -> 3 harness samples (corpus read) -> one-pass grading of all six (P85 judge v1 code verbatim, new KEY)",
+        "P87.4 - result: bare 0.0x3 vs harness 1.0x3, pass^3 0.0 vs 1.0 (passk recomputed from receipts) - the discipline delta reproduces EXACTLY across both model faces; trap behavior matches P85's shape conclusion (bare resolves the trap each sample to s3/s5/s1, harness marks unverified 3/3); bare hallucination shapes drift per sample while the discipline effect stays invariant",
+        "P87.5 - battery family citation-resolution-xmodel registered done (19/19); 6 receipts with the structured model axis (glm-5.3-flash); RECEIPTS.md records the protocol-level comparability scope honestly (instances differ per face; same-session zero-carryover approximation; n=3/arm directional)"
+      ],
+      "note": "User relayed the parallel session's pending item (the cross-model cell) and asked to continue. The handoff protocol was executed as prepared: this session's face (glm-5.3-flash on the zai-start-plan account) is a genuinely different model id from P85's mimo-v2.6-pro, so the cell fills with real data, not a re-run of the same face. The contamination audit came FIRST: both prior keys live in context, so the bare arm ran on fresh material per the P85 precedent. The cell's conclusion: the discipline delta (bare hallucination vs harness pointers+unverified-marking) is now evidenced on two independent model faces with identical pass^3 outcomes. The passk grouping carries n=6 per arm for the family task id? No - receipts were grouped under task=citation-resolution-xmodel at project p87-citation-xmodel, clean 3/3 per arm (the P85 malformed-receipt lesson applied: detail.condition present from the first write)."
     }
   ],
   "roadmap": [

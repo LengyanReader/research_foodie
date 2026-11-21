@@ -501,6 +501,36 @@
         "conditions": "A bare: memory-based one-shot, no file access, no verification loop (behavioral simulation, house method). B harness: source-read discipline with pointers and explicit unverified marking.",
         "judge": "judge/judge.py v1 frozen before B runs; mechanical exact grading per block; trap graded on discipline not accuracy"
       }
+    },
+    {
+      "task_id": "citation-resolution-xmodel",
+      "status": "done",
+      "grounding": "the cross-model cell P85 left pending (M0.4, single-model sandbox): the SAME protocol (P85.2 handoff) executed on a second model face with a fresh instance - discipline-delta comparability lives at protocol level (identical judging contract + isolation order), instances differ per face (P85-vs-P80 precedent)",
+      "judge_checks": [
+        "P85 judge v1 code reused verbatim with a new instance KEY (frozen before B-arm and before grading)",
+        "isolation order: bibliography face -> 3 independent bare samples (before corpus facts chosen) -> corpus/key/judge frozen -> 3 harness samples (corpus read) -> one-pass grading for all six",
+        "fact values chosen to differ from every bare guess AND from both prior in-context keys (P80/P85)",
+        "C6 trap graded on DISCIPLINE: resolved-to-source = 0, marked-unverified = 1",
+        "score = correct/6 per sample, scale [0,1]; pass^3 per arm per face; model axis on every receipt (P79.R4)"
+      ],
+      "scale": [
+        0,
+        1
+      ],
+      "results": {
+        "A-bare": 0.0,
+        "B-harness": 1.0
+      },
+      "round": "P87",
+      "trial_projects": [
+        "updates/dogfood/p87-citation-xmodel"
+      ],
+      "spec": {
+        "task": "Citation resolution, 6 items against a 5-file corpus, C6 trap; fresh instance (no fact-value overlap with P80/P85 keys).",
+        "conditions": "A-bare n=3 (one-shot from memory, zero carryover) vs B-harness n=3 (corpus read + pointers + unverified marking), on face glm-5.3-flash.",
+        "judge": "machine: P85 judge v1 block-grading code, new KEY; one-pass grading of all six resolutions."
+      },
+      "notes": "CROSS-MODEL CELL FILLED (P85.2 handoff executed): face glm-5.3-flash reproduces the mimo-v2.6-pro result exactly - bare 0.0x3 vs harness 1.0x3, pass^3 0.0 vs 1.0, trap fails systematically on bare (resolved to s3/s5/s1 across the three samples) and holds on harness (marked unverified). Discipline delta is now evidenced on TWO model faces. Honest scope: instances differ per face (protocol-level comparability only), same-session zero-carryover approximation, behavioral simulation, n=3/arm - directional signal. Receipts carry the structured model axis."
     }
   ]
 }
